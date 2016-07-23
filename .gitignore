@@ -255,7 +255,8 @@ paket-files/
 *.sln.iml
 
 # Addons directory and miscellany
-bin/content
+Classic/bin/content
+HD/bin/content
 stderr.txt
 stdout.txt
 src.orig
