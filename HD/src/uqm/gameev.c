@@ -559,21 +559,21 @@ ilwrath_mission (void)
 			if (IlwrathPtr->days_left == 0) {	/* arrived for battle */
 				SET_GAME_STATE (ILWRATH_FIGHT_THRADDASH, 1);
 				SET_GAME_STATE (HELIX_UNPROTECTED, 1);
-				strength_loss = (SIZE)IlwrathPtr->actual_strength;
-				IlwrathPtr->growth = (BYTE)(-strength_loss / MaddLength);
-				IlwrathPtr->growth_fract = (BYTE)(((strength_loss % MaddLength) << 8) / MaddLength);
+				strength_loss = IlwrathPtr->actual_strength;
+				IlwrathPtr->growth = -strength_loss / MaddLength;
+				IlwrathPtr->growth_fract = ((strength_loss % MaddLength) << 8) / MaddLength;
 				SetRaceDest (ILWRATH_SHIP, 2517, 8214, MaddLength - 1, ADVANCE_ILWRATH_MISSION);
 
 				if (ThraddPtr->allied_state != GOOD_GUY){
 					SET_GAME_STATE (THRADD_VISITS, 0);
 					//ActivateStarShip (THRADDASH_SHIP, SET_NOT_ALLIED); Don't need this if they're not allied in the first place.
-					strength_loss = (SIZE)(ThraddPtr->actual_strength);
-					ThraddPtr->growth = (BYTE)(-strength_loss / MaddLength);
-					ThraddPtr->growth_fract = (BYTE)(((strength_loss % MaddLength) << 8) / MaddLength);
+					strength_loss = ThraddPtr->actual_strength;
+					ThraddPtr->growth = -strength_loss / MaddLength;
+					ThraddPtr->growth_fract = ((strength_loss % MaddLength) << 8) / MaddLength;
 				} else {
-					strength_loss = (SIZE)((ThraddPtr->actual_strength)/4);
-					ThraddPtr->growth = (BYTE)(-strength_loss / MaddLength);
-					ThraddPtr->growth_fract = (BYTE)(((strength_loss % MaddLength) << 8) / MaddLength);
+					strength_loss = (ThraddPtr->actual_strength)/4;
+					ThraddPtr->growth = -strength_loss / MaddLength;
+					ThraddPtr->growth_fract = ((strength_loss % MaddLength) << 8) / MaddLength;
 				}
 			}
 
