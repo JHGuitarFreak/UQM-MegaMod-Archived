@@ -82,6 +82,8 @@
     <OutDir>.\Debug\</OutDir>
     <IntDir>.\Debug\</IntDir>
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Programming\C++\UQM\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Programming\C++\UQM\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug NoAccel|Win32'">
     <ClCompile>
