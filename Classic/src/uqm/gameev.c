@@ -543,10 +543,7 @@ ilwrath_mission (void)
 	if (IlwrathPtr->loc.x == ((2500 + 2535) >> 1) && IlwrathPtr->loc.y == ((8070 + 8358) >> 1)) { // What is with the silly math?
 		IlwrathPtr->actual_strength = 0;
 		IlwrathPtr->allied_state = DEAD_GUY;
-		if(ThraddPtr->allied_state == GOOD_GUY){
-			ThraddPtr->actual_strength = (ThraddPtr->actual_strength * 0.75); // Smarterer math
-			ThraddPtr->allied_state = ThraddPtr->allied_state;
-		} else {
+		if(ThraddPtr->allied_state != GOOD_GUY){
 			ThraddPtr->actual_strength = 0;
 			ThraddPtr->allied_state = DEAD_GUY;
 		}
@@ -563,7 +560,7 @@ ilwrath_mission (void)
 				SetRaceDest (ILWRATH_SHIP, 2517, 8214, MaddLength - 1, ADVANCE_ILWRATH_MISSION);
 
 				if (ThraddPtr->allied_state == GOOD_GUY){
-					strength_loss = (SIZE)(ThraddPtr->actual_strength * 0.06); // Smarterer math, trying to get as close to 75% as possible
+					strength_loss = (SIZE)(ThraddPtr->actual_strength * 0.25); // Smarterer math
 					ThraddPtr->growth = (BYTE)(-strength_loss / MaddLength);
 					ThraddPtr->growth_fract = (BYTE)(((strength_loss % MaddLength) << 8) / MaddLength);
 					ThraddPtr->growth_err_term = 255 >> 1;
