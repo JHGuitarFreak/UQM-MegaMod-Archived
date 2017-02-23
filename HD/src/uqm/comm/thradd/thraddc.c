@@ -696,10 +696,8 @@ static void
 Intro (void)
 {
 	BYTE NumVisits;
-	HFLEETINFO hThradd;
-	FLEET_INFO *ThraddPtr;
-	hThradd = GetStarShipFromIndex (&GLOBAL (avail_race_q), THRADDASH_SHIP);
-	ThraddPtr = LockFleetInfo (&GLOBAL (avail_race_q), hThradd);
+	HFLEETINFO hThradd = GetStarShipFromIndex (&GLOBAL (avail_race_q), THRADDASH_SHIP);
+	FLEET_INFO *ThraddPtr = LockFleetInfo (&GLOBAL (avail_race_q), hThradd);
 
 	if (LOBYTE (GLOBAL (CurrentActivity)) == WON_LAST_BATTLE)
 	{

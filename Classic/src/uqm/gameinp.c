@@ -31,7 +31,7 @@
 #include "libs/inplib.h"
 #include "libs/timelib.h"
 #include "libs/threadlib.h"
-
+#include "setup.h"
 
 #define ACCELERATION_INCREMENT (ONE_SECOND / 12)
 #define MENU_REPEAT_DELAY (ONE_SECOND / 2)
@@ -432,20 +432,18 @@ ControlInputToBattleInput (const int *keyState)
 		InputState |= BATTLE_LEFT;
 	if (keyState[KEY_RIGHT])
 		InputState |= BATTLE_RIGHT;
-	if (keyState[KEY_WEAPON])
-		if (optGodMode){
+	if (keyState[KEY_WEAPON]){
+		if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL){
 			resetEnergyBattle();
-			InputState |= BATTLE_WEAPON;
-		} else {
-			InputState |= BATTLE_WEAPON;
 		}
-	if (keyState[KEY_SPECIAL])
-		if (optGodMode){
+		InputState |= BATTLE_WEAPON;
+	}
+	if (keyState[KEY_SPECIAL]){
+		if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL){
 			resetEnergyBattle();
-			InputState |= BATTLE_SPECIAL;
-		} else {
-			InputState |= BATTLE_SPECIAL;
 		}
+		InputState |= BATTLE_SPECIAL;
+	}
 	if (keyState[KEY_ESCAPE])
 		InputState |= BATTLE_ESCAPE;
 	if (keyState[KEY_DOWN])

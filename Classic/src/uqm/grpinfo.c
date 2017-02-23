@@ -277,9 +277,6 @@ BuildGroups (void)
 		0,                /* SYREEN_SHIP */
 		0,                /* BLACK_URQUAN_SHIP */
 		0,                /* YEHAT_REBEL_SHIP */
-		0,                /* YEHAT_REBEL_SHIP */
-		0,                /* YEHAT_REBEL_SHIP */
-		0,                /* YEHAT_REBEL_SHIP */
 	};
 	BYTE EncounterPercent[] =
 	{
