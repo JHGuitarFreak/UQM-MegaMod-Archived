@@ -313,7 +313,7 @@ main (int argc, char *argv[])
 		return EXIT_SUCCESS;
 	}
 	
-	log_add (log_User, "The Ur-Quan Masters Mega Mod v%d.%d.%d%s (compiled %s %s)\n"
+	log_add (log_User, "The Ur-Quan Masters MegaMod v%d.%d.%d%s (compiled %s %s)\n"
 	        "This software comes with ABSOLUTELY NO WARRANTY;\n"
 			"for details see the included 'COPYING' file.\n",
 			UQM_MAJOR_VERSION, UQM_MINOR_VERSION,
