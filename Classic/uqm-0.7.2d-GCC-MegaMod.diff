@@ -1,4 +1,4 @@
-diff -ru ./src.orig/libs/network/wspiapiwrap.h ./src/libs/network/wspiapiwrap.h
+diff -ruNp ./src.orig/libs/network/wspiapiwrap.h ./src/libs/network/wspiapiwrap.h
 --- ./src.orig/libs/network/wspiapiwrap.h	2017-02-23 12:24:09 -0600
 +++ ./src/libs/network/wspiapiwrap.h	2017-02-23 11:15:48 -0600
 @@ -19,7 +19,10 @@
@@ -13,7 +13,7 @@ diff -ru ./src.orig/libs/network/wspiapiwrap.h ./src/libs/network/wspiapiwrap.h
  #	define getaddrinfo WspiapiGetAddrInfo
  #	define getnameinfo WspiapiGetNameInfo
  #	define freeaddrinfo WspiapiFreeAddrInfo
-@@ -28,6 +31,8 @@
+@@ -28,6 +31,8 @@ int WINAPI WspiapiGetAddrInfo(const char
  		const struct addrinfo *hints, struct addrinfo **res);
  int WINAPI WspiapiGetNameInfo (const struct sockaddr *sa, socklen_t salen,
  		char *host, size_t hostlen, char *serv, size_t servlen, int flags);
@@ -22,31 +22,10 @@ diff -ru ./src.orig/libs/network/wspiapiwrap.h ./src/libs/network/wspiapiwrap.h
  
  #endif  /* _WSPIAPIWRAP_H */
  
-diff -ru ./src.orig/libs/uio/utils.c ./src/libs/uio/utils.c
---- ./src.orig/libs/uio/utils.c	2017-02-23 12:24:11 -0600
-+++ ./src/libs/uio/utils.c	2017-02-23 11:15:49 -0600
-@@ -391,7 +391,7 @@
- // MSVC does not have vsnprintf(). It does have a _vsnprintf(), but it does
- // not \0-terminate a truncated string as the C standard prescribes.
- static inline int
--vsnprintf(char *str, size_t size, const char *format, va_list args)
-+uqm_vsnprintf(char *str, size_t size, const char *format, va_list args)
- {
- 	int result = _vsnprintf (str, size, format, args);
- 	if (str != NULL && size != 0)
-@@ -425,7 +425,7 @@
- 	}
- 
- 	for (;;) {
--		int printResult = vsnprintf(buf, bufSize, format, args);
-+		int printResult = uqm_vsnprintf(buf, bufSize, format, args);
- 		if (printResult < 0) {
- 			// This means the buffer was not large enough, but vsnprintf()
- 			// does not give us any clue on how large it should be.
-diff -ru ./src.orig/options.c ./src/options.c
+diff -ruNp ./src.orig/options.c ./src/options.c
 --- ./src.orig/options.c	2017-02-23 12:24:11 -0600
 +++ ./src/options.c	2017-02-23 11:15:50 -0600
-@@ -52,6 +52,18 @@
+@@ -52,6 +52,18 @@ int optSmoothScroll;
  int optMeleeScale;
  const char **optAddons;
  
@@ -65,7 +44,7 @@ diff -ru ./src.orig/options.c ./src/options.c
  BOOLEAN opt3doMusic;
  BOOLEAN optRemixMusic;
  BOOLEAN optSubtitles;
-@@ -426,8 +438,7 @@
+@@ -426,8 +438,7 @@ mountAddonDir (uio_Repository *repositor
  			++count;
  			log_add (log_Info, "    %d. %s", count, addon);
  		
@@ -75,10 +54,10 @@ diff -ru ./src.orig/options.c ./src/options.c
  
  			addonDir = uio_openDirRelative (addonsDir, addon, 0);
  			if (addonDir == NULL)
-diff -ru ./src.orig/options.h ./src/options.h
+diff -ruNp ./src.orig/options.h ./src/options.h
 --- ./src.orig/options.h	2017-02-23 12:24:11 -0600
 +++ ./src/options.h	2017-02-23 11:15:50 -0600
-@@ -38,6 +38,18 @@
+@@ -38,6 +38,18 @@ extern int optWhichShield;
  extern int optSmoothScroll;
  extern int optMeleeScale;
  
@@ -97,45 +76,10 @@ diff -ru ./src.orig/options.h ./src/options.h
  extern BOOLEAN opt3doMusic;
  extern BOOLEAN optRemixMusic;
  extern BOOLEAN optSubtitles;
-diff -ru ./src.orig/port.c ./src/port.c
---- ./src.orig/port.c	2017-02-23 12:24:11 -0600
-+++ ./src/port.c	2017-02-23 11:15:50 -0600
-@@ -115,8 +115,8 @@
- #endif
- 
- #ifdef _MSC_VER
--// MSVC does not have snprintf() and vsnprintf(). It does have a _snprintf()
--// and _vsnprintf(), but these do not terminate a truncated string as
-+// MSVC does not have snprintf() and uqm_vsnprintf(). It does have a _snprintf()
-+// and _uqm_vsnprintf(), but these do not terminate a truncated string as
- // the C standard prescribes.
- int
- snprintf(char *str, size_t size, const char *format, ...)
-@@ -134,7 +134,7 @@
- }
- 
- int
--vsnprintf(char *str, size_t size, const char *format, va_list args)
-+uqm_vsnprintf(char *str, size_t size, const char *format, va_list args)
- {
- 	int result = _vsnprintf (str, size, format, args);
- 	if (str != NULL && size != 0)
-diff -ru ./src.orig/port.h ./src/port.h
---- ./src.orig/port.h	2017-02-23 12:24:11 -0600
-+++ ./src/port.h	2017-02-23 11:15:50 -0600
-@@ -162,7 +162,7 @@
- #	include <stdarg.h>
- // Defined in port.c
- int snprintf(char *str, size_t size, const char *format, ...);
--int vsnprintf(char *str, size_t size, const char *format, va_list args);
-+int uqm_vsnprintf(char *str, size_t size, const char *format, va_list args);
- #endif  /* _MSC_VER */
- 
- // setenv()
-diff -ru ./src.orig/res/UrQuanMasters.rc ./src/res/UrQuanMasters.rc
+diff -ruNp ./src.orig/res/UrQuanMasters.rc ./src/res/UrQuanMasters.rc
 --- ./src.orig/res/UrQuanMasters.rc	2017-02-23 12:24:11 -0600
 +++ ./src/res/UrQuanMasters.rc	2017-02-23 11:15:50 -0600
-@@ -67,10 +67,10 @@
+@@ -67,10 +67,10 @@ END
  
  // Icon with lowest ID value placed first to ensure application icon
  // remains consistent on all systems.
@@ -149,7 +93,7 @@ diff -ru ./src.orig/res/UrQuanMasters.rc ./src/res/UrQuanMasters.rc
 -106                ICON    DISCARDABLE     "kohr-ah1.ico"
 +106                ICON    DISCARDABLE     "sis1.ico"
  107                ICON    DISCARDABLE     "starcon2.ico"
-diff -ru ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.c
+diff -ruNp ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.c
 --- ./src.orig/uqm/comm/melnorm/melnorm.c	2017-02-23 12:24:12 -0600
 +++ ./src/uqm/comm/melnorm/melnorm.c	2017-02-23 11:15:51 -0600
 @@ -32,7 +32,7 @@
@@ -161,7 +105,7 @@ diff -ru ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.c
  
  #define NUM_HISTORY_ITEMS 9
  #define NUM_EVENT_ITEMS 8
-@@ -252,7 +252,10 @@
+@@ -252,7 +252,10 @@ StripShip (COUNT fuel_required)
  {
  	BYTE i, which_module;
  	SBYTE crew_pods;
@@ -173,7 +117,7 @@ diff -ru ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.c
  	SET_GAME_STATE (MELNORME_RESCUE_REFUSED, 0);
  
  	crew_pods = -(SBYTE)(
-@@ -322,10 +325,7 @@
+@@ -322,10 +325,7 @@ StripShip (COUNT fuel_required)
  		if (fuel_required > capacity)
  			fuel_required = capacity;
  
@@ -185,7 +129,7 @@ diff -ru ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.c
  		for (i = 0; i < NUM_MODULE_SLOTS; ++i)
  		{
  			which_module = SIS_copy.ModuleSlots[i];
-@@ -1321,6 +1321,10 @@
+@@ -1321,6 +1321,10 @@ NatureOfConversation (RESPONSE_REF R)
  				break;
  		}
  		SET_GAME_STATE (MELNORME_YACK_STACK2, stack + 5);
@@ -196,7 +140,7 @@ diff -ru ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.c
  	}
  
  	rainbow_mask = MAKE_WORD (
-@@ -1360,7 +1364,19 @@
+@@ -1360,7 +1364,19 @@ NatureOfConversation (RESPONSE_REF R)
  		}
  		else if (PLAYER_SAID (R, why_turned_purple))
  		{
@@ -217,10 +161,10 @@ diff -ru ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.c
  
  			NPCPhrase (TURNED_PURPLE_BECAUSE);
  		}
-diff -ru ./src.orig/uqm/comm/thradd/thraddc.c ./src/uqm/comm/thradd/thraddc.c
+diff -ruNp ./src.orig/uqm/comm/thradd/thraddc.c ./src/uqm/comm/thradd/thraddc.c
 --- ./src.orig/uqm/comm/thradd/thraddc.c	2017-02-23 12:24:12 -0600
 +++ ./src/uqm/comm/thradd/thraddc.c	2017-02-23 11:15:51 -0600
-@@ -695,6 +695,8 @@
+@@ -695,6 +695,8 @@ static void
  Intro (void)
  {
  	BYTE NumVisits;
@@ -229,7 +173,7 @@ diff -ru ./src.orig/uqm/comm/thradd/thraddc.c ./src/uqm/comm/thradd/thraddc.c
  
  	if (LOBYTE (GLOBAL (CurrentActivity)) == WON_LAST_BATTLE)
  	{
-@@ -704,7 +706,7 @@
+@@ -704,7 +706,7 @@ Intro (void)
  		return;
  	}
  
@@ -238,10 +182,10 @@ diff -ru ./src.orig/uqm/comm/thradd/thraddc.c ./src/uqm/comm/thradd/thraddc.c
  	{
  		NumVisits = GET_GAME_STATE (HELIX_VISITS);
  		switch (NumVisits++)
-diff -ru ./src.orig/uqm/fmv.c ./src/uqm/fmv.c
+diff -ruNp ./src.orig/uqm/fmv.c ./src/uqm/fmv.c
 --- ./src.orig/uqm/fmv.c	2017-02-23 12:24:13 -0600
 +++ ./src/uqm/fmv.c	2017-02-23 11:15:52 -0600
-@@ -132,5 +132,17 @@
+@@ -132,5 +132,17 @@ Victory (void)
  	FadeScreen (FadeAllToBlack, 0);
  }
  
@@ -259,10 +203,10 @@ diff -ru ./src.orig/uqm/fmv.c ./src/uqm/fmv.c
 +	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 2));
 +}
  
-diff -ru ./src.orig/uqm/fmv.h ./src/uqm/fmv.h
+diff -ruNp ./src.orig/uqm/fmv.h ./src/uqm/fmv.h
 --- ./src.orig/uqm/fmv.h	2017-02-23 12:24:13 -0600
 +++ ./src/uqm/fmv.h	2017-02-23 11:15:52 -0600
-@@ -26,6 +26,8 @@
+@@ -26,6 +26,8 @@ extern void SplashScreen (void (* DoProc
  extern void Introduction (void);
  extern void Victory (void);
  extern void DoShipSpin (COUNT index, MUSIC_REF hMusic);
@@ -271,7 +215,7 @@ diff -ru ./src.orig/uqm/fmv.h ./src/uqm/fmv.h
  
  extern BOOLEAN ShowPresentation (RESOURCE presentation);
  
-diff -ru ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
+diff -ruNp ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
 --- ./src.orig/uqm/gameev.c	2017-02-23 12:24:13 -0600
 +++ ./src/uqm/gameev.c	2017-02-23 11:15:52 -0600
 @@ -25,7 +25,7 @@
@@ -283,7 +227,7 @@ diff -ru ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
  
  static void arilou_entrance_event (void);
  static void arilou_exit_event (void);
-@@ -40,6 +40,8 @@
+@@ -40,6 +40,8 @@ static void mycon_mission (void);
  
  void
  AddInitialGameEvents (void) {
@@ -292,7 +236,7 @@ diff -ru ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
  	AddEvent (RELATIVE_EVENT, 0, 1, 0, HYPERSPACE_ENCOUNTER_EVENT);
  	AddEvent (ABSOLUTE_EVENT, 3, 17, START_YEAR, ARILOU_ENTRANCE_EVENT);
  	AddEvent (RELATIVE_EVENT, 0, 0, YEARS_TO_KOHRAH_VICTORY,
-@@ -146,6 +148,7 @@
+@@ -146,6 +148,7 @@ EventHandler (BYTE selector)
  				if (SpathiPtr->actual_strength)
  				{
  					ActivateStarShip (SPATHI_SHIP, SET_NOT_ALLIED);
@@ -300,7 +244,7 @@ diff -ru ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
  					SET_GAME_STATE (SPATHI_SHIELDED_SELVES, 1);
  					SpathiPtr->actual_strength = 0;
  				}
-@@ -388,6 +391,9 @@
+@@ -388,6 +391,9 @@ black_urquan_genocide (void)
  		else if (speed > 255)
  			speed = 255;
  
@@ -310,7 +254,7 @@ diff -ru ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
  		SET_GAME_STATE (KOHR_AH_FRENZY, 1);
  		SET_GAME_STATE (KOHR_AH_VISITS, 0);
  		SET_GAME_STATE (KOHR_AH_REASONS, 0);
-@@ -526,76 +532,63 @@
+@@ -526,76 +532,63 @@ thradd_mission (void)
  static void
  ilwrath_mission (void)
  {
@@ -434,7 +378,7 @@ diff -ru ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
  	UnlockFleetInfo (&GLOBAL (avail_race_q), hThradd);
  	UnlockFleetInfo (&GLOBAL (avail_race_q), hIlwrath);
  }
-diff -ru ./src.orig/uqm/gameinp.c ./src/uqm/gameinp.c
+diff -ruNp ./src.orig/uqm/gameinp.c ./src/uqm/gameinp.c
 --- ./src.orig/uqm/gameinp.c	2017-02-23 12:24:13 -0600
 +++ ./src/uqm/gameinp.c	2017-02-23 11:53:12 -0600
 @@ -31,7 +31,7 @@
@@ -446,7 +390,7 @@ diff -ru ./src.orig/uqm/gameinp.c ./src/uqm/gameinp.c
  
  #define ACCELERATION_INCREMENT (ONE_SECOND / 12)
  #define MENU_REPEAT_DELAY (ONE_SECOND / 2)
-@@ -432,10 +432,18 @@
+@@ -432,10 +432,18 @@ ControlInputToBattleInput (const int *ke
  		InputState |= BATTLE_LEFT;
  	if (keyState[KEY_RIGHT])
  		InputState |= BATTLE_RIGHT;
@@ -467,7 +411,7 @@ diff -ru ./src.orig/uqm/gameinp.c ./src/uqm/gameinp.c
  	if (keyState[KEY_ESCAPE])
  		InputState |= BATTLE_ESCAPE;
  	if (keyState[KEY_DOWN])
-diff -ru ./src.orig/uqm/gameopt.c ./src/uqm/gameopt.c
+diff -ruNp ./src.orig/uqm/gameopt.c ./src/uqm/gameopt.c
 --- ./src.orig/uqm/gameopt.c	2017-02-23 12:24:13 -0600
 +++ ./src/uqm/gameopt.c	2017-02-23 11:15:52 -0600
 @@ -40,7 +40,7 @@
@@ -479,7 +423,7 @@ diff -ru ./src.orig/uqm/gameopt.c ./src/uqm/gameopt.c
  #define SUMMARY_X_OFFS 14
  #define SUMMARY_SIDE_OFFS 7
  #define SAVES_PER_PAGE 5
-diff -ru ./src.orig/uqm/globdata.c ./src/uqm/globdata.c
+diff -ruNp ./src.orig/uqm/globdata.c ./src/uqm/globdata.c
 --- ./src.orig/uqm/globdata.c	2017-02-23 12:24:13 -0600
 +++ ./src/uqm/globdata.c	2017-02-23 11:15:52 -0600
 @@ -30,12 +30,12 @@
@@ -497,7 +441,7 @@ diff -ru ./src.orig/uqm/globdata.c ./src/uqm/globdata.c
  
  static void CreateRadar (void);
  
-@@ -285,26 +285,59 @@
+@@ -285,26 +285,59 @@ InitGameStructures (void)
  	GLOBAL (ElementWorth[PRECIOUS]) = 6;
  	GLOBAL_SIS (ElementAmounts[PRECIOUS]) = 0;
  	GLOBAL (ElementWorth[RADIOACTIVE]) = 8;
@@ -574,7 +518,7 @@ diff -ru ./src.orig/uqm/globdata.c ./src/uqm/globdata.c
  
  	InitQueue (&GLOBAL (built_ship_q),
  			MAX_BUILT_SHIPS, sizeof (SHIP_FRAGMENT));
-@@ -328,7 +361,11 @@
+@@ -328,7 +361,11 @@ InitGameStructures (void)
  	GLOBAL (ModuleCost[DYNAMO_UNIT]) = 2000 / MODULE_COST_SCALE;
  	GLOBAL (ModuleCost[GUN_WEAPON]) = 2000 / MODULE_COST_SCALE;
  
@@ -587,7 +531,7 @@ diff -ru ./src.orig/uqm/globdata.c ./src/uqm/globdata.c
  
  	utf8StringCopy (GLOBAL_SIS (ShipName), sizeof (GLOBAL_SIS (ShipName)),
  			GAME_STRING (NAMING_STRING_BASE + 2));
-diff -ru ./src.orig/uqm/istrtab.h ./src/uqm/istrtab.h
+diff -ruNp ./src.orig/uqm/istrtab.h ./src/uqm/istrtab.h
 --- ./src.orig/uqm/istrtab.h	2017-02-23 12:24:13 -0600
 +++ ./src/uqm/istrtab.h	2017-02-23 11:15:52 -0600
 @@ -37,6 +37,7 @@
@@ -606,7 +550,7 @@ diff -ru ./src.orig/uqm/istrtab.h ./src/uqm/istrtab.h
  #define MAGMA_COLOR_TAB "planet.magma.colortable"
  #define MAGMA_XLAT_TAB "planet.magma.translatetable"
  #define MAGNETIC_COLOR_TAB "planet.magnetic.colortable"
-diff -ru ./src.orig/uqm/misc.c ./src/uqm/misc.c
+diff -ruNp ./src.orig/uqm/misc.c ./src/uqm/misc.c
 --- ./src.orig/uqm/misc.c	2017-02-23 12:24:13 -0600
 +++ ./src/uqm/misc.c	2017-02-23 11:57:13 -0600
 @@ -25,7 +25,9 @@
@@ -620,7 +564,7 @@ diff -ru ./src.orig/uqm/misc.c ./src/uqm/misc.c
  
  void
  spawn_planet (void)
-@@ -194,6 +196,10 @@
+@@ -194,6 +196,10 @@ spawn_asteroid (ELEMENT *ElementPtr)
  void
  do_damage (ELEMENT *ElementPtr, SIZE damage)
  {
@@ -631,10 +575,10 @@ diff -ru ./src.orig/uqm/misc.c ./src/uqm/misc.c
  	if (ElementPtr->state_flags & PLAYER_SHIP)
  	{
  		if (!DeltaCrew (ElementPtr, -damage))
-diff -ru ./src.orig/uqm/outfit.c ./src/uqm/outfit.c
+diff -ruNp ./src.orig/uqm/outfit.c ./src/uqm/outfit.c
 --- ./src.orig/uqm/outfit.c	2017-02-23 12:24:13 -0600
 +++ ./src/uqm/outfit.c	2017-02-23 11:15:52 -0600
-@@ -182,6 +182,10 @@
+@@ -182,6 +182,10 @@ DoInstallModule (MENU_STATE *pMS)
  	BYTE NewState, new_slot_piece, old_slot_piece;
  	SIZE FirstItem, LastItem;
  	BOOLEAN select, cancel, motion;
@@ -645,7 +589,7 @@ diff -ru ./src.orig/uqm/outfit.c ./src/uqm/outfit.c
  
  	if (GLOBAL (CurrentActivity) & CHECK_ABORT)
  	{
-@@ -290,7 +294,7 @@
+@@ -290,7 +294,7 @@ DoInstallModule (MENU_STATE *pMS)
  				}
  				else if (old_slot_piece == STORAGE_BAY)
  				{
@@ -654,10 +598,10 @@ diff -ru ./src.orig/uqm/outfit.c ./src/uqm/outfit.c
  							* (CountSISPieces (STORAGE_BAY) - 1))
  					{	// storage bay still needed for the cargo
  						PlayMenuSound (MENU_SOUND_FAILURE);
-diff -ru ./src.orig/uqm/planets/generate/genthrad.c ./src/uqm/planets/generate/genthrad.c
+diff -ruNp ./src.orig/uqm/planets/generate/genthrad.c ./src/uqm/planets/generate/genthrad.c
 --- ./src.orig/uqm/planets/generate/genthrad.c	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/planets/generate/genthrad.c	2017-02-23 11:15:52 -0600
-@@ -189,6 +189,10 @@
+@@ -189,6 +189,10 @@ static bool
  GenerateThraddash_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
  		COUNT whichNode)
  {
@@ -668,7 +612,7 @@ diff -ru ./src.orig/uqm/planets/generate/genthrad.c ./src/uqm/planets/generate/g
  	if (CurStarDescPtr->Index == THRADD_DEFINED
  			&& matchWorld (solarSys, world, 0, MATCH_PLANET))
  	{
-@@ -209,7 +213,14 @@
+@@ -209,7 +213,14 @@ GenerateThraddash_pickupEnergy (SOLARSYS
  		SET_GAME_STATE (AQUA_HELIX, 1);
  		SET_GAME_STATE (AQUA_HELIX_ON_SHIP, 1);
  		SET_GAME_STATE (HELIX_UNPROTECTED, 1);
@@ -684,7 +628,7 @@ diff -ru ./src.orig/uqm/planets/generate/genthrad.c ./src/uqm/planets/generate/g
  		return true; // picked up
  	}
  
-diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
+diff -ruNp ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
 --- ./src.orig/uqm/planets/lander.c	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/planets/lander.c	2017-02-23 11:15:53 -0600
 @@ -36,7 +36,7 @@
@@ -696,7 +640,7 @@ diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  
  //define SPIN_ON_LAUNCH to let the planet spin while
  // the lander animation is playing
-@@ -453,8 +453,8 @@
+@@ -453,8 +453,8 @@ DeltaLanderCrew (SIZE crew_delta, COUNT
  		shieldHit &= 1 << which_disaster;
  		if (!shieldHit || TFB_Random () % 100 >= 95)
  		{	// No shield, or it did not help
@@ -707,7 +651,7 @@ diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  		}
  
  		damage_index = DAMAGE_CYCLE;
-@@ -555,7 +555,7 @@
+@@ -555,7 +555,7 @@ pickupMineralNode (PLANETSIDE_DESC *pPSD
  	pPSD->ElementAmounts[ElementCategory (EType)] += NumRetrieved;
  
  	pPSD->NumFrames = NUM_TEXT_FRAMES;
@@ -716,7 +660,7 @@ diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  	pStr = GAME_STRING (EType + ELEMENTS_STRING_BASE);
  
  	pPSD->MineralText[0].baseline.x = (SURFACE_WIDTH >> 1)
-@@ -588,6 +588,11 @@
+@@ -588,6 +588,11 @@ pickupMineralNode (PLANETSIDE_DESC *pPSD
  static bool
  pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved)
  {
@@ -728,7 +672,7 @@ diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  	if (pPSD->BiologicalLevel >= MAX_SCROUNGED)
  	{
  		// Lander is full.
-@@ -596,10 +601,10 @@
+@@ -596,10 +601,10 @@ pickupBioNode (PLANETSIDE_DESC *pPSD, CO
  		return false;
  	}
  
@@ -741,7 +685,7 @@ diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  	}
  
  	FillLanderHold (pPSD, BIOLOGICAL_SCAN, NumRetrieved);
-@@ -1404,15 +1409,20 @@
+@@ -1404,15 +1409,20 @@ InitPlanetSide (POINT pt)
  {
  	// Adjust landing location by a random jitter.
  #define RANDOM_MISS 64
@@ -764,7 +708,7 @@ diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  	if (pt.y < 0)
  		pt.y = 0;
  	else if (pt.y >= (MAP_HEIGHT << MAG_SHIFT))
-@@ -1866,7 +1876,10 @@
+@@ -1866,7 +1876,10 @@ PlanetSide (POINT planetLoc)
  	BYTE TectonicsChanceTab[] = {0*3, 0*3, 1*3, 2*3, 4*3, 8*3, 16*3, 32*3};
  	BYTE WeatherChanceTab[] = {0*3, 0*3, 1*3, 2*3, 3*3, 6*3, 12*3, 24*3};
  	BYTE FireChanceTab[] = {0*3, 0*3, 1*3, 2*3, 4*3, 12*3, 24*3, 48*3};
@@ -776,7 +720,7 @@ diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  	memset (&PSD, 0, sizeof (PSD));
  	PSD.InTransit = TRUE;
  
-@@ -1893,7 +1906,7 @@
+@@ -1893,7 +1906,7 @@ PlanetSide (POINT planetLoc)
  		PSD.FireChance = FireChanceTab[7];
  
  	PSD.ElementLevel = GetStorageBayCapacity () - GLOBAL_SIS (TotalElementMass);
@@ -785,7 +729,7 @@ diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  	if (GET_GAME_STATE (IMPROVED_LANDER_CARGO))
  		PSD.MaxElementLevel <<= 1;
  	if (PSD.ElementLevel < PSD.MaxElementLevel)
-@@ -2017,6 +2030,10 @@
+@@ -2017,6 +2030,10 @@ void
  InitLander (BYTE LanderFlags)
  {
  	RECT r;
@@ -796,7 +740,7 @@ diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  
  	LockMutex (GraphicsLock);
  
-@@ -2083,11 +2100,11 @@
+@@ -2083,11 +2100,11 @@ InitLander (BYTE LanderFlags)
  		}
  
  		free_space = GetStorageBayCapacity () - GLOBAL_SIS (TotalElementMass);
@@ -810,10 +754,10 @@ diff -ru ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  					- (free_space >> capacity_shift) + 1;
  			SetContextForeGroundColor (BLACK_COLOR);
  			DrawFilledRectangle (&r);
-diff -ru ./src.orig/uqm/planets/pstarmap.c ./src/uqm/planets/pstarmap.c
+diff -ruNp ./src.orig/uqm/planets/pstarmap.c ./src/uqm/planets/pstarmap.c
 --- ./src.orig/uqm/planets/pstarmap.c	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/planets/pstarmap.c	2017-02-23 11:15:53 -0600
-@@ -1263,8 +1263,8 @@
+@@ -1263,8 +1263,8 @@ DoMoveCursor (MENU_STATE *pMS)
  	else if (PulsedInputState.menu[KEY_MENU_SELECT])
  	{
  		GLOBAL (autopilot) = cursorLoc;
@@ -824,7 +768,7 @@ diff -ru ./src.orig/uqm/planets/pstarmap.c ./src/uqm/planets/pstarmap.c
  		{
  			PlayMenuSound (MENU_SOUND_INVOKED);
  
-@@ -1283,8 +1283,8 @@
+@@ -1283,8 +1283,8 @@ DoMoveCursor (MENU_STATE *pMS)
  			}
  
  			return FALSE;
@@ -835,10 +779,10 @@ diff -ru ./src.orig/uqm/planets/pstarmap.c ./src/uqm/planets/pstarmap.c
  		DrawStarMap (0, NULL);
  	}
  	else if (PulsedInputState.menu[KEY_MENU_SEARCH])
-diff -ru ./src.orig/uqm/planets/scan.c ./src/uqm/planets/scan.c
+diff -ruNp ./src.orig/uqm/planets/scan.c ./src/uqm/planets/scan.c
 --- ./src.orig/uqm/planets/scan.c	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/planets/scan.c	2017-02-23 11:15:53 -0600
-@@ -1343,7 +1343,10 @@
+@@ -1343,7 +1343,10 @@ GeneratePlanetSide (void)
  			// life_init_tab is filled with the creature types of already
  			// selected creatures. If an entry is 0, none has been selected
  			// yet, otherwise, it is 1 more than the creature type.
@@ -850,7 +794,7 @@ diff -ru ./src.orig/uqm/planets/scan.c ./src/uqm/planets/scan.c
  	InitDisplayList ();
  	if (pSolarSysState->pOrbitalDesc->data_index & PLANET_SHIELDED)
  		return;
-@@ -1414,7 +1417,7 @@
+@@ -1414,7 +1417,7 @@ GeneratePlanetSide (void)
  				NodeElementPtr->preprocess_func = object_animation;
  				if (scan == ENERGY_SCAN)
  				{
@@ -859,10 +803,10 @@ diff -ru ./src.orig/uqm/planets/scan.c ./src/uqm/planets/scan.c
  					DisplayArray[NodeElementPtr->PrimIndex].Object.Stamp.frame =
  							pSolarSysState->PlanetSideFrame[1];
  				}
-diff -ru ./src.orig/uqm/races.h ./src/uqm/races.h
+diff -ruNp ./src.orig/uqm/races.h ./src/uqm/races.h
 --- ./src.orig/uqm/races.h	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/races.h	2017-02-23 12:04:00 -0600
-@@ -586,7 +586,7 @@
+@@ -586,7 +586,7 @@ enum
  		 0,  /* URQUAN_DRONE_SHIP */
  
  #define RACE_INTERPLANETARY_PERCENT \
@@ -871,10 +815,20 @@ diff -ru ./src.orig/uqm/races.h ./src/uqm/races.h
  		 0,  /* CHMMR_SHIP */ \
  		 0,  /* HUMAN_SHIP */ \
  		20,  /* ORZ_SHIP */ \
-diff -ru ./src.orig/uqm/restart.c ./src/uqm/restart.c
+@@ -662,6 +662,9 @@ enum
+ 		BUILD_COLOR (MAKE_RGB15_INIT (0x0F, 0x00, 0x00), 0x2D),  /* ZOQFOTPIK_SHIP */ \
+ 		BUILD_COLOR (MAKE_RGB15_INIT (0x00, 0x00, 0x00), 0x00),  /* SYREEN_SHIP */ \
+ 		BUILD_COLOR (MAKE_RGB15_INIT (0x06, 0x06, 0x06), 0x20),  /* BLACK_URQUAN_SHIP */ \
++		BUILD_COLOR (MAKE_RGB15_INIT (0x14, 0x07, 0x1F), 0x39),  /* BLACK_URQUAN_SHIP */ \
++		BUILD_COLOR (MAKE_RGB15_INIT (0x06, 0x06, 0x06), 0x20),  /* BLACK_URQUAN_SHIP */ \
++		BUILD_COLOR (MAKE_RGB15_INIT (0x06, 0x06, 0x06), 0x20),  /* BLACK_URQUAN_SHIP */ \
+ 		BUILD_COLOR (MAKE_RGB15_INIT (0x14, 0x07, 0x1F), 0x39),  /* YEHAT_REBEL_SHIP */
+ 
+ #endif /* _RACES_H */
+diff -ruNp ./src.orig/uqm/restart.c ./src/uqm/restart.c
 --- ./src.orig/uqm/restart.c	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/restart.c	2017-02-23 11:15:53 -0600
-@@ -384,6 +384,7 @@
+@@ -384,6 +384,7 @@ StartGame (void)
  			{	// timed out
  				GLOBAL (CurrentActivity) = 0;
  				SplashScreen (0);
@@ -882,10 +836,10 @@ diff -ru ./src.orig/uqm/restart.c ./src/uqm/restart.c
  				Credits (FALSE);
  			}
  
-diff -ru ./src.orig/uqm/save.c ./src/uqm/save.c
+diff -ruNp ./src.orig/uqm/save.c ./src/uqm/save.c
 --- ./src.orig/uqm/save.c	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/save.c	2017-02-23 11:15:53 -0600
-@@ -645,7 +645,7 @@
+@@ -645,7 +645,7 @@ SaveGame (COUNT which_game, SUMMARY_DESC
  	success = TRUE;
  	made_room = FALSE;
  RetrySave:
@@ -894,10 +848,10 @@ diff -ru ./src.orig/uqm/save.c ./src/uqm/save.c
  	if (h == 0
  			|| (fh = copen (h, MEMORY_STREAM, STREAM_WRITE)) == 0)
  	{
-diff -ru ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
+diff -ruNp ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
 --- ./src.orig/uqm/setupmenu.c	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/setupmenu.c	2017-02-23 11:15:53 -0600
-@@ -1201,6 +1201,16 @@
+@@ -1201,6 +1201,16 @@ GetGlobalOptions (GLOBALOPTS *opts)
  	opts->musicvol = (((int)(musicVolumeScale * 100.0f) + 2) / 5) * 5;
  	opts->sfxvol = (((int)(sfxVolumeScale * 100.0f) + 2) / 5) * 5;
  	opts->speechvol = (((int)(speechVolumeScale * 100.0f) + 2) / 5) * 5;
@@ -914,7 +868,7 @@ diff -ru ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
  	
  }
  
-@@ -1253,6 +1263,46 @@
+@@ -1253,6 +1263,46 @@ SetGlobalOptions (GLOBALOPTS *opts)
  	res_PutBoolean ("config.alwaysgl", opts->driver == OPTVAL_ALWAYS_GL);
  	res_PutBoolean ("config.usegl", NewDriver == TFB_GFXDRIVER_SDL_OPENGL);
  
@@ -961,10 +915,10 @@ diff -ru ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
  	switch (opts->scaler) {
  	case OPTVAL_BILINEAR_SCALE:
  		NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
-diff -ru ./src.orig/uqm/setupmenu.h ./src/uqm/setupmenu.h
+diff -ruNp ./src.orig/uqm/setupmenu.h ./src/uqm/setupmenu.h
 --- ./src.orig/uqm/setupmenu.h	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/setupmenu.h	2017-02-23 11:15:53 -0600
-@@ -74,7 +74,9 @@
+@@ -74,7 +74,9 @@ typedef struct globalopts_struct {
  	OPT_DRIVERTYPE driver;
  	OPT_ADRIVERTYPE adriver;
  	OPT_AQUALITYTYPE aquality;
@@ -975,7 +929,7 @@ diff -ru ./src.orig/uqm/setupmenu.h ./src/uqm/setupmenu.h
  	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, meleezoom, shield;
  	CONTROL_TEMPLATE player1, player2;
  	int speechvol, musicvol, sfxvol;
-diff -ru ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
+diff -ruNp ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
 --- ./src.orig/uqm/ships/chmmr/chmmr.c	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/ships/chmmr/chmmr.c	2017-02-23 12:07:18 -0600
 @@ -19,7 +19,7 @@
@@ -987,7 +941,7 @@ diff -ru ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
  #include "uqm/colors.h"
  #include "uqm/globdata.h"
  #include "libs/mathlib.h"
-@@ -276,7 +276,7 @@
+@@ -276,7 +276,7 @@ static void
  chmmr_postprocess (ELEMENT *ElementPtr)
  {
  	STARSHIP *StarShipPtr;
@@ -996,7 +950,7 @@ diff -ru ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
  	GetElementStarShip (ElementPtr, &StarShipPtr);
  
  	if (StarShipPtr->cur_status_flags & WEAPON)
-@@ -337,7 +337,6 @@
+@@ -337,7 +337,6 @@ chmmr_postprocess (ELEMENT *ElementPtr)
  		facing = 0;
  		if (TrackShip (ElementPtr, &facing) >= 0)
  		{
@@ -1004,7 +958,7 @@ diff -ru ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
  					
  			ELEMENT *ShipElementPtr;
  
-@@ -674,9 +673,12 @@
+@@ -674,9 +673,12 @@ satellite_death (ELEMENT *ElementPtr)
  static void
  spawn_satellites (ELEMENT *ElementPtr)
  {
@@ -1018,7 +972,7 @@ diff -ru ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
  
  	GetElementStarShip (ElementPtr, &StarShipPtr);
  	if (StarShipPtr->hShip)
-diff -ru ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/melnorme.c
+diff -ruNp ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/melnorme.c
 --- ./src.orig/uqm/ships/melnorme/melnorme.c	2017-02-23 12:24:15 -0600
 +++ ./src/uqm/ships/melnorme/melnorme.c	2017-02-23 11:15:53 -0600
 @@ -19,7 +19,7 @@
@@ -1030,7 +984,7 @@ diff -ru ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/melno
  #include "uqm/globdata.h"
  #include "libs/mathlib.h"
  
-@@ -454,9 +454,12 @@
+@@ -454,9 +454,12 @@ confusion_collision (ELEMENT *ElementPtr
  				SetElementStarShip (ConfusionPtr, StarShipPtr);
  				GetElementStarShip (ElementPtr1, &StarShipPtr);
  				ConfusionPtr->hTarget = StarShipPtr->hShip;
@@ -1045,7 +999,7 @@ diff -ru ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/melno
  			ConfusionPtr->turn_wait =
  					(BYTE)(1 << ((BYTE)TFB_Random () & 1)); /* LEFT or RIGHT */
  
-diff -ru ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
+diff -ruNp ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
 --- ./src.orig/uqm/ships/orz/orz.c	2017-02-23 12:24:15 -0600
 +++ ./src/uqm/ships/orz/orz.c	2017-02-23 11:15:54 -0600
 @@ -19,7 +19,7 @@
@@ -1057,7 +1011,7 @@ diff -ru ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
  #include "uqm/colors.h"
  #include "uqm/globdata.h"
  #include "libs/mathlib.h"
-@@ -725,84 +725,67 @@
+@@ -725,84 +725,67 @@ marine_preprocess (ELEMENT *ElementPtr)
  }
  
  void
@@ -1181,7 +1135,7 @@ diff -ru ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
  	}
  	(void) pPt0;  /* Satisfying compiler (unused parameter) */
  	(void) pPt1;  /* Satisfying compiler (unused parameter) */
-diff -ru ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
+diff -ruNp ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
 --- ./src.orig/uqm/ships/pkunk/pkunk.c	2017-02-23 12:24:15 -0600
 +++ ./src/uqm/ships/pkunk/pkunk.c	2017-02-23 11:15:54 -0600
 @@ -19,7 +19,7 @@
@@ -1193,7 +1147,7 @@ diff -ru ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
  #include "uqm/globdata.h"
  #include "libs/mathlib.h"
  
-@@ -430,9 +430,13 @@
+@@ -430,9 +430,13 @@ pkunk_preprocess (ELEMENT *ElementPtr)
  	if (ElementPtr->state_flags & APPEARING)
  	{
  		HELEMENT hPhoenix = 0;
@@ -1210,7 +1164,7 @@ diff -ru ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
  
  		if (hPhoenix)
  		{
-diff -ru ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
+diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
 --- ./src.orig/uqm/ships/syreen/syreen.c	2017-02-23 12:24:15 -0600
 +++ ./src/uqm/ships/syreen/syreen.c	2017-02-23 11:15:54 -0600
 @@ -19,7 +19,7 @@
@@ -1222,7 +1176,7 @@ diff -ru ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
  #include "libs/mathlib.h"
  
  
-@@ -202,10 +202,11 @@
+@@ -202,10 +202,11 @@ spawn_crew (ELEMENT *ElementPtr)
  				{
  #define MAX_ABANDONERS 8
  					COUNT crew_loss;
@@ -1238,7 +1192,7 @@ diff -ru ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
  					if (crew_loss >= ObjPtr->crew_level)
  						crew_loss = ObjPtr->crew_level - 1;
  
-diff -ru ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
+diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
 --- ./src.orig/uqm/ships/vux/vux.c	2017-02-23 12:24:15 -0600
 +++ ./src/uqm/ships/vux/vux.c	2017-02-23 11:15:54 -0600
 @@ -19,7 +19,7 @@
@@ -1258,7 +1212,7 @@ diff -ru ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
  
  static RACE_DESC vux_desc =
  {
-@@ -138,48 +139,38 @@
+@@ -138,48 +139,38 @@ limpet_preprocess (ELEMENT *ElementPtr)
  }
  
  static void
@@ -1336,7 +1290,7 @@ diff -ru ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
  	}
  
  	ElementPtr0->hit_points = 0;
-diff -ru ./src.orig/uqm/shipyard.c ./src/uqm/shipyard.c
+diff -ruNp ./src.orig/uqm/shipyard.c ./src/uqm/shipyard.c
 --- ./src.orig/uqm/shipyard.c	2017-02-23 12:24:16 -0600
 +++ ./src/uqm/shipyard.c	2017-02-23 11:15:54 -0600
 @@ -37,7 +37,7 @@
@@ -1348,10 +1302,10 @@ diff -ru ./src.orig/uqm/shipyard.c ./src/uqm/shipyard.c
  
  #ifdef USE_3DO_HANGAR
  // 3DO 4x3 hangar layout
-diff -ru ./src.orig/uqm/sis.c ./src/uqm/sis.c
+diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
 --- ./src.orig/uqm/sis.c	2017-02-23 12:24:16 -0600
 +++ ./src/uqm/sis.c	2017-02-23 11:15:54 -0600
-@@ -764,6 +764,10 @@
+@@ -764,6 +764,10 @@ DrawStorageBays (BOOLEAN Refresh)
  	BYTE i;
  	RECT r;
  	CONTEXT OldContext;
@@ -1362,7 +1316,7 @@ diff -ru ./src.orig/uqm/sis.c ./src/uqm/sis.c
  
  	OldContext = SetContext (StatusContext);
  
-@@ -789,7 +793,7 @@
+@@ -789,7 +793,7 @@ DrawStorageBays (BOOLEAN Refresh)
  				- ((i * (r.extent.width + 1)) >> 1);
  		SetContextForeGroundColor (STORAGE_BAY_FULL_COLOR);
  		for (j = GLOBAL_SIS (TotalElementMass);
@@ -1371,7 +1325,7 @@ diff -ru ./src.orig/uqm/sis.c ./src/uqm/sis.c
  		{
  			DrawFilledRectangle (&r);
  			r.corner.x += r.extent.width + 1;
-@@ -797,8 +801,8 @@
+@@ -797,8 +801,8 @@ DrawStorageBays (BOOLEAN Refresh)
  			--i;
  		}
  
@@ -1382,7 +1336,7 @@ diff -ru ./src.orig/uqm/sis.c ./src/uqm/sis.c
  		if (r.extent.height)
  		{
  			r.corner.y += 4 - r.extent.height;
-@@ -1284,8 +1288,12 @@
+@@ -1284,8 +1288,12 @@ GetElementMass (void)
  COUNT
  GetModuleStorageCapacity (BYTE moduleType)
  {
@@ -1396,7 +1350,7 @@ diff -ru ./src.orig/uqm/sis.c ./src/uqm/sis.c
  
  	return 0;
  }
-diff -ru ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
+diff -ruNp ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
 --- ./src.orig/uqm/starcon.c	2017-02-23 12:24:16 -0600
 +++ ./src/uqm/starcon.c	2017-02-23 11:15:54 -0600
 @@ -45,7 +45,7 @@
@@ -1408,7 +1362,7 @@ diff -ru ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  #include "uqmversion.h"
  #include "options.h"
  
-@@ -188,7 +188,8 @@
+@@ -188,7 +188,8 @@ while (--ac > 0)
  	log_add (log_Info, "We've loaded the Kernel");
  
  	GLOBAL (CurrentActivity) = 0;
@@ -1418,7 +1372,7 @@ diff -ru ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  	SplashScreen (BackgroundInitKernel);
  
  //	OpenJournal ();
-@@ -205,9 +206,9 @@
+@@ -205,9 +206,9 @@ while (--ac > 0)
  
  		do
  		{
@@ -1430,7 +1384,7 @@ diff -ru ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  				void (*saveDebugHook) (void);
  				saveDebugHook = debugHook;
  				debugHook = NULL;
-@@ -215,8 +216,8 @@
+@@ -215,8 +216,8 @@ while (--ac > 0)
  						// function resets debugHook.
  				(*saveDebugHook) ();
  				continue;
@@ -1441,7 +1395,7 @@ diff -ru ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  			SetStatusMessageMode (SMM_DEFAULT);
  
  			if (!((GLOBAL (CurrentActivity) | NextActivity) & CHECK_LOAD))
-@@ -257,7 +258,13 @@
+@@ -257,7 +258,13 @@ while (--ac > 0)
  				GLOBAL (CurrentActivity) = MAKE_WORD (IN_INTERPLANETARY, 0);
  
  				DrawAutoPilotMessage (TRUE);
@@ -1456,7 +1410,7 @@ diff -ru ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  				ExploreSolarSys ();
  			}
  			else
-@@ -266,10 +273,15 @@
+@@ -266,10 +273,15 @@ while (--ac > 0)
  				GLOBAL (CurrentActivity) = MAKE_WORD (IN_HYPERSPACE, 0);
  
  				DrawAutoPilotMessage (TRUE);
@@ -1474,7 +1428,7 @@ diff -ru ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  			LockMutex (GraphicsLock);
  			SetFlashRect (NULL);
  			UnlockMutex (GraphicsLock);
-@@ -288,6 +300,29 @@
+@@ -288,6 +300,29 @@ while (--ac > 0)
  					GLOBAL (CurrentActivity) &= ~CHECK_RESTART;
  				break;
  			}
@@ -1504,7 +1458,7 @@ diff -ru ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  		} while (!(GLOBAL (CurrentActivity) & CHECK_ABORT));
  
  		StopSound ();
-diff -ru ./src.orig/uqm/trans.c ./src/uqm/trans.c
+diff -ruNp ./src.orig/uqm/trans.c ./src/uqm/trans.c
 --- ./src.orig/uqm/trans.c	2017-02-23 12:24:16 -0600
 +++ ./src/uqm/trans.c	2017-02-23 11:15:55 -0600
 @@ -20,7 +20,7 @@
@@ -1516,10 +1470,10 @@ diff -ru ./src.orig/uqm/trans.c ./src/uqm/trans.c
  {
  	-FLT_ADJUST (1.000000),
  	-FLT_ADJUST (0.995185),
-diff -ru ./src.orig/uqm/units.h ./src/uqm/units.h
+diff -ruNp ./src.orig/uqm/units.h ./src/uqm/units.h
 --- ./src.orig/uqm/units.h	2017-02-23 12:24:16 -0600
 +++ ./src/uqm/units.h	2017-02-23 11:15:55 -0600
-@@ -200,7 +200,7 @@
+@@ -200,7 +200,7 @@ universeToLogy (COORD uy)
  #define UNADJUST(x) (SIZE)((x)>>SIN_SHIFT)
  #define ROUND(x,y) ((x)+((x)>=0?((y)>>1):-((y)>>1)))
  
@@ -1528,7 +1482,7 @@ diff -ru ./src.orig/uqm/units.h ./src/uqm/units.h
  #define SINVAL(a) sinetab[NORMALIZE_ANGLE(a)]
  #define COSVAL(a) SINVAL((a)+QUADRANT)
  #define SINE(a,m) ((SIZE)((((long)SINVAL(a))*(long)(m))>>SIN_SHIFT))
-diff -ru ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
+diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
 --- ./src.orig/uqm/uqmdebug.c	2017-02-23 12:24:16 -0600
 +++ ./src/uqm/uqmdebug.c	2017-02-23 11:15:55 -0600
 @@ -14,7 +14,6 @@
@@ -1548,7 +1502,7 @@ diff -ru ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  
  static void dumpEventCallback (const EVENT *eventPtr, void *arg);
  
-@@ -71,7 +70,9 @@
+@@ -71,7 +70,9 @@ static void dumpPlanetTypeCallback (int
  
  BOOLEAN instantMove = FALSE;
  BOOLEAN disableInteractivity = FALSE;
@@ -1558,7 +1512,7 @@ diff -ru ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  void (* volatile doInputDebugHook) (void) = NULL;
  
  
-@@ -458,7 +459,7 @@
+@@ -458,7 +459,7 @@ findFlagshipElement (void)
  	return 0;
  }
  #endif
@@ -1567,7 +1521,7 @@ diff -ru ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  // Move the Flagship to the destination of the autopilot.
  // Should only be called from HyperSpace/QuasiSpace.
  // It can be called from debugHook directly after entering HS/QS though.
-@@ -506,7 +507,7 @@
+@@ -506,7 +507,7 @@ doInstantMove (void)
  }
  
  ////////////////////////////////////////////////////////////////////////////
@@ -1576,7 +1530,7 @@ diff -ru ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  void
  showSpheres (void)
  {
-@@ -532,7 +533,7 @@
+@@ -532,7 +533,7 @@ showSpheres (void)
  }
  
  ////////////////////////////////////////////////////////////////////////////
@@ -1585,7 +1539,7 @@ diff -ru ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  void
  activateAllShips (void)
  {
-@@ -557,7 +558,7 @@
+@@ -557,7 +558,7 @@ activateAllShips (void)
  }
  
  ////////////////////////////////////////////////////////////////////////////
@@ -1594,7 +1548,7 @@ diff -ru ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  void
  forAllStars (void (*callback) (STAR_DESC *, void *), void *arg)
  {
-@@ -1464,7 +1465,7 @@
+@@ -1464,7 +1465,7 @@ depositQualityString (BYTE quality)
  			return "???";
  	}
  }
@@ -1603,7 +1557,7 @@ diff -ru ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  ////////////////////////////////////////////////////////////////////////////
  
  // playerNr should be 0 or 1
-@@ -1543,7 +1544,7 @@
+@@ -1543,7 +1544,7 @@ resetEnergyBattle (void)
  }
  
  ////////////////////////////////////////////////////////////////////////////
@@ -1612,7 +1566,7 @@ diff -ru ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  // This function should help in making sure that gamestr.h matches
  // gamestrings.txt.
  void
-diff -ru ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
+diff -ruNp ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
 --- ./src.orig/uqm/uqmdebug.h	2017-02-23 12:24:16 -0600
 +++ ./src/uqm/uqmdebug.h	2017-02-23 11:15:55 -0600
 @@ -14,7 +14,6 @@
@@ -1642,7 +1596,7 @@ diff -ru ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
  // If a function is assigned to this, it will be called from the
  // Starcon2Main thread, in doInput().
  extern void (* volatile doInputDebugHook) (void);
-@@ -51,7 +50,7 @@
+@@ -51,7 +50,7 @@ void dumpEvents (FILE *out);
  void dumpEvent (FILE *out, const EVENT *eventPtr);
  // Get the name of one event.
  const char *eventName (BYTE func_index);
@@ -1651,7 +1605,7 @@ diff -ru ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
  // Give the flagship a decent equipment for debugging.
  void equipShip (void);
  // Give the player all devices.
-@@ -71,7 +70,7 @@
+@@ -71,7 +70,7 @@ void activateAllShips (void);
  // It can be called from debugHook directly after entering HS/QS though.
  void doInstantMove (void);
  
@@ -1660,7 +1614,7 @@ diff -ru ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
  // Call a function for all stars.
  void forAllStars (void (*callback) (STAR_DESC *, void *), void *arg);
  // Call a function for all planets in a star system.
-@@ -166,7 +165,7 @@
+@@ -166,7 +165,7 @@ const char *densityString (BYTE density)
  // Get a string describing the quality of a deposit.
  const char *depositQualityString (BYTE quality);
  
@@ -1669,7 +1623,7 @@ diff -ru ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
  // Find a player ship. Setting playerNr to non-0 is only meaningful in battle.
  STARSHIP* findPlayerShip (SIZE playerNr);
  
-@@ -176,7 +175,7 @@
+@@ -176,7 +175,7 @@ void resetCrewBattle(void);
  // Resets the energy of the first player (the bottom one) to its maximum.
  void resetEnergyBattle(void);
  
@@ -1678,10 +1632,10 @@ diff -ru ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
  // Move instantly across hyperspace/quasispace.
  extern BOOLEAN instantMove;
  
-diff -ru ./src.orig/uqm.c ./src/uqm.c
+diff -ruNp ./src.orig/uqm.c ./src/uqm.c
 --- ./src.orig/uqm.c	2017-02-23 12:24:16 -0600
-+++ ./src/uqm.c	2017-02-23 11:15:55 -0600
-@@ -127,6 +127,16 @@
++++ ./src/uqm.c	2017-02-24 13:11:06 -0600
+@@ -127,6 +127,16 @@ struct options_struct
  	DECL_CONFIG_OPTION(float, sfxVolumeScale);
  	DECL_CONFIG_OPTION(float, speechVolumeScale);
  	DECL_CONFIG_OPTION(bool, safeMode);
@@ -1698,7 +1652,7 @@ diff -ru ./src.orig/uqm.c ./src/uqm.c
  
  #define INIT_CONFIG_OPTION(name, val) \
  	{ val, false }
-@@ -260,6 +270,16 @@
+@@ -260,6 +270,16 @@ main (int argc, char *argv[])
  		INIT_CONFIG_OPTION(  sfxVolumeScale,    1.0f ),
  		INIT_CONFIG_OPTION(  speechVolumeScale, 1.0f ),
  		INIT_CONFIG_OPTION(  safeMode,          false ),
@@ -1715,16 +1669,7 @@ diff -ru ./src.orig/uqm.c ./src/uqm.c
  	};
  	struct options_struct defaults = options;
  	int optionsResult;
-@@ -293,7 +313,7 @@
- 		return EXIT_SUCCESS;
- 	}
- 	
--	log_add (log_User, "The Ur-Quan Masters v%d.%d.%d%s (compiled %s %s)\n"
-+	log_add (log_User, "The Ur-Quan Masters Mega Mod v%d.%d.%d%s (compiled %s %s)\n"
- 	        "This software comes with ABSOLUTELY NO WARRANTY;\n"
- 			"for details see the included 'COPYING' file.\n",
- 			UQM_MAJOR_VERSION, UQM_MINOR_VERSION,
-@@ -382,6 +402,16 @@
+@@ -382,6 +402,16 @@ main (int argc, char *argv[])
  	sfxVolumeScale = options.sfxVolumeScale.value;
  	speechVolumeScale = options.speechVolumeScale.value;
  	optAddons = options.addons;
@@ -1741,16 +1686,7 @@ diff -ru ./src.orig/uqm.c ./src/uqm.c
  
  	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
  	prepareMeleeDir ();
-@@ -491,7 +521,7 @@
- 		++len;
- 		--left;
- 	}
--	vsnprintf (errBuffer + len, left, fmt, list);
-+	uqm_vsnprintf (errBuffer + len, left, fmt, list);
- 	errBuffer[sizeof (errBuffer) - 1] = '\0';
- }
- 
-@@ -639,6 +669,16 @@
+@@ -639,6 +669,16 @@ getUserConfigOptions (struct options_str
  	getVolumeConfigValue (&options->musicVolumeScale, "config.musicvol");
  	getVolumeConfigValue (&options->sfxVolumeScale, "config.sfxvol");
  	getVolumeConfigValue (&options->speechVolumeScale, "config.speechvol");
@@ -1767,7 +1703,7 @@ diff -ru ./src.orig/uqm.c ./src/uqm.c
  	
  	if (res_IsInteger ("config.player1control"))
  	{
-@@ -678,6 +718,16 @@
+@@ -678,6 +718,16 @@ enum
  	ADDONDIR_OPT,
  	ACCEL_OPT,
  	SAFEMODE_OPT,
@@ -1784,7 +1720,7 @@ diff -ru ./src.orig/uqm.c ./src/uqm.c
  #ifdef NETPLAY
  	NETHOST1_OPT,
  	NETPORT1_OPT,
-@@ -725,6 +775,16 @@
+@@ -725,6 +775,16 @@ static struct option longOptions[] =
  	{"addondir", 1, NULL, ADDONDIR_OPT},
  	{"accel", 1, NULL, ACCEL_OPT},
  	{"safe", 0, NULL, SAFEMODE_OPT},
@@ -1801,7 +1737,7 @@ diff -ru ./src.orig/uqm.c ./src/uqm.c
  #ifdef NETPLAY
  	{"nethost1", 1, NULL, NETHOST1_OPT},
  	{"netport1", 1, NULL, NETPORT1_OPT},
-@@ -1013,9 +1073,39 @@
+@@ -1013,9 +1073,39 @@ parseOptions (int argc, char *argv[], st
  				}
  				break;
  			}
@@ -1842,7 +1778,7 @@ diff -ru ./src.orig/uqm.c ./src/uqm.c
  #ifdef NETPLAY
  			case NETHOST1_OPT:
  				netplayOptions.peer[0].isServer = false;
-@@ -1204,6 +1294,36 @@
+@@ -1204,6 +1294,36 @@ usage (FILE *out, const struct options_s
  	log_add (log_User, "  --scroll    : ff/frev during comm.  pc=per-page, "
  			"3do=smooth (default %s)",
  			choiceOptString (&defaults->smoothScroll));
@@ -1879,9 +1815,9 @@ diff -ru ./src.orig/uqm.c ./src/uqm.c
  	log_setOutput (old);
  }
  
-diff -ru ./src.orig/uqmversion.h ./src/uqmversion.h
+diff -ruNp ./src.orig/uqmversion.h ./src/uqmversion.h
 --- ./src.orig/uqmversion.h	2017-02-23 12:24:16 -0600
-+++ ./src/uqmversion.h	2017-02-23 11:15:55 -0600
++++ ./src/uqmversion.h	2017-02-24 13:10:38 -0600
 @@ -21,9 +21,9 @@
  #define UQM_MAJOR_VERSION_S  "0"
  #define UQM_MINOR_VERSION     7
@@ -1891,7 +1827,7 @@ diff -ru ./src.orig/uqmversion.h ./src/uqmversion.h
 -#define UQM_EXTRA_VERSION    ""
 +#define UQM_PATCH_VERSION     2
 +#define UQM_PATCH_VERSION_S  "2"
-+#define UQM_EXTRA_VERSION    "c Mega Mod"
++#define UQM_EXTRA_VERSION    "d MegaMod"
  /* The final version is interpreted as:
   * printf ("%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION,
   * 		UQM_PATCH_VERSION, UQM_EXTRA_VERSION);
