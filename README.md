@@ -78,7 +78,7 @@ This project exists out of my love for Star Control II and The Ur-Quan Masters p
 
 ## Windows Installation
 
-Place the "UrQuanMasters.exe" in the root folder of your UQM-HD installation.
+Place the "UrQuanMasters.exe" in the root folder of your UQM Classic or HD installation.
 
 ## MacOS X Installation
 
