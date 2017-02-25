@@ -76,9 +76,13 @@ Maximum saves upped to 100. Personal request.
 
 This project exists out of my love for Star Control II and The Ur-Quan Masters project. Fiddling with the code as a hobby to try and expand my skill as a programmer.
 
-## Installation
+## Windows Installation
 
 Place the "UrQuanMasters.exe" in the root folder of your UQM-HD installation.
+
+## MacOS X Installation
+
+Mount the .dmg file and copy the app to your Applications folder.
 
 ## Contributors
 
