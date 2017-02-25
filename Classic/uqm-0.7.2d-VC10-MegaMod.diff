@@ -871,16 +871,6 @@ diff -ruNp ./src.orig/uqm/races.h ./src/uqm/races.h
  		 0,  /* CHMMR_SHIP */ \
  		 0,  /* HUMAN_SHIP */ \
  		20,  /* ORZ_SHIP */ \
-@@ -662,6 +662,9 @@ enum
- 		BUILD_COLOR (MAKE_RGB15_INIT (0x0F, 0x00, 0x00), 0x2D),  /* ZOQFOTPIK_SHIP */ \
- 		BUILD_COLOR (MAKE_RGB15_INIT (0x00, 0x00, 0x00), 0x00),  /* SYREEN_SHIP */ \
- 		BUILD_COLOR (MAKE_RGB15_INIT (0x06, 0x06, 0x06), 0x20),  /* BLACK_URQUAN_SHIP */ \
-+		BUILD_COLOR (MAKE_RGB15_INIT (0x14, 0x07, 0x1F), 0x39),  /* BLACK_URQUAN_SHIP */ \
-+		BUILD_COLOR (MAKE_RGB15_INIT (0x06, 0x06, 0x06), 0x20),  /* BLACK_URQUAN_SHIP */ \
-+		BUILD_COLOR (MAKE_RGB15_INIT (0x06, 0x06, 0x06), 0x20),  /* BLACK_URQUAN_SHIP */ \
- 		BUILD_COLOR (MAKE_RGB15_INIT (0x14, 0x07, 0x1F), 0x39),  /* YEHAT_REBEL_SHIP */
- 
- #endif /* _RACES_H */
 diff -ruNp ./src.orig/uqm/restart.c ./src/uqm/restart.c
 --- ./src.orig/uqm/restart.c	2017-02-23 12:24:14 -0600
 +++ ./src/uqm/restart.c	2017-02-23 11:15:53 -0600
