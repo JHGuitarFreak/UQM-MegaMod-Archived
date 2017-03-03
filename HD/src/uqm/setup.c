@@ -125,11 +125,22 @@ LoadKernel (int argc, char *argv[])
 	{
 		loadAddon ("3domusic");
 	}
-
 	/* Always try to use voice data */
-	if (!loadAddon ("3dovoice"))
+	if (!loadAddon ("3dovoice")){
 		speechVolumeScale = 0.0f; // XXX: need better no-speech indicator
-
+	}
+	if (loadAddon("3dovoice")){
+		if(loadAddon("utwig-remix")){
+			log_add (log_Debug, "loading addon utwig-remix");
+		} else {
+			log_add (log_Debug, "could not load addon utwig-remix");
+		}
+		if(loadAddon("shofixti-remix")){
+			log_add (log_Debug, "loading addon shofixti-remix");
+		} else {
+			log_add (log_Debug, "could not load addon shofixti-remix");
+		}
+	}
 	if (optRemixMusic)
 	{
 		loadAddon ("remix");
@@ -145,11 +156,21 @@ LoadKernel (int argc, char *argv[])
 	{
 		hires2xPackPresent = TRUE;
 		log_add (log_Debug, "loading addon hires2x");
+		if(loadAddon("spins2x")){
+			log_add (log_Debug, "loading addon spins2x");
+		} else {
+			log_add (log_Debug, "could not load addon spins2x");
+		}
 	}
 	else if (resolutionFactor == 2 && loadAddon ("hires4x"))
 	{
 		hires4xPackPresent = TRUE;
 		log_add (log_Debug, "loading addon hires4x");
+		if(loadAddon("spins4x")){
+			log_add (log_Debug, "loading addon spins4x");
+		} else {
+			log_add (log_Debug, "could not load addon spins4x");
+		}
 	}
 	// END JMS_GFX
 
