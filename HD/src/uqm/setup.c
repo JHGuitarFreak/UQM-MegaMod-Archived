@@ -156,6 +156,9 @@ LoadKernel (int argc, char *argv[])
 	if (loadAddon("3dovoice")){
 		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
 	}
+	if (resolutionFactor < 1){
+		loadAddon("vux-fix-1x");
+	}
 
 	/* Now load the rest of the addons, in order. */
 	prepareAddons (optAddons);
