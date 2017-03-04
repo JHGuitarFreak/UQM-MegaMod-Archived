@@ -384,6 +384,7 @@ mountAddonDir (uio_Repository *repository, uio_MountHandle *contentMountHandle,
 	static uio_AutoMount *autoMount[] = { NULL };
 	uio_MountHandle *mountHandle;
 	uio_DirList *availableAddons;
+	char mountname[128]; // MB to JMS: no need to manually terminate string, snprintf does it for you. Moving mountname outside of loop.
 
 	if (addonDirName != NULL)
 	{
@@ -440,9 +441,10 @@ mountAddonDir (uio_Repository *repository, uio_MountHandle *contentMountHandle,
 				count == 1 ? "" : "s");
 
 		count = 0;
+
 		for (i = 0; i < availableAddons->numNames; ++i)
 		{
-			static char mountname[128];
+			
 			uio_DirHandle *addonDir;
 			const char *addon = availableAddons->names[i];
 			

@@ -129,7 +129,7 @@ TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int r
 }
 
 int
-TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int resolutionFactor, BOOLEAN forceAspectRatio) // JMS_GFX: added resolutionFactor
+TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *resolutionFactor, BOOLEAN forceAspectRatio) // JMS_GFX: added resolutionFactor
 {
 	int result, i;
 	char caption[200];
@@ -155,15 +155,22 @@ TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int res
 		
 		// JMS_GFX: This makes it sure on certain HD 16:9 monitors
 		// that a bogus stretched 1600x1200 mode isn't used.
-		if (curr_w == 1920 && curr_h == 1080)
-		{
+		if ((curr_w == 1920 && curr_h == 1080) || (curr_h == (curr_w / 16) * 10)) { // MB: fix for 16:10 resolutions
 			fs_height = curr_h;
 			fs_width  = curr_w;
-		}
-		else
-		{
+		} else if (curr_h > (curr_w / 4) * 3) { // MB: for monitors using 5:4 modes
+			fs_width = curr_w;
+			fs_height = (curr_w / 4) * 3;
+		} else {
 			fs_height = curr_h;
-			fs_width  = 4 * fs_height / 3;
+			fs_width  = (4 * fs_height) / 3;
+		}
+
+		// MB: Sanitising resolution factor:
+		if (fs_height <= 600 && resolutionFactor == 2) { // ie. probably netbook or otherwise
+			*resolutionFactor = 1; // drop down to 640x480. netbook won't be able to handle anything higher and quality difference is minimal
+ 		} else if (fs_height <= 300 && resolutionFactor > 0) { // People who like pixels I guess
+			*resolutionFactor = 0; // drop down to 320x240
 		}
 		
 		log_add (log_Debug, "fs_height %u, fs_width %u, current_w %u", fs_height, fs_width, SDL_screen_info->current_w);
@@ -172,17 +179,17 @@ TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int res
 	if (driver == TFB_GFXDRIVER_SDL_OPENGL)
 	{
 #ifdef HAVE_OPENGL
-		result = TFB_GL_InitGraphics (driver, flags, width, height, resolutionFactor, forceAspectRatio); // JMS_GFX: added resolutionFactor
+		result = TFB_GL_InitGraphics (driver, flags, width, height, *resolutionFactor, forceAspectRatio); // JMS_GFX: added resolutionFactor
 #else
 		driver = TFB_GFXDRIVER_SDL_PURE;
 		log_add (log_Warning, "OpenGL support not compiled in,"
 				" so using pure SDL driver");
-		result = TFB_Pure_InitGraphics (driver, flags, width, height, resolutionFactor); // JMS_GFX: added resolutionFactor
+		result = TFB_Pure_InitGraphics (driver, flags, width, height, *resolutionFactor); // JMS_GFX: added resolutionFactor
 #endif
 	}
 	else
 	{
-		result = TFB_Pure_InitGraphics (driver, flags, width, height, resolutionFactor);  // JMS_GFX: added resolutionFactor
+		result = TFB_Pure_InitGraphics (driver, flags, width, height, *resolutionFactor);  // JMS_GFX: added resolutionFactor
 	}
 
 	sprintf (caption, "The Ur-Quan Masters v%d.%d.%d%s", 

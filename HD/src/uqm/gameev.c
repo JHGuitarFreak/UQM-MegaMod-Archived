@@ -149,7 +149,7 @@ EventHandler (BYTE selector)
 				if (SpathiPtr->actual_strength)
 				{
 					ActivateStarShip (SPATHI_SHIP, SET_NOT_ALLIED);
-					//ActivateStarShip (SPATHI_SHIP, REMOVE_BUILT);
+					ActivateStarShip (SPATHI_SHIP, REMOVE_BUILT);
 					SET_GAME_STATE (SPATHI_SHIELDED_SELVES, 1);
 					SpathiPtr->actual_strength = 0;
 				}

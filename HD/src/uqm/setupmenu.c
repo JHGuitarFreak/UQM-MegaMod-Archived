@@ -1162,7 +1162,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->mineralSubmenu = optMineralSubmenu ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->nebulae = optNebulae ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->rotatingIpPlanets = optRotatingIpPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->texturedIpPlanets = optTexturedIpPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->texturedIpPlanets = (optTexturedIpPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED) || opts->rotatingIpPlanets;
 	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->godMode = optGodMode ? OPTVAL_ENABLED : OPTVAL_DISABLED; //Serosis
 	opts->timeDilation = optTimeDilation ? OPTVAL_ENABLED : OPTVAL_DISABLED;

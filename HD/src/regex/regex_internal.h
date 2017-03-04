@@ -80,7 +80,11 @@
 # define BE(expr, val) __builtin_expect (expr, val)
 #else
 # define BE(expr, val) (expr)
-//# define inline
+#ifdef _MSC_VER
+	#define inline __inline
+#else
+	#define inline
+#endif
 #endif
 
 /* Number of bits in a byte.  */
