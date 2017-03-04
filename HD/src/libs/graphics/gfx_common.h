@@ -67,7 +67,7 @@ extern int GfxFlags;
 
 // The following functions are driver-defined
 void TFB_PreInit (void);
-int TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int resolutionFactor, BOOLEAN forceAspectRatio); // JMS_GFX: Added resolutionFactor
+int TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *resolutionFactor, BOOLEAN forceAspectRatio); // JMS_GFX: Added resolutionFactor - MB Updated
 int TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int resolutionFactor, BOOLEAN forceAspectRatio); // JMS_GFX: Added resolutionFactor
 void TFB_UninitGraphics (void);
 void TFB_ProcessEvents (void);

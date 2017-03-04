@@ -109,6 +109,7 @@ enum
 	arilou_told_us,
 	bye_zombie,
 	GOODBYE_ZOMBIE,
+	OUT_TAKES,
 };
 
 #endif /* _STRINGS_H */

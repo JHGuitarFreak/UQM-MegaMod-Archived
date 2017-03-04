@@ -258,7 +258,7 @@ main (int argc, char *argv[])
 
 		INIT_CONFIG_OPTION(  opengl,            true ),
 		INIT_CONFIG_OPTION2( resolution,        1280, 960 ),
-		INIT_CONFIG_OPTION(  fullscreen,        true ),
+		INIT_CONFIG_OPTION(  fullscreen,        false ),
 		INIT_CONFIG_OPTION(  scanlines,         false ),
 		INIT_CONFIG_OPTION(  scaler,            TFB_GFXFLAGS_SCALE_BILINEAR),
 		INIT_CONFIG_OPTION(  showFps,           false ),
@@ -268,18 +268,18 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  soundQuality,      audio_QUALITY_MEDIUM ),
 		INIT_CONFIG_OPTION(  use3doMusic,       true ),
 		INIT_CONFIG_OPTION(  useRemixMusic,     false ),
-		INIT_CONFIG_OPTION(  whichCoarseScan,   OPT_PC ),
-		INIT_CONFIG_OPTION(  whichMenu,         OPT_PC ),
+		INIT_CONFIG_OPTION(  whichCoarseScan,   OPT_3DO ),
+		INIT_CONFIG_OPTION(  whichMenu,         OPT_3DO ),
 		INIT_CONFIG_OPTION(  whichFonts,        OPT_PC ),
 		INIT_CONFIG_OPTION(  whichIntro,        OPT_PC ),
-		INIT_CONFIG_OPTION(  whichShield,       OPT_PC ),
+		INIT_CONFIG_OPTION(  whichShield,       OPT_3DO ),
 		INIT_CONFIG_OPTION(  smoothScroll,      OPT_PC ),
 		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_BILINEAR ), // JMS: Replaced trilinear with bilinear because of performance problems.
 		INIT_CONFIG_OPTION(  subtitles,         true ),
 		INIT_CONFIG_OPTION(  stereoSFX,         false ),
 		INIT_CONFIG_OPTION(  musicVolumeScale,  1.0f ),
 		INIT_CONFIG_OPTION(  sfxVolumeScale,    1.0f ),
-		INIT_CONFIG_OPTION(  speechVolumeScale, 0.3f ),
+		INIT_CONFIG_OPTION(  speechVolumeScale, 0.9f ),
 		INIT_CONFIG_OPTION(  safeMode,          false ),
 		INIT_CONFIG_OPTION(  resolutionFactor,  2 ),
 		INIT_CONFIG_OPTION(  forceAspectRatio,  false ),
@@ -474,7 +474,7 @@ main (int argc, char *argv[])
 		gfxFlags |= TFB_GFXFLAGS_SCANLINES;
 	if (options.showFps.value)
 		gfxFlags |= TFB_GFXFLAGS_SHOWFPS;
-	TFB_InitGraphics (gfxDriver, gfxFlags, options.resolution.width, options.resolution.height, resolutionFactor, forceAspectRatio); // JMS_GFX: added resolutionFactor
+	TFB_InitGraphics (gfxDriver, gfxFlags, options.resolution.width, options.resolution.height, &resolutionFactor, forceAspectRatio); // JMS_GFX: added resolutionFactor
 	if (options.gamma.set)
 		TFB_SetGamma (options.gamma.value);
 	InitColorMaps ();

@@ -491,18 +491,20 @@ AngryHomeArilou (RESPONSE_REF R)
 		DISABLE_PHRASE (i_just_like_to_leave);
 	}
 
-	if (PHRASE_ENABLED (invaders_from_mars))
+	if (PHRASE_ENABLED (invaders_from_mars)){
 		Response (invaders_from_mars, AngryHomeArilou);
-	else
-	{
+	} else {
 		Response (bug_eyed_fruitcakes, ExitConversation);
 	}
-	if (PHRASE_ENABLED (why_should_i_trust))
+	if (PHRASE_ENABLED (why_should_i_trust)) {
 		Response (why_should_i_trust, AngryHomeArilou);
-	else if (PHRASE_ENABLED (what_about_interference))
+	} else if (PHRASE_ENABLED (what_about_interference)) {
 		Response (what_about_interference, AngryHomeArilou);
+	}
 	Response (ok_lets_be_friends, ArilouHome);
-	Response (i_just_like_to_leave, AngryHomeArilou);
+	if (PHRASE_ENABLED (i_just_like_to_leave)){
+		Response (i_just_like_to_leave, AngryHomeArilou);
+	}
 }
 
 static void

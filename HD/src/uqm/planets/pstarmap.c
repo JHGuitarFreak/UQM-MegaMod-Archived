@@ -1509,9 +1509,10 @@ DoStarSearch (MENU_STATE *pMS)
 static BOOLEAN
 DoMoveCursor (MENU_STATE *pMS)
 {
-#define MIN_ACCEL_DELAY (ONE_SECOND / 60)
-#define MAX_ACCEL_DELAY (ONE_SECOND / 8)
-#define STEP_ACCEL_DELAY (ONE_SECOND / 120)
+// MB: correcting previously-unusable acceleration values
+#define MIN_ACCEL_DELAY (ONE_SECOND / 50)
+#define MAX_ACCEL_DELAY (ONE_SECOND / 13)
+#define STEP_ACCEL_DELAY (ONE_SECOND / 180)
 	static UNICODE last_buf[CURSOR_INFO_BUFSIZE];
 	DWORD TimeIn = GetTimeCounter ();
 	static COUNT moveRepeats;
