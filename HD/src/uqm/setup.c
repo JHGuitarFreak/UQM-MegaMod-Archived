@@ -147,7 +147,7 @@ LoadKernel (int argc, char *argv[])
 
 	if(!loadAddon("hd-remix")){
 		loadAddon("subtitle-remix");
-		loadAddon("spins-remix");
+		loadAddon("gfx-remix");
 		if (loadAddon("3dovoice")){
 			loadAddon("utwig-remix");
 			loadAddon("shofixti-remix");
@@ -232,9 +232,10 @@ InitKernel (void)
 	hyperspacesuns = CaptureDrawable (LoadGraphic (HYPERSUNS_MASK_PMAP_ANIM));
 	if (hyperspacesuns == NULL)
 		return FALSE;
-	if(!loadAddon("hd-remix") && !loadAddon("gfx-remix")){
-		// JMS: Background nebulae in IP.
-		printf("Loading Nebulae\n");
+
+	if (!loadAddon("hd-remix") && !loadAddon("gfx-remix")){ 
+		// Ugly content checks for the new HD-Remix content
+		printf("Loading Nebulae\n"); // JMS: Background nebulae in IP.
 		nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
 		if (nebulaeFrame == NULL)
 			return FALSE;
@@ -250,7 +251,7 @@ InitKernel (void)
 			nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM_2X));
 			if (nebulaeFrame == NULL)
 				return FALSE;
-		} else if(resolutionFactor > 1) {
+		} else if (resolutionFactor > 1) {
 			printf("Loading 4x Nebulae\n");
 			nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM_4X));
 			if (nebulaeFrame == NULL)
