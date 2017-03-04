@@ -117,62 +117,42 @@ LoadKernel (int argc, char *argv[])
 		return FALSE;
 	
 	/* Load base content. */
-	if (loadIndices (contentDir) == 0)
+	if (loadIndices (contentDir) == 0){
 		return FALSE; // Must have at least one index in content dir
-
+	}
 	/* Load addons demanded by the current configuration. */
-	if (opt3doMusic)
-	{
+	if (opt3doMusic){
 		loadAddon ("3domusic");
 	}
 	/* Always try to use voice data */
 	if (!loadAddon ("3dovoice")){
 		speechVolumeScale = 0.0f; // XXX: need better no-speech indicator
 	}
-	if (loadAddon("3dovoice")){
-		if(loadAddon("utwig-remix")){
-			log_add (log_Debug, "loading addon utwig-remix");
-		} else {
-			log_add (log_Debug, "could not load addon utwig-remix");
-		}
-		if(loadAddon("shofixti-remix")){
-			log_add (log_Debug, "loading addon shofixti-remix");
-		} else {
-			log_add (log_Debug, "could not load addon shofixti-remix");
-		}
-	}
-	if (optRemixMusic)
-	{
+	if (optRemixMusic){
 		loadAddon ("remix");
 	}
-
-	if (optWhichIntro == OPT_3DO)
-	{
+	if (optWhichIntro == OPT_3DO){
 		loadAddon ("3dovideo");
 	}
 
 	// JMS_GFX
-	if (resolutionFactor == 1 && loadAddon ("hires2x"))
-	{
+	if (resolutionFactor == 1 && loadAddon ("hires2x")){
 		hires2xPackPresent = TRUE;
 		log_add (log_Debug, "loading addon hires2x");
-		if(loadAddon("spins2x")){
-			log_add (log_Debug, "loading addon spins2x");
-		} else {
-			log_add (log_Debug, "could not load addon spins2x");
-		}
-	}
-	else if (resolutionFactor == 2 && loadAddon ("hires4x"))
-	{
+	} else if (resolutionFactor == 2 && loadAddon ("hires4x")){
 		hires4xPackPresent = TRUE;
 		log_add (log_Debug, "loading addon hires4x");
-		if(loadAddon("spins4x")){
-			log_add (log_Debug, "loading addon spins4x");
-		} else {
-			log_add (log_Debug, "could not load addon spins4x");
-		}
 	}
 	// END JMS_GFX
+
+	if(!loadAddon("hd-remix")){
+		loadAddon("subtitle-remix");
+		loadAddon("spins-remix");
+		if (loadAddon("3dovoice")){
+			loadAddon("utwig-remix");
+			loadAddon("shofixti-remix");
+		}
+	}
 
 	/* Now load the rest of the addons, in order. */
 	prepareAddons (optAddons);
@@ -252,11 +232,33 @@ InitKernel (void)
 	hyperspacesuns = CaptureDrawable (LoadGraphic (HYPERSUNS_MASK_PMAP_ANIM));
 	if (hyperspacesuns == NULL)
 		return FALSE;
-	
-	// JMS: Background nebulae in IP.
-	nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
-	if (nebulaeFrame == NULL)
-		return FALSE;
+	if(!loadAddon("hd-remix") && !loadAddon("gfx-remix")){
+		// JMS: Background nebulae in IP.
+		printf("Loading Nebulae\n");
+		nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
+		if (nebulaeFrame == NULL)
+			return FALSE;
+	} else {
+		if (resolutionFactor < 1)
+		{
+			printf("Loading 1x Nebulae\n");
+			nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
+			if (nebulaeFrame == NULL)
+				return FALSE;
+		} else if (resolutionFactor == 1) {
+			printf("Loading 2x Nebulae\n");
+			nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM_2X));
+			if (nebulaeFrame == NULL)
+				return FALSE;
+		} else if(resolutionFactor > 1) {
+			printf("Loading 4x Nebulae\n");
+			nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM_4X));
+			if (nebulaeFrame == NULL)
+				return FALSE;
+		} else {
+			return FALSE;
+		}
+	}
 		
 	// JMS: Constellation lines for the constellation starmap.
 	ConstellationsFrame = CaptureDrawable (LoadGraphic (CONSTELLATIONS_MASK_PMAP_ANIM));

@@ -97,6 +97,8 @@
 #define MODULES_PMAP_ANIM "graphics.modulesmenu"
 #define MOONBASE_MASK_PMAP_ANIM "graphics.moonbase"
 #define NEBULAE_PMAP_ANIM "graphics.nebulae"
+#define NEBULAE_PMAP_ANIM_2X "graphics.nebulae2x"
+#define NEBULAE_PMAP_ANIM_4X "graphics.nebulae4x"
 #define NEPTUNE_MASK_ANIM "graphics.neptunemask"
 #define NPCBUBBLE_MASK_PMAP_ANIM "graphics.npcbubble"
 #define ORBENTER_PMAP_ANIM "graphics.orbitenter"
