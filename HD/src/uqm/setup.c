@@ -113,9 +113,9 @@ LoadKernel (int argc, char *argv[])
 	SetContextOrigin (MAKE_POINT (0, 0));
 
 	hResIndex = (RESOURCE_INDEX) InitResourceSystem ();
-	if (hResIndex == 0)
+	if (hResIndex == 0){
 		return FALSE;
-	
+	}
 	/* Load base content. */
 	if (loadIndices (contentDir) == 0){
 		return FALSE; // Must have at least one index in content dir
