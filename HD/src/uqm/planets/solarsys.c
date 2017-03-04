@@ -2369,6 +2369,7 @@ CreateStarBackGround (void)
 	CONTEXT oldContext;
 	RECT clipRect;
 	FRAME frame;
+	BYTE num_nebulae;
 	
 	oldContext = SetContext (SpaceContext);
 	GetContextClipRect (&clipRect);
@@ -2386,10 +2387,14 @@ CreateStarBackGround (void)
 	old_seed = seedRandomForSolarSys ();
 
 	// JMS, BW: The beautiful nebula background.
-#define NUM_NEBULAE 16 // MB: correction to number of nebulae
-	if (optNebulae && (CurStarDescPtr->star_pt.y % (NUM_NEBULAE + 4)) < NUM_NEBULAE){ // MB: Make some solar systems not have nebulae
+	if(!loadAddon("hd-remix") && !loadAddon("gfx-remix")){
+		num_nebulae = 17; 
+	} else {
+		num_nebulae = 22; // MB: correction to number of nebulae
+	}
+	if (optNebulae && (CurStarDescPtr->star_pt.y % (num_nebulae + 4)) < num_nebulae){ // MB: Make some solar systems not have nebulae
 		nebula.origin.x = nebula.origin.y = 0;
-		nebula.frame = SetAbsFrameIndex (nebulaeFrame, CurStarDescPtr->star_pt.x % NUM_NEBULAE);
+		nebula.frame = SetAbsFrameIndex (nebulaeFrame, CurStarDescPtr->star_pt.x % num_nebulae);
 		DrawStamp(&nebula);
 	}
 	
@@ -2410,7 +2415,7 @@ CreateStarBackGround (void)
 	}
 	
 	// JMS
-	if (optNebulae && (CurStarDescPtr->star_pt.y % (NUM_NEBULAE + 4)) < NUM_NEBULAE) { // MB: Make some system not have nebulae
+	if (optNebulae && (CurStarDescPtr->star_pt.y % (num_nebulae + 4)) < num_nebulae) { // MB: Make some system not have nebulae
 		num_brt_drawn = RES_CASE(30, 98, 230); // JMS_GFX - Altered MB
 	} else {
 		num_brt_drawn = RES_CASE(30, 121, 312); // JMS_GFX - Altered MB
