@@ -63,6 +63,7 @@ extern BOOLEAN optHeadStart;
 extern BOOLEAN optUnlockUpgrades;
 extern BOOLEAN optLanderMods;
 extern BOOLEAN optFastForward;
+extern BOOLEAN optSkipIntro;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;
