@@ -76,6 +76,7 @@ BOOLEAN optHeadStart;
 BOOLEAN optUnlockUpgrades;
 BOOLEAN optLanderMods;
 BOOLEAN optFastForward;
+BOOLEAN optSkipIntro;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;
