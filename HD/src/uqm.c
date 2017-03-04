@@ -147,6 +147,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, unlockUpgrades);
 	DECL_CONFIG_OPTION(bool, landerMods);
 	DECL_CONFIG_OPTION(bool, fastForward);
+	DECL_CONFIG_OPTION(bool, skipIntro);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -298,6 +299,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  unlockUpgrades,	false ),
 		INIT_CONFIG_OPTION(  landerMods,		false ),
 		INIT_CONFIG_OPTION(  fastForward,		false ),
+		INIT_CONFIG_OPTION(  skipIntro,			false ),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -440,6 +442,7 @@ main (int argc, char *argv[])
 	optUnlockUpgrades = options.unlockUpgrades.value;
 	optLanderMods = options.landerMods.value;
 	optFastForward = options.fastForward.value;
+	optSkipIntro = options.skipIntro.value;
 	
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -732,6 +735,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->unlockUpgrades, "config.unlockUpgrades");
 	getBoolConfigValue (&options->landerMods, "config.landerMods");
 	getBoolConfigValue (&options->fastForward, "config.fastForward");
+	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -781,6 +785,7 @@ enum
 	UPGRADES_OPT,
 	LANDERCHT_OPT,
 	FASTFORWARD_OPT,
+	SKIPINTRO_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -839,6 +844,7 @@ static struct option longOptions[] =
 	{"unlockupgrades", 0, NULL, UPGRADES_OPT},
 	{"landermods", 0, NULL, LANDERCHT_OPT},
 	{"fastforward", 0, NULL, FASTFORWARD_OPT},
+	{"skipintro", 0, NULL, SKIPINTRO_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1134,6 +1140,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case FASTFORWARD_OPT:
 				setBoolOption (&options->fastForward, true);
 				break;
+			case SKIPINTRO_OPT:
+				setBoolOption (&options->skipIntro, true);
+				break;
 			case ADDON_OPT:
 				options->numAddons++;
 				options->addons = HRealloc ((void *) options->addons,
@@ -1399,6 +1408,8 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->landerMods));
 	log_add (log_User, "  --fastforward : Speeds up time by a factor of 5    (default %s)",
 			boolOptString (&defaults->fastForward));
+	log_add (log_User, "  --skipintro : Skips the intro    (default %s)",
+			boolOptString (&defaults->skipIntro));
 	log_setOutput (old);
 }
 

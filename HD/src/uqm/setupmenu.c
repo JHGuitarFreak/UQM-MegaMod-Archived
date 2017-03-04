@@ -1173,6 +1173,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->unlockUpgrades = optUnlockUpgrades ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->landerMods = optLanderMods ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->fastForward = optFastForward ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->skipIntro = optSkipIntro ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	
 	/* Work out resolution.  On the way, try to guess a good default
 	 * for config.alwaysgl, then overwrite it if it was set previously. */
@@ -1463,10 +1464,14 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Lander modifications
 	res_PutBoolean ("config.landerMods", opts->landerMods == OPTVAL_ENABLED);
 	optLanderMods = opts->landerMods == OPTVAL_ENABLED;
-
+	
 	// Serosis: Speed up time by a factor of 5
 	res_PutBoolean ("config.fastForward", opts->fastForward == OPTVAL_ENABLED);
 	optFastForward = opts->fastForward == OPTVAL_ENABLED;
+
+	// Serosis: Skip the intro
+	res_PutBoolean ("config.skipIntro", opts->skipIntro == OPTVAL_ENABLED);
+	optSkipIntro = opts->skipIntro == OPTVAL_ENABLED;
 	
 	if (opts->scanlines) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
