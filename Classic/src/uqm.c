@@ -138,6 +138,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, landerMods);
 	DECL_CONFIG_OPTION(bool, fastForward);
 	DECL_CONFIG_OPTION(bool, skipIntro);
+	DECL_CONFIG_OPTION(bool, FMV);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -282,6 +283,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  landerMods,		false ),
 		INIT_CONFIG_OPTION(  fastForward,		false ),
 		INIT_CONFIG_OPTION(  skipIntro,			false ),
+		INIT_CONFIG_OPTION(  FMV,				false ),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -415,6 +417,7 @@ main (int argc, char *argv[])
 	optLanderMods = options.landerMods.value;
 	optFastForward = options.fastForward.value;
 	optSkipIntro = options.skipIntro.value;
+	optFMV = options.FMV.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -683,6 +686,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->landerMods, "config.landerMods");
 	getBoolConfigValue (&options->fastForward, "config.fastForward");
 	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
+	getBoolConfigValue (&options->FMV, "config.FMV");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -733,6 +737,7 @@ enum
 	LANDERCHT_OPT,
 	FASTFORWARD_OPT,
 	SKIPINTRO_OPT,
+	FMV_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -791,6 +796,7 @@ static struct option longOptions[] =
 	{"landermods", 0, NULL, LANDERCHT_OPT},
 	{"fastforward", 0, NULL, FASTFORWARD_OPT},
 	{"skipintro", 0, NULL, SKIPINTRO_OPT},
+	{"fmv", 0, NULL, FMV_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1115,6 +1121,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case SKIPINTRO_OPT:
 				setBoolOption (&options->skipIntro, true);
 				break;
+			case FMV_OPT:
+				setBoolOption (&options->FMV, true);
+				break;
 #ifdef NETPLAY
 			case NETHOST1_OPT:
 				netplayOptions.peer[0].isServer = false;
@@ -1335,6 +1344,8 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->fastForward));
 	log_add (log_User, "  --skipintro : Skips the intro    (default %s)",
 			boolOptString (&defaults->skipIntro));
+	log_add (log_User, "  --fmv : Adds Logo and Commercial 3DO videos    (default %s)",
+			boolOptString (&defaults->FMV));
 	log_setOutput (old);
 }
 
