@@ -14,7 +14,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#define _DEBUG_H
 
 #include "clock.h"
 #include "planets/planets.h"
@@ -23,15 +22,28 @@
 
 #include <stdio.h>
 
-#if !defined(_DEBUG_H) && (defined(DEBUG) || defined(USE_DEBUG_KEY))
-// If set to true, interactive routines that are called (indirectly) in debug
-// functions are a no-op.
-extern BOOLEAN disableInteractivity;
-#endif
 // If a function is assigned to this, it will be called from the
 // Starcon2Main thread, in the main game loop.
 extern void (* volatile debugHook) (void);
+
+// Move the Flagship to the destination of the autopilot.
+// Should only be called from HS/QS.
+// It can be called from debugHook directly after entering HS/QS though.
+void doInstantMove (void);
+
+// Find a player ship. Setting playerNr to non-0 is only meaningful in battle.
+STARSHIP* findPlayerShip (SIZE playerNr);
+
+// Resets the energy of the first player (the bottom one) to its maximum.
+void resetEnergyBattle(void);
+
 #if !defined(_DEBUG_H) && (defined(DEBUG) || defined(USE_DEBUG_KEY))
+#define _DEBUG_H
+
+// If set to true, interactive routines that are called (indirectly) in debug
+// functions are a no-op.
+extern BOOLEAN disableInteractivity;
+
 // If a function is assigned to this, it will be called from the
 // Starcon2Main thread, in doInput().
 extern void (* volatile doInputDebugHook) (void);
@@ -50,7 +62,7 @@ void dumpEvents (FILE *out);
 void dumpEvent (FILE *out, const EVENT *eventPtr);
 // Get the name of one event.
 const char *eventName (BYTE func_index);
-#endif
+
 // Give the flagship a decent equipment for debugging.
 void equipShip (void);
 // Give the player all devices.
@@ -65,12 +77,6 @@ void showSpheres (void);
 // Make the ships of all races available for building at the shipyard.
 void activateAllShips (void);
 
-// Move the Flagship to the destination of the autopilot.
-// Should only be called from HS/QS.
-// It can be called from debugHook directly after entering HS/QS though.
-void doInstantMove (void);
-
-#if !defined(_DEBUG_H) && (defined(DEBUG) || defined(USE_DEBUG_KEY))
 // Call a function for all stars.
 void forAllStars (void (*callback) (STAR_DESC *, void *), void *arg);
 // Call a function for all planets in a star system.
@@ -165,17 +171,9 @@ const char *densityString (BYTE density);
 // Get a string describing the quality of a deposit.
 const char *depositQualityString (BYTE quality);
 
-#endif
-// Find a player ship. Setting playerNr to non-0 is only meaningful in battle.
-STARSHIP* findPlayerShip (SIZE playerNr);
-
 // Resets the crew of the first player (the bottom one) to its maximum.
 void resetCrewBattle(void);
 
-// Resets the energy of the first player (the bottom one) to its maximum.
-void resetEnergyBattle(void);
-
-#if !defined(_DEBUG_H) && (defined(DEBUG) || defined(USE_DEBUG_KEY))
 // Move instantly across hyperspace/quasispace.
 extern BOOLEAN instantMove;
 
