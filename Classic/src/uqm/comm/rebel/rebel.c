@@ -46,19 +46,17 @@ static LOCDATA yehat_desc =
 		{ /* right hand-wing tapping keyboard; front guy */
 			4, /* StartIndex */
 			3, /* NumFrames */
-			YOYO_ANIM
-					| WAIT_TALKING, /* AnimFlags */
+			YOYO_ANIM | WAIT_TALKING, /* AnimFlags */
 			ONE_SECOND / 10, ONE_SECOND / 10, /* FrameRate */
-			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			ONE_SECOND / 4, ONE_SECOND / 2,/* RestartRate */
 			(1 << 6) | (1 << 7),
 		},
 		{ /* left hand-wing tapping keyboard; front guy */
 			7, /* StartIndex */
 			3, /* NumFrames */
-			YOYO_ANIM
-					| WAIT_TALKING, /* AnimFlags */
+			YOYO_ANIM | WAIT_TALKING, /* AnimFlags */
 			ONE_SECOND / 10, ONE_SECOND / 10, /* FrameRate */
-			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			ONE_SECOND / 4, ONE_SECOND / 2,/* RestartRate */
 			(1 << 6) | (1 << 7),
 		},
 		{
@@ -82,7 +80,7 @@ static LOCDATA yehat_desc =
 			5, /* NumFrames */
 			YOYO_ANIM, /* AnimFlags */
 			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
-			ONE_SECOND * 10, ONE_SECOND * 3,/* RestartRate */
+			ONE_SECOND * 6, ONE_SECOND * 3,/* RestartRate */
 			(1 << 2) | (1 << 14),
 		},
 		{
@@ -90,25 +88,23 @@ static LOCDATA yehat_desc =
 			5, /* NumFrames */
 			YOYO_ANIM, /* AnimFlags */
 			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
-			ONE_SECOND * 10, ONE_SECOND * 3,/* RestartRate */
+			ONE_SECOND * 6, ONE_SECOND * 3,/* RestartRate */
 			(1 << 3),
 		},
 		{ /* right arm-wing rising; front guy */
 			26, /* StartIndex */
 			2, /* NumFrames */
-			YOYO_ANIM
-					| WAIT_TALKING, /* AnimFlags */
+			YOYO_ANIM | WAIT_TALKING, /* AnimFlags */
 			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
-			ONE_SECOND * 10, ONE_SECOND * 3,/* RestartRate */
+			ONE_SECOND * 6, ONE_SECOND * 3,/* RestartRate */
 			(1 << 0) | (1 << 1),
 		},
 		{ /* left arm-wing rising; front guy */
 			28, /* StartIndex */
 			2, /* NumFrames */
-			YOYO_ANIM
-					| WAIT_TALKING, /* AnimFlags */
+			YOYO_ANIM | WAIT_TALKING, /* AnimFlags */
 			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
-			ONE_SECOND * 10, ONE_SECOND * 3,/* RestartRate */
+			ONE_SECOND * 6, ONE_SECOND * 3,/* RestartRate */
 			(1 << 0) | (1 << 1),
 		},
 		{
@@ -162,8 +158,7 @@ static LOCDATA yehat_desc =
 		{
 			48, /* StartIndex */
 			4, /* NumFrames */
-			YOYO_ANIM
-					| WAIT_TALKING, /* AnimFlags */
+			YOYO_ANIM | WAIT_TALKING, /* AnimFlags */
 			ONE_SECOND / 30, 0, /* FrameRate */
 			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
 			(1 << 2) | (1 << 4),

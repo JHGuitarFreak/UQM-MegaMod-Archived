@@ -313,42 +313,44 @@ vux_preprocess (ELEMENT *ElementPtr)
 				&& TrackShip (ElementPtr, &facing) >= 0)
 		{
 			ELEMENT *OtherShipPtr;
+			SDWORD SA_MATRA_EXTRA_DIST = 0;
 
 			LockElement (ElementPtr->hTarget, &OtherShipPtr);
 
-			do
-			{
+			// JMS: Not REALLY necessary as VUX can ordinarily never be played against Sa-Matra. 
+            // But handy in debugging as a single VUX limpet incapacitates Sa-Matra completely.
+            if (LOBYTE (GLOBAL (CurrentActivity)) == IN_LAST_BATTLE) {
+				SA_MATRA_EXTRA_DIST += 1000;
+			}
+			do {
 				// Originally, the warp distance was:
 				// DISPLAY_TO_WORLD (SPACE_HEIGHT << 1)
 				// where SPACE_HEIGHT = SCREEN_HEIGHT - (SAFE_Y * 2)
 				// But in reality this should be relative to the laser-range
 #define MAXX_ENTRY_DIST DISPLAY_TO_WORLD ((LASER_BASE + VUX_OFFSET + WARP_OFFSET) << 1)
 #define MAXY_ENTRY_DIST DISPLAY_TO_WORLD ((LASER_BASE + VUX_OFFSET + WARP_OFFSET) << 1)
-				SIZE dx, dy;
+                // JMS_GFX: Circumventing overflows by using temp variables instead of
+                // subtracting straight from the POINT sized ShipImagePtr->current.location.
+				SDWORD dx, dy;
 
-				ElementPtr->current.location.x =
-						(OtherShipPtr->current.location.x -
+				SDWORD temp_x =
+						((SDWORD)OtherShipPtr->current.location.x -
 						(MAXX_ENTRY_DIST >> 1)) +
 						((COUNT)TFB_Random () % MAXX_ENTRY_DIST);
-				ElementPtr->current.location.y =
-						(OtherShipPtr->current.location.y -
+				SDWORD temp_y =
+						((SDWORD)OtherShipPtr->current.location.y -
 						(MAXY_ENTRY_DIST >> 1)) +
 						((COUNT)TFB_Random () % MAXY_ENTRY_DIST);
-				dx = OtherShipPtr->current.location.x -
-						ElementPtr->current.location.x;
-				dy = OtherShipPtr->current.location.y -
-						ElementPtr->current.location.y;
-				facing = NORMALIZE_FACING (
-						ANGLE_TO_FACING (ARCTAN (dx, dy))
-						);
-				ElementPtr->current.image.frame =
-						SetAbsFrameIndex (ElementPtr->current.image.frame,
-						facing);
+				temp_x += temp_x > 0 ? SA_MATRA_EXTRA_DIST : -SA_MATRA_EXTRA_DIST;
+				temp_y += temp_y > 0 ? SA_MATRA_EXTRA_DIST : -SA_MATRA_EXTRA_DIST;
+                
+				dx = OtherShipPtr->current.location.x - temp_x;
+				dy = OtherShipPtr->current.location.y - temp_y;
+				facing = NORMALIZE_FACING ( ANGLE_TO_FACING (ARCTAN (dx, dy)) );
+				ElementPtr->current.image.frame = SetAbsFrameIndex (ElementPtr->current.image.frame, facing);
 
-				ElementPtr->current.location.x =
-						WRAP_X (DISPLAY_ALIGN (ElementPtr->current.location.x));
-				ElementPtr->current.location.y =
-						WRAP_Y (DISPLAY_ALIGN (ElementPtr->current.location.y));
+				ElementPtr->current.location.x = WRAP_X (DISPLAY_ALIGN (temp_x));
+				ElementPtr->current.location.y = WRAP_Y (DISPLAY_ALIGN (temp_y));
 			} while (CalculateGravity (ElementPtr)
 					|| TimeSpaceMatterConflict (ElementPtr));
 

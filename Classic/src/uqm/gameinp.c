@@ -33,8 +33,8 @@
 #include "libs/threadlib.h"
 #include "setup.h"
 
-#define ACCELERATION_INCREMENT (ONE_SECOND / 12)
-#define MENU_REPEAT_DELAY (ONE_SECOND / 2)
+#define ACCELERATION_INCREMENT (ONE_SECOND / 28)
+#define MENU_REPEAT_DELAY (ONE_SECOND / 3)
 
 
 typedef struct
