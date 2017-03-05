@@ -189,7 +189,7 @@ while (--ac > 0)
 
 	GLOBAL (CurrentActivity) = 0;
 	// show logo then splash and init the kernel in the meantime
-	if(!optSkipIntro){
+	if(optFMV){
 		Logo ();
 	}
 	SplashScreen (BackgroundInitKernel);

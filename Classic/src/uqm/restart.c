@@ -384,7 +384,9 @@ StartGame (void)
 			{	// timed out
 				GLOBAL (CurrentActivity) = 0;
 				SplashScreen (0);
-				Drumall ();
+				if(optFMV){
+					Drumall ();
+				}
 				Credits (FALSE);
 			}
 
