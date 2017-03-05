@@ -19,9 +19,10 @@
 #include "../ship.h"
 #include "arilou.h"
 #include "resinst.h"
-
+#include "libs/log.h"
 #include "libs/mathlib.h"
-
+#include "uqm/globdata.h"
+#include <math.h>
 
 #define MAX_CREW 6
 #define MAX_ENERGY 20
@@ -272,14 +273,26 @@ arilou_preprocess (ELEMENT *ElementPtr)
 							IncFrameIndex (ElementPtr->next.image.frame);
 			}
 			else
-			{
-				ElementPtr->next.location.x =
-						WRAP_X (DISPLAY_ALIGN_X (TFB_Random ()));
-				ElementPtr->next.location.y =
-						WRAP_Y (DISPLAY_ALIGN_Y (TFB_Random ()));
+			{ // JMS: Reduce the odds of teleporting into Sa-Matra.
+				if (LOBYTE (GLOBAL (CurrentActivity)) == IN_LAST_BATTLE) {
+					SDWORD dist = 0;
+					SDWORD dx, dy;
+                    do {
+                        ElementPtr->next.location.x = WRAP_X (DISPLAY_ALIGN_X (TFB_Random ()));
+                        ElementPtr->next.location.y = WRAP_Y (DISPLAY_ALIGN_Y (TFB_Random ()));
+                        
+                        dx = ((SDWORD)ElementPtr->next.location.x - (LOG_SPACE_WIDTH >> 1));
+                        dy = ((SDWORD)ElementPtr->next.location.y - (LOG_SPACE_HEIGHT >> 1));
+                        
+                        dist = sqrt(dx*dx + dy*dy);                        
+                    } 
+					while (dist < (2800));
+                } else {
+                    ElementPtr->next.location.x = WRAP_X (DISPLAY_ALIGN_X (TFB_Random ()));
+					ElementPtr->next.location.y = WRAP_Y (DISPLAY_ALIGN_Y (TFB_Random ()));
+				}
 			}
 		}
-
 		ElementPtr->state_flags |= CHANGING;
 	}
 }
