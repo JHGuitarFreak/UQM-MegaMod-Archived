@@ -1212,7 +1212,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->landerMods = optLanderMods ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->fastForward = optFastForward ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->skipIntro = optSkipIntro ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	
+	opts->FMV = optFMV ? OPTVAL_ENABLED : OPTVAL_DISABLED;	
 }
 
 void
@@ -1307,6 +1307,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Skip the intro
 	res_PutBoolean ("config.skipIntro", opts->skipIntro == OPTVAL_ENABLED);
 	optSkipIntro = opts->skipIntro == OPTVAL_ENABLED;
+
+	// Serosis: Adds the Crystal Dynamics Logo and Commercial to the loaded 3DO videos
+	res_PutBoolean ("config.FMV", opts->FMV == OPTVAL_ENABLED);
+	optFMV = opts->FMV == OPTVAL_ENABLED;
 
 	switch (opts->scaler) {
 	case OPTVAL_BILINEAR_SCALE:
