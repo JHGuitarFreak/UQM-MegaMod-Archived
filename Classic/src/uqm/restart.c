@@ -394,7 +394,9 @@ StartGame (void)
 
 		if (LastActivity & CHECK_RESTART)
 		{	// starting a new game
-			Introduction ();
+			if(!optSkipIntro){
+				Introduction ();
+			}
 		}
 	
 	} while (GLOBAL (CurrentActivity) & CHECK_ABORT);

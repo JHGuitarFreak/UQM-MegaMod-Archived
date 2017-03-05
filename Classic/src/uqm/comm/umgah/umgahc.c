@@ -520,8 +520,11 @@ Intro (void)
 {
 	BYTE NumVisits;
 
-	if (GET_GAME_STATE (UMGAH_HOSTILE))
-	{
+	if (LOBYTE (GLOBAL (CurrentActivity)) == WON_LAST_BATTLE) {
+		NPCPhrase (OUT_TAKES);
+		SET_GAME_STATE (BATTLE_SEGUE, 0);
+		return;
+	} else if (GET_GAME_STATE (UMGAH_HOSTILE)) {
 		NumVisits = GET_GAME_STATE (UMGAH_VISITS);
 		switch (NumVisits++)
 		{

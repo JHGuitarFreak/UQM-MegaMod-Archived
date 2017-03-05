@@ -137,6 +137,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, unlockUpgrades);
 	DECL_CONFIG_OPTION(bool, landerMods);
 	DECL_CONFIG_OPTION(bool, fastForward);
+	DECL_CONFIG_OPTION(bool, skipIntro);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -245,10 +246,10 @@ main (int argc, char *argv[])
 		/* .addons = */             NULL,
 		/* .numAddons = */          0,
 
-		INIT_CONFIG_OPTION(  opengl,            false ),
+		INIT_CONFIG_OPTION(  opengl,            true ),
 		INIT_CONFIG_OPTION2( resolution,        640, 480 ),
 		INIT_CONFIG_OPTION(  fullscreen,        false ),
-		INIT_CONFIG_OPTION(  scanlines,         false ),
+		INIT_CONFIG_OPTION(  scanlines,         true ),
 		INIT_CONFIG_OPTION(  scaler,            0 ),
 		INIT_CONFIG_OPTION(  showFps,           false ),
 		INIT_CONFIG_OPTION(  keepAspectRatio,   false ),
@@ -261,7 +262,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  whichMenu,         OPT_PC ),
 		INIT_CONFIG_OPTION(  whichFonts,        OPT_PC ),
 		INIT_CONFIG_OPTION(  whichIntro,        OPT_PC ),
-		INIT_CONFIG_OPTION(  whichShield,       OPT_PC ),
+		INIT_CONFIG_OPTION(  whichShield,       OPT_3DO ),
 		INIT_CONFIG_OPTION(  smoothScroll,      OPT_PC ),
 		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_TRILINEAR ),
 		INIT_CONFIG_OPTION(  subtitles,         true ),
@@ -272,14 +273,15 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  safeMode,          false ),
 		INIT_CONFIG_OPTION(  cheatMode,			false ),
 		INIT_CONFIG_OPTION(  godMode,			false ), //Serosis
-		INIT_CONFIG_OPTION(  timeDilation,		false ), //Serosis
-		INIT_CONFIG_OPTION(  bubbleWarp,		false ), //Serosis
-		INIT_CONFIG_OPTION(  roseBud,			false ), //Serosis
-		INIT_CONFIG_OPTION(  unlockShips,		false ), //Serosis
-		INIT_CONFIG_OPTION(  headStart,			false ), //Serosis
+		INIT_CONFIG_OPTION(  timeDilation,		false ),
+		INIT_CONFIG_OPTION(  bubbleWarp,		false ),
+		INIT_CONFIG_OPTION(  roseBud,			false ), 
+		INIT_CONFIG_OPTION(  unlockShips,		false ), 
+		INIT_CONFIG_OPTION(  headStart,			false ), 
 		INIT_CONFIG_OPTION(  unlockUpgrades,	false ),
 		INIT_CONFIG_OPTION(  landerMods,		false ),
 		INIT_CONFIG_OPTION(  fastForward,		false ),
+		INIT_CONFIG_OPTION(  skipIntro,			false ),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -404,14 +406,15 @@ main (int argc, char *argv[])
 	optAddons = options.addons;
  	optCheatMode = options.cheatMode.value; // JMS
 	optGodMode = options.godMode.value; // Serosis
-	optTimeDilation = options.timeDilation.value; // Serosis
-	optBubbleWarp = options.bubbleWarp.value; // Serosis
-	optRoseBud = options.roseBud.value; // Serosis
-	optUnlockShips = options.unlockShips.value; // Serosis
-	optHeadStart = options.headStart.value; // Serosis
+	optTimeDilation = options.timeDilation.value;
+	optBubbleWarp = options.bubbleWarp.value;
+	optRoseBud = options.roseBud.value;
+	optUnlockShips = options.unlockShips.value;
+	optHeadStart = options.headStart.value;
 	optUnlockUpgrades = options.unlockUpgrades.value;
 	optLanderMods = options.landerMods.value;
 	optFastForward = options.fastForward.value;
+	optSkipIntro = options.skipIntro.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -669,16 +672,17 @@ getUserConfigOptions (struct options_struct *options)
 	getVolumeConfigValue (&options->musicVolumeScale, "config.musicvol");
 	getVolumeConfigValue (&options->sfxVolumeScale, "config.sfxvol");
 	getVolumeConfigValue (&options->speechVolumeScale, "config.speechvol");
-	getBoolConfigValue (&options->cheatMode, "config.cheatMode"); // Serosis
+	getBoolConfigValue (&options->cheatMode, "config.cheatMode");
 	getBoolConfigValue (&options->godMode, "config.godMode"); //Serosis
-	getBoolConfigValue (&options->timeDilation, "config.timeDilation"); //Serosis
-	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp"); //Serosis
-	getBoolConfigValue (&options->roseBud, "config.roseBud"); //Serosis
-	getBoolConfigValue (&options->unlockShips, "config.unlockShips"); //Serosis
-	getBoolConfigValue (&options->headStart, "config.headStart"); //Serosis
+	getBoolConfigValue (&options->timeDilation, "config.timeDilation");
+	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp"); 
+	getBoolConfigValue (&options->roseBud, "config.roseBud"); 
+	getBoolConfigValue (&options->unlockShips, "config.unlockShips"); 
+	getBoolConfigValue (&options->headStart, "config.headStart"); 
 	getBoolConfigValue (&options->unlockUpgrades, "config.unlockUpgrades");
 	getBoolConfigValue (&options->landerMods, "config.landerMods");
 	getBoolConfigValue (&options->fastForward, "config.fastForward");
+	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -728,6 +732,7 @@ enum
 	UPGRADES_OPT,
 	LANDERCHT_OPT,
 	FASTFORWARD_OPT,
+	SKIPINTRO_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -785,6 +790,7 @@ static struct option longOptions[] =
 	{"unlockupgrades", 0, NULL, UPGRADES_OPT},
 	{"landermods", 0, NULL, LANDERCHT_OPT},
 	{"fastforward", 0, NULL, FASTFORWARD_OPT},
+	{"skipintro", 0, NULL, SKIPINTRO_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1106,6 +1112,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case FASTFORWARD_OPT:
 				setBoolOption (&options->fastForward, true);
 				break;
+			case SKIPINTRO_OPT:
+				setBoolOption (&options->skipIntro, true);
+				break;
 #ifdef NETPLAY
 			case NETHOST1_OPT:
 				netplayOptions.peer[0].isServer = false;
@@ -1324,6 +1333,8 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->landerMods));
 	log_add (log_User, "  --fastforward : Speeds up time by a factor of 5    (default %s)",
 			boolOptString (&defaults->fastForward));
+	log_add (log_User, "  --skipintro : Skips the intro    (default %s)",
+			boolOptString (&defaults->skipIntro));
 	log_setOutput (old);
 }
 
