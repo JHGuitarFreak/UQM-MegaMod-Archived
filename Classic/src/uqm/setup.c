@@ -106,31 +106,31 @@ LoadKernel (int argc, char *argv[])
 	SetContextOrigin (MAKE_POINT (0, 0));
 
 	hResIndex = (RESOURCE_INDEX) InitResourceSystem ();
-	if (hResIndex == 0)
+	if (hResIndex == 0){
 		return FALSE;
-	
+	}
 	/* Load base content. */
-	if (loadIndices (contentDir) == 0)
+	if (loadIndices (contentDir) == 0){
 		return FALSE; // Must have at least one index in content dir
-
+	}
 	/* Load addons demanded by the current configuration. */
-	if (opt3doMusic)
-	{
+	if (opt3doMusic) {
 		loadAddon ("3domusic");
 	}
-
 	/* Always try to use voice data */
-	if (!loadAddon ("3dovoice"))
+	if (!loadAddon ("3dovoice")){
 		speechVolumeScale = 0.0f; // XXX: need better no-speech indicator
-
-	if (optRemixMusic)
-	{
+	}
+	if (optRemixMusic) {
 		loadAddon ("remix");
 	}
-
-	if (optWhichIntro == OPT_3DO)
-	{
+	if (optWhichIntro == OPT_3DO) {
 		loadAddon ("3dovideo");
+	}	
+	if (loadAddon("3dovoice")){
+		loadAddon("utwig-remix");
+		loadAddon("shofixti-remix");
+		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
 	}
 
 	/* Now load the rest of the addons, in order. */

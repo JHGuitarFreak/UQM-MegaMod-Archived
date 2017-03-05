@@ -645,7 +645,7 @@ SaveGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 	success = TRUE;
 	made_room = FALSE;
 RetrySave:
-	h = HMalloc (16 * 1024);
+	h = HMalloc (10 * 1024);
 	if (h == 0
 			|| (fh = copen (h, MEMORY_STREAM, STREAM_WRITE)) == 0)
 	{

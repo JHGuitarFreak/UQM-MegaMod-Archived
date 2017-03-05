@@ -647,7 +647,7 @@ FreeCredits (void)
 static void
 OutTakes (void)
 {
-#define NUM_OUTTAKES 15
+#define NUM_OUTTAKES 16
 	static CONVERSATION outtake_list[NUM_OUTTAKES] =
 	{
 		ZOQFOTPIK_CONVERSATION,
@@ -664,6 +664,7 @@ OutTakes (void)
 		URQUAN_CONVERSATION,
 		VUX_CONVERSATION,
 		BLACKURQ_CONVERSATION,
+		UMGAH_CONVERSATION,
 		ARILOU_CONVERSATION
 	};
 

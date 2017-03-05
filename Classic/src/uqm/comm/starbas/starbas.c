@@ -303,6 +303,7 @@ HierarchyInfo (RESPONSE_REF R)
 #define HIERARCHY_ANDROSYNTH (1 << 3)
 #define HIERARCHY_ILWRATH (1 << 4)
 #define HIERARCHY_VUX (1 << 5)
+#define HIERARCHY_URQUAN (1 << 6)
 	static BYTE HierarchyMask = 0;
 
 	if (PLAYER_SAID (R, what_about_hierarchy))
@@ -339,8 +340,12 @@ HierarchyInfo (RESPONSE_REF R)
 	{
 		NPCPhrase (ABOUT_VUX);
 		HierarchyMask |= HIERARCHY_VUX;
-	}
-
+	}else if (PLAYER_SAID (R, urquan)) {
+		NPCPhrase (ABOUT_URQUAN);
+		HierarchyMask |= HIERARCHY_URQUAN;
+ 	}
+	if (!(HierarchyMask & HIERARCHY_URQUAN))
+		Response (urquan, HierarchyInfo);
 	if (!(HierarchyMask & HIERARCHY_MYCON))
 		Response (mycon, HierarchyInfo);
 	if (!(HierarchyMask & HIERARCHY_SPATHI))

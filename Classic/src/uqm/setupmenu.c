@@ -1211,6 +1211,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->unlockUpgrades = optUnlockUpgrades ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->landerMods = optLanderMods ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->fastForward = optFastForward ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->skipIntro = optSkipIntro ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	
 }
 
@@ -1302,6 +1303,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Speed up time by a factor of 5
 	res_PutBoolean ("config.fastForward", opts->fastForward == OPTVAL_ENABLED);
 	optFastForward = opts->fastForward == OPTVAL_ENABLED;
+
+	// Serosis: Skip the intro
+	res_PutBoolean ("config.skipIntro", opts->skipIntro == OPTVAL_ENABLED);
+	optSkipIntro = opts->skipIntro == OPTVAL_ENABLED;
 
 	switch (opts->scaler) {
 	case OPTVAL_BILINEAR_SCALE:
