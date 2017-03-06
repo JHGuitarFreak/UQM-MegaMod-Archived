@@ -1715,7 +1715,7 @@ diff -ruNp ./src.orig/uqm/planets/scan.c ./src/uqm/planets/scan.c
  				}
 diff -ruNp ./src.orig/uqm/planets/solarsys.c ./src/uqm/planets/solarsys.c
 --- ./src.orig/uqm/planets/solarsys.c	2017-02-25 17:11:43 -0600
-+++ ./src/uqm/planets/solarsys.c	2017-03-05 18:53:03 -0600
++++ ./src/uqm/planets/solarsys.c	2017-03-05 21:17:04 -0600
 @@ -1953,6 +1953,7 @@ DrawInnerSystem (void)
  	if (ORBITING_PLANETS || ROTATING_PLANETS)
  		DrawInnerPlanets(pSolarSysState->pOrbitalDesc);
@@ -1766,7 +1766,7 @@ diff -ruNp ./src.orig/uqm/planets/solarsys.c ./src/uqm/planets/solarsys.c
 -	if (optNebulae)
 -	{
 -#define NUM_NEBULAE 16
-+	if(!loadAddon("hd-remix") && !loadAddon("gfx-remix")){ // Ugly content checks
++	if(!loadAddon("rmx-nebulae")){ // Ugly content checks
 +		num_nebulae = 17; 
 +	} else {
 +		num_nebulae = 22; // MB: correction to number of nebulae
@@ -1847,12 +1847,12 @@ diff -ruNp ./src.orig/uqm/races.h ./src/uqm/races.h
  		20,  /* ORZ_SHIP */ \
 diff -ruNp ./src.orig/uqm/restart.c ./src/uqm/restart.c
 --- ./src.orig/uqm/restart.c	2017-02-25 17:11:43 -0600
-+++ ./src/uqm/restart.c	2017-03-05 18:53:03 -0600
++++ ./src/uqm/restart.c	2017-03-05 21:29:51 -0600
 @@ -600,6 +600,9 @@ StartGame (void)
  			{	// timed out
  				GLOBAL (CurrentActivity) = 0;
  				SplashScreen (0);
-+				if(optFMV){
++				if(optWhichIntro == OPT_3DO && optFMV){
 +					Drumall ();
 +				}
  				Credits (FALSE);
@@ -1887,8 +1887,8 @@ diff -ruNp ./src.orig/uqm/save.c ./src/uqm/save.c
  	{
 diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 --- ./src.orig/uqm/setup.c	2017-02-25 17:11:43 -0600
-+++ ./src/uqm/setup.c	2017-03-05 18:53:03 -0600
-@@ -113,46 +113,53 @@ LoadKernel (int argc, char *argv[])
++++ ./src/uqm/setup.c	2017-03-05 21:18:17 -0600
+@@ -113,46 +113,56 @@ LoadKernel (int argc, char *argv[])
  	SetContextOrigin (MAKE_POINT (0, 0));
  
  	hResIndex = (RESOURCE_INDEX) InitResourceSystem ();
@@ -1943,15 +1943,18 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
  	}
  	// END JMS_GFX
  
-+	if(!loadAddon("hd-remix")){
-+		loadAddon("subtitle-remix");
-+		loadAddon("gfx-remix");
-+		if (loadAddon("3dovoice")){
-+			loadAddon("utwig-remix");
-+			loadAddon("shofixti-remix");
++	if(optWhichIntro == OPT_PC && resolutionFactor > 0){
++		if(loadAddon("rmx-spins")){
++			log_add (log_Debug, "loading addon rmx-spins");
 +		}
-+	} 		
++	}
++	if(loadAddon("rmx-nebulae")){
++		log_add (log_Debug, "loading addon rmx-nebulae");
++	}
 +	if (loadAddon("3dovoice")){
++		loadAddon("rmx-subtitle");
++		loadAddon("rmx-shofixti");
++		loadAddon("rmx-utwig");
 +		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
 +	}
 +	if (resolutionFactor < 1){
@@ -1961,7 +1964,7 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
  	/* Now load the rest of the addons, in order. */
  	prepareAddons (optAddons);
  
-@@ -231,11 +238,34 @@ InitKernel (void)
+@@ -231,11 +241,32 @@ InitKernel (void)
  	hyperspacesuns = CaptureDrawable (LoadGraphic (HYPERSUNS_MASK_PMAP_ANIM));
  	if (hyperspacesuns == NULL)
  		return FALSE;
@@ -1971,15 +1974,13 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 -	if (nebulaeFrame == NULL)
 -		return FALSE;
 +
-+	if (!loadAddon("hd-remix") && !loadAddon("gfx-remix")){ 
-+		// Ugly content checks for the new HD-Remix content
++	if (!loadAddon("rmx-nebulae")){  // Ugly content checks for the new HD-Remix content
 +		printf("Loading Nebulae\n"); // JMS: Background nebulae in IP.
 +		nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
 +		if (nebulaeFrame == NULL)
 +			return FALSE;
 +	} else {
-+		if (resolutionFactor < 1)
-+		{
++		if (resolutionFactor < 1) {
 +			printf("Loading 1x Nebulae\n");
 +			nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
 +			if (nebulaeFrame == NULL)
@@ -2984,7 +2985,7 @@ diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
  }
 diff -ruNp ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
 --- ./src.orig/uqm/starcon.c	2017-02-25 17:11:44 -0600
-+++ ./src/uqm/starcon.c	2017-03-05 18:53:04 -0600
++++ ./src/uqm/starcon.c	2017-03-05 21:23:59 -0600
 @@ -48,7 +48,7 @@
  
  #include "uqmversion.h"
@@ -3000,7 +3001,7 @@ diff -ruNp ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  	GLOBAL (CurrentActivity) = 0;
 -	// show splash and init the kernel in the meantime
 +	// show logo then splash and init the kernel in the meantime
-+	if(!optSkipIntro && optFMV){
++	if(optWhichIntro == OPT_3DO && optFMV && !optSkipIntro){
 +		Logo ();
 +	}
  	SplashScreen (BackgroundInitKernel);
