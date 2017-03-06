@@ -600,7 +600,7 @@ StartGame (void)
 			{	// timed out
 				GLOBAL (CurrentActivity) = 0;
 				SplashScreen (0);
-				if(optFMV){
+				if(optWhichIntro == OPT_3DO && optFMV){
 					Drumall ();
 				}
 				Credits (FALSE);
