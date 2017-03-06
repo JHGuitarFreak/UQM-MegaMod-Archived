@@ -1,6 +1,6 @@
 diff -ruNp ./src.orig/libs/network/wspiapiwrap.h ./src/libs/network/wspiapiwrap.h
 --- ./src.orig/libs/network/wspiapiwrap.h	2017-02-25 17:11:18 -0600
-+++ ./src/libs/network/wspiapiwrap.h	2017-03-05 18:45:06 -0600
++++ ./src/libs/network/wspiapiwrap.h	2017-03-05 21:37:18 -0600
 @@ -19,7 +19,10 @@
  #ifndef _WSPIAPIWRAP_H
  #define _WSPIAPIWRAP_H
@@ -24,7 +24,7 @@ diff -ruNp ./src.orig/libs/network/wspiapiwrap.h ./src/libs/network/wspiapiwrap.
  
 diff -ruNp ./src.orig/options.c ./src/options.c
 --- ./src.orig/options.c	2017-02-25 17:11:19 -0600
-+++ ./src/options.c	2017-03-05 18:45:07 -0600
++++ ./src/options.c	2017-03-05 21:37:19 -0600
 @@ -52,6 +52,20 @@ int optSmoothScroll;
  int optMeleeScale;
  const char **optAddons;
@@ -74,7 +74,7 @@ diff -ruNp ./src.orig/options.c ./src/options.c
  			if (addonDir == NULL)
 diff -ruNp ./src.orig/options.h ./src/options.h
 --- ./src.orig/options.h	2017-02-25 17:11:19 -0600
-+++ ./src/options.h	2017-03-05 18:45:07 -0600
++++ ./src/options.h	2017-03-05 21:37:19 -0600
 @@ -38,6 +38,20 @@ extern int optWhichShield;
  extern int optSmoothScroll;
  extern int optMeleeScale;
@@ -98,7 +98,7 @@ diff -ruNp ./src.orig/options.h ./src/options.h
  extern BOOLEAN optSubtitles;
 diff -ruNp ./src.orig/regex/regex_internal.h ./src/regex/regex_internal.h
 --- ./src.orig/regex/regex_internal.h	2017-02-25 17:11:19 -0600
-+++ ./src/regex/regex_internal.h	2017-03-05 18:45:07 -0600
++++ ./src/regex/regex_internal.h	2017-03-05 21:37:19 -0600
 @@ -80,7 +80,11 @@
  # define BE(expr, val) __builtin_expect (expr, val)
  #else
@@ -114,7 +114,7 @@ diff -ruNp ./src.orig/regex/regex_internal.h ./src/regex/regex_internal.h
  /* Number of bits in a byte.  */
 diff -ruNp ./src.orig/res/UrQuanMasters.rc ./src/res/UrQuanMasters.rc
 --- ./src.orig/res/UrQuanMasters.rc	2017-02-25 17:11:19 -0600
-+++ ./src/res/UrQuanMasters.rc	2017-03-05 18:45:07 -0600
++++ ./src/res/UrQuanMasters.rc	2017-03-05 21:37:19 -0600
 @@ -67,10 +67,10 @@ END
  
  // Icon with lowest ID value placed first to ensure application icon
@@ -131,7 +131,7 @@ diff -ruNp ./src.orig/res/UrQuanMasters.rc ./src/res/UrQuanMasters.rc
  107                ICON    DISCARDABLE     "starcon2.ico"
 diff -ruNp ./src.orig/res/darwin/Info.plist ./src/res/darwin/Info.plist
 --- ./src.orig/res/darwin/Info.plist	2017-02-25 17:11:19 -0600
-+++ ./src/res/darwin/Info.plist	2017-03-05 18:45:07 -0600
++++ ./src/res/darwin/Info.plist	2017-03-05 21:37:19 -0600
 @@ -1,11 +1,11 @@
  <?xml version="1.0" encoding="UTF-8"?>
 -<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -148,7 +148,7 @@ diff -ruNp ./src.orig/res/darwin/Info.plist ./src/res/darwin/Info.plist
  	<key>CFBundleInfoDictionaryVersion</key>
 diff -ruNp ./src.orig/uqm/comm/arilou/arilouc.c ./src/uqm/comm/arilou/arilouc.c
 --- ./src.orig/uqm/comm/arilou/arilouc.c	2017-02-25 17:11:19 -0600
-+++ ./src/uqm/comm/arilou/arilouc.c	2017-03-05 18:45:08 -0600
++++ ./src/uqm/comm/arilou/arilouc.c	2017-03-05 21:37:20 -0600
 @@ -490,18 +490,20 @@ AngryHomeArilou (RESPONSE_REF R)
  		DISABLE_PHRASE (i_just_like_to_leave);
  	}
@@ -178,7 +178,7 @@ diff -ruNp ./src.orig/uqm/comm/arilou/arilouc.c ./src/uqm/comm/arilou/arilouc.c
  static void
 diff -ruNp ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.c
 --- ./src.orig/uqm/comm/melnorm/melnorm.c	2017-02-25 17:11:19 -0600
-+++ ./src/uqm/comm/melnorm/melnorm.c	2017-03-05 18:45:08 -0600
++++ ./src/uqm/comm/melnorm/melnorm.c	2017-03-05 21:37:20 -0600
 @@ -32,7 +32,7 @@
  #include "uqm/planets/planets.h"
  		// for xxx_DISASTER
@@ -246,7 +246,7 @@ diff -ruNp ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.
  		}
 diff -ruNp ./src.orig/uqm/comm/rebel/rebel.c ./src/uqm/comm/rebel/rebel.c
 --- ./src.orig/uqm/comm/rebel/rebel.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/rebel/rebel.c	2017-03-05 18:45:08 -0600
++++ ./src/uqm/comm/rebel/rebel.c	2017-03-05 21:37:20 -0600
 @@ -46,19 +46,17 @@ static LOCDATA yehat_desc =
  		{ /* right hand-wing tapping keyboard; front guy */
  			4, /* StartIndex */
@@ -323,7 +323,7 @@ diff -ruNp ./src.orig/uqm/comm/rebel/rebel.c ./src/uqm/comm/rebel/rebel.c
  			(1 << 2) | (1 << 4),
 diff -ruNp ./src.orig/uqm/comm/starbas/starbas.c ./src/uqm/comm/starbas/starbas.c
 --- ./src.orig/uqm/comm/starbas/starbas.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/starbas/starbas.c	2017-03-05 18:45:08 -0600
++++ ./src/uqm/comm/starbas/starbas.c	2017-03-05 21:37:20 -0600
 @@ -303,6 +303,7 @@ HierarchyInfo (RESPONSE_REF R)
  #define HIERARCHY_ANDROSYNTH (1 << 3)
  #define HIERARCHY_ILWRATH (1 << 4)
@@ -349,7 +349,7 @@ diff -ruNp ./src.orig/uqm/comm/starbas/starbas.c ./src/uqm/comm/starbas/starbas.
  	if (!(HierarchyMask & HIERARCHY_SPATHI))
 diff -ruNp ./src.orig/uqm/comm/syreen/syreenc.c ./src/uqm/comm/syreen/syreenc.c
 --- ./src.orig/uqm/comm/syreen/syreenc.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/syreen/syreenc.c	2017-03-05 18:45:08 -0600
++++ ./src/uqm/comm/syreen/syreenc.c	2017-03-05 21:37:20 -0600
 @@ -652,13 +652,12 @@ InitialSyreen (RESPONSE_REF R)
  	else if (PLAYER_SAID (R, we_are_vindicator0))
  	{
@@ -368,7 +368,7 @@ diff -ruNp ./src.orig/uqm/comm/syreen/syreenc.c ./src/uqm/comm/syreen/syreenc.c
  	else if (PLAYER_SAID (R, we_are_impressed))
 diff -ruNp ./src.orig/uqm/comm/thradd/thraddc.c ./src/uqm/comm/thradd/thraddc.c
 --- ./src.orig/uqm/comm/thradd/thraddc.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/thradd/thraddc.c	2017-03-05 18:45:08 -0600
++++ ./src/uqm/comm/thradd/thraddc.c	2017-03-05 21:37:20 -0600
 @@ -695,6 +695,8 @@ static void
  Intro (void)
  {
@@ -389,7 +389,7 @@ diff -ruNp ./src.orig/uqm/comm/thradd/thraddc.c ./src/uqm/comm/thradd/thraddc.c
  		switch (NumVisits++)
 diff -ruNp ./src.orig/uqm/comm/umgah/strings.h ./src/uqm/comm/umgah/strings.h
 --- ./src.orig/uqm/comm/umgah/strings.h	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/umgah/strings.h	2017-03-05 18:45:08 -0600
++++ ./src/uqm/comm/umgah/strings.h	2017-03-05 21:37:20 -0600
 @@ -109,6 +109,7 @@ enum
  	arilou_told_us,
  	bye_zombie,
@@ -400,7 +400,7 @@ diff -ruNp ./src.orig/uqm/comm/umgah/strings.h ./src/uqm/comm/umgah/strings.h
  #endif /* _STRINGS_H */
 diff -ruNp ./src.orig/uqm/comm/umgah/umgahc.c ./src/uqm/comm/umgah/umgahc.c
 --- ./src.orig/uqm/comm/umgah/umgahc.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/umgah/umgahc.c	2017-03-05 18:45:08 -0600
++++ ./src/uqm/comm/umgah/umgahc.c	2017-03-05 21:37:20 -0600
 @@ -520,8 +520,11 @@ Intro (void)
  {
  	BYTE NumVisits;
@@ -417,7 +417,7 @@ diff -ruNp ./src.orig/uqm/comm/umgah/umgahc.c ./src/uqm/comm/umgah/umgahc.c
  		{
 diff -ruNp ./src.orig/uqm/credits.c ./src/uqm/credits.c
 --- ./src.orig/uqm/credits.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/credits.c	2017-03-05 18:45:08 -0600
++++ ./src/uqm/credits.c	2017-03-05 21:37:21 -0600
 @@ -647,7 +647,7 @@ FreeCredits (void)
  static void
  OutTakes (void)
@@ -437,7 +437,7 @@ diff -ruNp ./src.orig/uqm/credits.c ./src/uqm/credits.c
  
 diff -ruNp ./src.orig/uqm/fmv.c ./src/uqm/fmv.c
 --- ./src.orig/uqm/fmv.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/fmv.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/fmv.c	2017-03-05 21:37:21 -0600
 @@ -132,5 +132,17 @@ Victory (void)
  	FadeScreen (FadeAllToBlack, 0);
  }
@@ -458,7 +458,7 @@ diff -ruNp ./src.orig/uqm/fmv.c ./src/uqm/fmv.c
  
 diff -ruNp ./src.orig/uqm/fmv.h ./src/uqm/fmv.h
 --- ./src.orig/uqm/fmv.h	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/fmv.h	2017-03-05 18:45:09 -0600
++++ ./src/uqm/fmv.h	2017-03-05 21:37:21 -0600
 @@ -26,6 +26,8 @@ extern void SplashScreen (void (* DoProc
  extern void Introduction (void);
  extern void Victory (void);
@@ -470,7 +470,7 @@ diff -ruNp ./src.orig/uqm/fmv.h ./src/uqm/fmv.h
  
 diff -ruNp ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
 --- ./src.orig/uqm/gameev.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/gameev.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/gameev.c	2017-03-05 21:37:21 -0600
 @@ -25,7 +25,7 @@
  #include "hyper.h"
  #include "libs/compiler.h"
@@ -633,7 +633,7 @@ diff -ruNp ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
  }
 diff -ruNp ./src.orig/uqm/gameinp.c ./src/uqm/gameinp.c
 --- ./src.orig/uqm/gameinp.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/gameinp.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/gameinp.c	2017-03-05 21:37:21 -0600
 @@ -31,10 +31,10 @@
  #include "libs/inplib.h"
  #include "libs/timelib.h"
@@ -671,7 +671,7 @@ diff -ruNp ./src.orig/uqm/gameinp.c ./src/uqm/gameinp.c
  	if (keyState[KEY_DOWN])
 diff -ruNp ./src.orig/uqm/gameopt.c ./src/uqm/gameopt.c
 --- ./src.orig/uqm/gameopt.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/gameopt.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/gameopt.c	2017-03-05 21:37:21 -0600
 @@ -40,7 +40,7 @@
  
  extern FRAME PlayFrame;
@@ -683,7 +683,7 @@ diff -ruNp ./src.orig/uqm/gameopt.c ./src/uqm/gameopt.c
  #define SAVES_PER_PAGE 5
 diff -ruNp ./src.orig/uqm/globdata.c ./src/uqm/globdata.c
 --- ./src.orig/uqm/globdata.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/globdata.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/globdata.c	2017-03-05 21:37:21 -0600
 @@ -30,12 +30,12 @@
  #include "state.h"
  #include "grpinfo.h"
@@ -791,7 +791,7 @@ diff -ruNp ./src.orig/uqm/globdata.c ./src/uqm/globdata.c
  			GAME_STRING (NAMING_STRING_BASE + 2));
 diff -ruNp ./src.orig/uqm/istrtab.h ./src/uqm/istrtab.h
 --- ./src.orig/uqm/istrtab.h	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/istrtab.h	2017-03-05 18:45:09 -0600
++++ ./src/uqm/istrtab.h	2017-03-05 21:37:21 -0600
 @@ -37,6 +37,7 @@
  #define CYANIC_XLAT_TAB "planet.cyanic.translatetable"
  #define CYA_GAS_COLOR_TAB "planet.cyangas.colortable"
@@ -810,7 +810,7 @@ diff -ruNp ./src.orig/uqm/istrtab.h ./src/uqm/istrtab.h
  #define MAGNETIC_COLOR_TAB "planet.magnetic.colortable"
 diff -ruNp ./src.orig/uqm/misc.c ./src/uqm/misc.c
 --- ./src.orig/uqm/misc.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/misc.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/misc.c	2017-03-05 21:37:21 -0600
 @@ -25,7 +25,9 @@
  #include "sounds.h"
  #include "weapon.h"
@@ -835,7 +835,7 @@ diff -ruNp ./src.orig/uqm/misc.c ./src/uqm/misc.c
  		if (!DeltaCrew (ElementPtr, -damage))
 diff -ruNp ./src.orig/uqm/outfit.c ./src/uqm/outfit.c
 --- ./src.orig/uqm/outfit.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/outfit.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/outfit.c	2017-03-05 21:37:21 -0600
 @@ -182,6 +182,10 @@ DoInstallModule (MENU_STATE *pMS)
  	BYTE NewState, new_slot_piece, old_slot_piece;
  	SIZE FirstItem, LastItem;
@@ -858,7 +858,7 @@ diff -ruNp ./src.orig/uqm/outfit.c ./src/uqm/outfit.c
  						PlayMenuSound (MENU_SOUND_FAILURE);
 diff -ruNp ./src.orig/uqm/planets/generate/genthrad.c ./src/uqm/planets/generate/genthrad.c
 --- ./src.orig/uqm/planets/generate/genthrad.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/planets/generate/genthrad.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/planets/generate/genthrad.c	2017-03-05 21:37:22 -0600
 @@ -189,6 +189,10 @@ static bool
  GenerateThraddash_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
  		COUNT whichNode)
@@ -888,7 +888,7 @@ diff -ruNp ./src.orig/uqm/planets/generate/genthrad.c ./src/uqm/planets/generate
  
 diff -ruNp ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
 --- ./src.orig/uqm/planets/lander.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/planets/lander.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/planets/lander.c	2017-03-05 21:37:22 -0600
 @@ -36,7 +36,7 @@
  #include "libs/graphics/gfx_common.h"
  #include "libs/mathlib.h"
@@ -1014,7 +1014,7 @@ diff -ruNp ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  			DrawFilledRectangle (&r);
 diff -ruNp ./src.orig/uqm/planets/pstarmap.c ./src/uqm/planets/pstarmap.c
 --- ./src.orig/uqm/planets/pstarmap.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/planets/pstarmap.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/planets/pstarmap.c	2017-03-05 21:37:22 -0600
 @@ -1228,9 +1228,9 @@ DoStarSearch (MENU_STATE *pMS)
  static BOOLEAN
  DoMoveCursor (MENU_STATE *pMS)
@@ -1052,7 +1052,7 @@ diff -ruNp ./src.orig/uqm/planets/pstarmap.c ./src/uqm/planets/pstarmap.c
  	else if (PulsedInputState.menu[KEY_MENU_SEARCH])
 diff -ruNp ./src.orig/uqm/planets/scan.c ./src/uqm/planets/scan.c
 --- ./src.orig/uqm/planets/scan.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/planets/scan.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/planets/scan.c	2017-03-05 21:37:22 -0600
 @@ -1343,7 +1343,10 @@ GeneratePlanetSide (void)
  			// life_init_tab is filled with the creature types of already
  			// selected creatures. If an entry is 0, none has been selected
@@ -1076,7 +1076,7 @@ diff -ruNp ./src.orig/uqm/planets/scan.c ./src/uqm/planets/scan.c
  				}
 diff -ruNp ./src.orig/uqm/races.h ./src/uqm/races.h
 --- ./src.orig/uqm/races.h	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/races.h	2017-03-05 18:45:09 -0600
++++ ./src/uqm/races.h	2017-03-05 21:37:22 -0600
 @@ -586,7 +586,7 @@ enum
  		 0,  /* URQUAN_DRONE_SHIP */
  
@@ -1088,12 +1088,12 @@ diff -ruNp ./src.orig/uqm/races.h ./src/uqm/races.h
  		20,  /* ORZ_SHIP */ \
 diff -ruNp ./src.orig/uqm/restart.c ./src/uqm/restart.c
 --- ./src.orig/uqm/restart.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/restart.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/restart.c	2017-03-05 21:37:22 -0600
 @@ -384,6 +384,9 @@ StartGame (void)
  			{	// timed out
  				GLOBAL (CurrentActivity) = 0;
  				SplashScreen (0);
-+				if(optFMV){
++				if(optWhichIntro == OPT_3DO && optFMV){
 +					Drumall ();
 +				}
  				Credits (FALSE);
@@ -1112,7 +1112,7 @@ diff -ruNp ./src.orig/uqm/restart.c ./src/uqm/restart.c
  	} while (GLOBAL (CurrentActivity) & CHECK_ABORT);
 diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 --- ./src.orig/uqm/setup.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/setup.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/setup.c	2017-03-05 21:37:22 -0600
 @@ -106,31 +106,31 @@ LoadKernel (int argc, char *argv[])
  	SetContextOrigin (MAKE_POINT (0, 0));
  
@@ -1153,15 +1153,15 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
  		loadAddon ("3dovideo");
 +	}	
 +	if (loadAddon("3dovoice")){
-+		loadAddon("utwig-remix");
-+		loadAddon("shofixti-remix");
++		loadAddon("rmx-utwig");
++		loadAddon("rmx-shofixti");
 +		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
  	}
  
  	/* Now load the rest of the addons, in order. */
 diff -ruNp ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
 --- ./src.orig/uqm/setupmenu.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/setupmenu.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/setupmenu.c	2017-03-05 21:37:22 -0600
 @@ -1201,7 +1201,18 @@ GetGlobalOptions (GLOBALOPTS *opts)
  	opts->musicvol = (((int)(musicVolumeScale * 100.0f) + 2) / 5) * 5;
  	opts->sfxvol = (((int)(sfxVolumeScale * 100.0f) + 2) / 5) * 5;
@@ -1239,7 +1239,7 @@ diff -ruNp ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
  		NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
 diff -ruNp ./src.orig/uqm/setupmenu.h ./src/uqm/setupmenu.h
 --- ./src.orig/uqm/setupmenu.h	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/setupmenu.h	2017-03-05 18:45:09 -0600
++++ ./src/uqm/setupmenu.h	2017-03-05 21:37:22 -0600
 @@ -74,7 +74,9 @@ typedef struct globalopts_struct {
  	OPT_DRIVERTYPE driver;
  	OPT_ADRIVERTYPE adriver;
@@ -1253,7 +1253,7 @@ diff -ruNp ./src.orig/uqm/setupmenu.h ./src/uqm/setupmenu.h
  	int speechvol, musicvol, sfxvol;
 diff -ruNp ./src.orig/uqm/ships/arilou/arilou.c ./src/uqm/ships/arilou/arilou.c
 --- ./src.orig/uqm/ships/arilou/arilou.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/ships/arilou/arilou.c	2017-03-05 18:45:09 -0600
++++ ./src/uqm/ships/arilou/arilou.c	2017-03-05 21:37:22 -0600
 @@ -19,9 +19,10 @@
  #include "../ship.h"
  #include "arilou.h"
@@ -1302,7 +1302,7 @@ diff -ruNp ./src.orig/uqm/ships/arilou/arilou.c ./src/uqm/ships/arilou/arilou.c
  }
 diff -ruNp ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
 --- ./src.orig/uqm/ships/chmmr/chmmr.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/ships/chmmr/chmmr.c	2017-03-05 18:45:10 -0600
++++ ./src/uqm/ships/chmmr/chmmr.c	2017-03-05 21:37:22 -0600
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "chmmr.h"
@@ -1345,7 +1345,7 @@ diff -ruNp ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
  	if (StarShipPtr->hShip)
 diff -ruNp ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/melnorme.c
 --- ./src.orig/uqm/ships/melnorme/melnorme.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/ships/melnorme/melnorme.c	2017-03-05 18:45:10 -0600
++++ ./src/uqm/ships/melnorme/melnorme.c	2017-03-05 21:37:22 -0600
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "melnorme.h"
@@ -1372,7 +1372,7 @@ diff -ruNp ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/mel
  
 diff -ruNp ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
 --- ./src.orig/uqm/ships/orz/orz.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/ships/orz/orz.c	2017-03-05 18:45:10 -0600
++++ ./src/uqm/ships/orz/orz.c	2017-03-05 21:37:23 -0600
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "orz.h"
@@ -1508,7 +1508,7 @@ diff -ruNp ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
  	(void) pPt1;  /* Satisfying compiler (unused parameter) */
 diff -ruNp ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
 --- ./src.orig/uqm/ships/pkunk/pkunk.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/ships/pkunk/pkunk.c	2017-03-05 18:45:10 -0600
++++ ./src/uqm/ships/pkunk/pkunk.c	2017-03-05 21:37:23 -0600
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "pkunk.h"
@@ -1565,7 +1565,7 @@ diff -ruNp ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
  		{
 diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
 --- ./src.orig/uqm/ships/syreen/syreen.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/ships/syreen/syreen.c	2017-03-05 18:45:10 -0600
++++ ./src/uqm/ships/syreen/syreen.c	2017-03-05 21:37:23 -0600
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "syreen.h"
@@ -1593,7 +1593,7 @@ diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
  
 diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
 --- ./src.orig/uqm/ships/vux/vux.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/ships/vux/vux.c	2017-03-05 18:45:10 -0600
++++ ./src/uqm/ships/vux/vux.c	2017-03-05 21:37:23 -0600
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "vux.h"
@@ -1758,7 +1758,7 @@ diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
  
 diff -ruNp ./src.orig/uqm/shipyard.c ./src/uqm/shipyard.c
 --- ./src.orig/uqm/shipyard.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/shipyard.c	2017-03-05 18:45:10 -0600
++++ ./src/uqm/shipyard.c	2017-03-05 21:37:23 -0600
 @@ -37,7 +37,7 @@
  #include "sounds.h"
  #include "libs/graphics/gfx_common.h"
@@ -1770,7 +1770,7 @@ diff -ruNp ./src.orig/uqm/shipyard.c ./src/uqm/shipyard.c
  // 3DO 4x3 hangar layout
 diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
 --- ./src.orig/uqm/sis.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/sis.c	2017-03-05 18:45:10 -0600
++++ ./src/uqm/sis.c	2017-03-05 21:37:23 -0600
 @@ -764,6 +764,10 @@ DrawStorageBays (BOOLEAN Refresh)
  	BYTE i;
  	RECT r;
@@ -1858,7 +1858,7 @@ diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
  }
 diff -ruNp ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
 --- ./src.orig/uqm/starcon.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/starcon.c	2017-03-05 18:45:10 -0600
++++ ./src/uqm/starcon.c	2017-03-05 21:37:23 -0600
 @@ -45,7 +45,7 @@
  #include "libs/graphics/gfx_common.h"
  #include "libs/graphics/tfb_draw.h"
@@ -1874,7 +1874,7 @@ diff -ruNp ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  	GLOBAL (CurrentActivity) = 0;
 -	// show splash and init the kernel in the meantime
 +	// show logo then splash and init the kernel in the meantime
-+	if(!optSkipIntro && optFMV){
++	if(optWhichIntro == OPT_3DO && optFMV && !optSkipIntro){
 +		Logo ();
 +	}
  	SplashScreen (BackgroundInitKernel);
@@ -1968,7 +1968,7 @@ diff -ruNp ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  		StopSound ();
 diff -ruNp ./src.orig/uqm/tactrans.c ./src/uqm/tactrans.c
 --- ./src.orig/uqm/tactrans.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/tactrans.c	2017-03-05 18:45:11 -0600
++++ ./src/uqm/tactrans.c	2017-03-05 21:37:24 -0600
 @@ -893,17 +893,15 @@ ship_transition (ELEMENT *ElementPtr)
  			}
  			else if (ElementPtr->crew_level)
@@ -1998,7 +1998,7 @@ diff -ruNp ./src.orig/uqm/tactrans.c ./src/uqm/tactrans.c
  			ShipImagePtr->death_func = cycle_ion_trail;
 diff -ruNp ./src.orig/uqm/trans.c ./src/uqm/trans.c
 --- ./src.orig/uqm/trans.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/trans.c	2017-03-05 18:45:11 -0600
++++ ./src/uqm/trans.c	2017-03-05 21:37:24 -0600
 @@ -20,7 +20,7 @@
  #include "libs/compiler.h"
  
@@ -2010,7 +2010,7 @@ diff -ruNp ./src.orig/uqm/trans.c ./src/uqm/trans.c
  	-FLT_ADJUST (0.995185),
 diff -ruNp ./src.orig/uqm/units.h ./src/uqm/units.h
 --- ./src.orig/uqm/units.h	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/units.h	2017-03-05 18:45:11 -0600
++++ ./src/uqm/units.h	2017-03-05 21:37:24 -0600
 @@ -77,9 +77,10 @@ extern int ScreenHeight;
  #define SCALED_ONE (1 << ONE_SHIFT)
  #define DISPLAY_TO_WORLD(x) ((x)<<ONE_SHIFT)
@@ -2047,7 +2047,7 @@ diff -ruNp ./src.orig/uqm/units.h ./src/uqm/units.h
  #define SINE(a,m) ((SIZE)((((long)SINVAL(a))*(long)(m))>>SIN_SHIFT))
 diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
 --- ./src.orig/uqm/uqmdebug.c	2017-02-25 17:11:23 -0600
-+++ ./src/uqm/uqmdebug.c	2017-03-05 18:45:11 -0600
++++ ./src/uqm/uqmdebug.c	2017-03-05 21:37:24 -0600
 @@ -14,8 +14,6 @@
   *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
   */
@@ -2294,7 +2294,7 @@ diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  // This function should help in making sure that gamestr.h matches
 diff -ruNp ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
 --- ./src.orig/uqm/uqmdebug.h	2017-02-25 17:11:23 -0600
-+++ ./src/uqm/uqmdebug.h	2017-03-05 18:45:11 -0600
++++ ./src/uqm/uqmdebug.h	2017-03-05 21:37:24 -0600
 @@ -14,8 +14,6 @@
   *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
   */
@@ -2371,7 +2371,7 @@ diff -ruNp ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
  
 diff -ruNp ./src.orig/uqm.c ./src/uqm.c
 --- ./src.orig/uqm.c	2017-02-25 17:11:23 -0600
-+++ ./src/uqm.c	2017-03-05 18:45:11 -0600
++++ ./src/uqm.c	2017-03-05 21:37:24 -0600
 @@ -127,6 +127,18 @@ struct options_struct
  	DECL_CONFIG_OPTION(float, sfxVolumeScale);
  	DECL_CONFIG_OPTION(float, speechVolumeScale);
@@ -2598,7 +2598,7 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
  
 diff -ruNp ./src.orig/uqmversion.h ./src/uqmversion.h
 --- ./src.orig/uqmversion.h	2017-02-25 17:11:23 -0600
-+++ ./src/uqmversion.h	2017-03-05 18:45:11 -0600
++++ ./src/uqmversion.h	2017-03-05 21:37:24 -0600
 @@ -21,9 +21,9 @@
  #define UQM_MAJOR_VERSION_S  "0"
  #define UQM_MINOR_VERSION     7

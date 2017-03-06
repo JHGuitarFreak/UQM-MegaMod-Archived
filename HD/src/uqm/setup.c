@@ -145,15 +145,18 @@ LoadKernel (int argc, char *argv[])
 	}
 	// END JMS_GFX
 
-	if(!loadAddon("hd-remix")){
-		loadAddon("subtitle-remix");
-		loadAddon("gfx-remix");
-		if (loadAddon("3dovoice")){
-			loadAddon("utwig-remix");
-			loadAddon("shofixti-remix");
+	if(optWhichIntro == OPT_PC && resolutionFactor > 0){
+		if(loadAddon("rmx-spins")){
+			log_add (log_Debug, "loading addon rmx-spins");
 		}
-	} 		
+	}
+	if(loadAddon("rmx-nebulae")){
+		log_add (log_Debug, "loading addon rmx-nebulae");
+	}
 	if (loadAddon("3dovoice")){
+		loadAddon("rmx-subtitle");
+		loadAddon("rmx-shofixti");
+		loadAddon("rmx-utwig");
 		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
 	}
 	if (resolutionFactor < 1){
@@ -239,15 +242,13 @@ InitKernel (void)
 	if (hyperspacesuns == NULL)
 		return FALSE;
 
-	if (!loadAddon("hd-remix") && !loadAddon("gfx-remix")){ 
-		// Ugly content checks for the new HD-Remix content
+	if (!loadAddon("rmx-nebulae")){  // Ugly content checks for the new HD-Remix content
 		printf("Loading Nebulae\n"); // JMS: Background nebulae in IP.
 		nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
 		if (nebulaeFrame == NULL)
 			return FALSE;
 	} else {
-		if (resolutionFactor < 1)
-		{
+		if (resolutionFactor < 1) {
 			printf("Loading 1x Nebulae\n");
 			nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
 			if (nebulaeFrame == NULL)
