@@ -1112,8 +1112,8 @@ diff -ruNp ./src.orig/uqm/restart.c ./src/uqm/restart.c
  	} while (GLOBAL (CurrentActivity) & CHECK_ABORT);
 diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 --- ./src.orig/uqm/setup.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/setup.c	2017-03-05 21:37:22 -0600
-@@ -106,31 +106,31 @@ LoadKernel (int argc, char *argv[])
++++ ./src/uqm/setup.c	2017-03-05 22:50:07 -0600
+@@ -106,30 +106,32 @@ LoadKernel (int argc, char *argv[])
  	SetContextOrigin (MAKE_POINT (0, 0));
  
  	hResIndex = (RESOURCE_INDEX) InitResourceSystem ();
@@ -1142,6 +1142,13 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 -
 -	if (optRemixMusic)
 -	{
++	} else {
++		loadAddon("rmx-subtitle");
++		loadAddon("rmx-shofixti");
++		loadAddon("rmx-utwig");
++		// Autoload support for Soul Reaver's dialog fixes
++		loadAddon("MelnormeVoicePack");
++		loadAddon("MyconVoiceFix");
 +	}
 +	if (optRemixMusic) {
  		loadAddon ("remix");
@@ -1151,14 +1158,8 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 -	{
 +	if (optWhichIntro == OPT_3DO) {
  		loadAddon ("3dovideo");
-+	}	
-+	if (loadAddon("3dovoice")){
-+		loadAddon("rmx-utwig");
-+		loadAddon("rmx-shofixti");
-+		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
  	}
  
- 	/* Now load the rest of the addons, in order. */
 diff -ruNp ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
 --- ./src.orig/uqm/setupmenu.c	2017-02-25 17:11:21 -0600
 +++ ./src/uqm/setupmenu.c	2017-03-05 21:37:22 -0600
