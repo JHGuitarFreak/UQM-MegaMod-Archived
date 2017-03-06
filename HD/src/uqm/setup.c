@@ -127,6 +127,11 @@ LoadKernel (int argc, char *argv[])
 	/* Always try to use voice data */
 	if (!loadAddon ("3dovoice")){
 		speechVolumeScale = 0.0f; // XXX: need better no-speech indicator
+	} else {		
+		loadAddon("rmx-shofixti");
+		loadAddon("rmx-subtitle");
+		loadAddon("rmx-utwig");
+		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
 	}
 	if (optRemixMusic){
 		loadAddon ("remix");
@@ -152,12 +157,6 @@ LoadKernel (int argc, char *argv[])
 	}
 	if(loadAddon("rmx-nebulae")){
 		log_add (log_Debug, "loading addon rmx-nebulae");
-	}
-	if (loadAddon("3dovoice")){
-		loadAddon("rmx-subtitle");
-		loadAddon("rmx-shofixti");
-		loadAddon("rmx-utwig");
-		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
 	}
 	if (resolutionFactor < 1){
 		loadAddon("vux-fix-1x");
