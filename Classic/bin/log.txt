@@ -5,8 +5,7 @@ argv[3] = [--unlockupgrades]
 argv[4] = [--landermods]
 argv[5] = [--bubblewarp]
 argv[6] = [--fmv]
-argv[7] = [--skipintro]
-argv[8] = [--log=log.txt]
+argv[7] = [--log=log.txt]
 The Ur-Quan Masters v0.7.2e MegaMod (compiled Mar  5 2017 22:11:14)
 This software comes with ABSOLUTELY NO WARRANTY;
 for details see the included 'COPYING' file.
@@ -16,6 +15,158 @@ Initializing base SDL functionality.
 Using SDL version 1.2.14 (compiled with 1.2.15)
 Using config dir 'C:/Users/seros/AppData/Roaming/uqm/'
 Using 'C:/Games/UQM-MegaMod/Classic/bin/content' as base content dir.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/3dovideo.rmp' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/drumall.dat' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/drumall.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/drumall.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/drumall.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/drumall.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/ending/' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/ending/victory.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/ending/victory.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/ending/victory.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/ending/victory.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/intro/' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/intro/intro.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/intro/intro.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/intro/intro.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/intro/intro.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/%logo.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/logo.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/logo.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/logo.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/logo.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship00.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship00.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship00.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship00.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship00.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship01.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship01.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship01.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship01.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship01.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship02.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship02.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship02.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship02.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship02.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship03.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship03.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship03.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship03.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship03.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship04.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship04.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship04.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship04.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship04.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship05.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship05.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship05.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship05.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship05.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship06.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship06.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship06.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship06.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship06.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship07.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship07.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship07.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship07.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship07.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship08.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship08.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship08.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship08.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship08.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship09.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship09.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship09.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship09.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship09.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship10.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship10.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship10.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship10.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship10.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship11.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship11.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship11.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship11.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship11.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship12.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship12.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship12.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship12.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship12.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship13.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship13.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship13.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship13.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship13.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship14.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship14.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship14.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship14.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship14.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship15.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship15.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship15.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship15.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship15.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship16.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship16.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship16.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship16.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship16.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship17.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship17.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship17.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship17.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship17.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship18.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship18.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship18.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship18.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship18.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship19.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship19.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship19.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship19.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship19.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship20.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship20.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship20.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship20.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship20.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship21.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship21.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship21.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship21.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship21.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship22.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship22.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship22.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship22.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship22.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship23.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship23.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship23.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship23.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship23.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship24.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship24.duk' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship24.frm' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship24.hdr' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship24.tbl' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/spin.aif' - ignored.
+Debug: Extra field 0x000a unsupported, used for file '3dovideo/uqmpack.nfo' - ignored.
 Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/' - ignored.
 Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/comm/' - ignored.
 Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/comm/melnorme/' - ignored.
@@ -2924,6 +3075,7 @@ Sound decoders initialized.
 Loading resource index 'uqm.rmp'
 Loading resource index '3domusic.rmp'
 Loading resource index '3dovoice.rmp'
+Warning: Addon 'rmx-subtitle' not found
 Loading resource index 'rmx-shofixti.rmp'
 Loading resource index 'rmx-utwig.rmp'
 Loading resource index 'MelnormeVoicePack.rmp'
@@ -2931,6 +3083,12 @@ Loading resource index 'MyconVoiceFix.rmp'
 Loading resource index '3dovideo.rmp'
 	'base/uqm.ct' -- 104466 bytes
 We've loaded the Kernel
+	'addons/3dovideo/logo/logo.duk' -- video
+	No associated audio
+	No associated speech
+	No specified loop frame
+_GetMusicData(): loading addons/3dovideo/logo/logo.duk
+    decoder: DukAud, rate 22050 format 17
 	'base/ui/title.ani' -- 20 bytes
 	'base/ships/arilou/skiff-icons.ani' -- 60 bytes
 	'base/ships/arilou/skiff-meleeicons.ani' -- 66 bytes
@@ -3032,6 +3190,79 @@ _GetSoundBankData(): decoded bytes 2399
 	'base/battle/asteroid-big.ani' -- 649 bytes
 	'base/battle/asteroid-med.ani' -- 609 bytes
 	'base/battle/asteroid-sml.ani' -- 609 bytes
+	'base/ui/newgame.ani' -- 183 bytes
+Trying to get undefined resource 'music.mainmenu'
+	'addons/3dovideo/intro/intro.duk' -- video
+	No associated audio
+	No associated speech
+	No specified loop frame
+_GetMusicData(): loading addons/3dovideo/intro/intro.duk
+    decoder: DukAud, rate 22050 format 17
+	'base/ui/playmenu.ani' -- 1182 bytes
+	'base/ships/drone/drone-meleeicons.ani' -- 33 bytes
+	'base/ui/flagshipstatus.ani' -- 822 bytes
+	'base/ui/miscdata.ani' -- 2658 bytes
+	'base/fonts/fontgradient.ani' -- 186 bytes
+	'base/nav/orbitbackground.ani' -- 730 bytes
+	'base/nav/flagship.ani' -- 416 bytes
+	'base/lander/orbit.ct' -- 6978 bytes
+	'base/nav/planets.ani' -- 2528 bytes
+	'base/nav/truespace.ct' -- 6978 bytes
+	'base/nav/truespacesun.ani' -- 154 bytes
+	'addons/3domusic/space.ogg' -- 2314527 bytes
+_GetMusicData(): loading addons/3domusic/space.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+	'base/lander/lander.ani' -- 1558 bytes
+	'base/lander/hazard/quake.ani' -- 506 bytes
+	'base/lander/hazard/lightning.ani' -- 460 bytes
+	'base/lander/hazard/lavaspot.ani' -- 338 bytes
+	'base/lander/shield.ani' -- 368 bytes
+	'base/lander/launch.ani' -- 758 bytes
+	'base/lander/return.ani' -- 561 bytes
+	'base/nav/orbview.ani' -- 475 bytes
+	'base/lander/lander.snd' -- 169 bytes
+_GetSoundBankData(): loading base/lander/land_bit.wav
+_GetSoundBankData(): decoded bytes 1433
+_GetSoundBankData(): loading base/lander/land_qua.wav
+_GetSoundBankData(): decoded bytes 4811
+_GetSoundBankData(): loading base/lander/land_lig.wav
+_GetSoundBankData(): decoded bytes 9918
+_GetSoundBankData(): loading base/lander/land_hot.wav
+_GetSoundBankData(): decoded bytes 865
+_GetSoundBankData(): loading base/lander/land_hrt.wav
+_GetSoundBankData(): decoded bytes 2696
+_GetSoundBankData(): loading base/lander/land_sht.wav
+_GetSoundBankData(): decoded bytes 1087
+_GetSoundBankData(): loading base/lander/land_hit.wav
+_GetSoundBankData(): decoded bytes 1888
+_GetSoundBankData(): loading base/lander/land_can.wav
+_GetSoundBankData(): decoded bytes 1615
+_GetSoundBankData(): loading base/lander/land_get.wav
+_GetSoundBankData(): decoded bytes 2129
+_GetSoundBankData(): loading base/lander/land_ful.wav
+_GetSoundBankData(): decoded bytes 1804
+_GetSoundBankData(): loading base/lander/land_lau.wav
+_GetSoundBankData(): decoded bytes 8341
+_GetSoundBankData(): loading base/lander/land_awa.wav
+_GetSoundBankData(): decoded bytes 6396
+_GetSoundBankData(): loading base/lander/land_die.wav
+_GetSoundBankData(): decoded bytes 6887
+	'addons/3domusic/orbit1.ogg' -- 1263226 bytes
+_GetMusicData(): loading addons/3domusic/orbit1.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+	'addons/3domusic/orbit2.ogg' -- 1191873 bytes
+_GetMusicData(): loading addons/3domusic/orbit2.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+	'addons/3domusic/orbit3.ogg' -- 1312469 bytes
+_GetMusicData(): loading addons/3domusic/orbit3.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+	'addons/3domusic/orbit4.ogg' -- 1320368 bytes
+_GetMusicData(): loading addons/3domusic/orbit4.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+	'addons/3domusic/orbit5.ogg' -- 1302891 bytes
+_GetMusicData(): loading addons/3domusic/orbit5.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
 	'base/ui/newgame.ani' -- 183 bytes
 Trying to get undefined resource 'music.mainmenu'
 Thread 'Starcon2Main' done (returned 0).
