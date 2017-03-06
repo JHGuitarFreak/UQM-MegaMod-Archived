@@ -2387,7 +2387,7 @@ CreateStarBackGround (void)
 	old_seed = seedRandomForSolarSys ();
 
 	// JMS, BW: The beautiful nebula background.
-	if(!loadAddon("hd-remix") && !loadAddon("gfx-remix")){ // Ugly content checks
+	if(!loadAddon("rmx-nebulae")){ // Ugly content checks
 		num_nebulae = 17; 
 	} else {
 		num_nebulae = 22; // MB: correction to number of nebulae

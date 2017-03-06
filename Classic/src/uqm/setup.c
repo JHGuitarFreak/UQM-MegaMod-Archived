@@ -128,8 +128,8 @@ LoadKernel (int argc, char *argv[])
 		loadAddon ("3dovideo");
 	}	
 	if (loadAddon("3dovoice")){
-		loadAddon("utwig-remix");
-		loadAddon("shofixti-remix");
+		loadAddon("rmx-utwig");
+		loadAddon("rmx-shofixti");
 		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
 	}
 
