@@ -19,4 +19,3 @@ Command line		UQM.cfg (=true/false)
 --landermods 		| landerMods		| Land on spot and double storage capacity for the lander and ship.
 --skipintro			| skipIntro			| Skips the intro, also skips the logo if --fmv is enabled.
 --fmv				| FMV				| Enables the Logo and Drumall videos.
-

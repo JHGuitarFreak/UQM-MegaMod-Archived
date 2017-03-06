@@ -1,19 +1,21 @@
 Command line		UQM.cfg (=true/false)
 --cheatmode		| cheatMode		| Stops the Kohr-Ah from advancing. Added CL option for HD and copied the code to vanilla UQM.
---godmode		| godMode		| Self explanatory, also refills your ship energy every time you fire your weapon in melee.
-							Orz marines only work for player
-							Vux limpets only work for player
-							Syreen song only works for player
-							Melonorme confusion weapon works only for player
-							Chmmr has 5 zap-sats for the player
-							Pkunk resurrection is 100% for the player
+--godmode			| godMode			| Self explanatory, also refills your ship energy every time you fire your weapon in melee.
+											Orz marines only work for player
+											Vux limpets only work for player
+											Syreen song only works for player
+											Melonorme confusion weapon works only for player
+											Chmmr has 5 zap-sats for the player
+											Pkunk resurrection is 100% for the player
 --timedilation		| timeDilation		| Slows down time by a factor of 12. Interplanetary is 3 minutes and Hyperspace is 30 seconds.
 --bubblewarp		| bubbleWarp		| Instantaneous travel to any point on the map.
---rosebud		| roseBud		| 1,000 Credits and R.U. when you ask the Melnorme why the bridge turned purple.
+--rosebud			| roseBud			| 1,000 Credits and R.U. when you ask the Melnorme why the bridge turned purple.
 --unlockships		| unlockShips		| Unlocks ships that you normally can not build for use in the main game.
---headstart		| headStart		| Equips your flagship with full thrusters and jets, 2 fuel tanks, 2 crewpods, 
-							2 storage bays, 2 forward blasters, max landers, 1000 radioactives, and 1000 bio-units
-							at the start of a new game.
+--headstart			| headStart			| Equips your flagship with full thrusters and jets, 2 fuel tanks, 2 crewpods, 
+											2 storage bays, 2 forward blasters, max landers, 1000 radioactives, and 1000 bio-units
+											at the start of a new game.
 --unlockupgrades	| unlockUpgrades	| Unlocks all the Melnorme tech upgrades
 --fastforward 		| fastForward		| Divides time by a factor of 5. 1 second day in HS / 5 second day in IP
 --landermods 		| landerMods		| Land on spot and double storage capacity for the lander and ship.
+--skipintro			| skipIntro			| Skips the intro, also skips the logo if --fmv is enabled.
+--fmv				| FMV				| Enables the Logo and Drumall videos.

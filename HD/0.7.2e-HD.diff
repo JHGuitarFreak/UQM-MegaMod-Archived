@@ -1887,8 +1887,8 @@ diff -ruNp ./src.orig/uqm/save.c ./src/uqm/save.c
  	{
 diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 --- ./src.orig/uqm/setup.c	2017-02-25 17:11:43 -0600
-+++ ./src/uqm/setup.c	2017-03-05 21:18:17 -0600
-@@ -113,46 +113,56 @@ LoadKernel (int argc, char *argv[])
++++ ./src/uqm/setup.c	2017-03-05 22:19:14 -0600
+@@ -113,46 +113,55 @@ LoadKernel (int argc, char *argv[])
  	SetContextOrigin (MAKE_POINT (0, 0));
  
  	hResIndex = (RESOURCE_INDEX) InitResourceSystem ();
@@ -1917,6 +1917,11 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 -
 -	if (optRemixMusic)
 -	{
++	} else {		
++		loadAddon("rmx-shofixti");
++		loadAddon("rmx-subtitle");
++		loadAddon("rmx-utwig");
++		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
 +	}
 +	if (optRemixMusic){
  		loadAddon ("remix");
@@ -1951,12 +1956,6 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 +	if(loadAddon("rmx-nebulae")){
 +		log_add (log_Debug, "loading addon rmx-nebulae");
 +	}
-+	if (loadAddon("3dovoice")){
-+		loadAddon("rmx-subtitle");
-+		loadAddon("rmx-shofixti");
-+		loadAddon("rmx-utwig");
-+		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
-+	}
 +	if (resolutionFactor < 1){
 +		loadAddon("vux-fix-1x");
 +	}
@@ -1964,7 +1963,7 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
  	/* Now load the rest of the addons, in order. */
  	prepareAddons (optAddons);
  
-@@ -231,11 +241,32 @@ InitKernel (void)
+@@ -231,11 +240,32 @@ InitKernel (void)
  	hyperspacesuns = CaptureDrawable (LoadGraphic (HYPERSUNS_MASK_PMAP_ANIM));
  	if (hyperspacesuns == NULL)
  		return FALSE;
