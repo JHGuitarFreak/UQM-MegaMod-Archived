@@ -120,7 +120,8 @@ LoadKernel (int argc, char *argv[])
 	/* Always try to use voice data */
 	if (!loadAddon ("3dovoice")){
 		speechVolumeScale = 0.0f; // XXX: need better no-speech indicator
-	} else {		
+	} else {
+		loadAddon("rmx-subtitle");
 		loadAddon("rmx-shofixti");
 		loadAddon("rmx-utwig");
 		// Autoload support for Soul Reaver's dialog fixes
