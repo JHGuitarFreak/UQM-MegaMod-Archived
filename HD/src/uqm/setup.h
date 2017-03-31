@@ -62,6 +62,7 @@ extern QUEUE race_q[];
 
 extern BOOLEAN hires2xPackPresent; // JMS
 extern BOOLEAN hires4xPackPresent; // JMS
+extern BOOLEAN rmxGraphicsPresent; // Serosis
 
 extern ACTIVITY LastActivity;
 

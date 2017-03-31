@@ -81,7 +81,7 @@ DrawSISFrame (void)
 		r.extent.height = SCREEN_HEIGHT;
 		DrawFilledRectangle (&r);
 		
-		// Light and dark grey edges of the space window.
+		// Light and dark grey edges of the inner space window.
 		r.corner.x = SIS_ORG_X - 1;
 		r.corner.y = SIS_ORG_Y - 1;
 		r.extent.width = SIS_SCREEN_WIDTH + 2;

@@ -36,7 +36,7 @@ void
 DoShipSpin (COUNT index, MUSIC_REF hMusic)
 {
 #ifdef WANT_SHIP_SPINS
-	char vnbuf[32];
+	char vnbuf[24]; // From 32 to 24
 	RECT old_r;
 
 	LoadIntoExtraScreen (NULL);
@@ -46,8 +46,9 @@ DoShipSpin (COUNT index, MUSIC_REF hMusic)
 	FlushColorXForms ();
 #endif
 	
-	if (hMusic)
+	if (hMusic){
 		StopMusic ();
+	}
 
 	FreeHyperData ();
 

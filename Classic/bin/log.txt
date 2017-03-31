@@ -3192,12 +3192,6 @@ _GetSoundBankData(): decoded bytes 2399
 	'base/battle/asteroid-sml.ani' -- 609 bytes
 	'base/ui/newgame.ani' -- 183 bytes
 Trying to get undefined resource 'music.mainmenu'
-	'addons/3dovideo/intro/intro.duk' -- video
-	No associated audio
-	No associated speech
-	No specified loop frame
-_GetMusicData(): loading addons/3dovideo/intro/intro.duk
-    decoder: DukAud, rate 22050 format 17
 	'base/ui/playmenu.ani' -- 1182 bytes
 	'base/ships/drone/drone-meleeicons.ani' -- 33 bytes
 	'base/ui/flagshipstatus.ani' -- 822 bytes
@@ -3263,6 +3257,52 @@ _GetMusicData(): loading addons/3domusic/orbit4.ogg
 _GetMusicData(): loading addons/3domusic/orbit5.ogg
     decoder: Ogg Vorbis, rate 44100 format 17
 Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'flash rectangle' done (returned 0).
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+	'base/ui/starbase.ani' -- 1015 bytes
+	'addons/3domusic/starbase.ogg' -- 507687 bytes
+_GetMusicData(): loading addons/3domusic/starbase.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+	'base/ui/modulesmenu.ani' -- 484 bytes
+	'addons/3domusic/outfit.ogg' -- 1364222 bytes
+_GetMusicData(): loading addons/3domusic/outfit.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+	'base/ui/outfitmodules.ani' -- 1781 bytes
+	'base/ui/outfit.ani' -- 25 bytes
+Thread 'flash rectangle' blocking on 'DCQ'
+Thread 'flash rectangle' done (returned 0).
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'flash rectangle' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'flash rectangle' blocking on 'DCQ'
+Thread 'flash rectangle' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'flash rectangle' blocking on 'DCQ'
+Thread 'flash rectangle' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'flash rectangle' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'flash rectangle' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'flash rectangle' done (returned 0).
 	'base/ui/newgame.ani' -- 183 bytes
 Trying to get undefined resource 'music.mainmenu'
 Thread 'Starcon2Main' done (returned 0).
