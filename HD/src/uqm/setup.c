@@ -76,6 +76,7 @@ STRING GameStrings;
 QUEUE disp_q;
 BOOLEAN hires2xPackPresent; // JMS_GFX
 BOOLEAN hires4xPackPresent; // JMS_GFX
+BOOLEAN rmxGraphicsPresent; // Serosis
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -136,30 +137,48 @@ LoadKernel (int argc, char *argv[])
 	if (optRemixMusic){
 		loadAddon ("remix");
 	}
+
+	// A neat 'switch' instead of a boring if, then, else pyramid - Serosis
+	switch (resolutionFactor) {
+		case 1:
+			if(loadAddon ("hires2x")){
+				hires2xPackPresent = TRUE;
+				log_add (log_Debug, "loading addon hires2x");
+				if(loadAddon("rmx-graphics-2x")){
+					rmxGraphicsPresent = TRUE;
+					log_add (log_Debug, "loading rmx-graphics-2x");
+				}
+				if(loadAddon("sero-menu-2x")){
+					printf("Loading Sero-Menu 2x\n");
+					log_add (log_Debug, "loading sero-menu-2x");
+				}
+			}
+			break;
+		case 2:
+			if(loadAddon ("hires4x")){
+				hires4xPackPresent = TRUE;
+				log_add (log_Debug, "loading addon hires4x");
+				if(loadAddon("rmx-graphics-4x")){
+					rmxGraphicsPresent = TRUE;
+					log_add (log_Debug, "loading rmx-graphics-4x");
+				}
+				if(loadAddon("sero-menu-4x")){
+					printf("Loading Sero-Menu 4x\n");
+					log_add (log_Debug, "loading sero-menu-4x");
+				}
+			}
+			break;
+		default:
+			loadAddon("vux-fix-1x");
+			if(loadAddon("rmx-graphics-1x")){
+				rmxGraphicsPresent = TRUE;
+				log_add (log_Debug, "loading rmx-graphics-1x");
+			}
+			break;
+	}
+
 	if (optWhichIntro == OPT_3DO){
-		loadAddon ("3dovideo");
-	}
-
-	// JMS_GFX
-	if (resolutionFactor == 1 && loadAddon ("hires2x")){
-		hires2xPackPresent = TRUE;
-		log_add (log_Debug, "loading addon hires2x");
-	} else if (resolutionFactor == 2 && loadAddon ("hires4x")){
-		hires4xPackPresent = TRUE;
-		log_add (log_Debug, "loading addon hires4x");
-	}
-	// END JMS_GFX
-
-	if(optWhichIntro == OPT_PC && resolutionFactor > 0){
-		if(loadAddon("rmx-spins")){
-			log_add (log_Debug, "loading addon rmx-spins");
-		}
-	}
-	if(loadAddon("rmx-nebulae")){
-		log_add (log_Debug, "loading addon rmx-nebulae");
-	}
-	if (resolutionFactor < 1){
-		loadAddon("vux-fix-1x");
+		loadAddon ("3dovideo"); // Put this here to override the PC slides if enabled
 	}
 
 	/* Now load the rest of the addons, in order. */
@@ -241,31 +260,11 @@ InitKernel (void)
 	if (hyperspacesuns == NULL)
 		return FALSE;
 
-	if (!loadAddon("rmx-nebulae")){  // Ugly content checks for the new HD-Remix content
-		printf("Loading Nebulae\n"); // JMS: Background nebulae in IP.
-		nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
-		if (nebulaeFrame == NULL)
-			return FALSE;
-	} else {
-		if (resolutionFactor < 1) {
-			printf("Loading 1x Nebulae\n");
-			nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
-			if (nebulaeFrame == NULL)
-				return FALSE;
-		} else if (resolutionFactor == 1) {
-			printf("Loading 2x Nebulae\n");
-			nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM_2X));
-			if (nebulaeFrame == NULL)
-				return FALSE;
-		} else if (resolutionFactor > 1) {
-			printf("Loading 4x Nebulae\n");
-			nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM_4X));
-			if (nebulaeFrame == NULL)
-				return FALSE;
-		} else {
-			return FALSE;
-		}
-	}
+	// No longer have to do an ugly content check here, yay!
+	printf("Loading Nebulae\n"); // JMS: Background nebulae in IP.
+	nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
+	if (nebulaeFrame == NULL)
+		return FALSE;
 		
 	// JMS: Constellation lines for the constellation starmap.
 	ConstellationsFrame = CaptureDrawable (LoadGraphic (CONSTELLATIONS_MASK_PMAP_ANIM));

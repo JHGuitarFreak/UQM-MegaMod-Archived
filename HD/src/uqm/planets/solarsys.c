@@ -2369,7 +2369,7 @@ CreateStarBackGround (void)
 	CONTEXT oldContext;
 	RECT clipRect;
 	FRAME frame;
-	BYTE num_nebulae;
+	BYTE num_nebulae = 17;
 	
 	oldContext = SetContext (SpaceContext);
 	GetContextClipRect (&clipRect);
@@ -2387,11 +2387,10 @@ CreateStarBackGround (void)
 	old_seed = seedRandomForSolarSys ();
 
 	// JMS, BW: The beautiful nebula background.
-	if(!loadAddon("rmx-nebulae")){ // Ugly content checks
-		num_nebulae = 17; 
-	} else {
+	if(rmxGraphicsPresent){ // Less ugly content checks
 		num_nebulae = 22; // MB: correction to number of nebulae
 	}
+
 	if (optNebulae && (CurStarDescPtr->star_pt.y % (num_nebulae + 4)) < num_nebulae){ // MB: Make some solar systems not have nebulae
 		nebula.origin.x = nebula.origin.y = 0;
 		nebula.frame = SetAbsFrameIndex (nebulaeFrame, CurStarDescPtr->star_pt.x % num_nebulae);
