@@ -399,17 +399,17 @@ DrawStatusMessage (const UNICODE *pStr)
 		}
 		else if (curMsgMode == SMM_RES_UNITS)
 		{
-			if (GET_GAME_STATE (CHMMR_BOMB_STATE) < 2)
-			{
-				snprintf (buf, sizeof buf, "%u %s", GLOBAL_SIS (ResUnits),
-						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
-			}
-			else
+			if (GET_GAME_STATE (CHMMR_BOMB_STATE) > 2 || optGodMode)
 			{
 				snprintf (buf, sizeof buf, "%s %s",
 						(optWhichMenu == OPT_PC) ?
 							GAME_STRING (STATUS_STRING_BASE + 2)
 							: STR_INFINITY_SIGN, // "UNLIMITED"
+						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
+			}
+			else
+			{
+				snprintf (buf, sizeof buf, "%u %s", GLOBAL_SIS (ResUnits),
 						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
 			}
 		}

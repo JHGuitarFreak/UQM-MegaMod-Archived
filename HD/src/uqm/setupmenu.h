@@ -72,6 +72,12 @@ typedef enum {
 	OPTVAL_HIGH
 } OPT_AQUALITYTYPE;
 
+typedef enum {
+	OPTVAL_NORMAL,
+	OPTVAL_SLOW,
+	OPTVAL_FAST
+} OPT_TDTYPE;
+
 /* At the moment, CONTROL_TEMPLATE is directly in this structure.  If
  * CONTROL_TEMPLATE and the options available diverge, this will need
  * to change */
@@ -82,10 +88,11 @@ typedef struct globalopts_struct {
 	OPT_DRIVERTYPE driver;
 	OPT_ADRIVERTYPE adriver;
 	OPT_AQUALITYTYPE aquality;
+	OPT_TDTYPE tdType;
 	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo, music3do, musicremix, 
 		mainmenuMusic, mineralSubmenu, nebulae, rotatingIpPlanets, texturedIpPlanets, cheatMode, // JMS
-		godMode, timeDilation, bubbleWarp, roseBud, unlockShips, headStart, unlockUpgrades, landerMods, // Serosis
-		fastForward, skipIntro, FMV;
+		godMode, bubbleWarp, unlockShips, headStart, unlockUpgrades, landerMods, // Serosis
+		skipIntro, FMV;
 	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, meleezoom, shield;
 	CONTROL_TEMPLATE player1, player2;
 	int speechvol, musicvol, sfxvol;

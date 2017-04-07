@@ -139,14 +139,12 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, texturedIpPlanets); // JMS
 	DECL_CONFIG_OPTION(bool, cheatMode); // JMS
 	DECL_CONFIG_OPTION(bool, godMode); // Serosis
-	DECL_CONFIG_OPTION(bool, timeDilation);
+	DECL_CONFIG_OPTION(int, timeDilationScale);
 	DECL_CONFIG_OPTION(bool, bubbleWarp);
-	DECL_CONFIG_OPTION(bool, roseBud);
 	DECL_CONFIG_OPTION(bool, unlockShips);
 	DECL_CONFIG_OPTION(bool, headStart);
 	DECL_CONFIG_OPTION(bool, unlockUpgrades);
 	DECL_CONFIG_OPTION(bool, landerMods);
-	DECL_CONFIG_OPTION(bool, fastForward);
 	DECL_CONFIG_OPTION(bool, skipIntro);
 	DECL_CONFIG_OPTION(bool, FMV);
 
@@ -292,14 +290,12 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  texturedIpPlanets,	true),
 		INIT_CONFIG_OPTION(  cheatMode,			false ),
 		INIT_CONFIG_OPTION(  godMode,			false ), //Serosis
-		INIT_CONFIG_OPTION(  timeDilation,		false ),
+		INIT_CONFIG_OPTION(  timeDilationScale,	0 ),
 		INIT_CONFIG_OPTION(  bubbleWarp,		false ),
-		INIT_CONFIG_OPTION(  roseBud,			false ),
 		INIT_CONFIG_OPTION(  unlockShips,		false ),
 		INIT_CONFIG_OPTION(  headStart,			false ),
 		INIT_CONFIG_OPTION(  unlockUpgrades,	false ),
 		INIT_CONFIG_OPTION(  landerMods,		false ),
-		INIT_CONFIG_OPTION(  fastForward,		false ),
 		INIT_CONFIG_OPTION(  skipIntro,			false ),
 		INIT_CONFIG_OPTION(  FMV,				false ),
 	};
@@ -436,14 +432,12 @@ main (int argc, char *argv[])
 	optTexturedIpPlanets = options.texturedIpPlanets.value || optRotatingIpPlanets; // JMS
 	optCheatMode = options.cheatMode.value; // JMS
 	optGodMode = options.godMode.value; // Serosis
-	optTimeDilation = options.timeDilation.value;
+	timeDilationScale = (unsigned int) options.timeDilationScale.value; // Serosis
 	optBubbleWarp = options.bubbleWarp.value;
-	optRoseBud = options.roseBud.value;
 	optUnlockShips = options.unlockShips.value;
 	optHeadStart = options.headStart.value;
 	optUnlockUpgrades = options.unlockUpgrades.value;
 	optLanderMods = options.landerMods.value;
-	optFastForward = options.fastForward.value;
 	optSkipIntro = options.skipIntro.value;
 	optFMV = options.FMV.value;
 	
@@ -730,14 +724,14 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->texturedIpPlanets, "config.texturedIpPlanets");
 	getBoolConfigValue (&options->cheatMode, "config.cheatMode");
 	getBoolConfigValue (&options->godMode, "config.godMode"); //Serosis
-	getBoolConfigValue (&options->timeDilation, "config.timeDilation");
+	if (res_IsInteger ("config.timeDilation")) {
+		options->timeDilationScale.value = res_GetInteger ("config.timeDilation");
+	}
 	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp");
-	getBoolConfigValue (&options->roseBud, "config.roseBud");
 	getBoolConfigValue (&options->unlockShips, "config.unlockShips");
 	getBoolConfigValue (&options->headStart, "config.headStart");
 	getBoolConfigValue (&options->unlockUpgrades, "config.unlockUpgrades");
 	getBoolConfigValue (&options->landerMods, "config.landerMods");
-	getBoolConfigValue (&options->fastForward, "config.fastForward");
 	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
 	getBoolConfigValue (&options->FMV, "config.FMV");
 	
@@ -841,7 +835,7 @@ static struct option longOptions[] =
 	{"safe", 0, NULL, SAFEMODE_OPT},
 	{"cheatmode", 0, NULL, CHEATMODE_OPT}, //Serosis
 	{"godmode", 0, NULL, GODMODE_OPT},
-	{"timedilation", 0, NULL, TDM_OPT},
+	{"timedilation", 1, NULL, TDM_OPT},
 	{"bubblewarp", 0, NULL, BWARP_OPT},
 	{"rosebud", 0, NULL, ROSEBUD_OPT},
 	{"unlockships", 0, NULL, UNLOCKSHIPS_OPT},
@@ -1122,14 +1116,17 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case GODMODE_OPT:
 				setBoolOption (&options->godMode, true);
 				break;
-			case TDM_OPT:
-				setBoolOption (&options->timeDilation, true);
-				break;
+			case TDM_OPT:{
+				/*int temp;
+				if (parseIntOption (optarg, &temp, "time factor") == -1) {
+					badArg = true;
+					break;
+				}
+				printf("TDM: %i\n", temp);
+				timeDilationScale = temp;*/
+				break;}
 			case BWARP_OPT:
 				setBoolOption (&options->bubbleWarp, true);
-				break;
-			case ROSEBUD_OPT:
-				setBoolOption (&options->roseBud, true);
 				break;
 			case UNLOCKSHIPS_OPT:
 				setBoolOption (&options->unlockShips, true);
@@ -1142,9 +1139,6 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				break;
 			case LANDERCHT_OPT:
 				setBoolOption (&options->landerMods, true);
-				break;
-			case FASTFORWARD_OPT:
-				setBoolOption (&options->fastForward, true);
 				break;
 			case SKIPINTRO_OPT:
 				setBoolOption (&options->skipIntro, true);
@@ -1385,23 +1379,18 @@ usage (FILE *out, const struct options_struct *defaults)
 			"3do=throbbing (default %s)",
 			choiceOptString (&defaults->whichShield));
 	log_add (log_User, "  --scroll    : ff/frev during comm.  pc=per-page, "
-			"3do=smooth (default %s)",
-			choiceOptString (&defaults->smoothScroll));
+			"3do=smooth (default normal)");
 	log_add (log_User, "The following options are for the Mega Mod"); // Serosis
 	log_add (log_User, "  --cheatmode : Stops Kohr-Ah advancing.    (default %s)",
 			boolOptString (&defaults->cheatMode));
 	log_add (log_User, "  --godmode : Player ships and lander invulnerable. "
 			"Also refills energy every shot during melee.    (default %s)",
 			boolOptString (&defaults->godMode));
-	log_add (log_User, "  --timedilation : Increases time by a factor of 6. "
-			"IP=3 Minutes HS=30 Seconds    (default %s)",
-			boolOptString (&defaults->timeDilation));
+	log_add (log_User, "  --timedilation : Increases and decreases time by a factor of 5. "
+			"(default 0)");
 	log_add (log_User, "  --bubblewarp : Instantaneous travel to any point on "
 			"the Starmap.    (default %s)",
 			boolOptString (&defaults->bubbleWarp));
-	log_add (log_User, "  --rosebud : Get 1,000 R.U. and Credits when you ask the "
-			"Melnorme why their bridge is purple.    (default %s)",
-			boolOptString (&defaults->roseBud));
 	log_add (log_User, "  --unlockships : Allows you to purchase ships that you can't "
 			"normally acquire in the main game.    (default %s)",
 			boolOptString (&defaults->unlockShips));
@@ -1415,8 +1404,6 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_add (log_User, "  --landermods : Makes your landers have pin-point accuracy "
 			"when landing and doubles storage capacity.   (default %s)",
 			boolOptString (&defaults->landerMods));
-	log_add (log_User, "  --fastforward : Speeds up time by a factor of 5    (default %s)",
-			boolOptString (&defaults->fastForward));
 	log_add (log_User, "  --skipintro : Skips the intro    (default %s)",
 			boolOptString (&defaults->skipIntro));
 	log_add (log_User, "  --fmv : Adds Logo and Commercial 3DO videos    (default %s)",
