@@ -77,6 +77,7 @@ QUEUE disp_q;
 BOOLEAN hires2xPackPresent; // JMS_GFX
 BOOLEAN hires4xPackPresent; // JMS_GFX
 BOOLEAN rmxGraphicsPresent; // Serosis
+BOOLEAN seroSetupPresent; // Serosis
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -146,6 +147,7 @@ LoadKernel (int argc, char *argv[])
 				log_add (log_Debug, "loading addon hires2x");
 				if(loadAddon("rmx-graphics-2x")){
 					rmxGraphicsPresent = TRUE;
+					printf("Loading RMX-Graphics 2x\n");
 					log_add (log_Debug, "loading rmx-graphics-2x");
 				}
 				if(loadAddon("sero-menu-2x")){
@@ -160,6 +162,7 @@ LoadKernel (int argc, char *argv[])
 				log_add (log_Debug, "loading addon hires4x");
 				if(loadAddon("rmx-graphics-4x")){
 					rmxGraphicsPresent = TRUE;
+					printf("Loading RMX-Graphics 4x\n");
 					log_add (log_Debug, "loading rmx-graphics-4x");
 				}
 				if(loadAddon("sero-menu-4x")){
@@ -169,9 +172,13 @@ LoadKernel (int argc, char *argv[])
 			}
 			break;
 		default:
-			loadAddon("vux-fix-1x");
+			if(loadAddon("vux-fix-1x")){
+				printf("Loading Vux-Fix 1x\n");
+				log_add (log_Debug, "loading vux-fix-1x");
+			}
 			if(loadAddon("rmx-graphics-1x")){
 				rmxGraphicsPresent = TRUE;
+				printf("Loading RMX-Graphics 1x\n");
 				log_add (log_Debug, "loading rmx-graphics-1x");
 			}
 			break;
@@ -179,6 +186,15 @@ LoadKernel (int argc, char *argv[])
 
 	if (optWhichIntro == OPT_3DO){
 		loadAddon ("3dovideo"); // Put this here to override the PC slides if enabled
+	}
+
+	if(loadAddon("sero-setup")){
+		seroSetupPresent = TRUE;
+		printf("Loading Sero Setup\n");
+		log_add (log_Debug, "loading sero-setup\n");
+	} else {
+		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
+		exit (EXIT_FAILURE);
 	}
 
 	/* Now load the rest of the addons, in order. */
