@@ -83,7 +83,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       29 // JMS: New options added.
+#define CHOICE_COUNT       38 // JMS: New options added.
 #define SLIDER_COUNT        3
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -106,7 +106,8 @@ typedef int (*HANDLER)(WIDGET *, int);
 static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 
 	2, 2, 2, 2, 2, 3, 3, 2,	3, 3, 
-	3, 2, 3, 2, 2, 2, 2, 2, 2 };
+	3, 2, 3, 2, 2, 2, 2, 2, 2, 2,
+	3, 2, 2, 2, 2, 2, 2, 2};
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -117,11 +118,11 @@ static HANDLER button_handlers[BUTTON_COUNT] = {
 // JMS: The first 8 was 7 (sound options.) Added mainmenumusic on/off.
 // JMS: The HAVE_OPENGL options were 5 and 4. Added cheatMode, mineralSubmenu, nebulae and planet options.
 static int menu_sizes[MENU_COUNT] = {
-	7, 6, 8, 8, 2, 5,
+	7, 6, 8, 8, 11, 5,
 #ifdef HAVE_OPENGL
-	10,
-#else
 	9,
+#else
+	8,
 #endif
 	11
 };
@@ -179,7 +180,6 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[25]), // JMS: IP nebulae on/off
 	(WIDGET *)(&choices[26]), // JMS: rotatingIpPlanets on/off
 	(WIDGET *)(&choices[27]), // JMS: texturedIpPlanets on/off
-	(WIDGET *)(&choices[28]), // JMS: cheatMode on/off
 	(WIDGET *)(&buttons[1]) };
 
 static WIDGET *keyconfig_widgets[] = {
@@ -203,7 +203,16 @@ static WIDGET *editkeys_widgets[] = {
 	(WIDGET *)(&buttons[9]) };
 
 static WIDGET *incomplete_widgets[] = {
-	(WIDGET *)(&labels[0]),
+	(WIDGET *)(&choices[28]), // JMS: cheatMode on/off
+	(WIDGET *)(&choices[29]), // God Mode
+	(WIDGET *)(&choices[30]), // Time Dilation
+	(WIDGET *)(&choices[31]), // Bubble Warp
+	(WIDGET *)(&choices[32]), // Unlock Ships
+	(WIDGET *)(&choices[33]), // Head Start
+	(WIDGET *)(&choices[34]), // Unlock Upgrades
+	(WIDGET *)(&choices[35]), // Lander Mods
+	(WIDGET *)(&choices[36]), // Skip Intro
+	(WIDGET *)(&choices[37]), // FMV
 	(WIDGET *)(&buttons[1]) };
 
 static WIDGET **menu_widgets[MENU_COUNT] = {
@@ -414,7 +423,15 @@ SetDefaults (void)
 	choices[26].selected = opts.rotatingIpPlanets; // JMS
 	choices[27].selected = opts.texturedIpPlanets || opts.rotatingIpPlanets; // JMS
 	choices[28].selected = opts.cheatMode; // JMS
-	
+	choices[29].selected = opts.godMode; // Serosis
+	choices[30].selected = opts.tdType; // Serosis
+	choices[31].selected = opts.bubbleWarp; // Serosis
+	choices[32].selected = opts.unlockShips; // Serosis
+	choices[33].selected = opts.headStart; // Serosis
+	choices[34].selected = opts.unlockUpgrades; // Serosis
+	choices[35].selected = opts.landerMods; // Serosis
+	choices[36].selected = opts.skipIntro; // Serosis
+	choices[37].selected = opts.FMV; // Serosis
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
 	sliders[2].value = opts.speechvol;
@@ -452,6 +469,15 @@ PropagateResults (void)
 	opts.rotatingIpPlanets = choices[26].selected; // JMS
 	opts.texturedIpPlanets = choices[27].selected || opts.rotatingIpPlanets; // JMS
 	opts.cheatMode = choices[28].selected; // JMS
+	opts.godMode = choices[29].selected; // Serosis
+	opts.tdType = choices[30].selected; // Serosis
+	opts.bubbleWarp = choices[31].selected; // Serosis
+	opts.unlockShips = choices[32].selected; // Serosis
+	opts.headStart = choices[33].selected; // Serosis
+	opts.unlockUpgrades = choices[34].selected; // Serosis
+	opts.landerMods = choices[35].selected; // Serosis
+	opts.skipIntro = choices[36].selected; // Serosis
+	opts.FMV = choices[37].selected; // Serosis
 	
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1165,14 +1191,12 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->texturedIpPlanets = (optTexturedIpPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED) || opts->rotatingIpPlanets;
 	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->godMode = optGodMode ? OPTVAL_ENABLED : OPTVAL_DISABLED; //Serosis
-	opts->timeDilation = optTimeDilation ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->tdType = res_GetInteger ("config.timeDilation");
 	opts->bubbleWarp = optBubbleWarp ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->roseBud = optRoseBud ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->unlockShips = optUnlockShips ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->headStart = optHeadStart ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->unlockUpgrades = optUnlockUpgrades ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->landerMods = optLanderMods ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->fastForward = optFastForward ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->skipIntro = optSkipIntro ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->FMV = optFMV ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	
@@ -1394,7 +1418,19 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	
  	if (oldResFactor != resolutionFactor || (opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || (opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED))) // MB: To force the game to restart when changing music options (otherwise music will not be changed) or resfactor 
  		resFactorWasChanged = TRUE;
-	
+	switch (opts->tdType) {
+		case OPTVAL_NORMAL:
+			timeDilationScale = 0;
+			break;
+		case OPTVAL_SLOW:
+			timeDilationScale = 1;
+			break;
+		case OPTVAL_FAST:
+			timeDilationScale = 2;
+			break;
+		default:
+			break;
+	}
 	res_PutInteger ("config.reswidth", NewWidth);
 	res_PutInteger ("config.resheight", NewHeight);
 	res_PutBoolean ("config.alwaysgl", opts->driver == OPTVAL_ALWAYS_GL);
@@ -1438,17 +1474,12 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutBoolean ("config.godMode", opts->godMode == OPTVAL_ENABLED);
 	optGodMode = opts->godMode == OPTVAL_ENABLED;
 
-	// Serosis: Time Dilation: Increases time in IP and HS by a factor of 12
-	res_PutBoolean ("config.timeDilation", opts->timeDilation == OPTVAL_ENABLED);
-	optTimeDilation = opts->timeDilation == OPTVAL_ENABLED;
+	// Serosis: Time Dilation: Increases and divides time in IP and HS by a factor of 12
+	res_PutInteger ("config.timeDilation", opts->tdType);
 
 	// Serosis: Bubble Warp: Warp instantly to your destination
 	res_PutBoolean ("config.bubbleWarp", opts->bubbleWarp == OPTVAL_ENABLED);
 	optBubbleWarp = opts->bubbleWarp == OPTVAL_ENABLED;
-
-	// Serosis: R.U. and Credits cheat : Ask the Melonorme why the bridge turned purple for extra funds
-	res_PutBoolean ("config.roseBud", opts->roseBud == OPTVAL_ENABLED);
-	optRoseBud = opts->roseBud == OPTVAL_ENABLED;
 
 	// Serosis: Unlocks ships that you can not unlock under normal conditions
 	res_PutBoolean ("config.unlockShips", opts->unlockShips == OPTVAL_ENABLED);
@@ -1465,10 +1496,6 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Lander modifications
 	res_PutBoolean ("config.landerMods", opts->landerMods == OPTVAL_ENABLED);
 	optLanderMods = opts->landerMods == OPTVAL_ENABLED;
-	
-	// Serosis: Speed up time by a factor of 5
-	res_PutBoolean ("config.fastForward", opts->fastForward == OPTVAL_ENABLED);
-	optFastForward = opts->fastForward == OPTVAL_ENABLED;
 
 	// Serosis: Skip the intro
 	res_PutBoolean ("config.skipIntro", opts->skipIntro == OPTVAL_ENABLED);
