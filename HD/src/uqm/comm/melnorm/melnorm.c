@@ -1458,10 +1458,6 @@ NatureOfConversation (RESPONSE_REF R)
 				break;
 		}
 		SET_GAME_STATE (MELNORME_YACK_STACK2, stack + 5);
-		// Tying in the purple question with a Credit/R.U. cheat
-		if (optRoseBud){
-			SET_GAME_STATE (WHY_MELNORME_PURPLE, 0); // This is to make sure that the purple question shows up.
-		} // Serosis
 	}
 
 	rainbow_mask = MAKE_WORD (
@@ -1523,19 +1519,7 @@ NatureOfConversation (RESPONSE_REF R)
 		}
 		else if (PLAYER_SAID (R, why_turned_purple))
 		{
-			if (optRoseBud){
-				SET_GAME_STATE (WHY_MELNORME_PURPLE, 0); // Setting this to 0 makes sure the question is repeatable
-				DeltaCredit(1000); // Adds 1000 Credits
-				GLOBAL_SIS (ResUnits) += 1000; // Adds 1000 R.U.
-				// Make sure the RU/credit amount is redrawn:
-				if (LOBYTE (GLOBAL (CurrentActivity)) == IN_HYPERSPACE || LOBYTE (GLOBAL (CurrentActivity)) == IN_INTERPLANETARY) {
-					LockMutex (GraphicsLock);
-					DrawStatusMessage (NULL);
-					UnlockMutex (GraphicsLock);
-				}
-			} else {
-				SET_GAME_STATE (WHY_MELNORME_PURPLE, 1);
-			} // Serosis
+			SET_GAME_STATE (WHY_MELNORME_PURPLE, 1);
 
 			NPCPhrase (TURNED_PURPLE_BECAUSE);
 		}

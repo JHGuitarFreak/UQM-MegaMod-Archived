@@ -198,7 +198,6 @@ while (--ac > 0)
 }
 }
 #endif // CREATE_JOURNAL
-
 	{
 		/* TODO: Put initAudio back in main where it belongs once threading
 		 *       is gone.
@@ -294,12 +293,18 @@ while (--ac > 0)
 				GLOBAL (CurrentActivity) = MAKE_WORD (IN_INTERPLANETARY, 0);
 
 				DrawAutoPilotMessage (TRUE);
-				if (optTimeDilation){
-					SetGameClockRate (INTERPLANETARY_CLOCK_RATE * 6);
-				} else if(optFastForward){
-					SetGameClockRate (INTERPLANETARY_CLOCK_RATE / 5);
-				} else {
-					SetGameClockRate (INTERPLANETARY_CLOCK_RATE);
+								
+				//printf ("Time Scale: %u\n", timeDilationScale);
+				switch (timeDilationScale){
+					case 1:
+						SetGameClockRate (INTERPLANETARY_CLOCK_RATE * 6);
+						break;
+					case 2:
+						SetGameClockRate (INTERPLANETARY_CLOCK_RATE / 5);
+						break;
+					default:
+						SetGameClockRate (INTERPLANETARY_CLOCK_RATE);
+						break;
 				}
 				ExploreSolarSys ();
 			}
@@ -309,12 +314,16 @@ while (--ac > 0)
 				GLOBAL (CurrentActivity) = MAKE_WORD (IN_HYPERSPACE, 0);
 
 				DrawAutoPilotMessage (TRUE);
-				if (optTimeDilation){
-					SetGameClockRate (HYPERSPACE_CLOCK_RATE * 6);
-				} else if(optFastForward) {
-					SetGameClockRate (HYPERSPACE_CLOCK_RATE / 5);
-				} else {
-					SetGameClockRate (HYPERSPACE_CLOCK_RATE);
+				switch (timeDilationScale){
+					case 1:
+						SetGameClockRate (HYPERSPACE_CLOCK_RATE * 6);
+						break;
+					case 2:
+						SetGameClockRate (HYPERSPACE_CLOCK_RATE / 5);
+						break;
+					default:
+						SetGameClockRate (HYPERSPACE_CLOCK_RATE);
+						break;
 				}
 				Battle (&on_battle_frame);
 			}
@@ -360,6 +369,9 @@ while (--ac > 0)
 				GLOBAL (ModuleCost[CANNON_WEAPON]) = 6000 / MODULE_COST_SCALE;
 				GLOBAL (ModuleCost[SHIVA_FURNACE]) = 4000 / MODULE_COST_SCALE;
 				SET_GAME_STATE (MELNORME_TECH_STACK, 13);
+			}
+			if (optGodMode){
+				GLOBAL_SIS (ResUnits) = 4000000000L;
 			}
 		} while (!(GLOBAL (CurrentActivity) & CHECK_ABORT));
 
