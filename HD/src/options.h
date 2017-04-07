@@ -44,6 +44,7 @@ extern int optMeleeScale;
 // JMS_GFX
 extern unsigned int loresBlowupScale;
 extern unsigned int resolutionFactor;
+extern unsigned int timeDilationScale;
 extern BOOLEAN forceAspectRatio;
 extern BOOLEAN resFactorWasChanged;
 
@@ -55,14 +56,11 @@ extern BOOLEAN optRotatingIpPlanets;
 extern BOOLEAN optTexturedIpPlanets;
 extern BOOLEAN optCheatMode;
 extern BOOLEAN optGodMode; // Serosis
-extern BOOLEAN optTimeDilation;
 extern BOOLEAN optBubbleWarp;
-extern BOOLEAN optRoseBud;
 extern BOOLEAN optUnlockShips;
 extern BOOLEAN optHeadStart;
 extern BOOLEAN optUnlockUpgrades;
 extern BOOLEAN optLanderMods;
-extern BOOLEAN optFastForward;
 extern BOOLEAN optSkipIntro;
 extern BOOLEAN optFMV;
 
