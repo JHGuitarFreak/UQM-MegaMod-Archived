@@ -57,6 +57,7 @@ const char **optAddons;
 // JMS_GFX
 unsigned int loresBlowupScale;
 unsigned int resolutionFactor;
+unsigned int timeDilationScale;
 BOOLEAN forceAspectRatio;
 BOOLEAN resFactorWasChanged;
 
@@ -68,14 +69,11 @@ BOOLEAN optRotatingIpPlanets;
 BOOLEAN optTexturedIpPlanets;
 BOOLEAN optCheatMode;
 BOOLEAN optGodMode; // Serosis
-BOOLEAN optTimeDilation;
 BOOLEAN optBubbleWarp;
-BOOLEAN optRoseBud;
 BOOLEAN optUnlockShips;
 BOOLEAN optHeadStart;
 BOOLEAN optUnlockUpgrades;
 BOOLEAN optLanderMods;
-BOOLEAN optFastForward;
 BOOLEAN optSkipIntro;
 BOOLEAN optFMV;
 
