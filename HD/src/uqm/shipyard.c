@@ -105,7 +105,11 @@ animatePowerLines (MENU_STATE *pMS)
 	{	// Init animation
 		s.origin.x = 0;
 		s.origin.y = 0;
-		s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 24);
+		if(!seroMenuPresent){
+			s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 24);
+		} else {
+			s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 25); // This shifts the animation over one so the Kohr-Ah could have a ship label
+		}
 		ColorMap = SetAbsColorMapIndex (pMS->CurString, 0);
 	}
 
