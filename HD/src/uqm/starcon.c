@@ -293,8 +293,6 @@ while (--ac > 0)
 				GLOBAL (CurrentActivity) = MAKE_WORD (IN_INTERPLANETARY, 0);
 
 				DrawAutoPilotMessage (TRUE);
-								
-				//printf ("Time Scale: %u\n", timeDilationScale);
 				switch (timeDilationScale){
 					case 1:
 						SetGameClockRate (INTERPLANETARY_CLOCK_RATE * 6);
@@ -353,6 +351,8 @@ while (--ac > 0)
 				ActivateStarShip (ILWRATH_SHIP, SET_ALLIED);
 				ActivateStarShip (MYCON_SHIP, SET_ALLIED);
 				ActivateStarShip (SLYLANDRO_SHIP, SET_ALLIED);
+				ActivateStarShip (YEHAT_SHIP, SET_ALLIED);
+				ActivateStarShip (PKUNK_SHIP, SET_ALLIED);
 				ActivateStarShip (URQUAN_SHIP, SET_ALLIED);
 				ActivateStarShip (BLACK_URQUAN_SHIP, SET_ALLIED);
 			}
