@@ -316,6 +316,11 @@ InitGameStructures (void)
 		GLOBAL_SIS (ModuleSlots[15]) = GUN_WEAPON;
 		GLOBAL_SIS (FuelOnBoard) = 110 * FUEL_TANK_SCALE;
 		GLOBAL_SIS (CrewEnlisted) = 100;
+		SET_GAME_STATE (MOONBASE_DESTROYED, 1);
+		SET_GAME_STATE (MOONBASE_ON_SHIP, 1);
+		SET_GAME_STATE (FOUND_PLUTO_SPATHI, 2);
+		SET_GAME_STATE (KNOW_SPATHI_PASSWORD, 1);
+		SET_GAME_STATE (PROBE_MESSAGE_DELIVERED, 1);
 	} else {
 		for (i = 0; i < NUM_DRIVE_SLOTS; ++i)
 			GLOBAL_SIS (DriveSlots[i]) = EMPTY_SLOT + 0;
@@ -371,6 +376,12 @@ InitGameStructures (void)
 
 	ActivateStarShip (HUMAN_SHIP, SET_ALLIED);
 	CloneShipFragment (HUMAN_SHIP, &GLOBAL (built_ship_q), 0);
+
+	if(optHeadStart){
+		ActivateStarShip (SPATHI_SHIP, 1);
+		/* Make the Eluder escort captained by Fwiffo alone */
+		SetEscortCrewComplement (SPATHI_SHIP, 1, NAME_OFFSET + NUM_CAPTAINS_NAMES);
+	}
 
 	GLOBAL_SIS (log_x) = UNIVERSE_TO_LOGX (SOL_X);
 	GLOBAL_SIS (log_y) = UNIVERSE_TO_LOGY (SOL_Y);
