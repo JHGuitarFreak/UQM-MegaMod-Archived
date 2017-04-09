@@ -424,6 +424,7 @@ main (int argc, char *argv[])
 	resolutionFactor = (unsigned int) options.resolutionFactor.value; // JMS_GFX
 	forceAspectRatio = options.forceAspectRatio.value; // JMS_GFX
 	loresBlowupScale = (unsigned int) options.loresBlowupScale.value; // JMS_GFX
+	timeDilationScale = (unsigned int) options.timeDilationScale.value; // Serosis
 	resFactorWasChanged = FALSE; // JMS_GFX
 	optMainmenuMusic = options.mainmenuMusic.value; // JMS
 	optMineralSubmenu = options.mineralSubmenu.value; // JMS
@@ -432,7 +433,6 @@ main (int argc, char *argv[])
 	optTexturedIpPlanets = options.texturedIpPlanets.value || optRotatingIpPlanets; // JMS
 	optCheatMode = options.cheatMode.value; // JMS
 	optGodMode = options.godMode.value; // Serosis
-	timeDilationScale = (unsigned int) options.timeDilationScale.value; // Serosis
 	optBubbleWarp = options.bubbleWarp.value;
 	optUnlockShips = options.unlockShips.value;
 	optHeadStart = options.headStart.value;
@@ -724,7 +724,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->texturedIpPlanets, "config.texturedIpPlanets");
 	getBoolConfigValue (&options->cheatMode, "config.cheatMode");
 	getBoolConfigValue (&options->godMode, "config.godMode"); //Serosis
-	if (res_IsInteger ("config.timeDilation")) {
+	if (res_IsInteger ("config.timeDilation") && !timeDilationCLI) {
 		options->timeDilationScale.value = res_GetInteger ("config.timeDilation");
 	}
 	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp");
@@ -1117,13 +1117,13 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				setBoolOption (&options->godMode, true);
 				break;
 			case TDM_OPT:{
-				/*int temp;
+				int temp;
 				if (parseIntOption (optarg, &temp, "time factor") == -1) {
 					badArg = true;
 					break;
 				}
-				printf("TDM: %i\n", temp);
-				timeDilationScale = temp;*/
+				timeDilationCLI = TRUE;
+				options->timeDilationScale.value = temp;
 				break;}
 			case BWARP_OPT:
 				setBoolOption (&options->bubbleWarp, true);
