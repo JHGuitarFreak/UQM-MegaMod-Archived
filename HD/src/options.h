@@ -56,7 +56,6 @@ extern BOOLEAN optTexturedIpPlanets;
 extern BOOLEAN optCheatMode;
 extern BOOLEAN optGodMode; // Serosis
 extern unsigned int timeDilationScale;
-extern BOOLEAN timeDilationCLI;
 extern BOOLEAN optBubbleWarp;
 extern BOOLEAN optUnlockShips;
 extern BOOLEAN optHeadStart;
