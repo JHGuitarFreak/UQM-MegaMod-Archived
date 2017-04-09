@@ -64,6 +64,7 @@ extern BOOLEAN hires2xPackPresent; // JMS
 extern BOOLEAN hires4xPackPresent; // JMS
 extern BOOLEAN rmxGraphicsPresent; // Serosis
 extern BOOLEAN seroSetupPresent; // Serosis
+extern BOOLEAN seroMenuPresent; // Serosis
 
 extern ACTIVITY LastActivity;
 
