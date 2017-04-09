@@ -31,7 +31,7 @@
 
 #define OPT_3DO 0x01
 #define OPT_PC  0x02
-#define OPT_ALL 0xFF
+#define OPT_ALL 0xFF // This is never used, WTF?
 
 extern int optWhichCoarseScan;
 extern int optWhichMenu;
@@ -44,7 +44,6 @@ extern int optMeleeScale;
 // JMS_GFX
 extern unsigned int loresBlowupScale;
 extern unsigned int resolutionFactor;
-extern unsigned int timeDilationScale;
 extern BOOLEAN forceAspectRatio;
 extern BOOLEAN resFactorWasChanged;
 
@@ -56,6 +55,8 @@ extern BOOLEAN optRotatingIpPlanets;
 extern BOOLEAN optTexturedIpPlanets;
 extern BOOLEAN optCheatMode;
 extern BOOLEAN optGodMode; // Serosis
+extern unsigned int timeDilationScale;
+extern BOOLEAN timeDilationCLI;
 extern BOOLEAN optBubbleWarp;
 extern BOOLEAN optUnlockShips;
 extern BOOLEAN optHeadStart;
