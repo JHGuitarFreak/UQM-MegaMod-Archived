@@ -69,7 +69,6 @@ BOOLEAN optTexturedIpPlanets;
 BOOLEAN optCheatMode;
 BOOLEAN optGodMode; // Serosis
 unsigned int timeDilationScale;
-BOOLEAN timeDilationCLI;
 BOOLEAN optBubbleWarp;
 BOOLEAN optUnlockShips;
 BOOLEAN optHeadStart;

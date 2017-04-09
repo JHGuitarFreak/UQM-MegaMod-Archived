@@ -724,7 +724,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->texturedIpPlanets, "config.texturedIpPlanets");
 	getBoolConfigValue (&options->cheatMode, "config.cheatMode");
 	getBoolConfigValue (&options->godMode, "config.godMode"); //Serosis
-	if (res_IsInteger ("config.timeDilation") && !timeDilationCLI) {
+	if (res_IsInteger ("config.timeDilation") && !options->timeDilationScale.set) {
 		options->timeDilationScale.value = res_GetInteger ("config.timeDilation");
 	}
 	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp");
@@ -1118,13 +1118,18 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				break;
 			case TDM_OPT:{
 				int temp;
-				if (parseIntOption (optarg, &temp, "time factor") == -1) {
+				if (parseIntOption (optarg, &temp, "Time Dilation scale") == -1) {
 					badArg = true;
 					break;
+				} else if (temp < 0 || temp > 2) {					
+					saveError ("\nTime Dilation scale has to be 0, 1, or 2.\n");
+					badArg = true;
+				} else {
+					options->timeDilationScale.value = temp;
+					options->timeDilationScale.set = true;
 				}
-				timeDilationCLI = TRUE;
-				options->timeDilationScale.value = temp;
-				break;}
+				break;
+			}
 			case BWARP_OPT:
 				setBoolOption (&options->bubbleWarp, true);
 				break;
