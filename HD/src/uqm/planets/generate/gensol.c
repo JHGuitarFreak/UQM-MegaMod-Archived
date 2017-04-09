@@ -28,6 +28,7 @@
 #include "../../nameref.h"
 #include "../../state.h"
 #include "libs/mathlib.h"
+#include "options.h"
 
 #include <math.h>
 
@@ -80,7 +81,7 @@ GenerateSol_initNpcs (SOLARSYS_STATE *solarSys)
 		SET_GAME_STATE_32 (URQUAN_PROBE_GRPOFFS0, GLOBAL (BattleGroupRef));
 	}
 
-	if (!init_probe ())
+	if (!init_probe () || optHeadStart)
 		GenerateDefault_initNpcs (solarSys);
 
 	return true;
