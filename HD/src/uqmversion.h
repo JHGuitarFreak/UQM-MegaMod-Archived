@@ -21,7 +21,7 @@
 #define UQM_MAJOR_VERSION_S  "0"
 #define UQM_MINOR_VERSION     7
 #define UQM_MINOR_VERSION_S  "7"
-#define UQM_PATCH_VERSION     2
+#define UQM_PATCH_VERSION     3
 #define UQM_PATCH_VERSION_S  "3"
 #define UQM_EXTRA_VERSION    " HD MegaMod"
 /* The final version is interpreted as:
