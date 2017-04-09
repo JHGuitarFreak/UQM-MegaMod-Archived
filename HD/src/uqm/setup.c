@@ -78,6 +78,7 @@ BOOLEAN hires2xPackPresent; // JMS_GFX
 BOOLEAN hires4xPackPresent; // JMS_GFX
 BOOLEAN rmxGraphicsPresent; // Serosis
 BOOLEAN seroSetupPresent; // Serosis
+BOOLEAN seroMenuPresent; // Serosis
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -151,6 +152,7 @@ LoadKernel (int argc, char *argv[])
 					log_add (log_Debug, "loading rmx-graphics-2x");
 				}
 				if(loadAddon("sero-menu-2x")){
+					seroMenuPresent = TRUE;
 					printf("Loading Sero-Menu 2x\n");
 					log_add (log_Debug, "loading sero-menu-2x");
 				}
@@ -166,6 +168,7 @@ LoadKernel (int argc, char *argv[])
 					log_add (log_Debug, "loading rmx-graphics-4x");
 				}
 				if(loadAddon("sero-menu-4x")){
+					seroMenuPresent = TRUE;
 					printf("Loading Sero-Menu 4x\n");
 					log_add (log_Debug, "loading sero-menu-4x");
 				}
