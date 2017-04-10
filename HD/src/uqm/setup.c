@@ -184,6 +184,11 @@ LoadKernel (int argc, char *argv[])
 				printf("Loading RMX-Graphics 1x\n");
 				log_add (log_Debug, "loading rmx-graphics-1x");
 			}
+			if(loadAddon("sero-menu-1x")){
+				seroMenuPresent = TRUE;
+				printf("Loading Sero-Menu 1x\n");
+				log_add (log_Debug, "loading sero-menu-1x");
+			}
 			break;
 	}
 
