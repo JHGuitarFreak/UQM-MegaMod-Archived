@@ -201,9 +201,6 @@ DoInstallModule (MENU_STATE *pMS)
 	SIZE FirstItem, LastItem;
 	BOOLEAN select, cancel, motion;
 	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-	if(optLanderMods){
-		StorageBayCapacity = StorageBayCapacity <<= 1;
-	}
 
 	if (GLOBAL (CurrentActivity) & CHECK_ABORT)
 	{

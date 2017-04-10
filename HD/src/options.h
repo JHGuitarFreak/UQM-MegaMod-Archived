@@ -60,7 +60,8 @@ extern BOOLEAN optBubbleWarp;
 extern BOOLEAN optUnlockShips;
 extern BOOLEAN optHeadStart;
 extern BOOLEAN optUnlockUpgrades;
-extern BOOLEAN optLanderMods;
+extern BOOLEAN optInfiniteRU;
+extern DWORD oldRU;
 extern BOOLEAN optSkipIntro;
 extern BOOLEAN optFMV;
 

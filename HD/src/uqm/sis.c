@@ -399,7 +399,7 @@ DrawStatusMessage (const UNICODE *pStr)
 		}
 		else if (curMsgMode == SMM_RES_UNITS)
 		{
-			if (GET_GAME_STATE (CHMMR_BOMB_STATE) > 2 || optGodMode)
+			if (GET_GAME_STATE (CHMMR_BOMB_STATE) > 2 || GLOBAL_SIS (ResUnits) > 2000000L)
 			{
 				snprintf (buf, sizeof buf, "%s %s",
 						(optWhichMenu == OPT_PC) ?
@@ -794,9 +794,6 @@ DrawStorageBays (BOOLEAN Refresh)
 	RECT r;
 	CONTEXT OldContext;
 	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-	if(optLanderMods){
-		StorageBayCapacity = StorageBayCapacity <<= 1;
-	}
 
 	OldContext = SetContext (StatusContext);
 	r.extent.width  = RES_STAT_SCALE(2); // JMS_GFX
@@ -1343,9 +1340,6 @@ COUNT
 GetModuleStorageCapacity (BYTE moduleType)
 {
 	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-	if(optLanderMods){
-		StorageBayCapacity = StorageBayCapacity <<= 1;
-	}
 
 	if (moduleType == STORAGE_BAY)
 		return StorageBayCapacity;
