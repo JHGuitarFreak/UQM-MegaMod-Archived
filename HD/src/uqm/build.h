@@ -49,6 +49,7 @@ extern BYTE NameCaptain (QUEUE *pQueue, SPECIES_ID SpeciesID);
 #define SPHERE_TRACKING    -6
 #define ESCORTING_FLAGSHIP -7
 #define FEASIBILITY_STUDY  -8
+#define ALLOW_BUILD		   -9
 		/* Check for how many escort ships there's still space */
 
 extern COUNT ActivateStarShip (COUNT which_ship, SIZE state);

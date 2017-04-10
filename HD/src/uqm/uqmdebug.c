@@ -632,10 +632,10 @@ activateAllShips (void)
 		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
 		hNextShip = _GetSuccLink (FleetPtr);
 
-		if (FleetPtr->icons != NULL)
+		if (FleetPtr->icons != NULL && FleetPtr->allied_state != GOOD_GUY)
 				// Skip the Ur-Quan probe.
 		{
-			FleetPtr->allied_state = GOOD_GUY;
+			FleetPtr->allied_state = CAN_BUILD;
 		}
 
 		UnlockFleetInfo (&GLOBAL (avail_race_q), hStarShip);

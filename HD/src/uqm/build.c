@@ -210,6 +210,27 @@ ActivateStarShip (COUNT which_ship, SIZE state)
 			UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
 			break;
 		}
+		case ALLOW_BUILD:
+		{
+			FLEET_INFO *FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q),
+					hFleet);
+
+			if (FleetPtr->allied_state == GOOD_GUY) {	
+				/* Strange request, silently ignore it */
+				UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
+				break;
+			}
+
+			if (state == ALLOW_BUILD){
+				FleetPtr->allied_state = CAN_BUILD;
+			} else {	/* Strange request, silently ignore it */
+				UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
+				break;
+			}
+			
+			UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
+			break;
+		}
 		case REMOVE_BUILT:
 		{
 			HSHIPFRAG hStarShip, hNextShip;
