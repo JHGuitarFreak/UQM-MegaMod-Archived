@@ -210,7 +210,7 @@ static WIDGET *incomplete_widgets[] = {
 	(WIDGET *)(&choices[32]), // Unlock Ships
 	(WIDGET *)(&choices[33]), // Head Start
 	(WIDGET *)(&choices[34]), // Unlock Upgrades
-	(WIDGET *)(&choices[35]), // Lander Mods
+	(WIDGET *)(&choices[35]), // Infinite RU
 	(WIDGET *)(&choices[36]), // Skip Intro
 	(WIDGET *)(&choices[37]), // FMV
 	(WIDGET *)(&buttons[1]) };
@@ -429,7 +429,7 @@ SetDefaults (void)
 	choices[32].selected = opts.unlockShips; // Serosis
 	choices[33].selected = opts.headStart; // Serosis
 	choices[34].selected = opts.unlockUpgrades; // Serosis
-	choices[35].selected = opts.landerMods; // Serosis
+	choices[35].selected = opts.infiniteRU; // Serosis
 	choices[36].selected = opts.skipIntro; // Serosis
 	choices[37].selected = opts.FMV; // Serosis
 	sliders[0].value = opts.musicvol;
@@ -475,7 +475,7 @@ PropagateResults (void)
 	opts.unlockShips = choices[32].selected; // Serosis
 	opts.headStart = choices[33].selected; // Serosis
 	opts.unlockUpgrades = choices[34].selected; // Serosis
-	opts.landerMods = choices[35].selected; // Serosis
+	opts.infiniteRU = choices[35].selected; // Serosis
 	opts.skipIntro = choices[36].selected; // Serosis
 	opts.FMV = choices[37].selected; // Serosis
 	
@@ -1196,7 +1196,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->unlockShips = optUnlockShips ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->headStart = optHeadStart ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->unlockUpgrades = optUnlockUpgrades ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->landerMods = optLanderMods ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->infiniteRU = optInfiniteRU ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->skipIntro = optSkipIntro ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->FMV = optFMV ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	
@@ -1246,13 +1246,13 @@ GetGlobalOptions (GLOBALOPTS *opts)
 					opts->driver = OPTVAL_ALWAYS_GL;
 				}
 				break;
-			case 800:
+			case 960:
 				opts->res = OPTVAL_320_240;
-				opts->loresBlowup = OPTVAL_320_TO_800;
+				opts->loresBlowup = OPTVAL_320_TO_960;
 				break;
-			case 1024:
+			case 1280:
 				opts->res = OPTVAL_320_240;
-				opts->loresBlowup = OPTVAL_320_TO_1024;	
+				opts->loresBlowup = OPTVAL_320_TO_1280;	
 				break;
 			default:
 				opts->res = OPTVAL_320_240;
@@ -1397,15 +1397,15 @@ SetGlobalOptions (GLOBALOPTS *opts)
 #endif
 				resolutionFactor = 0;
 				break;
-			case OPTVAL_320_TO_800:
-				NewWidth = 800;
-				NewHeight = 600;
+			case OPTVAL_320_TO_960:
+				NewWidth = 960;
+				NewHeight = 720;
 				NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
 				resolutionFactor = 0;
 				break;
-			case OPTVAL_320_TO_1024:
-				NewWidth = 1024;
-				NewHeight = 768;
+			case OPTVAL_320_TO_1280:
+				NewWidth = 1280;
+				NewHeight = 960;
 				NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
 				resolutionFactor = 0;
 				break;
@@ -1493,9 +1493,9 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutBoolean ("config.unlockUpgrades", opts->unlockUpgrades == OPTVAL_ENABLED);
 	optUnlockUpgrades = opts->unlockUpgrades == OPTVAL_ENABLED;
 
-	// Serosis: Lander modifications
-	res_PutBoolean ("config.landerMods", opts->landerMods == OPTVAL_ENABLED);
-	optLanderMods = opts->landerMods == OPTVAL_ENABLED;
+	// Serosis: Virtually Infinite RU
+	res_PutBoolean ("config.infiniteRU", opts->infiniteRU == OPTVAL_ENABLED);
+	optInfiniteRU = opts->infiniteRU == OPTVAL_ENABLED;
 
 	// Serosis: Skip the intro
 	res_PutBoolean ("config.skipIntro", opts->skipIntro == OPTVAL_ENABLED);
