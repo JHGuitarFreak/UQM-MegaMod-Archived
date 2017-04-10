@@ -170,7 +170,7 @@ GetAvailableRaceCount (void)
 		FLEET_INFO *FleetPtr;
 
 		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
-		if (FleetPtr->allied_state == GOOD_GUY)
+		if (FleetPtr->allied_state == GOOD_GUY || FleetPtr->allied_state == CAN_BUILD)
 			++Index;
 
 		hNextShip = _GetSuccLink (FleetPtr);
@@ -191,7 +191,7 @@ GetAvailableRaceFromIndex (BYTE Index)
 		FLEET_INFO *FleetPtr;
 
 		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
-		if (FleetPtr->allied_state == GOOD_GUY && Index-- == 0)
+		if (FleetPtr->allied_state == GOOD_GUY && Index-- == 0 || FleetPtr->allied_state == CAN_BUILD && Index-- == 0)
 		{
 			UnlockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
 			return hStarShip;

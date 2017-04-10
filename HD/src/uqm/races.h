@@ -388,6 +388,7 @@ enum
 	DEAD_GUY = 0,
 	GOOD_GUY,
 	BAD_GUY,
+	CAN_BUILD,
 };
 
 static inline FLEET_INFO *
