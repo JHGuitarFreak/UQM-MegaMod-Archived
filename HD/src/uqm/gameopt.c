@@ -1263,7 +1263,10 @@ SaveLoadGame (PICK_GAME_STATE *pickState, COUNT gameIndex, BOOLEAN *canceled_by_
 	if (pickState->saving)
 	{
 		if (NameSaveGame (desc, gameIndex))
-		{
+		{			
+			if(optInfiniteRU){
+				GLOBAL_SIS (ResUnits) = oldRU;
+			}
 			PlayMenuSound (MENU_SOUND_SUCCESS);
 			LockMutex (GraphicsLock);
 			ConfirmSaveLoad (pickState->saving ? &saveStamp : NULL);

@@ -144,7 +144,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, unlockShips);
 	DECL_CONFIG_OPTION(bool, headStart);
 	DECL_CONFIG_OPTION(bool, unlockUpgrades);
-	DECL_CONFIG_OPTION(bool, landerMods);
+	DECL_CONFIG_OPTION(bool, infiniteRU);
 	DECL_CONFIG_OPTION(bool, skipIntro);
 	DECL_CONFIG_OPTION(bool, FMV);
 
@@ -295,7 +295,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  unlockShips,		false ),
 		INIT_CONFIG_OPTION(  headStart,			false ),
 		INIT_CONFIG_OPTION(  unlockUpgrades,	false ),
-		INIT_CONFIG_OPTION(  landerMods,		false ),
+		INIT_CONFIG_OPTION(  infiniteRU,		false ),
 		INIT_CONFIG_OPTION(  skipIntro,			false ),
 		INIT_CONFIG_OPTION(  FMV,				false ),
 	};
@@ -437,7 +437,7 @@ main (int argc, char *argv[])
 	optUnlockShips = options.unlockShips.value;
 	optHeadStart = options.headStart.value;
 	optUnlockUpgrades = options.unlockUpgrades.value;
-	optLanderMods = options.landerMods.value;
+	optInfiniteRU = options.infiniteRU.value;
 	optSkipIntro = options.skipIntro.value;
 	optFMV = options.FMV.value;
 	
@@ -731,7 +731,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->unlockShips, "config.unlockShips");
 	getBoolConfigValue (&options->headStart, "config.headStart");
 	getBoolConfigValue (&options->unlockUpgrades, "config.unlockUpgrades");
-	getBoolConfigValue (&options->landerMods, "config.landerMods");
+	getBoolConfigValue (&options->infiniteRU, "config.infiniteRU");
 	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
 	getBoolConfigValue (&options->FMV, "config.FMV");
 	
@@ -781,7 +781,7 @@ enum
 	UNLOCKSHIPS_OPT,
 	HEADSTART_OPT,
 	UPGRADES_OPT,
-	LANDERCHT_OPT,
+	INFINITERU_OPT,
 	FASTFORWARD_OPT,
 	SKIPINTRO_OPT,
 	FMV_OPT,
@@ -841,7 +841,7 @@ static struct option longOptions[] =
 	{"unlockships", 0, NULL, UNLOCKSHIPS_OPT},
 	{"headstart", 0, NULL, HEADSTART_OPT},
 	{"unlockupgrades", 0, NULL, UPGRADES_OPT},
-	{"landermods", 0, NULL, LANDERCHT_OPT},
+	{"infiniteru", 0, NULL, INFINITERU_OPT},
 	{"fastforward", 0, NULL, FASTFORWARD_OPT},
 	{"skipintro", 0, NULL, SKIPINTRO_OPT},
 	{"fmv", 0, NULL, FMV_OPT},
@@ -1142,8 +1142,8 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case UPGRADES_OPT:
 				setBoolOption (&options->unlockUpgrades, true);
 				break;
-			case LANDERCHT_OPT:
-				setBoolOption (&options->landerMods, true);
+			case INFINITERU_OPT:
+				setBoolOption (&options->infiniteRU, true);
 				break;
 			case SKIPINTRO_OPT:
 				setBoolOption (&options->skipIntro, true);
@@ -1408,7 +1408,7 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->unlockUpgrades));
 	log_add (log_User, "  --landermods : Makes your landers have pin-point accuracy "
 			"when landing and doubles storage capacity.   (default %s)",
-			boolOptString (&defaults->landerMods));
+			boolOptString (&defaults->infiniteRU));
 	log_add (log_User, "  --skipintro : Skips the intro    (default %s)",
 			boolOptString (&defaults->skipIntro));
 	log_add (log_User, "  --fmv : Adds Logo and Commercial 3DO videos    (default %s)",

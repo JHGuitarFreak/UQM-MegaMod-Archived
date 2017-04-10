@@ -689,11 +689,7 @@ pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
 {
 	UNICODE *pStr; // JMS
 	UNICODE ch; // JMS
-	COUNT MaxScrounged = MAX_SCROUNGED;
-	if(optLanderMods){
-		MaxScrounged = MaxScrounged <<= 1;
-	}
-	if (pPSD->BiologicalLevel >= MaxScrounged)
+	if (pPSD->BiologicalLevel >= MAX_SCROUNGED)
 	{
 		// Lander is full.
 		PlaySound (SetAbsSoundIndex (LanderSounds, LANDER_FULL),
@@ -701,10 +697,10 @@ pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
 		return false;
 	}
 
-	if (pPSD->BiologicalLevel + NumRetrieved > MaxScrounged)
+	if (pPSD->BiologicalLevel + NumRetrieved > MAX_SCROUNGED)
 	{
 		// Node could only be picked up partially.
-		NumRetrieved = (COUNT)(MaxScrounged - pPSD->BiologicalLevel);
+		NumRetrieved = (COUNT)(MAX_SCROUNGED - pPSD->BiologicalLevel);
 	}
 	
 	// JMS: Print biodata amount.
@@ -1642,7 +1638,7 @@ InitPlanetSide (POINT pt)
 {
 	// Adjust landing location by a random jitter.
 #define RANDOM_MISS (64 << RESOLUTION_FACTOR) // JMS_GFX
-	if(!optLanderMods){
+	if(!optGodMode){
 		pt.x -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
 		pt.y -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
 	} else { 
@@ -2136,10 +2132,6 @@ PlanetSide (POINT planetLoc)
 	BYTE TectonicsChanceTab[] = {0*3, 0*3, 1*3, 2*3, 4*3, 8*3, 16*3, 32*3};
 	BYTE WeatherChanceTab[] = {0*3, 0*3, 1*3, 2*3, 3*3, 6*3, 12*3, 24*3};
 	BYTE FireChanceTab[] = {0*3, 0*3, 1*3, 2*3, 4*3, 12*3, 24*3, 48*3};
-	COUNT MaxScrounged = MAX_SCROUNGED;
-	if(optLanderMods){
-		MaxScrounged = MaxScrounged <<= 1;
-	}
 	memset (&PSD, 0, sizeof (PSD));
 	PSD.InTransit = TRUE;
 
@@ -2166,7 +2158,7 @@ PlanetSide (POINT planetLoc)
 		PSD.FireChance = FireChanceTab[7];
 
 	PSD.ElementLevel = GetStorageBayCapacity () - GLOBAL_SIS (TotalElementMass);
-	PSD.MaxElementLevel = MaxScrounged;
+	PSD.MaxElementLevel = MAX_SCROUNGED;
 	if (GET_GAME_STATE (IMPROVED_LANDER_CARGO))
 		PSD.MaxElementLevel <<= 1;
 	if (PSD.ElementLevel < PSD.MaxElementLevel)
@@ -2299,10 +2291,6 @@ void
 InitLander (BYTE LanderFlags)
 {
 	RECT r;
-	COUNT MaxScrounged = MAX_SCROUNGED;
-	if(optLanderMods){
-		MaxScrounged = MaxScrounged <<= 1;
-	}
 	LockMutex (GraphicsLock);
 
 	SetContext (RadarContext);
@@ -2368,11 +2356,11 @@ InitLander (BYTE LanderFlags)
 		}
 
 		free_space = GetStorageBayCapacity () - GLOBAL_SIS (TotalElementMass);
-		if ((int)free_space < (int)(MaxScrounged << capacity_shift))
+		if ((int)free_space < (int)(MAX_SCROUNGED << capacity_shift))
 		{
 			r.corner.x = 1;
 			r.extent.width = RES_STAT_SCALE(4) + RESOLUTION_FACTOR; // JMS_GFX
-			r.extent.height = RES_STAT_SCALE(MaxScrounged - (free_space >> capacity_shift) + 1);
+			r.extent.height = RES_STAT_SCALE(MAX_SCROUNGED - (free_space >> capacity_shift) + 1);
 			SetContextForeGroundColor (BLACK_COLOR);
 			DrawFilledRectangle (&r);
 		}

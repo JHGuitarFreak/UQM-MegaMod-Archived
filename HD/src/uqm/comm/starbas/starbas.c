@@ -29,7 +29,7 @@
 #include "libs/mathlib.h"
 #include "libs/inplib.h"
 #include "libs/sound/sound.h"
-
+#include "../../../options.h"
 
 static void TellMission (RESPONSE_REF R);
 static void SellMinerals (RESPONSE_REF R);
@@ -1783,6 +1783,9 @@ NormalStarbase (RESPONSE_REF R)
 			NPCPhrase (STARBASE_IS_READY_C);
 			LockMutex (GraphicsLock);
 			DeltaSISGauges (0, 0, 2500);
+			if(optInfiniteRU){
+				oldRU = 2500;
+			}
 			UnlockMutex (GraphicsLock);
 			SET_GAME_STATE (STARBASE_MONTH,
 					GLOBAL (GameClock.month_index));
@@ -1886,7 +1889,7 @@ SellMinerals (RESPONSE_REF R)
 
 		if ((amount = GLOBAL_SIS (ElementAmounts[i])) != 0)
 		{
-			total += amount * GLOBAL (ElementWorth[i]);
+			total = amount * GLOBAL (ElementWorth[i]);
 			do
 			{
 				if (!Sleepy || AnyButtonPress (TRUE) ||
@@ -1896,7 +1899,7 @@ SellMinerals (RESPONSE_REF R)
 					GLOBAL_SIS (ElementAmounts[i]) = 0;
 					GLOBAL_SIS (TotalElementMass) -= amount;
 					LockMutex (GraphicsLock);
-					DeltaSISGauges (0, 0, amount * GLOBAL (ElementWorth[i]));
+					DeltaSISGauges (0, 0, total);
 					UnlockMutex (GraphicsLock);
 					break;
 				}

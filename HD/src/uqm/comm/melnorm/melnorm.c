@@ -390,9 +390,6 @@ StripShip (COUNT fuel_required)
 	BYTE i, which_module;
 	SBYTE crew_pods;
 	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-	if(optLanderMods){
-		StorageBayCapacity = StorageBayCapacity <<= 1;
-	}
 
 	SET_GAME_STATE (MELNORME_RESCUE_REFUSED, 0);
 

@@ -73,7 +73,8 @@ BOOLEAN optBubbleWarp;
 BOOLEAN optUnlockShips;
 BOOLEAN optHeadStart;
 BOOLEAN optUnlockUpgrades;
-BOOLEAN optLanderMods;
+BOOLEAN optInfiniteRU;
+DWORD oldRU;
 BOOLEAN optSkipIntro;
 BOOLEAN optFMV;
 
