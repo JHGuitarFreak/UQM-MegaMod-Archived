@@ -344,33 +344,7 @@ while (--ac > 0)
 					GLOBAL (CurrentActivity) &= ~CHECK_RESTART;
 				break;
 			}
-			
-			if (optUnlockShips){
-				ActivateStarShip (VUX_SHIP, SET_ALLIED);
-				ActivateStarShip (MELNORME_SHIP, SET_ALLIED);
-				ActivateStarShip (ILWRATH_SHIP, SET_ALLIED);
-				ActivateStarShip (MYCON_SHIP, SET_ALLIED);
-				ActivateStarShip (SLYLANDRO_SHIP, SET_ALLIED);
-				ActivateStarShip (YEHAT_SHIP, SET_ALLIED);
-				ActivateStarShip (PKUNK_SHIP, SET_ALLIED);
-				ActivateStarShip (URQUAN_SHIP, SET_ALLIED);
-				ActivateStarShip (BLACK_URQUAN_SHIP, SET_ALLIED);
-			}
-			if (optUnlockUpgrades){
-				SET_GAME_STATE (IMPROVED_LANDER_SPEED, 1);
-				SET_GAME_STATE (IMPROVED_LANDER_CARGO, 1);
-				SET_GAME_STATE (IMPROVED_LANDER_SHOT, 1);
-				SET_GAME_STATE (LANDER_SHIELDS, (1 << EARTHQUAKE_DISASTER) | (1 << BIOLOGICAL_DISASTER) |
-					(1 << LIGHTNING_DISASTER) | (1 << LAVASPOT_DISASTER));				
-				GLOBAL (ModuleCost[ANTIMISSILE_DEFENSE]) = 4000 / MODULE_COST_SCALE;				
-				GLOBAL (ModuleCost[BLASTER_WEAPON]) = 4000 / MODULE_COST_SCALE;
-				GLOBAL (ModuleCost[HIGHEFF_FUELSYS]) = 1000 / MODULE_COST_SCALE;
-				GLOBAL (ModuleCost[TRACKING_SYSTEM]) = 5000 / MODULE_COST_SCALE;
-				GLOBAL (ModuleCost[CANNON_WEAPON]) = 6000 / MODULE_COST_SCALE;
-				GLOBAL (ModuleCost[SHIVA_FURNACE]) = 4000 / MODULE_COST_SCALE;
-				SET_GAME_STATE (MELNORME_TECH_STACK, 13);
-			}
-			if (optGodMode){
+			if (optInfiniteRU){
 				GLOBAL_SIS (ResUnits) = 4000000000L;
 			}
 		} while (!(GLOBAL (CurrentActivity) & CHECK_ABORT));

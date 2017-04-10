@@ -942,7 +942,50 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN try_vanilla)
 		CloseStateFile (fp);
 	}
 
-	LoadStarDesc (&SD, fh);
+	LoadStarDesc (&SD, fh);	
+	
+	if(optInfiniteRU){
+		oldRU = GlobData.SIS_state.ResUnits;
+	} else {
+		oldRU = 0;
+	}			
+	if (optUnlockShips){
+		ActivateStarShip (ARILOU_SHIP, ALLOW_BUILD);
+		ActivateStarShip (CHMMR_SHIP, ALLOW_BUILD);
+		ActivateStarShip (ORZ_SHIP, ALLOW_BUILD);
+		ActivateStarShip (PKUNK_SHIP, ALLOW_BUILD);
+		ActivateStarShip (SHOFIXTI_SHIP, ALLOW_BUILD);
+		ActivateStarShip (SPATHI_SHIP, ALLOW_BUILD);
+		ActivateStarShip (SUPOX_SHIP, ALLOW_BUILD);
+		ActivateStarShip (THRADDASH_SHIP, ALLOW_BUILD);
+		ActivateStarShip (UTWIG_SHIP, ALLOW_BUILD);
+		ActivateStarShip (VUX_SHIP, ALLOW_BUILD);
+		ActivateStarShip (YEHAT_SHIP, ALLOW_BUILD);
+		ActivateStarShip (MELNORME_SHIP, ALLOW_BUILD);
+		ActivateStarShip (DRUUGE_SHIP, ALLOW_BUILD);
+		ActivateStarShip (ILWRATH_SHIP, ALLOW_BUILD);
+		ActivateStarShip (MYCON_SHIP, ALLOW_BUILD);
+		ActivateStarShip (SLYLANDRO_SHIP, ALLOW_BUILD);
+		ActivateStarShip (UMGAH_SHIP, ALLOW_BUILD);
+		ActivateStarShip (URQUAN_SHIP, ALLOW_BUILD);
+		ActivateStarShip (ZOQFOTPIK_SHIP, ALLOW_BUILD);
+		ActivateStarShip (SYREEN_SHIP, ALLOW_BUILD);
+		ActivateStarShip (BLACK_URQUAN_SHIP, ALLOW_BUILD);
+	}
+	if (optUnlockUpgrades){
+		SET_GAME_STATE (IMPROVED_LANDER_SPEED, 1);
+		SET_GAME_STATE (IMPROVED_LANDER_CARGO, 1);
+		SET_GAME_STATE (IMPROVED_LANDER_SHOT, 1);
+		SET_GAME_STATE (LANDER_SHIELDS, (1 << EARTHQUAKE_DISASTER) | (1 << BIOLOGICAL_DISASTER) |
+			(1 << LIGHTNING_DISASTER) | (1 << LAVASPOT_DISASTER));				
+		GLOBAL (ModuleCost[ANTIMISSILE_DEFENSE]) = 4000 / MODULE_COST_SCALE;				
+		GLOBAL (ModuleCost[BLASTER_WEAPON]) = 4000 / MODULE_COST_SCALE;
+		GLOBAL (ModuleCost[HIGHEFF_FUELSYS]) = 1000 / MODULE_COST_SCALE;
+		GLOBAL (ModuleCost[TRACKING_SYSTEM]) = 5000 / MODULE_COST_SCALE;
+		GLOBAL (ModuleCost[CANNON_WEAPON]) = 6000 / MODULE_COST_SCALE;
+		GLOBAL (ModuleCost[SHIVA_FURNACE]) = 4000 / MODULE_COST_SCALE;
+		SET_GAME_STATE (MELNORME_TECH_STACK, 13);
+	}
 
 	cclose (fh);
 	res_CloseResFile (in_fp);
