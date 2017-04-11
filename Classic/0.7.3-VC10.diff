@@ -1,6 +1,6 @@
 diff -ruNp ./src.orig/libs/network/wspiapiwrap.h ./src/libs/network/wspiapiwrap.h
---- ./src.orig/libs/network/wspiapiwrap.h	2017-02-25 17:11:18 -0600
-+++ ./src/libs/network/wspiapiwrap.h	2017-03-05 21:37:18 -0600
+--- ./src.orig/libs/network/wspiapiwrap.h	2017-04-11 02:08:46 -0500
++++ ./src/libs/network/wspiapiwrap.h	2017-04-11 04:31:06 -0500
 @@ -19,7 +19,10 @@
  #ifndef _WSPIAPIWRAP_H
  #define _WSPIAPIWRAP_H
@@ -23,8 +23,8 @@ diff -ruNp ./src.orig/libs/network/wspiapiwrap.h ./src/libs/network/wspiapiwrap.
  #endif  /* _WSPIAPIWRAP_H */
  
 diff -ruNp ./src.orig/libs/uio/utils.c ./src/libs/uio/utils.c
---- ./src.orig/libs/uio/utils.c	2017-02-25 17:11:19 -0600
-+++ ./src/libs/uio/utils.c	2017-03-05 21:37:19 -0600
+--- ./src.orig/libs/uio/utils.c	2017-04-11 02:08:48 -0500
++++ ./src/libs/uio/utils.c	2017-04-11 04:31:08 -0500
 @@ -391,7 +391,7 @@ snprintf(char *str, size_t size, const c
  // MSVC does not have vsnprintf(). It does have a _vsnprintf(), but it does
  // not \0-terminate a truncated string as the C standard prescribes.
@@ -44,30 +44,29 @@ diff -ruNp ./src.orig/libs/uio/utils.c ./src/libs/uio/utils.c
  			// This means the buffer was not large enough, but vsnprintf()
  			// does not give us any clue on how large it should be.
 diff -ruNp ./src.orig/options.c ./src/options.c
---- ./src.orig/options.c	2017-02-25 17:11:19 -0600
-+++ ./src/options.c	2017-03-05 21:37:19 -0600
-@@ -52,6 +52,20 @@ int optSmoothScroll;
+--- ./src.orig/options.c	2017-04-11 02:08:48 -0500
++++ ./src/options.c	2017-04-11 04:31:08 -0500
+@@ -52,6 +52,19 @@ int optSmoothScroll;
  int optMeleeScale;
  const char **optAddons;
  
 +// Serosis
 +BOOLEAN optCheatMode;
 +BOOLEAN optGodMode;
-+BOOLEAN optTimeDilation;
++unsigned int timeDilationScale;
 +BOOLEAN optBubbleWarp;
-+BOOLEAN optRoseBud;
 +BOOLEAN optUnlockShips;
 +BOOLEAN optHeadStart;
 +BOOLEAN optUnlockUpgrades;
-+BOOLEAN optLanderMods;
-+BOOLEAN optFastForward;
++BOOLEAN optInfiniteRU;
++DWORD oldRU;
 +BOOLEAN optSkipIntro;
 +BOOLEAN optFMV;
 +
  BOOLEAN opt3doMusic;
  BOOLEAN optRemixMusic;
  BOOLEAN optSubtitles;
-@@ -358,6 +372,7 @@ mountAddonDir (uio_Repository *repositor
+@@ -358,6 +371,7 @@ mountAddonDir (uio_Repository *repositor
  	static uio_AutoMount *autoMount[] = { NULL };
  	uio_MountHandle *mountHandle;
  	uio_DirList *availableAddons;
@@ -75,7 +74,7 @@ diff -ruNp ./src.orig/options.c ./src/options.c
  
  	if (addonDirName != NULL)
  	{
-@@ -416,7 +431,6 @@ mountAddonDir (uio_Repository *repositor
+@@ -416,7 +430,6 @@ mountAddonDir (uio_Repository *repositor
  		count = 0;
  		for (i = 0; i < availableAddons->numNames; ++i)
  		{
@@ -83,7 +82,7 @@ diff -ruNp ./src.orig/options.c ./src/options.c
  			uio_DirHandle *addonDir;
  			const char *addon = availableAddons->names[i];
  			
-@@ -426,8 +440,7 @@ mountAddonDir (uio_Repository *repositor
+@@ -426,8 +439,7 @@ mountAddonDir (uio_Repository *repositor
  			++count;
  			log_add (log_Info, "    %d. %s", count, addon);
  		
@@ -94,8 +93,8 @@ diff -ruNp ./src.orig/options.c ./src/options.c
  			addonDir = uio_openDirRelative (addonsDir, addon, 0);
  			if (addonDir == NULL)
 diff -ruNp ./src.orig/options.h ./src/options.h
---- ./src.orig/options.h	2017-02-25 17:11:19 -0600
-+++ ./src/options.h	2017-03-05 21:37:19 -0600
+--- ./src.orig/options.h	2017-04-11 02:08:48 -0500
++++ ./src/options.h	2017-04-11 04:31:08 -0500
 @@ -38,6 +38,20 @@ extern int optWhichShield;
  extern int optSmoothScroll;
  extern int optMeleeScale;
@@ -103,14 +102,14 @@ diff -ruNp ./src.orig/options.h ./src/options.h
 +// Serosis
 +extern BOOLEAN optCheatMode;
 +extern BOOLEAN optGodMode;
-+extern BOOLEAN optTimeDilation;
++extern unsigned int timeDilationScale;
 +extern BOOLEAN optBubbleWarp;
 +extern BOOLEAN optRoseBud;
 +extern BOOLEAN optUnlockShips;
 +extern BOOLEAN optHeadStart;
 +extern BOOLEAN optUnlockUpgrades;
-+extern BOOLEAN optLanderMods;
-+extern BOOLEAN optFastForward;
++extern BOOLEAN optInfiniteRU;
++extern DWORD oldRU;
 +extern BOOLEAN optSkipIntro;
 +extern BOOLEAN optFMV;
 +
@@ -118,8 +117,8 @@ diff -ruNp ./src.orig/options.h ./src/options.h
  extern BOOLEAN optRemixMusic;
  extern BOOLEAN optSubtitles;
 diff -ruNp ./src.orig/port.c ./src/port.c
---- ./src.orig/port.c	2017-02-25 17:11:19 -0600
-+++ ./src/port.c	2017-03-05 21:37:19 -0600
+--- ./src.orig/port.c	2017-04-11 02:08:48 -0500
++++ ./src/port.c	2017-04-11 04:31:08 -0500
 @@ -115,8 +115,8 @@ readdir_r(DIR *dirp, struct dirent *entr
  #endif
  
@@ -141,8 +140,8 @@ diff -ruNp ./src.orig/port.c ./src/port.c
  	int result = _vsnprintf (str, size, format, args);
  	if (str != NULL && size != 0)
 diff -ruNp ./src.orig/port.h ./src/port.h
---- ./src.orig/port.h	2017-02-25 17:11:19 -0600
-+++ ./src/port.h	2017-03-05 21:37:19 -0600
+--- ./src.orig/port.h	2017-04-11 02:08:48 -0500
++++ ./src/port.h	2017-04-11 04:31:08 -0500
 @@ -162,7 +162,7 @@ typedef unsigned short mode_t;
  #	include <stdarg.h>
  // Defined in port.c
@@ -153,8 +152,8 @@ diff -ruNp ./src.orig/port.h ./src/port.h
  
  // setenv()
 diff -ruNp ./src.orig/regex/regex_internal.h ./src/regex/regex_internal.h
---- ./src.orig/regex/regex_internal.h	2017-02-25 17:11:19 -0600
-+++ ./src/regex/regex_internal.h	2017-03-05 21:37:19 -0600
+--- ./src.orig/regex/regex_internal.h	2017-04-11 02:08:48 -0500
++++ ./src/regex/regex_internal.h	2017-04-11 04:31:08 -0500
 @@ -80,7 +80,11 @@
  # define BE(expr, val) __builtin_expect (expr, val)
  #else
@@ -169,8 +168,8 @@ diff -ruNp ./src.orig/regex/regex_internal.h ./src/regex/regex_internal.h
  
  /* Number of bits in a byte.  */
 diff -ruNp ./src.orig/res/UrQuanMasters.rc ./src/res/UrQuanMasters.rc
---- ./src.orig/res/UrQuanMasters.rc	2017-02-25 17:11:19 -0600
-+++ ./src/res/UrQuanMasters.rc	2017-03-05 21:37:19 -0600
+--- ./src.orig/res/UrQuanMasters.rc	2017-04-11 02:08:48 -0500
++++ ./src/res/UrQuanMasters.rc	2017-04-11 04:31:08 -0500
 @@ -67,10 +67,10 @@ END
  
  // Icon with lowest ID value placed first to ensure application icon
@@ -186,8 +185,8 @@ diff -ruNp ./src.orig/res/UrQuanMasters.rc ./src/res/UrQuanMasters.rc
 +106                ICON    DISCARDABLE     "sis1.ico"
  107                ICON    DISCARDABLE     "starcon2.ico"
 diff -ruNp ./src.orig/res/darwin/Info.plist ./src/res/darwin/Info.plist
---- ./src.orig/res/darwin/Info.plist	2017-02-25 17:11:19 -0600
-+++ ./src/res/darwin/Info.plist	2017-03-05 21:37:19 -0600
+--- ./src.orig/res/darwin/Info.plist	2017-04-11 02:08:48 -0500
++++ ./src/res/darwin/Info.plist	2017-04-11 04:31:08 -0500
 @@ -1,11 +1,11 @@
  <?xml version="1.0" encoding="UTF-8"?>
 -<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -202,9 +201,52 @@ diff -ruNp ./src.orig/res/darwin/Info.plist ./src/res/darwin/Info.plist
  	<key>CFBundleIconFile</key>
  	<string>The Ur-Quan Masters.icns</string>
  	<key>CFBundleInfoDictionaryVersion</key>
+Files ./src.orig/res/darwin/The Ur-Quan Masters.icns and ./src/res/darwin/The Ur-Quan Masters.icns differ
+diff -ruNp ./src.orig/uqm/build.c ./src/uqm/build.c
+--- ./src.orig/uqm/build.c	2017-04-11 02:08:49 -0500
++++ ./src/uqm/build.c	2017-04-11 04:31:08 -0500
+@@ -210,6 +210,27 @@ ActivateStarShip (COUNT which_ship, SIZE
+ 			UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
+ 			break;
+ 		}
++		case ALLOW_BUILD:
++		{
++			FLEET_INFO *FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q),
++					hFleet);
++
++			if (FleetPtr->allied_state == GOOD_GUY) {	
++				/* Strange request, silently ignore it */
++				UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
++				break;
++			}
++
++			if (state == ALLOW_BUILD){
++				FleetPtr->allied_state = CAN_BUILD;
++			} else {	/* Strange request, silently ignore it */
++				UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
++				break;
++			}
++			
++			UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
++			break;
++		}
+ 		case REMOVE_BUILT:
+ 		{
+ 			HSHIPFRAG hStarShip, hNextShip;
+diff -ruNp ./src.orig/uqm/build.h ./src/uqm/build.h
+--- ./src.orig/uqm/build.h	2017-04-11 02:08:49 -0500
++++ ./src/uqm/build.h	2017-04-11 04:31:08 -0500
+@@ -49,6 +49,7 @@ extern BYTE NameCaptain (QUEUE *pQueue,
+ #define SPHERE_TRACKING    -6
+ #define ESCORTING_FLAGSHIP -7
+ #define FEASIBILITY_STUDY  -8
++#define ALLOW_BUILD		   -9
+ 		/* Check for how many escort ships there's still space */
+ 
+ extern COUNT ActivateStarShip (COUNT which_ship, SIZE state);
 diff -ruNp ./src.orig/uqm/comm/arilou/arilouc.c ./src/uqm/comm/arilou/arilouc.c
---- ./src.orig/uqm/comm/arilou/arilouc.c	2017-02-25 17:11:19 -0600
-+++ ./src/uqm/comm/arilou/arilouc.c	2017-03-05 21:37:20 -0600
+--- ./src.orig/uqm/comm/arilou/arilouc.c	2017-04-11 02:08:49 -0500
++++ ./src/uqm/comm/arilou/arilouc.c	2017-04-11 04:31:08 -0500
 @@ -490,18 +490,20 @@ AngryHomeArilou (RESPONSE_REF R)
  		DISABLE_PHRASE (i_just_like_to_leave);
  	}
@@ -232,31 +274,38 @@ diff -ruNp ./src.orig/uqm/comm/arilou/arilouc.c ./src/uqm/comm/arilou/arilouc.c
  }
  
  static void
+diff -ruNp ./src.orig/uqm/comm/chmmr/chmmrc.c ./src/uqm/comm/chmmr/chmmrc.c
+--- ./src.orig/uqm/comm/chmmr/chmmrc.c	2017-04-11 02:08:49 -0500
++++ ./src/uqm/comm/chmmr/chmmrc.c	2017-04-11 04:31:09 -0500
+@@ -140,7 +140,7 @@ ExitConversation (RESPONSE_REF R)
+ 		SET_GAME_STATE (CHMMR_STACK, 0);
+ 		SET_GAME_STATE (CHMMR_BOMB_STATE, 2);
+ 		SET_GAME_STATE (UTWIG_BOMB_ON_SHIP, 0);
+-		GLOBAL_SIS (ResUnits) = 1000000L;
++		GLOBAL_SIS (ResUnits) = 4000000000L;
+ 		GLOBAL_SIS (NumLanders) = 0;
+ 		GLOBAL (ModuleCost[PLANET_LANDER]) = 0;
+ 
 diff -ruNp ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.c
---- ./src.orig/uqm/comm/melnorm/melnorm.c	2017-02-25 17:11:19 -0600
-+++ ./src/uqm/comm/melnorm/melnorm.c	2017-03-05 21:37:20 -0600
-@@ -32,7 +32,7 @@
- #include "uqm/planets/planets.h"
+--- ./src.orig/uqm/comm/melnorm/melnorm.c	2017-04-11 02:08:49 -0500
++++ ./src/uqm/comm/melnorm/melnorm.c	2017-04-11 04:31:09 -0500
+@@ -33,7 +33,6 @@
  		// for xxx_DISASTER
  #include "uqm/sis.h"
--
-+#include "options.h"
  
+-
  #define NUM_HISTORY_ITEMS 9
  #define NUM_EVENT_ITEMS 8
-@@ -252,7 +252,10 @@ StripShip (COUNT fuel_required)
+ #define NUM_ALIEN_RACE_ITEMS 16
+@@ -252,7 +251,6 @@ StripShip (COUNT fuel_required)
  {
  	BYTE i, which_module;
  	SBYTE crew_pods;
 -
-+	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-+	if(optLanderMods){
-+		StorageBayCapacity = StorageBayCapacity <<= 1;
-+	}
  	SET_GAME_STATE (MELNORME_RESCUE_REFUSED, 0);
  
  	crew_pods = -(SBYTE)(
-@@ -322,10 +325,7 @@ StripShip (COUNT fuel_required)
+@@ -322,10 +320,7 @@ StripShip (COUNT fuel_required)
  		if (fuel_required > capacity)
  			fuel_required = capacity;
  
@@ -264,45 +313,22 @@ diff -ruNp ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.
 -				(SIS_copy.TotalElementMass + STORAGE_BAY_CAPACITY - 1)
 -				/ STORAGE_BAY_CAPACITY
 -				);
-+		bays = -(SBYTE)( (SIS_copy.TotalElementMass + StorageBayCapacity - 1) / StorageBayCapacity );
++		bays = -(SBYTE)( (SIS_copy.TotalElementMass + STORAGE_BAY_CAPACITY - 1) / STORAGE_BAY_CAPACITY );
  		for (i = 0; i < NUM_MODULE_SLOTS; ++i)
  		{
  			which_module = SIS_copy.ModuleSlots[i];
-@@ -1321,6 +1321,10 @@ NatureOfConversation (RESPONSE_REF R)
- 				break;
- 		}
- 		SET_GAME_STATE (MELNORME_YACK_STACK2, stack + 5);
-+		// Tying in the purple question with a Credit/R.U. cheat
-+		if (optRoseBud){
-+			SET_GAME_STATE (WHY_MELNORME_PURPLE, 0); // This is to make sure that the purple question shows up.
-+		} // Serosis
- 	}
- 
- 	rainbow_mask = MAKE_WORD (
-@@ -1360,7 +1364,19 @@ NatureOfConversation (RESPONSE_REF R)
+@@ -1360,8 +1355,6 @@ NatureOfConversation (RESPONSE_REF R)
  		}
  		else if (PLAYER_SAID (R, why_turned_purple))
  		{
 -			SET_GAME_STATE (WHY_MELNORME_PURPLE, 1);
-+			if (optRoseBud){
-+				SET_GAME_STATE (WHY_MELNORME_PURPLE, 0); // Setting this to 0 makes sure the question is repeatable
-+				DeltaCredit(1000); // Adds 1000 Credits
-+				GLOBAL_SIS (ResUnits) += 1000; // Adds 1000 R.U.
-+				// Make sure the RU/credit amount is redrawn:
-+				if (LOBYTE (GLOBAL (CurrentActivity)) == IN_HYPERSPACE || LOBYTE (GLOBAL (CurrentActivity)) == IN_INTERPLANETARY) {
-+					LockMutex (GraphicsLock);
-+					DrawStatusMessage (NULL);
-+					UnlockMutex (GraphicsLock);
-+				}
-+			} else {
-+				SET_GAME_STATE (WHY_MELNORME_PURPLE, 1);
-+			} // Serosis
- 
+-
  			NPCPhrase (TURNED_PURPLE_BECAUSE);
  		}
+ 		else if (PLAYER_SAID (R, done_selling))
 diff -ruNp ./src.orig/uqm/comm/rebel/rebel.c ./src/uqm/comm/rebel/rebel.c
---- ./src.orig/uqm/comm/rebel/rebel.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/rebel/rebel.c	2017-03-05 21:37:20 -0600
+--- ./src.orig/uqm/comm/rebel/rebel.c	2017-04-11 02:08:49 -0500
++++ ./src/uqm/comm/rebel/rebel.c	2017-04-11 04:31:09 -0500
 @@ -46,19 +46,17 @@ static LOCDATA yehat_desc =
  		{ /* right hand-wing tapping keyboard; front guy */
  			4, /* StartIndex */
@@ -378,8 +404,17 @@ diff -ruNp ./src.orig/uqm/comm/rebel/rebel.c ./src/uqm/comm/rebel/rebel.c
  			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
  			(1 << 2) | (1 << 4),
 diff -ruNp ./src.orig/uqm/comm/starbas/starbas.c ./src/uqm/comm/starbas/starbas.c
---- ./src.orig/uqm/comm/starbas/starbas.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/starbas/starbas.c	2017-03-05 21:37:20 -0600
+--- ./src.orig/uqm/comm/starbas/starbas.c	2017-04-11 02:08:50 -0500
++++ ./src/uqm/comm/starbas/starbas.c	2017-04-11 04:31:09 -0500
+@@ -19,7 +19,7 @@
+ #include "../commall.h"
+ #include "../comandr/resinst.h"
+ #include "strings.h"
+-
++#include "../../../options.h"
+ #include "uqm/build.h"
+ #include "uqm/setup.h"
+ #include "uqm/shipcont.h"
 @@ -303,6 +303,7 @@ HierarchyInfo (RESPONSE_REF R)
  #define HIERARCHY_ANDROSYNTH (1 << 3)
  #define HIERARCHY_ILWRATH (1 << 4)
@@ -403,9 +438,37 @@ diff -ruNp ./src.orig/uqm/comm/starbas/starbas.c ./src/uqm/comm/starbas/starbas.
  	if (!(HierarchyMask & HIERARCHY_MYCON))
  		Response (mycon, HierarchyInfo);
  	if (!(HierarchyMask & HIERARCHY_SPATHI))
+@@ -1660,6 +1665,9 @@ NormalStarbase (RESPONSE_REF R)
+ 			NPCPhrase (STARBASE_IS_READY_C);
+ 			LockMutex (GraphicsLock);
+ 			DeltaSISGauges (0, 0, 2500);
++			if(optInfiniteRU){
++				oldRU = 2500;
++			}
+ 			UnlockMutex (GraphicsLock);
+ 			SET_GAME_STATE (STARBASE_MONTH,
+ 					GLOBAL (GameClock.month_index));
+@@ -1763,7 +1771,7 @@ SellMinerals (RESPONSE_REF R)
+ 
+ 		if ((amount = GLOBAL_SIS (ElementAmounts[i])) != 0)
+ 		{
+-			total += amount * GLOBAL (ElementWorth[i]);
++			total = amount * GLOBAL (ElementWorth[i]);
+ 			do
+ 			{
+ 				if (!Sleepy || AnyButtonPress (TRUE) ||
+@@ -1773,7 +1781,7 @@ SellMinerals (RESPONSE_REF R)
+ 					GLOBAL_SIS (ElementAmounts[i]) = 0;
+ 					GLOBAL_SIS (TotalElementMass) -= amount;
+ 					LockMutex (GraphicsLock);
+-					DeltaSISGauges (0, 0, amount * GLOBAL (ElementWorth[i]));
++					DeltaSISGauges (0, 0, total);
+ 					UnlockMutex (GraphicsLock);
+ 					break;
+ 				}
 diff -ruNp ./src.orig/uqm/comm/syreen/syreenc.c ./src/uqm/comm/syreen/syreenc.c
---- ./src.orig/uqm/comm/syreen/syreenc.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/syreen/syreenc.c	2017-03-05 21:37:20 -0600
+--- ./src.orig/uqm/comm/syreen/syreenc.c	2017-04-11 02:08:50 -0500
++++ ./src/uqm/comm/syreen/syreenc.c	2017-04-11 04:31:09 -0500
 @@ -652,13 +652,12 @@ InitialSyreen (RESPONSE_REF R)
  	else if (PLAYER_SAID (R, we_are_vindicator0))
  	{
@@ -423,8 +486,8 @@ diff -ruNp ./src.orig/uqm/comm/syreen/syreenc.c ./src/uqm/comm/syreen/syreenc.c
  	}
  	else if (PLAYER_SAID (R, we_are_impressed))
 diff -ruNp ./src.orig/uqm/comm/thradd/thraddc.c ./src/uqm/comm/thradd/thraddc.c
---- ./src.orig/uqm/comm/thradd/thraddc.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/thradd/thraddc.c	2017-03-05 21:37:20 -0600
+--- ./src.orig/uqm/comm/thradd/thraddc.c	2017-04-11 02:08:50 -0500
++++ ./src/uqm/comm/thradd/thraddc.c	2017-04-11 04:31:09 -0500
 @@ -695,6 +695,8 @@ static void
  Intro (void)
  {
@@ -444,8 +507,8 @@ diff -ruNp ./src.orig/uqm/comm/thradd/thraddc.c ./src/uqm/comm/thradd/thraddc.c
  		NumVisits = GET_GAME_STATE (HELIX_VISITS);
  		switch (NumVisits++)
 diff -ruNp ./src.orig/uqm/comm/umgah/strings.h ./src/uqm/comm/umgah/strings.h
---- ./src.orig/uqm/comm/umgah/strings.h	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/umgah/strings.h	2017-03-05 21:37:20 -0600
+--- ./src.orig/uqm/comm/umgah/strings.h	2017-04-11 02:08:50 -0500
++++ ./src/uqm/comm/umgah/strings.h	2017-04-11 04:31:09 -0500
 @@ -109,6 +109,7 @@ enum
  	arilou_told_us,
  	bye_zombie,
@@ -455,8 +518,8 @@ diff -ruNp ./src.orig/uqm/comm/umgah/strings.h ./src/uqm/comm/umgah/strings.h
  
  #endif /* _STRINGS_H */
 diff -ruNp ./src.orig/uqm/comm/umgah/umgahc.c ./src/uqm/comm/umgah/umgahc.c
---- ./src.orig/uqm/comm/umgah/umgahc.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/comm/umgah/umgahc.c	2017-03-05 21:37:20 -0600
+--- ./src.orig/uqm/comm/umgah/umgahc.c	2017-04-11 02:08:50 -0500
++++ ./src/uqm/comm/umgah/umgahc.c	2017-04-11 04:31:09 -0500
 @@ -520,8 +520,11 @@ Intro (void)
  {
  	BYTE NumVisits;
@@ -472,8 +535,8 @@ diff -ruNp ./src.orig/uqm/comm/umgah/umgahc.c ./src/uqm/comm/umgah/umgahc.c
  		switch (NumVisits++)
  		{
 diff -ruNp ./src.orig/uqm/credits.c ./src/uqm/credits.c
---- ./src.orig/uqm/credits.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/credits.c	2017-03-05 21:37:21 -0600
+--- ./src.orig/uqm/credits.c	2017-04-11 02:08:50 -0500
++++ ./src/uqm/credits.c	2017-04-11 04:31:10 -0500
 @@ -647,7 +647,7 @@ FreeCredits (void)
  static void
  OutTakes (void)
@@ -492,8 +555,8 @@ diff -ruNp ./src.orig/uqm/credits.c ./src/uqm/credits.c
  	};
  
 diff -ruNp ./src.orig/uqm/fmv.c ./src/uqm/fmv.c
---- ./src.orig/uqm/fmv.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/fmv.c	2017-03-05 21:37:21 -0600
+--- ./src.orig/uqm/fmv.c	2017-04-11 02:08:51 -0500
++++ ./src/uqm/fmv.c	2017-04-11 04:31:10 -0500
 @@ -132,5 +132,17 @@ Victory (void)
  	FadeScreen (FadeAllToBlack, 0);
  }
@@ -513,8 +576,8 @@ diff -ruNp ./src.orig/uqm/fmv.c ./src/uqm/fmv.c
 +}
  
 diff -ruNp ./src.orig/uqm/fmv.h ./src/uqm/fmv.h
---- ./src.orig/uqm/fmv.h	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/fmv.h	2017-03-05 21:37:21 -0600
+--- ./src.orig/uqm/fmv.h	2017-04-11 02:08:51 -0500
++++ ./src/uqm/fmv.h	2017-04-11 04:31:10 -0500
 @@ -26,6 +26,8 @@ extern void SplashScreen (void (* DoProc
  extern void Introduction (void);
  extern void Victory (void);
@@ -525,8 +588,8 @@ diff -ruNp ./src.orig/uqm/fmv.h ./src/uqm/fmv.h
  extern BOOLEAN ShowPresentation (RESOURCE presentation);
  
 diff -ruNp ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
---- ./src.orig/uqm/gameev.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/gameev.c	2017-03-05 21:37:21 -0600
+--- ./src.orig/uqm/gameev.c	2017-04-11 02:08:51 -0500
++++ ./src/uqm/gameev.c	2017-04-11 04:31:10 -0500
 @@ -25,7 +25,7 @@
  #include "hyper.h"
  #include "libs/compiler.h"
@@ -688,8 +751,8 @@ diff -ruNp ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
  	UnlockFleetInfo (&GLOBAL (avail_race_q), hIlwrath);
  }
 diff -ruNp ./src.orig/uqm/gameinp.c ./src/uqm/gameinp.c
---- ./src.orig/uqm/gameinp.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/gameinp.c	2017-03-05 21:37:21 -0600
+--- ./src.orig/uqm/gameinp.c	2017-04-11 02:08:51 -0500
++++ ./src/uqm/gameinp.c	2017-04-11 04:31:10 -0500
 @@ -31,10 +31,10 @@
  #include "libs/inplib.h"
  #include "libs/timelib.h"
@@ -726,8 +789,8 @@ diff -ruNp ./src.orig/uqm/gameinp.c ./src/uqm/gameinp.c
  		InputState |= BATTLE_ESCAPE;
  	if (keyState[KEY_DOWN])
 diff -ruNp ./src.orig/uqm/gameopt.c ./src/uqm/gameopt.c
---- ./src.orig/uqm/gameopt.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/gameopt.c	2017-03-05 21:37:21 -0600
+--- ./src.orig/uqm/gameopt.c	2017-04-11 02:08:51 -0500
++++ ./src/uqm/gameopt.c	2017-04-11 04:31:10 -0500
 @@ -40,7 +40,7 @@
  
  extern FRAME PlayFrame;
@@ -737,9 +800,19 @@ diff -ruNp ./src.orig/uqm/gameopt.c ./src/uqm/gameopt.c
  #define SUMMARY_X_OFFS 14
  #define SUMMARY_SIDE_OFFS 7
  #define SAVES_PER_PAGE 5
+@@ -879,6 +879,9 @@ DoPickGame (MENU_STATE *pMS)
+ 		pSD = &pickState->summary[pMS->CurState];
+ 		if (pickState->saving || pSD->year_index)
+ 		{	// valid slot
++			if(optInfiniteRU){
++				GLOBAL_SIS (ResUnits) = oldRU;
++			}
+ 			PlayMenuSound (MENU_SOUND_SUCCESS);
+ 			pickState->success = TRUE;
+ 			return FALSE;
 diff -ruNp ./src.orig/uqm/globdata.c ./src/uqm/globdata.c
---- ./src.orig/uqm/globdata.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/globdata.c	2017-03-05 21:37:21 -0600
+--- ./src.orig/uqm/globdata.c	2017-04-11 02:08:51 -0500
++++ ./src/uqm/globdata.c	2017-04-11 04:31:10 -0500
 @@ -30,12 +30,12 @@
  #include "state.h"
  #include "grpinfo.h"
@@ -755,99 +828,58 @@ diff -ruNp ./src.orig/uqm/globdata.c ./src/uqm/globdata.c
  
  static void CreateRadar (void);
  
-@@ -285,26 +285,59 @@ InitGameStructures (void)
- 	GLOBAL (ElementWorth[PRECIOUS]) = 6;
- 	GLOBAL_SIS (ElementAmounts[PRECIOUS]) = 0;
- 	GLOBAL (ElementWorth[RADIOACTIVE]) = 8;
--	GLOBAL_SIS (ElementAmounts[RADIOACTIVE]) = 0;
+@@ -306,6 +306,26 @@ InitGameStructures (void)
+ 	GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
+ 	GLOBAL_SIS (FuelOnBoard) = 10 * FUEL_TANK_SCALE;
+ 
 +	if (optHeadStart){
-+		GLOBAL_SIS (ElementAmounts[RADIOACTIVE]) = 1000;
-+		GLOBAL_SIS (TotalElementMass) = 1000;
-+		GLOBAL_SIS (TotalBioMass) += 1000;
-+	} else {
-+		GLOBAL_SIS (ElementAmounts[RADIOACTIVE]) = 0;
++		GLOBAL_SIS (ElementAmounts[COMMON]) = 178;
++		GLOBAL_SIS (ElementAmounts[CORROSIVE]) = 66;
++		GLOBAL_SIS (ElementAmounts[BASE_METAL]) = 378;
++		GLOBAL_SIS (ElementAmounts[PRECIOUS]) = 29;
++		GLOBAL_SIS (ElementAmounts[RADIOACTIVE]) = 219;
++		GLOBAL_SIS (ElementAmounts[EXOTIC]) = 5;
++		GLOBAL_SIS (TotalElementMass) = 875;
++		GLOBAL_SIS (ModuleSlots[7]) = STORAGE_BAY;
++		SET_GAME_STATE (MOONBASE_DESTROYED, 1);
++		SET_GAME_STATE (MOONBASE_ON_SHIP, 1);
++		SET_GAME_STATE (FOUND_PLUTO_SPATHI, 2);
++		SET_GAME_STATE (KNOW_SPATHI_PASSWORD, 1);
++		SET_GAME_STATE (PROBE_MESSAGE_DELIVERED, 1);
 +	}
- 	GLOBAL (ElementWorth[EXOTIC]) = 25;
- 	GLOBAL_SIS (ElementAmounts[EXOTIC]) = 0;
- 
--	for (i = 0; i < NUM_DRIVE_SLOTS; ++i)
--		GLOBAL_SIS (DriveSlots[i]) = EMPTY_SLOT + 0;
--	GLOBAL_SIS (DriveSlots[5]) =
--			GLOBAL_SIS (DriveSlots[6]) = FUSION_THRUSTER;
--	for (i = 0; i < NUM_JET_SLOTS; ++i)
--		GLOBAL_SIS (JetSlots[i]) = EMPTY_SLOT + 1;
--	GLOBAL_SIS (JetSlots[0]) =
--			GLOBAL_SIS (JetSlots[6]) = TURNING_JETS;
--	for (i = 0; i < NUM_MODULE_SLOTS; ++i)
--		GLOBAL_SIS (ModuleSlots[i]) = EMPTY_SLOT + 2;
--	GLOBAL_SIS (ModuleSlots[15]) = GUN_WEAPON;
--	GLOBAL_SIS (ModuleSlots[2]) = CREW_POD;
--	GLOBAL_SIS (CrewEnlisted) = CREW_POD_CAPACITY;
--	GLOBAL_SIS (ModuleSlots[8]) = STORAGE_BAY;
--	GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
--	GLOBAL_SIS (FuelOnBoard) = 10 * FUEL_TANK_SCALE;
-+	if (optHeadStart){		
-+		for (i = 0; i < NUM_DRIVE_SLOTS; i++)
-+			GLOBAL_SIS (DriveSlots[i]) = FUSION_THRUSTER;
-+		for (i = 0; i < NUM_JET_SLOTS; i++)
-+			GLOBAL_SIS (JetSlots[i]) = TURNING_JETS;
-+		for (i = 0; i < NUM_MODULE_SLOTS; ++i)
-+			GLOBAL_SIS (ModuleSlots[i]) = EMPTY_SLOT + 2;
-+		GLOBAL_SIS (ModuleSlots[0]) = FUEL_TANK;
-+		GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
-+		GLOBAL_SIS (ModuleSlots[2]) = CREW_POD;
-+		GLOBAL_SIS (ModuleSlots[3]) = CREW_POD;
-+		GLOBAL_SIS (ModuleSlots[4]) = STORAGE_BAY;
-+		GLOBAL_SIS (ModuleSlots[5]) = STORAGE_BAY;
-+		//GLOBAL_SIS (ModuleSlots[6]);
-+		//GLOBAL_SIS (ModuleSlots[7]);
-+		//GLOBAL_SIS (ModuleSlots[8]);
-+		//GLOBAL_SIS (ModuleSlots[9]);
-+		GLOBAL_SIS (ModuleSlots[10]) = DYNAMO_UNIT;
-+		GLOBAL_SIS (ModuleSlots[11]) = DYNAMO_UNIT;
-+		GLOBAL_SIS (ModuleSlots[12]) = DYNAMO_UNIT;
-+		GLOBAL_SIS (ModuleSlots[13]) = DYNAMO_UNIT;
-+		GLOBAL_SIS (ModuleSlots[14]) = GUN_WEAPON;
-+		GLOBAL_SIS (ModuleSlots[15]) = GUN_WEAPON;
-+		GLOBAL_SIS (FuelOnBoard) = 110 * FUEL_TANK_SCALE;
-+		GLOBAL_SIS (CrewEnlisted) = 100;
-+	} else {
-+		for (i = 0; i < NUM_DRIVE_SLOTS; ++i)
-+			GLOBAL_SIS (DriveSlots[i]) = EMPTY_SLOT + 0;
-+		GLOBAL_SIS (DriveSlots[5]) =
-+				GLOBAL_SIS (DriveSlots[6]) = FUSION_THRUSTER;
-+		for (i = 0; i < NUM_JET_SLOTS; ++i)
-+			GLOBAL_SIS (JetSlots[i]) = EMPTY_SLOT + 1;
-+		GLOBAL_SIS (JetSlots[0]) =
-+				GLOBAL_SIS (JetSlots[6]) = TURNING_JETS;
-+		for (i = 0; i < NUM_MODULE_SLOTS; ++i)
-+			GLOBAL_SIS (ModuleSlots[i]) = EMPTY_SLOT + 2;
-+		GLOBAL_SIS (ModuleSlots[15]) = GUN_WEAPON;
-+		GLOBAL_SIS (ModuleSlots[2]) = CREW_POD;
-+		GLOBAL_SIS (CrewEnlisted) = CREW_POD_CAPACITY;
-+		GLOBAL_SIS (ModuleSlots[8]) = STORAGE_BAY;
-+		GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
-+		GLOBAL_SIS (FuelOnBoard) = 10 * FUEL_TANK_SCALE;
++
++	if(optInfiniteRU){
++		oldRU = 0;
 +	}
- 
++
  	InitQueue (&GLOBAL (built_ship_q),
  			MAX_BUILT_SHIPS, sizeof (SHIP_FRAGMENT));
-@@ -328,7 +361,11 @@ InitGameStructures (void)
+ 	InitQueue (&GLOBAL (npc_built_ship_q), MAX_SHIPS_PER_SIDE,
+@@ -327,7 +347,7 @@ InitGameStructures (void)
+ 	GLOBAL (ModuleCost[FUEL_TANK]) = 500 / MODULE_COST_SCALE;
  	GLOBAL (ModuleCost[DYNAMO_UNIT]) = 2000 / MODULE_COST_SCALE;
  	GLOBAL (ModuleCost[GUN_WEAPON]) = 2000 / MODULE_COST_SCALE;
- 
--	GLOBAL_SIS (NumLanders) = 1;
-+	if (optHeadStart){
-+		GLOBAL_SIS (NumLanders) = MAX_LANDERS;
-+	} else {
-+		GLOBAL_SIS (NumLanders) = 1;
-+	}
+-
++	
+ 	GLOBAL_SIS (NumLanders) = 1;
  
  	utf8StringCopy (GLOBAL_SIS (ShipName), sizeof (GLOBAL_SIS (ShipName)),
- 			GAME_STRING (NAMING_STRING_BASE + 2));
+@@ -338,6 +358,12 @@ InitGameStructures (void)
+ 
+ 	ActivateStarShip (HUMAN_SHIP, SET_ALLIED);
+ 	CloneShipFragment (HUMAN_SHIP, &GLOBAL (built_ship_q), 0);
++ 
++	if(optHeadStart){
++		ActivateStarShip (SPATHI_SHIP, 1);
++		/* Make the Eluder escort captained by Fwiffo alone */
++		SetEscortCrewComplement (SPATHI_SHIP, 1, NAME_OFFSET + NUM_CAPTAINS_NAMES);
++	}
+ 
+ 	GLOBAL_SIS (log_x) = UNIVERSE_TO_LOGX (SOL_X);
+ 	GLOBAL_SIS (log_y) = UNIVERSE_TO_LOGY (SOL_Y);
 diff -ruNp ./src.orig/uqm/istrtab.h ./src/uqm/istrtab.h
---- ./src.orig/uqm/istrtab.h	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/istrtab.h	2017-03-05 21:37:21 -0600
+--- ./src.orig/uqm/istrtab.h	2017-04-11 02:08:51 -0500
++++ ./src/uqm/istrtab.h	2017-04-11 04:31:10 -0500
 @@ -37,6 +37,7 @@
  #define CYANIC_XLAT_TAB "planet.cyanic.translatetable"
  #define CYA_GAS_COLOR_TAB "planet.cyangas.colortable"
@@ -864,9 +896,64 @@ diff -ruNp ./src.orig/uqm/istrtab.h ./src/uqm/istrtab.h
  #define MAGMA_COLOR_TAB "planet.magma.colortable"
  #define MAGMA_XLAT_TAB "planet.magma.translatetable"
  #define MAGNETIC_COLOR_TAB "planet.magnetic.colortable"
+diff -ruNp ./src.orig/uqm/load.c ./src/uqm/load.c
+--- ./src.orig/uqm/load.c	2017-04-11 02:08:51 -0500
++++ ./src/uqm/load.c	2017-04-11 04:31:10 -0500
+@@ -741,7 +741,50 @@ LoadGame (COUNT which_game, SUMMARY_DESC
+ 	}
+ 
+ 	LoadStarDesc (&SD, fh);
+-
++	
++	if(optInfiniteRU){
++		oldRU = GlobData.SIS_state.ResUnits;
++	} else {
++		oldRU = 0;
++	}			
++	if (optUnlockShips){
++		ActivateStarShip (ARILOU_SHIP, ALLOW_BUILD);
++		ActivateStarShip (CHMMR_SHIP, ALLOW_BUILD);
++		ActivateStarShip (ORZ_SHIP, ALLOW_BUILD);
++		ActivateStarShip (PKUNK_SHIP, ALLOW_BUILD);
++		ActivateStarShip (SHOFIXTI_SHIP, ALLOW_BUILD);
++		ActivateStarShip (SPATHI_SHIP, ALLOW_BUILD);
++		ActivateStarShip (SUPOX_SHIP, ALLOW_BUILD);
++		ActivateStarShip (THRADDASH_SHIP, ALLOW_BUILD);
++		ActivateStarShip (UTWIG_SHIP, ALLOW_BUILD);
++		ActivateStarShip (VUX_SHIP, ALLOW_BUILD);
++		ActivateStarShip (YEHAT_SHIP, ALLOW_BUILD);
++		ActivateStarShip (MELNORME_SHIP, ALLOW_BUILD);
++		ActivateStarShip (DRUUGE_SHIP, ALLOW_BUILD);
++		ActivateStarShip (ILWRATH_SHIP, ALLOW_BUILD);
++		ActivateStarShip (MYCON_SHIP, ALLOW_BUILD);
++		ActivateStarShip (SLYLANDRO_SHIP, ALLOW_BUILD);
++		ActivateStarShip (UMGAH_SHIP, ALLOW_BUILD);
++		ActivateStarShip (URQUAN_SHIP, ALLOW_BUILD);
++		ActivateStarShip (ZOQFOTPIK_SHIP, ALLOW_BUILD);
++		ActivateStarShip (SYREEN_SHIP, ALLOW_BUILD);
++		ActivateStarShip (BLACK_URQUAN_SHIP, ALLOW_BUILD);
++	}
++	if (optUnlockUpgrades){
++		SET_GAME_STATE (IMPROVED_LANDER_SPEED, 1);
++		SET_GAME_STATE (IMPROVED_LANDER_CARGO, 1);
++		SET_GAME_STATE (IMPROVED_LANDER_SHOT, 1);
++		SET_GAME_STATE (LANDER_SHIELDS, (1 << EARTHQUAKE_DISASTER) | (1 << BIOLOGICAL_DISASTER) |
++			(1 << LIGHTNING_DISASTER) | (1 << LAVASPOT_DISASTER));				
++		GLOBAL (ModuleCost[ANTIMISSILE_DEFENSE]) = 4000 / MODULE_COST_SCALE;				
++		GLOBAL (ModuleCost[BLASTER_WEAPON]) = 4000 / MODULE_COST_SCALE;
++		GLOBAL (ModuleCost[HIGHEFF_FUELSYS]) = 1000 / MODULE_COST_SCALE;
++		GLOBAL (ModuleCost[TRACKING_SYSTEM]) = 5000 / MODULE_COST_SCALE;
++		GLOBAL (ModuleCost[CANNON_WEAPON]) = 6000 / MODULE_COST_SCALE;
++		GLOBAL (ModuleCost[SHIVA_FURNACE]) = 4000 / MODULE_COST_SCALE;
++		SET_GAME_STATE (MELNORME_TECH_STACK, 13);
++	}
++ 
+ 	cclose (fh);
+ 	res_CloseResFile (in_fp);
+ 
 diff -ruNp ./src.orig/uqm/misc.c ./src/uqm/misc.c
---- ./src.orig/uqm/misc.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/misc.c	2017-03-05 21:37:21 -0600
+--- ./src.orig/uqm/misc.c	2017-04-11 02:08:51 -0500
++++ ./src/uqm/misc.c	2017-04-11 04:31:10 -0500
 @@ -25,7 +25,9 @@
  #include "sounds.h"
  #include "weapon.h"
@@ -889,32 +976,30 @@ diff -ruNp ./src.orig/uqm/misc.c ./src/uqm/misc.c
  	if (ElementPtr->state_flags & PLAYER_SHIP)
  	{
  		if (!DeltaCrew (ElementPtr, -damage))
-diff -ruNp ./src.orig/uqm/outfit.c ./src/uqm/outfit.c
---- ./src.orig/uqm/outfit.c	2017-02-25 17:11:20 -0600
-+++ ./src/uqm/outfit.c	2017-03-05 21:37:21 -0600
-@@ -182,6 +182,10 @@ DoInstallModule (MENU_STATE *pMS)
- 	BYTE NewState, new_slot_piece, old_slot_piece;
- 	SIZE FirstItem, LastItem;
- 	BOOLEAN select, cancel, motion;
-+	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-+	if(optLanderMods){
-+		StorageBayCapacity = StorageBayCapacity <<= 1;
-+	}
+diff -ruNp ./src.orig/uqm/planets/generate/gensol.c ./src/uqm/planets/generate/gensol.c
+--- ./src.orig/uqm/planets/generate/gensol.c	2017-04-11 02:08:51 -0500
++++ ./src/uqm/planets/generate/gensol.c	2017-04-11 04:31:10 -0500
+@@ -28,7 +28,7 @@
+ #include "../../nameref.h"
+ #include "../../state.h"
+ #include "libs/mathlib.h"
+-
++#include "options.h"
  
- 	if (GLOBAL (CurrentActivity) & CHECK_ABORT)
- 	{
-@@ -290,7 +294,7 @@ DoInstallModule (MENU_STATE *pMS)
- 				}
- 				else if (old_slot_piece == STORAGE_BAY)
- 				{
--					if (GLOBAL_SIS (TotalElementMass) > STORAGE_BAY_CAPACITY
-+					if (GLOBAL_SIS (TotalElementMass) > StorageBayCapacity
- 							* (CountSISPieces (STORAGE_BAY) - 1))
- 					{	// storage bay still needed for the cargo
- 						PlayMenuSound (MENU_SOUND_FAILURE);
+ static bool GenerateSol_initNpcs (SOLARSYS_STATE *solarSys);
+ static bool GenerateSol_reinitNpcs (SOLARSYS_STATE *solarSys);
+@@ -79,7 +79,7 @@ GenerateSol_initNpcs (SOLARSYS_STATE *so
+ 		SET_GAME_STATE_32 (URQUAN_PROBE_GRPOFFS0, GLOBAL (BattleGroupRef));
+ 	}
+ 
+-	if (!init_probe ())
++	if (!init_probe () || optHeadStart)
+ 		GenerateDefault_initNpcs (solarSys);
+ 
+ 	return true;
 diff -ruNp ./src.orig/uqm/planets/generate/genthrad.c ./src/uqm/planets/generate/genthrad.c
---- ./src.orig/uqm/planets/generate/genthrad.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/planets/generate/genthrad.c	2017-03-05 21:37:22 -0600
+--- ./src.orig/uqm/planets/generate/genthrad.c	2017-04-11 02:08:51 -0500
++++ ./src/uqm/planets/generate/genthrad.c	2017-04-11 04:31:10 -0500
 @@ -189,6 +189,10 @@ static bool
  GenerateThraddash_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
  		COUNT whichNode)
@@ -943,8 +1028,8 @@ diff -ruNp ./src.orig/uqm/planets/generate/genthrad.c ./src/uqm/planets/generate
  	}
  
 diff -ruNp ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
---- ./src.orig/uqm/planets/lander.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/planets/lander.c	2017-03-05 21:37:22 -0600
+--- ./src.orig/uqm/planets/lander.c	2017-04-11 02:08:51 -0500
++++ ./src/uqm/planets/lander.c	2017-04-11 04:31:10 -0500
 @@ -36,7 +36,7 @@
  #include "libs/graphics/gfx_common.h"
  #include "libs/mathlib.h"
@@ -974,36 +1059,19 @@ diff -ruNp ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  	pStr = GAME_STRING (EType + ELEMENTS_STRING_BASE);
  
  	pPSD->MineralText[0].baseline.x = (SURFACE_WIDTH >> 1)
-@@ -588,6 +588,11 @@ pickupMineralNode (PLANETSIDE_DESC *pPSD
- static bool
+@@ -589,6 +589,7 @@ static bool
  pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved)
  {
-+	COUNT MaxScrounged = MAX_SCROUNGED;
-+	if(optLanderMods){
-+		MaxScrounged = MaxScrounged <<= 1;
-+	}
-+	if (pPSD->BiologicalLevel >= MaxScrounged)
  	if (pPSD->BiologicalLevel >= MAX_SCROUNGED)
++	if (pPSD->BiologicalLevel >= MAX_SCROUNGED)
  	{
  		// Lander is full.
-@@ -596,10 +601,10 @@ pickupBioNode (PLANETSIDE_DESC *pPSD, CO
- 		return false;
- 	}
- 
--	if (pPSD->BiologicalLevel + NumRetrieved > MAX_SCROUNGED)
-+	if (pPSD->BiologicalLevel + NumRetrieved > MaxScrounged)
- 	{
- 		// Node could only be picked up partially.
--		NumRetrieved = (COUNT)(MAX_SCROUNGED - pPSD->BiologicalLevel);
-+		NumRetrieved = (COUNT)(MaxScrounged - pPSD->BiologicalLevel);
- 	}
- 
- 	FillLanderHold (pPSD, BIOLOGICAL_SCAN, NumRetrieved);
-@@ -1404,15 +1409,20 @@ InitPlanetSide (POINT pt)
+ 		PlaySound (SetAbsSoundIndex (LanderSounds, LANDER_FULL),
+@@ -1404,15 +1405,20 @@ InitPlanetSide (POINT pt)
  {
  	// Adjust landing location by a random jitter.
  #define RANDOM_MISS 64
-+	if(!optLanderMods){
++	if(!optGodMode){
 +		pt.x -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
 +		pt.y -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
 +	} else { 
@@ -1022,55 +1090,17 @@ diff -ruNp ./src.orig/uqm/planets/lander.c ./src/uqm/planets/lander.c
  	if (pt.y < 0)
  		pt.y = 0;
  	else if (pt.y >= (MAP_HEIGHT << MAG_SHIFT))
-@@ -1866,7 +1876,10 @@ PlanetSide (POINT planetLoc)
+@@ -1866,7 +1872,6 @@ PlanetSide (POINT planetLoc)
  	BYTE TectonicsChanceTab[] = {0*3, 0*3, 1*3, 2*3, 4*3, 8*3, 16*3, 32*3};
  	BYTE WeatherChanceTab[] = {0*3, 0*3, 1*3, 2*3, 3*3, 6*3, 12*3, 24*3};
  	BYTE FireChanceTab[] = {0*3, 0*3, 1*3, 2*3, 4*3, 12*3, 24*3, 48*3};
 -
-+	COUNT MaxScrounged = MAX_SCROUNGED;
-+	if(optLanderMods){
-+		MaxScrounged = MaxScrounged <<= 1;
-+	}
  	memset (&PSD, 0, sizeof (PSD));
  	PSD.InTransit = TRUE;
  
-@@ -1893,7 +1906,7 @@ PlanetSide (POINT planetLoc)
- 		PSD.FireChance = FireChanceTab[7];
- 
- 	PSD.ElementLevel = GetStorageBayCapacity () - GLOBAL_SIS (TotalElementMass);
--	PSD.MaxElementLevel = MAX_SCROUNGED;
-+	PSD.MaxElementLevel = MaxScrounged;
- 	if (GET_GAME_STATE (IMPROVED_LANDER_CARGO))
- 		PSD.MaxElementLevel <<= 1;
- 	if (PSD.ElementLevel < PSD.MaxElementLevel)
-@@ -2017,6 +2030,10 @@ void
- InitLander (BYTE LanderFlags)
- {
- 	RECT r;
-+	COUNT MaxScrounged = MAX_SCROUNGED;
-+	if(optLanderMods){
-+		MaxScrounged = MaxScrounged <<= 1;
-+	}
- 
- 	LockMutex (GraphicsLock);
- 
-@@ -2083,11 +2100,11 @@ InitLander (BYTE LanderFlags)
- 		}
- 
- 		free_space = GetStorageBayCapacity () - GLOBAL_SIS (TotalElementMass);
--		if ((int)free_space < (int)(MAX_SCROUNGED << capacity_shift))
-+		if ((int)free_space < (int)(MaxScrounged << capacity_shift))
- 		{
- 			r.corner.x = 1;
- 			r.extent.width = 4;
--			r.extent.height = MAX_SCROUNGED
-+			r.extent.height = MaxScrounged
- 					- (free_space >> capacity_shift) + 1;
- 			SetContextForeGroundColor (BLACK_COLOR);
- 			DrawFilledRectangle (&r);
 diff -ruNp ./src.orig/uqm/planets/pstarmap.c ./src/uqm/planets/pstarmap.c
---- ./src.orig/uqm/planets/pstarmap.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/planets/pstarmap.c	2017-03-05 21:37:22 -0600
+--- ./src.orig/uqm/planets/pstarmap.c	2017-04-11 02:08:52 -0500
++++ ./src/uqm/planets/pstarmap.c	2017-04-11 04:31:11 -0500
 @@ -1228,9 +1228,9 @@ DoStarSearch (MENU_STATE *pMS)
  static BOOLEAN
  DoMoveCursor (MENU_STATE *pMS)
@@ -1107,33 +1137,28 @@ diff -ruNp ./src.orig/uqm/planets/pstarmap.c ./src/uqm/planets/pstarmap.c
  	}
  	else if (PulsedInputState.menu[KEY_MENU_SEARCH])
 diff -ruNp ./src.orig/uqm/planets/scan.c ./src/uqm/planets/scan.c
---- ./src.orig/uqm/planets/scan.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/planets/scan.c	2017-03-05 21:37:22 -0600
-@@ -1343,7 +1343,10 @@ GeneratePlanetSide (void)
+--- ./src.orig/uqm/planets/scan.c	2017-04-11 02:08:52 -0500
++++ ./src/uqm/planets/scan.c	2017-04-11 04:31:11 -0500
+@@ -1343,7 +1343,6 @@ GeneratePlanetSide (void)
  			// life_init_tab is filled with the creature types of already
  			// selected creatures. If an entry is 0, none has been selected
  			// yet, otherwise, it is 1 more than the creature type.
 -
-+	COUNT MaxScrounged = MAX_SCROUNGED;
-+	if(optLanderMods){
-+		MaxScrounged = MaxScrounged <<= 1;
-+	}
  	InitDisplayList ();
  	if (pSolarSysState->pOrbitalDesc->data_index & PLANET_SHIELDED)
  		return;
-@@ -1414,7 +1417,7 @@ GeneratePlanetSide (void)
- 				NodeElementPtr->preprocess_func = object_animation;
- 				if (scan == ENERGY_SCAN)
- 				{
--					NodeElementPtr->mass_points = MAX_SCROUNGED;
-+					NodeElementPtr->mass_points = MaxScrounged;
- 					DisplayArray[NodeElementPtr->PrimIndex].Object.Stamp.frame =
- 							pSolarSysState->PlanetSideFrame[1];
- 				}
 diff -ruNp ./src.orig/uqm/races.h ./src/uqm/races.h
---- ./src.orig/uqm/races.h	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/races.h	2017-03-05 21:37:22 -0600
-@@ -586,7 +586,7 @@ enum
+--- ./src.orig/uqm/races.h	2017-04-11 02:08:52 -0500
++++ ./src/uqm/races.h	2017-04-11 04:31:11 -0500
+@@ -383,6 +383,7 @@ enum
+ 	DEAD_GUY = 0,
+ 	GOOD_GUY,
+ 	BAD_GUY,
++	CAN_BUILD,
+ };
+ 
+ static inline FLEET_INFO *
+@@ -586,7 +587,7 @@ enum
  		 0,  /* URQUAN_DRONE_SHIP */
  
  #define RACE_INTERPLANETARY_PERCENT \
@@ -1143,8 +1168,8 @@ diff -ruNp ./src.orig/uqm/races.h ./src/uqm/races.h
  		 0,  /* HUMAN_SHIP */ \
  		20,  /* ORZ_SHIP */ \
 diff -ruNp ./src.orig/uqm/restart.c ./src/uqm/restart.c
---- ./src.orig/uqm/restart.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/restart.c	2017-03-05 21:37:22 -0600
+--- ./src.orig/uqm/restart.c	2017-04-11 02:08:52 -0500
++++ ./src/uqm/restart.c	2017-04-11 04:31:11 -0500
 @@ -384,6 +384,9 @@ StartGame (void)
  			{	// timed out
  				GLOBAL (CurrentActivity) = 0;
@@ -1167,9 +1192,18 @@ diff -ruNp ./src.orig/uqm/restart.c ./src/uqm/restart.c
  	
  	} while (GLOBAL (CurrentActivity) & CHECK_ABORT);
 diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
---- ./src.orig/uqm/setup.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/setup.c	2017-03-05 22:50:07 -0600
-@@ -106,30 +106,32 @@ LoadKernel (int argc, char *argv[])
+--- ./src.orig/uqm/setup.c	2017-04-11 02:08:52 -0500
++++ ./src/uqm/setup.c	2017-04-11 04:31:11 -0500
+@@ -68,6 +68,8 @@ FRAME FontGradFrame;
+ Mutex GraphicsLock;
+ STRING GameStrings;
+ QUEUE disp_q;
++BOOLEAN seroSetupPresent; // Serosis
++BOOLEAN seroMenuPresent; // Serosis
+ 
+ uio_Repository *repository;
+ uio_DirHandle *rootDir;
+@@ -106,32 +108,47 @@ LoadKernel (int argc, char *argv[])
  	SetContextOrigin (MAKE_POINT (0, 0));
  
  	hResIndex = (RESOURCE_INDEX) InitResourceSystem ();
@@ -1215,31 +1249,189 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 +	if (optWhichIntro == OPT_3DO) {
  		loadAddon ("3dovideo");
  	}
++	if(loadAddon("sero-menu-1x")){
++		seroMenuPresent = TRUE;
++		printf("Loading Sero-Menu 1x\n");
++		log_add (log_Debug, "loading sero-menu-1x");
++	}
++	if(loadAddon("sero-setup")){
++		seroSetupPresent = TRUE;
++		printf("Loading Sero Setup\n");
++		log_add (log_Debug, "loading sero-setup\n");
++	} else {
++		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
++		exit (EXIT_FAILURE);
++ 	}
+ 
+ 	/* Now load the rest of the addons, in order. */
+ 	prepareAddons (optAddons);
+diff -ruNp ./src.orig/uqm/setup.h ./src/uqm/setup.h
+--- ./src.orig/uqm/setup.h	2017-04-11 02:08:52 -0500
++++ ./src/uqm/setup.h	2017-04-11 04:31:11 -0500
+@@ -51,6 +51,9 @@ extern Mutex GraphicsLock;
+ extern CondVar RenderingCond;
+ 
+ extern QUEUE race_q[];
++
++extern BOOLEAN seroSetupPresent; // Serosis
++extern BOOLEAN seroMenuPresent; // Serosis
+ 		/* Array of lists of ships involved in a battle, one queue per side;
+ 		 * queue element is STARSHIP */
  
 diff -ruNp ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
---- ./src.orig/uqm/setupmenu.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/setupmenu.c	2017-03-05 21:37:22 -0600
-@@ -1201,7 +1201,18 @@ GetGlobalOptions (GLOBALOPTS *opts)
+--- ./src.orig/uqm/setupmenu.c	2017-04-11 02:08:52 -0500
++++ ./src/uqm/setupmenu.c	2017-04-11 04:31:11 -0500
+@@ -73,7 +73,7 @@ static void clear_control (WIDGET_CONTRO
+ #endif
+ 
+ #define MENU_COUNT          8
+-#define CHOICE_COUNT       22
++#define CHOICE_COUNT       32
+ #define SLIDER_COUNT        3
+ #define BUTTON_COUNT       10
+ #define LABEL_COUNT         4
+@@ -96,7 +96,8 @@ typedef int (*HANDLER)(WIDGET *, int);
+ static int choice_widths[CHOICE_COUNT] = {
+ 	3, 2, 3, 3, 2, 2, 2, 2, 2, 2, 
+ 	2, 2, 3, 2, 2, 3, 3, 2,	3, 3, 
+-	3, 2 };
++	3, 2, 2, 2, 3, 2, 2, 2, 2, 2,
++	2, 2};
+ 
+ static HANDLER button_handlers[BUTTON_COUNT] = {
+ 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
+@@ -104,7 +105,7 @@ static HANDLER button_handlers[BUTTON_CO
+ 	do_keyconfig };
+ 
+ static int menu_sizes[MENU_COUNT] = {
+-	7, 5, 7, 9, 2, 5,
++	7, 5, 7, 9, 11, 5,
+ #ifdef HAVE_OPENGL
+ 	5,
+ #else
+@@ -183,7 +184,16 @@ static WIDGET *editkeys_widgets[] = {
+ 	(WIDGET *)(&buttons[9]) };
+ 
+ static WIDGET *incomplete_widgets[] = {
+-	(WIDGET *)(&labels[0]),
++	(WIDGET *)(&choices[22]), // JMS: cheatMode on/off
++	(WIDGET *)(&choices[23]), // God Mode
++	(WIDGET *)(&choices[24]), // Time Dilation
++	(WIDGET *)(&choices[25]), // Bubble Warp
++	(WIDGET *)(&choices[26]), // Unlock Ships
++	(WIDGET *)(&choices[27]), // Head Start
++	(WIDGET *)(&choices[28]), // Unlock Upgrades
++	(WIDGET *)(&choices[29]), // Infinite RU
++	(WIDGET *)(&choices[30]), // Skip Intro
++	(WIDGET *)(&choices[31]), // FMV
+ 	(WIDGET *)(&buttons[1]) };
+ 
+ static WIDGET **menu_widgets[MENU_COUNT] = {
+@@ -387,6 +397,16 @@ SetDefaults (void)
+ 	choices[19].selected = opts.player2;
+ 	choices[20].selected = 0;
+ 	choices[21].selected = opts.musicremix;
++ 	choices[22].selected = opts.cheatMode; // JMS	
++	choices[23].selected = opts.godMode; // Serosis
++	choices[24].selected = opts.tdType; // Serosis
++	choices[25].selected = opts.bubbleWarp; // Serosis
++	choices[26].selected = opts.unlockShips; // Serosis
++	choices[27].selected = opts.headStart; // Serosis
++	choices[28].selected = opts.unlockUpgrades; // Serosis
++	choices[29].selected = opts.infiniteRU; // Serosis
++	choices[30].selected = opts.skipIntro; // Serosis
++	choices[31].selected = opts.FMV; // Serosis
+ 
+ 	sliders[0].value = opts.musicvol;
+ 	sliders[1].value = opts.sfxvol;
+@@ -418,6 +438,16 @@ PropagateResults (void)
+ 	opts.player1 = choices[18].selected;
+ 	opts.player2 = choices[19].selected;
+ 	opts.musicremix = choices[21].selected;
++ 	opts.cheatMode = choices[22].selected; // JMS
++	opts.godMode = choices[23].selected; // Serosis
++	opts.tdType = choices[24].selected; // Serosis
++	opts.bubbleWarp = choices[25].selected; // Serosis
++	opts.unlockShips = choices[26].selected; // Serosis
++	opts.headStart = choices[27].selected; // Serosis
++	opts.unlockUpgrades = choices[28].selected; // Serosis
++	opts.infiniteRU = choices[29].selected; // Serosis
++	opts.skipIntro = choices[30].selected; // Serosis
++	opts.FMV = choices[31].selected; // Serosis
+ 
+ 	opts.musicvol = sliders[0].value;
+ 	opts.sfxvol = sliders[1].value;
+@@ -1158,24 +1188,24 @@ GetGlobalOptions (GLOBALOPTS *opts)
+ 			}
+ 		}
+ 		break;
+-	case 800:
+-		if (ScreenHeightActual != 600)
++	case 960:
++		if (ScreenHeightActual != 720)
+ 		{
+ 			opts->res = OPTVAL_CUSTOM;
+ 		}
+ 		else
+ 		{
+-			opts->res = OPTVAL_800_600;
++			opts->res = OPTVAL_960_720;
+ 		}
+ 		break;
+-	case 1024:
+-		if (ScreenHeightActual != 768)
++	case 1280:
++		if (ScreenHeightActual != 960)
+ 		{
+ 			opts->res = OPTVAL_CUSTOM;
+ 		}
+ 		else
+ 		{
+-			opts->res = OPTVAL_1024_768;
++			opts->res = OPTVAL_1280_960;
+ 		}		
+ 		break;
+ 	default:
+@@ -1201,7 +1231,16 @@ GetGlobalOptions (GLOBALOPTS *opts)
  	opts->musicvol = (((int)(musicVolumeScale * 100.0f) + 2) / 5) * 5;
  	opts->sfxvol = (((int)(sfxVolumeScale * 100.0f) + 2) / 5) * 5;
  	opts->speechvol = (((int)(speechVolumeScale * 100.0f) + 2) / 5) * 5;
 -	
 + 	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 +	opts->godMode = optGodMode ? OPTVAL_ENABLED : OPTVAL_DISABLED; //Serosis
-+	opts->timeDilation = optTimeDilation ? OPTVAL_ENABLED : OPTVAL_DISABLED; //Serosis
-+	opts->bubbleWarp = optBubbleWarp ? OPTVAL_ENABLED : OPTVAL_DISABLED; //Serosis
-+	opts->roseBud = optRoseBud ? OPTVAL_ENABLED : OPTVAL_DISABLED; //Serosis
-+	opts->unlockShips = optUnlockShips ? OPTVAL_ENABLED : OPTVAL_DISABLED; //Serosis
-+	opts->headStart = optHeadStart ? OPTVAL_ENABLED : OPTVAL_DISABLED; //Serosis
++	opts->tdType = res_GetInteger ("config.timeDilation");
++	opts->bubbleWarp = optBubbleWarp ? OPTVAL_ENABLED : OPTVAL_DISABLED;
++	opts->unlockShips = optUnlockShips ? OPTVAL_ENABLED : OPTVAL_DISABLED;
++	opts->headStart = optHeadStart ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 +	opts->unlockUpgrades = optUnlockUpgrades ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-+	opts->landerMods = optLanderMods ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-+	opts->fastForward = optFastForward ? OPTVAL_ENABLED : OPTVAL_DISABLED;
++	opts->infiniteRU = optInfiniteRU ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 +	opts->skipIntro = optSkipIntro ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-+	opts->FMV = optFMV ? OPTVAL_ENABLED : OPTVAL_DISABLED;	
++	opts->FMV = optFMV ? OPTVAL_ENABLED : OPTVAL_DISABLED;
  }
  
  void
-@@ -1253,6 +1264,54 @@ SetGlobalOptions (GLOBALOPTS *opts)
+@@ -1233,14 +1272,14 @@ SetGlobalOptions (GLOBALOPTS *opts)
+ 		NewDriver = TFB_GFXDRIVER_SDL_PURE;
+ #endif
+ 		break;
+-	case OPTVAL_800_600:
+-		NewWidth = 800;
+-		NewHeight = 600;
++	case OPTVAL_960_720:
++		NewWidth = 960;
++		NewHeight = 720;
+ 		NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+ 		break;
+-	case OPTVAL_1024_768:
+-		NewWidth = 1024;
+-		NewHeight = 768;
++	case OPTVAL_1280_960:
++		NewWidth = 1280;
++		NewHeight = 960;
+ 		NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+ 		break;
+ 	default:
+@@ -1253,6 +1292,45 @@ SetGlobalOptions (GLOBALOPTS *opts)
  	res_PutBoolean ("config.alwaysgl", opts->driver == OPTVAL_ALWAYS_GL);
  	res_PutBoolean ("config.usegl", NewDriver == TFB_GFXDRIVER_SDL_OPENGL);
  
@@ -1251,23 +1443,18 @@ diff -ruNp ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
 +	res_PutBoolean ("config.godMode", opts->godMode == OPTVAL_ENABLED);
 +	optGodMode = opts->godMode == OPTVAL_ENABLED;
 +
-+	// Serosis: Time Dilation: Increases time in IP and HS by a factor of 12
-+	res_PutBoolean ("config.timeDilation", opts->timeDilation == OPTVAL_ENABLED);
-+	optTimeDilation = opts->timeDilation == OPTVAL_ENABLED;
++	// Serosis: Time Dilation: Increases and divides time in IP and HS by a factor of 12
++	res_PutInteger ("config.timeDilation", opts->tdType);
 +
 +	// Serosis: Bubble Warp: Warp instantly to your destination
 +	res_PutBoolean ("config.bubbleWarp", opts->bubbleWarp == OPTVAL_ENABLED);
 +	optBubbleWarp = opts->bubbleWarp == OPTVAL_ENABLED;
 +
-+	// Serosis: R.U. and Credits cheat : Ask the Melonorme why the bridge turned purple for extra funds
-+	res_PutBoolean ("config.roseBud", opts->roseBud == OPTVAL_ENABLED);
-+	optRoseBud = opts->roseBud == OPTVAL_ENABLED;
-+
-+	// Serosis: R.U. and Credits cheat : Ask the Melonorme why the bridge turned purple for extra funds
++	// Serosis: Unlocks ships that you can not unlock under normal conditions
 +	res_PutBoolean ("config.unlockShips", opts->unlockShips == OPTVAL_ENABLED);
 +	optUnlockShips = opts->unlockShips == OPTVAL_ENABLED;
 +
-+	// Serosis: R.U. and Credits cheat : Ask the Melonorme why the bridge turned purple for extra funds
++	// Serosis: Gives you 1000 Radioactives and a better outfitted ship on a a new game
 +	res_PutBoolean ("config.headStart", opts->headStart == OPTVAL_ENABLED);
 +	optHeadStart = opts->headStart == OPTVAL_ENABLED;
 +
@@ -1275,13 +1462,9 @@ diff -ruNp ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
 +	res_PutBoolean ("config.unlockUpgrades", opts->unlockUpgrades == OPTVAL_ENABLED);
 +	optUnlockUpgrades = opts->unlockUpgrades == OPTVAL_ENABLED;
 +
-+	// Serosis: Lander modifications
-+	res_PutBoolean ("config.landerMods", opts->landerMods == OPTVAL_ENABLED);
-+	optLanderMods = opts->landerMods == OPTVAL_ENABLED;
-+
-+	// Serosis: Speed up time by a factor of 5
-+	res_PutBoolean ("config.fastForward", opts->fastForward == OPTVAL_ENABLED);
-+	optFastForward = opts->fastForward == OPTVAL_ENABLED;
++	// Serosis: Virtually Infinite RU
++	res_PutBoolean ("config.infiniteRU", opts->infiniteRU == OPTVAL_ENABLED);
++	optInfiniteRU = opts->infiniteRU == OPTVAL_ENABLED;
 +
 +	// Serosis: Skip the intro
 +	res_PutBoolean ("config.skipIntro", opts->skipIntro == OPTVAL_ENABLED);
@@ -1295,22 +1478,48 @@ diff -ruNp ./src.orig/uqm/setupmenu.c ./src/uqm/setupmenu.c
  	case OPTVAL_BILINEAR_SCALE:
  		NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
 diff -ruNp ./src.orig/uqm/setupmenu.h ./src/uqm/setupmenu.h
---- ./src.orig/uqm/setupmenu.h	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/setupmenu.h	2017-03-05 21:37:22 -0600
-@@ -74,7 +74,9 @@ typedef struct globalopts_struct {
+--- ./src.orig/uqm/setupmenu.h	2017-04-11 02:08:52 -0500
++++ ./src/uqm/setupmenu.h	2017-04-11 04:31:11 -0500
+@@ -43,8 +43,8 @@ typedef enum {
+ typedef enum {
+ 	OPTVAL_320_240,
+ 	OPTVAL_640_480,
+-	OPTVAL_800_600,
+-	OPTVAL_1024_768,
++	OPTVAL_960_720,
++	OPTVAL_1280_960,
+ 	OPTVAL_CUSTOM
+ } OPT_RESTYPE;
+ 
+@@ -64,6 +64,13 @@ typedef enum {
+ 	OPTVAL_MEDIUM,
+ 	OPTVAL_HIGH
+ } OPT_AQUALITYTYPE;
++ 
++typedef enum {
++	OPTVAL_NORMAL,
++	OPTVAL_SLOW,
++	OPTVAL_FAST
++} OPT_TDTYPE;
++
+ 
+ /* At the moment, CONTROL_TEMPLATE is directly in this structure.  If
+  * CONTROL_TEMPLATE and the options available diverge, this will need
+@@ -74,7 +81,10 @@ typedef struct globalopts_struct {
  	OPT_DRIVERTYPE driver;
  	OPT_ADRIVERTYPE adriver;
  	OPT_AQUALITYTYPE aquality;
 -	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo, music3do, musicremix;
++	OPT_TDTYPE tdType;
 +	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo, music3do, musicremix,
-+		cheatMode, godMode, timeDilation, bubbleWarp, roseBud, unlockShips, headStart, // JMS & Serosis
-+		unlockUpgrades, landerMods, fastForward, skipIntro, FMV;
++		cheatMode, godMode, bubbleWarp, roseBud, unlockShips, headStart, // JMS & Serosis
++		unlockUpgrades, infiniteRU, skipIntro, FMV;
  	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, meleezoom, shield;
  	CONTROL_TEMPLATE player1, player2;
  	int speechvol, musicvol, sfxvol;
 diff -ruNp ./src.orig/uqm/ships/arilou/arilou.c ./src/uqm/ships/arilou/arilou.c
---- ./src.orig/uqm/ships/arilou/arilou.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/ships/arilou/arilou.c	2017-03-05 21:37:22 -0600
+--- ./src.orig/uqm/ships/arilou/arilou.c	2017-04-11 02:08:52 -0500
++++ ./src/uqm/ships/arilou/arilou.c	2017-04-11 04:31:11 -0500
 @@ -19,9 +19,10 @@
  #include "../ship.h"
  #include "arilou.h"
@@ -1358,8 +1567,8 @@ diff -ruNp ./src.orig/uqm/ships/arilou/arilou.c ./src/uqm/ships/arilou/arilou.c
  	}
  }
 diff -ruNp ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
---- ./src.orig/uqm/ships/chmmr/chmmr.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/ships/chmmr/chmmr.c	2017-03-05 21:37:22 -0600
+--- ./src.orig/uqm/ships/chmmr/chmmr.c	2017-04-11 02:08:52 -0500
++++ ./src/uqm/ships/chmmr/chmmr.c	2017-04-11 04:31:11 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "chmmr.h"
@@ -1401,8 +1610,8 @@ diff -ruNp ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
  	GetElementStarShip (ElementPtr, &StarShipPtr);
  	if (StarShipPtr->hShip)
 diff -ruNp ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/melnorme.c
---- ./src.orig/uqm/ships/melnorme/melnorme.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/ships/melnorme/melnorme.c	2017-03-05 21:37:22 -0600
+--- ./src.orig/uqm/ships/melnorme/melnorme.c	2017-04-11 02:08:52 -0500
++++ ./src/uqm/ships/melnorme/melnorme.c	2017-04-11 04:31:11 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "melnorme.h"
@@ -1428,8 +1637,8 @@ diff -ruNp ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/mel
  					(BYTE)(1 << ((BYTE)TFB_Random () & 1)); /* LEFT or RIGHT */
  
 diff -ruNp ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
---- ./src.orig/uqm/ships/orz/orz.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/ships/orz/orz.c	2017-03-05 21:37:23 -0600
+--- ./src.orig/uqm/ships/orz/orz.c	2017-04-11 02:08:53 -0500
++++ ./src/uqm/ships/orz/orz.c	2017-04-11 04:31:11 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "orz.h"
@@ -1564,8 +1773,8 @@ diff -ruNp ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
  	(void) pPt0;  /* Satisfying compiler (unused parameter) */
  	(void) pPt1;  /* Satisfying compiler (unused parameter) */
 diff -ruNp ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
---- ./src.orig/uqm/ships/pkunk/pkunk.c	2017-02-25 17:11:21 -0600
-+++ ./src/uqm/ships/pkunk/pkunk.c	2017-03-05 21:37:23 -0600
+--- ./src.orig/uqm/ships/pkunk/pkunk.c	2017-04-11 02:08:53 -0500
++++ ./src/uqm/ships/pkunk/pkunk.c	2017-04-11 04:31:11 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "pkunk.h"
@@ -1621,8 +1830,8 @@ diff -ruNp ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
  		if (hPhoenix)
  		{
 diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
---- ./src.orig/uqm/ships/syreen/syreen.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/ships/syreen/syreen.c	2017-03-05 21:37:23 -0600
+--- ./src.orig/uqm/ships/syreen/syreen.c	2017-04-11 02:08:53 -0500
++++ ./src/uqm/ships/syreen/syreen.c	2017-04-11 04:31:12 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "syreen.h"
@@ -1649,8 +1858,8 @@ diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
  						crew_loss = ObjPtr->crew_level - 1;
  
 diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
---- ./src.orig/uqm/ships/vux/vux.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/ships/vux/vux.c	2017-03-05 21:37:23 -0600
+--- ./src.orig/uqm/ships/vux/vux.c	2017-04-11 02:08:53 -0500
++++ ./src/uqm/ships/vux/vux.c	2017-04-11 04:31:12 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "vux.h"
@@ -1814,8 +2023,8 @@ diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
  					|| TimeSpaceMatterConflict (ElementPtr));
  
 diff -ruNp ./src.orig/uqm/shipyard.c ./src/uqm/shipyard.c
---- ./src.orig/uqm/shipyard.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/shipyard.c	2017-03-05 21:37:23 -0600
+--- ./src.orig/uqm/shipyard.c	2017-04-11 02:08:53 -0500
++++ ./src/uqm/shipyard.c	2017-04-11 04:31:12 -0500
 @@ -37,7 +37,7 @@
  #include "sounds.h"
  #include "libs/graphics/gfx_common.h"
@@ -1825,41 +2034,64 @@ diff -ruNp ./src.orig/uqm/shipyard.c ./src/uqm/shipyard.c
  
  #ifdef USE_3DO_HANGAR
  // 3DO 4x3 hangar layout
+@@ -85,7 +85,11 @@ animatePowerLines (MENU_STATE *pMS)
+ 	{	// Init animation
+ 		s.origin.x = 0;
+ 		s.origin.y = 0;
+-		s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 24);
++		if(!seroMenuPresent){
++			s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 24);
++		} else {
++			s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 25); // This shifts the animation over one so the Kohr-Ah could have a ship label
++		}
+ 		ColorMap = SetAbsColorMapIndex (pMS->CurString, 0);
+ 	}
+ 
+@@ -146,7 +150,7 @@ GetAvailableRaceCount (void)
+ 		FLEET_INFO *FleetPtr;
+ 
+ 		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
+-		if (FleetPtr->allied_state == GOOD_GUY)
++		if (FleetPtr->allied_state == GOOD_GUY || FleetPtr->allied_state == CAN_BUILD)
+ 			++Index;
+ 
+ 		hNextShip = _GetSuccLink (FleetPtr);
+@@ -167,7 +171,7 @@ GetAvailableRaceFromIndex (BYTE Index)
+ 		FLEET_INFO *FleetPtr;
+ 
+ 		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
+-		if (FleetPtr->allied_state == GOOD_GUY && Index-- == 0)
++		if (FleetPtr->allied_state == GOOD_GUY && Index-- == 0 || FleetPtr->allied_state == CAN_BUILD && Index-- == 0)
+ 		{
+ 			UnlockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
+ 			return hStarShip;
 diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
---- ./src.orig/uqm/sis.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/sis.c	2017-03-05 21:37:23 -0600
-@@ -764,6 +764,10 @@ DrawStorageBays (BOOLEAN Refresh)
- 	BYTE i;
- 	RECT r;
- 	CONTEXT OldContext;
-+	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-+	if(optLanderMods){
-+		StorageBayCapacity = StorageBayCapacity <<= 1;
-+	}
- 
- 	OldContext = SetContext (StatusContext);
- 
-@@ -789,7 +793,7 @@ DrawStorageBays (BOOLEAN Refresh)
- 				- ((i * (r.extent.width + 1)) >> 1);
- 		SetContextForeGroundColor (STORAGE_BAY_FULL_COLOR);
- 		for (j = GLOBAL_SIS (TotalElementMass);
--				j >= STORAGE_BAY_CAPACITY; j -= STORAGE_BAY_CAPACITY)
-+				j >= StorageBayCapacity; j -= StorageBayCapacity)
- 		{
- 			DrawFilledRectangle (&r);
- 			r.corner.x += r.extent.width + 1;
-@@ -797,8 +801,8 @@ DrawStorageBays (BOOLEAN Refresh)
- 			--i;
+--- ./src.orig/uqm/sis.c	2017-04-11 02:08:53 -0500
++++ ./src/uqm/sis.c	2017-04-11 04:31:12 -0500
+@@ -397,18 +397,15 @@ DrawStatusMessage (const UNICODE *pStr)
  		}
- 
--		r.extent.height = (4 * j + (STORAGE_BAY_CAPACITY - 1)) /
--				STORAGE_BAY_CAPACITY;
-+		r.extent.height = (4 * j + (StorageBayCapacity - 1)) /
-+				StorageBayCapacity;
- 		if (r.extent.height)
+ 		else if (curMsgMode == SMM_RES_UNITS)
  		{
- 			r.corner.y += 4 - r.extent.height;
-@@ -1119,6 +1123,8 @@ void
+-			if (GET_GAME_STATE (CHMMR_BOMB_STATE) < 2)
+-			{
+-				snprintf (buf, sizeof buf, "%u %s", GLOBAL_SIS (ResUnits),
+-						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
+-			}
+-			else
+-			{
++			if (GET_GAME_STATE (CHMMR_BOMB_STATE) > 2 || GLOBAL_SIS (ResUnits) > 2000000L) {
+ 				snprintf (buf, sizeof buf, "%s %s",
+ 						(optWhichMenu == OPT_PC) ?
+ 							GAME_STRING (STATUS_STRING_BASE + 2)
+ 							: STR_INFINITY_SIGN, // "UNLIMITED"
+ 						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
++			} else {
++				snprintf (buf, sizeof buf, "%u %s", GLOBAL_SIS (ResUnits),
++						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
+ 			}
+ 		}
+ 		else
+@@ -1119,6 +1116,8 @@ void
  DeltaSISGauges (SIZE crew_delta, SIZE fuel_delta, int resunit_delta)
  {
  	CONTEXT OldContext;
@@ -1868,7 +2100,7 @@ diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
  
  	if (crew_delta == 0 && fuel_delta == 0 && resunit_delta == 0)
  		return;
-@@ -1126,11 +1132,19 @@ DeltaSISGauges (SIZE crew_delta, SIZE fu
+@@ -1126,11 +1125,19 @@ DeltaSISGauges (SIZE crew_delta, SIZE fu
  	OldContext = SetContext (StatusContext);
  
  	BatchGraphics ();
@@ -1890,7 +2122,7 @@ diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
  		s.frame = FlagStatFrame;
  		DrawStamp (&s);
  
-@@ -1144,6 +1158,8 @@ DeltaSISGauges (SIZE crew_delta, SIZE fu
+@@ -1144,6 +1151,8 @@ DeltaSISGauges (SIZE crew_delta, SIZE fu
  		UnlockMutex (GraphicsLock);
  		DrawSupportShips ();
  		LockMutex (GraphicsLock);
@@ -1899,23 +2131,9 @@ diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
  	}
  
  	SetContextFont (TinyFont);
-@@ -1284,8 +1300,12 @@ GetElementMass (void)
- COUNT
- GetModuleStorageCapacity (BYTE moduleType)
- {
-+	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-+	if(optLanderMods){
-+		StorageBayCapacity = StorageBayCapacity <<= 1;
-+	}
- 	if (moduleType == STORAGE_BAY)
--		return STORAGE_BAY_CAPACITY;
-+		return StorageBayCapacity;
- 
- 	return 0;
- }
 diff -ruNp ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
---- ./src.orig/uqm/starcon.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/starcon.c	2017-03-05 21:37:23 -0600
+--- ./src.orig/uqm/starcon.c	2017-04-11 02:08:53 -0500
++++ ./src/uqm/starcon.c	2017-04-11 04:31:12 -0500
 @@ -45,7 +45,7 @@
  #include "libs/graphics/gfx_common.h"
  #include "libs/graphics/tfb_draw.h"
@@ -1960,32 +2178,40 @@ diff -ruNp ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  			SetStatusMessageMode (SMM_DEFAULT);
  
  			if (!((GLOBAL (CurrentActivity) | NextActivity) & CHECK_LOAD))
-@@ -257,7 +260,13 @@ while (--ac > 0)
+@@ -257,7 +260,17 @@ while (--ac > 0)
  				GLOBAL (CurrentActivity) = MAKE_WORD (IN_INTERPLANETARY, 0);
  
  				DrawAutoPilotMessage (TRUE);
 -				SetGameClockRate (INTERPLANETARY_CLOCK_RATE);
-+				if (optTimeDilation){
-+					SetGameClockRate (INTERPLANETARY_CLOCK_RATE * 6);
-+				} else if(optFastForward){
-+					SetGameClockRate (INTERPLANETARY_CLOCK_RATE / 5);
-+				} else {
-+					SetGameClockRate (INTERPLANETARY_CLOCK_RATE);
++				switch (timeDilationScale){
++					case 1:
++						SetGameClockRate (INTERPLANETARY_CLOCK_RATE * 6);
++						break;
++					case 2:
++						SetGameClockRate (INTERPLANETARY_CLOCK_RATE / 5);
++						break;
++					default:
++						SetGameClockRate (INTERPLANETARY_CLOCK_RATE);
++						break;
 +				}
  				ExploreSolarSys ();
  			}
  			else
-@@ -266,10 +275,15 @@ while (--ac > 0)
+@@ -266,10 +279,19 @@ while (--ac > 0)
  				GLOBAL (CurrentActivity) = MAKE_WORD (IN_HYPERSPACE, 0);
  
  				DrawAutoPilotMessage (TRUE);
 -				SetGameClockRate (HYPERSPACE_CLOCK_RATE);
-+				if (optTimeDilation){
-+					SetGameClockRate (HYPERSPACE_CLOCK_RATE * 6);
-+				} else if(optFastForward) {
-+					SetGameClockRate (HYPERSPACE_CLOCK_RATE / 5);
-+				} else {
-+					SetGameClockRate (HYPERSPACE_CLOCK_RATE);
++				switch (timeDilationScale){
++					case 1:
++						SetGameClockRate (HYPERSPACE_CLOCK_RATE * 6);
++						break;
++					case 2:
++						SetGameClockRate (HYPERSPACE_CLOCK_RATE / 5);
++						break;
++					default:
++						SetGameClockRate (HYPERSPACE_CLOCK_RATE);
++						break;
 +				}
  				Battle (&on_battle_frame);
  			}
@@ -1993,39 +2219,19 @@ diff -ruNp ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
  			LockMutex (GraphicsLock);
  			SetFlashRect (NULL);
  			UnlockMutex (GraphicsLock);
-@@ -288,6 +302,29 @@ while (--ac > 0)
+@@ -288,6 +310,9 @@ while (--ac > 0)
  					GLOBAL (CurrentActivity) &= ~CHECK_RESTART;
  				break;
  			}
-+			if (optUnlockShips){
-+				ActivateStarShip (VUX_SHIP, SET_ALLIED);
-+				ActivateStarShip (MELNORME_SHIP, SET_ALLIED);
-+				ActivateStarShip (ILWRATH_SHIP, SET_ALLIED);
-+				ActivateStarShip (MYCON_SHIP, SET_ALLIED);
-+				ActivateStarShip (SLYLANDRO_SHIP, SET_ALLIED);
-+				ActivateStarShip (URQUAN_SHIP, SET_ALLIED);
-+				ActivateStarShip (BLACK_URQUAN_SHIP, SET_ALLIED);
-+			}
-+			if (optUnlockUpgrades){
-+				SET_GAME_STATE (IMPROVED_LANDER_SPEED, 1);
-+				SET_GAME_STATE (IMPROVED_LANDER_CARGO, 1);
-+				SET_GAME_STATE (IMPROVED_LANDER_SHOT, 1);
-+				SET_GAME_STATE (LANDER_SHIELDS, (1 << EARTHQUAKE_DISASTER) | (1 << BIOLOGICAL_DISASTER) |
-+					(1 << LIGHTNING_DISASTER) | (1 << LAVASPOT_DISASTER));				
-+				GLOBAL (ModuleCost[ANTIMISSILE_DEFENSE]) = 4000 / MODULE_COST_SCALE;				
-+				GLOBAL (ModuleCost[BLASTER_WEAPON]) = 4000 / MODULE_COST_SCALE;
-+				GLOBAL (ModuleCost[HIGHEFF_FUELSYS]) = 1000 / MODULE_COST_SCALE;
-+				GLOBAL (ModuleCost[TRACKING_SYSTEM]) = 5000 / MODULE_COST_SCALE;
-+				GLOBAL (ModuleCost[CANNON_WEAPON]) = 6000 / MODULE_COST_SCALE;
-+				GLOBAL (ModuleCost[SHIVA_FURNACE]) = 4000 / MODULE_COST_SCALE;
-+				SET_GAME_STATE (MELNORME_TECH_STACK, 13);
++			if (optInfiniteRU){
++				GLOBAL_SIS (ResUnits) = 4000000000L;
 +			}
  		} while (!(GLOBAL (CurrentActivity) & CHECK_ABORT));
  
  		StopSound ();
 diff -ruNp ./src.orig/uqm/tactrans.c ./src/uqm/tactrans.c
---- ./src.orig/uqm/tactrans.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/tactrans.c	2017-03-05 21:37:24 -0600
+--- ./src.orig/uqm/tactrans.c	2017-04-11 02:08:54 -0500
++++ ./src/uqm/tactrans.c	2017-04-11 04:31:13 -0500
 @@ -893,17 +893,15 @@ ship_transition (ELEMENT *ElementPtr)
  			}
  			else if (ElementPtr->crew_level)
@@ -2054,8 +2260,8 @@ diff -ruNp ./src.orig/uqm/tactrans.c ./src/uqm/tactrans.c
  			ShipImagePtr->preprocess_func = ship_transition;
  			ShipImagePtr->death_func = cycle_ion_trail;
 diff -ruNp ./src.orig/uqm/trans.c ./src/uqm/trans.c
---- ./src.orig/uqm/trans.c	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/trans.c	2017-03-05 21:37:24 -0600
+--- ./src.orig/uqm/trans.c	2017-04-11 02:08:54 -0500
++++ ./src/uqm/trans.c	2017-04-11 04:31:13 -0500
 @@ -20,7 +20,7 @@
  #include "libs/compiler.h"
  
@@ -2066,8 +2272,8 @@ diff -ruNp ./src.orig/uqm/trans.c ./src/uqm/trans.c
  	-FLT_ADJUST (1.000000),
  	-FLT_ADJUST (0.995185),
 diff -ruNp ./src.orig/uqm/units.h ./src/uqm/units.h
---- ./src.orig/uqm/units.h	2017-02-25 17:11:22 -0600
-+++ ./src/uqm/units.h	2017-03-05 21:37:24 -0600
+--- ./src.orig/uqm/units.h	2017-04-11 02:08:54 -0500
++++ ./src/uqm/units.h	2017-04-11 04:31:13 -0500
 @@ -77,9 +77,10 @@ extern int ScreenHeight;
  #define SCALED_ONE (1 << ONE_SHIFT)
  #define DISPLAY_TO_WORLD(x) ((x)<<ONE_SHIFT)
@@ -2103,8 +2309,8 @@ diff -ruNp ./src.orig/uqm/units.h ./src/uqm/units.h
  #define COSVAL(a) SINVAL((a)+QUADRANT)
  #define SINE(a,m) ((SIZE)((((long)SINVAL(a))*(long)(m))>>SIN_SHIFT))
 diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
---- ./src.orig/uqm/uqmdebug.c	2017-02-25 17:11:23 -0600
-+++ ./src/uqm/uqmdebug.c	2017-03-05 21:37:24 -0600
+--- ./src.orig/uqm/uqmdebug.c	2017-04-11 02:08:54 -0500
++++ ./src/uqm/uqmdebug.c	2017-04-11 04:31:13 -0500
 @@ -14,8 +14,6 @@
   *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
   */
@@ -2350,8 +2556,8 @@ diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  
  // This function should help in making sure that gamestr.h matches
 diff -ruNp ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
---- ./src.orig/uqm/uqmdebug.h	2017-02-25 17:11:23 -0600
-+++ ./src/uqm/uqmdebug.h	2017-03-05 21:37:24 -0600
+--- ./src.orig/uqm/uqmdebug.h	2017-04-11 02:08:54 -0500
++++ ./src/uqm/uqmdebug.h	2017-04-11 04:31:13 -0500
 @@ -14,8 +14,6 @@
   *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
   */
@@ -2427,28 +2633,26 @@ diff -ruNp ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
  extern BOOLEAN instantMove;
  
 diff -ruNp ./src.orig/uqm.c ./src/uqm.c
---- ./src.orig/uqm.c	2017-02-25 17:11:23 -0600
-+++ ./src/uqm.c	2017-03-05 21:37:24 -0600
-@@ -127,6 +127,18 @@ struct options_struct
+--- ./src.orig/uqm.c	2017-04-11 02:08:54 -0500
++++ ./src/uqm.c	2017-04-11 04:31:13 -0500
+@@ -127,6 +127,16 @@ struct options_struct
  	DECL_CONFIG_OPTION(float, sfxVolumeScale);
  	DECL_CONFIG_OPTION(float, speechVolumeScale);
  	DECL_CONFIG_OPTION(bool, safeMode);
 + 	DECL_CONFIG_OPTION(bool, cheatMode); // JMS
 +	DECL_CONFIG_OPTION(bool, godMode); // Serosis
-+	DECL_CONFIG_OPTION(bool, timeDilation); // Serosis
-+	DECL_CONFIG_OPTION(bool, bubbleWarp); // Serosis
-+	DECL_CONFIG_OPTION(bool, roseBud); // Serosis
-+	DECL_CONFIG_OPTION(bool, unlockShips); // Serosis
-+	DECL_CONFIG_OPTION(bool, headStart); // Serosis
++	DECL_CONFIG_OPTION(int, timeDilationScale);
++	DECL_CONFIG_OPTION(bool, bubbleWarp);
++	DECL_CONFIG_OPTION(bool, unlockShips);
++	DECL_CONFIG_OPTION(bool, headStart);
 +	DECL_CONFIG_OPTION(bool, unlockUpgrades);
-+	DECL_CONFIG_OPTION(bool, landerMods);
-+	DECL_CONFIG_OPTION(bool, fastForward);
++	DECL_CONFIG_OPTION(bool, infiniteRU);
 +	DECL_CONFIG_OPTION(bool, skipIntro);
 +	DECL_CONFIG_OPTION(bool, FMV);
  
  #define INIT_CONFIG_OPTION(name, val) \
  	{ val, false }
-@@ -235,10 +247,10 @@ main (int argc, char *argv[])
+@@ -235,10 +245,10 @@ main (int argc, char *argv[])
  		/* .addons = */             NULL,
  		/* .numAddons = */          0,
  
@@ -2461,7 +2665,7 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
  		INIT_CONFIG_OPTION(  scaler,            0 ),
  		INIT_CONFIG_OPTION(  showFps,           false ),
  		INIT_CONFIG_OPTION(  keepAspectRatio,   false ),
-@@ -251,7 +263,7 @@ main (int argc, char *argv[])
+@@ -251,7 +261,7 @@ main (int argc, char *argv[])
  		INIT_CONFIG_OPTION(  whichMenu,         OPT_PC ),
  		INIT_CONFIG_OPTION(  whichFonts,        OPT_PC ),
  		INIT_CONFIG_OPTION(  whichIntro,        OPT_PC ),
@@ -2470,45 +2674,41 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
  		INIT_CONFIG_OPTION(  smoothScroll,      OPT_PC ),
  		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_TRILINEAR ),
  		INIT_CONFIG_OPTION(  subtitles,         true ),
-@@ -260,6 +272,18 @@ main (int argc, char *argv[])
+@@ -260,6 +270,16 @@ main (int argc, char *argv[])
  		INIT_CONFIG_OPTION(  sfxVolumeScale,    1.0f ),
  		INIT_CONFIG_OPTION(  speechVolumeScale, 1.0f ),
  		INIT_CONFIG_OPTION(  safeMode,          false ),
 +		INIT_CONFIG_OPTION(  cheatMode,			false ),
 +		INIT_CONFIG_OPTION(  godMode,			false ), //Serosis
-+		INIT_CONFIG_OPTION(  timeDilation,		false ),
++		INIT_CONFIG_OPTION(  timeDilationScale,	0 ),
 +		INIT_CONFIG_OPTION(  bubbleWarp,		false ),
-+		INIT_CONFIG_OPTION(  roseBud,			false ), 
-+		INIT_CONFIG_OPTION(  unlockShips,		false ), 
-+		INIT_CONFIG_OPTION(  headStart,			false ), 
++		INIT_CONFIG_OPTION(  unlockShips,		false ),
++		INIT_CONFIG_OPTION(  headStart,			false ),
 +		INIT_CONFIG_OPTION(  unlockUpgrades,	false ),
-+		INIT_CONFIG_OPTION(  landerMods,		false ),
-+		INIT_CONFIG_OPTION(  fastForward,		false ),
++		INIT_CONFIG_OPTION(  infiniteRU,		false ),
 +		INIT_CONFIG_OPTION(  skipIntro,			false ),
 +		INIT_CONFIG_OPTION(  FMV,				false ),
  	};
  	struct options_struct defaults = options;
  	int optionsResult;
-@@ -382,6 +406,18 @@ main (int argc, char *argv[])
+@@ -382,6 +402,16 @@ main (int argc, char *argv[])
  	sfxVolumeScale = options.sfxVolumeScale.value;
  	speechVolumeScale = options.speechVolumeScale.value;
  	optAddons = options.addons;
 + 	optCheatMode = options.cheatMode.value; // JMS
 +	optGodMode = options.godMode.value; // Serosis
-+	optTimeDilation = options.timeDilation.value;
++	timeDilationScale = (unsigned int) options.timeDilationScale.value; // Serosis
 +	optBubbleWarp = options.bubbleWarp.value;
-+	optRoseBud = options.roseBud.value;
 +	optUnlockShips = options.unlockShips.value;
 +	optHeadStart = options.headStart.value;
 +	optUnlockUpgrades = options.unlockUpgrades.value;
-+	optLanderMods = options.landerMods.value;
-+	optFastForward = options.fastForward.value;
++	optInfiniteRU = options.infiniteRU.value;
 +	optSkipIntro = options.skipIntro.value;
 +	optFMV = options.FMV.value;
  
  	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
  	prepareMeleeDir ();
-@@ -491,7 +527,7 @@ saveErrorV (const char *fmt, va_list lis
+@@ -491,7 +521,7 @@ saveErrorV (const char *fmt, va_list lis
  		++len;
  		--left;
  	}
@@ -2517,100 +2717,97 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
  	errBuffer[sizeof (errBuffer) - 1] = '\0';
  }
  
-@@ -639,6 +675,18 @@ getUserConfigOptions (struct options_str
+@@ -639,6 +669,18 @@ getUserConfigOptions (struct options_str
  	getVolumeConfigValue (&options->musicVolumeScale, "config.musicvol");
  	getVolumeConfigValue (&options->sfxVolumeScale, "config.sfxvol");
  	getVolumeConfigValue (&options->speechVolumeScale, "config.speechvol");
 +	getBoolConfigValue (&options->cheatMode, "config.cheatMode");
 +	getBoolConfigValue (&options->godMode, "config.godMode"); //Serosis
-+	getBoolConfigValue (&options->timeDilation, "config.timeDilation");
-+	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp"); 
-+	getBoolConfigValue (&options->roseBud, "config.roseBud"); 
-+	getBoolConfigValue (&options->unlockShips, "config.unlockShips"); 
-+	getBoolConfigValue (&options->headStart, "config.headStart"); 
++	if (res_IsInteger ("config.timeDilation") && !options->timeDilationScale.set) {
++		options->timeDilationScale.value = res_GetInteger ("config.timeDilation");
++	}
++	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp");
++	getBoolConfigValue (&options->unlockShips, "config.unlockShips");
++	getBoolConfigValue (&options->headStart, "config.headStart");
 +	getBoolConfigValue (&options->unlockUpgrades, "config.unlockUpgrades");
-+	getBoolConfigValue (&options->landerMods, "config.landerMods");
-+	getBoolConfigValue (&options->fastForward, "config.fastForward");
++	getBoolConfigValue (&options->infiniteRU, "config.infiniteRU");
 +	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
 +	getBoolConfigValue (&options->FMV, "config.FMV");
  	
  	if (res_IsInteger ("config.player1control"))
  	{
-@@ -678,6 +726,18 @@ enum
+@@ -678,6 +720,16 @@ enum
  	ADDONDIR_OPT,
  	ACCEL_OPT,
  	SAFEMODE_OPT,
 +	CHEATMODE_OPT, //Serosis
-+	GODMODE_OPT, //Serosis
-+	TDM_OPT, //Serosis
-+	BWARP_OPT, //Serosis
-+	ROSEBUD_OPT, //Serosis
-+	UNLOCKSHIPS_OPT, //Serosis
-+	HEADSTART_OPT, //Serosis
++	GODMODE_OPT,
++	TDM_OPT,
++	BWARP_OPT,
++	UNLOCKSHIPS_OPT,
++	HEADSTART_OPT,
 +	UPGRADES_OPT,
-+	LANDERCHT_OPT,
-+	FASTFORWARD_OPT,
++	INFINITERU_OPT,
 +	SKIPINTRO_OPT,
 +	FMV_OPT,
  #ifdef NETPLAY
  	NETHOST1_OPT,
  	NETPORT1_OPT,
-@@ -725,6 +785,18 @@ static struct option longOptions[] =
+@@ -725,6 +777,16 @@ static struct option longOptions[] =
  	{"addondir", 1, NULL, ADDONDIR_OPT},
  	{"accel", 1, NULL, ACCEL_OPT},
  	{"safe", 0, NULL, SAFEMODE_OPT},
 +	{"cheatmode", 0, NULL, CHEATMODE_OPT}, //Serosis
-+	{"godmode", 0, NULL, GODMODE_OPT}, //Serosis
-+	{"timedilation", 0, NULL, TDM_OPT}, //Serosis
-+	{"bubblewarp", 0, NULL, BWARP_OPT}, //Serosis
-+	{"rosebud", 0, NULL, ROSEBUD_OPT}, //Serosis
-+	{"unlockships", 0, NULL, UNLOCKSHIPS_OPT}, //Serosis
-+	{"headstart", 0, NULL, HEADSTART_OPT}, //Serosis
++	{"godmode", 0, NULL, GODMODE_OPT},
++	{"timedilation", 1, NULL, TDM_OPT},
++	{"bubblewarp", 0, NULL, BWARP_OPT},
++	{"unlockships", 0, NULL, UNLOCKSHIPS_OPT},
++	{"headstart", 0, NULL, HEADSTART_OPT},
 +	{"unlockupgrades", 0, NULL, UPGRADES_OPT},
-+	{"landermods", 0, NULL, LANDERCHT_OPT},
-+	{"fastforward", 0, NULL, FASTFORWARD_OPT},
++	{"infiniteru", 0, NULL, INFINITERU_OPT},
 +	{"skipintro", 0, NULL, SKIPINTRO_OPT},
 +	{"fmv", 0, NULL, FMV_OPT},
  #ifdef NETPLAY
  	{"nethost1", 1, NULL, NETHOST1_OPT},
  	{"netport1", 1, NULL, NETPORT1_OPT},
-@@ -1013,9 +1085,45 @@ parseOptions (int argc, char *argv[], st
- 				}
- 				break;
- 			}
--	                case SAFEMODE_OPT:
-+			case SAFEMODE_OPT:
- 				setBoolOption (&options->safeMode, true);
+@@ -989,6 +1051,47 @@ parseOptions (int argc, char *argv[], st
+ 			case STEREOSFX_OPT:
+ 				setBoolOption (&options->stereoSFX, true);
  				break;
 +			case CHEATMODE_OPT:
 +				setBoolOption (&options->cheatMode, true); //Serosis
 +				break;
 +			case GODMODE_OPT:
-+				setBoolOption (&options->godMode, true); //Serosis
++				setBoolOption (&options->godMode, true);
 +				break;
-+			case TDM_OPT:
-+				setBoolOption (&options->timeDilation, true); //Serosis
++			case TDM_OPT:{
++				int temp;
++				if (parseIntOption (optarg, &temp, "Time Dilation scale") == -1) {
++					badArg = true;
++					break;
++				} else if (temp < 0 || temp > 2) {					
++					saveError ("\nTime Dilation scale has to be 0, 1, or 2.\n");
++					badArg = true;
++				} else {
++					options->timeDilationScale.value = temp;
++					options->timeDilationScale.set = true;
++				}
 +				break;
++			}
 +			case BWARP_OPT:
-+				setBoolOption (&options->bubbleWarp, true); //Serosis
-+				break;
-+			case ROSEBUD_OPT:
-+				setBoolOption (&options->roseBud, true); //Serosis
++				setBoolOption (&options->bubbleWarp, true);
 +				break;
 +			case UNLOCKSHIPS_OPT:
-+				setBoolOption (&options->unlockShips, true); //Serosis
++				setBoolOption (&options->unlockShips, true);
 +				break;
 +			case HEADSTART_OPT:
-+				setBoolOption (&options->headStart, true); //Serosis
-+ 				break;
++				setBoolOption (&options->headStart, true);
++				break;
 +			case UPGRADES_OPT:
 +				setBoolOption (&options->unlockUpgrades, true);
 +				break;
-+			case LANDERCHT_OPT:
-+				setBoolOption (&options->landerMods, true);
-+				break;
-+			case FASTFORWARD_OPT:
-+				setBoolOption (&options->fastForward, true);
++			case INFINITERU_OPT:
++				setBoolOption (&options->infiniteRU, true);
 +				break;
 +			case SKIPINTRO_OPT:
 +				setBoolOption (&options->skipIntro, true);
@@ -2618,10 +2815,19 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
 +			case FMV_OPT:
 +				setBoolOption (&options->FMV, true);
 +				break;
+ 			case ADDON_OPT:
+ 				options->numAddons++;
+ 				options->addons = HRealloc ((void *) options->addons,
+@@ -1013,7 +1116,7 @@ parseOptions (int argc, char *argv[], st
+ 				}
+ 				break;
+ 			}
+-	                case SAFEMODE_OPT:
++			case SAFEMODE_OPT:
+ 				setBoolOption (&options->safeMode, true);
+ 				break;
  #ifdef NETPLAY
- 			case NETHOST1_OPT:
- 				netplayOptions.peer[0].isServer = false;
-@@ -1204,6 +1312,40 @@ usage (FILE *out, const struct options_s
+@@ -1204,6 +1307,34 @@ usage (FILE *out, const struct options_s
  	log_add (log_User, "  --scroll    : ff/frev during comm.  pc=per-page, "
  			"3do=smooth (default %s)",
  			choiceOptString (&defaults->smoothScroll));
@@ -2631,15 +2837,11 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
 +	log_add (log_User, "  --godmode : Player ships and lander invulnerable. "
 +			"Also refills energy every shot during melee.    (default %s)",
 +			boolOptString (&defaults->godMode));
-+	log_add (log_User, "  --timedilation : Increases time by a factor of 6. "
-+			"IP=3 Minutes HS=30 Seconds    (default %s)",
-+			boolOptString (&defaults->timeDilation));
++	log_add (log_User, "  --timedilation : =1 Time is slowed down times 6. "
++			"=2 Time is sped up times 5    (default 0)");
 +	log_add (log_User, "  --bubblewarp : Instantaneous travel to any point on "
 +			"the Starmap.    (default %s)",
 +			boolOptString (&defaults->bubbleWarp));
-+	log_add (log_User, "  --rosebud : Get 1,000 R.U. and Credits when you ask the "
-+			"Melnorme why their bridge is purple.    (default %s)",
-+			boolOptString (&defaults->roseBud));
 +	log_add (log_User, "  --unlockships : Allows you to purchase ships that you can't "
 +			"normally acquire in the main game.    (default %s)",
 +			boolOptString (&defaults->unlockShips));
@@ -2650,11 +2852,9 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
 +	log_add (log_User, "  --unlockupgrades : Unlocks every upgrade for your flagship "
 +			"and landers.    (default %s)",
 +			boolOptString (&defaults->unlockUpgrades));
-+	log_add (log_User, "  --landermods : Makes your landers have pin-point accuracy "
-+			"when landing and doubles storage capacity.   (default %s)",
-+			boolOptString (&defaults->landerMods));
-+	log_add (log_User, "  --fastforward : Speeds up time by a factor of 5    (default %s)",
-+			boolOptString (&defaults->fastForward));
++	log_add (log_User, "  --infiniteru : Gives you infinite R.U. as long as the cheat is on "
++			" (default %s)",
++			boolOptString (&defaults->infiniteRU));
 +	log_add (log_User, "  --skipintro : Skips the intro    (default %s)",
 +			boolOptString (&defaults->skipIntro));
 +	log_add (log_User, "  --fmv : Adds Logo and Commercial 3DO videos    (default %s)",
@@ -2663,8 +2863,8 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
  }
  
 diff -ruNp ./src.orig/uqmversion.h ./src/uqmversion.h
---- ./src.orig/uqmversion.h	2017-02-25 17:11:23 -0600
-+++ ./src/uqmversion.h	2017-03-05 21:37:24 -0600
+--- ./src.orig/uqmversion.h	2017-04-11 02:08:54 -0500
++++ ./src/uqmversion.h	2017-04-11 04:31:13 -0500
 @@ -21,9 +21,9 @@
  #define UQM_MAJOR_VERSION_S  "0"
  #define UQM_MINOR_VERSION     7
@@ -2672,9 +2872,9 @@ diff -ruNp ./src.orig/uqmversion.h ./src/uqmversion.h
 -#define UQM_PATCH_VERSION     0
 -#define UQM_PATCH_VERSION_S  "0"
 -#define UQM_EXTRA_VERSION    ""
-+#define UQM_PATCH_VERSION     2
-+#define UQM_PATCH_VERSION_S  "2"
-+#define UQM_EXTRA_VERSION    "e MegaMod"
++#define UQM_PATCH_VERSION     3
++#define UQM_PATCH_VERSION_S  "3"
++#define UQM_EXTRA_VERSION    " MegaMod"
  /* The final version is interpreted as:
   * printf ("%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION,
   * 		UQM_PATCH_VERSION, UQM_EXTRA_VERSION);
