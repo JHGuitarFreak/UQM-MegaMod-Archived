@@ -57,12 +57,12 @@ diff -ruNp ./src.vc10/port.h ./src/port.h
 diff -ruNp ./src.vc10/uqm.c ./src/uqm.c
 --- ./src.vc10/uqm.c	2017-03-05 21:37:24 -0600
 +++ ./src/uqm.c	2017-03-05 21:43:04 -0600
-@@ -527,7 +527,7 @@ saveErrorV (const char *fmt, va_list lis
+@@ -491,7 +521,7 @@ saveErrorV (const char *fmt, va_list lis
  		++len;
  		--left;
  	}
--	uqm_vsnprintf (errBuffer + len, left, fmt, list);
-+	vsnprintf (errBuffer + len, left, fmt, list);
+-	vsnprintf (errBuffer + len, left, fmt, list);
++	uqm_vsnprintf (errBuffer + len, left, fmt, list);
  	errBuffer[sizeof (errBuffer) - 1] = '\0';
  }
  
