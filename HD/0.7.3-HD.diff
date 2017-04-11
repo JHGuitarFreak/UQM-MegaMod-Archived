@@ -340,7 +340,7 @@ diff -ruNp ./src.orig/uqm/comm/chmmr/chmmrc.c ./src/uqm/comm/chmmr/chmmrc.c
  
 diff -ruNp ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.c
 --- ./src.orig/uqm/comm/melnorm/melnorm.c	2017-04-11 02:13:09 -0500
-+++ ./src/uqm/comm/melnorm/melnorm.c	2017-04-11 02:12:44 -0500
++++ ./src/uqm/comm/melnorm/melnorm.c	2017-04-11 04:24:18 -0500
 @@ -35,6 +35,7 @@
  
  #include "libs/log.h"
@@ -349,15 +349,7 @@ diff -ruNp ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.
  
  #define NUM_HISTORY_ITEMS 9
  #define NUM_EVENT_ITEMS 8
-@@ -388,6 +389,7 @@ StripShip (COUNT fuel_required)
- {
- 	BYTE i, which_module;
- 	SBYTE crew_pods;
-+	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
- 
- 	SET_GAME_STATE (MELNORME_RESCUE_REFUSED, 0);
- 
-@@ -457,11 +459,7 @@ StripShip (COUNT fuel_required)
+@@ -457,11 +458,7 @@ StripShip (COUNT fuel_required)
  		} while (slot--);
  		if (fuel_required > capacity)
  			fuel_required = capacity;
@@ -366,7 +358,7 @@ diff -ruNp ./src.orig/uqm/comm/melnorm/melnorm.c ./src/uqm/comm/melnorm/melnorm.
 -				(SIS_copy.TotalElementMass + STORAGE_BAY_CAPACITY - 1)
 -				/ STORAGE_BAY_CAPACITY
 -				);
-+		bays = -(SBYTE)( (SIS_copy.TotalElementMass + StorageBayCapacity - 1) / StorageBayCapacity );
++		bays = -(SBYTE)( (SIS_copy.TotalElementMass + STORAGE_BAY_CAPACITY - 1) / STORAGE_BAY_CAPACITY );
  		for (i = 0; i < NUM_MODULE_SLOTS; ++i)
  		{
  			which_module = SIS_copy.ModuleSlots[i];
@@ -1502,26 +1494,6 @@ diff -ruNp ./src.orig/uqm/misc.c ./src/uqm/misc.c
  		direction += HALF_CIRCLE;
  		dx = COSINE (direction, MORE_THAN_ENOUGH);
  		dy = SINE (direction, MORE_THAN_ENOUGH);
-diff -ruNp ./src.orig/uqm/outfit.c ./src/uqm/outfit.c
---- ./src.orig/uqm/outfit.c	2017-04-11 02:13:10 -0500
-+++ ./src/uqm/outfit.c	2017-04-11 02:12:46 -0500
-@@ -200,6 +200,7 @@ DoInstallModule (MENU_STATE *pMS)
- 	BYTE NewState, new_slot_piece, old_slot_piece;
- 	SIZE FirstItem, LastItem;
- 	BOOLEAN select, cancel, motion;
-+	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
- 
- 	if (GLOBAL (CurrentActivity) & CHECK_ABORT)
- 	{
-@@ -308,7 +309,7 @@ DoInstallModule (MENU_STATE *pMS)
- 				}
- 				else if (old_slot_piece == STORAGE_BAY)
- 				{
--					if (GLOBAL_SIS (TotalElementMass) > STORAGE_BAY_CAPACITY
-+					if (GLOBAL_SIS (TotalElementMass) > StorageBayCapacity
- 							* (CountSISPieces (STORAGE_BAY) - 1))
- 					{	// storage bay still needed for the cargo
- 						PlayMenuSound (MENU_SOUND_FAILURE);
 diff -ruNp ./src.orig/uqm/planets/generate/gensol.c ./src/uqm/planets/generate/gensol.c
 --- ./src.orig/uqm/planets/generate/gensol.c	2017-04-11 02:13:11 -0500
 +++ ./src/uqm/planets/generate/gensol.c	2017-04-11 02:12:47 -0500
@@ -3171,7 +3143,7 @@ diff -ruNp ./src.orig/uqm/shipyard.c ./src/uqm/shipyard.c
  			return hStarShip;
 diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
 --- ./src.orig/uqm/sis.c	2017-04-11 02:13:13 -0500
-+++ ./src/uqm/sis.c	2017-04-11 02:12:49 -0500
++++ ./src/uqm/sis.c	2017-04-11 04:24:18 -0500
 @@ -399,12 +399,7 @@ DrawStatusMessage (const UNICODE *pStr)
  		}
  		else if (curMsgMode == SMM_RES_UNITS)
@@ -3237,7 +3209,33 @@ diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
  
  	OldColor = SetContextForeGroundColor (BLACK_COLOR);
  	DrawFilledRectangle (&r);
-@@ -878,7 +893,7 @@ DrawPC_SIS (void)
+@@ -778,7 +793,6 @@ DrawStorageBays (BOOLEAN Refresh)
+ 	BYTE i;
+ 	RECT r;
+ 	CONTEXT OldContext;
+-	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
+ 
+ 	OldContext = SetContext (StatusContext);
+ 	r.extent.width  = RES_STAT_SCALE(2); // JMS_GFX
+@@ -805,7 +819,7 @@ DrawStorageBays (BOOLEAN Refresh)
+ 		
+ 		// Draw full bays.
+ 		SetContextForeGroundColor (STORAGE_BAY_FULL_COLOR);
+-		for (j = GLOBAL_SIS (TotalElementMass); j >= StorageBayCapacity; j -= StorageBayCapacity)
++		for (j = GLOBAL_SIS (TotalElementMass); j >= STORAGE_BAY_CAPACITY; j -= STORAGE_BAY_CAPACITY)
+ 		{
+ 			DrawFilledRectangle (&r);
+ 			r.corner.x += r.extent.width + RES_STAT_SCALE(1); // JMS_GFX;
+@@ -814,7 +828,7 @@ DrawStorageBays (BOOLEAN Refresh)
+ 		}
+ 		
+ 		// This sets how full a partially filled bay is.
+-		r.extent.height = (RES_STAT_SCALE (4) * j + (StorageBayCapacity - 1)) / StorageBayCapacity;
++		r.extent.height = (RES_STAT_SCALE (4) * j + (STORAGE_BAY_CAPACITY - 1)) / STORAGE_BAY_CAPACITY;
+ 		
+ 		if (r.extent.height)
+ 		{
+@@ -878,7 +892,7 @@ DrawPC_SIS (void)
  	r.corner.y -= RES_STAT_SCALE(6); // JMS_GFX
  	r.corner.x -= RES_STAT_SCALE(1); // JMS_GFX
  	r.extent.width += RES_STAT_SCALE(2);
@@ -3246,7 +3244,7 @@ diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
  	DrawFilledRectangle (&r);
  
  	SetContextFontEffect (SetAbsFrameIndex (FontGradFrame, 1));
-@@ -1145,6 +1160,8 @@ void
+@@ -1145,6 +1159,8 @@ void
  DeltaSISGauges (SIZE crew_delta, SIZE fuel_delta, int resunit_delta)
  {
  	CONTEXT OldContext;
@@ -3255,7 +3253,7 @@ diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
  
  	if (crew_delta == 0 && fuel_delta == 0 && resunit_delta == 0)
  		return;
-@@ -1152,11 +1169,19 @@ DeltaSISGauges (SIZE crew_delta, SIZE fu
+@@ -1152,11 +1168,19 @@ DeltaSISGauges (SIZE crew_delta, SIZE fu
  	OldContext = SetContext (StatusContext);
  
  	BatchGraphics ();
@@ -3277,7 +3275,7 @@ diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
  		s.frame = FlagStatFrame;
  		DrawStamp (&s);
  
-@@ -1170,6 +1195,8 @@ DeltaSISGauges (SIZE crew_delta, SIZE fu
+@@ -1170,6 +1194,8 @@ DeltaSISGauges (SIZE crew_delta, SIZE fu
  		UnlockMutex (GraphicsLock);
  		DrawSupportShips ();
  		LockMutex (GraphicsLock);
@@ -3286,18 +3284,6 @@ diff -ruNp ./src.orig/uqm/sis.c ./src/uqm/sis.c
  	}
  
  	SetContextFont (TinyFont);
-@@ -1312,8 +1339,10 @@ GetElementMass (void)
- COUNT
- GetModuleStorageCapacity (BYTE moduleType)
- {
-+	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-+
- 	if (moduleType == STORAGE_BAY)
--		return STORAGE_BAY_CAPACITY;
-+		return StorageBayCapacity;
- 
- 	return 0;
- }
 diff -ruNp ./src.orig/uqm/starcon.c ./src/uqm/starcon.c
 --- ./src.orig/uqm/starcon.c	2017-04-11 02:13:13 -0500
 +++ ./src/uqm/starcon.c	2017-04-11 02:12:49 -0500
