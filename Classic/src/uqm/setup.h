@@ -51,6 +51,9 @@ extern Mutex GraphicsLock;
 extern CondVar RenderingCond;
 
 extern QUEUE race_q[];
+
+extern BOOLEAN seroSetupPresent; // Serosis
+extern BOOLEAN seroMenuPresent; // Serosis
 		/* Array of lists of ships involved in a battle, one queue per side;
 		 * queue element is STARSHIP */
 

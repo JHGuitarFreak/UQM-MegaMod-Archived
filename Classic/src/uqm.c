@@ -129,14 +129,12 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, safeMode);
  	DECL_CONFIG_OPTION(bool, cheatMode); // JMS
 	DECL_CONFIG_OPTION(bool, godMode); // Serosis
-	DECL_CONFIG_OPTION(bool, timeDilation); // Serosis
-	DECL_CONFIG_OPTION(bool, bubbleWarp); // Serosis
-	DECL_CONFIG_OPTION(bool, roseBud); // Serosis
-	DECL_CONFIG_OPTION(bool, unlockShips); // Serosis
-	DECL_CONFIG_OPTION(bool, headStart); // Serosis
+	DECL_CONFIG_OPTION(int, timeDilationScale);
+	DECL_CONFIG_OPTION(bool, bubbleWarp);
+	DECL_CONFIG_OPTION(bool, unlockShips);
+	DECL_CONFIG_OPTION(bool, headStart);
 	DECL_CONFIG_OPTION(bool, unlockUpgrades);
-	DECL_CONFIG_OPTION(bool, landerMods);
-	DECL_CONFIG_OPTION(bool, fastForward);
+	DECL_CONFIG_OPTION(bool, infiniteRU);
 	DECL_CONFIG_OPTION(bool, skipIntro);
 	DECL_CONFIG_OPTION(bool, FMV);
 
@@ -274,14 +272,12 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  safeMode,          false ),
 		INIT_CONFIG_OPTION(  cheatMode,			false ),
 		INIT_CONFIG_OPTION(  godMode,			false ), //Serosis
-		INIT_CONFIG_OPTION(  timeDilation,		false ),
+		INIT_CONFIG_OPTION(  timeDilationScale,	0 ),
 		INIT_CONFIG_OPTION(  bubbleWarp,		false ),
-		INIT_CONFIG_OPTION(  roseBud,			false ), 
-		INIT_CONFIG_OPTION(  unlockShips,		false ), 
-		INIT_CONFIG_OPTION(  headStart,			false ), 
+		INIT_CONFIG_OPTION(  unlockShips,		false ),
+		INIT_CONFIG_OPTION(  headStart,			false ),
 		INIT_CONFIG_OPTION(  unlockUpgrades,	false ),
-		INIT_CONFIG_OPTION(  landerMods,		false ),
-		INIT_CONFIG_OPTION(  fastForward,		false ),
+		INIT_CONFIG_OPTION(  infiniteRU,		false ),
 		INIT_CONFIG_OPTION(  skipIntro,			false ),
 		INIT_CONFIG_OPTION(  FMV,				false ),
 	};
@@ -408,14 +404,12 @@ main (int argc, char *argv[])
 	optAddons = options.addons;
  	optCheatMode = options.cheatMode.value; // JMS
 	optGodMode = options.godMode.value; // Serosis
-	optTimeDilation = options.timeDilation.value;
+	timeDilationScale = (unsigned int) options.timeDilationScale.value; // Serosis
 	optBubbleWarp = options.bubbleWarp.value;
-	optRoseBud = options.roseBud.value;
 	optUnlockShips = options.unlockShips.value;
 	optHeadStart = options.headStart.value;
 	optUnlockUpgrades = options.unlockUpgrades.value;
-	optLanderMods = options.landerMods.value;
-	optFastForward = options.fastForward.value;
+	optInfiniteRU = options.infiniteRU.value;
 	optSkipIntro = options.skipIntro.value;
 	optFMV = options.FMV.value;
 
@@ -677,14 +671,14 @@ getUserConfigOptions (struct options_struct *options)
 	getVolumeConfigValue (&options->speechVolumeScale, "config.speechvol");
 	getBoolConfigValue (&options->cheatMode, "config.cheatMode");
 	getBoolConfigValue (&options->godMode, "config.godMode"); //Serosis
-	getBoolConfigValue (&options->timeDilation, "config.timeDilation");
-	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp"); 
-	getBoolConfigValue (&options->roseBud, "config.roseBud"); 
-	getBoolConfigValue (&options->unlockShips, "config.unlockShips"); 
-	getBoolConfigValue (&options->headStart, "config.headStart"); 
+	if (res_IsInteger ("config.timeDilation") && !options->timeDilationScale.set) {
+		options->timeDilationScale.value = res_GetInteger ("config.timeDilation");
+	}
+	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp");
+	getBoolConfigValue (&options->unlockShips, "config.unlockShips");
+	getBoolConfigValue (&options->headStart, "config.headStart");
 	getBoolConfigValue (&options->unlockUpgrades, "config.unlockUpgrades");
-	getBoolConfigValue (&options->landerMods, "config.landerMods");
-	getBoolConfigValue (&options->fastForward, "config.fastForward");
+	getBoolConfigValue (&options->infiniteRU, "config.infiniteRU");
 	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
 	getBoolConfigValue (&options->FMV, "config.FMV");
 	
@@ -727,15 +721,13 @@ enum
 	ACCEL_OPT,
 	SAFEMODE_OPT,
 	CHEATMODE_OPT, //Serosis
-	GODMODE_OPT, //Serosis
-	TDM_OPT, //Serosis
-	BWARP_OPT, //Serosis
-	ROSEBUD_OPT, //Serosis
-	UNLOCKSHIPS_OPT, //Serosis
-	HEADSTART_OPT, //Serosis
+	GODMODE_OPT,
+	TDM_OPT,
+	BWARP_OPT,
+	UNLOCKSHIPS_OPT,
+	HEADSTART_OPT,
 	UPGRADES_OPT,
-	LANDERCHT_OPT,
-	FASTFORWARD_OPT,
+	INFINITERU_OPT,
 	SKIPINTRO_OPT,
 	FMV_OPT,
 #ifdef NETPLAY
@@ -786,15 +778,13 @@ static struct option longOptions[] =
 	{"accel", 1, NULL, ACCEL_OPT},
 	{"safe", 0, NULL, SAFEMODE_OPT},
 	{"cheatmode", 0, NULL, CHEATMODE_OPT}, //Serosis
-	{"godmode", 0, NULL, GODMODE_OPT}, //Serosis
-	{"timedilation", 0, NULL, TDM_OPT}, //Serosis
-	{"bubblewarp", 0, NULL, BWARP_OPT}, //Serosis
-	{"rosebud", 0, NULL, ROSEBUD_OPT}, //Serosis
-	{"unlockships", 0, NULL, UNLOCKSHIPS_OPT}, //Serosis
-	{"headstart", 0, NULL, HEADSTART_OPT}, //Serosis
+	{"godmode", 0, NULL, GODMODE_OPT},
+	{"timedilation", 1, NULL, TDM_OPT},
+	{"bubblewarp", 0, NULL, BWARP_OPT},
+	{"unlockships", 0, NULL, UNLOCKSHIPS_OPT},
+	{"headstart", 0, NULL, HEADSTART_OPT},
 	{"unlockupgrades", 0, NULL, UPGRADES_OPT},
-	{"landermods", 0, NULL, LANDERCHT_OPT},
-	{"fastforward", 0, NULL, FASTFORWARD_OPT},
+	{"infiniteru", 0, NULL, INFINITERU_OPT},
 	{"skipintro", 0, NULL, SKIPINTRO_OPT},
 	{"fmv", 0, NULL, FMV_OPT},
 #ifdef NETPLAY
@@ -1061,6 +1051,47 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case STEREOSFX_OPT:
 				setBoolOption (&options->stereoSFX, true);
 				break;
+			case CHEATMODE_OPT:
+				setBoolOption (&options->cheatMode, true); //Serosis
+				break;
+			case GODMODE_OPT:
+				setBoolOption (&options->godMode, true);
+				break;
+			case TDM_OPT:{
+				int temp;
+				if (parseIntOption (optarg, &temp, "Time Dilation scale") == -1) {
+					badArg = true;
+					break;
+				} else if (temp < 0 || temp > 2) {					
+					saveError ("\nTime Dilation scale has to be 0, 1, or 2.\n");
+					badArg = true;
+				} else {
+					options->timeDilationScale.value = temp;
+					options->timeDilationScale.set = true;
+				}
+				break;
+			}
+			case BWARP_OPT:
+				setBoolOption (&options->bubbleWarp, true);
+				break;
+			case UNLOCKSHIPS_OPT:
+				setBoolOption (&options->unlockShips, true);
+				break;
+			case HEADSTART_OPT:
+				setBoolOption (&options->headStart, true);
+				break;
+			case UPGRADES_OPT:
+				setBoolOption (&options->unlockUpgrades, true);
+				break;
+			case INFINITERU_OPT:
+				setBoolOption (&options->infiniteRU, true);
+				break;
+			case SKIPINTRO_OPT:
+				setBoolOption (&options->skipIntro, true);
+				break;
+			case FMV_OPT:
+				setBoolOption (&options->FMV, true);
+				break;
 			case ADDON_OPT:
 				options->numAddons++;
 				options->addons = HRealloc ((void *) options->addons,
@@ -1087,42 +1118,6 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			}
 			case SAFEMODE_OPT:
 				setBoolOption (&options->safeMode, true);
-				break;
-			case CHEATMODE_OPT:
-				setBoolOption (&options->cheatMode, true); //Serosis
-				break;
-			case GODMODE_OPT:
-				setBoolOption (&options->godMode, true); //Serosis
-				break;
-			case TDM_OPT:
-				setBoolOption (&options->timeDilation, true); //Serosis
-				break;
-			case BWARP_OPT:
-				setBoolOption (&options->bubbleWarp, true); //Serosis
-				break;
-			case ROSEBUD_OPT:
-				setBoolOption (&options->roseBud, true); //Serosis
-				break;
-			case UNLOCKSHIPS_OPT:
-				setBoolOption (&options->unlockShips, true); //Serosis
-				break;
-			case HEADSTART_OPT:
-				setBoolOption (&options->headStart, true); //Serosis
- 				break;
-			case UPGRADES_OPT:
-				setBoolOption (&options->unlockUpgrades, true);
-				break;
-			case LANDERCHT_OPT:
-				setBoolOption (&options->landerMods, true);
-				break;
-			case FASTFORWARD_OPT:
-				setBoolOption (&options->fastForward, true);
-				break;
-			case SKIPINTRO_OPT:
-				setBoolOption (&options->skipIntro, true);
-				break;
-			case FMV_OPT:
-				setBoolOption (&options->FMV, true);
 				break;
 #ifdef NETPLAY
 			case NETHOST1_OPT:
@@ -1318,15 +1313,11 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_add (log_User, "  --godmode : Player ships and lander invulnerable. "
 			"Also refills energy every shot during melee.    (default %s)",
 			boolOptString (&defaults->godMode));
-	log_add (log_User, "  --timedilation : Increases time by a factor of 6. "
-			"IP=3 Minutes HS=30 Seconds    (default %s)",
-			boolOptString (&defaults->timeDilation));
+	log_add (log_User, "  --timedilation : =1 Time is slowed down times 6. "
+			"=2 Time is sped up times 5    (default 0)");
 	log_add (log_User, "  --bubblewarp : Instantaneous travel to any point on "
 			"the Starmap.    (default %s)",
 			boolOptString (&defaults->bubbleWarp));
-	log_add (log_User, "  --rosebud : Get 1,000 R.U. and Credits when you ask the "
-			"Melnorme why their bridge is purple.    (default %s)",
-			boolOptString (&defaults->roseBud));
 	log_add (log_User, "  --unlockships : Allows you to purchase ships that you can't "
 			"normally acquire in the main game.    (default %s)",
 			boolOptString (&defaults->unlockShips));
@@ -1337,11 +1328,9 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_add (log_User, "  --unlockupgrades : Unlocks every upgrade for your flagship "
 			"and landers.    (default %s)",
 			boolOptString (&defaults->unlockUpgrades));
-	log_add (log_User, "  --landermods : Makes your landers have pin-point accuracy "
-			"when landing and doubles storage capacity.   (default %s)",
-			boolOptString (&defaults->landerMods));
-	log_add (log_User, "  --fastforward : Speeds up time by a factor of 5    (default %s)",
-			boolOptString (&defaults->fastForward));
+	log_add (log_User, "  --infiniteru : Gives you infinite R.U. as long as the cheat is on "
+			" (default %s)",
+			boolOptString (&defaults->infiniteRU));
 	log_add (log_User, "  --skipintro : Skips the intro    (default %s)",
 			boolOptString (&defaults->skipIntro));
 	log_add (log_User, "  --fmv : Adds Logo and Commercial 3DO videos    (default %s)",

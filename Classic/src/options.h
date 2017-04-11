@@ -41,14 +41,14 @@ extern int optMeleeScale;
 // Serosis
 extern BOOLEAN optCheatMode;
 extern BOOLEAN optGodMode;
-extern BOOLEAN optTimeDilation;
+extern unsigned int timeDilationScale;
 extern BOOLEAN optBubbleWarp;
 extern BOOLEAN optRoseBud;
 extern BOOLEAN optUnlockShips;
 extern BOOLEAN optHeadStart;
 extern BOOLEAN optUnlockUpgrades;
-extern BOOLEAN optLanderMods;
-extern BOOLEAN optFastForward;
+extern BOOLEAN optInfiniteRU;
+extern DWORD oldRU;
 extern BOOLEAN optSkipIntro;
 extern BOOLEAN optFMV;
 

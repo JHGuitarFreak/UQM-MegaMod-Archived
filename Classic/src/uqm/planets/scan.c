@@ -1343,10 +1343,6 @@ GeneratePlanetSide (void)
 			// life_init_tab is filled with the creature types of already
 			// selected creatures. If an entry is 0, none has been selected
 			// yet, otherwise, it is 1 more than the creature type.
-	COUNT MaxScrounged = MAX_SCROUNGED;
-	if(optLanderMods){
-		MaxScrounged = MaxScrounged <<= 1;
-	}
 	InitDisplayList ();
 	if (pSolarSysState->pOrbitalDesc->data_index & PLANET_SHIELDED)
 		return;
@@ -1417,7 +1413,7 @@ GeneratePlanetSide (void)
 				NodeElementPtr->preprocess_func = object_animation;
 				if (scan == ENERGY_SCAN)
 				{
-					NodeElementPtr->mass_points = MaxScrounged;
+					NodeElementPtr->mass_points = MAX_SCROUNGED;
 					DisplayArray[NodeElementPtr->PrimIndex].Object.Stamp.frame =
 							pSolarSysState->PlanetSideFrame[1];
 				}
