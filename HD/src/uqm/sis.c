@@ -793,7 +793,6 @@ DrawStorageBays (BOOLEAN Refresh)
 	BYTE i;
 	RECT r;
 	CONTEXT OldContext;
-	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
 
 	OldContext = SetContext (StatusContext);
 	r.extent.width  = RES_STAT_SCALE(2); // JMS_GFX
@@ -820,7 +819,7 @@ DrawStorageBays (BOOLEAN Refresh)
 		
 		// Draw full bays.
 		SetContextForeGroundColor (STORAGE_BAY_FULL_COLOR);
-		for (j = GLOBAL_SIS (TotalElementMass); j >= StorageBayCapacity; j -= StorageBayCapacity)
+		for (j = GLOBAL_SIS (TotalElementMass); j >= STORAGE_BAY_CAPACITY; j -= STORAGE_BAY_CAPACITY)
 		{
 			DrawFilledRectangle (&r);
 			r.corner.x += r.extent.width + RES_STAT_SCALE(1); // JMS_GFX;
@@ -829,7 +828,7 @@ DrawStorageBays (BOOLEAN Refresh)
 		}
 		
 		// This sets how full a partially filled bay is.
-		r.extent.height = (RES_STAT_SCALE (4) * j + (StorageBayCapacity - 1)) / StorageBayCapacity;
+		r.extent.height = (RES_STAT_SCALE (4) * j + (STORAGE_BAY_CAPACITY - 1)) / STORAGE_BAY_CAPACITY;
 		
 		if (r.extent.height)
 		{
@@ -1339,10 +1338,8 @@ GetElementMass (void)
 COUNT
 GetModuleStorageCapacity (BYTE moduleType)
 {
-	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-
 	if (moduleType == STORAGE_BAY)
-		return StorageBayCapacity;
+		return STORAGE_BAY_CAPACITY;
 
 	return 0;
 }

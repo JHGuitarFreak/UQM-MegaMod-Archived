@@ -200,7 +200,6 @@ DoInstallModule (MENU_STATE *pMS)
 	BYTE NewState, new_slot_piece, old_slot_piece;
 	SIZE FirstItem, LastItem;
 	BOOLEAN select, cancel, motion;
-	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
 
 	if (GLOBAL (CurrentActivity) & CHECK_ABORT)
 	{
@@ -309,7 +308,7 @@ DoInstallModule (MENU_STATE *pMS)
 				}
 				else if (old_slot_piece == STORAGE_BAY)
 				{
-					if (GLOBAL_SIS (TotalElementMass) > StorageBayCapacity
+					if (GLOBAL_SIS (TotalElementMass) > STORAGE_BAY_CAPACITY
 							* (CountSISPieces (STORAGE_BAY) - 1))
 					{	// storage bay still needed for the cargo
 						PlayMenuSound (MENU_SOUND_FAILURE);

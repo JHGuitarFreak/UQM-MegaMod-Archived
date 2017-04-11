@@ -389,7 +389,6 @@ StripShip (COUNT fuel_required)
 {
 	BYTE i, which_module;
 	SBYTE crew_pods;
-	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
 
 	SET_GAME_STATE (MELNORME_RESCUE_REFUSED, 0);
 
@@ -459,7 +458,7 @@ StripShip (COUNT fuel_required)
 		} while (slot--);
 		if (fuel_required > capacity)
 			fuel_required = capacity;
-		bays = -(SBYTE)( (SIS_copy.TotalElementMass + StorageBayCapacity - 1) / StorageBayCapacity );
+		bays = -(SBYTE)( (SIS_copy.TotalElementMass + STORAGE_BAY_CAPACITY - 1) / STORAGE_BAY_CAPACITY );
 		for (i = 0; i < NUM_MODULE_SLOTS; ++i)
 		{
 			which_module = SIS_copy.ModuleSlots[i];
