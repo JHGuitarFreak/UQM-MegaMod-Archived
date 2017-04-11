@@ -55,14 +55,13 @@ const char **optAddons;
 // Serosis
 BOOLEAN optCheatMode;
 BOOLEAN optGodMode;
-BOOLEAN optTimeDilation;
+unsigned int timeDilationScale;
 BOOLEAN optBubbleWarp;
-BOOLEAN optRoseBud;
 BOOLEAN optUnlockShips;
 BOOLEAN optHeadStart;
 BOOLEAN optUnlockUpgrades;
-BOOLEAN optLanderMods;
-BOOLEAN optFastForward;
+BOOLEAN optInfiniteRU;
+DWORD oldRU;
 BOOLEAN optSkipIntro;
 BOOLEAN optFMV;
 

@@ -285,58 +285,45 @@ InitGameStructures (void)
 	GLOBAL (ElementWorth[PRECIOUS]) = 6;
 	GLOBAL_SIS (ElementAmounts[PRECIOUS]) = 0;
 	GLOBAL (ElementWorth[RADIOACTIVE]) = 8;
-	if (optHeadStart){
-		GLOBAL_SIS (ElementAmounts[RADIOACTIVE]) = 1000;
-		GLOBAL_SIS (TotalElementMass) = 1000;
-		GLOBAL_SIS (TotalBioMass) += 1000;
-	} else {
-		GLOBAL_SIS (ElementAmounts[RADIOACTIVE]) = 0;
-	}
+	GLOBAL_SIS (ElementAmounts[RADIOACTIVE]) = 0;
 	GLOBAL (ElementWorth[EXOTIC]) = 25;
 	GLOBAL_SIS (ElementAmounts[EXOTIC]) = 0;
 
-	if (optHeadStart){		
-		for (i = 0; i < NUM_DRIVE_SLOTS; i++)
-			GLOBAL_SIS (DriveSlots[i]) = FUSION_THRUSTER;
-		for (i = 0; i < NUM_JET_SLOTS; i++)
-			GLOBAL_SIS (JetSlots[i]) = TURNING_JETS;
-		for (i = 0; i < NUM_MODULE_SLOTS; ++i)
-			GLOBAL_SIS (ModuleSlots[i]) = EMPTY_SLOT + 2;
-		GLOBAL_SIS (ModuleSlots[0]) = FUEL_TANK;
-		GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
-		GLOBAL_SIS (ModuleSlots[2]) = CREW_POD;
-		GLOBAL_SIS (ModuleSlots[3]) = CREW_POD;
-		GLOBAL_SIS (ModuleSlots[4]) = STORAGE_BAY;
-		GLOBAL_SIS (ModuleSlots[5]) = STORAGE_BAY;
-		//GLOBAL_SIS (ModuleSlots[6]);
-		//GLOBAL_SIS (ModuleSlots[7]);
-		//GLOBAL_SIS (ModuleSlots[8]);
-		//GLOBAL_SIS (ModuleSlots[9]);
-		GLOBAL_SIS (ModuleSlots[10]) = DYNAMO_UNIT;
-		GLOBAL_SIS (ModuleSlots[11]) = DYNAMO_UNIT;
-		GLOBAL_SIS (ModuleSlots[12]) = DYNAMO_UNIT;
-		GLOBAL_SIS (ModuleSlots[13]) = DYNAMO_UNIT;
-		GLOBAL_SIS (ModuleSlots[14]) = GUN_WEAPON;
-		GLOBAL_SIS (ModuleSlots[15]) = GUN_WEAPON;
-		GLOBAL_SIS (FuelOnBoard) = 110 * FUEL_TANK_SCALE;
-		GLOBAL_SIS (CrewEnlisted) = 100;
-	} else {
-		for (i = 0; i < NUM_DRIVE_SLOTS; ++i)
-			GLOBAL_SIS (DriveSlots[i]) = EMPTY_SLOT + 0;
-		GLOBAL_SIS (DriveSlots[5]) =
-				GLOBAL_SIS (DriveSlots[6]) = FUSION_THRUSTER;
-		for (i = 0; i < NUM_JET_SLOTS; ++i)
-			GLOBAL_SIS (JetSlots[i]) = EMPTY_SLOT + 1;
-		GLOBAL_SIS (JetSlots[0]) =
-				GLOBAL_SIS (JetSlots[6]) = TURNING_JETS;
-		for (i = 0; i < NUM_MODULE_SLOTS; ++i)
-			GLOBAL_SIS (ModuleSlots[i]) = EMPTY_SLOT + 2;
-		GLOBAL_SIS (ModuleSlots[15]) = GUN_WEAPON;
-		GLOBAL_SIS (ModuleSlots[2]) = CREW_POD;
-		GLOBAL_SIS (CrewEnlisted) = CREW_POD_CAPACITY;
-		GLOBAL_SIS (ModuleSlots[8]) = STORAGE_BAY;
-		GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
-		GLOBAL_SIS (FuelOnBoard) = 10 * FUEL_TANK_SCALE;
+	for (i = 0; i < NUM_DRIVE_SLOTS; ++i)
+		GLOBAL_SIS (DriveSlots[i]) = EMPTY_SLOT + 0;
+	GLOBAL_SIS (DriveSlots[5]) =
+			GLOBAL_SIS (DriveSlots[6]) = FUSION_THRUSTER;
+	for (i = 0; i < NUM_JET_SLOTS; ++i)
+		GLOBAL_SIS (JetSlots[i]) = EMPTY_SLOT + 1;
+	GLOBAL_SIS (JetSlots[0]) =
+			GLOBAL_SIS (JetSlots[6]) = TURNING_JETS;
+	for (i = 0; i < NUM_MODULE_SLOTS; ++i)
+		GLOBAL_SIS (ModuleSlots[i]) = EMPTY_SLOT + 2;
+	GLOBAL_SIS (ModuleSlots[15]) = GUN_WEAPON;
+	GLOBAL_SIS (ModuleSlots[2]) = CREW_POD;
+	GLOBAL_SIS (CrewEnlisted) = CREW_POD_CAPACITY;
+	GLOBAL_SIS (ModuleSlots[8]) = STORAGE_BAY;
+	GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
+	GLOBAL_SIS (FuelOnBoard) = 10 * FUEL_TANK_SCALE;
+
+	if (optHeadStart){
+		GLOBAL_SIS (ElementAmounts[COMMON]) = 178;
+		GLOBAL_SIS (ElementAmounts[CORROSIVE]) = 66;
+		GLOBAL_SIS (ElementAmounts[BASE_METAL]) = 378;
+		GLOBAL_SIS (ElementAmounts[PRECIOUS]) = 29;
+		GLOBAL_SIS (ElementAmounts[RADIOACTIVE]) = 219;
+		GLOBAL_SIS (ElementAmounts[EXOTIC]) = 5;
+		GLOBAL_SIS (TotalElementMass) = 875;
+		GLOBAL_SIS (ModuleSlots[7]) = STORAGE_BAY;
+		SET_GAME_STATE (MOONBASE_DESTROYED, 1);
+		SET_GAME_STATE (MOONBASE_ON_SHIP, 1);
+		SET_GAME_STATE (FOUND_PLUTO_SPATHI, 2);
+		SET_GAME_STATE (KNOW_SPATHI_PASSWORD, 1);
+		SET_GAME_STATE (PROBE_MESSAGE_DELIVERED, 1);
+	}
+
+	if(optInfiniteRU){
+		oldRU = 0;
 	}
 
 	InitQueue (&GLOBAL (built_ship_q),
@@ -360,12 +347,8 @@ InitGameStructures (void)
 	GLOBAL (ModuleCost[FUEL_TANK]) = 500 / MODULE_COST_SCALE;
 	GLOBAL (ModuleCost[DYNAMO_UNIT]) = 2000 / MODULE_COST_SCALE;
 	GLOBAL (ModuleCost[GUN_WEAPON]) = 2000 / MODULE_COST_SCALE;
-
-	if (optHeadStart){
-		GLOBAL_SIS (NumLanders) = MAX_LANDERS;
-	} else {
-		GLOBAL_SIS (NumLanders) = 1;
-	}
+	
+	GLOBAL_SIS (NumLanders) = 1;
 
 	utf8StringCopy (GLOBAL_SIS (ShipName), sizeof (GLOBAL_SIS (ShipName)),
 			GAME_STRING (NAMING_STRING_BASE + 2));
@@ -375,6 +358,12 @@ InitGameStructures (void)
 
 	ActivateStarShip (HUMAN_SHIP, SET_ALLIED);
 	CloneShipFragment (HUMAN_SHIP, &GLOBAL (built_ship_q), 0);
+ 
+	if(optHeadStart){
+		ActivateStarShip (SPATHI_SHIP, 1);
+		/* Make the Eluder escort captained by Fwiffo alone */
+		SetEscortCrewComplement (SPATHI_SHIP, 1, NAME_OFFSET + NUM_CAPTAINS_NAMES);
+	}
 
 	GLOBAL_SIS (log_x) = UNIVERSE_TO_LOGX (SOL_X);
 	GLOBAL_SIS (log_y) = UNIVERSE_TO_LOGY (SOL_Y);

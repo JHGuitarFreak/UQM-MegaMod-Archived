@@ -879,6 +879,9 @@ DoPickGame (MENU_STATE *pMS)
 		pSD = &pickState->summary[pMS->CurState];
 		if (pickState->saving || pSD->year_index)
 		{	// valid slot
+			if(optInfiniteRU){
+				GLOBAL_SIS (ResUnits) = oldRU;
+			}
 			PlayMenuSound (MENU_SOUND_SUCCESS);
 			pickState->success = TRUE;
 			return FALSE;

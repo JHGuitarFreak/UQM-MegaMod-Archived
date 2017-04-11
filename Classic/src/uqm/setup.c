@@ -68,6 +68,8 @@ FRAME FontGradFrame;
 Mutex GraphicsLock;
 STRING GameStrings;
 QUEUE disp_q;
+BOOLEAN seroSetupPresent; // Serosis
+BOOLEAN seroMenuPresent; // Serosis
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -134,6 +136,19 @@ LoadKernel (int argc, char *argv[])
 	if (optWhichIntro == OPT_3DO) {
 		loadAddon ("3dovideo");
 	}
+	if(loadAddon("sero-menu-1x")){
+		seroMenuPresent = TRUE;
+		printf("Loading Sero-Menu 1x\n");
+		log_add (log_Debug, "loading sero-menu-1x");
+	}
+	if(loadAddon("sero-setup")){
+		seroSetupPresent = TRUE;
+		printf("Loading Sero Setup\n");
+		log_add (log_Debug, "loading sero-setup\n");
+	} else {
+		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
+		exit (EXIT_FAILURE);
+ 	}
 
 	/* Now load the rest of the addons, in order. */
 	prepareAddons (optAddons);

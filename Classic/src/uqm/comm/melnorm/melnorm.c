@@ -32,7 +32,6 @@
 #include "uqm/planets/planets.h"
 		// for xxx_DISASTER
 #include "uqm/sis.h"
-#include "options.h"
 
 #define NUM_HISTORY_ITEMS 9
 #define NUM_EVENT_ITEMS 8
@@ -252,10 +251,6 @@ StripShip (COUNT fuel_required)
 {
 	BYTE i, which_module;
 	SBYTE crew_pods;
-	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-	if(optLanderMods){
-		StorageBayCapacity = StorageBayCapacity <<= 1;
-	}
 	SET_GAME_STATE (MELNORME_RESCUE_REFUSED, 0);
 
 	crew_pods = -(SBYTE)(
@@ -325,7 +320,7 @@ StripShip (COUNT fuel_required)
 		if (fuel_required > capacity)
 			fuel_required = capacity;
 
-		bays = -(SBYTE)( (SIS_copy.TotalElementMass + StorageBayCapacity - 1) / StorageBayCapacity );
+		bays = -(SBYTE)( (SIS_copy.TotalElementMass + STORAGE_BAY_CAPACITY - 1) / STORAGE_BAY_CAPACITY );
 		for (i = 0; i < NUM_MODULE_SLOTS; ++i)
 		{
 			which_module = SIS_copy.ModuleSlots[i];
@@ -1321,10 +1316,6 @@ NatureOfConversation (RESPONSE_REF R)
 				break;
 		}
 		SET_GAME_STATE (MELNORME_YACK_STACK2, stack + 5);
-		// Tying in the purple question with a Credit/R.U. cheat
-		if (optRoseBud){
-			SET_GAME_STATE (WHY_MELNORME_PURPLE, 0); // This is to make sure that the purple question shows up.
-		} // Serosis
 	}
 
 	rainbow_mask = MAKE_WORD (
@@ -1364,20 +1355,6 @@ NatureOfConversation (RESPONSE_REF R)
 		}
 		else if (PLAYER_SAID (R, why_turned_purple))
 		{
-			if (optRoseBud){
-				SET_GAME_STATE (WHY_MELNORME_PURPLE, 0); // Setting this to 0 makes sure the question is repeatable
-				DeltaCredit(1000); // Adds 1000 Credits
-				GLOBAL_SIS (ResUnits) += 1000; // Adds 1000 R.U.
-				// Make sure the RU/credit amount is redrawn:
-				if (LOBYTE (GLOBAL (CurrentActivity)) == IN_HYPERSPACE || LOBYTE (GLOBAL (CurrentActivity)) == IN_INTERPLANETARY) {
-					LockMutex (GraphicsLock);
-					DrawStatusMessage (NULL);
-					UnlockMutex (GraphicsLock);
-				}
-			} else {
-				SET_GAME_STATE (WHY_MELNORME_PURPLE, 1);
-			} // Serosis
-
 			NPCPhrase (TURNED_PURPLE_BECAUSE);
 		}
 		else if (PLAYER_SAID (R, done_selling))

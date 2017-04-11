@@ -397,17 +397,14 @@ DrawStatusMessage (const UNICODE *pStr)
 		}
 		else if (curMsgMode == SMM_RES_UNITS)
 		{
-			if (GET_GAME_STATE (CHMMR_BOMB_STATE) < 2)
-			{
-				snprintf (buf, sizeof buf, "%u %s", GLOBAL_SIS (ResUnits),
-						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
-			}
-			else
-			{
+			if (GET_GAME_STATE (CHMMR_BOMB_STATE) > 2 || GLOBAL_SIS (ResUnits) > 2000000L) {
 				snprintf (buf, sizeof buf, "%s %s",
 						(optWhichMenu == OPT_PC) ?
 							GAME_STRING (STATUS_STRING_BASE + 2)
 							: STR_INFINITY_SIGN, // "UNLIMITED"
+						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
+			} else {
+				snprintf (buf, sizeof buf, "%u %s", GLOBAL_SIS (ResUnits),
 						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
 			}
 		}
@@ -764,10 +761,6 @@ DrawStorageBays (BOOLEAN Refresh)
 	BYTE i;
 	RECT r;
 	CONTEXT OldContext;
-	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-	if(optLanderMods){
-		StorageBayCapacity = StorageBayCapacity <<= 1;
-	}
 
 	OldContext = SetContext (StatusContext);
 
@@ -793,7 +786,7 @@ DrawStorageBays (BOOLEAN Refresh)
 				- ((i * (r.extent.width + 1)) >> 1);
 		SetContextForeGroundColor (STORAGE_BAY_FULL_COLOR);
 		for (j = GLOBAL_SIS (TotalElementMass);
-				j >= StorageBayCapacity; j -= StorageBayCapacity)
+				j >= STORAGE_BAY_CAPACITY; j -= STORAGE_BAY_CAPACITY)
 		{
 			DrawFilledRectangle (&r);
 			r.corner.x += r.extent.width + 1;
@@ -801,8 +794,8 @@ DrawStorageBays (BOOLEAN Refresh)
 			--i;
 		}
 
-		r.extent.height = (4 * j + (StorageBayCapacity - 1)) /
-				StorageBayCapacity;
+		r.extent.height = (4 * j + (STORAGE_BAY_CAPACITY - 1)) /
+				STORAGE_BAY_CAPACITY;
 		if (r.extent.height)
 		{
 			r.corner.y += 4 - r.extent.height;
@@ -1300,12 +1293,8 @@ GetElementMass (void)
 COUNT
 GetModuleStorageCapacity (BYTE moduleType)
 {
-	COUNT StorageBayCapacity = STORAGE_BAY_CAPACITY;
-	if(optLanderMods){
-		StorageBayCapacity = StorageBayCapacity <<= 1;
-	}
 	if (moduleType == STORAGE_BAY)
-		return StorageBayCapacity;
+		return STORAGE_BAY_CAPACITY;
 
 	return 0;
 }
