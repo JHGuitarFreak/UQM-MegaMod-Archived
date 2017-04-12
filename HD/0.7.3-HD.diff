@@ -1325,7 +1325,7 @@ diff -ruNp ./src.orig/uqm/gameopt.c ./src/uqm/gameopt.c
  			ConfirmSaveLoad (pickState->saving ? &saveStamp : NULL);
 diff -ruNp ./src.orig/uqm/globdata.c ./src/uqm/globdata.c
 --- ./src.orig/uqm/globdata.c	2017-04-11 02:13:10 -0500
-+++ ./src/uqm/globdata.c	2017-04-11 02:12:46 -0500
++++ ./src/uqm/globdata.c	2017-04-11 21:35:57 -0500
 @@ -29,11 +29,11 @@
  #include "build.h"
  #include "state.h"
@@ -1496,7 +1496,7 @@ diff -ruNp ./src.orig/uqm/misc.c ./src/uqm/misc.c
  		dy = SINE (direction, MORE_THAN_ENOUGH);
 diff -ruNp ./src.orig/uqm/planets/generate/gensol.c ./src/uqm/planets/generate/gensol.c
 --- ./src.orig/uqm/planets/generate/gensol.c	2017-04-11 02:13:11 -0500
-+++ ./src/uqm/planets/generate/gensol.c	2017-04-11 02:12:47 -0500
++++ ./src/uqm/planets/generate/gensol.c	2017-04-11 21:23:45 -0500
 @@ -28,6 +28,7 @@
  #include "../../nameref.h"
  #include "../../state.h"
@@ -1505,15 +1505,33 @@ diff -ruNp ./src.orig/uqm/planets/generate/gensol.c ./src/uqm/planets/generate/g
  
  #include <math.h>
  
-@@ -80,7 +81,7 @@ GenerateSol_initNpcs (SOLARSYS_STATE *so
- 		SET_GAME_STATE_32 (URQUAN_PROBE_GRPOFFS0, GLOBAL (BattleGroupRef));
- 	}
+@@ -707,10 +708,11 @@ init_probe (void)
+ {
+ 	HIPGROUP hGroup;
  
--	if (!init_probe ())
-+	if (!init_probe () || optHeadStart)
- 		GenerateDefault_initNpcs (solarSys);
+-	if (!GET_GAME_STATE (PROBE_MESSAGE_DELIVERED)
++	if (optHeadStart){
++		return 0;
++	} else if (!GET_GAME_STATE (PROBE_MESSAGE_DELIVERED)
+ 			&& GetGroupInfo (GLOBAL (BattleGroupRef), GROUP_INIT_IP)
+-			&& (hGroup = GetHeadLink (&GLOBAL (ip_group_q))))
+-	{
++			&& (hGroup = GetHeadLink (&GLOBAL (ip_group_q)))) {
+ 		IP_GROUP *GroupPtr;
  
- 	return true;
+ 		GroupPtr = LockIpGroup (&GLOBAL (ip_group_q), hGroup);
+@@ -723,9 +725,9 @@ init_probe (void)
+ 		UnlockIpGroup (&GLOBAL (ip_group_q), hGroup);
+ 
+ 		return 1;
+-	}
+-	else
++	} else {
+ 		return 0;
++	}
+ }
+ 
+ static void
 diff -ruNp ./src.orig/uqm/planets/generate/genthrad.c ./src/uqm/planets/generate/genthrad.c
 --- ./src.orig/uqm/planets/generate/genthrad.c	2017-04-11 02:13:11 -0500
 +++ ./src/uqm/planets/generate/genthrad.c	2017-04-11 02:12:47 -0500
@@ -1923,7 +1941,7 @@ diff -ruNp ./src.orig/uqm/save.c ./src/uqm/save.c
  	{
 diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 --- ./src.orig/uqm/setup.c	2017-04-11 02:13:11 -0500
-+++ ./src/uqm/setup.c	2017-04-11 02:12:47 -0500
++++ ./src/uqm/setup.c	2017-04-11 21:08:02 -0500
 @@ -76,6 +76,9 @@ STRING GameStrings;
  QUEUE disp_q;
  BOOLEAN hires2xPackPresent; // JMS_GFX
@@ -2039,12 +2057,12 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 +		loadAddon ("3dovideo"); // Put this here to override the PC slides if enabled
 +	}
 +
-+	if(loadAddon("sero-setup")){
++	if(loadAddon("sero-setup-hd")){
 +		seroSetupPresent = TRUE;
-+		printf("Loading Sero Setup\n");
-+		log_add (log_Debug, "loading sero-setup\n");
++		printf("Loading Sero Setup HD\n");
++		log_add (log_Debug, "loading sero-setup-hd\n");
 +	} else {
-+		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
++		log_add (log_Fatal, "\nPANIC: Sero Setup HD not found in addons directory!\n");
 +		exit (EXIT_FAILURE);
  	}
 -	else if (resolutionFactor == 2 && loadAddon ("hires4x"))
