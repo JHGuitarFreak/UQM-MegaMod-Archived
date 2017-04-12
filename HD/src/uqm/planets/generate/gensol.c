@@ -81,7 +81,7 @@ GenerateSol_initNpcs (SOLARSYS_STATE *solarSys)
 		SET_GAME_STATE_32 (URQUAN_PROBE_GRPOFFS0, GLOBAL (BattleGroupRef));
 	}
 
-	if (!init_probe () || optHeadStart)
+	if (!init_probe ())
 		GenerateDefault_initNpcs (solarSys);
 
 	return true;
@@ -708,10 +708,11 @@ init_probe (void)
 {
 	HIPGROUP hGroup;
 
-	if (!GET_GAME_STATE (PROBE_MESSAGE_DELIVERED)
+	if (optHeadStart){
+		return 0;
+	} else if (!GET_GAME_STATE (PROBE_MESSAGE_DELIVERED)
 			&& GetGroupInfo (GLOBAL (BattleGroupRef), GROUP_INIT_IP)
-			&& (hGroup = GetHeadLink (&GLOBAL (ip_group_q))))
-	{
+			&& (hGroup = GetHeadLink (&GLOBAL (ip_group_q)))) {
 		IP_GROUP *GroupPtr;
 
 		GroupPtr = LockIpGroup (&GLOBAL (ip_group_q), hGroup);
@@ -724,9 +725,9 @@ init_probe (void)
 		UnlockIpGroup (&GLOBAL (ip_group_q), hGroup);
 
 		return 1;
-	}
-	else
+	} else {
 		return 0;
+	}
 }
 
 static void
