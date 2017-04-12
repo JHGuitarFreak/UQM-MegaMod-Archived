@@ -141,10 +141,10 @@ LoadKernel (int argc, char *argv[])
 		printf("Loading Sero-Menu 1x\n");
 		log_add (log_Debug, "loading sero-menu-1x");
 	}
-	if(loadAddon("sero-setup")){
+	if(loadAddon("sero-setup-classic")){
 		seroSetupPresent = TRUE;
-		printf("Loading Sero Setup\n");
-		log_add (log_Debug, "loading sero-setup\n");
+		printf("Loading Sero Setup Classic\n");
+		log_add (log_Debug, "loading sero-setup-classic\n");
 	} else {
 		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
 		exit (EXIT_FAILURE);

@@ -196,12 +196,12 @@ LoadKernel (int argc, char *argv[])
 		loadAddon ("3dovideo"); // Put this here to override the PC slides if enabled
 	}
 
-	if(loadAddon("sero-setup")){
+	if(loadAddon("sero-setup-hd")){
 		seroSetupPresent = TRUE;
-		printf("Loading Sero Setup\n");
-		log_add (log_Debug, "loading sero-setup\n");
+		printf("Loading Sero Setup HD\n");
+		log_add (log_Debug, "loading sero-setup-hd\n");
 	} else {
-		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
+		log_add (log_Fatal, "\nPANIC: Sero Setup HD not found in addons directory!\n");
 		exit (EXIT_FAILURE);
 	}
 
