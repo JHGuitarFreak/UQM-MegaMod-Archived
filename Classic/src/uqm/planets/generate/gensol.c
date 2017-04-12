@@ -615,9 +615,7 @@ init_probe (void)
 {
 	HIPGROUP hGroup;
 
-	if(optHeadStart){
-		return 0;
-	} else if (!GET_GAME_STATE (PROBE_MESSAGE_DELIVERED)
+	if (!GET_GAME_STATE (PROBE_MESSAGE_DELIVERED)
 			&& GetGroupInfo (GLOBAL (BattleGroupRef), GROUP_INIT_IP)
 			&& (hGroup = GetHeadLink (&GLOBAL (ip_group_q)))){
 		IP_GROUP *GroupPtr;
