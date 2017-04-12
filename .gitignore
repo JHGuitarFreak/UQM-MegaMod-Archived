@@ -260,5 +260,4 @@ stderr.txt
 stdout.txt
 src.orig
 log.txt
-HD/bin/log.txt
-HD/bin/UrQuanMasters.lnk
+*.lnk
