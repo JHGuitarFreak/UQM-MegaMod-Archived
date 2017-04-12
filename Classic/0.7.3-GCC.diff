@@ -932,15 +932,31 @@ diff -ruNp ./src.orig/uqm/planets/generate/gensol.c ./src/uqm/planets/generate/g
  
  static bool GenerateSol_initNpcs (SOLARSYS_STATE *solarSys);
  static bool GenerateSol_reinitNpcs (SOLARSYS_STATE *solarSys);
-@@ -79,7 +79,7 @@ GenerateSol_initNpcs (SOLARSYS_STATE *so
- 		SET_GAME_STATE_32 (URQUAN_PROBE_GRPOFFS0, GLOBAL (BattleGroupRef));
- 	}
+@@ -615,10 +615,11 @@ init_probe (void)
+ {
+ 	HIPGROUP hGroup;
  
--	if (!init_probe ())
-+	if (!init_probe () || optHeadStart)
- 		GenerateDefault_initNpcs (solarSys);
+-	if (!GET_GAME_STATE (PROBE_MESSAGE_DELIVERED)
++	if(optHeadStart){
++		return 0;
++	} else if (!GET_GAME_STATE (PROBE_MESSAGE_DELIVERED)
+ 			&& GetGroupInfo (GLOBAL (BattleGroupRef), GROUP_INIT_IP)
+-			&& (hGroup = GetHeadLink (&GLOBAL (ip_group_q))))
+-	{
++			&& (hGroup = GetHeadLink (&GLOBAL (ip_group_q)))){
+ 		IP_GROUP *GroupPtr;
  
- 	return true;
+ 		GroupPtr = LockIpGroup (&GLOBAL (ip_group_q), hGroup);
+@@ -631,8 +632,7 @@ init_probe (void)
+ 		UnlockIpGroup (&GLOBAL (ip_group_q), hGroup);
+ 
+ 		return 1;
+-	}
+-	else
++	} else
+ 		return 0;
+ }
+ 
 diff -ruNp ./src.orig/uqm/planets/generate/genthrad.c ./src/uqm/planets/generate/genthrad.c
 --- ./src.orig/uqm/planets/generate/genthrad.c	2017-04-11 02:08:51 -0500
 +++ ./src/uqm/planets/generate/genthrad.c	2017-04-11 04:31:10 -0500
@@ -1198,12 +1214,12 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 +		printf("Loading Sero-Menu 1x\n");
 +		log_add (log_Debug, "loading sero-menu-1x");
 +	}
-+	if(loadAddon("sero-setup")){
++	if(loadAddon("sero-setup-classic")){
 +		seroSetupPresent = TRUE;
-+		printf("Loading Sero Setup\n");
-+		log_add (log_Debug, "loading sero-setup\n");
++		printf("Loading Sero Setup Classic\n");
++		log_add (log_Debug, "loading sero-setup-classic\n");
 +	} else {
-+		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
++		log_add (log_Fatal, "\nPANIC: Sero Setup Classic not found in addons directory!\n");
 +		exit (EXIT_FAILURE);
 + 	}
  

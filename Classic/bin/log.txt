@@ -1,12 +1,6 @@
 argv[0] = [C:\Games\UQM-MegaMod\Classic\bin\UrQuanMastersDebug.exe]
-argv[1] = [--headstart]
-argv[2] = [--godmode]
-argv[3] = [--unlockupgrades]
-argv[4] = [--landermods]
-argv[5] = [--bubblewarp]
-argv[6] = [--fmv]
-argv[7] = [--log=log.txt]
-The Ur-Quan Masters v0.7.2e MegaMod (compiled Mar  5 2017 22:11:14)
+argv[1] = [--log=log.txt]
+The Ur-Quan Masters v0.7.3 MegaMod (compiled Apr 11 2017 14:00:54)
 This software comes with ABSOLUTELY NO WARRANTY;
 for details see the included 'COPYING' file.
 
@@ -592,6 +586,38 @@ Debug: Extra field 0x000a unsupported, used for file 'rmx-utwig/comm/utwig/utwig
 Debug: Extra field 0x000a unsupported, used for file 'rmx-utwig/comm/utwig/utwig.txt' - ignored.
 Debug: Extra field 0x000a unsupported, used for file 'rmx-utwig/rmx-utwig.rmp' - ignored.
 Debug: Extra field 0x000a unsupported, used for file 'rmx-utwig/uqmpack.nfo' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/sero-menu-1x.rmp' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-000.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-001.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-002.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-003.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-004.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-005.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-006.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-007.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-008.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-009.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-010.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-011.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-012.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-013.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-014.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-015.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-016.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-017.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-018.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-019.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-020.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-021.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-022.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-023.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-024.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-025.png' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard.ani' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/uqmpack.nfo' - ignored.
 Debug: Extra field 0x000a unsupported, used for file '3domusic/' - ignored.
 Debug: Extra field 0x000a unsupported, used for file '3domusic/3domusic.rmp' - ignored.
 Debug: Extra field 0x000a unsupported, used for file '3domusic/battle.ogg' - ignored.
@@ -3044,7 +3070,7 @@ Debug: Extra field 0x000a unsupported, used for file '3dovoice/zoqfotpik/zoqfotp
 Debug: Extra field 0x000a unsupported, used for file '3dovoice/zoqfotpik/zoqfotpik-289.ogg' - ignored.
 Debug: Extra field 0x000a unsupported, used for file '3dovoice/zoqfotpik/zoqfotpik-290.ogg' - ignored.
 Debug: Extra field 0x000a unsupported, used for file '3dovoice/zoqfotpik/zoqfotpik.ts' - ignored.
-7 available addon packs.
+9 available addon packs.
     1. 3domusic
     2. 3dovideo
     3. 3dovoice
@@ -3052,18 +3078,22 @@ Debug: Extra field 0x000a unsupported, used for file '3dovoice/zoqfotpik/zoqfotp
     5. MyconVoiceFix
     6. rmx-shofixti
     7. rmx-utwig
+    8. sero-menu-1x
+    9. sero-setup
 Saved games are kept in C:/Users/seros/AppData/Roaming/uqm/save/.
 Winsock version 2.2 found: "WinSock 2.0".
 Requesting to use Winsock version 2.2, got version 2.2.
-Initializing Pure-SDL graphics.
+Initializing SDL with OpenGL support.
 SDL driver used: windib
 SDL initialized.
 Initializing Screen.
-Set the resolution to: 640x480x32
-  Video: R 00ff0000, G 0000ff00, B 000000ff, A 00000000
-  Internal: R 00ff0000, G 0000ff00, B 000000ff, A ff000000
-Screen scalers are using SSE/MMX-Ext/MMX code
-0 joysticks were found.
+Set the resolution to: 1280x960x32 (surface reports 1280x960x32)
+OpenGL renderer: GeForce GTX 1060 6GB/PCIe/SSE2 version: 4.5.0 NVIDIA 378.78
+1 joysticks were found.
+The names of the joysticks are:
+    Controller (XBOX 360 For Windows)
+VControl opened joystick: Controller (XBOX 360 For Windows)
+5 axes, 10 buttons, 1 hats.
 Initializing SDL audio subsystem.
 SDL audio subsystem initialized.
 Opening SDL audio device.
@@ -3081,14 +3111,13 @@ Loading resource index 'rmx-utwig.rmp'
 Loading resource index 'MelnormeVoicePack.rmp'
 Loading resource index 'MyconVoiceFix.rmp'
 Loading resource index '3dovideo.rmp'
+Loading resource index 'sero-menu-1x.rmp'
+loading sero-menu-1x
+Loading resource index 'sero-setup.rmp'
+loading sero-setup
+
 	'base/uqm.ct' -- 104466 bytes
 We've loaded the Kernel
-	'addons/3dovideo/logo/logo.duk' -- video
-	No associated audio
-	No associated speech
-	No specified loop frame
-_GetMusicData(): loading addons/3dovideo/logo/logo.duk
-    decoder: DukAud, rate 22050 format 17
 	'base/ui/title.ani' -- 20 bytes
 	'base/ships/arilou/skiff-icons.ani' -- 60 bytes
 	'base/ships/arilou/skiff-meleeicons.ani' -- 66 bytes
@@ -3257,51 +3286,87 @@ _GetMusicData(): loading addons/3domusic/orbit4.ogg
 _GetMusicData(): loading addons/3domusic/orbit5.ogg
     decoder: Ogg Vorbis, rate 44100 format 17
 Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
 Thread 'flash rectangle' done (returned 0).
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'flash rectangle' done (returned 0).
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Starcon2Main' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
 Thread 'Starcon2Main' blocking on mutex 'Graphics'
 	'base/ui/starbase.ani' -- 1015 bytes
 	'addons/3domusic/starbase.ogg' -- 507687 bytes
 _GetMusicData(): loading addons/3domusic/starbase.ogg
     decoder: Ogg Vorbis, rate 44100 format 17
-	'base/ui/modulesmenu.ani' -- 484 bytes
-	'addons/3domusic/outfit.ogg' -- 1364222 bytes
-_GetMusicData(): loading addons/3domusic/outfit.ogg
+	'addons/sero-menu-1x/ui/shipyard/shipyard.ani' -- 710 bytes
+	'base/ui/hangar.ct' -- 6204 bytes
+	'addons/3domusic/shipyard.ogg' -- 836626 bytes
+_GetMusicData(): loading addons/3domusic/shipyard.ogg
     decoder: Ogg Vorbis, rate 44100 format 17
-	'base/ui/outfitmodules.ani' -- 1781 bytes
-	'base/ui/outfit.ani' -- 25 bytes
-Thread 'flash rectangle' blocking on 'DCQ'
+	'base/ui/blueprints.ani' -- 653 bytes
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'flash rectangle' blocking on mutex 'Graphics'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'flash rectangle' blocking on mutex 'Graphics'
+Thread 'flash rectangle' done (returned 0).
+	'base/ui/newgame.ani' -- 183 bytes
+Trying to get undefined resource 'music.mainmenu'
+	'addons/sero-setup/setupmenu.txt' -- 10923 bytes
+	'base/ui/setupmenu.ani' -- 112 bytes
+	'base/ui/newgame.ani' -- 183 bytes
+	'base/ui/playmenu.ani' -- 1182 bytes
+	'base/ships/drone/drone-meleeicons.ani' -- 33 bytes
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'flash rectangle' done (returned 0).
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
 Thread 'flash rectangle' done (returned 0).
 Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Starcon2Main' blocking on 'DCQ'
+Thread 'Starcon2Main' blocking on 'DCQ'
 Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'flash rectangle' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'flash rectangle' blocking on 'DCQ'
-Thread 'flash rectangle' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'flash rectangle' blocking on 'DCQ'
-Thread 'flash rectangle' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'flash rectangle' blocking on 'DCQ'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+	'base/ui/starbase.ani' -- 1015 bytes
+	'addons/3domusic/starbase.ogg' -- 507687 bytes
+_GetMusicData(): loading addons/3domusic/starbase.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+	'addons/sero-menu-1x/ui/shipyard/shipyard.ani' -- 710 bytes
+	'base/ui/hangar.ct' -- 6204 bytes
+	'addons/3domusic/shipyard.ogg' -- 836626 bytes
+_GetMusicData(): loading addons/3domusic/shipyard.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+	'base/ui/blueprints.ani' -- 653 bytes
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
 Thread 'Unknown (probably renderer)' blocking on 'DCQ'
 Thread 'Unknown (probably renderer)' blocking on 'DCQ'
 Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
+Thread 'flash rectangle' done (returned 0).
+	'base/ui/starbase.ani' -- 1015 bytes
+	'addons/3domusic/starbase.ogg' -- 507687 bytes
+_GetMusicData(): loading addons/3domusic/starbase.ogg
+    decoder: Ogg Vorbis, rate 44100 format 17
+Thread 'Starcon2Main' blocking on mutex 'Graphics'
 Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'flash rectangle' blocking on 'DCQ'
+Thread 'flash rectangle' done (returned 0).
 Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'flash rectangle' done (returned 0).
+'starcon2.05' is 1047 bytes long
+Thread 'flash rectangle' done (returned 0).
 Thread 'Unknown (probably renderer)' blocking on 'DCQ'
+Thread 'flash rectangle' done (returned 0).
 Thread 'flash rectangle' done (returned 0).
 	'base/ui/newgame.ani' -- 183 bytes
 Trying to get undefined resource 'music.mainmenu'
