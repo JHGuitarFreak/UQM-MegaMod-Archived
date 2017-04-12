@@ -5,6 +5,8 @@ A fork of The Ur-Quan Masters with added options, cheats, enhancements, and othe
 
 A full list of changes and features can be found on either the [Sourceforge mother-site](http://uqm-mods.sourceforge.net/Features) or the [Github daughter-site](https://serosis.github.io/#Features)
 
+The newest major change as of April 17th 2017 is the addition of an in-game menu for all of the cheats.
+
 ## Options (Cheats and fun stuff)
 
 <table>
@@ -23,13 +25,20 @@ A full list of changes and features can be found on either the [Sourceforge moth
 		<td>godMode</td>
 		<td>
 			Self explanatory, also refills your ship energy every time you fire your weapon in melee. 
-			Only works against computer controlled oppenents
+			Only works against computer controlled oppenents. The land-on-spot portion of the Lander Mods
+			cheat was moved here.
 		</td>
 	</tr>
 	<tr>
 		<td>--timedilation</td>
 		<td>timeDilation</td>
-		<td>Slows down time. Interplanetary is 3 minutes and Hyperspace is 30 seconds.</td>
+		<td>
+			Slows down time or speeds up time depending on the option
+			0 = Normal game clock - IP = 30 seconds | HS = 5 seconds
+			1 = Slow game clock - IP = 3 minutes | HS = 30 seconds
+			2 = Fast game clock - IP = 5 seconds | HS = 1 second
+
+		</td>
 	</tr>
 	<tr>
 		<td>--bubblewarp</td>
@@ -37,22 +46,15 @@ A full list of changes and features can be found on either the [Sourceforge moth
 		<td>Instantaneous travel to any point on the starmap.</td>
 	</tr>
 	<tr>
-		<td>--rosebud</td>
-		<td>roseBud</td>
-		<td>1,000 Credits and R.U. when you ask the Melnorme why the bridge turned purple.</td>
-	</tr>
-	<tr>
 		<td>--unlockships</td>
 		<td>unlockShips</td>
-		<td>Unlocks ships for the shipyard that normally can't be built.</td>
+		<td>Unlocks all ships for the shipyard.</td>
 	</tr>
 	<tr>
 		<td>--headstart</td>
 		<td>headStart</td>
 		<td>
-			Equips your flagship with full thrusters and jets, 2 fuel tanks, 2 crewpods, 
-			2 storage bays, 2 forward blasters, max landers, 1000 radioactives, and 1000 bio-units
-			at the start of a new game
+			Gives you all minerals in the Sol system, Fwiffo, and the Moon base so you can avoid the New Game slog.
 		</td>
 	</tr>
 	<tr>
@@ -61,19 +63,9 @@ A full list of changes and features can be found on either the [Sourceforge moth
 		<td>Unlocks all the Melnorme tech upgrades</td>
 	</tr>
 	<tr>
-		<td>--fastforward</td>
-		<td>fastForward</td>
-		<td>Divides time by a factor of 5. 1 second day in HS / 5 second day in IP</td>
-	</tr>
-	<tr>
-		<td>--landermods</td>
-		<td>landerMods</td>
-		<td>Land on spot and double storage capacity all around</td>
-	</tr>
-	<tr>
-		<td>--landermods</td>
-		<td>landerMods</td>
-		<td>Land on spot and double storage capacity all around</td>
+		<td>--infiniteru</td>
+		<td>infiniteRU</td>
+		<td>Virtually infinite R.U. while cheat is active. Does not persist through game saves.</td>
 	</tr>
 	<tr>
 		<td>--skipintro</td>
