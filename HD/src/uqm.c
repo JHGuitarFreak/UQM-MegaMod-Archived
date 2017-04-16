@@ -833,7 +833,7 @@ static struct option longOptions[] =
 	{"addondir", 1, NULL, ADDONDIR_OPT},
 	{"accel", 1, NULL, ACCEL_OPT},
 	{"safe", 0, NULL, SAFEMODE_OPT},
-	{"kohrstahp", 0, NULL, CHEATMODE_OPT}, //Serosis
+	{"cheatmode", 0, NULL, CHEATMODE_OPT}, //Serosis
 	{"godmode", 0, NULL, GODMODE_OPT},
 	{"timedilation", 1, NULL, TDM_OPT},
 	{"bubblewarp", 0, NULL, BWARP_OPT},
@@ -1386,7 +1386,7 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_add (log_User, "  --scroll    : ff/frev during comm.  pc=per-page, "
 			"3do=smooth (default normal)");
 	log_add (log_User, "The following options are for the Mega Mod"); // Serosis
-	log_add (log_User, "  --kohrstahp : Stops Kohr-Ah advancing.    (default %s)",
+	log_add (log_User, "  --cheatmode : Stops Kohr-Ah advancing.    (default %s)",
 			boolOptString (&defaults->cheatMode));
 	log_add (log_User, "  --godmode : Player ships and lander invulnerable. "
 			"Also refills energy every shot during melee.    (default %s)",
