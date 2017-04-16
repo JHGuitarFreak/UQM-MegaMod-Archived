@@ -747,7 +747,12 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 				ElementPtr0->hit_points = 0;
 				ElementPtr0->life_span = 0;
 			} else if ((ElementPtr0->state_flags & IGNORE_SIMILAR) && ElementPtr1->crew_level) {
-				if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && ElementPtr1->playerNr){
+				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
+				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
+				{
+					// Orz marines pass right through the player
+				} else {
 					if (!DeltaCrew (ElementPtr1, -1)){
 						ElementPtr1->life_span = 0;
 					} else {
@@ -765,24 +770,6 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 					}
 					ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
 				}
-				ElementPtr0->state_flags &= ~COLLISION;
-			} else {
-				if (!DeltaCrew (ElementPtr1, -1)){
-					ElementPtr1->life_span = 0;
-				} else {
-					ElementPtr0->turn_wait = count_marines (StarShipPtr, TRUE);
-					ElementPtr0->thrust_wait = MARINE_WAIT;
-					ElementPtr0->next.image.frame = SetAbsFrameIndex (ElementPtr0->next.image.farray[0], 22 + ElementPtr0->turn_wait);
-					ElementPtr0->state_flags |= NONSOLID;
-					ElementPtr0->state_flags &= ~CREW_OBJECT;
-					SetPrimType (&(GLOBAL (DisplayArray))[ElementPtr0->PrimIndex], NO_PRIM);
-					ElementPtr0->preprocess_func = intruder_preprocess;
-					s.origin.x = 16 + (ElementPtr0->turn_wait & 3) * 9;
-					s.origin.y = 14 + (ElementPtr0->turn_wait >> 2) * 11;
-					s.frame = ElementPtr0->next.image.frame;
-					ModifySilhouette (ElementPtr1, &s, 0);
-				}
-				ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
 			}
 			ElementPtr0->state_flags &= ~COLLISION;
 		}			

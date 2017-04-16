@@ -901,7 +901,7 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 		if (!elementsOfSamePlayer (ElementPtr0, ElementPtr1)) {
 			ElementPtr0->turn_wait = MAKE_BYTE (5, HINIBBLE (ElementPtr0->turn_wait));
 			ElementPtr0->thrust_wait &= ~((SHIP_AT_MAX_SPEED | SHIP_BEYOND_MAX_SPEED) >> 6);
-			ElementPtr0->state_flags |= COLLISION;
+			ElementPtr0->state_flags |= COLLISION; // Marines Disappear on collision if removed
 		}
 		if (GRAVITY_MASS (ElementPtr1->mass_points)) {
 			ElementPtr0->state_flags |= NONSOLID | FINITE_LIFE;
@@ -915,7 +915,12 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 				ElementPtr0->hit_points = 0;
 				ElementPtr0->life_span = 0;
 			} else if ((ElementPtr0->state_flags & IGNORE_SIMILAR) && ElementPtr1->crew_level) {
-				if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && ElementPtr1->playerNr){
+				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+					(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
+					((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
+				{
+					// Orz marines pass right through the player
+				} else {
 					if (!DeltaCrew (ElementPtr1, -1)){
 						ElementPtr1->life_span = 0;
 					} else {
@@ -943,37 +948,9 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 					}
 					ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
 				}
-				ElementPtr0->state_flags &= ~COLLISION;
-			} else {
-				if (!DeltaCrew (ElementPtr1, -1)){
-					ElementPtr1->life_span = 0;
-				} else {
-					ElementPtr0->turn_wait = count_marines (StarShipPtr, TRUE);
-					ElementPtr0->thrust_wait = MARINE_WAIT;
-					ElementPtr0->next.image.frame = SetAbsFrameIndex (ElementPtr0->next.image.farray[0], 22 + ElementPtr0->turn_wait);
-					ElementPtr0->state_flags |= NONSOLID;
-					ElementPtr0->state_flags &= ~CREW_OBJECT;
-					SetPrimType (&(GLOBAL (DisplayArray))[ElementPtr0->PrimIndex], NO_PRIM);
-					ElementPtr0->preprocess_func = intruder_preprocess;
-					if (RESOLUTION_FACTOR < 2) {
-						s.origin.x = (16 << RESOLUTION_FACTOR) + (ElementPtr0->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
-						s.origin.y = (14 << RESOLUTION_FACTOR) + (ElementPtr0->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
-					} else {
-						s.origin.x = (16 - (RESOLUTION_FACTOR * 3 / 2) + (ElementPtr0->turn_wait & 3) * (9 + RESOLUTION_FACTOR * 3 / 2)) << RESOLUTION_FACTOR; // JMS_GFX
-						s.origin.y = (14 + (ElementPtr0->turn_wait >> 2) * (11 + RESOLUTION_FACTOR)) << RESOLUTION_FACTOR; // JMS_GFX
-					}					
-					// JMS: Draw the shadow.
-					s.frame = ElementPtr0->next.image.frame;
-					ModifySilhouette (ElementPtr1, &s, 0);					
-					// JMS: Draw the marine.
-					ElementPtr0->next.image.frame = SetAbsFrameIndex (ElementPtr0->next.image.farray[0], 22 + ElementPtr0->turn_wait);
-					s.frame = ElementPtr0->next.image.frame;
-					ModifySilhouette (ElementPtr1, &s, 0);
-				}
-				ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
 			}
 			ElementPtr0->state_flags &= ~COLLISION;
-		}			
+		}
 	}
 	(void) pPt0;  /* Satisfying compiler (unused parameter) */
 	(void) pPt1;  /* Satisfying compiler (unused parameter) */
