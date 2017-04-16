@@ -22,9 +22,30 @@ diff -ruNp ./src.orig/libs/network/wspiapiwrap.h ./src/libs/network/wspiapiwrap.
  
  #endif  /* _WSPIAPIWRAP_H */
  
+diff -ruNp ./src.orig/libs/uio/utils.c ./src/libs/uio/utils.c
+--- ./src.orig/libs/uio/utils.c	2017-04-11 02:08:48 -0500
++++ ./src/libs/uio/utils.c	2017-04-11 04:31:08 -0500
+@@ -391,7 +391,7 @@ snprintf(char *str, size_t size, const c
+ // MSVC does not have vsnprintf(). It does have a _vsnprintf(), but it does
+ // not \0-terminate a truncated string as the C standard prescribes.
+ static inline int
+-vsnprintf(char *str, size_t size, const char *format, va_list args)
++uqm_vsnprintf(char *str, size_t size, const char *format, va_list args)
+ {
+ 	int result = _vsnprintf (str, size, format, args);
+ 	if (str != NULL && size != 0)
+@@ -425,7 +425,7 @@ uio_vasprintf(const char *format, va_lis
+ 	}
+ 
+ 	for (;;) {
+-		int printResult = vsnprintf(buf, bufSize, format, args);
++		int printResult = uqm_vsnprintf(buf, bufSize, format, args);
+ 		if (printResult < 0) {
+ 			// This means the buffer was not large enough, but vsnprintf()
+ 			// does not give us any clue on how large it should be.
 diff -ruNp ./src.orig/options.c ./src/options.c
 --- ./src.orig/options.c	2017-04-11 02:08:48 -0500
-+++ ./src/options.c	2017-04-11 04:31:08 -0500
++++ ./src/options.c	2017-04-12 14:02:33 -0500
 @@ -52,6 +52,19 @@ int optSmoothScroll;
  int optMeleeScale;
  const char **optAddons;
@@ -95,6 +116,41 @@ diff -ruNp ./src.orig/options.h ./src/options.h
  extern BOOLEAN opt3doMusic;
  extern BOOLEAN optRemixMusic;
  extern BOOLEAN optSubtitles;
+diff -ruNp ./src.orig/port.c ./src/port.c
+--- ./src.orig/port.c	2017-04-11 02:08:48 -0500
++++ ./src/port.c	2017-04-11 04:31:08 -0500
+@@ -115,8 +115,8 @@ readdir_r(DIR *dirp, struct dirent *entr
+ #endif
+ 
+ #ifdef _MSC_VER
+-// MSVC does not have snprintf() and vsnprintf(). It does have a _snprintf()
+-// and _vsnprintf(), but these do not terminate a truncated string as
++// MSVC does not have snprintf() and uqm_vsnprintf(). It does have a _snprintf()
++// and _uqm_vsnprintf(), but these do not terminate a truncated string as
+ // the C standard prescribes.
+ int
+ snprintf(char *str, size_t size, const char *format, ...)
+@@ -134,7 +134,7 @@ snprintf(char *str, size_t size, const c
+ }
+ 
+ int
+-vsnprintf(char *str, size_t size, const char *format, va_list args)
++uqm_vsnprintf(char *str, size_t size, const char *format, va_list args)
+ {
+ 	int result = _vsnprintf (str, size, format, args);
+ 	if (str != NULL && size != 0)
+diff -ruNp ./src.orig/port.h ./src/port.h
+--- ./src.orig/port.h	2017-04-11 02:08:48 -0500
++++ ./src/port.h	2017-04-11 04:31:08 -0500
+@@ -162,7 +162,7 @@ typedef unsigned short mode_t;
+ #	include <stdarg.h>
+ // Defined in port.c
+ int snprintf(char *str, size_t size, const char *format, ...);
+-int vsnprintf(char *str, size_t size, const char *format, va_list args);
++int uqm_vsnprintf(char *str, size_t size, const char *format, va_list args);
+ #endif  /* _MSC_VER */
+ 
+ // setenv()
 diff -ruNp ./src.orig/regex/regex_internal.h ./src/regex/regex_internal.h
 --- ./src.orig/regex/regex_internal.h	2017-04-11 02:08:48 -0500
 +++ ./src/regex/regex_internal.h	2017-04-11 04:31:08 -0500
@@ -696,7 +752,7 @@ diff -ruNp ./src.orig/uqm/gameev.c ./src/uqm/gameev.c
  }
 diff -ruNp ./src.orig/uqm/gameinp.c ./src/uqm/gameinp.c
 --- ./src.orig/uqm/gameinp.c	2017-04-11 02:08:51 -0500
-+++ ./src/uqm/gameinp.c	2017-04-11 04:31:10 -0500
++++ ./src/uqm/gameinp.c	2017-04-15 19:25:15 -0500
 @@ -31,10 +31,10 @@
  #include "libs/inplib.h"
  #include "libs/timelib.h"
@@ -711,20 +767,26 @@ diff -ruNp ./src.orig/uqm/gameinp.c ./src/uqm/gameinp.c
  
  
  typedef struct
-@@ -432,10 +432,18 @@ ControlInputToBattleInput (const int *ke
+@@ -432,10 +432,24 @@ ControlInputToBattleInput (const int *ke
  		InputState |= BATTLE_LEFT;
  	if (keyState[KEY_RIGHT])
  		InputState |= BATTLE_RIGHT;
 -	if (keyState[KEY_WEAPON])
 +	if (keyState[KEY_WEAPON]){
-+		if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL){
++	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++			(((PlayerControl[0] & COMPUTER_CONTROL) && PlayerControl[1] & HUMAN_CONTROL) || 
++			((PlayerControl[1] & COMPUTER_CONTROL) && PlayerControl[0] & HUMAN_CONTROL))))
++		{
 +			resetEnergyBattle();
 +		}
  		InputState |= BATTLE_WEAPON;
 -	if (keyState[KEY_SPECIAL])
 +	}
 +	if (keyState[KEY_SPECIAL]){
-+		if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL){
++	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++		(((PlayerControl[0] & COMPUTER_CONTROL) && PlayerControl[1] & HUMAN_CONTROL) || 
++		((PlayerControl[1] & COMPUTER_CONTROL) && PlayerControl[0] & HUMAN_CONTROL))))
++		{
 +			resetEnergyBattle();
 +		}
  		InputState |= BATTLE_SPECIAL;
@@ -896,7 +958,7 @@ diff -ruNp ./src.orig/uqm/load.c ./src/uqm/load.c
  
 diff -ruNp ./src.orig/uqm/misc.c ./src/uqm/misc.c
 --- ./src.orig/uqm/misc.c	2017-04-11 02:08:51 -0500
-+++ ./src/uqm/misc.c	2017-04-11 04:31:10 -0500
++++ ./src/uqm/misc.c	2017-04-15 19:25:25 -0500
 @@ -25,7 +25,9 @@
  #include "sounds.h"
  #include "weapon.h"
@@ -908,12 +970,15 @@ diff -ruNp ./src.orig/uqm/misc.c ./src/uqm/misc.c
  
  void
  spawn_planet (void)
-@@ -194,6 +196,10 @@ spawn_asteroid (ELEMENT *ElementPtr)
+@@ -194,6 +196,13 @@ spawn_asteroid (ELEMENT *ElementPtr)
  void
  do_damage (ELEMENT *ElementPtr, SIZE damage)
  {
 +	// God Mode, borrowed from the UQM-HD debug invincibility code
-+	if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && ElementPtr->playerNr == 0){
++	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++		(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
++		((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
++	{
 +		damage = 0;
 +	}
  	if (ElementPtr->state_flags & PLAYER_SHIP)
@@ -1522,7 +1587,7 @@ diff -ruNp ./src.orig/uqm/ships/arilou/arilou.c ./src/uqm/ships/arilou/arilou.c
  }
 diff -ruNp ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
 --- ./src.orig/uqm/ships/chmmr/chmmr.c	2017-04-11 02:08:52 -0500
-+++ ./src/uqm/ships/chmmr/chmmr.c	2017-04-11 04:31:11 -0500
++++ ./src/uqm/ships/chmmr/chmmr.c	2017-04-15 19:23:39 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "chmmr.h"
@@ -1549,7 +1614,7 @@ diff -ruNp ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
  					
  			ELEMENT *ShipElementPtr;
  
-@@ -674,9 +673,12 @@ satellite_death (ELEMENT *ElementPtr)
+@@ -674,9 +673,15 @@ satellite_death (ELEMENT *ElementPtr)
  static void
  spawn_satellites (ELEMENT *ElementPtr)
  {
@@ -1557,7 +1622,10 @@ diff -ruNp ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
 +	COUNT NUM_SATELLITES = 3;
  	COUNT i;
  	STARSHIP *StarShipPtr;
-+	if(optGodMode && PlayerControl[1] & COMPUTER_CONTROL && !ElementPtr->playerNr){
++	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++		(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
++		((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
++	{
 +		NUM_SATELLITES = 5;
 +	}
  
@@ -1565,7 +1633,7 @@ diff -ruNp ./src.orig/uqm/ships/chmmr/chmmr.c ./src/uqm/ships/chmmr/chmmr.c
  	if (StarShipPtr->hShip)
 diff -ruNp ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/melnorme.c
 --- ./src.orig/uqm/ships/melnorme/melnorme.c	2017-04-11 02:08:52 -0500
-+++ ./src/uqm/ships/melnorme/melnorme.c	2017-04-11 04:31:11 -0500
++++ ./src/uqm/ships/melnorme/melnorme.c	2017-04-15 19:23:56 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "melnorme.h"
@@ -1575,12 +1643,15 @@ diff -ruNp ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/mel
  #include "uqm/globdata.h"
  #include "libs/mathlib.h"
  
-@@ -454,9 +454,12 @@ confusion_collision (ELEMENT *ElementPtr
+@@ -454,9 +454,15 @@ confusion_collision (ELEMENT *ElementPtr
  				SetElementStarShip (ConfusionPtr, StarShipPtr);
  				GetElementStarShip (ElementPtr1, &StarShipPtr);
  				ConfusionPtr->hTarget = StarShipPtr->hShip;
 +			}			
-+			if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && ElementPtr0->playerNr){
++			if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
++				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
++			{
 +				ConfusionPtr->life_span = 0;
 +			} else {				
 +				ConfusionPtr->life_span = 400;
@@ -1592,7 +1663,7 @@ diff -ruNp ./src.orig/uqm/ships/melnorme/melnorme.c ./src/uqm/ships/melnorme/mel
  
 diff -ruNp ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
 --- ./src.orig/uqm/ships/orz/orz.c	2017-04-11 02:08:53 -0500
-+++ ./src/uqm/ships/orz/orz.c	2017-04-11 04:31:11 -0500
++++ ./src/uqm/ships/orz/orz.c	2017-04-15 21:50:50 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "orz.h"
@@ -1602,7 +1673,25 @@ diff -ruNp ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
  #include "uqm/colors.h"
  #include "uqm/globdata.h"
  #include "libs/mathlib.h"
-@@ -725,84 +725,67 @@ marine_preprocess (ELEMENT *ElementPtr)
+@@ -426,8 +426,15 @@ LeftShip:
+ 				}
+ 				else if (randval < (0x0100 / 2 + 0x0100 / 16))
+ 				{
+-					if (!DeltaCrew (ShipPtr, -1))
+-						ShipPtr->life_span = 0;
++					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
++						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
++					{
++						// Marines do no damage to player while boarded
++					} else {
++						if (!DeltaCrew (ShipPtr, -1))
++							ShipPtr->life_span = 0;
++					}
+ 
+ 					++ElementPtr->thrust_wait;
+ 					s.origin.x = 16 + (ElementPtr->turn_wait & 3) * 9;
+@@ -725,84 +732,69 @@ marine_preprocess (ELEMENT *ElementPtr)
  }
  
  void
@@ -1667,8 +1756,47 @@ diff -ruNp ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
 -
 -				GetElementStarShip (ElementPtr0, &StarShipPtr);
 -				if (!DeltaCrew (ElementPtr1, -1))
+-					ElementPtr1->life_span = 0;
+-				else
 +			} else if ((ElementPtr0->state_flags & IGNORE_SIMILAR) && ElementPtr1->crew_level) {
-+				if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && ElementPtr1->playerNr){
++				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
++				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
+ 				{
+-					ElementPtr0->turn_wait = count_marines (StarShipPtr, TRUE);
+-					ElementPtr0->thrust_wait = MARINE_WAIT;
+-					ElementPtr0->next.image.frame = SetAbsFrameIndex (
+-							ElementPtr0->next.image.farray[0],
+-							22 + ElementPtr0->turn_wait
+-							);
+-					ElementPtr0->state_flags |= NONSOLID;
+-					ElementPtr0->state_flags &= ~CREW_OBJECT;
+-					SetPrimType (&(GLOBAL (DisplayArray))[
+-							ElementPtr0->PrimIndex
+-							], NO_PRIM);
+-					ElementPtr0->preprocess_func = intruder_preprocess;
+-
+-					s.origin.x = 16 + (ElementPtr0->turn_wait & 3) * 9;
+-					s.origin.y = 14 + (ElementPtr0->turn_wait >> 2) * 11;
+-					s.frame = ElementPtr0->next.image.frame;
+-					ModifySilhouette (ElementPtr1, &s, 0);
++					if (!DeltaCrew (ElementPtr1, 0)){ // Marines won't damage player while boarding
++						ElementPtr1->life_span = 0;
++					} else {
++						ElementPtr0->turn_wait = count_marines (StarShipPtr, TRUE);
++						ElementPtr0->thrust_wait = MARINE_WAIT;
++						ElementPtr0->next.image.frame = SetAbsFrameIndex (ElementPtr0->next.image.farray[0], 22 + ElementPtr0->turn_wait);
++						ElementPtr0->state_flags |= NONSOLID;
++						ElementPtr0->state_flags &= ~CREW_OBJECT;
++						SetPrimType (&(GLOBAL (DisplayArray))[ElementPtr0->PrimIndex], NO_PRIM);
++						ElementPtr0->preprocess_func = intruder_preprocess;
++						s.origin.x = 16 + (ElementPtr0->turn_wait & 3) * 9;
++						s.origin.y = 14 + (ElementPtr0->turn_wait >> 2) * 11;
++						s.frame = ElementPtr0->next.image.frame;
++						ModifySilhouette (ElementPtr1, &s, 0);
++					}
++					ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
++				} else {
 +					if (!DeltaCrew (ElementPtr1, -1)){
 +						ElementPtr1->life_span = 0;
 +					} else {
@@ -1685,39 +1813,11 @@ diff -ruNp ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
 +						ModifySilhouette (ElementPtr1, &s, 0);
 +					}
 +					ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
-+				}
-+				ElementPtr0->state_flags &= ~COLLISION;
-+			} else {
-+				if (!DeltaCrew (ElementPtr1, -1)){
- 					ElementPtr1->life_span = 0;
--				else
--				{
-+				} else {
- 					ElementPtr0->turn_wait = count_marines (StarShipPtr, TRUE);
- 					ElementPtr0->thrust_wait = MARINE_WAIT;
--					ElementPtr0->next.image.frame = SetAbsFrameIndex (
--							ElementPtr0->next.image.farray[0],
--							22 + ElementPtr0->turn_wait
--							);
-+					ElementPtr0->next.image.frame = SetAbsFrameIndex (ElementPtr0->next.image.farray[0], 22 + ElementPtr0->turn_wait);
- 					ElementPtr0->state_flags |= NONSOLID;
- 					ElementPtr0->state_flags &= ~CREW_OBJECT;
--					SetPrimType (&(GLOBAL (DisplayArray))[
--							ElementPtr0->PrimIndex
--							], NO_PRIM);
-+					SetPrimType (&(GLOBAL (DisplayArray))[ElementPtr0->PrimIndex], NO_PRIM);
- 					ElementPtr0->preprocess_func = intruder_preprocess;
--
- 					s.origin.x = 16 + (ElementPtr0->turn_wait & 3) * 9;
- 					s.origin.y = 14 + (ElementPtr0->turn_wait >> 2) * 11;
- 					s.frame = ElementPtr0->next.image.frame;
- 					ModifySilhouette (ElementPtr1, &s, 0);
  				}
 -
 -				ProcessSound (SetAbsSoundIndex (
 -						StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2),
 -						ElementPtr1);
-+				ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
  			}
 -
  			ElementPtr0->state_flags &= ~COLLISION;
@@ -1726,9 +1826,25 @@ diff -ruNp ./src.orig/uqm/ships/orz/orz.c ./src/uqm/ships/orz/orz.c
  	}
  	(void) pPt0;  /* Satisfying compiler (unused parameter) */
  	(void) pPt1;  /* Satisfying compiler (unused parameter) */
+@@ -994,7 +986,14 @@ turret_postprocess (ELEMENT *ElementPtr)
+ 				UnlockElement (hSpaceMarine);
+ 				PutElement (hSpaceMarine);
+ 
+-				DeltaCrew (ShipPtr, -1);
++				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++					(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
++					((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
++				{
++					// Marines launched does not count towards crew
++				} else {
++					DeltaCrew (ShipPtr, -1);
++				}
+ 				ProcessSound (SetAbsSoundIndex (
+ 						StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 1),
+ 						SpaceMarinePtr);
 diff -ruNp ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
 --- ./src.orig/uqm/ships/pkunk/pkunk.c	2017-04-11 02:08:53 -0500
-+++ ./src/uqm/ships/pkunk/pkunk.c	2017-04-11 04:31:11 -0500
++++ ./src/uqm/ships/pkunk/pkunk.c	2017-04-15 19:24:28 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "pkunk.h"
@@ -1766,26 +1882,18 @@ diff -ruNp ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
  		}
  
  		ShipImagePtr->mass_points = (BYTE)angle;
-@@ -430,9 +427,13 @@ pkunk_preprocess (ELEMENT *ElementPtr)
+@@ -430,7 +427,7 @@ pkunk_preprocess (ELEMENT *ElementPtr)
  	if (ElementPtr->state_flags & APPEARING)
  	{
  		HELEMENT hPhoenix = 0;
 -
--		if ((BYTE)TFB_Random () & 1)
--			hPhoenix = AllocElement ();
 +		
-+		if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && !ElementPtr->playerNr){
-+ 			hPhoenix = AllocElement ();
-+		} else {
-+			if ((BYTE)TFB_Random () & 1)
-+				hPhoenix = AllocElement ();
-+		}
+ 		if ((BYTE)TFB_Random () & 1)
+ 			hPhoenix = AllocElement ();
  
- 		if (hPhoenix)
- 		{
 diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
 --- ./src.orig/uqm/ships/syreen/syreen.c	2017-04-11 02:08:53 -0500
-+++ ./src/uqm/ships/syreen/syreen.c	2017-04-11 04:31:12 -0500
++++ ./src/uqm/ships/syreen/syreen.c	2017-04-15 22:33:42 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "syreen.h"
@@ -1795,7 +1903,7 @@ diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
  #include "libs/mathlib.h"
  
  
-@@ -202,10 +202,11 @@ spawn_crew (ELEMENT *ElementPtr)
+@@ -202,17 +202,20 @@ spawn_crew (ELEMENT *ElementPtr)
  				{
  #define MAX_ABANDONERS 8
  					COUNT crew_loss;
@@ -1803,7 +1911,10 @@ diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
 -					crew_loss = ((MAX_ABANDONERS
 -							* (ABANDONER_RANGE - square_root (d_squared)))
 -							/ ABANDONER_RANGE) + 1;
-+					if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && ElementPtr->playerNr){
++					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
++						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
++					{
 +						crew_loss = 0;
 +					} else {
 +						crew_loss = ((MAX_ABANDONERS * (ABANDONER_RANGE - square_root (d_squared))) / ABANDONER_RANGE) + 1;
@@ -1811,9 +1922,47 @@ diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
  					if (crew_loss >= ObjPtr->crew_level)
  						crew_loss = ObjPtr->crew_level - 1;
  
+ 					AbandonShip (ObjPtr, ElementPtr, crew_loss);
+ 				}
+ 			}
+-
+ 			UnlockElement (hElement);
+ 		}
+ 	}
+diff -ruNp ./src.orig/uqm/ships/urquan/urquan.c ./src/uqm/ships/urquan/urquan.c
+--- ./src.orig/uqm/ships/urquan/urquan.c	2017-04-11 02:08:53 -0500
++++ ./src/uqm/ships/urquan/urquan.c	2017-04-15 21:52:04 -0500
+@@ -19,9 +19,9 @@
+ #include "../ship.h"
+ #include "urquan.h"
+ #include "resinst.h"
+-
++#include "../../intel.h"
+ #include "uqm/globdata.h"
+-
++#include "../../setup.h"
+ #include <stdlib.h>
+ 
+ 
+@@ -410,7 +410,14 @@ spawn_fighters (ELEMENT *ElementPtr)
+ 		COUNT fighter_facing;
+ 		ELEMENT *FighterElementPtr;
+ 
+-		DeltaCrew (ElementPtr, -1);
++		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++			(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
++			((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
++		{
++			//DeltaCrew (ElementPtr, -1);
++		} else {
++			DeltaCrew (ElementPtr, -1);
++		}
+ 
+ 		PutElement (hFighterElement);
+ 		LockElement (hFighterElement, &FighterElementPtr);
 diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
 --- ./src.orig/uqm/ships/vux/vux.c	2017-04-11 02:08:53 -0500
-+++ ./src/uqm/ships/vux/vux.c	2017-04-11 04:31:12 -0500
++++ ./src/uqm/ships/vux/vux.c	2017-04-15 19:23:04 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "vux.h"
@@ -1831,7 +1980,7 @@ diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
  
  static RACE_DESC vux_desc =
  {
-@@ -138,48 +139,38 @@ limpet_preprocess (ELEMENT *ElementPtr)
+@@ -138,48 +139,41 @@ limpet_preprocess (ELEMENT *ElementPtr)
  }
  
  static void
@@ -1850,7 +1999,7 @@ diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
 +	RACE_DESC *RDPtr;
 +	if (ElementPtr1->state_flags & PLAYER_SHIP) {
  		GetElementStarShip (ElementPtr1, &StarShipPtr);
- 		RDPtr = StarShipPtr->RaceDescPtr;
+-		RDPtr = StarShipPtr->RaceDescPtr;
 -
 -		if (++RDPtr->characteristics.turn_wait == 0)
 -			--RDPtr->characteristics.turn_wait;
@@ -1863,7 +2012,11 @@ diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
 -					RDPtr->characteristics.thrust_increment << 1;
 -		}
 -		else
--		{
++		RDPtr = StarShipPtr->RaceDescPtr;
++		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
++			(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
++			((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
+ 		{
 -			COUNT num_thrusts;
 -
 -			num_thrusts = RDPtr->characteristics.max_thrust /
@@ -1871,7 +2024,6 @@ diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
 -			--RDPtr->characteristics.thrust_increment;
 -			RDPtr->characteristics.max_thrust =
 -					RDPtr->characteristics.thrust_increment * num_thrusts;
-+		if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && ElementPtr0->playerNr){
 +			RDPtr->cyborg_control.ManeuverabilityIndex = 0;
 +			GetElementStarShip (ElementPtr0, &StarShipPtr);
 +			ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1); // LIMPET_AFFIXES
@@ -1909,7 +2061,7 @@ diff -ruNp ./src.orig/uqm/ships/vux/vux.c ./src/uqm/ships/vux/vux.c
  	}
  
  	ElementPtr0->hit_points = 0;
-@@ -322,42 +313,44 @@ vux_preprocess (ELEMENT *ElementPtr)
+@@ -322,42 +316,44 @@ vux_preprocess (ELEMENT *ElementPtr)
  				&& TrackShip (ElementPtr, &facing) >= 0)
  		{
  			ELEMENT *OtherShipPtr;
@@ -2264,7 +2416,7 @@ diff -ruNp ./src.orig/uqm/units.h ./src/uqm/units.h
  #define SINE(a,m) ((SIZE)((((long)SINVAL(a))*(long)(m))>>SIN_SHIFT))
 diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
 --- ./src.orig/uqm/uqmdebug.c	2017-04-11 02:08:54 -0500
-+++ ./src/uqm/uqmdebug.c	2017-04-11 04:31:13 -0500
++++ ./src/uqm/uqmdebug.c	2017-04-15 19:27:01 -0500
 @@ -14,8 +14,6 @@
   *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
   */
@@ -2274,7 +2426,16 @@ diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  #include "uqmdebug.h"
  
  #include "build.h"
-@@ -40,6 +38,107 @@
+@@ -23,7 +21,7 @@
+ #include "controls.h"
+ #include "clock.h"
+ #include "encount.h"
+-#include "element.h"
++#include "intel.h"
+ #include "sis.h"
+ #include "status.h"
+ #include "gamestr.h"
+@@ -40,6 +38,114 @@
  #include <stdio.h>
  #include <errno.h>
  
@@ -2364,9 +2525,16 @@ diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
 +	
 +	if (!(GLOBAL (CurrentActivity) & IN_BATTLE) ||
 +			(LOBYTE (GLOBAL (CurrentActivity)) == IN_HYPERSPACE))
-+		return;
-+	
-+	StarShipPtr = findPlayerShip (RPG_PLAYER_NUM);
++		return;	
++
++	if (PlayerControl[1] & HUMAN_CONTROL){
++		StarShipPtr = findPlayerShip (NPC_PLAYER_NUM);
++	} else if (PlayerControl[0] & HUMAN_CONTROL) {
++		StarShipPtr = findPlayerShip (RPG_PLAYER_NUM);
++	} else {
++		StarShipPtr = NULL;
++	}
++
 +	if (StarShipPtr == NULL || StarShipPtr->RaceDescPtr == NULL)
 +		return;
 +
@@ -2382,7 +2550,7 @@ diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  
  static void dumpEventCallback (const EVENT *eventPtr, void *arg);
  
-@@ -71,7 +170,6 @@ static void dumpPlanetTypeCallback (int
+@@ -71,7 +177,6 @@ static void dumpPlanetTypeCallback (int
  
  BOOLEAN instantMove = FALSE;
  BOOLEAN disableInteractivity = FALSE;
@@ -2390,7 +2558,7 @@ diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  void (* volatile doInputDebugHook) (void) = NULL;
  
  
-@@ -459,52 +557,6 @@ findFlagshipElement (void)
+@@ -459,52 +564,6 @@ findFlagshipElement (void)
  }
  #endif
  
@@ -2443,7 +2611,7 @@ diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  ////////////////////////////////////////////////////////////////////////////
  
  void
-@@ -1467,35 +1519,6 @@ depositQualityString (BYTE quality)
+@@ -1467,35 +1526,6 @@ depositQualityString (BYTE quality)
  
  ////////////////////////////////////////////////////////////////////////////
  
@@ -2479,7 +2647,7 @@ diff -ruNp ./src.orig/uqm/uqmdebug.c ./src/uqm/uqmdebug.c
  void
  resetCrewBattle (void)
  {
-@@ -1519,29 +1542,6 @@ resetCrewBattle (void)
+@@ -1519,29 +1549,6 @@ resetCrewBattle (void)
  	SetContext (OldContext);
  }
  
@@ -2588,7 +2756,7 @@ diff -ruNp ./src.orig/uqm/uqmdebug.h ./src/uqm/uqmdebug.h
  
 diff -ruNp ./src.orig/uqm.c ./src/uqm.c
 --- ./src.orig/uqm.c	2017-04-11 02:08:54 -0500
-+++ ./src/uqm.c	2017-04-11 04:31:13 -0500
++++ ./src/uqm.c	2017-04-15 22:33:17 -0500
 @@ -127,6 +127,16 @@ struct options_struct
  	DECL_CONFIG_OPTION(float, sfxVolumeScale);
  	DECL_CONFIG_OPTION(float, speechVolumeScale);
@@ -2662,11 +2830,20 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
  
  	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
  	prepareMeleeDir ();
+@@ -491,7 +521,7 @@ saveErrorV (const char *fmt, va_list lis
+ 		++len;
+ 		--left;
+ 	}
+-	vsnprintf (errBuffer + len, left, fmt, list);
++	uqm_vsnprintf (errBuffer + len, left, fmt, list);
+ 	errBuffer[sizeof (errBuffer) - 1] = '\0';
+ }
+ 
 @@ -639,6 +669,18 @@ getUserConfigOptions (struct options_str
  	getVolumeConfigValue (&options->musicVolumeScale, "config.musicvol");
  	getVolumeConfigValue (&options->sfxVolumeScale, "config.sfxvol");
  	getVolumeConfigValue (&options->speechVolumeScale, "config.speechvol");
-+	getBoolConfigValue (&options->cheatMode, "config.cheatMode");
++	getBoolConfigValue (&options->cheatMode, "config.kohrStahp");
 +	getBoolConfigValue (&options->godMode, "config.godMode"); //Serosis
 +	if (res_IsInteger ("config.timeDilation") && !options->timeDilationScale.set) {
 +		options->timeDilationScale.value = res_GetInteger ("config.timeDilation");
@@ -2702,7 +2879,7 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
  	{"addondir", 1, NULL, ADDONDIR_OPT},
  	{"accel", 1, NULL, ACCEL_OPT},
  	{"safe", 0, NULL, SAFEMODE_OPT},
-+	{"cheatmode", 0, NULL, CHEATMODE_OPT}, //Serosis
++	{"kohrstahp", 0, NULL, CHEATMODE_OPT}, //Serosis
 +	{"godmode", 0, NULL, GODMODE_OPT},
 +	{"timedilation", 1, NULL, TDM_OPT},
 +	{"bubblewarp", 0, NULL, BWARP_OPT},
@@ -2777,7 +2954,7 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
  			"3do=smooth (default %s)",
  			choiceOptString (&defaults->smoothScroll));
 +	log_add (log_User, "The following options are for the Mega Mod"); // Serosis
-+	log_add (log_User, "  --cheatmode : Stops Kohr-Ah advancing.    (default %s)",
++	log_add (log_User, "  --kohrstahp : Stops Kohr-Ah advancing.    (default %s)",
 +			boolOptString (&defaults->cheatMode));
 +	log_add (log_User, "  --godmode : Player ships and lander invulnerable. "
 +			"Also refills energy every shot during melee.    (default %s)",

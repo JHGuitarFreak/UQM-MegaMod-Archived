@@ -55,8 +55,8 @@ diff -ruNp ./src.orig/port.h ./src/port.h
  
  // setenv()
 diff -ruNp ./src.vc10/uqm.c ./src/uqm.c
---- ./src.vc10/uqm.c	2017-03-05 21:37:24 -0600
-+++ ./src/uqm.c	2017-03-05 21:43:04 -0600
+--- ./src.orig/uqm.c	2017-04-11 02:08:54 -0500
++++ ./src/uqm.c	2017-04-15 22:33:17 -0500
 @@ -491,7 +521,7 @@ saveErrorV (const char *fmt, va_list lis
  		++len;
  		--left;
