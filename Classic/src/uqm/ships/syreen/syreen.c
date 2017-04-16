@@ -216,7 +216,6 @@ spawn_crew (ELEMENT *ElementPtr)
 					AbandonShip (ObjPtr, ElementPtr, crew_loss);
 				}
 			}
-
 			UnlockElement (hElement);
 		}
 	}
