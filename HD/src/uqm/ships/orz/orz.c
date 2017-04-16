@@ -592,7 +592,7 @@ LeftShip:
 					goto LeftShip;
 				}
 				else if (randval < (0x0100 / 2 + 0x0100 / 16))
-				{		
+				{
 					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
 						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
 						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
@@ -925,7 +925,7 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
 					(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
 					((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
-				{					
+				{
 					if (!DeltaCrew (ElementPtr1, 0)){ // Marines won't damage player while boarding
 						ElementPtr1->life_span = 0;
 					} else {
@@ -1174,7 +1174,7 @@ turret_postprocess (ELEMENT *ElementPtr)
 				UnlockElement (hSpaceMarine);
 				PutElement (hSpaceMarine);
 				
-		
+
 				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
 					(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
 					((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))

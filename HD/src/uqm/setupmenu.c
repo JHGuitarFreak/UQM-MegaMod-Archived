@@ -1467,7 +1467,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		|| opts->rotatingIpPlanets == OPTVAL_ENABLED;
 	
 	// JMS: Cheat Mode: Kohr-Ah move at zero speed when trying to cleanse the galaxy
-	res_PutBoolean ("config.cheatMode", opts->cheatMode == OPTVAL_ENABLED);
+	res_PutBoolean ("config.kohrStahp", opts->cheatMode == OPTVAL_ENABLED);
 	optCheatMode = opts->cheatMode == OPTVAL_ENABLED;
 
 	// Serosis: God Mode: Health and Energy does not deplete in battle.
@@ -1529,10 +1529,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		// When running in windowed mode, the image isn't stretched,
 		// thus using a scaler would yield no benefits.
 		// Not using a scaler should make the performance a little better.
-		if (NewWidth == 1280 || NewWidth == 640)
+		if (NewWidth == 1280 || NewWidth == 640 && resolutionFactor > 0)
 		{
 			NewGfxFlags &= ~TFB_GFXFLAGS_SCALE_BILINEAR;
-			res_PutString ("config.scaler", "bilinear");
+			res_PutString ("config.scaler", "no");
 		}
 	}
 	
