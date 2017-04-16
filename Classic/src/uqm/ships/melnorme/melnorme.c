@@ -455,7 +455,10 @@ confusion_collision (ELEMENT *ElementPtr0, POINT *pPt0,
 				GetElementStarShip (ElementPtr1, &StarShipPtr);
 				ConfusionPtr->hTarget = StarShipPtr->hShip;
 			}			
-			if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && ElementPtr0->playerNr){
+			if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
+				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
+			{
 				ConfusionPtr->life_span = 0;
 			} else {				
 				ConfusionPtr->life_span = 400;

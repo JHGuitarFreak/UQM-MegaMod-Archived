@@ -202,7 +202,10 @@ spawn_crew (ELEMENT *ElementPtr)
 				{
 #define MAX_ABANDONERS 8
 					COUNT crew_loss;
-					if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && ElementPtr->playerNr){
+					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
+						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
+					{
 						crew_loss = 0;
 					} else {
 						crew_loss = ((MAX_ABANDONERS * (ABANDONER_RANGE - square_root (d_squared))) / ABANDONER_RANGE) + 1;
