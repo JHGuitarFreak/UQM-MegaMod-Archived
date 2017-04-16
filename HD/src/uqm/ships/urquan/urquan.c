@@ -564,7 +564,7 @@ spawn_fighters (ELEMENT *ElementPtr)
 		SDWORD sx, sy;
 		COUNT fighter_facing;
 		ELEMENT *FighterElementPtr;
-		
+
 		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
 			(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
 			((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
