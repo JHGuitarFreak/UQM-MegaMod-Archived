@@ -1,5 +1,5 @@
 Command line		UQM.cfg (=true/false)
---cheatmode		| cheatMode		| Stops the Kohr-Ah from advancing. Added CL option for HD and copied the code to vanilla UQM.
+--kohrstahp			| kohrStahp	 		| Stops the Kohr-Ah from advancing. Added CL option for HD and copied the code to vanilla UQM.
 --godmode			| godMode			| Self explanatory, also refills your ship energy every time you fire your weapon in melee and
 											enables the lander to land on spot along with 
 											Orz marines only work for player
