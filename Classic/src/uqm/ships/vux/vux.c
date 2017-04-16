@@ -146,7 +146,10 @@ limpet_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 	if (ElementPtr1->state_flags & PLAYER_SHIP) {
 		GetElementStarShip (ElementPtr1, &StarShipPtr);
 		RDPtr = StarShipPtr->RaceDescPtr;
-		if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && ElementPtr0->playerNr){
+		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+			(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
+			((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
+		{
 			RDPtr->cyborg_control.ManeuverabilityIndex = 0;
 			GetElementStarShip (ElementPtr0, &StarShipPtr);
 			ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1); // LIMPET_AFFIXES

@@ -21,7 +21,7 @@
 #include "controls.h"
 #include "clock.h"
 #include "encount.h"
-#include "element.h"
+#include "intel.h"
 #include "sis.h"
 #include "status.h"
 #include "gamestr.h"
@@ -124,9 +124,16 @@ resetEnergyBattle (void)
 	
 	if (!(GLOBAL (CurrentActivity) & IN_BATTLE) ||
 			(LOBYTE (GLOBAL (CurrentActivity)) == IN_HYPERSPACE))
-		return;
-	
-	StarShipPtr = findPlayerShip (RPG_PLAYER_NUM);
+		return;	
+
+	if (PlayerControl[1] & HUMAN_CONTROL){
+		StarShipPtr = findPlayerShip (NPC_PLAYER_NUM);
+	} else if (PlayerControl[0] & HUMAN_CONTROL) {
+		StarShipPtr = findPlayerShip (RPG_PLAYER_NUM);
+	} else {
+		StarShipPtr = NULL;
+	}
+
 	if (StarShipPtr == NULL || StarShipPtr->RaceDescPtr == NULL)
 		return;
 
