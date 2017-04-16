@@ -592,8 +592,7 @@ LeftShip:
 					goto LeftShip;
 				}
 				else if (randval < (0x0100 / 2 + 0x0100 / 16))
-				{
-		
+				{		
 					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
 						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
 						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
