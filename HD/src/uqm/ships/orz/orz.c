@@ -593,8 +593,16 @@ LeftShip:
 				}
 				else if (randval < (0x0100 / 2 + 0x0100 / 16))
 				{
-					if (!DeltaCrew (ShipPtr, -1))
-						ShipPtr->life_span = 0;
+		
+					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
+						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
+					{
+						// Marines do no damage to player while boarded
+					} else {
+						if (!DeltaCrew (ShipPtr, -1))
+							ShipPtr->life_span = 0;
+					}
 
 					++ElementPtr->thrust_wait;
 					if (RESOLUTION_FACTOR < 2)
@@ -918,8 +926,33 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
 					(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
 					((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
-				{
-					// Orz marines pass right through the player
+				{					
+					if (!DeltaCrew (ElementPtr1, 0)){ // Marines won't damage player while boarding
+						ElementPtr1->life_span = 0;
+					} else {
+						ElementPtr0->turn_wait = count_marines (StarShipPtr, TRUE);
+						ElementPtr0->thrust_wait = MARINE_WAIT;
+						ElementPtr0->next.image.frame = SetAbsFrameIndex (ElementPtr0->next.image.farray[0], 22 + ElementPtr0->turn_wait);
+						ElementPtr0->state_flags |= NONSOLID;
+						ElementPtr0->state_flags &= ~CREW_OBJECT;
+						SetPrimType (&(GLOBAL (DisplayArray))[ElementPtr0->PrimIndex], NO_PRIM);
+						ElementPtr0->preprocess_func = intruder_preprocess;
+						if (RESOLUTION_FACTOR < 2) {
+							s.origin.x = (16 << RESOLUTION_FACTOR) + (ElementPtr0->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
+							s.origin.y = (14 << RESOLUTION_FACTOR) + (ElementPtr0->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
+						} else {
+							s.origin.x = (16 - (RESOLUTION_FACTOR * 3 / 2) + (ElementPtr0->turn_wait & 3) * (9 + RESOLUTION_FACTOR * 3 / 2)) << RESOLUTION_FACTOR; // JMS_GFX
+							s.origin.y = (14 + (ElementPtr0->turn_wait >> 2) * (11 + RESOLUTION_FACTOR)) << RESOLUTION_FACTOR; // JMS_GFX
+						}					
+						// JMS: Draw the shadow.
+						s.frame = ElementPtr0->next.image.frame;
+						ModifySilhouette (ElementPtr1, &s, 0);					
+						// JMS: Draw the marine.
+						ElementPtr0->next.image.frame = SetAbsFrameIndex (ElementPtr0->next.image.farray[0], 22 + ElementPtr0->turn_wait);
+						s.frame = ElementPtr0->next.image.frame;
+						ModifySilhouette (ElementPtr1, &s, 0);
+					}
+					ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
 				} else {
 					if (!DeltaCrew (ElementPtr1, -1)){
 						ElementPtr1->life_span = 0;
@@ -1141,8 +1174,16 @@ turret_postprocess (ELEMENT *ElementPtr)
 
 				UnlockElement (hSpaceMarine);
 				PutElement (hSpaceMarine);
-
-				DeltaCrew (ShipPtr, -1);
+				
+		
+				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+					(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
+					((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
+				{
+					// Marines launched does not count towards crew
+				} else {
+					DeltaCrew (ShipPtr, -1);
+				}
 				ProcessSound (SetAbsSoundIndex (
 						StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 1),
 						SpaceMarinePtr);
