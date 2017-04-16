@@ -19,10 +19,10 @@
 #include "../ship.h"
 #include "urquan.h"
 #include "resinst.h"
-
+#include "../../intel.h"
 #include "uqm/colors.h"
 #include "uqm/globdata.h"
-
+#include "../../setup.h"
 #include <stdlib.h>
 
 
@@ -564,8 +564,15 @@ spawn_fighters (ELEMENT *ElementPtr)
 		SDWORD sx, sy;
 		COUNT fighter_facing;
 		ELEMENT *FighterElementPtr;
-
-		DeltaCrew (ElementPtr, -1);
+		
+		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+			(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
+			((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
+		{
+			//DeltaCrew (ElementPtr, -1);
+		} else {
+			DeltaCrew (ElementPtr, -1);
+		}
 
 		PutElement (hFighterElement);
 		LockElement (hFighterElement, &FighterElementPtr);
