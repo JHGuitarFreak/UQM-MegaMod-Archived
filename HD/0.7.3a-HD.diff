@@ -3032,8 +3032,8 @@ diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
 -							* (ABANDONER_RANGE - square_root (d_squared)))
 -							/ ABANDONER_RANGE) + 1;
 +					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-+						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
-+						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
++						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
++						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
 +					{
 +						crew_loss = 0;
 +					} else {
