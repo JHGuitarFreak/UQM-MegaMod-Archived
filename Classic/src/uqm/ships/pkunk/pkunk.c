@@ -428,12 +428,8 @@ pkunk_preprocess (ELEMENT *ElementPtr)
 	{
 		HELEMENT hPhoenix = 0;
 		
-		if (optGodMode && PlayerControl[1] & COMPUTER_CONTROL && !ElementPtr->playerNr){
- 			hPhoenix = AllocElement ();
-		} else {
-			if ((BYTE)TFB_Random () & 1)
-				hPhoenix = AllocElement ();
-		}
+		if ((BYTE)TFB_Random () & 1)
+			hPhoenix = AllocElement ();
 
 		if (hPhoenix)
 		{
