@@ -18,8 +18,13 @@ platform, please see:
 The home page of the project is located at http://sc2.sourceforge.net/
 You can find links to downloads, our bug database, and our forum there.
 
-Have fun!
+Serosis here to remind you that if you build this project yourself that you'll need the
+sero-setup-hd.uqm file in your addons directory or the game will not load.
+You can grab this file at the link below:
 
+https://sourceforge.net/projects/uqm-mods/files/MegaMod/Content/sero-setup-hd.uqm/download
+
+Have fun!
 
 Star Control II is a registered trademark of Accolade, Inc.
 All other trademarks and tradenames belong to their respective owners.
