@@ -45,6 +45,10 @@ Place the "UrQuanMasters.exe" in the root folder of your UQM Classic or HD insta
 
 Mount the .dmg file and copy the app to your Applications folder.
 
+## Content Installation
+
+When building from source you will need the respective sero-setup content file in the addons folder depending on which version you are building. You can grab this file on either the [Sourceforge mother-site](http://uqm-mods.sourceforge.net/Releases) or the [Github daughter-site](https://serosis.github.io/#Releases) under Sero Menu.
+
 ## Contributors
 
 Me for right now, possibly more coming soon.
