@@ -80,6 +80,11 @@ Zlib v1.2
 	    For Windows:
 		http://www.gzip.org/zlib/ (mid-page 'zlib compiled DLL')
 
+Content
+	If you build this project yourself that you'll need the
+	sero-setup-hd.uqm file in your addons directory or the game will not load.
+	You can grab this file at the link below:
+	https://sourceforge.net/projects/uqm-mods/files/MegaMod/Content/sero-setup-hd.uqm/download
 
 If you find these aren't enough, or if you know the names
 of the corresponding RPM etc. packages, please report to
