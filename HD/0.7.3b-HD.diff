@@ -1461,7 +1461,7 @@ diff -ruNp ./src.orig/uqm/load.c ./src/uqm/load.c
  	res_CloseResFile (in_fp);
 diff -ruNp ./src.orig/uqm/misc.c ./src/uqm/misc.c
 --- ./src.orig/uqm/misc.c	2017-04-11 02:13:10 -0500
-+++ ./src/uqm/misc.c	2017-04-15 19:28:33 -0500
++++ ./src/uqm/misc.c	2017-04-16 00:19:57 -0500
 @@ -29,7 +29,9 @@
  #include "libs/mathlib.h"
  
@@ -1944,7 +1944,7 @@ diff -ruNp ./src.orig/uqm/save.c ./src/uqm/save.c
  	{
 diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 --- ./src.orig/uqm/setup.c	2017-04-11 02:13:11 -0500
-+++ ./src/uqm/setup.c	2017-04-11 21:08:02 -0500
++++ ./src/uqm/setup.c	2017-10-02 15:53:33 -0500
 @@ -76,6 +76,9 @@ STRING GameStrings;
  QUEUE disp_q;
  BOOLEAN hires2xPackPresent; // JMS_GFX
@@ -1955,7 +1955,7 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
  
  uio_Repository *repository;
  uio_DirHandle *rootDir;
-@@ -113,45 +116,94 @@ LoadKernel (int argc, char *argv[])
+@@ -113,45 +116,96 @@ LoadKernel (int argc, char *argv[])
  	SetContextOrigin (MAKE_POINT (0, 0));
  
  	hResIndex = (RESOURCE_INDEX) InitResourceSystem ();
@@ -2020,6 +2020,7 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 +					printf("Loading Sero-Menu 2x\n");
 +					log_add (log_Debug, "loading sero-menu-2x");
 +				}
++				loadAddon("Syreen2xVideoFix"); // Autoload support for Soul Reaver's Syreen video fix
 +			}
 +			break;
 +		case 2:
@@ -2036,6 +2037,7 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
 +					printf("Loading Sero-Menu 4x\n");
 +					log_add (log_Debug, "loading sero-menu-4x");
 +				}
++				loadAddon("Syreen4xVideoFix"); // Autoload support for Soul Reaver's Syreen video fix
 +			}
 +			break;
 +		default:
@@ -2077,7 +2079,7 @@ diff -ruNp ./src.orig/uqm/setup.c ./src/uqm/setup.c
  
  	/* Now load the rest of the addons, in order. */
  	prepareAddons (optAddons);
-@@ -231,8 +283,9 @@ InitKernel (void)
+@@ -231,8 +285,9 @@ InitKernel (void)
  	hyperspacesuns = CaptureDrawable (LoadGraphic (HYPERSUNS_MASK_PMAP_ANIM));
  	if (hyperspacesuns == NULL)
  		return FALSE;
@@ -3013,7 +3015,7 @@ diff -ruNp ./src.orig/uqm/ships/pkunk/pkunk.c ./src/uqm/ships/pkunk/pkunk.c
  
 diff -ruNp ./src.orig/uqm/ships/syreen/syreen.c ./src/uqm/ships/syreen/syreen.c
 --- ./src.orig/uqm/ships/syreen/syreen.c	2017-04-11 02:13:12 -0500
-+++ ./src/uqm/ships/syreen/syreen.c	2017-04-15 19:28:03 -0500
++++ ./src/uqm/ships/syreen/syreen.c	2017-04-15 23:20:23 -0500
 @@ -19,7 +19,7 @@
  #include "../ship.h"
  #include "syreen.h"
@@ -4229,7 +4231,7 @@ diff -ruNp ./src.orig/uqm.c ./src/uqm.c
  
 diff -ruNp ./src.orig/uqmversion.h ./src/uqmversion.h
 --- ./src.orig/uqmversion.h	2017-04-11 02:13:14 -0500
-+++ ./src/uqmversion.h	2017-04-15 19:04:26 -0500
++++ ./src/uqmversion.h	2017-10-02 15:59:57 -0500
 @@ -21,9 +21,9 @@
  #define UQM_MAJOR_VERSION_S  "0"
  #define UQM_MINOR_VERSION     7
@@ -4239,7 +4241,7 @@ diff -ruNp ./src.orig/uqmversion.h ./src/uqmversion.h
 -#define UQM_EXTRA_VERSION    "  + HD Mod BETA"
 +#define UQM_PATCH_VERSION     3
 +#define UQM_PATCH_VERSION_S  "3"
-+#define UQM_EXTRA_VERSION    "a HD MegaMod"
++#define UQM_EXTRA_VERSION    "b HD MegaMod"
  /* The final version is interpreted as:
   * printf ("%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION,
   * 		UQM_PATCH_VERSION, UQM_EXTRA_VERSION);
