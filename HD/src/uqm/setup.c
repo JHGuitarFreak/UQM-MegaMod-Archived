@@ -156,6 +156,7 @@ LoadKernel (int argc, char *argv[])
 					printf("Loading Sero-Menu 2x\n");
 					log_add (log_Debug, "loading sero-menu-2x");
 				}
+				loadAddon("Syreen2xVideoFix"); // Autoload support for Soul Reaver's Syreen video fix
 			}
 			break;
 		case 2:
@@ -172,6 +173,7 @@ LoadKernel (int argc, char *argv[])
 					printf("Loading Sero-Menu 4x\n");
 					log_add (log_Debug, "loading sero-menu-4x");
 				}
+				loadAddon("Syreen4xVideoFix"); // Autoload support for Soul Reaver's Syreen video fix
 			}
 			break;
 		default:
