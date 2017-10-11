@@ -1,456 +1,14 @@
 argv[0] = [C:\Games\UQM-MegaMod\Classic\bin\UrQuanMastersDebug.exe]
 argv[1] = [--log=log.txt]
-The Ur-Quan Masters v0.7.3 MegaMod (compiled Apr 11 2017 14:00:54)
+The Ur-Quan Masters v0.7.0 (compiled Oct 11 2017 12:44:04)
 This software comes with ABSOLUTELY NO WARRANTY;
 for details see the included 'COPYING' file.
 
 Netplay protocol version 0.4. Netplay opponent must have UQM 0.6.9 or later.
 Initializing base SDL functionality.
-Using SDL version 1.2.14 (compiled with 1.2.15)
-Using config dir 'C:/Users/seros/AppData/Roaming/uqm/'
+Using SDL version 1.2.15 (compiled with 1.2.15)
+Using config dir 'C:/Users/SeRosiS/AppData/Roaming/uqm/'
 Using 'C:/Games/UQM-MegaMod/Classic/bin/content' as base content dir.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/3dovideo.rmp' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/drumall.dat' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/drumall.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/drumall.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/drumall.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/drumall/drumall.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/ending/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/ending/victory.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/ending/victory.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/ending/victory.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/ending/victory.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/intro/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/intro/intro.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/intro/intro.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/intro/intro.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/intro/intro.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/%logo.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/logo.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/logo.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/logo.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/logo/logo.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship00.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship00.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship00.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship00.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship00.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship01.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship01.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship01.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship01.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship01.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship02.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship02.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship02.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship02.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship02.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship03.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship03.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship03.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship03.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship03.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship04.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship04.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship04.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship04.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship04.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship05.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship05.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship05.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship05.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship05.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship06.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship06.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship06.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship06.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship06.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship07.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship07.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship07.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship07.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship07.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship08.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship08.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship08.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship08.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship08.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship09.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship09.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship09.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship09.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship09.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship10.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship10.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship10.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship10.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship10.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship11.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship11.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship11.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship11.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship11.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship12.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship12.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship12.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship12.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship12.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship13.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship13.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship13.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship13.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship13.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship14.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship14.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship14.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship14.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship14.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship15.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship15.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship15.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship15.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship15.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship16.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship16.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship16.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship16.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship16.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship17.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship17.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship17.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship17.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship17.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship18.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship18.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship18.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship18.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship18.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship19.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship19.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship19.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship19.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship19.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship20.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship20.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship20.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship20.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship20.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship21.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship21.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship21.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship21.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship21.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship22.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship22.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship22.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship22.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship22.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship23.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship23.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship23.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship23.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship23.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship24.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship24.duk' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship24.frm' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship24.hdr' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/ship24.tbl' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/spins/spin.aif' - ignored.
-Debug: Extra field 0x000a unsupported, used for file '3dovideo/uqmpack.nfo' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/comm/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/comm/melnorme/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/comm/melnorme/melnorme.txt' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/MelnormeVoicePack.rmp' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-000.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-001.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-002.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-003.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-004.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-005.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-006.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-007.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-008.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-009.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-010.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-011.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-012.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-013.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-014.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-015.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-016.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-017.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-018.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-019.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-020.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-021.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-022.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-023.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-024.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-025.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-026.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-027.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-028.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-029.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-030.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-031.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-032.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-033.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-034.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-035.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-036.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-037.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-038.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-039.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-040.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-041.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-042.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-043.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-044.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-045.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-046.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-047.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-048.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-049.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-050.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-051.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-052.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-053.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-054.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-055.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-056.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-057.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-058.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-059.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-060.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-061.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-062.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-063.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-064.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-065.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-066.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-067.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-068.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-069.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-070.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-071.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-072.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-073.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-074.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-075.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-076.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-077.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-078.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-079.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-080.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-081.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-082.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-083.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-084.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-085.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-086.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-087.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-088.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-089.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-090.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-091.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-092.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-093.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-094.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-095.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-096.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-097.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-098.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-099.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-100.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-101.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-102.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-103.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-104.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-105.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-106.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-107.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-108.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-109.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-110.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-111.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-112.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-113.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-114.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-115.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-116.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-117.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-118.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-119.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-120.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-121.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-122.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-123.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-124.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-125.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-126.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-127.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-128.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-129.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-130.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-131.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-132.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-133.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-134.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-135.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-136.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-137.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-138.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-139.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-140.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-141.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-142.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-143.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-144.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-145.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-146.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-147.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-148.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-149.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-150.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-151.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-152.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-153.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-154.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-155.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-156.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-157.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-158.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-159.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-160.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-161.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-162.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-163.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-164.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-165.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-166.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-167.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-168.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-169.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-170.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-171.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-172.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-173.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-174.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-175.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-176.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-177.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-178.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-179.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-180.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-181.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-182.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-183.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-184.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-185.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-186.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-187.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-188.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-190.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-191.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-192.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-193.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-194.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-195.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-196.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-197.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-198.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-199.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-200.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-201.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-202.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-203.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-204.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-205.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme-206.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/melnorme/melnorme.ts' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MelnormeVoicePack/uqmpack.nfo' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/comm/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/comm/mycon/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/comm/mycon/mycon.txt' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/MyconVoiceFix.rmp' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-000.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-001.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-002.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-003.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-004.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-005.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-006.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-007.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-008.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-009.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-010.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-011.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-012.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-013.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-014.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-015.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-016.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-017.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-018.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-019.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-020.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-021.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-022.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-023.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-024.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-025.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-026.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-027.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-028.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-029.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-030.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-031.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-032.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-033.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-034.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-035.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-036.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-037.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-038.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-039.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-040.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-041.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-042.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-043.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-044.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-045.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-046.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-047.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-048.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-049.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-050.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-051.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-052.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-053.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-054.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-055.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-056.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-057.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-058.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-059.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-060.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-061.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-062.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-063.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-064.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-065.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon-066.ogg' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/mycon/mycon.ts' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'MyconVoiceFix/uqmpack.nfo' - ignored.
-Debug: Extra field 0x000a unsupported, used for file 'Readme.txt' - ignored.
 Debug: Extra field 0x000a unsupported, used for file 'rmx-shofixti/' - ignored.
 Debug: Extra field 0x000a unsupported, used for file 'rmx-shofixti/comm/' - ignored.
 Debug: Extra field 0x000a unsupported, used for file 'rmx-shofixti/comm/shofixti/' - ignored.
@@ -618,6 +176,10 @@ Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/s
 Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard-025.png' - ignored.
 Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/ui/shipyard/shipyard.ani' - ignored.
 Debug: Extra field 0x000a unsupported, used for file 'sero-menu-1x/uqmpack.nfo' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-setup-classic/' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-setup-classic/sero-setup-classic.rmp' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-setup-classic/setupmenu.txt' - ignored.
+Debug: Extra field 0x000a unsupported, used for file 'sero-setup-classic/uqmpack.nfo' - ignored.
 Debug: Extra field 0x000a unsupported, used for file '3domusic/' - ignored.
 Debug: Extra field 0x000a unsupported, used for file '3domusic/3domusic.rmp' - ignored.
 Debug: Extra field 0x000a unsupported, used for file '3domusic/battle.ogg' - ignored.
@@ -3070,30 +2632,25 @@ Debug: Extra field 0x000a unsupported, used for file '3dovoice/zoqfotpik/zoqfotp
 Debug: Extra field 0x000a unsupported, used for file '3dovoice/zoqfotpik/zoqfotpik-289.ogg' - ignored.
 Debug: Extra field 0x000a unsupported, used for file '3dovoice/zoqfotpik/zoqfotpik-290.ogg' - ignored.
 Debug: Extra field 0x000a unsupported, used for file '3dovoice/zoqfotpik/zoqfotpik.ts' - ignored.
-9 available addon packs.
+7 available addon packs.
     1. 3domusic
     2. 3dovideo
     3. 3dovoice
-    4. MelnormeVoicePack
-    5. MyconVoiceFix
-    6. rmx-shofixti
-    7. rmx-utwig
-    8. sero-menu-1x
-    9. sero-setup
-Saved games are kept in C:/Users/seros/AppData/Roaming/uqm/save/.
+    4. rmx-shofixti
+    5. rmx-utwig
+    6. sero-menu-1x
+    7. sero-setup-classic
+Saved games are kept in C:/Users/SeRosiS/AppData/Roaming/uqm/save/.
 Winsock version 2.2 found: "WinSock 2.0".
 Requesting to use Winsock version 2.2, got version 2.2.
-Initializing SDL with OpenGL support.
+Initializing Pure-SDL graphics.
 SDL driver used: windib
 SDL initialized.
 Initializing Screen.
-Set the resolution to: 1280x960x32 (surface reports 1280x960x32)
-OpenGL renderer: GeForce GTX 1060 6GB/PCIe/SSE2 version: 4.5.0 NVIDIA 378.78
-1 joysticks were found.
-The names of the joysticks are:
-    Controller (XBOX 360 For Windows)
-VControl opened joystick: Controller (XBOX 360 For Windows)
-5 axes, 10 buttons, 1 hats.
+Set the resolution to: 320x240x32
+  Video: R 00ff0000, G 0000ff00, B 000000ff, A 00000000
+  Internal: R 00ff0000, G 0000ff00, B 000000ff, A ff000000
+0 joysticks were found.
 Initializing SDL audio subsystem.
 SDL audio subsystem initialized.
 Opening SDL audio device.
@@ -3105,19 +2662,10 @@ Sound decoders initialized.
 Loading resource index 'uqm.rmp'
 Loading resource index '3domusic.rmp'
 Loading resource index '3dovoice.rmp'
-Warning: Addon 'rmx-subtitle' not found
-Loading resource index 'rmx-shofixti.rmp'
-Loading resource index 'rmx-utwig.rmp'
-Loading resource index 'MelnormeVoicePack.rmp'
-Loading resource index 'MyconVoiceFix.rmp'
 Loading resource index '3dovideo.rmp'
-Loading resource index 'sero-menu-1x.rmp'
-loading sero-menu-1x
-Loading resource index 'sero-setup.rmp'
-loading sero-setup
-
 	'base/uqm.ct' -- 104466 bytes
 We've loaded the Kernel
+Script directory '': loading 0 file(s).
 	'base/ui/title.ani' -- 20 bytes
 	'base/ships/arilou/skiff-icons.ani' -- 60 bytes
 	'base/ships/arilou/skiff-meleeicons.ani' -- 66 bytes
@@ -3221,155 +2769,5 @@ _GetSoundBankData(): decoded bytes 2399
 	'base/battle/asteroid-sml.ani' -- 609 bytes
 	'base/ui/newgame.ani' -- 183 bytes
 Trying to get undefined resource 'music.mainmenu'
-	'base/ui/playmenu.ani' -- 1182 bytes
-	'base/ships/drone/drone-meleeicons.ani' -- 33 bytes
-	'base/ui/flagshipstatus.ani' -- 822 bytes
-	'base/ui/miscdata.ani' -- 2658 bytes
-	'base/fonts/fontgradient.ani' -- 186 bytes
-	'base/nav/orbitbackground.ani' -- 730 bytes
-	'base/nav/flagship.ani' -- 416 bytes
-	'base/lander/orbit.ct' -- 6978 bytes
-	'base/nav/planets.ani' -- 2528 bytes
-	'base/nav/truespace.ct' -- 6978 bytes
-	'base/nav/truespacesun.ani' -- 154 bytes
-	'addons/3domusic/space.ogg' -- 2314527 bytes
-_GetMusicData(): loading addons/3domusic/space.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-	'base/lander/lander.ani' -- 1558 bytes
-	'base/lander/hazard/quake.ani' -- 506 bytes
-	'base/lander/hazard/lightning.ani' -- 460 bytes
-	'base/lander/hazard/lavaspot.ani' -- 338 bytes
-	'base/lander/shield.ani' -- 368 bytes
-	'base/lander/launch.ani' -- 758 bytes
-	'base/lander/return.ani' -- 561 bytes
-	'base/nav/orbview.ani' -- 475 bytes
-	'base/lander/lander.snd' -- 169 bytes
-_GetSoundBankData(): loading base/lander/land_bit.wav
-_GetSoundBankData(): decoded bytes 1433
-_GetSoundBankData(): loading base/lander/land_qua.wav
-_GetSoundBankData(): decoded bytes 4811
-_GetSoundBankData(): loading base/lander/land_lig.wav
-_GetSoundBankData(): decoded bytes 9918
-_GetSoundBankData(): loading base/lander/land_hot.wav
-_GetSoundBankData(): decoded bytes 865
-_GetSoundBankData(): loading base/lander/land_hrt.wav
-_GetSoundBankData(): decoded bytes 2696
-_GetSoundBankData(): loading base/lander/land_sht.wav
-_GetSoundBankData(): decoded bytes 1087
-_GetSoundBankData(): loading base/lander/land_hit.wav
-_GetSoundBankData(): decoded bytes 1888
-_GetSoundBankData(): loading base/lander/land_can.wav
-_GetSoundBankData(): decoded bytes 1615
-_GetSoundBankData(): loading base/lander/land_get.wav
-_GetSoundBankData(): decoded bytes 2129
-_GetSoundBankData(): loading base/lander/land_ful.wav
-_GetSoundBankData(): decoded bytes 1804
-_GetSoundBankData(): loading base/lander/land_lau.wav
-_GetSoundBankData(): decoded bytes 8341
-_GetSoundBankData(): loading base/lander/land_awa.wav
-_GetSoundBankData(): decoded bytes 6396
-_GetSoundBankData(): loading base/lander/land_die.wav
-_GetSoundBankData(): decoded bytes 6887
-	'addons/3domusic/orbit1.ogg' -- 1263226 bytes
-_GetMusicData(): loading addons/3domusic/orbit1.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-	'addons/3domusic/orbit2.ogg' -- 1191873 bytes
-_GetMusicData(): loading addons/3domusic/orbit2.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-	'addons/3domusic/orbit3.ogg' -- 1312469 bytes
-_GetMusicData(): loading addons/3domusic/orbit3.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-	'addons/3domusic/orbit4.ogg' -- 1320368 bytes
-_GetMusicData(): loading addons/3domusic/orbit4.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-	'addons/3domusic/orbit5.ogg' -- 1302891 bytes
-_GetMusicData(): loading addons/3domusic/orbit5.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'flash rectangle' done (returned 0).
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'flash rectangle' done (returned 0).
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Starcon2Main' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-	'base/ui/starbase.ani' -- 1015 bytes
-	'addons/3domusic/starbase.ogg' -- 507687 bytes
-_GetMusicData(): loading addons/3domusic/starbase.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-	'addons/sero-menu-1x/ui/shipyard/shipyard.ani' -- 710 bytes
-	'base/ui/hangar.ct' -- 6204 bytes
-	'addons/3domusic/shipyard.ogg' -- 836626 bytes
-_GetMusicData(): loading addons/3domusic/shipyard.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-	'base/ui/blueprints.ani' -- 653 bytes
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'flash rectangle' blocking on mutex 'Graphics'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'flash rectangle' blocking on mutex 'Graphics'
-Thread 'flash rectangle' done (returned 0).
-	'base/ui/newgame.ani' -- 183 bytes
-Trying to get undefined resource 'music.mainmenu'
-	'addons/sero-setup/setupmenu.txt' -- 10923 bytes
-	'base/ui/setupmenu.ani' -- 112 bytes
-	'base/ui/newgame.ani' -- 183 bytes
-	'base/ui/playmenu.ani' -- 1182 bytes
-	'base/ships/drone/drone-meleeicons.ani' -- 33 bytes
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'flash rectangle' done (returned 0).
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'flash rectangle' done (returned 0).
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Starcon2Main' blocking on 'DCQ'
-Thread 'Starcon2Main' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-	'base/ui/starbase.ani' -- 1015 bytes
-	'addons/3domusic/starbase.ogg' -- 507687 bytes
-_GetMusicData(): loading addons/3domusic/starbase.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-	'addons/sero-menu-1x/ui/shipyard/shipyard.ani' -- 710 bytes
-	'base/ui/hangar.ct' -- 6204 bytes
-	'addons/3domusic/shipyard.ogg' -- 836626 bytes
-_GetMusicData(): loading addons/3domusic/shipyard.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-	'base/ui/blueprints.ani' -- 653 bytes
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'flash rectangle' done (returned 0).
-	'base/ui/starbase.ani' -- 1015 bytes
-	'addons/3domusic/starbase.ogg' -- 507687 bytes
-_GetMusicData(): loading addons/3domusic/starbase.ogg
-    decoder: Ogg Vorbis, rate 44100 format 17
-Thread 'Starcon2Main' blocking on mutex 'Graphics'
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'flash rectangle' done (returned 0).
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'flash rectangle' done (returned 0).
-'starcon2.05' is 1047 bytes long
-Thread 'flash rectangle' done (returned 0).
-Thread 'Unknown (probably renderer)' blocking on 'DCQ'
-Thread 'flash rectangle' done (returned 0).
-Thread 'flash rectangle' done (returned 0).
-	'base/ui/newgame.ani' -- 183 bytes
-Trying to get undefined resource 'music.mainmenu'
 Thread 'Starcon2Main' done (returned 0).
 Thread 'audio stream decoder' done (returned 0).
-Warning: File system to be unmounted still has file descriptors open. The file system will not be deallocated until these are all closed.
