@@ -140,7 +140,7 @@
       <AdditionalIncludeDirectories>..\..\src;..\..\src\regex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
-      <Command>rebase -b 0x400000 -x . "../../uqm.exe"</Command>
+      <Command>rebase -b 0x400000 -x . "../../bin/$(TargetName)Debug$(TargetExt)"</Command>
       <Message>Stripping debug info...</Message>
     </PostBuildEvent>
     <Midl>
