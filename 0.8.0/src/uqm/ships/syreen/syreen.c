@@ -19,7 +19,7 @@
 #include "../ship.h"
 #include "syreen.h"
 #include "resinst.h"
-
+#include "../../setup.h"
 #include "libs/mathlib.h"
 
 // Core characteristics
@@ -207,9 +207,14 @@ spawn_crew (ELEMENT *ElementPtr)
 				{
 					COUNT crew_loss;
 
-					crew_loss = ((MAX_ABANDONERS
-							* (ABANDONER_RANGE - square_root (d_squared)))
-							/ ABANDONER_RANGE) + 1;
+					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
+						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
+					{
+						crew_loss = 0;
+					} else {
+						crew_loss = ((MAX_ABANDONERS * (ABANDONER_RANGE - square_root (d_squared))) / ABANDONER_RANGE) + 1;
+					}
 					if (crew_loss >= ObjPtr->crew_level)
 						crew_loss = ObjPtr->crew_level - 1;
 

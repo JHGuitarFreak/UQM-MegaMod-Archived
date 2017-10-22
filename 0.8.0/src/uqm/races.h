@@ -389,6 +389,7 @@ enum
 	DEAD_GUY = 0,  // Race is extinct
 	GOOD_GUY,      // Race is allied with the player
 	BAD_GUY,       // Race is not allied with the player
+	CAN_BUILD,	   // Ships can be built regardless
 };
 
 static inline FLEET_INFO *
@@ -593,7 +594,7 @@ typedef enum
 		 0,  /* URQUAN_DRONE_SHIP */
 
 #define RACE_INTERPLANETARY_PERCENT \
-		 0,  /* ARILOU_SHIP */ \
+		 5,  /* ARILOU_SHIP */ \
 		 0,  /* CHMMR_SHIP */ \
 		 0,  /* HUMAN_SHIP */ \
 		20,  /* ORZ_SHIP */ \

@@ -17,14 +17,14 @@
  */
 
 #include "build.h"
-
+#include "options.h"
 #include "races.h"
 #include "master.h"
 #include "sis.h"
 #include "setup.h"
 #include "libs/compiler.h"
 #include "libs/mathlib.h"
-
+#include "planets/planets.h"
 #include <stdlib.h>
 
 
@@ -310,6 +310,32 @@ SetRaceAllied (RACE_ID race, BOOLEAN flag) {
 	else
 	{
 		FleetPtr->allied_state = (flag ? GOOD_GUY : BAD_GUY);
+	}
+
+	UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
+	return TRUE;
+}
+
+/*
+ * Allows the building of ships regardless of alliance state
+ * flag == TRUE: Allow to build ship
+ * flag == FALSE: Normal, not allowed to build ships if not allied.
+ */
+BOOLEAN
+SetRaceAllowBuild (RACE_ID race, BOOLEAN flag) {
+	HFLEETINFO hFleet;
+	FLEET_INFO *FleetPtr;
+
+	hFleet = GetStarShipFromIndex (&GLOBAL (avail_race_q), race);
+	if (!hFleet)
+		return FALSE;
+
+	FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hFleet);
+
+	if (FleetPtr->allied_state == GOOD_GUY) {
+		/* Strange request, silently ignore it */
+	} else {
+		FleetPtr->allied_state = CAN_BUILD;
 	}
 
 	UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
@@ -683,5 +709,51 @@ SetEscortCrewComplement (RACE_ID which_ship, COUNT crew_level, BYTE captain)
 
 	UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
 	return Index;
+}
+
+void
+loadGameCheats (void){
+	if(optInfiniteRU){
+		oldRU = GlobData.SIS_state.ResUnits;
+	} else {
+		oldRU = 0;
+	}			
+	if (optUnlockShips){
+		SetRaceAllowBuild (ARILOU_SHIP, TRUE);
+		SetRaceAllowBuild (CHMMR_SHIP, TRUE);
+		SetRaceAllowBuild (ORZ_SHIP, TRUE);
+		SetRaceAllowBuild (PKUNK_SHIP, TRUE);
+		SetRaceAllowBuild (SHOFIXTI_SHIP, TRUE);
+		SetRaceAllowBuild (SPATHI_SHIP, TRUE);
+		SetRaceAllowBuild (SUPOX_SHIP, TRUE);
+		SetRaceAllowBuild (THRADDASH_SHIP, TRUE);
+		SetRaceAllowBuild (UTWIG_SHIP, TRUE);
+		SetRaceAllowBuild (VUX_SHIP, TRUE);
+		SetRaceAllowBuild (YEHAT_SHIP, TRUE);
+		SetRaceAllowBuild (MELNORME_SHIP, TRUE);
+		SetRaceAllowBuild (DRUUGE_SHIP, TRUE);
+		SetRaceAllowBuild (ILWRATH_SHIP, TRUE);
+		SetRaceAllowBuild (MYCON_SHIP, TRUE);
+		SetRaceAllowBuild (SLYLANDRO_SHIP, TRUE);
+		SetRaceAllowBuild (UMGAH_SHIP, TRUE);
+		SetRaceAllowBuild (URQUAN_SHIP, TRUE);
+		SetRaceAllowBuild (ZOQFOTPIK_SHIP, TRUE);
+		SetRaceAllowBuild (SYREEN_SHIP, TRUE);
+		SetRaceAllowBuild (BLACK_URQUAN_SHIP, TRUE);
+	}
+	if (optUnlockUpgrades){
+		SET_GAME_STATE (IMPROVED_LANDER_SPEED, 1);
+		SET_GAME_STATE (IMPROVED_LANDER_CARGO, 1);
+		SET_GAME_STATE (IMPROVED_LANDER_SHOT, 1);
+		SET_GAME_STATE (LANDER_SHIELDS, (1 << EARTHQUAKE_DISASTER) | (1 << BIOLOGICAL_DISASTER) |
+			(1 << LIGHTNING_DISASTER) | (1 << LAVASPOT_DISASTER));				
+		GLOBAL (ModuleCost[ANTIMISSILE_DEFENSE]) = 4000 / MODULE_COST_SCALE;				
+		GLOBAL (ModuleCost[BLASTER_WEAPON]) = 4000 / MODULE_COST_SCALE;
+		GLOBAL (ModuleCost[HIGHEFF_FUELSYS]) = 1000 / MODULE_COST_SCALE;
+		GLOBAL (ModuleCost[TRACKING_SYSTEM]) = 5000 / MODULE_COST_SCALE;
+		GLOBAL (ModuleCost[CANNON_WEAPON]) = 6000 / MODULE_COST_SCALE;
+		GLOBAL (ModuleCost[SHIVA_FURNACE]) = 4000 / MODULE_COST_SCALE;
+		SET_GAME_STATE (MELNORME_TECH_STACK, 13);
+	}
 }
 

@@ -188,6 +188,10 @@ static bool
 GenerateThraddash_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 		COUNT whichNode)
 {
+	HFLEETINFO hThradd = GetStarShipFromIndex (&GLOBAL (avail_race_q), THRADDASH_SHIP);
+	FLEET_INFO *ThraddPtr = LockFleetInfo (&GLOBAL (avail_race_q), hThradd);
+	SIZE strength_loss;
+
 	if (CurStarDescPtr->Index == THRADD_DEFINED
 			&& matchWorld (solarSys, world, 0, MATCH_PLANET))
 	{
@@ -208,6 +212,14 @@ GenerateThraddash_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 		SET_GAME_STATE (AQUA_HELIX, 1);
 		SET_GAME_STATE (AQUA_HELIX_ON_SHIP, 1);
 		SET_GAME_STATE (HELIX_UNPROTECTED, 1);
+		if (GET_GAME_STATE (ILWRATH_FIGHT_THRADDASH)){
+			SetRaceAllied (THRADDASH_SHIP, FALSE);
+			RemoveEscortShips (THRADDASH_SHIP);
+			strength_loss = (SIZE)(ThraddPtr->actual_strength);
+			ThraddPtr->growth = (BYTE)(-strength_loss / ThraddPtr->days_left);
+			ThraddPtr->growth_fract = (BYTE)(((strength_loss % ThraddPtr->days_left) << 8) / ThraddPtr->days_left);
+			SET_GAME_STATE (THRADD_VISITS, 0);
+		}
 
 		return true; // picked up
 	}

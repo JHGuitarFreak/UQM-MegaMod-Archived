@@ -1245,8 +1245,8 @@ DoMoveCursor (MENU_STATE *pMS)
 	else if (PulsedInputState.menu[KEY_MENU_SELECT])
 	{
 		GLOBAL (autopilot) = cursorLoc;
-#ifdef DEBUG
-		if (instantMove)
+//#ifdef DEBUG
+		if (optBubbleWarp)
 		{
 			PlayMenuSound (MENU_SOUND_INVOKED);
 
@@ -1266,7 +1266,7 @@ DoMoveCursor (MENU_STATE *pMS)
 
 			return FALSE;
 		}
-#endif
+//#endif
 		DrawStarMap (0, NULL);
 	}
 	else if (PulsedInputState.menu[KEY_MENU_SEARCH])

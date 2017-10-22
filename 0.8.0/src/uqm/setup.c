@@ -67,6 +67,8 @@ FRAME MiscDataFrame;
 FRAME FontGradFrame;
 STRING GameStrings;
 QUEUE disp_q;
+BOOLEAN seroSetupPresent; // Serosis
+BOOLEAN seroMenuPresent; // Serosis
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -121,9 +123,15 @@ LoadKernel (int argc, char *argv[])
 	}
 
 	usingSpeech = optSpeech;
-	if (optSpeech && !loadAddon ("3dovoice"))
-	{
+	if (optSpeech && !loadAddon ("3dovoice")) {
 		usingSpeech = FALSE;
+	} else {
+		loadAddon("rmx-subtitle");
+		loadAddon("rmx-shofixti");
+		loadAddon("rmx-utwig");
+		// Autoload support for Soul Reaver's dialog fixes
+		loadAddon("MelnormeVoicePack");
+		loadAddon("MyconVoiceFix");
 	}
 
 	if (optRemixMusic)
@@ -135,6 +143,19 @@ LoadKernel (int argc, char *argv[])
 	{
 		loadAddon ("3dovideo");
 	}
+	if(loadAddon("sero-menu-1x")){
+		seroMenuPresent = TRUE;
+		printf("Loading Sero-Menu 1x\n");
+		log_add (log_Debug, "loading sero-menu-1x");
+	}
+	if(loadAddon("sero-setup-080")){
+		seroSetupPresent = TRUE;
+		printf("Loading Sero Setup Classic\n");
+		log_add (log_Debug, "loading sero-setup-classic\n");
+	} else {
+		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
+		exit (EXIT_FAILURE);
+ 	}
 
 	/* Now load the rest of the addons, in order. */
 	prepareAddons (optAddons);

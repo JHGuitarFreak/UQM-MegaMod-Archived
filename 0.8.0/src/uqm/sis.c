@@ -396,17 +396,14 @@ DrawStatusMessage (const UNICODE *pStr)
 		}
 		else if (curMsgMode == SMM_RES_UNITS)
 		{
-			if (GET_GAME_STATE (CHMMR_BOMB_STATE) < 2)
-			{
-				snprintf (buf, sizeof buf, "%u %s", GLOBAL_SIS (ResUnits),
-						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
-			}
-			else
-			{
+			if (GET_GAME_STATE (CHMMR_BOMB_STATE) > 2 || GLOBAL_SIS (ResUnits) > 2000000L) {
 				snprintf (buf, sizeof buf, "%s %s",
 						(optWhichMenu == OPT_PC) ?
 							GAME_STRING (STATUS_STRING_BASE + 2)
 							: STR_INFINITY_SIGN, // "UNLIMITED"
+						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
+			} else {
+				snprintf (buf, sizeof buf, "%u %s", GLOBAL_SIS (ResUnits),
 						GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
 			}
 		}
@@ -1115,6 +1112,8 @@ void
 DeltaSISGauges (SIZE crew_delta, SIZE fuel_delta, int resunit_delta)
 {
 	CONTEXT OldContext;
+	Color OldColor;
+	RECT r;
 
 	if (crew_delta == 0 && fuel_delta == 0 && resunit_delta == 0)
 		return;
@@ -1127,6 +1126,15 @@ DeltaSISGauges (SIZE crew_delta, SIZE fuel_delta, int resunit_delta)
 		STAMP s;
 		s.origin.x = 0;
 		s.origin.y = 0;
+
+		// JMS: These lines prevent the flagship status box from turning grey.
+		OldColor = SetContextForeGroundColor (BLACK_COLOR);
+		r.corner.y = 23;
+		r.corner.x = 2;
+		r.extent.width = STATUS_WIDTH - 4;
+		r.extent.height = 105;
+		DrawFilledRectangle (&r);
+
 		s.frame = FlagStatFrame;
 		DrawStamp (&s);
 
@@ -1138,6 +1146,8 @@ DeltaSISGauges (SIZE crew_delta, SIZE fuel_delta, int resunit_delta)
 		DrawModules ();
 
 		DrawSupportShips ();
+		// JMS: In conjunction with the JMS lines above.
+		SetContextForeGroundColor (OldColor);
 	}
 
 	SetContextFont (TinyFont);

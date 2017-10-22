@@ -1169,7 +1169,7 @@ LoadLegacyGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 	}
 
 	LoadStarDesc (&SD, fh);
-
+	loadGameCheats();
 	cclose (fh);
 	res_CloseResFile (in_fp);
 

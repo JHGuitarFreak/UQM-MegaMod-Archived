@@ -25,7 +25,9 @@
 #include "sounds.h"
 #include "weapon.h"
 #include "libs/mathlib.h"
-
+#include "options.h" // For God Mode invincibility
+#include "settings.h"
+#include "intel.h"
 
 void
 spawn_planet (void)
@@ -194,6 +196,13 @@ spawn_asteroid (ELEMENT *ElementPtr)
 void
 do_damage (ELEMENT *ElementPtr, SIZE damage)
 {
+	// God Mode, borrowed from the UQM-HD debug invincibility code
+	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+		(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
+		((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
+	{
+		damage = 0;
+	}
 	if (ElementPtr->state_flags & PLAYER_SHIP)
 	{
 		if (!DeltaCrew (ElementPtr, -damage))

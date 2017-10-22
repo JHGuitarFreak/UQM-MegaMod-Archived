@@ -19,7 +19,7 @@
 #include "../ship.h"
 #include "melnorme.h"
 #include "resinst.h"
-
+#include "../../setup.h"
 #include "uqm/globdata.h"
 #include "libs/mathlib.h"
 
@@ -463,7 +463,14 @@ confusion_collision (ELEMENT *ElementPtr0, POINT *pPt0,
 				ConfusionPtr->hTarget = StarShipPtr->hShip;
 			}
 
-			ConfusionPtr->life_span = 400;
+			if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
+				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
+			{
+				ConfusionPtr->life_span = 0;
+			} else {				
+				ConfusionPtr->life_span = 400;
+			}
 			ConfusionPtr->turn_wait =
 					(BYTE)(1 << ((BYTE)TFB_Random () & 1)); /* LEFT or RIGHT */
 

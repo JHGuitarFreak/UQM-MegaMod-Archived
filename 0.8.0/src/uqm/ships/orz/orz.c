@@ -19,7 +19,7 @@
 #include "../ship.h"
 #include "orz.h"
 #include "resinst.h"
-
+#include "../../setup.h"
 #include "uqm/colors.h"
 #include "uqm/globdata.h"
 #include "libs/mathlib.h"
@@ -433,8 +433,15 @@ LeftShip:
 				}
 				else if (randval < (0x0100 / 2 + 0x0100 / 16))
 				{
-					if (!DeltaCrew (ShipPtr, -1))
-						ShipPtr->life_span = 0;
+					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
+						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
+					{
+						// Marines do no damage to player while boarded
+					} else {
+						if (!DeltaCrew (ShipPtr, -1))
+							ShipPtr->life_span = 0;
+					}
 
 					++ElementPtr->thrust_wait;
 					s.origin.x = 16 + (ElementPtr->turn_wait & 3) * 9;
@@ -733,84 +740,69 @@ marine_preprocess (ELEMENT *ElementPtr)
 }
 
 void
-marine_collision (ELEMENT *ElementPtr0, POINT *pPt0,
-		ELEMENT *ElementPtr1, POINT *pPt1)
-{
-	if (ElementPtr0->life_span
-			&& !(ElementPtr0->state_flags & (NONSOLID | COLLISION))
-			&& !(ElementPtr1->state_flags & FINITE_LIFE))
-	{
-		if (!elementsOfSamePlayer (ElementPtr0, ElementPtr1))
-		{
-			ElementPtr0->turn_wait =
-					MAKE_BYTE (5, HINIBBLE (ElementPtr0->turn_wait));
-			ElementPtr0->thrust_wait &=
-					~((SHIP_AT_MAX_SPEED | SHIP_BEYOND_MAX_SPEED) >> 6);
+marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT *pPt1) {	
+	STAMP s;
+	STARSHIP *StarShipPtr;
+	GetElementStarShip (ElementPtr0, &StarShipPtr);
+	if (ElementPtr0->life_span && !(ElementPtr0->state_flags & (NONSOLID | COLLISION)) && !(ElementPtr1->state_flags & FINITE_LIFE)) {
+		if (!elementsOfSamePlayer (ElementPtr0, ElementPtr1)) {
+			ElementPtr0->turn_wait = MAKE_BYTE (5, HINIBBLE (ElementPtr0->turn_wait));
+			ElementPtr0->thrust_wait &= ~((SHIP_AT_MAX_SPEED | SHIP_BEYOND_MAX_SPEED) >> 6);
 			ElementPtr0->state_flags |= COLLISION;
 		}
-
-		if (GRAVITY_MASS (ElementPtr1->mass_points))
-		{
+		if (GRAVITY_MASS (ElementPtr1->mass_points)) {
 			ElementPtr0->state_flags |= NONSOLID | FINITE_LIFE;
 			ElementPtr0->hit_points = 0;
 			ElementPtr0->life_span = 0;
-		}
-		else if ((ElementPtr1->state_flags & PLAYER_SHIP)
-				&& ((ElementPtr1->state_flags & FINITE_LIFE)
-				|| ElementPtr1->life_span == NORMAL_LIFE))
-		{
+		} else if ((ElementPtr1->state_flags & PLAYER_SHIP) && ((ElementPtr1->state_flags & FINITE_LIFE) || ElementPtr1->life_span == NORMAL_LIFE)) {
 			ElementPtr1->state_flags &= ~COLLISION;
-
-			if (!(ElementPtr0->state_flags & COLLISION))
-			{
+			if (!(ElementPtr0->state_flags & COLLISION)) {
 				DeltaCrew (ElementPtr1, 1);
-
-				ElementPtr0->state_flags |=
-						DISAPPEARING | NONSOLID | FINITE_LIFE;
+				ElementPtr0->state_flags |= DISAPPEARING | NONSOLID | FINITE_LIFE;
 				ElementPtr0->hit_points = 0;
 				ElementPtr0->life_span = 0;
-			}
-			else if ((ElementPtr0->state_flags & IGNORE_SIMILAR)
-					&& ElementPtr1->crew_level
-#ifdef NEVER
-					&& (BYTE)TFB_Random () <= (0x0100 / 3)
-#endif /* NEVER */
-					)
-			{
-				STAMP s;
-				STARSHIP *StarShipPtr;
-
-				GetElementStarShip (ElementPtr0, &StarShipPtr);
-				if (!DeltaCrew (ElementPtr1, -1))
-					ElementPtr1->life_span = 0;
-				else
+			} else if ((ElementPtr0->state_flags & IGNORE_SIMILAR) && ElementPtr1->crew_level) {
+				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
+				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
 				{
-					ElementPtr0->turn_wait = count_marines (StarShipPtr, TRUE);
-					ElementPtr0->thrust_wait = MARINE_WAIT;
-					ElementPtr0->next.image.frame = SetAbsFrameIndex (
-							ElementPtr0->next.image.farray[0],
-							22 + ElementPtr0->turn_wait
-							);
-					ElementPtr0->state_flags |= NONSOLID;
-					ElementPtr0->state_flags &= ~CREW_OBJECT;
-					SetPrimType (&(GLOBAL (DisplayArray))[
-							ElementPtr0->PrimIndex
-							], NO_PRIM);
-					ElementPtr0->preprocess_func = intruder_preprocess;
-
-					s.origin.x = 16 + (ElementPtr0->turn_wait & 3) * 9;
-					s.origin.y = 14 + (ElementPtr0->turn_wait >> 2) * 11;
-					s.frame = ElementPtr0->next.image.frame;
-					ModifySilhouette (ElementPtr1, &s, 0);
+					if (!DeltaCrew (ElementPtr1, 0)){ // Marines won't damage player while boarding
+						ElementPtr1->life_span = 0;
+					} else {
+						ElementPtr0->turn_wait = count_marines (StarShipPtr, TRUE);
+						ElementPtr0->thrust_wait = MARINE_WAIT;
+						ElementPtr0->next.image.frame = SetAbsFrameIndex (ElementPtr0->next.image.farray[0], 22 + ElementPtr0->turn_wait);
+						ElementPtr0->state_flags |= NONSOLID;
+						ElementPtr0->state_flags &= ~CREW_OBJECT;
+						SetPrimType (&(GLOBAL (DisplayArray))[ElementPtr0->PrimIndex], NO_PRIM);
+						ElementPtr0->preprocess_func = intruder_preprocess;
+						s.origin.x = 16 + (ElementPtr0->turn_wait & 3) * 9;
+						s.origin.y = 14 + (ElementPtr0->turn_wait >> 2) * 11;
+						s.frame = ElementPtr0->next.image.frame;
+						ModifySilhouette (ElementPtr1, &s, 0);
+					}
+					ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
+				} else {
+					if (!DeltaCrew (ElementPtr1, -1)){
+						ElementPtr1->life_span = 0;
+					} else {
+						ElementPtr0->turn_wait = count_marines (StarShipPtr, TRUE);
+						ElementPtr0->thrust_wait = MARINE_WAIT;
+						ElementPtr0->next.image.frame = SetAbsFrameIndex (ElementPtr0->next.image.farray[0], 22 + ElementPtr0->turn_wait);
+						ElementPtr0->state_flags |= NONSOLID;
+						ElementPtr0->state_flags &= ~CREW_OBJECT;
+						SetPrimType (&(GLOBAL (DisplayArray))[ElementPtr0->PrimIndex], NO_PRIM);
+						ElementPtr0->preprocess_func = intruder_preprocess;
+						s.origin.x = 16 + (ElementPtr0->turn_wait & 3) * 9;
+						s.origin.y = 14 + (ElementPtr0->turn_wait >> 2) * 11;
+						s.frame = ElementPtr0->next.image.frame;
+						ModifySilhouette (ElementPtr1, &s, 0);
+					}
+					ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
 				}
-
-				ProcessSound (SetAbsSoundIndex (
-						StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2),
-						ElementPtr1);
 			}
-
 			ElementPtr0->state_flags &= ~COLLISION;
-		}
+		}			
 	}
 	(void) pPt0;  /* Satisfying compiler (unused parameter) */
 	(void) pPt1;  /* Satisfying compiler (unused parameter) */
@@ -1002,7 +994,14 @@ turret_postprocess (ELEMENT *ElementPtr)
 				UnlockElement (hSpaceMarine);
 				PutElement (hSpaceMarine);
 
-				DeltaCrew (ShipPtr, -1);
+				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+					(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
+					((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
+				{
+					// Marines launched does not count towards crew
+				} else {
+					DeltaCrew (ShipPtr, -1);
+				}
 				ProcessSound (SetAbsSoundIndex (
 						StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 1),
 						SpaceMarinePtr);

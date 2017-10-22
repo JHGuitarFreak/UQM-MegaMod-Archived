@@ -81,9 +81,10 @@ extern int ScreenHeight;
 #define SCALED_ONE (1 << ONE_SHIFT)
 #define DISPLAY_TO_WORLD(x) ((x)<<ONE_SHIFT)
 #define WORLD_TO_DISPLAY(x) ((x)>>ONE_SHIFT)
-#define DISPLAY_ALIGN(x) ((COORD)(x)&~(SCALED_ONE-1))
-#define DISPLAY_ALIGN_X(x) ((COORD)((COUNT)(x)%LOG_SPACE_WIDTH)&~(SCALED_ONE-1))
-#define DISPLAY_ALIGN_Y(y) ((COORD)((COUNT)(y)%LOG_SPACE_HEIGHT)&~(SCALED_ONE-1))
+// JMS_GFX: Changed from COORD to SDWORD and from COUNT to DWORD
+#define DISPLAY_ALIGN(x) ((SDWORD)(x)&~(SCALED_ONE-1))
+#define DISPLAY_ALIGN_X(x) ((SDWORD)((DWORD)(x)%LOG_SPACE_WIDTH)&~(SCALED_ONE-1))
+#define DISPLAY_ALIGN_Y(y) ((SDWORD)((DWORD)(y)%LOG_SPACE_HEIGHT)&~(SCALED_ONE-1))
 
 #define LOG_SPACE_WIDTH \
 		(DISPLAY_TO_WORLD (SPACE_WIDTH) << MAX_REDUCTION)
@@ -190,8 +191,8 @@ universeToLogy (COORD uy)
 										>>(CIRCLE_SHIFT-FACING_SHIFT))
 #define FACING_TO_ANGLE(f) ((f)<<(CIRCLE_SHIFT-FACING_SHIFT))
 
-#define NORMALIZE_ANGLE(a) ((COUNT)((a)&(FULL_CIRCLE-1)))
-#define NORMALIZE_FACING(f) ((COUNT)((f)&((1 << FACING_SHIFT)-1)))
+#define NORMALIZE_ANGLE(a) ((DWORD)((a)&(FULL_CIRCLE-1)))
+#define NORMALIZE_FACING(f) ((DWORD)((f)&((1 << FACING_SHIFT)-1)))
 
 #define DEGREES_TO_ANGLE(d) NORMALIZE_ANGLE((((d) % 360) * FULL_CIRCLE \
 				+ HALF_CIRCLE) / 360)
@@ -204,7 +205,7 @@ universeToLogy (COORD uy)
 #define UNADJUST(x) (SIZE)((x)>>SIN_SHIFT)
 #define ROUND(x,y) ((x)+((x)>=0?((y)>>1):-((y)>>1)))
 
-extern SIZE sinetab[];
+extern SDWORD sinetab[];
 #define SINVAL(a) sinetab[NORMALIZE_ANGLE(a)]
 #define COSVAL(a) SINVAL((a)+QUADRANT)
 #define SINE(a,m) ((SIZE)((((long)SINVAL(a))*(long)(m))>>SIN_SHIFT))

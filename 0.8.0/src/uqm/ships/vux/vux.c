@@ -19,7 +19,7 @@
 #include "../ship.h"
 #include "vux.h"
 #include "resinst.h"
-
+#include "../../setup.h"
 #include "uqm/globdata.h"
 #include "libs/mathlib.h"
 
@@ -155,47 +155,41 @@ limpet_preprocess (ELEMENT *ElementPtr)
 }
 
 static void
-limpet_collision (ELEMENT *ElementPtr0, POINT *pPt0,
-		ELEMENT *ElementPtr1, POINT *pPt1)
-{
-	if (ElementPtr1->state_flags & PLAYER_SHIP)
-	{
-		STAMP s;
-		STARSHIP *StarShipPtr;
-		RACE_DESC *RDPtr;
-
+limpet_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT *pPt1) {
+	STAMP s;
+	STARSHIP *StarShipPtr;
+	RACE_DESC *RDPtr;
+	if (ElementPtr1->state_flags & PLAYER_SHIP) {
 		GetElementStarShip (ElementPtr1, &StarShipPtr);
 		RDPtr = StarShipPtr->RaceDescPtr;
-
-		if (++RDPtr->characteristics.turn_wait == 0)
-			--RDPtr->characteristics.turn_wait;
-		if (++RDPtr->characteristics.thrust_wait == 0)
-			--RDPtr->characteristics.thrust_wait;
-		if (RDPtr->characteristics.thrust_increment <= MIN_THRUST_INCREMENT)
+		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+			(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
+			((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
 		{
-			RDPtr->characteristics.max_thrust =
-					RDPtr->characteristics.thrust_increment << 1;
+			RDPtr->cyborg_control.ManeuverabilityIndex = 0;
+			GetElementStarShip (ElementPtr0, &StarShipPtr);
+			ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1); // LIMPET_AFFIXES
+			s.frame = SetAbsFrameIndex (StarShipPtr->RaceDescPtr->ship_data.weapon[0], (COUNT)TFB_Random ());
+			ModifySilhouette (ElementPtr1, &s, MODIFY_IMAGE);
+		} else {
+			if (++RDPtr->characteristics.turn_wait == 0)
+				--RDPtr->characteristics.turn_wait;
+			if (++RDPtr->characteristics.thrust_wait == 0)
+				--RDPtr->characteristics.thrust_wait;
+			if (RDPtr->characteristics.thrust_increment <= MIN_THRUST_INCREMENT) {
+				RDPtr->characteristics.max_thrust = RDPtr->characteristics.thrust_increment << 1;
+			} else {
+				COUNT num_thrusts;
+				num_thrusts = RDPtr->characteristics.max_thrust / RDPtr->characteristics.thrust_increment;
+				--RDPtr->characteristics.thrust_increment;
+				RDPtr->characteristics.max_thrust = RDPtr->characteristics.thrust_increment * num_thrusts;
+			}
+			RDPtr->cyborg_control.ManeuverabilityIndex = 0;
+			GetElementStarShip (ElementPtr0, &StarShipPtr);
+			ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1); // LIMPET_AFFIXES
+			s.frame = SetAbsFrameIndex (StarShipPtr->RaceDescPtr->ship_data.weapon[0], (COUNT)TFB_Random ());
+			ModifySilhouette (ElementPtr1, &s, MODIFY_IMAGE);
 		}
-		else
-		{
-			COUNT num_thrusts;
-
-			num_thrusts = RDPtr->characteristics.max_thrust /
-					RDPtr->characteristics.thrust_increment;
-			--RDPtr->characteristics.thrust_increment;
-			RDPtr->characteristics.max_thrust =
-					RDPtr->characteristics.thrust_increment * num_thrusts;
-		}
-		RDPtr->cyborg_control.ManeuverabilityIndex = 0;
-
-		GetElementStarShip (ElementPtr0, &StarShipPtr);
-		ProcessSound (SetAbsSoundIndex (
-						/* LIMPET_AFFIXES */
-				StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1);
-		s.frame = SetAbsFrameIndex (
-				StarShipPtr->RaceDescPtr->ship_data.weapon[0], (COUNT)TFB_Random ()
-				);
-		ModifySilhouette (ElementPtr1, &s, MODIFY_IMAGE);
 	}
 
 	ElementPtr0->hit_points = 0;
@@ -334,36 +328,37 @@ vux_preprocess (ELEMENT *ElementPtr)
 				&& TrackShip (ElementPtr, &facing) >= 0)
 		{
 			ELEMENT *OtherShipPtr;
-
+			SDWORD SA_MATRA_EXTRA_DIST = 0;
 			LockElement (ElementPtr->hTarget, &OtherShipPtr);
 
-			do
-			{
-				SIZE dx, dy;
+			// JMS: Not REALLY necessary as VUX can ordinarily never be played against Sa-Matra. 
+            // But handy in debugging as a single VUX limpet incapacitates Sa-Matra completely.
+            if (LOBYTE (GLOBAL (CurrentActivity)) == IN_LAST_BATTLE) {
+				SA_MATRA_EXTRA_DIST += 1000;
+			}
+			do {
+                // JMS_GFX: Circumventing overflows by using temp variables instead of
+                // subtracting straight from the POINT sized ShipImagePtr->current.location.
+				SDWORD dx, dy;
 
-				ElementPtr->current.location.x =
-						(OtherShipPtr->current.location.x -
+				SDWORD temp_x =
+						((SDWORD)OtherShipPtr->current.location.x -
 						(MAXX_ENTRY_DIST >> 1)) +
 						((COUNT)TFB_Random () % MAXX_ENTRY_DIST);
-				ElementPtr->current.location.y =
-						(OtherShipPtr->current.location.y -
+				SDWORD temp_y =
+						((SDWORD)OtherShipPtr->current.location.y -
 						(MAXY_ENTRY_DIST >> 1)) +
 						((COUNT)TFB_Random () % MAXY_ENTRY_DIST);
-				dx = OtherShipPtr->current.location.x -
-						ElementPtr->current.location.x;
-				dy = OtherShipPtr->current.location.y -
-						ElementPtr->current.location.y;
-				facing = NORMALIZE_FACING (
-						ANGLE_TO_FACING (ARCTAN (dx, dy))
-						);
-				ElementPtr->current.image.frame =
-						SetAbsFrameIndex (ElementPtr->current.image.frame,
-						facing);
+				temp_x += temp_x > 0 ? SA_MATRA_EXTRA_DIST : -SA_MATRA_EXTRA_DIST;
+				temp_y += temp_y > 0 ? SA_MATRA_EXTRA_DIST : -SA_MATRA_EXTRA_DIST;
+                
+				dx = OtherShipPtr->current.location.x - temp_x;
+				dy = OtherShipPtr->current.location.y - temp_y;
+				facing = NORMALIZE_FACING ( ANGLE_TO_FACING (ARCTAN (dx, dy)) );
+				ElementPtr->current.image.frame = SetAbsFrameIndex (ElementPtr->current.image.frame, facing);
 
-				ElementPtr->current.location.x =
-						WRAP_X (DISPLAY_ALIGN (ElementPtr->current.location.x));
-				ElementPtr->current.location.y =
-						WRAP_Y (DISPLAY_ALIGN (ElementPtr->current.location.y));
+				ElementPtr->current.location.x = WRAP_X (DISPLAY_ALIGN (temp_x));
+				ElementPtr->current.location.y = WRAP_Y (DISPLAY_ALIGN (temp_y));
 			} while (CalculateGravity (ElementPtr)
 					|| TimeSpaceMatterConflict (ElementPtr));
 

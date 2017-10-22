@@ -19,7 +19,7 @@
 #include "../ship.h"
 #include "chmmr.h"
 #include "resinst.h"
-
+#include "../../setup.h"
 #include "uqm/colors.h"
 #include "uqm/globdata.h"
 #include "libs/mathlib.h"
@@ -289,7 +289,6 @@ static void
 chmmr_postprocess (ELEMENT *ElementPtr)
 {
 	STARSHIP *StarShipPtr;
-
 	GetElementStarShip (ElementPtr, &StarShipPtr);
 
 	if (StarShipPtr->cur_status_flags & WEAPON)
@@ -683,12 +682,20 @@ spawn_satellites (ELEMENT *ElementPtr)
 {
 	COUNT i;
 	STARSHIP *StarShipPtr;
+	BYTE NumSatellites = NUM_SATELLITES;
+
+	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+		(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
+		((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
+	{
+		NumSatellites = NUM_SATELLITES + 2;
+	}
 
 	GetElementStarShip (ElementPtr, &StarShipPtr);
 	if (StarShipPtr->hShip)
 	{
 		LockElement (StarShipPtr->hShip, &ElementPtr);
-		for (i = 0; i < NUM_SATELLITES; ++i)
+		for (i = 0; i < NumSatellites; ++i)
 		{
 			HELEMENT hSatellite;
 
@@ -706,8 +713,8 @@ spawn_satellites (ELEMENT *ElementPtr)
 				SattPtr->hit_points = SATELLITE_HITPOINTS;
 				SattPtr->mass_points = SATELLITE_MASS;
 
-				angle = (i * FULL_CIRCLE + (NUM_SATELLITES >> 1))
-						/ NUM_SATELLITES;
+				angle = (i * FULL_CIRCLE + (NumSatellites >> 1))
+						/ NumSatellites;
 				SattPtr->turn_wait = (BYTE)angle;
 				SattPtr->current.location.x = ElementPtr->next.location.x
 						+ COSINE (angle, SATELLITE_OFFSET);

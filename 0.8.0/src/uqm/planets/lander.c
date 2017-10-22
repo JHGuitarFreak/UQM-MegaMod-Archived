@@ -34,7 +34,7 @@
 #include "libs/graphics/gfx_common.h"
 #include "libs/mathlib.h"
 #include "libs/log.h"
-
+#include "options.h"
 
 //define SPIN_ON_LAUNCH to let the planet spin while
 // the lander animation is playing
@@ -451,8 +451,8 @@ DeltaLanderCrew (SIZE crew_delta, COUNT which_disaster)
 		shieldHit &= 1 << which_disaster;
 		if (!shieldHit || TFB_Random () % 100 >= 95)
 		{	// No shield, or it did not help
-			shieldHit = 0;
-			--crew_left;
+			if (!optGodMode){ shieldHit=0; --crew_left; }
+			else { shieldHit=1; }
 		}
 
 		damage_index = DAMAGE_CYCLE;
@@ -1380,15 +1380,20 @@ InitPlanetSide (POINT pt)
 {
 	// Adjust landing location by a random jitter.
 #define RANDOM_MISS 64
+	if(!optGodMode){
+		pt.x -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
+		pt.y -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
+	} else { 
+		pt.x -= 0;
+		pt.y -= 0;
+	}
 	// Jitter the X landing point.
-	pt.x -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
 	if (pt.x < 0)
 		pt.x += (MAP_WIDTH << MAG_SHIFT);
 	else if (pt.x >= (MAP_WIDTH << MAG_SHIFT))
 		pt.x -= (MAP_WIDTH << MAG_SHIFT);
 
 	// Jitter the Y landing point.
-	pt.y -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
 	if (pt.y < 0)
 		pt.y = 0;
 	else if (pt.y >= (MAP_HEIGHT << MAG_SHIFT))
