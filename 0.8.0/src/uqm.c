@@ -130,6 +130,16 @@ struct options_struct
 	DECL_CONFIG_OPTION(float, sfxVolumeScale);
 	DECL_CONFIG_OPTION(float, speechVolumeScale);
 	DECL_CONFIG_OPTION(bool, safeMode);
+ 	DECL_CONFIG_OPTION(bool, cheatMode); // JMS
+	DECL_CONFIG_OPTION(bool, godMode); // Serosis
+	DECL_CONFIG_OPTION(int, timeDilationScale);
+	DECL_CONFIG_OPTION(bool, bubbleWarp);
+	DECL_CONFIG_OPTION(bool, unlockShips);
+	DECL_CONFIG_OPTION(bool, headStart);
+	DECL_CONFIG_OPTION(bool, unlockUpgrades);
+	DECL_CONFIG_OPTION(bool, infiniteRU);
+	DECL_CONFIG_OPTION(bool, skipIntro);
+	DECL_CONFIG_OPTION(bool, FMV);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -238,10 +248,10 @@ main (int argc, char *argv[])
 		/* .addons = */             NULL,
 		/* .numAddons = */          0,
 
-		INIT_CONFIG_OPTION(  opengl,            false ),
+		INIT_CONFIG_OPTION(  opengl,            true ),
 		INIT_CONFIG_OPTION2( resolution,        640, 480 ),
 		INIT_CONFIG_OPTION(  fullscreen,        false ),
-		INIT_CONFIG_OPTION(  scanlines,         false ),
+		INIT_CONFIG_OPTION(  scanlines,         true ),
 		INIT_CONFIG_OPTION(  scaler,            0 ),
 		INIT_CONFIG_OPTION(  showFps,           false ),
 		INIT_CONFIG_OPTION(  keepAspectRatio,   false ),
@@ -255,7 +265,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  whichMenu,         OPT_PC ),
 		INIT_CONFIG_OPTION(  whichFonts,        OPT_PC ),
 		INIT_CONFIG_OPTION(  whichIntro,        OPT_PC ),
-		INIT_CONFIG_OPTION(  whichShield,       OPT_PC ),
+		INIT_CONFIG_OPTION(  whichShield,       OPT_3DO ),
 		INIT_CONFIG_OPTION(  smoothScroll,      OPT_PC ),
 		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_TRILINEAR ),
 		INIT_CONFIG_OPTION(  subtitles,         true ),
@@ -264,6 +274,16 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  sfxVolumeScale,    1.0f ),
 		INIT_CONFIG_OPTION(  speechVolumeScale, 1.0f ),
 		INIT_CONFIG_OPTION(  safeMode,          false ),
+		INIT_CONFIG_OPTION(  cheatMode,			false ),
+		INIT_CONFIG_OPTION(  godMode,			false ), //Serosis
+		INIT_CONFIG_OPTION(  timeDilationScale,	0 ),
+		INIT_CONFIG_OPTION(  bubbleWarp,		false ),
+		INIT_CONFIG_OPTION(  unlockShips,		false ),
+		INIT_CONFIG_OPTION(  headStart,			false ),
+		INIT_CONFIG_OPTION(  unlockUpgrades,	false ),
+		INIT_CONFIG_OPTION(  infiniteRU,		false ),
+		INIT_CONFIG_OPTION(  skipIntro,			false ),
+		INIT_CONFIG_OPTION(  FMV,				false ),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -391,6 +411,16 @@ main (int argc, char *argv[])
 	sfxVolumeScale = options.sfxVolumeScale.value;
 	speechVolumeScale = options.speechVolumeScale.value;
 	optAddons = options.addons;
+ 	optCheatMode = options.cheatMode.value; // JMS
+	optGodMode = options.godMode.value; // Serosis
+	timeDilationScale = (unsigned int) options.timeDilationScale.value; // Serosis
+	optBubbleWarp = options.bubbleWarp.value;
+	optUnlockShips = options.unlockShips.value;
+	optHeadStart = options.headStart.value;
+	optUnlockUpgrades = options.unlockUpgrades.value;
+	optInfiniteRU = options.infiniteRU.value;
+	optSkipIntro = options.skipIntro.value;
+	optFMV = options.FMV.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -675,6 +705,18 @@ getUserConfigOptions (struct options_struct *options)
 	getVolumeConfigValue (&options->musicVolumeScale, "config.musicvol");
 	getVolumeConfigValue (&options->sfxVolumeScale, "config.sfxvol");
 	getVolumeConfigValue (&options->speechVolumeScale, "config.speechvol");
+	getBoolConfigValue (&options->cheatMode, "config.kohrStahp");
+	getBoolConfigValue (&options->godMode, "config.godMode"); //Serosis
+	if (res_IsInteger ("config.timeDilation") && !options->timeDilationScale.set) {
+		options->timeDilationScale.value = res_GetInteger ("config.timeDilation");
+	}
+	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp");
+	getBoolConfigValue (&options->unlockShips, "config.unlockShips");
+	getBoolConfigValue (&options->headStart, "config.headStart");
+	getBoolConfigValue (&options->unlockUpgrades, "config.unlockUpgrades");
+	getBoolConfigValue (&options->infiniteRU, "config.infiniteRU");
+	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
+	getBoolConfigValue (&options->FMV, "config.FMV");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -714,6 +756,16 @@ enum
 	ADDONDIR_OPT,
 	ACCEL_OPT,
 	SAFEMODE_OPT,
+	CHEATMODE_OPT, //Serosis
+	GODMODE_OPT,
+	TDM_OPT,
+	BWARP_OPT,
+	UNLOCKSHIPS_OPT,
+	HEADSTART_OPT,
+	UPGRADES_OPT,
+	INFINITERU_OPT,
+	SKIPINTRO_OPT,
+	FMV_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -761,6 +813,16 @@ static struct option longOptions[] =
 	{"addondir", 1, NULL, ADDONDIR_OPT},
 	{"accel", 1, NULL, ACCEL_OPT},
 	{"safe", 0, NULL, SAFEMODE_OPT},
+	{"kohrstahp", 0, NULL, CHEATMODE_OPT}, //Serosis
+	{"godmode", 0, NULL, GODMODE_OPT},
+	{"timedilation", 1, NULL, TDM_OPT},
+	{"bubblewarp", 0, NULL, BWARP_OPT},
+	{"unlockships", 0, NULL, UNLOCKSHIPS_OPT},
+	{"headstart", 0, NULL, HEADSTART_OPT},
+	{"unlockupgrades", 0, NULL, UPGRADES_OPT},
+	{"infiniteru", 0, NULL, INFINITERU_OPT},
+	{"skipintro", 0, NULL, SKIPINTRO_OPT},
+	{"fmv", 0, NULL, FMV_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1017,6 +1079,47 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case STEREOSFX_OPT:
 				setBoolOption (&options->stereoSFX, true);
 				break;
+			case CHEATMODE_OPT:
+				setBoolOption (&options->cheatMode, true); //Serosis
+				break;
+			case GODMODE_OPT:
+				setBoolOption (&options->godMode, true);
+				break;
+			case TDM_OPT:{
+				int temp;
+				if (parseIntOption (optarg, &temp, "Time Dilation scale") == -1) {
+					badArg = true;
+					break;
+				} else if (temp < 0 || temp > 2) {					
+					saveError ("\nTime Dilation scale has to be 0, 1, or 2.\n");
+					badArg = true;
+				} else {
+					options->timeDilationScale.value = temp;
+					options->timeDilationScale.set = true;
+				}
+				break;
+			}
+			case BWARP_OPT:
+				setBoolOption (&options->bubbleWarp, true);
+				break;
+			case UNLOCKSHIPS_OPT:
+				setBoolOption (&options->unlockShips, true);
+				break;
+			case HEADSTART_OPT:
+				setBoolOption (&options->headStart, true);
+				break;
+			case UPGRADES_OPT:
+				setBoolOption (&options->unlockUpgrades, true);
+				break;
+			case INFINITERU_OPT:
+				setBoolOption (&options->infiniteRU, true);
+				break;
+			case SKIPINTRO_OPT:
+				setBoolOption (&options->skipIntro, true);
+				break;
+			case FMV_OPT:
+				setBoolOption (&options->FMV, true);
+				break;
 			case ADDON_OPT:
 				options->numAddons++;
 				options->addons = HRealloc ((void *) options->addons,
@@ -1232,6 +1335,34 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_add (log_User, "  --scroll    : ff/frev during comm.  pc=per-page, "
 			"3do=smooth (default %s)",
 			choiceOptString (&defaults->smoothScroll));
+	log_add (log_User, "The following options are for the Mega Mod"); // Serosis
+	log_add (log_User, "  --kohrstahp : Stops Kohr-Ah advancing.    (default %s)",
+			boolOptString (&defaults->cheatMode));
+	log_add (log_User, "  --godmode : Player ships and lander invulnerable. "
+			"Also refills energy every shot during melee.    (default %s)",
+			boolOptString (&defaults->godMode));
+	log_add (log_User, "  --timedilation : =1 Time is slowed down times 6. "
+			"=2 Time is sped up times 5    (default 0)");
+	log_add (log_User, "  --bubblewarp : Instantaneous travel to any point on "
+			"the Starmap.    (default %s)",
+			boolOptString (&defaults->bubbleWarp));
+	log_add (log_User, "  --unlockships : Allows you to purchase ships that you can't "
+			"normally acquire in the main game.    (default %s)",
+			boolOptString (&defaults->unlockShips));
+	log_add (log_User, "  --headstart : Equips your ship with full thrusters and jets, "
+			"two ion bolt guns, two cargo bays, two crew pods, four dynamos, two full fuel tanks, "
+			"max landers, 1000 radioactives, and 1000 bio-units.    (default %s)",
+			boolOptString (&defaults->headStart));
+	log_add (log_User, "  --unlockupgrades : Unlocks every upgrade for your flagship "
+			"and landers.    (default %s)",
+			boolOptString (&defaults->unlockUpgrades));
+	log_add (log_User, "  --infiniteru : Gives you infinite R.U. as long as the cheat is on "
+			" (default %s)",
+			boolOptString (&defaults->infiniteRU));
+	log_add (log_User, "  --skipintro : Skips the intro    (default %s)",
+			boolOptString (&defaults->skipIntro));
+	log_add (log_User, "  --fmv : Adds Logo and Commercial 3DO videos    (default %s)",
+			boolOptString (&defaults->FMV));
 	log_setOutput (old);
 }
 

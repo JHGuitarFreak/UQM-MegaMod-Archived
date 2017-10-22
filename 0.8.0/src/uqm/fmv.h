@@ -31,6 +31,8 @@ extern void SplashScreen (void (* DoProcessing)(DWORD TimeOut));
 extern void Introduction (void);
 extern void Victory (void);
 extern void DoShipSpin (COUNT index, MUSIC_REF hMusic);
+extern void Logo (void);
+extern void Drumall (void);
 
 extern BOOLEAN ShowPresentation (RESOURCE presentation);
 

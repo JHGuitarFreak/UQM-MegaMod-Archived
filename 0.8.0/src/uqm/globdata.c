@@ -33,10 +33,10 @@
 #include "gamestr.h"
 #include "libs/scriptlib.h"
 #include "libs/log.h"
-
+#include "options.h"
 #include <assert.h>
 #include <stdlib.h>
-
+#include "uqmdebug.h"
 
 static void CreateRadar (void);
 
@@ -469,6 +469,25 @@ InitGameStructures (void)
 	GLOBAL_SIS (ModuleSlots[8]) = STORAGE_BAY;
 	GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
 	GLOBAL_SIS (FuelOnBoard) = 10 * FUEL_TANK_SCALE;
+ 
+	if (optHeadStart){
+		GLOBAL_SIS (ModuleSlots[7]) = STORAGE_BAY;
+		GLOBAL_SIS (ElementAmounts[COMMON]) = 178;
+		GLOBAL_SIS (ElementAmounts[CORROSIVE]) = 66;
+		GLOBAL_SIS (ElementAmounts[BASE_METAL]) = 378;
+		GLOBAL_SIS (ElementAmounts[PRECIOUS]) = 29;
+		GLOBAL_SIS (ElementAmounts[RADIOACTIVE]) = 219;
+		GLOBAL_SIS (ElementAmounts[EXOTIC]) = 5;
+		GLOBAL_SIS (TotalElementMass) = 875;
+		SET_GAME_STATE (FOUND_PLUTO_SPATHI, 2);
+		SET_GAME_STATE (KNOW_SPATHI_PASSWORD, 1);
+		SET_GAME_STATE (MOONBASE_ON_SHIP, 1);
+		SET_GAME_STATE (MOONBASE_DESTROYED, 1);
+	}
+
+	if(optInfiniteRU){
+		oldRU = 0;
+	}
 
 	InitQueue (&GLOBAL (built_ship_q),
 			MAX_BUILT_SHIPS, sizeof (SHIP_FRAGMENT));
@@ -502,6 +521,12 @@ InitGameStructures (void)
 
 	SetRaceAllied (HUMAN_SHIP, TRUE);
 	CloneShipFragment (HUMAN_SHIP, &GLOBAL (built_ship_q), 0);
+
+	if(optHeadStart){
+		AddEscortShips (SPATHI_SHIP, 1);
+		/* Make the Eluder escort captained by Fwiffo alone */
+		SetEscortCrewComplement (SPATHI_SHIP, 1, NAME_OFFSET + NUM_CAPTAINS_NAMES); // NAME_OFFSET + NUM_CAPTAINS_NAMES = 21 by the way.
+	}
 
 	GLOBAL_SIS (log_x) = UNIVERSE_TO_LOGX (SOL_X);
 	GLOBAL_SIS (log_y) = UNIVERSE_TO_LOGY (SOL_Y);

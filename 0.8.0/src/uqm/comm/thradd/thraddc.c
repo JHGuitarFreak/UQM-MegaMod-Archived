@@ -689,6 +689,8 @@ static void
 Intro (void)
 {
 	BYTE NumVisits;
+	HFLEETINFO hThradd = GetStarShipFromIndex (&GLOBAL (avail_race_q), THRADDASH_SHIP);
+	FLEET_INFO *ThraddPtr = LockFleetInfo (&GLOBAL (avail_race_q), hThradd);
 
 	if (LOBYTE (GLOBAL (CurrentActivity)) == WON_LAST_BATTLE)
 	{
@@ -698,7 +700,7 @@ Intro (void)
 		return;
 	}
 
-	if (GET_GAME_STATE (AQUA_HELIX))
+	if (GET_GAME_STATE (AQUA_HELIX) && ThraddPtr->allied_state != GOOD_GUY)
 	{
 		NumVisits = GET_GAME_STATE (HELIX_VISITS);
 		switch (NumVisits++)

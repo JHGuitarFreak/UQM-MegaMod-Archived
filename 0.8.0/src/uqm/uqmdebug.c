@@ -14,7 +14,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#if defined(DEBUG) || defined(USE_DEBUG_KEY)
 
 #include "uqmdebug.h"
 
@@ -23,7 +22,7 @@
 #include "controls.h"
 #include "clock.h"
 #include "starmap.h"
-#include "element.h"
+#include "intel.h"
 #include "sis.h"
 #include "status.h"
 #include "gamestr.h"
@@ -41,6 +40,114 @@
 #include <stdio.h>
 #include <errno.h>
 
+void (* volatile debugHook) (void) = NULL;
+
+// Move the Flagship to the destination of the autopilot.
+// Should only be called from HyperSpace/QuasiSpace.
+// It can be called from debugHook directly after entering HS/QS though.
+void
+doInstantMove (void)
+{
+	// Move to the new location:
+	if ((GLOBAL (autopilot)).x == ~0 || (GLOBAL (autopilot)).y == ~0)
+	{
+		// If no destination has been selected, use the current location
+		// as the destination.
+		(GLOBAL (autopilot)).x = LOGX_TO_UNIVERSE(GLOBAL_SIS (log_x));
+		(GLOBAL (autopilot)).y = LOGY_TO_UNIVERSE(GLOBAL_SIS (log_y));
+	}
+	else
+	{
+		// A new destination has been selected.
+		GLOBAL_SIS (log_x) = UNIVERSE_TO_LOGX((GLOBAL (autopilot)).x);
+		GLOBAL_SIS (log_y) = UNIVERSE_TO_LOGY((GLOBAL (autopilot)).y);
+	}
+
+	// Check for a solar systems at the destination.
+	if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
+	{
+		// If there's a solar system at the destination, enter it.
+		CurStarDescPtr = FindStar (0, &(GLOBAL (autopilot)), 0, 0);
+		if (CurStarDescPtr)
+		{
+			// Leave HyperSpace/QuasiSpace if we're there:
+			SET_GAME_STATE (USED_BROADCASTER, 0);
+			GLOBAL (CurrentActivity) &= ~IN_BATTLE;
+
+			// Enter IP:
+			GLOBAL (ShipFacing) = 0;
+			GLOBAL (ip_planet) = 0;
+			GLOBAL (in_orbit) = 0;
+					// This causes the ship position in IP to be reset.
+			GLOBAL (CurrentActivity) |= START_INTERPLANETARY;
+		}
+	}
+
+	// Turn off the autopilot:
+	(GLOBAL (autopilot)).x = ~0;
+	(GLOBAL (autopilot)).y = ~0;
+}
+
+// playerNr should be 0 or 1
+STARSHIP*
+findPlayerShip (SIZE playerNr)
+{
+	HELEMENT hElement, hNextElement;
+
+	for (hElement = GetHeadElement (); hElement; hElement = hNextElement)
+	{
+		ELEMENT *ElementPtr;
+
+		LockElement (hElement, &ElementPtr);
+		hNextElement = GetSuccElement (ElementPtr);
+					
+		if ((ElementPtr->state_flags & PLAYER_SHIP)	&&
+				ElementPtr->playerNr == playerNr)
+		{
+			STARSHIP *StarShipPtr;
+			GetElementStarShip (ElementPtr, &StarShipPtr);
+			UnlockElement (hElement);
+			return StarShipPtr;
+		}
+		
+		UnlockElement (hElement);
+	}
+	return NULL;
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+void
+resetEnergyBattle (void)
+{
+	STARSHIP *StarShipPtr;
+	COUNT delta;
+	CONTEXT OldContext;
+	
+	if (!(GLOBAL (CurrentActivity) & IN_BATTLE) ||
+			(LOBYTE (GLOBAL (CurrentActivity)) == IN_HYPERSPACE))
+		return;	
+
+	if (PlayerControl[1] & HUMAN_CONTROL){
+		StarShipPtr = findPlayerShip (NPC_PLAYER_NUM);
+	} else if (PlayerControl[0] & HUMAN_CONTROL) {
+		StarShipPtr = findPlayerShip (RPG_PLAYER_NUM);
+	} else {
+		StarShipPtr = NULL;
+	}
+
+	if (StarShipPtr == NULL || StarShipPtr->RaceDescPtr == NULL)
+		return;
+
+	delta = StarShipPtr->RaceDescPtr->ship_info.max_energy -
+			StarShipPtr->RaceDescPtr->ship_info.energy_level;
+
+	OldContext = SetContext (StatusContext);
+	DeltaEnergy (StarShipPtr->hShip, delta);
+	SetContext (OldContext);
+}
+
+#if defined(DEBUG) || defined(USE_DEBUG_KEY)
 
 static void dumpEventCallback (const EVENT *eventPtr, void *arg);
 
@@ -72,7 +179,6 @@ static void dumpPlanetTypeCallback (int index, const PlanetFrame *planet,
 
 BOOLEAN instantMove = FALSE;
 BOOLEAN disableInteractivity = FALSE;
-void (* volatile debugHook) (void) = NULL;
 
 
 // Must be called on the Starcon2Main thread.
@@ -464,52 +570,6 @@ findFlagshipElement (void)
 	return 0;
 }
 #endif
-
-// Move the Flagship to the destination of the autopilot.
-// Should only be called from HyperSpace/QuasiSpace.
-// It can be called from debugHook directly after entering HS/QS though.
-void
-doInstantMove (void)
-{
-	// Move to the new location:
-	if ((GLOBAL (autopilot)).x == ~0 || (GLOBAL (autopilot)).y == ~0)
-	{
-		// If no destination has been selected, use the current location
-		// as the destination.
-		(GLOBAL (autopilot)).x = LOGX_TO_UNIVERSE(GLOBAL_SIS (log_x));
-		(GLOBAL (autopilot)).y = LOGY_TO_UNIVERSE(GLOBAL_SIS (log_y));
-	}
-	else
-	{
-		// A new destination has been selected.
-		GLOBAL_SIS (log_x) = UNIVERSE_TO_LOGX((GLOBAL (autopilot)).x);
-		GLOBAL_SIS (log_y) = UNIVERSE_TO_LOGY((GLOBAL (autopilot)).y);
-	}
-
-	// Check for a solar systems at the destination.
-	if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
-	{
-		// If there's a solar system at the destination, enter it.
-		CurStarDescPtr = FindStar (0, &(GLOBAL (autopilot)), 0, 0);
-		if (CurStarDescPtr)
-		{
-			// Leave HyperSpace/QuasiSpace if we're there:
-			SET_GAME_STATE (USED_BROADCASTER, 0);
-			GLOBAL (CurrentActivity) &= ~IN_BATTLE;
-
-			// Enter IP:
-			GLOBAL (ShipFacing) = 0;
-			GLOBAL (ip_planet) = 0;
-			GLOBAL (in_orbit) = 0;
-					// This causes the ship position in IP to be reset.
-			GLOBAL (CurrentActivity) |= START_INTERPLANETARY;
-		}
-	}
-
-	// Turn off the autopilot:
-	(GLOBAL (autopilot)).x = ~0;
-	(GLOBAL (autopilot)).y = ~0;
-}
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -1473,35 +1533,6 @@ depositQualityString (BYTE quality)
 
 ////////////////////////////////////////////////////////////////////////////
 
-// playerNr should be 0 or 1
-STARSHIP*
-findPlayerShip (SIZE playerNr)
-{
-	HELEMENT hElement, hNextElement;
-
-	for (hElement = GetHeadElement (); hElement; hElement = hNextElement)
-	{
-		ELEMENT *ElementPtr;
-
-		LockElement (hElement, &ElementPtr);
-		hNextElement = GetSuccElement (ElementPtr);
-					
-		if ((ElementPtr->state_flags & PLAYER_SHIP)	&&
-				ElementPtr->playerNr == playerNr)
-		{
-			STARSHIP *StarShipPtr;
-			GetElementStarShip (ElementPtr, &StarShipPtr);
-			UnlockElement (hElement);
-			return StarShipPtr;
-		}
-		
-		UnlockElement (hElement);
-	}
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////////
-
 void
 resetCrewBattle (void)
 {
@@ -1522,29 +1553,6 @@ resetCrewBattle (void)
 
 	OldContext = SetContext (StatusContext);
 	DeltaCrew (StarShipPtr->hShip, delta);
-	SetContext (OldContext);
-}
-
-void
-resetEnergyBattle (void)
-{
-	STARSHIP *StarShipPtr;
-	COUNT delta;
-	CONTEXT OldContext;
-	
-	if (!(GLOBAL (CurrentActivity) & IN_BATTLE) ||
-			(inHQSpace ()))
-		return;
-	
-	StarShipPtr = findPlayerShip (RPG_PLAYER_NUM);
-	if (StarShipPtr == NULL || StarShipPtr->RaceDescPtr == NULL)
-		return;
-
-	delta = StarShipPtr->RaceDescPtr->ship_info.max_energy -
-			StarShipPtr->RaceDescPtr->ship_info.energy_level;
-
-	OldContext = SetContext (StatusContext);
-	DeltaEnergy (StarShipPtr->hShip, delta);
 	SetContext (OldContext);
 }
 

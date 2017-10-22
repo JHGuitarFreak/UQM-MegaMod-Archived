@@ -49,7 +49,7 @@ extern SPECIES_ID ShipIdStrToIndex (const char *shipIdStr);
 extern RACE_ID RaceIdStrToIndex (const char *raceIdStr);
 extern COUNT AddEscortShips (RACE_ID race, SIZE count);
 extern COUNT CalculateEscortsWorth (void);
-//extern COUNT GetRaceKnownSize (RACE_ID race);
+extern BOOLEAN SetRaceAllowBuild (RACE_ID race, BOOLEAN flag);
 extern BOOLEAN SetRaceAllied (RACE_ID race, BOOLEAN flag);
 extern COUNT StartSphereTracking (RACE_ID race);
 extern BOOLEAN CheckSphereTracking (RACE_ID race);
@@ -64,6 +64,7 @@ extern COUNT RemoveEscortShips (RACE_ID race);
 extern RACE_DESC *load_ship (SPECIES_ID SpeciesID, BOOLEAN LoadBattleData);
 extern void free_ship (RACE_DESC *RaceDescPtr, BOOLEAN FreeIconData,
 		BOOLEAN FreeBattleData);
+extern void loadGameCheats (void);
 
 #if defined(__cplusplus)
 }

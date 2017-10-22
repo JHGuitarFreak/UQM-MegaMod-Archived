@@ -41,7 +41,8 @@
 #	include <libgen.h>
 			/* for dirname() */
 #endif
-
+#include "uqm/build.h"
+#include "uqm/globdata.h"
 
 int optWhichCoarseScan;
 int optWhichMenu;
@@ -51,6 +52,19 @@ int optWhichShield;
 int optSmoothScroll;
 int optMeleeScale;
 const char **optAddons;
+
+// Serosis
+BOOLEAN optCheatMode;
+BOOLEAN optGodMode;
+unsigned int timeDilationScale;
+BOOLEAN optBubbleWarp;
+BOOLEAN optUnlockShips;
+BOOLEAN optHeadStart;
+BOOLEAN optUnlockUpgrades;
+BOOLEAN optInfiniteRU;
+DWORD oldRU;
+BOOLEAN optSkipIntro;
+BOOLEAN optFMV;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

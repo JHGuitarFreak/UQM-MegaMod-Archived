@@ -37,7 +37,7 @@
 #include "sounds.h"
 #include "libs/graphics/gfx_common.h"
 #include "libs/inplib.h"
-
+#include "uqmdebug.h"
 
 #ifdef USE_3DO_HANGAR
 // 3DO 4x3 hangar layout
@@ -99,7 +99,11 @@ animatePowerLines (MENU_STATE *pMS)
 	{	// Init animation
 		s.origin.x = 0;
 		s.origin.y = 0;
-		s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 24);
+		if(!seroMenuPresent){
+			s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 24);
+		} else {
+			s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 25); // This shifts the animation over one so the Kohr-Ah can have a ship label
+		}
 		ColorMap = SetAbsColorMapIndex (pMS->CurString, 0);
 	}
 
@@ -156,7 +160,7 @@ GetAvailableRaceCount (void)
 		FLEET_INFO *FleetPtr;
 
 		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
-		if (FleetPtr->allied_state == GOOD_GUY)
+		if (FleetPtr->allied_state == GOOD_GUY || FleetPtr->allied_state == CAN_BUILD)
 			++Index;
 
 		hNextShip = _GetSuccLink (FleetPtr);
@@ -177,7 +181,7 @@ GetAvailableRaceFromIndex (BYTE Index)
 		FLEET_INFO *FleetPtr;
 
 		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
-		if (FleetPtr->allied_state == GOOD_GUY && Index-- == 0)
+		if (FleetPtr->allied_state == GOOD_GUY && Index-- == 0 || FleetPtr->allied_state == CAN_BUILD && Index-- == 0)
 		{
 			UnlockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
 			return hStarShip;

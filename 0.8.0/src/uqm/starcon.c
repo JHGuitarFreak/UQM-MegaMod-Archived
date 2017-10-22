@@ -47,7 +47,7 @@
 #include "libs/graphics/tfb_draw.h"
 #include "libs/misc.h"
 #include "libs/scriptlib.h"
-
+#include "build.h"
 #include "uqmversion.h"
 #include "options.h"
 
@@ -206,7 +206,10 @@ while (--ac > 0)
 
 	GLOBAL (CurrentActivity) = 0;
 	luaUqm_initState ();
-	// show splash and init the kernel in the meantime
+	// show logo then splash and init the kernel in the meantime
+	if(optWhichIntro == OPT_3DO && optFMV && !optSkipIntro){
+		Logo ();
+	}
 	SplashScreen (BackgroundInitKernel);
 
 //	OpenJournal ();
@@ -226,7 +229,7 @@ while (--ac > 0)
 
 		do
 		{
-#ifdef DEBUG
+//#ifdef DEBUG
 			if (debugHook != NULL)
 			{
 				void (*saveDebugHook) (void);
@@ -237,7 +240,7 @@ while (--ac > 0)
 				(*saveDebugHook) ();
 				continue;
 			}
-#endif
+//#endif
 			SetStatusMessageMode (SMM_DEFAULT);
 
 			if (!((GLOBAL (CurrentActivity) | NextActivity) & CHECK_LOAD))
@@ -278,7 +281,17 @@ while (--ac > 0)
 				GLOBAL (CurrentActivity) = MAKE_WORD (IN_INTERPLANETARY, 0);
 
 				DrawAutoPilotMessage (TRUE);
-				SetGameClockRate (INTERPLANETARY_CLOCK_RATE);
+				switch (timeDilationScale){
+					case 1:
+						SetGameClockRate (INTERPLANETARY_CLOCK_RATE * 6);
+						break;
+					case 2:
+						SetGameClockRate (INTERPLANETARY_CLOCK_RATE / 5);
+						break;
+					default:
+						SetGameClockRate (INTERPLANETARY_CLOCK_RATE);
+						break;
+				}
 				ExploreSolarSys ();
 			}
 			else
@@ -287,7 +300,17 @@ while (--ac > 0)
 				GLOBAL (CurrentActivity) = MAKE_WORD (IN_HYPERSPACE, 0);
 
 				DrawAutoPilotMessage (TRUE);
-				SetGameClockRate (HYPERSPACE_CLOCK_RATE);
+				switch (timeDilationScale){
+					case 1:
+						SetGameClockRate (HYPERSPACE_CLOCK_RATE * 6);
+						break;
+					case 2:
+						SetGameClockRate (HYPERSPACE_CLOCK_RATE / 5);
+						break;
+					default:
+						SetGameClockRate (HYPERSPACE_CLOCK_RATE);
+						break;
+				}
 				Battle (&on_battle_frame);
 			}
 
@@ -306,6 +329,9 @@ while (--ac > 0)
 				else if (GLOBAL (CurrentActivity) & CHECK_RESTART)
 					GLOBAL (CurrentActivity) &= ~CHECK_RESTART;
 				break;
+			}
+			if (optInfiniteRU){
+				GLOBAL_SIS (ResUnits) = 4000000000L;
 			}
 		} while (!(GLOBAL (CurrentActivity) & CHECK_ABORT));
 

@@ -29,7 +29,7 @@
 #include "libs/compiler.h"
 #include "libs/log.h"
 #include "libs/mathlib.h"
-
+#include "options.h"
 #include <stdlib.h>
 
 
@@ -134,8 +134,8 @@ eventIdNumToStr (int eventNum)
 }
 
 void
-AddInitialGameEvents (void)
-{
+AddInitialGameEvents (void) {	
+	COUNT kohrah_winning_years = optCheatMode ? YEARS_TO_KOHRAH_VICTORY + 25 : YEARS_TO_KOHRAH_VICTORY;
 	AddEvent (RELATIVE_EVENT, 0, 1, 0, HYPERSPACE_ENCOUNTER_EVENT);
 	AddEvent (ABSOLUTE_EVENT, 3, 17, START_YEAR, ARILOU_ENTRANCE_EVENT);
 	AddEvent (RELATIVE_EVENT, 0, 0, YEARS_TO_KOHRAH_VICTORY,
@@ -654,6 +654,9 @@ kohr_ah_genocide_event (int arg)
 			speed = 1;
 		else if (speed > 255)
 			speed = 255;
+ 
+		if (optCheatMode)
+			speed = 0;
 
 		SET_GAME_STATE (KOHR_AH_FRENZY, 1);
 		SET_GAME_STATE (KOHR_AH_VISITS, 0);
@@ -694,6 +697,7 @@ spathi_shield_event (int arg)
 		if (SpathiPtr->actual_strength)
 		{
 			SetRaceAllied (SPATHI_SHIP, FALSE);
+			RemoveEscortShips (SPATHI_SHIP);
 			SET_GAME_STATE (SPATHI_SHIELDED_SELVES, 1);
 			SpathiPtr->actual_strength = 0;
 		}
@@ -708,76 +712,63 @@ spathi_shield_event (int arg)
 static int
 advance_ilwrath_mission (int arg)
 {
-	BYTE ThraddState;
-	HFLEETINFO hIlwrath, hThradd;
-	FLEET_INFO *IlwrathPtr;
-	FLEET_INFO *ThraddPtr;
+	COUNT MaddLength = 128;
+	SIZE strength_loss;
+	BYTE ThraddState = GET_GAME_STATE (THRADD_MISSION);
+	HFLEETINFO	hIlwrath = GetStarShipFromIndex (&GLOBAL (avail_race_q), ILWRATH_SHIP),
+				hThradd = GetStarShipFromIndex (&GLOBAL (avail_race_q), THRADDASH_SHIP);
+	FLEET_INFO	*IlwrathPtr = LockFleetInfo (&GLOBAL (avail_race_q), hIlwrath), 
+				*ThraddPtr = LockFleetInfo (&GLOBAL (avail_race_q), hThradd);
 
-	hIlwrath = GetStarShipFromIndex (&GLOBAL (avail_race_q), ILWRATH_SHIP);
-	IlwrathPtr = LockFleetInfo (&GLOBAL (avail_race_q), hIlwrath);
-	hThradd = GetStarShipFromIndex (&GLOBAL (avail_race_q), THRADDASH_SHIP);
-	ThraddPtr = LockFleetInfo (&GLOBAL (avail_race_q), hThradd);
-
-	if (IlwrathPtr->loc.x == ((2500 + 2535) >> 1)
-			&& IlwrathPtr->loc.y == ((8070 + 8358) >> 1))
-	{
+	if (IlwrathPtr->loc.x == ((2500 + 2535) >> 1) && IlwrathPtr->loc.y == ((8070 + 8358) >> 1)) {
 		IlwrathPtr->actual_strength = 0;
-		ThraddPtr->actual_strength = 0;
-		IlwrathPtr->allied_state = DEAD_GUY;
-		ThraddPtr->allied_state = DEAD_GUY;
-	}
-	else if (IlwrathPtr->actual_strength)
-	{
-		if (!GET_GAME_STATE (ILWRATH_FIGHT_THRADDASH)
-				&& (IlwrathPtr->dest_loc.x != 2500
-				|| IlwrathPtr->dest_loc.y != 8070))
-		{
-			SetRaceDest (ILWRATH_SHIP, 2500, 8070, 90,
-					ADVANCE_ILWRATH_MISSION);
+		IlwrathPtr->allied_state = DEAD_GUY;	
+		if(ThraddPtr->allied_state != GOOD_GUY){
+			ThraddPtr->actual_strength = 0;
+			ThraddPtr->allied_state = DEAD_GUY;
 		}
-		else
-		{
-#define MADD_LENGTH 128
-			SIZE strength_loss;
-
-			if (IlwrathPtr->days_left == 0)
-			{	/* arrived for battle */
+	} else if (IlwrathPtr->actual_strength) {
+		if (!GET_GAME_STATE (ILWRATH_FIGHT_THRADDASH) && (IlwrathPtr->dest_loc.x != 2500 || IlwrathPtr->dest_loc.y != 8070)) {
+			SetRaceDest (ILWRATH_SHIP, 2500, 8070, 90, ADVANCE_ILWRATH_MISSION); //90
+		} else {
+			if (IlwrathPtr->days_left == 0) {	/* arrived for battle */
 				SET_GAME_STATE (ILWRATH_FIGHT_THRADDASH, 1);
 				SET_GAME_STATE (HELIX_UNPROTECTED, 1);
 				strength_loss = (SIZE)IlwrathPtr->actual_strength;
-				IlwrathPtr->growth = (BYTE)(-strength_loss / MADD_LENGTH);
-				IlwrathPtr->growth_fract =
-						(BYTE)(((strength_loss % MADD_LENGTH) << 8) / MADD_LENGTH);
-				SetRaceDest (ILWRATH_SHIP,
-						(2500 + 2535) >> 1, (8070 + 8358) >> 1,
-						MADD_LENGTH - 1, ADVANCE_ILWRATH_MISSION);
+				IlwrathPtr->growth = (BYTE)(-strength_loss / MaddLength);
+				IlwrathPtr->growth_fract = (BYTE)(((strength_loss % MaddLength) << 8) / MaddLength);
+				SetRaceDest (ILWRATH_SHIP, 2517, 8214, MaddLength - 1, ADVANCE_ILWRATH_MISSION);
 
-				strength_loss = (SIZE)ThraddPtr->actual_strength;
-				ThraddPtr->growth = (BYTE)(-strength_loss / MADD_LENGTH);
-				ThraddPtr->growth_fract =
-						(BYTE)(((strength_loss % MADD_LENGTH) << 8) / MADD_LENGTH);
-
-				SET_GAME_STATE (THRADD_VISITS, 0);
-				if (ThraddPtr->allied_state == GOOD_GUY)
-					SetRaceAllied (THRADDASH_SHIP, FALSE);
+				if (ThraddPtr->allied_state == GOOD_GUY){
+					strength_loss = (SIZE)(ThraddPtr->actual_strength * 0.25); // Smarterer math
+					ThraddPtr->growth = (BYTE)(-strength_loss / MaddLength);
+					ThraddPtr->growth_fract = (BYTE)(((strength_loss % MaddLength) << 8) / MaddLength);
+					ThraddPtr->growth_err_term = 255 >> 1;
+				} else {
+					SET_GAME_STATE (THRADD_VISITS, 0);
+					strength_loss = (SIZE)ThraddPtr->actual_strength;
+					ThraddPtr->growth = (BYTE)(-strength_loss / MaddLength);
+					ThraddPtr->growth_fract = (BYTE)(((strength_loss % MaddLength) << 8) / MaddLength);
+				}
 			}
 
-			ThraddState = GET_GAME_STATE (THRADD_MISSION);
-			if (ThraddState == 0 || ThraddState > 3)
-			{	/* never went to Kohr-Ah or returned */
-				SetRaceDest (THRADDASH_SHIP,
-						(2500 + 2535) >> 1, (8070 + 8358) >> 1,
-						IlwrathPtr->days_left + 1, (BYTE)~0);
-			}
-			else if (ThraddState < 3)
-			{	/* recall on the double */
-				SetRaceDest (THRADDASH_SHIP, 2535, 8358, 10,
-						ADVANCE_THRADD_MISSION);
+			if (ThraddState == 0 || ThraddState > 3) {	/* never went to Kohr-Ah or returned */
+				SetRaceDest (THRADDASH_SHIP, (2500 + 2535) >> 1, (8070 + 8358) >> 1, IlwrathPtr->days_left + 1, (BYTE)~0);
+			} else if (ThraddState < 3) {	/* recall on the double */
+				SetRaceDest (THRADDASH_SHIP, 2535, 8358, 10, ADVANCE_THRADD_MISSION);
 				SET_GAME_STATE (THRADD_MISSION, 3);
 			}
 		}
 	}
-
+	if(ThraddPtr->allied_state == GOOD_GUY && !IlwrathPtr->actual_strength){		
+		ThraddPtr->growth = 0;
+		ThraddPtr->growth_fract = 0;
+		SET_GAME_STATE (ILWRATH_FIGHT_THRADDASH, 0);		
+		SetRaceDest (THRADDASH_SHIP, 2535, 8358, 3, (BYTE)~0);
+		if(!GET_GAME_STATE(AQUA_HELIX)){
+			SET_GAME_STATE (HELIX_UNPROTECTED, 0);
+		}
+	}
 	UnlockFleetInfo (&GLOBAL (avail_race_q), hThradd);
 	UnlockFleetInfo (&GLOBAL (avail_race_q), hIlwrath);
 	

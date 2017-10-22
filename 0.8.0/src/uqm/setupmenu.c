@@ -75,7 +75,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       24
+#define CHOICE_COUNT       34
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -98,7 +98,8 @@ typedef int (*HANDLER)(WIDGET *, int);
 static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 3, 3, 2, 2, 2, 2, 2, 2, 
 	2, 2, 3, 2, 2, 3, 3, 2,	3, 3, 
-	3, 2, 2, 2 };
+	3, 2, 2, 2, 
+	2, 2, 3, 2, 2, 2, 2, 2, 2, 2};
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -183,7 +184,16 @@ static WIDGET *editkeys_widgets[] = {
 	NULL };
 
 static WIDGET *incomplete_widgets[] = {
-	(WIDGET *)(&labels[0]),
+	(WIDGET *)(&choices[24]), // JMS: cheatMode on/off
+	(WIDGET *)(&choices[25]), // God Mode
+	(WIDGET *)(&choices[26]), // Time Dilation
+	(WIDGET *)(&choices[27]), // Bubble Warp
+	(WIDGET *)(&choices[28]), // Unlock Ships
+	(WIDGET *)(&choices[29]), // Head Start
+	(WIDGET *)(&choices[30]), // Unlock Upgrades
+	(WIDGET *)(&choices[31]), // Infinite RU
+	(WIDGET *)(&choices[32]), // Skip Intro
+	(WIDGET *)(&choices[33]), // FMV
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -417,6 +427,17 @@ SetDefaults (void)
 	choices[22].selected = opts.speech;
 	choices[23].selected = opts.keepaspect;
 
+ 	choices[24].selected = opts.cheatMode; // JMS	
+	choices[25].selected = opts.godMode; // Serosis
+	choices[26].selected = opts.tdType; // Serosis
+	choices[27].selected = opts.bubbleWarp; // Serosis
+	choices[28].selected = opts.unlockShips; // Serosis
+	choices[29].selected = opts.headStart; // Serosis
+	choices[30].selected = opts.unlockUpgrades; // Serosis
+	choices[31].selected = opts.infiniteRU; // Serosis
+	choices[32].selected = opts.skipIntro; // Serosis
+	choices[33].selected = opts.FMV; // Serosis
+
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
 	sliders[2].value = opts.speechvol;
@@ -450,6 +471,17 @@ PropagateResults (void)
 	opts.musicremix = choices[21].selected;
 	opts.speech = choices[22].selected;
 	opts.keepaspect = choices[23].selected;
+
+ 	opts.cheatMode = choices[24].selected; // JMS
+	opts.godMode = choices[25].selected; // Serosis
+	opts.tdType = choices[26].selected; // Serosis
+	opts.bubbleWarp = choices[27].selected; // Serosis
+	opts.unlockShips = choices[28].selected; // Serosis
+	opts.headStart = choices[29].selected; // Serosis
+	opts.unlockUpgrades = choices[30].selected; // Serosis
+	opts.infiniteRU = choices[31].selected; // Serosis
+	opts.skipIntro = choices[32].selected; // Serosis
+	opts.FMV = choices[33].selected; // Serosis
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1342,24 +1374,24 @@ GetGlobalOptions (GLOBALOPTS *opts)
 			}
 		}
 		break;
-	case 800:
-		if (ScreenHeightActual != 600)
+	case 960:
+		if (ScreenHeightActual != 720)
 		{
 			opts->res = OPTVAL_CUSTOM;
 		}
 		else
 		{
-			opts->res = OPTVAL_800_600;
+			opts->res = OPTVAL_960_720;
 		}
 		break;
-	case 1024:
-		if (ScreenHeightActual != 768)
+	case 1280:
+		if (ScreenHeightActual != 960)
 		{
 			opts->res = OPTVAL_CUSTOM;
 		}
 		else
 		{
-			opts->res = OPTVAL_1024_768;
+			opts->res = OPTVAL_1280_960;
 		}		
 		break;
 	default:
@@ -1395,6 +1427,16 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->musicvol = (((int)(musicVolumeScale * 100.0f) + 2) / 5) * 5;
 	opts->sfxvol = (((int)(sfxVolumeScale * 100.0f) + 2) / 5) * 5;
 	opts->speechvol = (((int)(speechVolumeScale * 100.0f) + 2) / 5) * 5;
+ 	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->godMode = optGodMode ? OPTVAL_ENABLED : OPTVAL_DISABLED; //Serosis
+	opts->tdType = res_GetInteger ("config.timeDilation");
+	opts->bubbleWarp = optBubbleWarp ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->unlockShips = optUnlockShips ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->headStart = optHeadStart ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->unlockUpgrades = optUnlockUpgrades ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->infiniteRU = optInfiniteRU ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->skipIntro = optSkipIntro ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->FMV = optFMV ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 }
 
 void
@@ -1426,14 +1468,14 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		NewDriver = TFB_GFXDRIVER_SDL_PURE;
 #endif
 		break;
-	case OPTVAL_800_600:
-		NewWidth = 800;
-		NewHeight = 600;
+	case OPTVAL_960_720:
+		NewWidth = 960;
+		NewHeight = 720;
 		NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
 		break;
-	case OPTVAL_1024_768:
-		NewWidth = 1024;
-		NewHeight = 768;
+	case OPTVAL_1280_960:
+		NewWidth = 1280;
+		NewHeight = 960;
 		NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
 		break;
 	default:
@@ -1445,6 +1487,45 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutInteger ("config.resheight", NewHeight);
 	res_PutBoolean ("config.alwaysgl", opts->driver == OPTVAL_ALWAYS_GL);
 	res_PutBoolean ("config.usegl", NewDriver == TFB_GFXDRIVER_SDL_OPENGL);
+
+	// JMS: Cheat Mode: Kohr-Ah move at zero speed when trying to cleanse the galaxy
+	res_PutBoolean ("config.cheatMode", opts->cheatMode == OPTVAL_ENABLED);
+	optCheatMode = opts->cheatMode == OPTVAL_ENABLED;
+
+	// Serosis: God Mode: Health and Energy does not deplete in battle.
+	res_PutBoolean ("config.godMode", opts->godMode == OPTVAL_ENABLED);
+	optGodMode = opts->godMode == OPTVAL_ENABLED;
+
+	// Serosis: Time Dilation: Increases and divides time in IP and HS by a factor of 12
+	res_PutInteger ("config.timeDilation", opts->tdType);
+
+	// Serosis: Bubble Warp: Warp instantly to your destination
+	res_PutBoolean ("config.bubbleWarp", opts->bubbleWarp == OPTVAL_ENABLED);
+	optBubbleWarp = opts->bubbleWarp == OPTVAL_ENABLED;
+
+	// Serosis: Unlocks ships that you can not unlock under normal conditions
+	res_PutBoolean ("config.unlockShips", opts->unlockShips == OPTVAL_ENABLED);
+	optUnlockShips = opts->unlockShips == OPTVAL_ENABLED;
+
+	// Serosis: Gives you 1000 Radioactives and a better outfitted ship on a a new game
+	res_PutBoolean ("config.headStart", opts->headStart == OPTVAL_ENABLED);
+	optHeadStart = opts->headStart == OPTVAL_ENABLED;
+
+	// Serosis: Unlocks all upgrades
+	res_PutBoolean ("config.unlockUpgrades", opts->unlockUpgrades == OPTVAL_ENABLED);
+	optUnlockUpgrades = opts->unlockUpgrades == OPTVAL_ENABLED;
+
+	// Serosis: Virtually Infinite RU
+	res_PutBoolean ("config.infiniteRU", opts->infiniteRU == OPTVAL_ENABLED);
+	optInfiniteRU = opts->infiniteRU == OPTVAL_ENABLED;
+
+	// Serosis: Skip the intro
+	res_PutBoolean ("config.skipIntro", opts->skipIntro == OPTVAL_ENABLED);
+	optSkipIntro = opts->skipIntro == OPTVAL_ENABLED;
+
+	// Serosis: Adds the Crystal Dynamics Logo and Commercial to the loaded 3DO videos
+	res_PutBoolean ("config.FMV", opts->FMV == OPTVAL_ENABLED);
+	optFMV = opts->FMV == OPTVAL_ENABLED;
 
 	switch (opts->scaler) {
 	case OPTVAL_BILINEAR_SCALE:

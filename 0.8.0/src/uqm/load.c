@@ -773,7 +773,8 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 			}
 			break;
 		case STAR_TAG:
-			LoadStarDesc (&SD, in_fp);
+			LoadStarDesc (&SD, in_fp);			
+			loadGameCheats();
 			break;
 		case NPC_SHIP_Q_TAG:
 			LoadShipQueue (in_fp, &GLOBAL (npc_built_ship_q), chunkSize);

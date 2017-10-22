@@ -381,6 +381,9 @@ StartGame (void)
 			{	// timed out
 				GLOBAL (CurrentActivity) = 0;
 				SplashScreen (0);
+				if(optWhichIntro == OPT_3DO && optFMV){
+					Drumall ();
+				}
 				Credits (FALSE);
 			}
 
@@ -390,7 +393,9 @@ StartGame (void)
 
 		if (LastActivity & CHECK_RESTART)
 		{	// starting a new game
-			Introduction ();
+			if(!optSkipIntro){
+				Introduction ();
+			}
 		}
 	
 	} while (GLOBAL (CurrentActivity) & CHECK_ABORT);

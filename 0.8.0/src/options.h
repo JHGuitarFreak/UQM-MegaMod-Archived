@@ -42,6 +42,20 @@ extern int optWhichShield;
 extern int optSmoothScroll;
 extern int optMeleeScale;
 
+// Serosis
+extern BOOLEAN optCheatMode;
+extern BOOLEAN optGodMode;
+extern unsigned int timeDilationScale;
+extern BOOLEAN optBubbleWarp;
+extern BOOLEAN optRoseBud;
+extern BOOLEAN optUnlockShips;
+extern BOOLEAN optHeadStart;
+extern BOOLEAN optUnlockUpgrades;
+extern BOOLEAN optInfiniteRU;
+extern DWORD oldRU;
+extern BOOLEAN optSkipIntro;
+extern BOOLEAN optFMV;
+
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;
 extern BOOLEAN optSpeech;

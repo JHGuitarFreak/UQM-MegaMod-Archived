@@ -14,24 +14,35 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#if !defined(_DEBUG_H) && (defined(DEBUG) || defined(USE_DEBUG_KEY))
-#define _DEBUG_H
-
 #include "clock.h"
 #include "planets/planets.h"
 #include "races.h"
 #include "libs/compiler.h"
 
 #include <stdio.h>
+ 
+// If a function is assigned to this, it will be called from the
+// Starcon2Main thread, in the main game loop.
+extern void (* volatile debugHook) (void);
+
+// Move the Flagship to the destination of the autopilot.
+// Should only be called from HS/QS.
+// It can be called from debugHook directly after entering HS/QS though.
+void doInstantMove (void);
+
+// Find a player ship. Setting playerNr to non-0 is only meaningful in battle.
+STARSHIP* findPlayerShip (SIZE playerNr);
+
+// Resets the energy of the first player (the bottom one) to its maximum.
+void resetEnergyBattle(void);
+
+#if !defined(_DEBUG_H) && (defined(DEBUG) || defined(USE_DEBUG_KEY))
+#define _DEBUG_H
 
 
 // If set to true, interactive routines that are called (indirectly) in debug
 // functions are a no-op.
 extern BOOLEAN disableInteractivity;
-
-// If a function is assigned to this, it will be called from the
-// Starcon2Main thread, in the main game loop.
-extern void (* volatile debugHook) (void);
 
 // Called on the main() thread when the debug key (symbol 'Debug' in the
 // keys.cfg) is pressed
@@ -65,12 +76,6 @@ void showSpheres (void);
 
 // Make the ships of all races available for building at the shipyard.
 void activateAllShips (void);
-
-// Move the Flagship to the destination of the autopilot.
-// Should only be called from HS/QS.
-// It can be called from debugHook directly after entering HS/QS though.
-void doInstantMove (void);
-
 
 // Call a function for all stars.
 void forAllStars (void (*callback) (STAR_DESC *, void *), void *arg);
@@ -169,16 +174,8 @@ const char *densityString (BYTE density);
 // Get a string describing the quality of a deposit.
 const char *depositQualityString (BYTE quality);
 
-
-// Find a player ship. Setting playerNr to non-0 is only meaningful in battle.
-STARSHIP* findPlayerShip (SIZE playerNr);
-
 // Resets the crew of the first player (the bottom one) to its maximum.
 void resetCrewBattle(void);
-
-// Resets the energy of the first player (the bottom one) to its maximum.
-void resetEnergyBattle(void);
-
 
 // Move instantly across hyperspace/quasispace.
 extern BOOLEAN instantMove;

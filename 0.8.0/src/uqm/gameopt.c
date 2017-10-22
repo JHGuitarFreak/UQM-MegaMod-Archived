@@ -38,7 +38,7 @@
 
 extern FRAME PlayFrame;
 
-#define MAX_SAVED_GAMES 50
+#define MAX_SAVED_GAMES 100
 #define SUMMARY_X_OFFS 14
 #define SUMMARY_SIDE_OFFS 7
 #define SAVES_PER_PAGE 5
@@ -1050,6 +1050,9 @@ DoPickGame (MENU_STATE *pMS)
 		pSD = &pickState->summary[pMS->CurState];
 		if (pickState->saving || pSD->year_index)
 		{	// valid slot
+			if(optInfiniteRU){
+				GLOBAL_SIS (ResUnits) = oldRU;
+			}
 			PlayMenuSound (MENU_SOUND_SUCCESS);
 			pickState->success = TRUE;
 			return FALSE;

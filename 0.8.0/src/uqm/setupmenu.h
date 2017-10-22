@@ -47,8 +47,8 @@ typedef enum {
 typedef enum {
 	OPTVAL_320_240,
 	OPTVAL_640_480,
-	OPTVAL_800_600,
-	OPTVAL_1024_768,
+	OPTVAL_960_720,
+	OPTVAL_1280_960,
 	OPTVAL_CUSTOM
 } OPT_RESTYPE;
 
@@ -68,6 +68,12 @@ typedef enum {
 	OPTVAL_MEDIUM,
 	OPTVAL_HIGH
 } OPT_AQUALITYTYPE;
+ 
+typedef enum {
+	OPTVAL_NORMAL,
+	OPTVAL_SLOW,
+	OPTVAL_FAST
+} OPT_TDTYPE;
 
 /* At the moment, CONTROL_TEMPLATE is directly in this structure.  If
  * CONTROL_TEMPLATE and the options available diverge, this will need
@@ -78,9 +84,10 @@ typedef struct globalopts_struct {
 	OPT_DRIVERTYPE driver;
 	OPT_ADRIVERTYPE adriver;
 	OPT_AQUALITYTYPE aquality;
-	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo;
-	OPT_ENABLABLE music3do, musicremix, speech;
-	OPT_ENABLABLE keepaspect;
+	OPT_TDTYPE tdType;
+	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo, music3do, musicremix, speech, keepaspect,
+		cheatMode, godMode, bubbleWarp, roseBud, unlockShips, headStart, // JMS & Serosis
+		unlockUpgrades, infiniteRU, skipIntro, FMV;
 	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, meleezoom, shield;
 	CONTROL_TEMPLATE player1, player2;
 	int speechvol, musicvol, sfxvol;

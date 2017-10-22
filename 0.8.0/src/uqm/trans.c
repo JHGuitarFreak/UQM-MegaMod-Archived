@@ -20,7 +20,7 @@
 #include "libs/compiler.h"
 
 
-SIZE sinetab[] =
+SDWORD sinetab[] =
 {
 	-FLT_ADJUST (1.000000),
 	-FLT_ADJUST (0.995185),
