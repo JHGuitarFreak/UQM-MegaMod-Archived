@@ -1497,6 +1497,20 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	optGodMode = opts->godMode == OPTVAL_ENABLED;
 
 	// Serosis: Time Dilation: Increases and divides time in IP and HS by a factor of 12
+	switch (opts->tdType){
+		case OPTVAL_NORMAL:
+			timeDilationScale=0;
+		break;
+		case OPTVAL_SLOW:
+			timeDilationScale=1;
+		break;
+		case OPTVAL_FAST:
+			timeDilationScale=2;
+		break;
+		default:
+			timeDilationScale=0;
+		break;
+	}
 	res_PutInteger ("config.timeDilation", opts->tdType);
 
 	// Serosis: Bubble Warp: Warp instantly to your destination

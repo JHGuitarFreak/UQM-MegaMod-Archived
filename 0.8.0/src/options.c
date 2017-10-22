@@ -41,8 +41,6 @@
 #	include <libgen.h>
 			/* for dirname() */
 #endif
-#include "uqm/build.h"
-#include "uqm/globdata.h"
 
 int optWhichCoarseScan;
 int optWhichMenu;

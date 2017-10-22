@@ -50,6 +50,8 @@
 #include "build.h"
 #include "uqmversion.h"
 #include "options.h"
+#include "setupmenu.h"
+
 
 volatile int MainExited = FALSE;
 #ifdef DEBUG_SLEEP
@@ -281,17 +283,7 @@ while (--ac > 0)
 				GLOBAL (CurrentActivity) = MAKE_WORD (IN_INTERPLANETARY, 0);
 
 				DrawAutoPilotMessage (TRUE);
-				switch (timeDilationScale){
-					case 1:
-						SetGameClockRate (INTERPLANETARY_CLOCK_RATE * 6);
-						break;
-					case 2:
-						SetGameClockRate (INTERPLANETARY_CLOCK_RATE / 5);
-						break;
-					default:
-						SetGameClockRate (INTERPLANETARY_CLOCK_RATE);
-						break;
-				}
+				SetGameClockRate (INTERPLANETARY_CLOCK_RATE);
 				ExploreSolarSys ();
 			}
 			else
@@ -300,17 +292,7 @@ while (--ac > 0)
 				GLOBAL (CurrentActivity) = MAKE_WORD (IN_HYPERSPACE, 0);
 
 				DrawAutoPilotMessage (TRUE);
-				switch (timeDilationScale){
-					case 1:
-						SetGameClockRate (HYPERSPACE_CLOCK_RATE * 6);
-						break;
-					case 2:
-						SetGameClockRate (HYPERSPACE_CLOCK_RATE / 5);
-						break;
-					default:
-						SetGameClockRate (HYPERSPACE_CLOCK_RATE);
-						break;
-				}
+				SetGameClockRate (HYPERSPACE_CLOCK_RATE);
 				Battle (&on_battle_frame);
 			}
 

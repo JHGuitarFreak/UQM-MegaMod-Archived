@@ -28,6 +28,7 @@
 #include "libs/threadlib.h"
 #include "libs/log.h"
 #include "libs/misc.h"
+#include "options.h"
 
 // the running of the game-clock is based on game framerates
 // *not* on the system (or translated) timer
@@ -175,6 +176,19 @@ SetGameClockRate (COUNT seconds_per_day)
 	SIZE new_day_in_ticks, new_tick_count;
 
 	new_day_in_ticks = (SIZE)(seconds_per_day * CLOCK_BASE_FRAMERATE);
+	switch (timeDilationScale){
+		case 1:
+			new_day_in_ticks = new_day_in_ticks * 6;
+			//printf("TD Slow\n");
+			break;
+		case 2:
+			new_day_in_ticks = new_day_in_ticks / 5;
+			//printf("TD Fast\n");
+			break;
+		default:
+			//printf("TD Normal\n");
+			break;
+	}
 	if (GLOBAL (GameClock.day_in_ticks) == 0)
 		new_tick_count = new_day_in_ticks;
 	else if (GLOBAL (GameClock.tick_count) <= 0)

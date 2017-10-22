@@ -1418,19 +1418,6 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	
  	if (oldResFactor != resolutionFactor || (opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || (opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED))) // MB: To force the game to restart when changing music options (otherwise music will not be changed) or resfactor 
  		resFactorWasChanged = TRUE;
-	switch (opts->tdType) {
-		case OPTVAL_NORMAL:
-			timeDilationScale = 0;
-			break;
-		case OPTVAL_SLOW:
-			timeDilationScale = 1;
-			break;
-		case OPTVAL_FAST:
-			timeDilationScale = 2;
-			break;
-		default:
-			break;
-	}
 	res_PutInteger ("config.reswidth", NewWidth);
 	res_PutInteger ("config.resheight", NewHeight);
 	res_PutBoolean ("config.alwaysgl", opts->driver == OPTVAL_ALWAYS_GL);
@@ -1475,6 +1462,19 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	optGodMode = opts->godMode == OPTVAL_ENABLED;
 
 	// Serosis: Time Dilation: Increases and divides time in IP and HS by a factor of 12
+	switch (opts->tdType) {
+		case OPTVAL_NORMAL:
+			timeDilationScale = 0;
+			break;
+		case OPTVAL_SLOW:
+			timeDilationScale = 1;
+			break;
+		case OPTVAL_FAST:
+			timeDilationScale = 2;
+			break;
+		default:
+			break;
+	}
 	res_PutInteger ("config.timeDilation", opts->tdType);
 
 	// Serosis: Bubble Warp: Warp instantly to your destination
