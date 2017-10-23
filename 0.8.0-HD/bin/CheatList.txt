@@ -1,0 +1,22 @@
+Command line		UQM.cfg (=true/false)
+--kohrstahp			| kohrStahp	 		| Stops the Kohr-Ah from advancing. Added CL option for HD and copied the code to vanilla UQM.
+--godmode			| godMode			| Self explanatory, also refills your ship energy every time you fire your weapon in melee and
+											enables the lander to land on spot along with 
+											Orz marines only work for player
+											Vux limpets only work for player
+											Syreen song only works for player
+											Melonorme confusion weapon works only for player
+											Chmmr has 5 zap-sats for the player
+											Pkunk resurrection is 100% for the player
+--timedilation=#		| timeDilation		| Slow down or speed up time depending on the option you choose
+											0 = Normal game time; 			IP = 30 seconds HS = 5 seconds
+											1 = Time slowed down times 6; IP = 3 minutes 	HS = 30 seconds
+											2 = Time sped up times 5; 		IP = 5 seconds 	HS = 1 second
+--bubblewarp		| bubbleWarp		| Instantaneous travel to any point on the map.
+--unlockships		| unlockShips		| Unlocks all ships available in the main game.
+--headstart			| headStart			| Gives you all the resources in the Sol system, a second storage bay, Fwiffo, and the Moon base 
+											so you can skip past the New Game slog.
+--unlockupgrades	| unlockUpgrades	| Unlocks all the Melnorme tech upgrades
+--infiniteru	 		| infiniteRU			| Give you virtually infinite RU, does not carry over through game saves.
+--skipintro			| skipIntro			| Skips the intro, also skips the logo if --fmv is enabled.
+--fmv				| FMV				| Enables the Logo and Drumall videos.
