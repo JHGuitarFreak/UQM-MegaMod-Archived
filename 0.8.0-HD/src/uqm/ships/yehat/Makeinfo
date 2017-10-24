@@ -1,2 +1,0 @@
-uqm_CFILES="yehat.c"
-uqm_HFILES="icode.h resinst.h yehat.h"
