@@ -134,7 +134,7 @@ snprintf(char *str, size_t size, const char *format, ...)
 }
 
 int
-uqm_vsnprintf(char *str, size_t size, const char *format, va_list args)
+vsnprintf(char *str, size_t size, const char *format, va_list args)
 {
 	int result = _vsnprintf (str, size, format, args);
 	if (str != NULL && size != 0)

@@ -391,7 +391,7 @@ snprintf(char *str, size_t size, const char *format, ...)
 // MSVC does not have vsnprintf(). It does have a _vsnprintf(), but it does
 // not \0-terminate a truncated string as the C standard prescribes.
 static inline int
-uqm_vsnprintf(char *str, size_t size, const char *format, va_list args)
+vsnprintf(char *str, size_t size, const char *format, va_list args)
 {
 	int result = _vsnprintf (str, size, format, args);
 	if (str != NULL && size != 0)
@@ -425,7 +425,7 @@ uio_vasprintf(const char *format, va_list args) {
 	}
 
 	for (;;) {
-		int printResult = uqm_vsnprintf(buf, bufSize, format, args);
+		int printResult = vsnprintf(buf, bufSize, format, args);
 		if (printResult < 0) {
 			// This means the buffer was not large enough, but vsnprintf()
 			// does not give us any clue on how large it should be.
