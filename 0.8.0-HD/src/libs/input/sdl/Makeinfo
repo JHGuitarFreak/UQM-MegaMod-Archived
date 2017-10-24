@@ -1,2 +1,0 @@
-uqm_CFILES="input.c keynames.c vcontrol.c"
-uqm_HFILES="input.h keynames.h vcontrol.h"

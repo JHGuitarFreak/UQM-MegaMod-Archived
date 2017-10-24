@@ -1,9 +1,0 @@
-rm ./uqm-hd-debug
-rm -rf ./The\ Ur-Quan\ Masters\ HD.app/
-./build.sh uqm clean
-./build.sh uqm config
-./build.sh uqm install
-cd The\ Ur-Quan\ Masters\ HD.app/Contents/MacOS
-install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" The\ Ur-Quan\ Masters\ HD
-cd ../../..
-./uqm-hd-debug

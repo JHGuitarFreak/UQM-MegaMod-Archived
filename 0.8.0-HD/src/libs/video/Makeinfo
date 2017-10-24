@@ -1,3 +1,0 @@
-uqm_CFILES="vfileins.c vresins.c video.c videodec.c vidplayer.c dukvid.c \
-            legacyplayer.c"
-uqm_HFILES="dukvid.h videodec.h video.h vidintrn.h vidplayer.h"

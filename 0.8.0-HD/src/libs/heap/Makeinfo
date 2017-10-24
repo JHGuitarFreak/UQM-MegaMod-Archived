@@ -1,2 +1,0 @@
-uqm_CFILES="heap.c"
-uqm_HFILES="heap.h"

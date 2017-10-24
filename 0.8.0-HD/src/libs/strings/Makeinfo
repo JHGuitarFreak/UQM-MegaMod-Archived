@@ -1,2 +1,0 @@
-uqm_CFILES="getstr.c sfileins.c sresins.c stringhashtable.c strings.c unicode.c"
-uqm_HFILES="stringhashtable.c strintrn.h"
