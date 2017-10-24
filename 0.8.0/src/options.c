@@ -42,6 +42,7 @@
 			/* for dirname() */
 #endif
 
+
 int optWhichCoarseScan;
 int optWhichMenu;
 int optWhichFonts;

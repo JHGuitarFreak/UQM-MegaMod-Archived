@@ -543,7 +543,7 @@ saveErrorV (const char *fmt, va_list list)
 		++len;
 		--left;
 	}
-	uqm_vsnprintf (errBuffer + len, left, fmt, list);
+	vsnprintf (errBuffer + len, left, fmt, list);
 	errBuffer[sizeof (errBuffer) - 1] = '\0';
 }
 

@@ -185,7 +185,7 @@ void
 log_addV (log_Level level, const char *fmt, va_list list)
 {
 	log_Entry full_msg;
-	uqm_vsnprintf (full_msg, sizeof (full_msg) - 1, fmt, list);
+	vsnprintf (full_msg, sizeof (full_msg) - 1, fmt, list);
 	full_msg[sizeof (full_msg) - 1] = '\0';
 	
 	if ((int)level <= maxStreamLevel)
@@ -221,7 +221,7 @@ void
 log_add_nothreadV (log_Level level, const char *fmt, va_list list)
 {
 	log_Entry full_msg;
-	uqm_vsnprintf (full_msg, sizeof (full_msg) - 1, fmt, list);
+	vsnprintf (full_msg, sizeof (full_msg) - 1, fmt, list);
 	full_msg[sizeof (full_msg) - 1] = '\0';
 	
 	if ((int)level <= maxStreamLevel)
