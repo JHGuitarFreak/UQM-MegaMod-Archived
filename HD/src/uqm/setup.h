@@ -33,7 +33,7 @@ extern FRAME ActivityFrame;
 extern FRAME StatusFrame;
 extern FRAME SubmenuStarmapKeysFrame; // JMS
 extern FRAME ConstellationsFrame; // JMS
-extern FRAME nebulaeFrame;	// JMS
+extern FRAME NebulaeFrame;	// JMS
 extern FRAME hyperspacesuns;	// BW
 extern FRAME FlagStatFrame;
 extern FRAME MiscDataFrame;

@@ -2390,12 +2390,6 @@ CreateStarBackGround (void)
 	if(rmxGraphicsPresent){ // Less ugly content checks
 		num_nebulae = 22; // MB: correction to number of nebulae
 	}
-
-	if (optNebulae && (CurStarDescPtr->star_pt.y % (num_nebulae + 4)) < num_nebulae){ // MB: Make some solar systems not have nebulae
-		nebula.origin.x = nebula.origin.y = 0;
-		nebula.frame = SetAbsFrameIndex (nebulaeFrame, CurStarDescPtr->star_pt.x % num_nebulae);
-		DrawStamp(&nebula);
-	}
 	
 #define NUM_DIM_PIECES 8
 	s.frame = SpaceJunkFrame;
@@ -2432,6 +2426,12 @@ CreateStarBackGround (void)
 			DrawStamp (&s);
 		}
 		s.frame = IncFrameIndex (s.frame);
+	}
+
+	if (optNebulae && (CurStarDescPtr->star_pt.y % (num_nebulae + 4)) < num_nebulae){ // MB: Make some solar systems not have nebulae
+		nebula.origin.x = nebula.origin.y = 0;
+		nebula.frame = SetAbsFrameIndex (NebulaeFrame, CurStarDescPtr->star_pt.x % num_nebulae);
+		DrawStamp(&nebula);
 	}
 
 	TFB_SeedRandom (old_seed);

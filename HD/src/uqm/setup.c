@@ -67,7 +67,7 @@ FRAME StatusFrame;
 FRAME SubmenuStarmapKeysFrame;
 FRAME ConstellationsFrame; // JMS
 FRAME hyperspacesuns; // BW
-FRAME nebulaeFrame; // JMS
+FRAME NebulaeFrame; // JMS
 FRAME FlagStatFrame;
 FRAME MiscDataFrame;
 FRAME FontGradFrame;
@@ -288,8 +288,8 @@ InitKernel (void)
 
 	// No longer have to do an ugly content check here, yay!
 	printf("Loading Nebulae\n"); // JMS: Background nebulae in IP.
-	nebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
-	if (nebulaeFrame == NULL)
+	NebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
+	if (NebulaeFrame == NULL)
 		return FALSE;
 		
 	// JMS: Constellation lines for the constellation starmap.

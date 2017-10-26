@@ -319,7 +319,6 @@
 #define TITLE_2X "graphics.title2x"
 #define TITLE_4X "graphics.title4x"
 #define TRITON_MASK_ANIM "graphics.tritonmask"
-#define NEBULA  "graphics.nebula"
 #define UMGAH_BCS_MASK_PMAP_ANIM "graphics.umgahcaster"
 #define URANUS_MASK_ANIM "graphics.uranusmask"
 #define VAULT_MASK_PMAP_ANIM "graphics.syreenvault"
