@@ -428,15 +428,21 @@ SetDefaults (void)
 	choices[23].selected = opts.keepaspect;
 
  	choices[24].selected = opts.cheatMode; // JMS	
-	choices[25].selected = opts.godMode; // Serosis
-	choices[26].selected = opts.tdType; // Serosis
-	choices[27].selected = opts.bubbleWarp; // Serosis
-	choices[28].selected = opts.unlockShips; // Serosis
-	choices[29].selected = opts.headStart; // Serosis
-	choices[30].selected = opts.unlockUpgrades; // Serosis
-	choices[31].selected = opts.infiniteRU; // Serosis
-	choices[32].selected = opts.skipIntro; // Serosis
-	choices[33].selected = opts.FMV; // Serosis
+	// Serosis
+	choices[25].selected = opts.godMode;
+	choices[26].selected = opts.tdType;
+	choices[27].selected = opts.bubbleWarp;
+	choices[28].selected = opts.unlockShips;
+	choices[29].selected = opts.headStart;
+	choices[30].selected = opts.unlockUpgrades;
+	choices[31].selected = opts.infiniteRU;
+	choices[32].selected = opts.skipIntro;
+	choices[33].selected = opts.FMV;
+	// JMS
+	choices[34].selected = opts.mainMenuMusic;
+	choices[35].selected = opts.nebulae;
+	choices[36].selected = opts.rotatingIpPlanets;
+	choices[37].selected = opts.texturedIpPlanets || opts.rotatingIpPlanets;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -473,15 +479,21 @@ PropagateResults (void)
 	opts.keepaspect = choices[23].selected;
 
  	opts.cheatMode = choices[24].selected; // JMS
-	opts.godMode = choices[25].selected; // Serosis
-	opts.tdType = choices[26].selected; // Serosis
-	opts.bubbleWarp = choices[27].selected; // Serosis
-	opts.unlockShips = choices[28].selected; // Serosis
-	opts.headStart = choices[29].selected; // Serosis
-	opts.unlockUpgrades = choices[30].selected; // Serosis
-	opts.infiniteRU = choices[31].selected; // Serosis
-	opts.skipIntro = choices[32].selected; // Serosis
-	opts.FMV = choices[33].selected; // Serosis
+	// Serosis
+	opts.godMode = choices[25].selected;
+	opts.tdType = choices[26].selected;
+	opts.bubbleWarp = choices[27].selected;
+	opts.unlockShips = choices[28].selected;
+	opts.headStart = choices[29].selected;
+	opts.unlockUpgrades = choices[30].selected;
+	opts.infiniteRU = choices[31].selected;
+	opts.skipIntro = choices[32].selected;
+	opts.FMV = choices[33].selected;
+	 // JMS
+	opts.mainMenuMusic = choices[34].selected;
+	opts.nebulae = choices[35].selected;
+	opts.rotatingIpPlanets = choices[36].selected;
+	opts.texturedIpPlanets = choices[37].selected || opts.rotatingIpPlanets;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1427,8 +1439,10 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->musicvol = (((int)(musicVolumeScale * 100.0f) + 2) / 5) * 5;
 	opts->sfxvol = (((int)(sfxVolumeScale * 100.0f) + 2) / 5) * 5;
 	opts->speechvol = (((int)(speechVolumeScale * 100.0f) + 2) / 5) * 5;
- 	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->godMode = optGodMode ? OPTVAL_ENABLED : OPTVAL_DISABLED; //Serosis
+
+ 	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED; // JMS
+	// Serosis
+	opts->godMode = optGodMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->tdType = res_GetInteger ("config.timeDilation");
 	opts->bubbleWarp = optBubbleWarp ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->unlockShips = optUnlockShips ? OPTVAL_ENABLED : OPTVAL_DISABLED;
@@ -1437,6 +1451,12 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->infiniteRU = optInfiniteRU ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->skipIntro = optSkipIntro ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->FMV = optFMV ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	// JMS
+	opts->mainMenuMusic = optMainMenuMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->nebulae = optNebulae ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->rotatingIpPlanets = optRotatingIpPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->texturedIpPlanets = (optTexturedIpPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED) || opts->rotatingIpPlanets;
+	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 }
 
 void
@@ -1486,7 +1506,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutInteger ("config.reswidth", NewWidth);
 	res_PutInteger ("config.resheight", NewHeight);
 	res_PutBoolean ("config.alwaysgl", opts->driver == OPTVAL_ALWAYS_GL);
-	res_PutBoolean ("config.usegl", NewDriver == TFB_GFXDRIVER_SDL_OPENGL);
+	res_PutBoolean ("config.usegl", NewDriver == TFB_GFXDRIVER_SDL_OPENGL);	
 
 	// JMS: Cheat Mode: Kohr-Ah move at zero speed when trying to cleanse the galaxy
 	res_PutBoolean ("config.cheatMode", opts->cheatMode == OPTVAL_ENABLED);
@@ -1540,6 +1560,27 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Adds the Crystal Dynamics Logo and Commercial to the loaded 3DO videos
 	res_PutBoolean ("config.FMV", opts->FMV == OPTVAL_ENABLED);
 	optFMV = opts->FMV == OPTVAL_ENABLED;
+	
+	// JMS: Main menu music
+	res_PutBoolean ("config.mainMenuMusic", opts->mainMenuMusic == OPTVAL_ENABLED);
+	optMainMenuMusic = opts->mainMenuMusic == OPTVAL_ENABLED;
+	if(!optMainMenuMusic)
+		FadeMusic (0,ONE_SECOND);
+	else
+		FadeMusic (NORMAL_VOLUME+70, ONE_SECOND);
+	
+	// JMS: Is a beautiful nebula background shown as the background of solarsystems.
+	res_PutBoolean ("config.nebulae", opts->nebulae == OPTVAL_ENABLED);
+	optNebulae = opts->nebulae == OPTVAL_ENABLED;
+	
+	// JMS: Rotating planets in IP.
+	res_PutBoolean ("config.rotatingIpPlanets", opts->rotatingIpPlanets == OPTVAL_ENABLED);
+	optRotatingIpPlanets = opts->rotatingIpPlanets == OPTVAL_ENABLED;
+	
+	// JMS: Textured or plain(==vanilla UQM style) planets in IP.
+	res_PutBoolean ("config.texturedIpPlanets", (opts->texturedIpPlanets == OPTVAL_ENABLED) || opts->rotatingIpPlanets == OPTVAL_ENABLED);
+	optTexturedIpPlanets = opts->texturedIpPlanets == OPTVAL_ENABLED
+		|| opts->rotatingIpPlanets == OPTVAL_ENABLED;
 
 	switch (opts->scaler) {
 	case OPTVAL_BILINEAR_SCALE:

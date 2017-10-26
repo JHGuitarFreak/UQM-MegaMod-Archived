@@ -42,8 +42,8 @@ extern int optWhichShield;
 extern int optSmoothScroll;
 extern int optMeleeScale;
 
+extern BOOLEAN optCheatMode; // JMS
 // Serosis
-extern BOOLEAN optCheatMode;
 extern BOOLEAN optGodMode;
 extern unsigned int timeDilationScale;
 extern BOOLEAN optBubbleWarp;
@@ -55,6 +55,11 @@ extern BOOLEAN optInfiniteRU;
 extern DWORD oldRU;
 extern BOOLEAN optSkipIntro;
 extern BOOLEAN optFMV;
+// JMS
+extern BOOLEAN optMainMenuMusic;
+extern BOOLEAN optNebulae;
+extern BOOLEAN optRotatingIpPlanets;
+extern BOOLEAN optTexturedIpPlanets;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

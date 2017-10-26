@@ -52,8 +52,8 @@ int optSmoothScroll;
 int optMeleeScale;
 const char **optAddons;
 
+BOOLEAN optCheatMode; // JMS
 // Serosis
-BOOLEAN optCheatMode;
 BOOLEAN optGodMode;
 unsigned int timeDilationScale;
 BOOLEAN optBubbleWarp;
@@ -64,6 +64,11 @@ BOOLEAN optInfiniteRU;
 DWORD oldRU;
 BOOLEAN optSkipIntro;
 BOOLEAN optFMV;
+// JMS
+BOOLEAN optMainMenuMusic;
+BOOLEAN optNebulae;
+BOOLEAN optRotatingIpPlanets;
+BOOLEAN optTexturedIpPlanets;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;
