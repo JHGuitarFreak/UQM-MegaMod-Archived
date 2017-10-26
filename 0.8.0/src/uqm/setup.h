@@ -33,6 +33,7 @@ extern RESOURCE_INDEX hResIndex;
 extern FRAME Screen;
 extern FRAME ActivityFrame;
 extern FRAME StatusFrame;
+extern FRAME NebulaeFrame;	// JMS
 extern FRAME FlagStatFrame;
 extern FRAME MiscDataFrame;
 extern FRAME FontGradFrame;
