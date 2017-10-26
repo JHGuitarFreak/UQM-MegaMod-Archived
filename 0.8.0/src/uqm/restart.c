@@ -40,7 +40,8 @@
 #include "uqmversion.h"
 #include "libs/graphics/gfx_common.h"
 #include "libs/inplib.h"
-
+#include "libs/graphics/sdl/pure.h"
+#include "options.h"
 
 enum
 {
@@ -118,22 +119,26 @@ DoRestart (MENU_STATE *pMS)
 			pMS->hMusic = 0;
 		}
 		pMS->hMusic = LoadMusic (MAINMENU_MUSIC);
-		InactTimeOut = (pMS->hMusic ? 120 : 20) * ONE_SECOND;
+		InactTimeOut = (pMS->hMusic && optMainMenuMusic ? 86 : 20) * ONE_SECOND;
 		pMS->flashContext = Flash_createOverlay (ScreenContext,
 				NULL, NULL);
 		Flash_setMergeFactors (pMS->flashContext, -3, 3, 16);
-		Flash_setSpeed (pMS->flashContext, (6 * ONE_SECOND) / 16, 0,
-				(6 * ONE_SECOND) / 16, 0);
+		Flash_setSpeed (pMS->flashContext, (6 * ONE_SECOND) / 14, 0,
+				(6 * ONE_SECOND) / 14, 0);
 		Flash_setFrameTime (pMS->flashContext, ONE_SECOND / 16);
 		Flash_setState(pMS->flashContext, FlashState_fadeIn,
 				(3 * ONE_SECOND) / 16);
 		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame);
 		Flash_start (pMS->flashContext);
-		PlayMusic (pMS->hMusic, TRUE, 1);
 		LastInputTime = GetTimeCounter ();
 		pMS->Initialized = TRUE;
 
 		SleepThreadUntil (FadeScreen (FadeAllToColor, ONE_SECOND / 2));
+		FadeMusic(0,0);
+		PlayMusic (pMS->hMusic, TRUE, 1);
+		
+		if (optMainMenuMusic)
+			FadeMusic (NORMAL_VOLUME+70, ONE_SECOND * 3);
 	}
 	else if (GLOBAL (CurrentActivity) & CHECK_ABORT)
 	{
@@ -161,6 +166,7 @@ DoRestart (MENU_STATE *pMS)
 				SetupMenu ();
 				SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN,
 						MENU_SOUND_SELECT);
+				InactTimeOut = (pMS->hMusic && optMainMenuMusic ? 86 : 20) * ONE_SECOND;
 				LastInputTime = GetTimeCounter ();
 				SetTransitionSource (NULL);
 				BatchGraphics ();
@@ -308,11 +314,17 @@ RestartMenu (MENU_STATE *pMS)
 	SetDefaultMenuRepeatDelay ();
 	DoInput (pMS, TRUE);
 	
+	if (optMainMenuMusic)
+		SleepThreadUntil (FadeMusic (0, ONE_SECOND));
+
 	StopMusic ();
 	if (pMS->hMusic)
 	{
 		DestroyMusic (pMS->hMusic);
 		pMS->hMusic = 0;
+
+		if (optMainMenuMusic)
+			FadeMusic (NORMAL_VOLUME, 0);
 	}
 
 	Flash_terminate (pMS->flashContext);
