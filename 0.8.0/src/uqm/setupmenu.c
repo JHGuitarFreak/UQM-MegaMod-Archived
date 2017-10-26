@@ -75,7 +75,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       34
+#define CHOICE_COUNT       38
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -99,7 +99,8 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 3, 3, 2, 2, 2, 2, 2, 2, 
 	2, 2, 3, 2, 2, 3, 3, 2,	3, 3, 
 	3, 2, 2, 2, 
-	2, 2, 3, 2, 2, 2, 2, 2, 2, 2};
+	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
+	2, 2, 2, 2 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -136,6 +137,7 @@ static WIDGET *audio_widgets[] = {
 	(WIDGET *)(&choices[9]),
 	(WIDGET *)(&choices[21]),
 	(WIDGET *)(&choices[22]),
+	(WIDGET *)(&choices[34]), // JMS: Mainmenumusic on/off
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -158,6 +160,9 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[12]),
 	(WIDGET *)(&choices[15]),
 	(WIDGET *)(&choices[16]),
+	(WIDGET *)(&choices[35]), // JMS: IP nebulae on/off
+	(WIDGET *)(&choices[36]), // JMS: rotatingIpPlanets on/off
+	(WIDGET *)(&choices[37]), // JMS: texturedIpPlanets on/off
 	(WIDGET *)(&buttons[1]),
 	NULL };
 	
@@ -185,6 +190,7 @@ static WIDGET *editkeys_widgets[] = {
 
 static WIDGET *incomplete_widgets[] = {
 	(WIDGET *)(&choices[24]), // JMS: cheatMode on/off
+	// Serosis
 	(WIDGET *)(&choices[25]), // God Mode
 	(WIDGET *)(&choices[26]), // Time Dilation
 	(WIDGET *)(&choices[27]), // Bubble Warp
@@ -194,7 +200,7 @@ static WIDGET *incomplete_widgets[] = {
 	(WIDGET *)(&choices[31]), // Infinite RU
 	(WIDGET *)(&choices[32]), // Skip Intro
 	(WIDGET *)(&choices[33]), // FMV
-	(WIDGET *)(&buttons[1]),
+	(WIDGET *)(&buttons[1]),  // Exit to Menu
 	NULL };
 
 static const struct
