@@ -66,6 +66,7 @@ UninitKernel (void)
 	DestroyFont (MicroFont);
 	DestroyStringTable (ReleaseStringTable (GameStrings));
 	DestroyDrawable (ReleaseDrawable (StatusFrame));
+	DestroyDrawable (ReleaseDrawable (NebulaeFrame));	// JMS
 	DestroyDrawable (ReleaseDrawable (ActivityFrame));
 	DestroyFont (TinyFont);
 	DestroyFont (StarConFont);

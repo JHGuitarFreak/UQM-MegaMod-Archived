@@ -62,6 +62,7 @@ FONT TinyFont;
 QUEUE race_q[NUM_PLAYERS];
 FRAME ActivityFrame;
 FRAME StatusFrame;
+FRAME NebulaeFrame; // JMS
 FRAME FlagStatFrame;
 FRAME MiscDataFrame;
 FRAME FontGradFrame;
@@ -229,6 +230,10 @@ InitKernel (void)
 
 	StatusFrame = CaptureDrawable (LoadGraphic (STATUS_MASK_PMAP_ANIM));
 	if (StatusFrame == NULL)
+		return FALSE;
+
+	NebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
+	if (NebulaeFrame == NULL)
 		return FALSE;
 
 	GameStrings = CaptureStringTable (LoadStringTable (STARCON_GAME_STRINGS));
