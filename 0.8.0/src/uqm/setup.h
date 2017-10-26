@@ -58,9 +58,10 @@ extern QUEUE race_q[];
 		/* Array of lists of ships involved in a battle, one queue per side;
 		 * queue element is STARSHIP */
 
-extern BOOLEAN seroSetupPresent; // Serosis
-extern BOOLEAN seroMenuPresent; // Serosis
-
+// Serosis
+extern BOOLEAN seroSetupPresent;
+extern BOOLEAN seroMenuPresent;
+extern BOOLEAN rmxGraphicsPresent;
 extern ACTIVITY LastActivity;
 
 extern BYTE PlayerControl[];

@@ -68,8 +68,10 @@ FRAME MiscDataFrame;
 FRAME FontGradFrame;
 STRING GameStrings;
 QUEUE disp_q;
-BOOLEAN seroSetupPresent; // Serosis
-BOOLEAN seroMenuPresent; // Serosis
+// Serosis
+BOOLEAN seroSetupPresent;
+BOOLEAN seroMenuPresent;
+BOOLEAN rmxGraphicsPresent;
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -143,6 +145,11 @@ LoadKernel (int argc, char *argv[])
 	if (optWhichIntro == OPT_3DO)
 	{
 		loadAddon ("3dovideo");
+	}
+	if(loadAddon("rmx-graphics-1x")){
+		rmxGraphicsPresent = TRUE;
+		printf("Loading RMX-Graphics 1x\n");
+		log_add (log_Debug, "loading rmx-graphics-1x");
 	}
 	if(loadAddon("sero-menu-1x")){
 		seroMenuPresent = TRUE;
@@ -232,9 +239,11 @@ InitKernel (void)
 	if (StatusFrame == NULL)
 		return FALSE;
 
-	NebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
-	if (NebulaeFrame == NULL)
-		return FALSE;
+	if (optNebulae && rmxGraphicsPresent) {
+		NebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
+		if (NebulaeFrame == NULL)
+			return FALSE;
+	}
 
 	GameStrings = CaptureStringTable (LoadStringTable (STARCON_GAME_STRINGS));
 	if (GameStrings == 0)

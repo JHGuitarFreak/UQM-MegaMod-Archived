@@ -1643,7 +1643,6 @@ static FRAME
 CreateStarBackGround (void)
 {
 	COUNT i, j;
-	COUNT num_brt_drawn;
 	DWORD rand_val;
 	STAMP s, nebula; // JMS (added that nebula there)
 	CONTEXT oldContext;
@@ -1667,7 +1666,7 @@ CreateStarBackGround (void)
 
 	RandomContext_SeedRandom (SysGenRNG, GetRandomSeedForStar (CurStarDescPtr));
 	
-	if (optNebulae && (CurStarDescPtr->star_pt.y % (numNebulae + 4)) < numNebulae){ // MB: Make some solar systems not have nebulae
+	if (optNebulae && rmxGraphicsPresent && (CurStarDescPtr->star_pt.y % (numNebulae + 4)) < numNebulae){ // MB: Make some solar systems not have nebulae
 		nebula.origin.x = nebula.origin.y = 0;
 		nebula.frame = SetAbsFrameIndex (NebulaeFrame, CurStarDescPtr->star_pt.x % numNebulae);
 		DrawStamp(&nebula);
@@ -1688,17 +1687,11 @@ CreateStarBackGround (void)
 		}
 		s.frame = IncFrameIndex (s.frame);
 	}
-	// JMS
-	if (optNebulae && (CurStarDescPtr->star_pt.y % (numNebulae + 4)) < numNebulae) { // MB: Make some system not have nebulae
-		num_brt_drawn = 30; // JMS_GFX - Altered MB
-	} else {
-		num_brt_drawn = 30; // JMS_GFX - Altered MB
-	}
 #define NUM_BRT_PIECES 8
 	for (i = 0; i < NUM_BRT_PIECES; ++i)
 	{
 #define NUM_BRT_DRAWN 30
-		for (j = 0; j < num_brt_drawn; ++j)
+		for (j = 0; j < NUM_BRT_DRAWN; ++j)
 		{
 			rand_val = RandomContext_Random (SysGenRNG);
 			s.origin.x = LOWORD (rand_val) % SIS_SCREEN_WIDTH;
