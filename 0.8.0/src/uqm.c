@@ -131,7 +131,8 @@ struct options_struct
 	DECL_CONFIG_OPTION(float, speechVolumeScale);
 	DECL_CONFIG_OPTION(bool, safeMode);
  	DECL_CONFIG_OPTION(bool, cheatMode); // JMS
-	DECL_CONFIG_OPTION(bool, godMode); // Serosis
+	// Serosis
+	DECL_CONFIG_OPTION(bool, godMode);
 	DECL_CONFIG_OPTION(int, timeDilationScale);
 	DECL_CONFIG_OPTION(bool, bubbleWarp);
 	DECL_CONFIG_OPTION(bool, unlockShips);
@@ -140,6 +141,11 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, infiniteRU);
 	DECL_CONFIG_OPTION(bool, skipIntro);
 	DECL_CONFIG_OPTION(bool, FMV);
+	// JMS
+	DECL_CONFIG_OPTION(bool, mainMenuMusic);
+	DECL_CONFIG_OPTION(bool, nebulae);
+	DECL_CONFIG_OPTION(bool, rotatingIpPlanets);
+	DECL_CONFIG_OPTION(bool, texturedIpPlanets);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -262,9 +268,9 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  useRemixMusic,     false ),
 		INIT_CONFIG_OPTION(  useSpeech,         true ),
 		INIT_CONFIG_OPTION(  whichCoarseScan,   OPT_PC ),
-		INIT_CONFIG_OPTION(  whichMenu,         OPT_PC ),
+		INIT_CONFIG_OPTION(  whichMenu,         OPT_3DO ),
 		INIT_CONFIG_OPTION(  whichFonts,        OPT_PC ),
-		INIT_CONFIG_OPTION(  whichIntro,        OPT_PC ),
+		INIT_CONFIG_OPTION(  whichIntro,        OPT_3DO ),
 		INIT_CONFIG_OPTION(  whichShield,       OPT_3DO ),
 		INIT_CONFIG_OPTION(  smoothScroll,      OPT_PC ),
 		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_TRILINEAR ),
@@ -272,10 +278,11 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  stereoSFX,         false ),
 		INIT_CONFIG_OPTION(  musicVolumeScale,  1.0f ),
 		INIT_CONFIG_OPTION(  sfxVolumeScale,    1.0f ),
-		INIT_CONFIG_OPTION(  speechVolumeScale, 1.0f ),
+		INIT_CONFIG_OPTION(  speechVolumeScale, 0.8f ),
 		INIT_CONFIG_OPTION(  safeMode,          false ),
-		INIT_CONFIG_OPTION(  cheatMode,			false ),
-		INIT_CONFIG_OPTION(  godMode,			false ), //Serosis
+		INIT_CONFIG_OPTION(  cheatMode,			false ), // JMS
+		//Serosis
+		INIT_CONFIG_OPTION(  godMode,			false ), 
 		INIT_CONFIG_OPTION(  timeDilationScale,	0 ),
 		INIT_CONFIG_OPTION(  bubbleWarp,		false ),
 		INIT_CONFIG_OPTION(  unlockShips,		false ),
@@ -284,6 +291,11 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  infiniteRU,		false ),
 		INIT_CONFIG_OPTION(  skipIntro,			false ),
 		INIT_CONFIG_OPTION(  FMV,				false ),
+		// JMS
+		INIT_CONFIG_OPTION(  mainMenuMusic,     true ),
+		INIT_CONFIG_OPTION(  nebulae,			true ),
+		INIT_CONFIG_OPTION(  rotatingIpPlanets,	false),
+		INIT_CONFIG_OPTION(  texturedIpPlanets,	false),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -411,9 +423,10 @@ main (int argc, char *argv[])
 	sfxVolumeScale = options.sfxVolumeScale.value;
 	speechVolumeScale = options.speechVolumeScale.value;
 	optAddons = options.addons;
- 	optCheatMode = options.cheatMode.value; // JMS
-	optGodMode = options.godMode.value; // Serosis
-	timeDilationScale = (unsigned int) options.timeDilationScale.value; // Serosis
+	
+	optGodMode = options.godMode.value; // JMS
+	// Serosis
+	timeDilationScale = (unsigned int) options.timeDilationScale.value;
 	optBubbleWarp = options.bubbleWarp.value;
 	optUnlockShips = options.unlockShips.value;
 	optHeadStart = options.headStart.value;
@@ -421,6 +434,12 @@ main (int argc, char *argv[])
 	optInfiniteRU = options.infiniteRU.value;
 	optSkipIntro = options.skipIntro.value;
 	optFMV = options.FMV.value;
+	// JMS
+	optMainMenuMusic = options.mainMenuMusic.value;
+	optNebulae = options.nebulae.value;
+	optRotatingIpPlanets = options.rotatingIpPlanets.value;
+	optTexturedIpPlanets = options.texturedIpPlanets.value || optRotatingIpPlanets;
+ 	optCheatMode = options.cheatMode.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -705,8 +724,10 @@ getUserConfigOptions (struct options_struct *options)
 	getVolumeConfigValue (&options->musicVolumeScale, "config.musicvol");
 	getVolumeConfigValue (&options->sfxVolumeScale, "config.sfxvol");
 	getVolumeConfigValue (&options->speechVolumeScale, "config.speechvol");
-	getBoolConfigValue (&options->cheatMode, "config.kohrStahp");
-	getBoolConfigValue (&options->godMode, "config.godMode"); //Serosis
+
+	getBoolConfigValue (&options->cheatMode, "config.kohrStahp"); // JMS
+	// Serosis
+	getBoolConfigValue (&options->godMode, "config.godMode");
 	if (res_IsInteger ("config.timeDilation") && !options->timeDilationScale.set) {
 		options->timeDilationScale.value = res_GetInteger ("config.timeDilation");
 	}
@@ -717,6 +738,11 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->infiniteRU, "config.infiniteRU");
 	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
 	getBoolConfigValue (&options->FMV, "config.FMV");
+	// JMS
+	getBoolConfigValue (&options->mainMenuMusic, "config.mainMenuMusic");
+	getBoolConfigValue (&options->nebulae, "config.nebulae");
+	getBoolConfigValue (&options->rotatingIpPlanets, "config.rotatingIpPlanets");
+	getBoolConfigValue (&options->texturedIpPlanets, "config.texturedIpPlanets");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -766,6 +792,10 @@ enum
 	INFINITERU_OPT,
 	SKIPINTRO_OPT,
 	FMV_OPT,
+	MENUMUS_OPT,
+	NEBU_OPT,
+	ORBITS_OPT,
+	TEXTPLAN_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -823,6 +853,10 @@ static struct option longOptions[] =
 	{"infiniteru", 0, NULL, INFINITERU_OPT},
 	{"skipintro", 0, NULL, SKIPINTRO_OPT},
 	{"fmv", 0, NULL, FMV_OPT},
+	{"mainMenuMusic", 0, NULL, MENUMUS_OPT},
+	{"nebulae", 0, NULL, NEBU_OPT},
+	{"movingorbits", 0, NULL, ORBITS_OPT},
+	{"texturedplanets", 0, NULL, TEXTPLAN_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1119,6 +1153,18 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				break;
 			case FMV_OPT:
 				setBoolOption (&options->FMV, true);
+				break;
+			case MENUMUS_OPT:
+				setBoolOption (&options->mainMenuMusic, true);
+				break;
+			case NEBU_OPT:
+				setBoolOption (&options->nebulae, true);
+				break;
+			case ORBITS_OPT:
+				setBoolOption (&options->rotatingIpPlanets, true);
+				break;
+			case TEXTPLAN_OPT:
+				setBoolOption (&options->texturedIpPlanets, true);
 				break;
 			case ADDON_OPT:
 				options->numAddons++;
