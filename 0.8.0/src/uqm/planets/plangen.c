@@ -106,7 +106,7 @@ RenderTopography (FRAME DstFrame, SBYTE *pTopoData, int w, int h, BOOLEAN SurfDe
 		// There is currently nothing we can do w/o an xlat table
 		// This is still called for Earth for 4x scaled topo, but we
 		// do not need it because we cannot land on Earth.
-		log_add(log_Warning, "No xlat table -- could not generate surface.\n");
+		log_add(log_Warning, "No xlt table -- could not generate surface.\n");
 	} else {
 		BYTE AlgoType;
 		SIZE base, d;

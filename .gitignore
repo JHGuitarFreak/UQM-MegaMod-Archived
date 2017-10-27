@@ -257,9 +257,9 @@ paket-files/
 Classic/bin/content
 HD/bin/content
 0.8.0/bin/content
-!0.8.0/bin/content/version
-!0.8.0/bin/content/addons/sero-setup-080.uqm
-!0.8.0/bin/content/packages/uqm-0.8.0-content.uqm
+!/0.8.0/bin/content/version
+!/0.8.0/bin/content/addons/sero-setup-080.uqm
+!/0.8.0/bin/content/packages/uqm-0.8.0-content.uqm
 stderr.txt
 stdout.txt
 src.orig
