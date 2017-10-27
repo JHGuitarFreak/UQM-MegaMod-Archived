@@ -314,6 +314,8 @@ static void
 NameCaptainOrShip (bool nameCaptain, bool gamestart)
 {
 	UNICODE buf[MAX_NAME_SIZE] = "";
+	UNICODE cap[28] = "";
+	UNICODE shp[32] = "";
 	TEXTENTRY_STATE tes;
 	UNICODE *Setting;
 	COUNT CursPos = 0; // JMS
@@ -336,17 +338,14 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 		t.align = ALIGN_CENTER;
 		t.CharCount = (COUNT)~0;
 		
-		if (nameCaptain)
-		{
+		if (nameCaptain) {
 			// "Captain, what is your name?"
-			t.pStr = GAME_STRING (NAMING_STRING_BASE + 4);
+			t.pStr = strcpy (cap, "Captain, what is your name?");// GAME_STRING (NAMING_STRING_BASE + 4);
 			strcpy (buf,  GAME_STRING (NAMING_STRING_BASE + 3)); // "Zelnick"
 			CursPos = strlen(GAME_STRING (NAMING_STRING_BASE + 3));
-		}
-		else
-		{
+		} else {
 			// "What is the name of your flagship?"
-			t.pStr = GAME_STRING (NAMING_STRING_BASE + 5);
+			t.pStr = strcpy (shp, "What is the name your flagship?"); // GAME_STRING (NAMING_STRING_BASE + 5);
 			strcpy (buf, GAME_STRING (NAMING_STRING_BASE + 2)); // "Vindicator"
 			CursPos = strlen(GAME_STRING (NAMING_STRING_BASE + 2));
 		}

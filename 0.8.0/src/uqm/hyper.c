@@ -830,13 +830,18 @@ AddAmbientElement (void)
 		if (HIWORD (rand_val) & 7)
 		{
 			HyperSpaceElementPtr->life_span = 14;
-			HyperSpaceElementPtr->current.image.frame = stars_in_space;
+			if ((GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
+				HyperSpaceElementPtr->current.image.frame = stars_in_space;
+			else
+				HyperSpaceElementPtr->current.image.frame = stars_in_quasispace;
 		}
 		else
 		{
 			HyperSpaceElementPtr->life_span = 12;
-			HyperSpaceElementPtr->current.image.frame =
-					SetAbsFrameIndex (stars_in_space, 14);
+			if ((GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
+				HyperSpaceElementPtr->current.image.frame = SetAbsFrameIndex (stars_in_space, 14);
+			else
+				HyperSpaceElementPtr->current.image.frame = SetAbsFrameIndex (stars_in_quasispace, 14);
 		}
 
 		UnlockElement (hHyperSpaceElement);

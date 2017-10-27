@@ -263,7 +263,11 @@ InitGalaxy (void)
 			SetPrimType (&DisplayArray[p], STAMP_PRIM);
 			SetPrimColor (&DisplayArray[p],
 					BUILD_COLOR (MAKE_RGB15 (0x0B, 0x0B, 0x1F), 0x09));
-			DisplayArray[p].Object.Stamp.frame = stars_in_space;
+			// JMS_GFX: This was originally only "DisplayArray[p].Object.Stamp.frame = stars_in_space;"
+			if ((GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
+				DisplayArray[p].Object.Stamp.frame = stars_in_space;
+			else
+				DisplayArray[p].Object.Stamp.frame = stars_in_quasispace;
 		}
 		else
 		{
@@ -321,9 +325,16 @@ MoveGalaxy (VIEW_STATE view_state, SIZE dx, SIZE dy)
 		COUNT i;
 		COUNT iss;
 		POINT *ppt;
+		FRAME tempframe;
 		int wrap_around;
 
 		reduction = zoom_out;
+
+		// JMS_GFX
+		if ((GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
+			tempframe = stars_in_space;
+		else
+			tempframe = stars_in_quasispace;
 
 		if (view_state == VIEW_CHANGE)
 		{
@@ -334,7 +345,7 @@ MoveGalaxy (VIEW_STATE view_state, SIZE dx, SIZE dy)
 					for (i = star_counts[iss]; i > 0; --i, ++pprim)
 					{
 						pprim->Object.Stamp.frame =	SetAbsFrameIndex (
-								stars_in_space,
+								tempframe,
 									(COUNT)(TFB_Random () & 31)
 									+ star_frame_ofs[iss]);
 					}
@@ -343,7 +354,7 @@ MoveGalaxy (VIEW_STATE view_state, SIZE dx, SIZE dy)
 			else
 			{
 				GRAPHICS_PRIM star_object[2];
-				FRAME star_frame[2];
+				FRAME star_frame[9];
 
 				star_frame[0] = IncFrameIndex (stars_in_space);
 				star_frame[1] = stars_in_space;

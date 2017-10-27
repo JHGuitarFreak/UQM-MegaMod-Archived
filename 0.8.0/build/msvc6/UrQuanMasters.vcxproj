@@ -80,8 +80,6 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>D:\Programming\C++\UQM\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Programming\C++\UQM\lib;$(LibraryPath)</LibraryPath>
