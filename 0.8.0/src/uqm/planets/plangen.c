@@ -1167,8 +1167,10 @@ MakeGasGiant (COUNT num_bands, SBYTE *DepthArray, RECT *pRect, SIZE
 	UWORD loword, hiword;
 	DWORD rand_val;
 
-	band_height = pRect->extent.height / num_bands;
-	band_bump = pRect->extent.height % num_bands;
+	// band_height = pRect->extent.height / num_bands;
+	band_height = MAP_HEIGHT / num_bands;
+	// band_bump = pRect->extent.height % num_bands;
+	band_bump = MAP_HEIGHT % num_bands;
 	band_error = num_bands >> 1;
 	lpDst = DepthArray;
 
@@ -1204,12 +1206,12 @@ MakeGasGiant (COUNT num_bands, SBYTE *DepthArray, RECT *pRect, SIZE
 					&r, depth_delta);
 		}
 
-		for (j = cur_y - last_y; j > 0; --j)
-		{
+		for (j = cur_y - last_y; j > 0; --j) {
 			COUNT k;
 
-			for (k = pRect->extent.width; k > 0; --k)
+			for (k = pRect->extent.width; k > 0; --k){
 				*lpDst++ += band_delta;
+			}
 		}
 
 		last_y = cur_y;
@@ -2133,8 +2135,7 @@ GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT 
 			switch (PLANALGO (PlanDataPtr->Type))
 			{
 				case GAS_GIANT_ALGO:
-					MakeGasGiant (PlanDataPtr->num_faults,
-							Orbit->lpTopoData, &r, PlanDataPtr->fault_depth);
+					MakeGasGiant (PlanDataPtr->num_faults, Orbit->lpTopoData, &r, PlanDataPtr->fault_depth);
 					break;
 				case TOPO_ALGO:
 				case CRATERED_ALGO:
