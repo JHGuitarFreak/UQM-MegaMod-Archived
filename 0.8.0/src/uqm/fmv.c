@@ -44,9 +44,9 @@ DoShipSpin (COUNT index, MUSIC_REF hMusic)
 	FlushColorXForms ();
 #endif
 	
-	if (hMusic)
+	if (hMusic){
 		StopMusic ();
-
+	}
 	FreeHyperData ();
 
 	// TODO: It would be nice to have better resource names for these.

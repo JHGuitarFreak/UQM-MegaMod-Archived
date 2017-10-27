@@ -28,6 +28,7 @@ extern "C" {
 #define NUM_SIDES 2
 
 extern FRAME stars_in_space;
+extern FRAME stars_in_quasispace; // JMS_GFX
 
 extern BOOLEAN InitSpace (void);
 extern void UninitSpace (void);
