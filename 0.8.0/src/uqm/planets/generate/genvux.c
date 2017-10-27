@@ -77,6 +77,7 @@ GenerateVux_generatePlanets (SOLARSYS_STATE *solarSys)
 				// called. Is it safe to remove one, or does this change
 				// the RNG so that the outcome is different?
 		solarSys->PlanetDesc[0].data_index = REDUX_WORLD;
+		solarSys->PlanetDesc[0].alternate_colormap = NULL;
 		solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 212L / 100;
 		angle = ARCTAN (solarSys->PlanetDesc[0].location.x,
 				solarSys->PlanetDesc[0].location.y);
@@ -84,15 +85,18 @@ GenerateVux_generatePlanets (SOLARSYS_STATE *solarSys)
 				COSINE (angle, solarSys->PlanetDesc[0].radius);
 		solarSys->PlanetDesc[0].location.y =
 				SINE (angle, solarSys->PlanetDesc[0].radius);
+		ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
 	}
 	else
 	{
 		if (CurStarDescPtr->Index == VUX_DEFINED)
 		{
 			solarSys->PlanetDesc[0].data_index = REDUX_WORLD;
+			solarSys->PlanetDesc[0].alternate_colormap = NULL;
 			solarSys->PlanetDesc[0].NumPlanets = 1;
 			solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 42L / 100;
 			angle = HALF_CIRCLE + OCTANT;
+			ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
 		}
 		else /* if (CurStarDescPtr->Index == VUX_BEAST_DEFINED) */
 		{
@@ -103,8 +107,10 @@ GenerateVux_generatePlanets (SOLARSYS_STATE *solarSys)
 
 			angle = HALF_CIRCLE - OCTANT;
 			solarSys->PlanetDesc[0].data_index = WATER_WORLD;
+			solarSys->PlanetDesc[0].alternate_colormap = NULL;
 			solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 110L / 100;
 			solarSys->PlanetDesc[0].NumPlanets = 0;
+			ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
 		}
 
 		solarSys->PlanetDesc[0].location.x =

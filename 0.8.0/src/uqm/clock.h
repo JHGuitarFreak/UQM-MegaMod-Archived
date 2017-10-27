@@ -82,6 +82,8 @@ typedef enum
 extern BOOLEAN InitGameClock (void);
 extern BOOLEAN UninitGameClock (void);
 
+extern float daysElapsed (void);
+
 extern void SetGameClockRate (COUNT seconds_per_day);
 extern BOOLEAN ValidateEvent (EVENT_TYPE type, COUNT *pmonth_index,
 		COUNT *pday_index, COUNT *pyear_index);

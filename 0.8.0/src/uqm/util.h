@@ -32,6 +32,8 @@ extern DWORD SeedRandomNumbers (void);
 // saveRect can be NULL to save the entire context frame
 extern STAMP SaveContextFrame (const RECT *saveRect);
 
+extern DWORD get_fuel_to_sol (void);
+
 #if defined(__cplusplus)
 }
 #endif

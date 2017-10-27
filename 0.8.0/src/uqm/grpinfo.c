@@ -272,8 +272,8 @@ BuildGroups (void)
 		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hFleet);
 		hNextFleet = _GetSuccLink (FleetPtr);
 
-		if ((encounter_radius = FleetPtr->actual_strength)
-				&& (i = EncounterPercent[Index]))
+		if (((encounter_radius = FleetPtr->actual_strength)
+				&& (i = EncounterPercent[Index])))
 		{
 			SIZE dx, dy;
 			DWORD d_squared;
@@ -332,7 +332,10 @@ BuildGroups (void)
 						i = 4;
 					}
 
-					BestPercent = i;
+					// JMS: No Ur-Quan or Kohr-Ah at Zoqfot home system.
+					if (!(CurStarDescPtr->Index == ZOQFOT_DEFINED && (FleetPtr->SpeciesID == UR_QUAN_ID || FleetPtr->SpeciesID == KOHR_AH_ID)))
+						BestPercent = i;
+
 					BestIndex = Index;
 				}
 			}

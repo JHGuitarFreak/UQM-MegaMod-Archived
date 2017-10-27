@@ -32,6 +32,13 @@
 #include "sounds.h"
 #include "libs/graphics/gfx_common.h"
 #include "libs/tasklib.h"
+#include "libs/log.h"
+
+#include "planets/planets.h"
+// JMS: For MIN_MOON_RADIUS
+
+#include <math.h>
+// JMS: For sin and cos
 
 
 static void CleanupAfterStarBase (void);
@@ -425,6 +432,41 @@ DoTimePassage (void)
 #define LOST_DAYS 14
 	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND * 2));
 	MoveGameClockDays (LOST_DAYS);
+
+	// JMS: Calculate flagship location in IP.
+	{
+		double newAngle;
+		POINT starbase_coords;
+		RECT r;
+		COORD dx, dy;
+		
+		// Starbase's radius from earth is MIN_MOON_RADIUS.
+		dx = MIN_MOON_RADIUS;
+		dy = MIN_MOON_RADIUS;
+		
+		// Calculate the starbase position on a circle with the help of sin and cos.
+		newAngle = ((double)(10) + daysElapsed() * (FULL_CIRCLE / 11.46)) * M_PI / 32 - M_PI/2 ; // JMS: Starbase orbit values copied from gensol.c
+		starbase_coords.x = (COORD)(cos(newAngle) * MIN_MOON_RADIUS);
+		starbase_coords.y = (COORD)(sin(newAngle) * MIN_MOON_RADIUS);
+		
+		//log_add (log_Debug, "startangle:%d angle:%f, radius:%d, speed:%f, days:%f X:%d, y:%d", 10, newAngle, MIN_MOON_RADIUS, FULL_CIRCLE / 11.46, daysElapsed(), starbase_coords.x, starbase_coords.y);
+		
+		// Translate the coordinates on a circle to an ellipse.
+		r.corner.x = (SIS_SCREEN_WIDTH >> 1) + (long)-dx;
+		r.corner.y = (SIS_SCREEN_HEIGHT >> 1) + (long)-dy / 2;
+		r.extent.width = (long)MIN_MOON_RADIUS * (2 << 1) / 2;
+		r.extent.height = r.extent.width >> 1;
+		r.corner.x += r.extent.width >> 1;
+		r.corner.y += r.extent.height >> 1;
+		r.corner.x += (long)starbase_coords.x;
+		r.corner.y += (long)starbase_coords.y / 2;
+		
+		//log_add (log_Debug, "X:%d, y:%d", r.corner.x, r.corner.y);
+		
+		// Update the ship's graphics' coordinates on the screen.
+		GLOBAL (ShipStamp.origin.x) = r.corner.x;
+		GLOBAL (ShipStamp.origin.y) = r.corner.y;
+	}
 }
 
 void

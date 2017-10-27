@@ -251,8 +251,12 @@ DrawRaceStrings (MENU_STATE *pMS, BYTE NewRaceItem)
 		t.pStr = buf;
 		sprintf (buf, "%u", ShipCost[NewRaceItem]);
 		SetContextFont (TinyFont);
-		SetContextForeGroundColor (
-				BUILD_COLOR (MAKE_RGB15 (0x00, 0x1F, 0x00), 0x02));
+		if ((ShipCost[NewRaceItem]) <= (GLOBAL_SIS (ResUnits))) {
+			SetContextForeGroundColor (BRIGHT_GREEN_COLOR);
+		} else if ((ShipCost[NewRaceItem]) > (GLOBAL_SIS (ResUnits)))
+		{ /* We don't have enough to purchase this ship. */
+			SetContextForeGroundColor (BRIGHT_RED_COLOR);
+		}
 		font_DrawText (&t);
 	}
 	UnbatchGraphics ();
@@ -1369,7 +1373,44 @@ DrawBluePrint (MENU_STATE *pMS)
 		{
 			COUNT m;
 
+			// JMS_GFX
+			COUNT slotNr = 0;
+			DWORD compartmentNr = 0;
+			BYTE moduleType;
+			DWORD fuelAmount;
+			DWORD volume;
+			
+			// JMS_GFX
+			fuelAmount = GLOBAL_SIS (FuelOnBoard);
+			if (fuelAmount >= FUEL_RESERVE)
+			{
+				COUNT slotI;
+				DWORD capacity = FUEL_RESERVE;
+				
+				slotI = NUM_MODULE_SLOTS;
+				while (slotI--)
+				{
+					BYTE moduleType = GLOBAL_SIS (ModuleSlots[slotI]);
+					
+					capacity += GetModuleFuelCapacity (moduleType);
+					
+					//log_add (log_Debug, "fuelAmount %d, capacity %d, moduletype %d, slotI %d", fuelAmount, capacity, moduleType, slotI);
+					
+					if (fuelAmount < capacity)
+					{
+						slotNr = slotI;
+						compartmentNr = capacity - fuelAmount;
+						break;
+					}
+				}
+				
+				moduleType = GLOBAL_SIS (ModuleSlots[slotNr]);
+				volume = GetModuleFuelCapacity (moduleType);
+			}
+
 			GetFTankCapacity (&r.corner);
+			r.corner.y -= volume == HEFUEL_TANK_CAPACITY ? 0 : 0; // JMS_GFX
+			r.corner.x += volume == HEFUEL_TANK_CAPACITY ? 0 : 0; // JMS_GFX
 			DrawPoint (&r.corner);
 			r.corner.x += r.extent.width + 1;
 			DrawPoint (&r.corner);

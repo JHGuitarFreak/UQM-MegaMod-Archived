@@ -199,6 +199,8 @@ typedef enum
 	SMM_DATE,
 	SMM_RES_UNITS,
 	SMM_CREDITS,
+	SMM_WARNING,
+	SMM_ALERT,
 
 	SMM_DEFAULT = SMM_DATE,
 } StatMsgMode;

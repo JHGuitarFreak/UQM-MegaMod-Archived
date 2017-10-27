@@ -97,6 +97,8 @@ GenerateColony_generatePlanets (SOLARSYS_STATE *solarSys)
 	pMinPlanet->location.x = COSINE (angle, pMinPlanet->radius);
 	pMinPlanet->location.y = SINE (angle, pMinPlanet->radius);
 	pMinPlanet->data_index = WATER_WORLD | PLANET_SHIELDED;
+	pMinPlanet->alternate_colormap = NULL;
+	ComputeSpeed(pMinPlanet, FALSE, 1);
 
 	return true;
 }

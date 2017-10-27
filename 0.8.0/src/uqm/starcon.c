@@ -51,6 +51,8 @@
 #include "uqmversion.h"
 #include "options.h"
 #include "setupmenu.h"
+#include "build.h"
+#include "gameopt.h" // JMS: For naming captain and ship at game start.
 
 
 volatile int MainExited = FALSE;
@@ -228,6 +230,10 @@ while (--ac > 0)
 		InitGameClock ();
 		initEventSystem ();
 		AddInitialGameEvents();
+
+		// JMS: Name Captain & Ship at start (not at loading old game).
+		if (LastActivity == (CHECK_LOAD | CHECK_RESTART))
+			AskNameForCaptainAndShip();
 
 		do
 		{

@@ -50,6 +50,7 @@ GenerateTrap_generatePlanets (SOLARSYS_STATE *solarSys)
 	GenerateDefault_generatePlanets (solarSys);
 
 	solarSys->PlanetDesc[0].data_index = TELLURIC_WORLD;
+	solarSys->PlanetDesc[0].alternate_colormap = NULL;
 	solarSys->PlanetDesc[0].NumPlanets = 1;
 	solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 203L / 100;
 	angle = ARCTAN (solarSys->PlanetDesc[0].location.x,
@@ -58,6 +59,7 @@ GenerateTrap_generatePlanets (SOLARSYS_STATE *solarSys)
 			COSINE (angle, solarSys->PlanetDesc[0].radius);
 	solarSys->PlanetDesc[0].location.y =
 			SINE (angle, solarSys->PlanetDesc[0].radius);
+	ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
 
 	return true;
 }

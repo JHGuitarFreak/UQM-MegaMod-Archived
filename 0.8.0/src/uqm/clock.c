@@ -85,6 +85,38 @@ nextClockDay (void)
 	DrawStatusMessage (NULL);
 }
 
+// Computes how many days have passed since the game has begun
+float
+daysElapsed (void)
+{
+	float days = 0;
+	COUNT index;
+	
+	// Years
+	for (index = START_YEAR ; index < GLOBAL (GameClock.year_index) ; index++ ) {
+		days += 365;
+		if(IsLeapYear(index))
+			days++;
+	}
+
+	if (GLOBAL (GameClock.month_index) == 1) {
+		days = days - 31;
+	}
+	
+	// Months
+	for (index = 2 ; index < GLOBAL (GameClock.month_index) ; index++ ) {
+		days += DaysInMonth (index, GLOBAL (GameClock.year_index));
+	}
+	
+	// Days
+	days = days + GLOBAL (GameClock.day_index) - 17;
+
+	// Part of a day
+	days = days + (GLOBAL (GameClock.day_in_ticks) - GLOBAL (GameClock.tick_count)) / (float)GLOBAL (GameClock.day_in_ticks);
+
+	return days;
+}
+
 static void
 processClockDayEvents (void)
 {

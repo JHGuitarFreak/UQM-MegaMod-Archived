@@ -887,7 +887,7 @@ init_widgets (void)
 	/* Options */
 	if (SplitString (GetStringAddress (SetAbsStringTableIndex (SetupTab, 2)), '\n', 100, buffer, bank) != CHOICE_COUNT)
 	{
-		log_add (log_Fatal, "PANIC: Incorrect number of Choice Options");
+		log_add (log_Fatal, "PANIC: Incorrect number of Choice Options: %d. Should be %d", CHOICE_COUNT, SplitString (GetStringAddress (SetAbsStringTableIndex (SetupTab, 2)), '\n', 100, buffer, bank));
 		exit (EXIT_FAILURE);
 	}
 

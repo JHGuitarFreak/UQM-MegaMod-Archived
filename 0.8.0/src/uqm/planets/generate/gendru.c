@@ -69,6 +69,7 @@ GenerateDruuge_generatePlanets (SOLARSYS_STATE *solarSys)
 	++solarSys->SunDesc[0].NumPlanets;
 
 	solarSys->PlanetDesc[0].data_index = DUST_WORLD;
+	solarSys->PlanetDesc[0].alternate_colormap = NULL;
 	solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 50L / 100;
 	solarSys->PlanetDesc[0].NumPlanets = 0;
 	angle = HALF_CIRCLE - OCTANT;
@@ -79,6 +80,7 @@ GenerateDruuge_generatePlanets (SOLARSYS_STATE *solarSys)
 	solarSys->PlanetDesc[0].rand_seed = MAKE_DWORD (
 			solarSys->PlanetDesc[0].location.x,
 			solarSys->PlanetDesc[0].location.y);
+	ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
 
 	return true;
 }

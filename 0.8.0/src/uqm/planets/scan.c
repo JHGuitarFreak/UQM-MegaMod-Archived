@@ -736,12 +736,26 @@ DoPickPlanetSide (MENU_STATE *pMS)
 static void
 drawLandingFuelUsage (COUNT fuel)
 {
+	/* We need this so we can save the StatusMessageMode
+	 * and fix it when we're done.
+	 */
+	StatMsgMode old_status_message_mode;
 	UNICODE buf[100];
+
+	if (((SDWORD) (GLOBAL_SIS (FuelOnBoard)) - fuel) <= (SDWORD)(get_fuel_to_sol ()))
+	{ /* We will not have enough fuel to get to Sol if we dispatch the lander */
+		old_status_message_mode = SetStatusMessageMode (SMM_ALERT);
+	} else if (((SDWORD) (GLOBAL_SIS (FuelOnBoard)) - fuel) <= (SDWORD)(get_fuel_to_sol () + (5 * FUEL_TANK_SCALE)))
+	{ /* We will have enough fuel to get to Sol if we dispatch the lander, but will have less than 5 to spare */
+		old_status_message_mode = SetStatusMessageMode (SMM_WARNING);
+	}
 
 	sprintf (buf, "%s%1.1f",
 			GAME_STRING (NAVIGATION_STRING_BASE + 5),
 			(float) fuel / FUEL_TANK_SCALE);
 	DrawStatusMessage (buf);
+
+	SetStatusMessageMode (old_status_message_mode);
 }
 
 static void

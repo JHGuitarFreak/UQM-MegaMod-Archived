@@ -50,6 +50,7 @@ GenerateSyreen_generatePlanets (SOLARSYS_STATE *solarSys)
 	GenerateDefault_generatePlanets (solarSys);
 
 	solarSys->PlanetDesc[0].data_index = WATER_WORLD | PLANET_SHIELDED;
+	solarSys->PlanetDesc[0].alternate_colormap = NULL;
 	solarSys->PlanetDesc[0].NumPlanets = 1;
 
 	return true;
@@ -63,11 +64,13 @@ GenerateSyreen_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 	if (matchWorld (solarSys, planet, 0, MATCH_PLANET))
 	{
 		solarSys->MoonDesc[0].data_index = HIERARCHY_STARBASE;
+		solarSys->MoonDesc[0].alternate_colormap = NULL;
 		solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS;
 		solarSys->MoonDesc[0].location.x =
 				COSINE (QUADRANT, solarSys->MoonDesc[0].radius);
 		solarSys->MoonDesc[0].location.y =
 				SINE (QUADRANT, solarSys->MoonDesc[0].radius);
+		ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
 	}
 
 	return true;

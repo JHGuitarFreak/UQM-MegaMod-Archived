@@ -156,6 +156,7 @@ GenerateSaMatra_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 				COSINE (angle, solarSys->MoonDesc[0].radius);
 		solarSys->MoonDesc[0].location.y =
 				SINE (angle, solarSys->MoonDesc[0].radius);
+		ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
 	}
 
 	return true;
