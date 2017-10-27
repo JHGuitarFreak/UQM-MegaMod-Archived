@@ -618,6 +618,21 @@ UninitEncounter (void)
 								// XXX: this will not work with UTF-8 strings
 								strupr (buf);
 
+								// JMS: Handling the a-umlaut and o-umlaut characters
+								{
+									unsigned char *ptr;
+									ptr = (unsigned char*)buf;
+									while (*ptr) {
+										if (*ptr == 0xc3) {
+											ptr++;
+											if (*ptr == 0xb6 || *ptr == 0xa4) {
+												*ptr += 'A' - 'a';
+											}
+										}
+										ptr++;
+									}
+								}
+
 								t.baseline.x = scavenge_r.corner.x + 100;
 								t.baseline.y = scavenge_r.corner.y + 68;
 								t.align = ALIGN_CENTER;

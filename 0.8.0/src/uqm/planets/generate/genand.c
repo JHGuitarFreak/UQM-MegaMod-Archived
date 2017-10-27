@@ -68,6 +68,7 @@ GenerateAndrosynth_generatePlanets (SOLARSYS_STATE *solarSys)
 			COSINE (angle, solarSys->PlanetDesc[1].radius);
 	solarSys->PlanetDesc[1].location.y =
 			SINE (angle, solarSys->PlanetDesc[1].radius);
+	ComputeSpeed(&solarSys->PlanetDesc[1], FALSE, 1);
 
 	return true;
 }

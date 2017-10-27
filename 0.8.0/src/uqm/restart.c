@@ -60,6 +60,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	STAMP s;
 	TEXT t;
 	UNICODE buf[64];
+	COUNT svn_revision = 0; // JMS
 
 	s.frame = pMS->CurFrame;
 	GetFrameRect (s.frame, &r);
@@ -79,8 +80,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	t.baseline.y = SCREEN_HEIGHT - 2;
 	t.align = ALIGN_RIGHT;
 	t.CharCount = (COUNT)~0;
-	sprintf (buf, "v%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION,
-			UQM_PATCH_VERSION, UQM_EXTRA_VERSION);
+	sprintf (buf, "v%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION, UQM_PATCH_VERSION, UQM_EXTRA_VERSION, svn_revision);
 	SetContextForeGroundColor (WHITE_COLOR);
 	font_DrawText (&t);
 
@@ -405,6 +405,7 @@ StartGame (void)
 
 		if (LastActivity & CHECK_RESTART)
 		{	// starting a new game
+			FadeMusic (NORMAL_VOLUME, 0);
 			if(!optSkipIntro){
 				Introduction ();
 			}

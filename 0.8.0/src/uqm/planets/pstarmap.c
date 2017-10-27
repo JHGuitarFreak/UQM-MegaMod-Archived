@@ -41,7 +41,8 @@
 #include "libs/graphics/gfx_common.h"
 #include "libs/mathlib.h"
 #include "libs/memlib.h"
-
+#include "../util.h"
+		// For get_fuel_to_sol()
 #include <stdlib.h>
 
 
@@ -277,12 +278,95 @@ GetSphereRect (FLEET_INFO *FleetPtr, RECT *pRect, RECT *pRepairRect)
 }
 
 static void
+DrawFuelCircles ()
+{
+	RECT r;
+	long diameter;
+	long diameter_no_return;
+	POINT corner;
+	Color OldColor;
+
+	diameter = (long) GLOBAL_SIS (FuelOnBoard) << 1;
+
+	/* Terribly ugly hack to keep this from being assigned
+	 * a negative value, and also to make sure the inner circle
+	 * is not drawn if we don't have enough fuel to get to Sol at
+	 * all.
+	 */
+	if ((((long)GLOBAL_SIS (FuelOnBoard)) - (long)get_fuel_to_sol() < 0) ||
+		(get_fuel_to_sol () > GLOBAL_SIS (FuelOnBoard)))
+	{
+		diameter_no_return = 0;
+	} else
+	{
+		diameter_no_return = GLOBAL_SIS (FuelOnBoard) - get_fuel_to_sol();
+	}
+
+	if (LOBYTE (GLOBAL (CurrentActivity)) != IN_HYPERSPACE)
+		corner = CurStarDescPtr->star_pt;
+	else
+	{
+		corner.x = LOGX_TO_UNIVERSE (GLOBAL_SIS (log_x));
+		corner.y = LOGY_TO_UNIVERSE (GLOBAL_SIS (log_y));
+	}
+
+	/* Draw outer circle*/
+	r.extent.width = UNIVERSE_TO_DISPX (diameter)
+	                 - UNIVERSE_TO_DISPX (0);
+
+	if (r.extent.width < 0)
+		r.extent.width = -r.extent.width;
+
+	r.extent.height = UNIVERSE_TO_DISPY (diameter)
+	                  - UNIVERSE_TO_DISPY (0);
+
+	if (r.extent.height < 0)
+		r.extent.height = -r.extent.height;
+
+	r.corner.x = UNIVERSE_TO_DISPX (corner.x)
+	             - (r.extent.width >> 1);
+	r.corner.y = UNIVERSE_TO_DISPY (corner.y)
+	             - (r.extent.height >> 1);
+
+	OldColor = SetContextForeGroundColor (
+	                   BUILD_COLOR (MAKE_RGB15 (0x03, 0x03, 0x03), 0x22));
+	DrawFilledOval (&r);
+	SetContextForeGroundColor (OldColor);
+
+	/* Draw a second fuel circle showing the 'point of no return', past which there will
+	 * not be enough fuel to return to Sol.
+	 */
+
+	r.extent.width = UNIVERSE_TO_DISPX (diameter_no_return)
+	                 - UNIVERSE_TO_DISPX (0);
+
+	if (r.extent.width < 0)
+		r.extent.width = -r.extent.width;
+
+	r.extent.height = UNIVERSE_TO_DISPY (diameter_no_return)
+	                  - UNIVERSE_TO_DISPY (0);
+
+	if (r.extent.height < 0)
+		r.extent.height = -r.extent.height;
+
+	r.corner.x = UNIVERSE_TO_DISPX (corner.x)
+	             - (r.extent.width >> 1);
+	r.corner.y = UNIVERSE_TO_DISPY (corner.y)
+	             - (r.extent.height >> 1);
+
+	OldColor = SetContextForeGroundColor (
+	                   BUILD_COLOR (MAKE_RGB15 (0x04, 0x04, 0x05), 0x22));
+	DrawFilledOval (&r);
+	SetContextForeGroundColor (OldColor);
+}
+
+static void
 DrawStarMap (COUNT race_update, RECT *pClipRect)
 {
 #define GRID_DELTA 500
 	SIZE i;
 	COUNT which_space;
-	long diameter;
+	// long diameter;
 	RECT r, old_r;
 	POINT oldOrigin = {0, 0};
 	STAMP s;
@@ -340,42 +424,8 @@ DrawStarMap (COUNT race_update, RECT *pClipRect)
 	ClearDrawable ();
 
 	// Draw the fuel range circle
-	if (race_update == 0
-			&& which_space < 2
-			&& (diameter = (long)GLOBAL_SIS (FuelOnBoard) << 1))
-	{
-		Color OldColor;
-
-		if (!inHQSpace ())
-			r.corner = CurStarDescPtr->star_pt;
-		else
-		{
-			r.corner.x = LOGX_TO_UNIVERSE (GLOBAL_SIS (log_x));
-			r.corner.y = LOGY_TO_UNIVERSE (GLOBAL_SIS (log_y));
-		}
-
-		// Cap the diameter to a sane range
-		if (diameter > MAX_X_UNIVERSE * 4)
-			diameter = MAX_X_UNIVERSE * 4;
-
-		r.extent.width = UNIVERSE_TO_DISPX (diameter)
-				- UNIVERSE_TO_DISPX (0);
-		if (r.extent.width < 0)
-			r.extent.width = -r.extent.width;
-		r.extent.height = UNIVERSE_TO_DISPY (diameter)
-				- UNIVERSE_TO_DISPY (0);
-		if (r.extent.height < 0)
-			r.extent.height = -r.extent.height;
-
-		r.corner.x = UNIVERSE_TO_DISPX (r.corner.x)
-				- (r.extent.width >> 1);
-		r.corner.y = UNIVERSE_TO_DISPY (r.corner.y)
-				- (r.extent.height >> 1);
-
-		OldColor = SetContextForeGroundColor (
-				BUILD_COLOR (MAKE_RGB15 (0x03, 0x03, 0x03), 0x22));
-		DrawFilledOval (&r);
-		SetContextForeGroundColor (OldColor);
+	if (race_update == 0 && which_space < 2) {
+		DrawFuelCircles ();
 	}
 
 	for (i = MAX_Y_UNIVERSE + 1; i >= 0; i -= GRID_DELTA)
@@ -671,6 +721,10 @@ UpdateCursorLocation (int sx, int sy, const POINT *newpt)
 			cursorLoc.y = MAX_Y_UNIVERSE;
 
 		s.origin.y = UNIVERSE_TO_DISPY (cursorLoc.y);
+		if (s.origin.y < 0) {
+			s.origin.y = 0;
+			cursorLoc.y = DISP_TO_UNIVERSEY (0);
+		}
 	}
 
 	if (s.origin.x < 0 || s.origin.y < 0
@@ -1215,6 +1269,8 @@ DoMoveCursor (MENU_STATE *pMS)
 #define STEP_ACCEL_DELAY (ONE_SECOND / 120)
 	static UNICODE last_buf[CURSOR_INFO_BUFSIZE];
 	DWORD TimeIn = GetTimeCounter ();
+	static COUNT moveRepeats;
+	BOOLEAN isMove = FALSE;
 
 	if (!pMS->Initialized)
 	{
@@ -1317,10 +1373,16 @@ DoMoveCursor (MENU_STATE *pMS)
 			UpdateCursorLocation (sx, sy, NULL);
 			UpdateCursorInfo (last_buf);
 			UpdateFuelRequirement ();
+			isMove = TRUE;
 		}
 
 		SleepThreadUntil (TimeIn + MIN_ACCEL_DELAY);
 	}
+
+	if (isMove)
+		++moveRepeats;
+	else
+		moveRepeats = 0;
 
 	flashCurrentLocation (NULL);
 

@@ -23,6 +23,15 @@
 
 #define END_INTERPLANETARY START_INTERPLANETARY
 
+#define ORBITING_PLANETS TRUE
+#define ROTATING_PLANETS optRotatingIpPlanets
+#define TEXTURED_PLANETS (optTexturedIpPlanets || ROTATING_PLANETS)
+// TEXTURED_PLANETS should always be defined TRUE if ROTATING_PLANETS is.
+#define ONE_YEAR 365.25
+#ifndef M_PI
+#define M_PI 3.141592653589
+#endif
+
 enum PlanetScanTypes
 {
 	MINERAL_SCAN = 0,
@@ -101,6 +110,41 @@ typedef struct solarsys_state SOLARSYS_STATE;
 #include "lifeform.h"
 #include "plandata.h"
 #include "sundata.h"
+ 
+typedef struct 
+{
+	POINT p[4];
+	DWORD m[4];
+} MAP3D_POINT;
+
+struct planet_orbit
+{
+	FRAME TopoZoomFrame;
+			// 4x scaled topo image for planet-side
+	SBYTE  *lpTopoData;
+			// normal topo data; expressed in elevation levels
+			// data is signed for planets other than gas giants
+			// transformed to light variance map for 3d planet
+	FRAME SphereFrame;
+			// rotating 3d planet frames (current and next)
+	FRAME ObjectFrame;
+			// any extra planetary object (shield, atmo, rings)
+			// automatically drawn if present
+	FRAME TintFrame;
+			// tinted topo images for current scan type (dynamic)
+	Color TintColor;
+			// the color of the last used tint
+	Color *TopoColors;
+			// RGBA version of topo image; for 3d planet
+	Color *ScratchArray;
+			// temp RGBA data for whatever transforms (nuked often)
+	FRAME WorkFrame;
+			// any extra frame workspace (for dynamic objects)
+	// BW: extra stuff for animated IP
+	DWORD **light_diff;
+	MAP3D_POINT **map_rotate;
+	// doubly dynamically allocated depending on map size
+};
 
 #if defined(__cplusplus)
 extern "C" {
@@ -113,7 +157,10 @@ struct planet_desc
 	BYTE data_index;
 	BYTE NumPlanets;
 	SIZE radius;
+	COUNT angle;
 	POINT location;
+	double orb_speed;
+	double rot_speed;
 
 	Color temp_color;
 	COUNT NextIndex;
@@ -121,6 +168,12 @@ struct planet_desc
 
 	PLANET_DESC *pPrevDesc;
 			// The Sun or planet that this world is orbiting around.
+	// BW : new stuff for animated solar systems
+	PLANET_ORBIT orbit;
+	COUNT size;
+	int rotFrameIndex, rotPointIndex, rotDirection, rotwidth, rotheight;
+	
+	RESOURCE alternate_colormap; // JMS: Special color maps for Sol system planets
 };
 
 struct star_desc
@@ -151,31 +204,6 @@ struct node_info
 			//          NUM_CREATURE_TYPES + 1 is a Brainbox Bulldozer
 			//          NUM_CREATURE_TYPES + 2 is Zex' Beauty
 			// For energy: undefined
-};
-
-struct planet_orbit
-{
-	FRAME TopoZoomFrame;
-			// 4x scaled topo image for planet-side
-	SBYTE  *lpTopoData;
-			// normal topo data; expressed in elevation levels
-			// data is signed for planets other than gas giants
-			// transformed to light variance map for 3d planet
-	FRAME SphereFrame;
-			// rotating 3d planet frames (current and next)
-	FRAME ObjectFrame;
-			// any extra planetary object (shield, atmo, rings)
-			// automatically drawn if present
-	FRAME TintFrame;
-			// tinted topo images for current scan type (dynamic)
-	Color TintColor;
-			// the color of the last used tint
-	Color *TopoColors;
-			// RGBA version of topo image; for 3d planet
-	Color *ScratchArray;
-			// temp RGBA data for whatever transforms (nuked often)
-	FRAME WorkFrame;
-			// any extra frame workspace (for dynamic objects)
 };
 
 // See doc/devel/generate for information on how this structure is
@@ -286,16 +314,18 @@ extern void DrawStarBackGround (void);
 extern void XFormIPLoc (POINT *pIn, POINT *pOut, BOOLEAN ToDisplay);
 extern void DrawOval (RECT *pRect, BYTE num_off_pixels);
 extern void DrawFilledOval (RECT *pRect);
+extern void ComputeSpeed(PLANET_DESC *planet, BOOLEAN GeneratingMoons, UWORD rand_val);
 extern void FillOrbits (SOLARSYS_STATE *system, BYTE NumPlanets,
 		PLANET_DESC *pBaseDesc, BOOLEAN TypesDefined);
 extern void InitLander (BYTE LanderFlags);
 
-extern void InitSphereRotation (int direction, BOOLEAN shielded);
+extern void InitSphereRotation (int direction, BOOLEAN shielded, COUNT width, COUNT height);
 extern void UninitSphereRotation (void);
 extern void PrepareNextRotationFrame (void);
+extern void PrepareNextRotationFrameForIP (PLANET_DESC *pPlanetDesc, SIZE frameCounter);
 extern void DrawPlanetSphere (int x, int y);
 extern void DrawDefaultPlanetSphere (void);
-extern void RenderPlanetSphere (FRAME Frame, int offset, BOOLEAN doThrob);
+extern void RenderPlanetSphere (PLANET_ORBIT *Orbit, FRAME Frame, int offset, BOOLEAN shielded, BOOLEAN doThrob, COUNT width, COUNT height, COUNT radius);
 extern void SetShieldThrobEffect (FRAME FromFrame, int offset, FRAME ToFrame);
 
 extern void ZoomInPlanetSphere (void);
@@ -304,6 +334,8 @@ extern void RotatePlanetSphere (BOOLEAN keepRate);
 extern void DrawScannedObjects (BOOLEAN Reversed);
 extern void GeneratePlanetSurface (PLANET_DESC *pPlanetDesc,
 		FRAME SurfDefFrame);
+extern void GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc,
+		FRAME SurfDefFrame, COUNT width, COUNT height);
 extern void DeltaTopography (COUNT num_iterations, SBYTE *DepthArray,
 		RECT *pRect, SIZE depth_delta);
 

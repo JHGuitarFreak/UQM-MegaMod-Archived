@@ -78,10 +78,11 @@ GenerateSpathi_generatePlanets (SOLARSYS_STATE *solarSys)
 	pMinPlanet->location.x = COSINE (angle, pMinPlanet->radius);
 	pMinPlanet->location.y = SINE (angle, pMinPlanet->radius);
 	pMinPlanet->data_index = WATER_WORLD;
+	pMinPlanet->alternate_colormap = NULL;
 	if (GET_GAME_STATE (SPATHI_SHIELDED_SELVES))
 		pMinPlanet->data_index |= PLANET_SHIELDED;
 	pMinPlanet->NumPlanets = 1;
-
+	ComputeSpeed(pMinPlanet, FALSE, 1);
 	return true;
 }
 
@@ -101,12 +102,14 @@ GenerateSpathi_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 #endif /* NOTYET */
 
 		solarSys->MoonDesc[0].data_index = PELLUCID_WORLD;
+		solarSys->MoonDesc[0].alternate_colormap = NULL;
 		solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS + MOON_DELTA;
 		angle = NORMALIZE_ANGLE (LOWORD (RandomContext_Random (SysGenRNG)));
 		solarSys->MoonDesc[0].location.x =
 				COSINE (angle, solarSys->MoonDesc[0].radius);
 		solarSys->MoonDesc[0].location.y =
 				SINE (angle, solarSys->MoonDesc[0].radius);
+		ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
 	}
 
 	return true;

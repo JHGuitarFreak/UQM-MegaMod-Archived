@@ -57,6 +57,9 @@ typedef struct
 	POINT loc;
 
 	FRAME melee_icon;
+	
+	// JMS: direction memory prevents jittering of battle group icons when they change direction they're flying to.
+	BYTE lastDirection;
 } IP_GROUP;
 
 enum

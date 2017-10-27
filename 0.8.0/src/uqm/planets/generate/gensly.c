@@ -49,6 +49,7 @@ GenerateSlylandro_generatePlanets (SOLARSYS_STATE *solarSys)
 	GenerateDefault_generatePlanets (solarSys);
 
 	solarSys->PlanetDesc[3].data_index = RED_GAS_GIANT;
+	solarSys->PlanetDesc[3].alternate_colormap = NULL;
 	solarSys->PlanetDesc[3].NumPlanets = 1;
 
 	return true;

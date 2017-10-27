@@ -67,6 +67,7 @@ GenerateThraddash_generatePlanets (SOLARSYS_STATE *solarSys)
 	if (CurStarDescPtr->Index == AQUA_HELIX_DEFINED)
 	{
 		solarSys->PlanetDesc[0].data_index = PRIMORDIAL_WORLD;
+		solarSys->PlanetDesc[0].alternate_colormap = NULL;
 		solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 65L / 100;
 		angle = ARCTAN (solarSys->PlanetDesc[0].location.x,
 				solarSys->PlanetDesc[0].location.y);
@@ -74,10 +75,12 @@ GenerateThraddash_generatePlanets (SOLARSYS_STATE *solarSys)
 				COSINE (angle, solarSys->PlanetDesc[0].radius);
 		solarSys->PlanetDesc[0].location.y =
 				SINE (angle, solarSys->PlanetDesc[0].radius);
+		ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
 	}
 	else  /* CurStarDescPtr->Index == THRADD_DEFINED */
 	{
 		solarSys->PlanetDesc[0].data_index = WATER_WORLD;
+		solarSys->PlanetDesc[0].alternate_colormap = NULL;
 		solarSys->PlanetDesc[0].NumPlanets = 0;
 		solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 98L / 100;
 		angle = ARCTAN (solarSys->PlanetDesc[0].location.x,
@@ -86,6 +89,7 @@ GenerateThraddash_generatePlanets (SOLARSYS_STATE *solarSys)
 				COSINE (angle, solarSys->PlanetDesc[0].radius);
 		solarSys->PlanetDesc[0].location.y =
 				SINE (angle, solarSys->PlanetDesc[0].radius);
+		ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
 	}
 	return true;
 }

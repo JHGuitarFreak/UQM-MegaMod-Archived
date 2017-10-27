@@ -237,12 +237,14 @@ ip_group_preprocess (ELEMENT *ElementPtr)
 	if (task <= ON_STATION)
 #endif /* NEVER */
 	{
-		BOOLEAN Transition;
+		BOOLEAN Transition, isOrbiting;
 		SIZE dx, dy;
 		SIZE delta_x, delta_y;
 		COUNT angle;
+		FRAME suggestedFrame; // JMS
 
 		Transition = FALSE;
+		isOrbiting = FALSE;
 		if (task == FLEE)
 		{
 			dest_pt.x = GroupPtr->loc.x << 1;
@@ -257,11 +259,13 @@ ip_group_preprocess (ELEMENT *ElementPtr)
 		{
 			if (GroupPtr->dest_loc == IPNL_INTERCEPT_PLAYER)
 				dest_pt = GLOBAL (ip_location);
+			// ship is circling around a planet.
 			else
 			{
 				COUNT orbit_dist;
 				POINT org;
 
+				isOrbiting = TRUE;
 				if (task != ON_STATION)
 				{
 					orbit_dist = ORBIT_RADIUS;
@@ -448,6 +452,22 @@ CheckGetAway:
 				}
 			}
 		}
+		
+		//BW : make IP ships face the direction they're going into
+		suggestedFrame = SetAbsFrameIndex(ElementPtr->next.image.farray[0], 1 + NORMALIZE_FACING (ANGLE_TO_FACING (ARCTAN (delta_x, delta_y))));
+		
+		// JMS: Direction memory prevents jittering of battle group icons when they are orbiting a planet (and not chasing the player ship).		
+		if (isOrbiting)
+		{
+			// This works because ships always orbit planets clockwise.
+			if (GroupPtr->lastDirection < NORMALIZE_FACING (ANGLE_TO_FACING (ARCTAN (delta_x, delta_y)))
+				|| GroupPtr->lastDirection == 15)
+				ElementPtr->next.image.frame = suggestedFrame;
+		}
+		else
+			ElementPtr->next.image.frame = suggestedFrame;
+		
+		GroupPtr->lastDirection = NORMALIZE_FACING (ANGLE_TO_FACING (ARCTAN (delta_x, delta_y)));
 	}
 
 	radius = zoomRadiusForLocation (group_loc);

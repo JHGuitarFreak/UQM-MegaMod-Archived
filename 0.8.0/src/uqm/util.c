@@ -25,7 +25,7 @@
 #include "libs/sound/trackplayer.h"
 #include "libs/mathlib.h"
 #include "libs/log.h"
-
+#include "hyper.h"
 
 void
 DrawStarConBox (RECT *pRect, SIZE BorderWidth, Color TopLeftColor,
@@ -309,4 +309,25 @@ SleepGame (void)
 
 
 	TaskSwitch ();
+}
+
+/* Returns the fuel requirement to get to Sol (in fuel units * 100)
+ */
+DWORD
+get_fuel_to_sol (void)
+{
+	POINT pt;
+	DWORD f;
+
+	pt.x = LOGX_TO_UNIVERSE (GLOBAL_SIS (log_x));
+	pt.y = LOGY_TO_UNIVERSE (GLOBAL_SIS (log_y));
+	
+	pt.x -= SOL_X;
+	pt.y -= SOL_Y;
+
+	f = (DWORD)((long)pt.x * pt.x + (long)pt.y * pt.y);
+	if (f == 0 || GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1)
+		return 0;
+	else
+		return (square_root (f) + (FUEL_TANK_SCALE / 20));
 }

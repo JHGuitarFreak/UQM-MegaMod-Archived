@@ -68,6 +68,7 @@ GenerateYehat_generatePlanets (SOLARSYS_STATE *solarSys)
 			COSINE (angle, solarSys->PlanetDesc[0].radius);
 	solarSys->PlanetDesc[0].location.y =
 			SINE (angle, solarSys->PlanetDesc[0].radius);
+	ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
 
 	return true;
 }

@@ -114,10 +114,9 @@ const LIFEFORM_DESC CreatureData[] =
 			// Bug-Eyed Bait
 	{SPEED_MOTIONLESS | DANGER_WEAK, MAKE_BYTE (8, 5)},
 			// Goo Burger
-
 	{SPEED_MOTIONLESS | DANGER_MONSTROUS, MAKE_BYTE (1, 1)},
 			// Evil One
-	{BEHAVIOR_UNPREDICTABLE | SPEED_SLOW | DANGER_HARMLESS, MAKE_BYTE (0, 1)},
+	{BEHAVIOR_UNPREDICTABLE | SPEED_SLOW | DANGER_HARMLESS, MAKE_BYTE (1, 1)}, // ? was 0, 1
 			// Brainbox Bulldozers
 	{BEHAVIOR_HUNT | AWARENESS_HIGH | SPEED_FAST | DANGER_MONSTROUS, MAKE_BYTE (15, 15)},
 			// Zex's Beauty
@@ -584,8 +583,11 @@ pickupMineralNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
 }
 
 static bool
-pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved)
+pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved, 
+	const INTERSECT_CONTROL *LanderControl, const INTERSECT_CONTROL *ElementControl)
 {
+	UNICODE *pStr; // JMS
+	UNICODE ch; // JMS
 	if (pPSD->BiologicalLevel >= MAX_SCROUNGED)
 	{
 		// Lander is full.
@@ -600,9 +602,83 @@ pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved)
 		NumRetrieved = (COUNT)(MAX_SCROUNGED - pPSD->BiologicalLevel);
 	}
 
+	// JMS: Print biodata amount.
+	pPSD->NumFrames = NUM_TEXT_FRAMES;
+	sprintf (pPSD->AmountBuf, "%u", NumRetrieved);
+	pStr = GAME_STRING (ELEMENTS_STRING_BASE + ELEMENTS_STRING_COUNT - 1);
+	pPSD->MineralText[0].baseline.x = (SURFACE_WIDTH >> 1)
+		+ (ElementControl->EndPoint.x - LanderControl->EndPoint.x);
+	pPSD->MineralText[0].baseline.y = (SURFACE_HEIGHT >> 1)
+		+ (ElementControl->EndPoint.y - LanderControl->EndPoint.y);
+	pPSD->MineralText[0].CharCount = (COUNT)~0;
+	pPSD->MineralText[1].pStr = pStr;
+	
+	while ((ch = *pStr++) && ch != ' ')
+		;
+	if (ch == '\0')
+	{
+		pPSD->MineralText[1].CharCount = (COUNT)~0;
+		pPSD->MineralText[2].CharCount = 0;
+	}
+	else  /* ch == ' ' */
+	{
+		// Name contains a space. Print over
+		// two lines.
+		pPSD->MineralText[1].CharCount = utf8StringCountN(
+			pPSD->MineralText[1].pStr, pStr - 1);
+		pPSD->MineralText[2].pStr = pStr;
+		pPSD->MineralText[2].CharCount = (COUNT)~0;
+	}
+
 	FillLanderHold (pPSD, BIOLOGICAL_SCAN, NumRetrieved);
 
 	return true;
+}
+
+static void
+ExplodeCritter (ELEMENT *ElementPtr)
+{
+	HELEMENT hExplosionElement;
+	SIZE temp_which_node;
+				
+	hExplosionElement = AllocElement ();
+	if (hExplosionElement)
+	{
+		ELEMENT *ExplosionElementPtr;
+		LockElement (hExplosionElement, &ExplosionElementPtr);
+					
+		ExplosionElementPtr->mass_points = DEATH_EXPLOSION;
+		ExplosionElementPtr->state_flags = FINITE_LIFE;
+		ExplosionElementPtr->playerNr = PS_NON_PLAYER;
+		ExplosionElementPtr->next.location = ElementPtr->next.location;
+		ExplosionElementPtr->preprocess_func = object_animation;
+		ExplosionElementPtr->turn_wait = MAKE_BYTE (2, 2);
+		ExplosionElementPtr->life_span = EXPLOSION_LIFE * (LONIBBLE (ExplosionElementPtr->turn_wait));
+					
+		SetPrimType (&DisplayArray[ExplosionElementPtr->PrimIndex], STAMP_PRIM);
+		DisplayArray[ExplosionElementPtr->PrimIndex].Object.Stamp.frame = SetAbsFrameIndex (LanderFrame[0], 46);
+
+		// JMS: This keeps track of the explosion frames. Normally explosion occurs only once (lander explodes).
+		// If we don't zero this variable here, the explosion anim can run only once properly and would
+		// get stuck in the last frame after that on all the subsequent explosions.
+		explosion_index = 0;
+					
+		UnlockElement (hExplosionElement);
+		InsertElement (hExplosionElement, GetHeadElement ());
+					
+		PlaySound (SetAbsSoundIndex (LanderSounds, LANDER_DESTROYED), NotPositional (), NULL, GAME_SOUND_PRIORITY + 1);
+					
+		ElementPtr->state_flags |= DISAPPEARING; // JMS: Delete the critter frame
+		ElementPtr->mass_points = 0;			 // JMS: Make sure critter/explosion doesn't give biodata.
+					
+		// JMS: This marks the exploded critter "collected". (even though there was no biodata to collect).
+		// This ensures the critter isn't resurrected when visiting the planet next time.
+		temp_which_node = HIBYTE (ElementPtr->scan_node) - 1;
+		pSolarSysState->SysInfo.PlanetInfo.ScanRetrieveMask[BIOLOGICAL_SCAN] |= (1L << temp_which_node); // Mark this bio blip's state as "collected".
+		//pSolarSysState->CurNode = (COUNT)~0; // GenerateLifeForms will update the states of ALL bio-blips when run.
+		//callGenerateForScanType (pSolarSysState, pSolarSysState->pOrbitalDesc, &pSolarSysState->CurNode, BIOLOGICAL_SCAN); // Re-run GenerateLifeForms so the changed state takes effect
+		SET_GAME_STATE (PLANETARY_CHANGE, 1); // Save the changes to the file containing the states of all lifeforms.
+	}
 }
 
 static void
@@ -618,10 +694,18 @@ shotCreature (ELEMENT *ElementPtr, BYTE value,
 	--ElementPtr->hit_points;
 	if (ElementPtr->hit_points == 0)
 	{
-		// Can creature.
-		ElementPtr->mass_points = value;
-		DisplayArray[ElementPtr->PrimIndex].Object.Stamp.frame =
-				pSolarSysState->PlanetSideFrame[0];
+		// Brainbox bulldozers (Tractors at moon) explode.
+		if ((ElementPtr->mass_points & ~CREATURE_AWARE) == 24)
+		{
+			ExplodeCritter (ElementPtr);
+		}
+		// Can other creatures.
+		else
+		{
+			ElementPtr->mass_points = value;
+			DisplayArray[ElementPtr->PrimIndex].Object.Stamp.frame =
+			pSolarSysState->PlanetSideFrame[0];
+		}
 	}
 	else if (CreatureData[ElementPtr->mass_points & ~CREATURE_AWARE]
 			.Attributes & SPEED_MASK)
@@ -816,7 +900,7 @@ CheckObjectCollision (COUNT index)
 								continue;
 							break;
 						case BIOLOGICAL_SCAN:
-							if (!pickupBioNode (pPSD, NumRetrieved))
+							if (!pickupBioNode (pPSD, NumRetrieved, &LanderControl, &ElementControl))
 								continue;
 							break;
 					}

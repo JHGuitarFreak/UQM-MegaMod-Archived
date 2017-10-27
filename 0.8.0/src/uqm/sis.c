@@ -423,6 +423,14 @@ DrawStatusMessage (const UNICODE *pStr)
 	t.pStr = pStr;
 	t.CharCount = (COUNT)~0;
 
+	if (curMsgMode == SMM_WARNING) {
+		SetContextForeGroundColor (STATUS_MESSAGE_WARNING_TEXT_COLOR);
+	} else if (curMsgMode == SMM_ALERT) {
+		SetContextForeGroundColor (STATUS_MESSAGE_ALERT_TEXT_COLOR);
+	} else {
+		SetContextForeGroundColor (STATUS_MESSAGE_TEXT_COLOR);
+	}
+
 	SetContextFont (TinyFont);
 	SetContextForeGroundColor (STATUS_MESSAGE_TEXT_COLOR);
 	font_DrawText (&t);

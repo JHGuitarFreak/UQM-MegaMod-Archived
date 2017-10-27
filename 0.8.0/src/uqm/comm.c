@@ -796,6 +796,16 @@ typedef struct summary_state
 
 } SUMMARY_STATE;
 
+static void remove_char_from_string(UNICODE* str, const UNICODE c) {
+	// MB: Hack for removing '$' characters from Orz dialogue when viewing summary conversation - Used by DoConvSummary below
+    UNICODE *pr = str, *pw = str;
+    while (*pr) {
+        *pw = *pr++;
+        pw += (*pw != c);
+    }
+    *pw = '\0';
+}
+
 static BOOLEAN
 DoConvSummary (SUMMARY_STATE *pSS)
 {

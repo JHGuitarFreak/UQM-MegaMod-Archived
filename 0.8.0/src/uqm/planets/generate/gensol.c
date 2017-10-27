@@ -28,7 +28,9 @@
 #include "../../nameref.h"
 #include "../../state.h"
 #include "libs/mathlib.h"
+#include "options.h"
 
+#include <math.h>
 
 static bool GenerateSol_initNpcs (SOLARSYS_STATE *solarSys);
 static bool GenerateSol_reinitNpcs (SOLARSYS_STATE *solarSys);
@@ -113,7 +115,7 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 	solarSys->SunDesc[0].NumPlanets = 9;
 	for (planetI = 0; planetI < 9; ++planetI)
 	{
-		COUNT angle;
+		//COUNT angle;
 		DWORD rand_val;
 		UWORD word_val;
 		PLANET_DESC *pCurDesc = &solarSys->PlanetDesc[planetI];
@@ -121,61 +123,74 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 		pCurDesc->rand_seed = RandomContext_Random (SysGenRNG);
 		rand_val = pCurDesc->rand_seed;
 		word_val = LOWORD (rand_val);
-		angle = NORMALIZE_ANGLE ((COUNT)HIBYTE (word_val));
+		//angle = NORMALIZE_ANGLE ((COUNT)HIBYTE (word_val));
+		pCurDesc->angle = NORMALIZE_ANGLE ((COUNT)HIBYTE (word_val));
 
 		switch (planetI)
 		{
 			case 0: /* MERCURY */
 				pCurDesc->data_index = METAL_WORLD;
+				pCurDesc->alternate_colormap = MERCURY_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 39L / 100;
 				pCurDesc->NumPlanets = 0;
 				break;
 			case 1: /* VENUS */
 				pCurDesc->data_index = PRIMORDIAL_WORLD;
+				pCurDesc->alternate_colormap = VENUS_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 72L / 100;
 				pCurDesc->NumPlanets = 0;
-				angle = NORMALIZE_ANGLE (FULL_CIRCLE - angle);
+				// angle = NORMALIZE_ANGLE (FULL_CIRCLE - angle);
+				pCurDesc->angle = NORMALIZE_ANGLE (FULL_CIRCLE - pCurDesc->angle);
 				break;
 			case 2: /* EARTH */
 				pCurDesc->data_index = WATER_WORLD | PLANET_SHIELDED;
+				pCurDesc->alternate_colormap = NULL;
 				pCurDesc->radius = EARTH_RADIUS;
 				pCurDesc->NumPlanets = 2;
 				break;
 			case 3: /* MARS */
 				pCurDesc->data_index = DUST_WORLD;
+				pCurDesc->alternate_colormap = MARS_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 152L / 100;
 				pCurDesc->NumPlanets = 0;
 				break;
 			case 4: /* JUPITER */
 				pCurDesc->data_index = RED_GAS_GIANT;
+				pCurDesc->alternate_colormap = JUPITER_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 500L /* 520L */ / 100;
 				pCurDesc->NumPlanets = 4;
 				break;
 			case 5: /* SATURN */
 				pCurDesc->data_index = ORA_GAS_GIANT;
+				pCurDesc->alternate_colormap = SATURN_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 750L /* 952L */ / 100;
 				pCurDesc->NumPlanets = 1;
 				break;
 			case 6: /* URANUS */
 				pCurDesc->data_index = GRN_GAS_GIANT;
+				pCurDesc->alternate_colormap = URANUS_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 1000L /* 1916L */ / 100;
 				pCurDesc->NumPlanets = 0;
 				break;
 			case 7: /* NEPTUNE */
 				pCurDesc->data_index = BLU_GAS_GIANT;
+				pCurDesc->alternate_colormap = NEPTUNE_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 1250L /* 2999L */ / 100;
 				pCurDesc->NumPlanets = 1;
 				break;
 			case 8: /* PLUTO */
 				pCurDesc->data_index = PELLUCID_WORLD;
+				pCurDesc->alternate_colormap = PLUTO_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 1550L /* 3937L */ / 100;
 				pCurDesc->NumPlanets = 0;
-				angle = FULL_CIRCLE - OCTANT;
+				// angle = FULL_CIRCLE - OCTANT;
+				pCurDesc->angle = FULL_CIRCLE - OCTANT;
 				break;
 		}
 
-		pCurDesc->location.x = COSINE (angle, pCurDesc->radius);
-		pCurDesc->location.y = SINE (angle, pCurDesc->radius);
+		pCurDesc->orb_speed = FULL_CIRCLE / (365.25 * pow((float)pCurDesc->radius / EARTH_RADIUS, 1.5));
+		pCurDesc->location.x = COSINE (pCurDesc->angle, pCurDesc->radius);
+		pCurDesc->location.y = SINE (pCurDesc->angle, pCurDesc->radius);
 	}
 
 	return true;
@@ -204,9 +219,11 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 					COSINE (angle, solarSys->MoonDesc[0].radius);
 			solarSys->MoonDesc[0].location.y =
 					SINE (angle, solarSys->MoonDesc[0].radius);
+			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / 11.46;
 
 			/* Luna: */
 			solarSys->MoonDesc[1].data_index = SELENIC_WORLD;
+			solarSys->MoonDesc[1].alternate_colormap = LUNA_COLOR_TAB;
 			solarSys->MoonDesc[1].radius = MIN_MOON_RADIUS
 					+ (MAX_MOONS - 1) * MOON_DELTA;
 			rand_val = RandomContext_Random (SysGenRNG);
@@ -215,24 +232,39 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 					COSINE (angle, solarSys->MoonDesc[1].radius);
 			solarSys->MoonDesc[1].location.y =
 					SINE (angle, solarSys->MoonDesc[1].radius);
+			solarSys->MoonDesc[1].orb_speed = FULL_CIRCLE / 29;
 			break;
 		}
 		case 4: /* moons of JUPITER */
 			solarSys->MoonDesc[0].data_index = RADIOACTIVE_WORLD;
+			solarSys->MoonDesc[0].alternate_colormap = IO_COLOR_TAB;
+			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / 1.77;
 					/* Io */
 			solarSys->MoonDesc[1].data_index = HALIDE_WORLD;
+			solarSys->MoonDesc[1].alternate_colormap = EUROPA_COLOR_TAB;
+			solarSys->MoonDesc[1].orb_speed = FULL_CIRCLE / 3.55;
 					/* Europa */
 			solarSys->MoonDesc[2].data_index = CYANIC_WORLD;
+			solarSys->MoonDesc[2].alternate_colormap = GANYMEDE_COLOR_TAB;
+			solarSys->MoonDesc[2].orb_speed = FULL_CIRCLE / 7.16;
 					/* Ganymede */
 			solarSys->MoonDesc[3].data_index = PELLUCID_WORLD;
+			solarSys->MoonDesc[3].alternate_colormap = CALLISTO_COLOR_TAB;
+			solarSys->MoonDesc[3].orb_speed = FULL_CIRCLE / 16.69;
 					/* Callisto */
 			break;
 		case 5: /* moons of SATURN */
 			solarSys->MoonDesc[0].data_index = ALKALI_WORLD;
+			solarSys->MoonDesc[0].alternate_colormap = TITAN_COLOR_TAB;
+			solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS
+					+ (MAX_MOONS - 1) * MOON_DELTA;
+			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / 15.95;
 					/* Titan */
 			break;
 		case 7: /* moons of NEPTUNE */
 			solarSys->MoonDesc[0].data_index = VINYLOGOUS_WORLD;
+			solarSys->MoonDesc[0].alternate_colormap = TRITON_COLOR_TAB;
+			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / -5.88;
 					/* Triton */
 			break;
 	}
@@ -404,9 +436,40 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 		}
 
 		solarSys->SysInfo.PlanetInfo.SurfaceGravity =
-				CalcGravity (&solarSys->SysInfo.PlanetInfo);
-		LoadPlanet (planetNr == 2 ?
-				CaptureDrawable (LoadGraphic (EARTH_MASK_ANIM)) : NULL);
+				CalcGravity (&solarSys->SysInfo.PlanetInfo);		
+
+		switch (planetNr) {
+			case 0: /* MERCURY */
+				LoadPlanet (CaptureDrawable (LoadGraphic (MERCURY_MASK_ANIM)));
+				break;
+			case 1: /* VENUS */
+				LoadPlanet (CaptureDrawable (LoadGraphic (VENUS_MASK_ANIM)));
+				break;
+			case 2: /* EARTH */
+				LoadPlanet (CaptureDrawable (LoadGraphic (EARTH_MASK_ANIM)));
+				break;
+			case 3: /* MARS */
+				LoadPlanet (CaptureDrawable (LoadGraphic (MARS_MASK_ANIM)));
+				break;
+			case 4: /* JUPITER*/
+				LoadPlanet (CaptureDrawable (LoadGraphic (JUPITER_MASK_ANIM)));
+				break;
+			case 5: /* SATURN*/
+				LoadPlanet (CaptureDrawable (LoadGraphic (SATURN_MASK_ANIM)));
+				break;
+			case 6: /* URANUS */
+				LoadPlanet (CaptureDrawable (LoadGraphic (URANUS_MASK_ANIM)));
+				break;
+			case 7: /* NEPTUNE */
+				LoadPlanet (CaptureDrawable (LoadGraphic (NEPTUNE_MASK_ANIM)));
+				break;
+			case 8: /* PLUTO */
+				LoadPlanet (CaptureDrawable (LoadGraphic (PLUTO_MASK_ANIM)));
+				break;
+			default:
+				LoadPlanet (NULL);
+				break;
+			}
 	}
 	else
 	{
@@ -508,7 +571,40 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 		solarSys->SysInfo.PlanetInfo.SurfaceGravity =
 				CalcGravity (&solarSys->SysInfo.PlanetInfo);
-		LoadPlanet (NULL);
+				
+		switch (planetNr)
+			{
+			case 2: /* moons of EARTH */
+				if (moonNr == 1)
+					LoadPlanet (CaptureDrawable (LoadGraphic (LUNA_MASK_ANIM)));
+				else
+					LoadPlanet (NULL);
+				break;
+			case 4: /* moons of JUPITER */
+				switch (moonNr)
+				{
+					case 0: /* Io */
+						LoadPlanet (CaptureDrawable (LoadGraphic (IO_MASK_ANIM)));
+						break;
+					case 1: /* Europa */
+						LoadPlanet (CaptureDrawable (LoadGraphic (EUROPA_MASK_ANIM)));
+						break;
+					case 2: /* Ganymede */
+						LoadPlanet (CaptureDrawable (LoadGraphic (GANYMEDE_MASK_ANIM)));
+						break;
+					case 3: /* Callisto */
+						LoadPlanet (CaptureDrawable (LoadGraphic (CALLISTO_MASK_ANIM)));
+						break;
+				}
+				break;
+			case 5: /* moon of Saturn: Titan */
+				LoadPlanet (CaptureDrawable (LoadGraphic (TITAN_MASK_ANIM)));
+				break;
+			case 7: /* moon of NEPTUNE: Triton */
+			default:
+				LoadPlanet (CaptureDrawable (LoadGraphic (TRITON_MASK_ANIM)));
+				break;
+			}
 	}
 
 	return true;
@@ -623,8 +719,7 @@ init_probe (void)
 
 	if (!GET_GAME_STATE (PROBE_MESSAGE_DELIVERED)
 			&& GetGroupInfo (GLOBAL (BattleGroupRef), GROUP_INIT_IP)
-			&& (hGroup = GetHeadLink (&GLOBAL (ip_group_q))))
-	{
+			&& (hGroup = GetHeadLink (&GLOBAL (ip_group_q)))) {
 		IP_GROUP *GroupPtr;
 
 		GroupPtr = LockIpGroup (&GLOBAL (ip_group_q), hGroup);
@@ -637,9 +732,9 @@ init_probe (void)
 		UnlockIpGroup (&GLOBAL (ip_group_q), hGroup);
 
 		return 1;
-	}
-	else
+	} else {
 		return 0;
+	}
 }
 
 static void

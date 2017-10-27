@@ -311,17 +311,68 @@ OnNameChange (TEXTENTRY_STATE *pTES)
 }
 
 static void
-NameCaptainOrShip (bool nameCaptain)
+NameCaptainOrShip (bool nameCaptain, bool gamestart)
 {
 	UNICODE buf[MAX_NAME_SIZE] = "";
 	TEXTENTRY_STATE tes;
 	UNICODE *Setting;
+	COUNT CursPos = 0; // JMS
+	RECT r; // J
+
+	// JMS: This should only be invoked when starting a new game.
+	// It prints a prompt window to the center of the screen, urging
+	// the player to name his captain and ship.
+	if (gamestart)
+	{
+		RECT clip_r;
+		TEXT t;
+		
+		SetContext (ScreenContext);
+		SetContextFont (StarConFont);
+		GetContextClipRect (&clip_r);
+		
+		t.baseline.x = clip_r.extent.width >> 1;
+		t.baseline.y = (clip_r.extent.height >> 1) + 3; // JMS_GFX
+		t.align = ALIGN_CENTER;
+		t.CharCount = (COUNT)~0;
+		
+		if (nameCaptain)
+		{
+			// "Captain, what is your name?"
+			t.pStr = GAME_STRING (NAMING_STRING_BASE + 4);
+			strcpy (buf,  GAME_STRING (NAMING_STRING_BASE + 3)); // "Zelnick"
+			CursPos = strlen(GAME_STRING (NAMING_STRING_BASE + 3));
+		}
+		else
+		{
+			// "What is the name of your flagship?"
+			t.pStr = GAME_STRING (NAMING_STRING_BASE + 5);
+			strcpy (buf, GAME_STRING (NAMING_STRING_BASE + 2)); // "Vindicator"
+			CursPos = strlen(GAME_STRING (NAMING_STRING_BASE + 2));
+		}
+		
+		TextRect (&t, &r, NULL);
+		r.corner.x -= 4; // JMS_GFX
+		r.corner.y -= 4; // JMS_GFX
+		r.extent.width += 8; // JMS_GFX
+		r.extent.height += 8; // JMS_GFX
+		
+		DrawStarConBox (&r, 2,
+						BUILD_COLOR (MAKE_RGB15 (0x10, 0x10, 0x10), 0x19),
+						BUILD_COLOR (MAKE_RGB15 (0x08, 0x08, 0x08), 0x1F),
+						TRUE, BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x0A), 0x08));
+		SetContextForeGroundColor (
+								   BUILD_COLOR (MAKE_RGB15 (0x14, 0x14, 0x14), 0x0F));
+		font_DrawText (&t);
+	}
 
 	SetFlashRect (nameCaptain ? &captainNameRect : &shipNameRect);
 
-	DrawNameString (nameCaptain, buf, 0, DDSHS_EDIT);
+	DrawNameString (nameCaptain, buf, CursPos, DDSHS_EDIT);
 
-	DrawStatusMessage (GAME_STRING (NAMING_STRING_BASE + 0));
+	if (!gamestart) {
+		DrawStatusMessage (GAME_STRING (NAMING_STRING_BASE + 0));
+	}
 
 	if (nameCaptain)
 	{
@@ -337,7 +388,7 @@ NameCaptainOrShip (bool nameCaptain)
 	// text entry setup
 	tes.Initialized = FALSE;
 	tes.BaseStr = buf;
-	tes.CursorPos = 0;
+	tes.CursorPos = CursPos;
 	tes.CbParam = (void*) nameCaptain;
 	tes.ChangeCallback = OnNameChange;
 	tes.FrameCallback = 0;
@@ -349,10 +400,19 @@ NameCaptainOrShip (bool nameCaptain)
 
 	SetFlashRect (SFR_MENU_3DO);
 
-	DrawNameString (nameCaptain, buf, 0, DDSHS_NORMAL);
+	DrawNameString (nameCaptain, buf, CursPos, DDSHS_NORMAL);
 
 	if (namingCB)
 		namingCB ();
+
+	// JMS: This clears the captain or ship naming prompt.
+	if (gamestart) {
+		SetContext (ScreenContext);
+		DrawStarConBox (&r, 2,
+			BLACK_COLOR, BLACK_COLOR, TRUE, BLACK_COLOR);
+	}
+
+	SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);
 }
 
 static BOOLEAN
@@ -532,6 +592,29 @@ NameSaveGame (COUNT gameIndex, UNICODE *buf)
 		return (FALSE);
 }
 
+// JMS: This is for naming captain and ship at game start.
+void
+AskNameForCaptainAndShip()
+{
+	// Give sounds for arrows and enter.
+	SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);
+
+	// Erase the intro graphics (that are still hidden in the black fade).
+	SetContext (ScreenContext);
+	SetContextBackGroundColor (BLACK_COLOR);
+	ClearDrawable ();
+
+	// Enable graphics so the prompt for captain naming will be visible.
+	FadeScreen (FadeAllToColor, ONE_SECOND / 2);
+	
+	// Name the captain and the ship.
+	NameCaptainOrShip (true, true);
+	NameCaptainOrShip (false, true);
+	
+	// Re-fade to black before loading the first IP graphics.
+	FadeScreen (FadeAllToBlack, ONE_SECOND / 2);
+}
+
 void
 SetNamingCallback (NamingCallback *callback)
 {
@@ -572,7 +655,7 @@ DoSettings (MENU_STATE *pMS)
 				break;
 			case CHANGE_CAPTAIN_SETTING:
 			case CHANGE_SHIP_SETTING:
-				NameCaptainOrShip (pMS->CurState == CHANGE_CAPTAIN_SETTING);
+				NameCaptainOrShip (pMS->CurState == CHANGE_CAPTAIN_SETTING, false);
 				break;
 			default:
 				if (cur_speed++ < NUM_COMBAT_SPEEDS - 1)

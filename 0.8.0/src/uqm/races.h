@@ -56,6 +56,8 @@ extern "C" {
 #define DONT_CHASE        (1 << 12)
 #define PLAYER_CAPTAIN    (1 << 13)
 		/* The protagonist himself is on board. He gets a different color. */
+#define LIGHT_POINT_DEFENSE (1 << 14)
+#define HEAVY_POINT_DEFENSE (1 << 15)
 
 typedef UWORD STATUS_FLAGS;
 

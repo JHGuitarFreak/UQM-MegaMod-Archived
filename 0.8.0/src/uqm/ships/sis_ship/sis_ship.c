@@ -221,10 +221,11 @@ SetCustomShipData (RACE_DESC *pRaceDesc, const CustomShipData_t *data)
 static void
 sis_hyper_preprocess (ELEMENT *ElementPtr)
 {
-	SIZE udx = 0, udy = 0;
 	SIZE dx = 0, dy = 0;
 	SIZE AccelerateDirection;
 	STARSHIP *StarShipPtr;
+
+	SDWORD udx = 0, udy = 0, dtempx, dtempy;
 
 	if (ElementPtr->state_flags & APPEARING)
 		ElementPtr->velocity = GLOBAL (velocity);
@@ -234,21 +235,33 @@ sis_hyper_preprocess (ELEMENT *ElementPtr)
 	GetElementStarShip (ElementPtr, &StarShipPtr);
 	++StarShipPtr->weapon_counter; /* no shooting in hyperspace! */
 	if ((GLOBAL (autopilot)).x == ~0
-			|| (GLOBAL (autopilot)).y == ~0
-			|| (StarShipPtr->cur_status_flags & (LEFT | RIGHT | THRUST)))
+		|| (GLOBAL (autopilot)).y == ~0
+		|| (StarShipPtr->cur_status_flags & (LEFT | RIGHT | THRUST))
+		|| !(GET_GAME_STATE(AUTOPILOT_OK))) // JMS: This check makes autopilot engage only after coming to full stop
 	{
-LeaveAutoPilot:
-		(GLOBAL (autopilot)).x =
-				(GLOBAL (autopilot)).y = ~0;
+	LeaveAutoPilot:
+		
+		// JMS: This re-check is now needed because of the added autopilot_ok variable to previous check
+		if ((GLOBAL (autopilot)).x == ~0 || (GLOBAL (autopilot)).y == ~0 || (StarShipPtr->cur_status_flags & (LEFT | RIGHT | THRUST)))
+			(GLOBAL (autopilot)).x = (GLOBAL (autopilot)).y = ~0;
 		if (!(StarShipPtr->cur_status_flags & THRUST)
 				|| (GLOBAL_SIS (FuelOnBoard) == 0
 				&& GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
 		{
 			AccelerateDirection = -1;
-			GetCurrentVelocityComponents (&ElementPtr->velocity,
-					&dx, &dy);
-			udx = dx << 4;
-			udy = dy << 4;
+			GetCurrentVelocityComponents (&ElementPtr->velocity, &dx, &dy);
+			
+			// JMS: Engage autopilot only after coming to full stop
+			if (dx==0 && dy==0)
+				SET_GAME_STATE (AUTOPILOT_OK, 1);
+			else
+				SET_GAME_STATE (AUTOPILOT_OK, 0);
+			
+			dtempx = (SDWORD)dx;
+			dtempy = (SDWORD)dy;
+			
+			udx = dtempx;
+			udy = dtempy;
 
 			StarShipPtr->cur_status_flags &= ~THRUST;
 		}
@@ -316,8 +329,8 @@ LeaveAutoPilot:
 		else
 		{
 			AccelerateDirection = -1;
-			udx = dx << 4;
-			udy = dy << 4;
+			udx = dx;// << 4;
+			udy = dy;// << 4;
 		}
 	}
 
@@ -363,12 +376,11 @@ LeaveAutoPilot:
 			}
 		}
 
-		dx = (SIZE)((long)udx * speed / (long)dist);
-		dy = (SIZE)((long)udy * speed / (long)dist);
-		SetVelocityComponents (&ElementPtr->velocity, dx, dy);
-
-		ElementPtr->thrust_wait =
-				StarShipPtr->RaceDescPtr->characteristics.thrust_wait;
+		dtempx = (SDWORD)((long)udx * speed / (long)dist);
+		dtempy = (SDWORD)((long)udy * speed / (long)dist);
+		
+		SetVelocityComponents (&ElementPtr->velocity, dtempx, dtempy);
+		ElementPtr->thrust_wait =StarShipPtr->RaceDescPtr->characteristics.thrust_wait;
 	}
 }
 

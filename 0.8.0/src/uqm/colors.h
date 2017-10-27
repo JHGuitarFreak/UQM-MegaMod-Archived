@@ -235,6 +235,14 @@
 #define STATUS_MESSAGE_TEXT_COLOR \
 		BUILD_COLOR (MAKE_RGB15 (0x00, 0x10, 0x00), 0x6B)
 
+// Text color for the status message when it's displaying a warning (yellow).
+#define STATUS_MESSAGE_WARNING_TEXT_COLOR \
+		BUILD_COLOR (MAKE_RGB15 (0x10, 0x10, 0x00), 0x6B)
+
+// Text color for the status message then it's displaying an alert (red).
+#define STATUS_MESSAGE_ALERT_TEXT_COLOR \
+		BUILD_COLOR (MAKE_RGB15 (0x10, 0x00, 0x00), 0x6B)
+
 // Background color of the status message.
 #define STATUS_MESSAGE_BACKGROUND_COLOR \
 		BUILD_COLOR (MAKE_RGB15 (0x00, 0x08, 0x00), 0x6E)
