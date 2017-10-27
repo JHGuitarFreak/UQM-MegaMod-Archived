@@ -37,7 +37,6 @@
 
 
 FRAME stars_in_space;
-FRAME stars_in_quasispace; // JMS_GFX
 FRAME asteroid[NUM_VIEWS];
 FRAME blast[NUM_VIEWS];
 FRAME explosion[NUM_VIEWS];
