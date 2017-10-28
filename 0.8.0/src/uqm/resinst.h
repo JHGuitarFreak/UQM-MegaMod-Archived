@@ -16,7 +16,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "ikey_con.h"
 #include "igfxres.h"
 #include "ifontres.h"
 #include "istrtab.h"
