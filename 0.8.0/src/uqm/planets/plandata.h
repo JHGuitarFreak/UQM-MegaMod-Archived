@@ -310,7 +310,7 @@ extern UWORD CalcGravity (const PLANET_INFO*);
 	SATURN_COLOR_TAB, \
 	URANUS_COLOR_TAB, \
 	NEPTUNE_COLOR_TAB, \
-	PLUTO_COLOR_TAB,
+	PLUTO_COLOR_TAB
 
 /*------------------------------ Global Data ------------------------------ */
 
