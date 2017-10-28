@@ -1862,8 +1862,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame)
 			switch (PLANALGO (PlanDataPtr->Type))
 			{
 				case GAS_GIANT_ALGO:
-					MakeGasGiant (PlanDataPtr->num_faults,
-							Orbit->lpTopoData, &r, PlanDataPtr->fault_depth);
+					MakeGasGiant (PlanDataPtr->num_faults, Orbit->lpTopoData, &r, PlanDataPtr->fault_depth);
 					break;
 				case TOPO_ALGO:
 				case CRATERED_ALGO:
@@ -2172,8 +2171,7 @@ GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT 
 			switch (PLANALGO (PlanDataPtr->Type))
 			{
 				case GAS_GIANT_ALGO:
-					MakeGasGiant (PlanDataPtr->num_faults,
-							Orbit->lpTopoData, &r, PlanDataPtr->fault_depth);
+					MakeGasGiant (PlanDataPtr->num_faults, Orbit->lpTopoData, &r, PlanDataPtr->fault_depth);
 					break;
 				case TOPO_ALGO:
 				case CRATERED_ALGO:
