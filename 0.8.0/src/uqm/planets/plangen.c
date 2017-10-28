@@ -106,7 +106,7 @@ RenderTopography (FRAME DstFrame, SBYTE *pTopoData, int w, int h, BOOLEAN SurfDe
 		// There is currently nothing we can do w/o an xlat table
 		// This is still called for Earth for 4x scaled topo, but we
 		// do not need it because we cannot land on Earth.
-		log_add(log_Warning, "No xlt table -- could not generate surface.\n");
+		log_add(log_Warning, "No xlat table -- could not generate surface.\n");
 	} else {
 		BYTE AlgoType;
 		SIZE base, d;
@@ -123,9 +123,7 @@ RenderTopography (FRAME DstFrame, SBYTE *pTopoData, int w, int h, BOOLEAN SurfDe
 		map = HMalloc (sizeof (Color) * w * h);
 		pix = map;
 
-		PlanDataPtr = &PlanData[
-				pSolarSysState->pOrbitalDesc->data_index & ~PLANET_SHIELDED
-				];
+		PlanDataPtr = &PlanData[pSolarSysState->pOrbitalDesc->data_index & ~PLANET_SHIELDED];
 		AlgoType = PLANALGO (PlanDataPtr->Type);
 		if (SurfDef) {
 			// Planets given by a pixmap have elevations between -128 and +128
@@ -138,30 +136,27 @@ RenderTopography (FRAME DstFrame, SBYTE *pTopoData, int w, int h, BOOLEAN SurfDe
 		cbase = GetColorMapAddress (pSolarSysState->OrbitalCMap);
 
 		// JMS: This is for using 8-bits per color channel .ct files for e.g. Mars.
-		if (SurfDef)
+		if (SurfDef){
 			ColorShift = 3;
-		else
+		} else {
 			ColorShift = 1;
-
+		}
 		pSrc = pTopoData;
-		for (pt.y = 0; pt.y < h; ++pt.y)
-		{
-			for (pt.x = 0; pt.x < w; ++pt.x, ++pSrc, ++pix)
-			{
+		for (pt.y = 0; pt.y < h; ++pt.y) {
+			for (pt.x = 0; pt.x < w; ++pt.x, ++pSrc, ++pix) {
 				BYTE *ctab;
 
 				d = *pSrc;
-				if (AlgoType == GAS_GIANT_ALGO)
-				{	// make elevation value non-negative
+				if (AlgoType == GAS_GIANT_ALGO) {	
+					// make elevation value non-negative
 					d &= 255;
-				}
-				else
-				{
+				} else {
 					d += base;
-					if (d < 0)
+					if (d < 0){
 						d = 0;
-					else if (d > 255)
+					} else if (d > 255) {
 						d = 255;
+					}
 				}
 
 				d = xlat_tab[d] - cbase[0];
@@ -169,11 +164,9 @@ RenderTopography (FRAME DstFrame, SBYTE *pTopoData, int w, int h, BOOLEAN SurfDe
 
 				// fixed planet surfaces being too dark
 				// ctab shifts were previously >> 3 .. -Mika
-				*pix = BUILD_COLOR (MAKE_RGB15 (ctab[0] >> ColorShift, 
-					ctab[1] >> ColorShift, ctab[2] >> ColorShift), d);	
+				*pix = BUILD_COLOR (MAKE_RGB15 (ctab[0] >> ColorShift, ctab[1] >> ColorShift, ctab[2] >> ColorShift), d);	
 			}
 		}
-
 		WriteFramePixelColors (DstFrame, map, w, h);
 		HFree(map);
 	}
