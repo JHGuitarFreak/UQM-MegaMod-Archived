@@ -390,15 +390,12 @@ LoadIPData (void)
 	SunFrame = CaptureDrawable (LoadGraphic (SUN_MASK_PMAP_ANIM));
 	if (SpaceJunkFrame == 0)
 	{
-		SpaceJunkFrame = CaptureDrawable (
-				LoadGraphic (IPBKGND_MASK_PMAP_ANIM));
+		SpaceJunkFrame = CaptureDrawable (LoadGraphic (IPBKGND_MASK_PMAP_ANIM));
 		SISIPFrame = CaptureDrawable (LoadGraphic (SISIP_MASK_PMAP_ANIM));
 
 		OrbitalCMap = CaptureColorMap (LoadColorMap (ORBPLAN_COLOR_MAP));
-		OrbitalFrame = CaptureDrawable (
-				LoadGraphic (ORBPLAN_MASK_PMAP_ANIM));
+		OrbitalFrame = CaptureDrawable (LoadGraphic (ORBPLAN_MASK_PMAP_ANIM));
 		SunCMap = CaptureColorMap (LoadColorMap (IPSUN_COLOR_MAP));
-		//SunFrame = CaptureDrawable (LoadGraphic (SUN_MASK_PMAP_ANIM));
 
 		SpaceMusic = LoadMusic (IP_MUSIC);
 	}
@@ -1438,7 +1435,7 @@ TransitionSystemIn (void)
 static void
 ScaleSystem (SIZE new_radius)
 {
-#ifdef SMOOTH_SYSTEM_ZOOM
+#ifdef SMOOTH_SYSTEM_ZOOM // SMOOTH_SYSTEM_ZOOM
 	// XXX: This appears to have been an attempt to zoom the system view
 	//   in a different way. This code zooms gradually instead of
 	//   doing a crossfade from one zoom level to the other.
@@ -1447,7 +1444,7 @@ ScaleSystem (SIZE new_radius)
 	//   controls are not handled in the loop, and the flagship
 	//   can collide with a group while zooming, and that is not handled
 	//   100% correctly.
-#define NUM_STEPS 10
+#define NUM_STEPS 1
 	COUNT i;
 	SIZE old_radius;
 	SIZE d, step;
