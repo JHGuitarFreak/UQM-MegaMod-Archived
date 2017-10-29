@@ -423,7 +423,7 @@ extern FRAME DecFrameIndex (FRAME Frame);
 extern DRAWABLE CopyFrameRect (FRAME Frame, const RECT *area);
 extern DRAWABLE CloneFrame (FRAME Frame);
 extern DRAWABLE RotateFrame (FRAME Frame, int angle_deg);
-extern DRAWABLE RescaleFrame (FRAME, int width, int height);
+extern DRAWABLE RescaleFrame (FRAME, int width, int height, BOOLEAN eight_to_32);
 // This pair works for both paletted and trucolor frames
 extern BOOLEAN ReadFramePixelColors (FRAME frame, Color *pixels,
 		int width, int height);
@@ -431,7 +431,7 @@ extern BOOLEAN WriteFramePixelColors (FRAME frame, const Color *pixels,
 		int width, int height);
 // This pair only works for paletted frames
 extern BOOLEAN ReadFramePixelIndexes (FRAME frame, BYTE *pixels,
-		int width, int height);
+		int width, int height, BOOLEAN paletted);
 extern BOOLEAN WriteFramePixelIndexes (FRAME frame, const BYTE *pixels,
 		int width, int height);
 extern void SetFrameTransparentColor (FRAME, Color);
