@@ -1178,25 +1178,6 @@ const PlanetFrame planet_array[NUMBER_OF_PLANET_TYPES] =
 		DUST_XLAT_TAB,
 		250, 2, 80, 200,
 	},
-	// 	{ /* EARTH_WORLD */
-	// 	MAKE_BYTE (LARGE_ROCKY_WORLD + CRATERED_ALGO,
-	// 			BLUE_BODY), /* Color and type/size of planet */
-	// 	LOW_TECTONICS, /* Tectonics - Scaled with Earth at 82    */
-	// 	MAKE_BYTE (NORMAL_DENSITY, MEDIUM), /* Atmosphere and density */
-	// 	{
-	// 		{IRON, LIGHT_USEFUL},
-	// 		{ALUMINUM, LIGHT_USEFUL},
-	// 		{TIN, LIGHT_USEFUL},
-	// 		{LEAD, LIGHT_USEFUL},
-	// 		{URANIUM, TRACE_USEFUL},
-	// 		{MOLYBDENUM, TRACE_USEFUL},
-	// 		{NOTHING, NO_DEPOSIT},
-	// 		{NOTHING, NO_DEPOSIT},
-	// 	},
-	// 	WATER_COLOR_TAB,
-	// 	WATER_XLAT_TAB,
-	// 	500, 1, 0, 190,
-	// },
 	{ /* CRIMSON_WORLD */
 		MAKE_BYTE (SMALL_ROCKY_WORLD + CRATERED_ALGO,
 				RED_BODY), /* Color and type/size of planet */
