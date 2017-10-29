@@ -531,6 +531,25 @@ unhyper_transition (ELEMENT *ElementPtr)
 {
 	COUNT frame_index;
 
+	// JMS: If leaving interplanetary on autopilot, always arrive HS with
+	// the ship's nose pointed into correct direction.
+	if ((GLOBAL (autopilot)).x != ~0 && (GLOBAL (autopilot)).y != ~0) {
+		STARSHIP *StarShipPtr;
+		POINT universe;
+		SIZE facing;
+		SDWORD udx = 0, udy = 0;
+			
+		GetElementStarShip (ElementPtr, &StarShipPtr);
+		universe.x = LOGX_TO_UNIVERSE (GLOBAL_SIS (log_x));
+		universe.y = LOGY_TO_UNIVERSE (GLOBAL_SIS (log_y));
+		udx = (GLOBAL (autopilot)).x - universe.x;
+		udy = -((GLOBAL (autopilot)).y - universe.y);
+			
+		facing = NORMALIZE_FACING (ANGLE_TO_FACING (ARCTAN (udx, udy)));
+		StarShipPtr->ShipFacing = facing;
+		SetElementStarShip(ElementPtr, StarShipPtr);
+	}
+
 	ElementPtr->state_flags |= CHANGING;
 
 	frame_index = GetFrameIndex (ElementPtr->current.image.frame);
