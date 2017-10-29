@@ -16,6 +16,9 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+
+#include "libs/graphics/sdl/sdl_common.h"
+#include "libs/graphics/gfx_common.h"
 #include "libs/gfxlib.h"
 #include "libs/graphics/context.h"
 #include "libs/graphics/drawable.h"
@@ -23,6 +26,7 @@
 #include "libs/memlib.h"
 #include "tfb_draw.h"
 #include <math.h>
+#include "libs/log.h"
 
 #ifndef M_PI
 #	define M_PI 3.14159265358979323846
@@ -402,7 +406,7 @@ CloneFrame (FRAME frame)
 // Creates a new DRAWABLE of specified size and scales the passed
 // frame onto it. The aspect ratio is not preserved.
 DRAWABLE
-RescaleFrame (FRAME frame, int width, int height)
+RescaleFrame (FRAME frame, int width, int height, BOOLEAN eight_to_32)
 {
 	FRAME newFrame;
 	TFB_Image *img;
@@ -426,7 +430,21 @@ RescaleFrame (FRAME frame, int width, int height)
 	// NOTE: We do not lock the target image because nothing has a
 	//   reference to it yet!
 	src = img->NormalImg;
-	dst = newFrame->image->NormalImg;
+	dst = newFrame->image->NormalImg;	
+	
+	// JMS_GFX
+	if (eight_to_32)
+	{
+		SDL_Surface *src_sdl = src;
+		SDL_Surface *dst_sdl = dst;
+		
+		if (src_sdl->format->BytesPerPixel == 1)
+		{
+			dst_sdl->format->BytesPerPixel = src_sdl->format->BytesPerPixel;
+			dst_sdl->format->BitsPerPixel = 8 * (src_sdl->format->BytesPerPixel);
+		}
+	}
+
 	TFB_DrawCanvas_Rescale_Nearest (src, dst, -1, NULL, NULL, NULL);
 	
 	UnlockMutex (img->mutex);
@@ -468,7 +486,7 @@ WriteFramePixelColors (FRAME frame, const Color *pixels, int width, int height)
 }
 
 BOOLEAN
-ReadFramePixelIndexes (FRAME frame, BYTE *pixels, int width, int height)
+ReadFramePixelIndexes (FRAME frame, BYTE *pixels, int width, int height, BOOLEAN paletted)
 {
 	TFB_Image *img;
 
@@ -479,8 +497,13 @@ ReadFramePixelIndexes (FRAME frame, BYTE *pixels, int width, int height)
 
 	// TODO: Do we need to lock the img->mutex here?
 	img = frame->image;
-	return TFB_DrawCanvas_GetPixelIndexes (img->NormalImg, pixels,
+	
+	// JMS_GFX: Don't try to read pixel indexes for non-indexed images.
+	if (paletted)
+		return TFB_DrawCanvas_GetPixelIndexes (img->NormalImg, pixels,
 			width, height);
+	else
+		return FALSE;
 }
 
 // Warning: this functions bypasses DCQ, which is why it is not a DrawXXX

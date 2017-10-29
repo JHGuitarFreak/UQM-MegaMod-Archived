@@ -1748,7 +1748,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame) {
 				|| GetFrameHeight (SurfDefFrame) != MAP_HEIGHT)
 		{
 			pSolarSysState->TopoFrame = CaptureDrawable (RescaleFrame (
-					SurfDefFrame, MAP_WIDTH, MAP_HEIGHT));
+					SurfDefFrame, MAP_WIDTH, MAP_HEIGHT, FALSE));
 			// will not need the passed FRAME anymore
 			DeleteDef = TRUE;
 		}
@@ -1765,13 +1765,13 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame) {
 					|| GetFrameHeight (ElevFrame) != MAP_HEIGHT)
 			{
 				ElevFrame = CaptureDrawable (RescaleFrame (ElevFrame,
-						MAP_WIDTH, MAP_HEIGHT));
+						MAP_WIDTH, MAP_HEIGHT, TRUE));
 				DeleteElev = TRUE;
 			}
 
 			// grab the elevation data in 1 byte per pixel format
 			ReadFramePixelIndexes (ElevFrame, (BYTE *)Orbit->lpTopoData,
-					MAP_WIDTH, MAP_HEIGHT);
+					MAP_WIDTH, MAP_HEIGHT, TRUE);
 			// the supplied data is in unsigned format, must convert
 			for (i = 0, elev = Orbit->lpTopoData;
 					i < MAP_WIDTH * MAP_HEIGHT;
@@ -2042,7 +2042,7 @@ GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT 
 				|| GetFrameHeight (SurfDefFrame) != height)
 		{
 			pSolarSysState->TopoFrame = CaptureDrawable (RescaleFrame (
-					SurfDefFrame, width, height));
+					SurfDefFrame, width, height, FALSE));
 			// will not need the passed FRAME anymore
 			DeleteDef = TRUE;
 		}
@@ -2059,13 +2059,13 @@ GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT 
 					|| GetFrameHeight (ElevFrame) != height)
 			{
 				ElevFrame = CaptureDrawable (RescaleFrame (ElevFrame,
-						width, height));
+						width, height, TRUE));
 				DeleteElev = TRUE;
 			}
 
 			// grab the elevation data in 1 byte per pixel format
 			ReadFramePixelIndexes (ElevFrame, (BYTE *)Orbit->lpTopoData,
-					width, height);
+					width, height, FALSE);
 			// the supplied data is in unsigned format, must convert
 			for (i = 0, elev = Orbit->lpTopoData;
 					i < width * height;
