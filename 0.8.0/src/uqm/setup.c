@@ -151,15 +151,18 @@ LoadKernel (int argc, char *argv[])
 		printf("Loading RMX-Graphics 1x\n");
 		log_add (log_Debug, "loading rmx-graphics-1x");
 	}
+	if(loadAddon("rmx-planets-1x")){
+
+		seroSetupPresent = TRUE;	
+	}
 	if(loadAddon("sero-menu-1x")){
 		seroMenuPresent = TRUE;
 		printf("Loading Sero-Menu 1x\n");
 		log_add (log_Debug, "loading sero-menu-1x");
 	}
 	if(loadAddon("sero-setup-080")){
-		seroSetupPresent = TRUE;
-		printf("Loading Sero Setup Classic\n");
-		log_add (log_Debug, "loading sero-setup-classic\n");
+		printf("Loading Sero Setup 0.8.0\n");
+		log_add (log_Debug, "loading sero-setup-080\n");
 	} else {
 		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
 		exit (EXIT_FAILURE);
