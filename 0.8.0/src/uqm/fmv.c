@@ -33,8 +33,7 @@
 void
 DoShipSpin (COUNT index, MUSIC_REF hMusic)
 {
-#ifdef WANT_SHIP_SPINS
-	char vnbuf[32];
+	char vnbuf[24]; // From 32 to 24
 	RECT old_r;
 
 	LoadIntoExtraScreen (NULL);
@@ -61,15 +60,11 @@ DoShipSpin (COUNT index, MUSIC_REF hMusic)
 	DrawFromExtraScreen (NULL);
 	SetContextClipRect (&old_r);
 
-	if (hMusic)
+	if (hMusic){
 		PlayMusic (hMusic, TRUE, 1);
-		
+	}
 	SleepThreadUntil (FadeScreen (FadeAllToColor, ONE_SECOND / 4));
 	FlushColorXForms ();
-#else
-	(void) index;  /* Satisfy compiler */
-	(void) hMusic;  /* Satisfy compiler */
-#endif  /* WANT_SHIP_SPINS */
 }
 
 void

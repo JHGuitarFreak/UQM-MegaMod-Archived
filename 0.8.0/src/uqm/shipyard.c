@@ -128,7 +128,6 @@ on_input_frame (void)
 	SetContext (oldContext);
 }
 
-#ifdef WANT_SHIP_SPINS
 static void
 SpinStarShip (MENU_STATE *pMS, HFLEETINFO hStarShip)
 {
@@ -144,7 +143,6 @@ SpinStarShip (MENU_STATE *pMS, HFLEETINFO hStarShip)
 		DoShipSpin (Index, pMS->hMusic);
 	}
 }
-#endif
 
 // Count the ships which can be built by the player.
 static COUNT
@@ -664,7 +662,6 @@ DMS_SetMode (MENU_STATE *pMS, DMS_Mode mode)
 }
 
 #define MODIFY_CREW_FLAG (1 << 8)
-#ifdef WANT_SHIP_SPINS
 // Helper function for DoModifyShips(), called when the player presses the
 // special button.
 // It works both when the cursor is over an escort ship, while not editing
@@ -715,7 +712,6 @@ DMS_SpinShip (MENU_STATE *pMS, HSHIPFRAG hStarShip)
 
 	return TRUE;
 }
-#endif  /* WANT_SHIP_SPINS */
 
 // Helper function for DoModifyShips(), called when the player presses the
 // up button when modifying the crew of the flagship.
@@ -993,7 +989,6 @@ DMS_AddEscortShip (MENU_STATE *pMS, BOOLEAN special, BOOLEAN select,
 {
 	assert (pMS->delta_item & MODIFY_CREW_FLAG);
 
-#ifdef WANT_SHIP_SPINS
 	if (special)
 	{
 		HSHIPFRAG hStarShip = GetEscortByStarShipIndex (pMS->delta_item);
@@ -1001,9 +996,6 @@ DMS_AddEscortShip (MENU_STATE *pMS, BOOLEAN special, BOOLEAN select,
 			DMS_SetMode (pMS, DMS_Mode_addEscort);
 		return;
 	}
-#else
-	(void) special;  // Satisfying compiler.
-#endif  /* WANT_SHIP_SPINS */
 
 	if (cancel)
 	{
@@ -1166,17 +1158,12 @@ DMS_NavigateShipSlots (MENU_STATE *pMS, BOOLEAN special, BOOLEAN select,
 		}
 	}
 
-#ifndef WANT_SHIP_SPINS
-	(void) special;  // Satisfying compiler.
-#else
 	if (special)
 	{
 		if (DMS_SpinShip (pMS, hStarShip))
 			DMS_SetMode (pMS, DMS_Mode_navigate);
 	}
-	else
-#endif  /* WANT_SHIP_SPINS */
-	if (select)
+	else if (select)
 	{
 		if (hStarShip == 0 && HINIBBLE (pMS->CurState) == 0)
 		{
@@ -1194,8 +1181,7 @@ DMS_NavigateShipSlots (MENU_STATE *pMS, BOOLEAN special, BOOLEAN select,
 			DMS_SetMode (pMS, DMS_Mode_editCrew);
 		}
 	}
-	else if (cancel)
-	{
+	else if (cancel) {
 		// Leave escort ship editor.
 		pMS->InputFunc = DoShipyard;
 		pMS->CurState = SHIPYARD_CREW;

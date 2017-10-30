@@ -25,8 +25,6 @@
 extern "C" {
 #endif
 
-#define WANT_SHIP_SPINS
-
 extern void SplashScreen (void (* DoProcessing)(DWORD TimeOut));
 extern void Introduction (void);
 extern void Victory (void);
