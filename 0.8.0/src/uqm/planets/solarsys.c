@@ -1435,7 +1435,7 @@ TransitionSystemIn (void)
 static void
 ScaleSystem (SIZE new_radius)
 {
-#ifdef SMOOTH_SYSTEM_ZOOM // SMOOTH_SYSTEM_ZOOM
+#ifdef SMOOTH_SYSTEM_ZOOM // Enabled this for shits 'n gigs.
 	// XXX: This appears to have been an attempt to zoom the system view
 	//   in a different way. This code zooms gradually instead of
 	//   doing a crossfade from one zoom level to the other.
