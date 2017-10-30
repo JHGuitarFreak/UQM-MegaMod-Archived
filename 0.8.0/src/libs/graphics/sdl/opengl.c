@@ -301,7 +301,7 @@ TFB_GL_ScanLines (void)
 	glEnable (GL_BLEND);
 	glBlendFunc (GL_DST_COLOR, GL_ZERO);
 	// glColor3f (0.85f, 0.85f, 0.85f);
-	glColor3f (0.5f, 0.5f, 0.5f); // Darkened scanlines
+	glColor3f (0.4f, 0.4f, 0.4f); // Darkened scanlines
 	for (y = 0; y < ScreenHeightActual; y += 2)
 	{
 		glBegin (GL_LINES);
@@ -311,7 +311,7 @@ TFB_GL_ScanLines (void)
 	}
 
 	glBlendFunc (GL_DST_COLOR, GL_ONE);
-	glColor3f (0.2f, 0.2f, 0.2f);
+	glColor3f (0.3f, 0.3f, 0.3f);
 	for (y = 1; y < ScreenHeightActual; y += 2)
 	{
 		glBegin (GL_LINES);
