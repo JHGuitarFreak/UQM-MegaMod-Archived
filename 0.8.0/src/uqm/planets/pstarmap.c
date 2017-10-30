@@ -1304,7 +1304,7 @@ DoMoveCursor (MENU_STATE *pMS)
 //#ifdef DEBUG
 		if (optBubbleWarp)
 		{
-			PlayMenuSound (MENU_SOUND_INVOKED);
+			PlayMenuSound (MENU_SOUND_BUBBLEWARP);
 
 			if (inHQSpace ())
 			{
