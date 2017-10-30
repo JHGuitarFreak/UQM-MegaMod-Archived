@@ -25,8 +25,8 @@
 
 #define ORBITING_PLANETS TRUE
 #define ROTATING_PLANETS optRotatingIpPlanets
-#define TEXTURED_PLANETS (optTexturedIpPlanets || ROTATING_PLANETS)
-// TEXTURED_PLANETS should always be defined TRUE if ROTATING_PLANETS is.
+#define TEXTURED_PLANETS optTexturedIpPlanets
+// TEXTURED_PLANETS should always be defined TRUE if ROTATING_PLANETS is. // Serosis: Why?
 #define ONE_YEAR 365.25
 #ifndef M_PI
 #define M_PI 3.141592653589
