@@ -448,7 +448,7 @@ SetDefaults (void)
 	choices[34].selected = opts.mainMenuMusic;
 	choices[35].selected = opts.nebulae;
 	choices[36].selected = opts.rotatingIpPlanets;
-	choices[37].selected = opts.texturedIpPlanets || opts.rotatingIpPlanets;
+	choices[37].selected = opts.texturedIpPlanets;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -499,7 +499,7 @@ PropagateResults (void)
 	opts.mainMenuMusic = choices[34].selected;
 	opts.nebulae = choices[35].selected;
 	opts.rotatingIpPlanets = choices[36].selected;
-	opts.texturedIpPlanets = choices[37].selected || opts.rotatingIpPlanets;
+	opts.texturedIpPlanets = choices[37].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1461,7 +1461,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->mainMenuMusic = optMainMenuMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->nebulae = optNebulae ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->rotatingIpPlanets = optRotatingIpPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->texturedIpPlanets = (optTexturedIpPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED) || opts->rotatingIpPlanets;
+	opts->texturedIpPlanets = optTexturedIpPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 }
 
@@ -1584,9 +1584,8 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	optRotatingIpPlanets = opts->rotatingIpPlanets == OPTVAL_ENABLED;
 	
 	// JMS: Textured or plain(==vanilla UQM style) planets in IP.
-	res_PutBoolean ("config.texturedIpPlanets", (opts->texturedIpPlanets == OPTVAL_ENABLED) || opts->rotatingIpPlanets == OPTVAL_ENABLED);
-	optTexturedIpPlanets = opts->texturedIpPlanets == OPTVAL_ENABLED
-		|| opts->rotatingIpPlanets == OPTVAL_ENABLED;
+	res_PutBoolean ("config.texturedIpPlanets", opts->texturedIpPlanets == OPTVAL_ENABLED);
+	optTexturedIpPlanets = opts->texturedIpPlanets == OPTVAL_ENABLED;
 
 	switch (opts->scaler) {
 	case OPTVAL_BILINEAR_SCALE:

@@ -438,7 +438,7 @@ main (int argc, char *argv[])
 	optMainMenuMusic = options.mainMenuMusic.value;
 	optNebulae = options.nebulae.value;
 	optRotatingIpPlanets = options.rotatingIpPlanets.value;
-	optTexturedIpPlanets = options.texturedIpPlanets.value || optRotatingIpPlanets;
+	optTexturedIpPlanets = options.texturedIpPlanets.value;
  	optCheatMode = options.cheatMode.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
