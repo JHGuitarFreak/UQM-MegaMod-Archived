@@ -1718,7 +1718,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame) {
 	RECT r;
 	const PlanetFrame *PlanDataPtr;
 	PLANET_INFO *PlanetInfo = &pSolarSysState->SysInfo.PlanetInfo;
-	DWORD i, y;
+	COUNT i, y;
 	POINT loc;
 	CONTEXT OldContext;
 	CONTEXT TopoContext;
@@ -1730,7 +1730,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame) {
 
 	TopoContext = CreateContext ("Plangen.TopoContext");
 	OldContext = SetContext (TopoContext);
-	planet_orbit_init (MAP_WIDTH, (MAP_HEIGHT+1), TRUE); // JMS_GFX: Was MAP_HEIGHT without the +1. Added this to avoid overflows.
+	planet_orbit_init (MAP_WIDTH, MAP_HEIGHT, TRUE); // JMS_GFX: Was MAP_HEIGHT without the +1. Added this to avoid overflows.
 
 	PlanDataPtr = &PlanData[pPlanetDesc->data_index & ~PLANET_SHIELDED];
 
@@ -1786,30 +1786,23 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame) {
 		}
 
 		// JMS: Planets with special colormaps
-		if (pPlanetDesc->alternate_colormap)
-		{
+		if (pPlanetDesc->alternate_colormap) {
 			pSolarSysState->OrbitalCMap = CaptureColorMap (
 				LoadColorMap (pPlanetDesc->alternate_colormap));
 			pSolarSysState->XlatRef = CaptureStringTable (
 				LoadStringTable (SPECIAL_CMAP_XLAT_TAB));
-		}
-		// JMS: Normal planets
-		else
-		{
+		} else { // JMS: Normal planets
 			pSolarSysState->OrbitalCMap = CaptureColorMap (
 				LoadColorMap (PlanDataPtr->CMapInstance));
 			pSolarSysState->XlatRef = CaptureStringTable (
 				LoadStringTable (PlanDataPtr->XlatTabInstance));
 
-			if (PlanetInfo->SurfaceTemperature > HOT_THRESHOLD)
-			{
+			if (PlanetInfo->SurfaceTemperature > HOT_THRESHOLD) {
 				pSolarSysState->OrbitalCMap = SetAbsColorMapIndex (
 						pSolarSysState->OrbitalCMap, 2);
 				pSolarSysState->XlatRef = SetAbsStringTableIndex (
 						pSolarSysState->XlatRef, 2);
-			}
-			else if (PlanetInfo->SurfaceTemperature > COLD_THRESHOLD)
-			{
+			} else if (PlanetInfo->SurfaceTemperature > COLD_THRESHOLD) {
 				pSolarSysState->OrbitalCMap = SetAbsColorMapIndex (
 						pSolarSysState->OrbitalCMap, 1);
 				pSolarSysState->XlatRef = SetAbsStringTableIndex (
@@ -1847,14 +1840,8 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame) {
 					for (i = 0; i < PlanDataPtr->num_blemishes; ++i)
 					{
 						RECT crater_r;
-						DWORD random_value; // JMS_GFX
 						UWORD loword;
-						
-						 					
-						// UWORD hiword; // JMS_GFX
-						// BW: reinstate original values...
-						
-						random_value = TFB_Random(); // JMS_GFX
+
 						loword = LOWORD (RandomContext_Random (SysGenRNG));	
 						switch (HIBYTE (loword) & 31)
 						{
@@ -1872,23 +1859,12 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame) {
 								break;
 						}
 					
-						// loword = LOWORD (RandomContext_Random (SysGenRNG));
-						
-						random_value = TFB_Random(); // JMS_GFX
-						loword = LOWORD (RandomContext_Random (SysGenRNG));	
-						// hiword = HIWORD (random_value); 
-						// JMS_GFX
-						crater_r.extent.height = crater_r.extent.width;	
-						crater_r.corner.x = HIBYTE (loword) % (MAP_WIDTH - crater_r.extent.width);
-						// crater_r.corner.x = loword % (MAP_WIDTH - crater_r.extent.width); // JMS_GFX: changed the previous line to this. BYTE was too small for 4x resolution
-						crater_r.corner.y = LOBYTE (loword) % (MAP_HEIGHT - crater_r.extent.height);
-						// crater_r.corner.y = hiword % (MAP_HEIGHT - crater_r.extent.height); // JMS_GFX: The same
-						// BW: ... then scale them up
-						crater_r.extent.width = crater_r.extent.width * MAP_WIDTH / MAP_WIDTH;
+						loword = LOWORD (RandomContext_Random (SysGenRNG));
 						crater_r.extent.height = crater_r.extent.width;
-						crater_r.corner.x = crater_r.corner.x * MAP_WIDTH / MAP_WIDTH;
-						crater_r.corner.y = crater_r.corner.y * MAP_HEIGHT / MAP_HEIGHT;
-
+						crater_r.corner.x = HIBYTE (loword)
+								% (MAP_WIDTH - crater_r.extent.width);
+						crater_r.corner.y = LOBYTE (loword)
+								% (MAP_HEIGHT - crater_r.extent.height);
 						MakeCrater (&crater_r, Orbit->lpTopoData,
 								PlanDataPtr->fault_depth << 2,
 								-(PlanDataPtr->fault_depth << 2),
@@ -1906,30 +1882,23 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame) {
 				(SIZE)MAP_HEIGHT, 1));
 
 		// JMS: Planets with special colormaps
-		if (pPlanetDesc->alternate_colormap)
-		{
+		if (pPlanetDesc->alternate_colormap) {
 			pSolarSysState->OrbitalCMap = CaptureColorMap (
 				LoadColorMap (pPlanetDesc->alternate_colormap));
 			pSolarSysState->XlatRef = CaptureStringTable (
 				LoadStringTable (SPECIAL_CMAP_XLAT_TAB));
-		}
-		// JMS: Normal planets
-		else
-		{
+		} else { // JMS: Normal planets
 			pSolarSysState->OrbitalCMap = CaptureColorMap (
 				LoadColorMap (PlanDataPtr->CMapInstance));
 			pSolarSysState->XlatRef = CaptureStringTable (
 				LoadStringTable (PlanDataPtr->XlatTabInstance));
 		}
-		if (PlanetInfo->SurfaceTemperature > HOT_THRESHOLD)
-		{
+		if (PlanetInfo->SurfaceTemperature > HOT_THRESHOLD) {
 			pSolarSysState->OrbitalCMap = SetAbsColorMapIndex (
 					pSolarSysState->OrbitalCMap, 2);
 			pSolarSysState->XlatRef = SetAbsStringTableIndex (
 					pSolarSysState->XlatRef, 2);
-		}
-		else if (PlanetInfo->SurfaceTemperature > COLD_THRESHOLD)
-		{
+		} else if (PlanetInfo->SurfaceTemperature > COLD_THRESHOLD) {
 			pSolarSysState->OrbitalCMap = SetAbsColorMapIndex (
 					pSolarSysState->OrbitalCMap, 1);
 			pSolarSysState->XlatRef = SetAbsStringTableIndex (
@@ -2009,7 +1978,7 @@ GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT 
 	RECT r;
 	const PlanetFrame *PlanDataPtr;
 	PLANET_INFO *PlanetInfo = &pSolarSysState->SysInfo.PlanetInfo;
-	DWORD i, y;
+	COUNT i, y;
 	POINT loc;
 	CONTEXT OldContext;
 	CONTEXT TopoContext;
@@ -2067,10 +2036,7 @@ GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT 
 			ReadFramePixelIndexes (ElevFrame, (BYTE *)Orbit->lpTopoData,
 					width, height, FALSE);
 			// the supplied data is in unsigned format, must convert
-			for (i = 0, elev = Orbit->lpTopoData;
-					i < width * height;
-					++i, ++elev)
-			{
+			for (i = 0, elev = Orbit->lpTopoData; i < width * height; ++i, ++elev) {
 				*elev = *(BYTE *)elev - 128;
 			}
 		}
@@ -2080,31 +2046,24 @@ GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT 
 		}
 
 		// JMS: Planets with special colormaps
-		if (pPlanetDesc->alternate_colormap)
-		{
+		if (pPlanetDesc->alternate_colormap) {
 			pSolarSysState->OrbitalCMap = CaptureColorMap (
 				LoadColorMap (pPlanetDesc->alternate_colormap));
 			pSolarSysState->XlatRef = CaptureStringTable (
 				LoadStringTable (SPECIAL_CMAP_XLAT_TAB));
-		}
-		// JMS: Normal planets
-		else
-		{
+		} else { // JMS: Normal planets
 			pSolarSysState->OrbitalCMap = CaptureColorMap (
 				LoadColorMap (PlanDataPtr->CMapInstance));
 			pSolarSysState->XlatRef = CaptureStringTable (
 				LoadStringTable (PlanDataPtr->XlatTabInstance));
 		}
 
-		if (PlanetInfo->SurfaceTemperature > HOT_THRESHOLD)
-		{
+		if (PlanetInfo->SurfaceTemperature > HOT_THRESHOLD) {
 			pSolarSysState->OrbitalCMap = SetAbsColorMapIndex (
 					pSolarSysState->OrbitalCMap, 2);
 			pSolarSysState->XlatRef = SetAbsStringTableIndex (
 					pSolarSysState->XlatRef, 2);
-		}
-		else if (PlanetInfo->SurfaceTemperature > COLD_THRESHOLD)
-		{
+		} else if (PlanetInfo->SurfaceTemperature > COLD_THRESHOLD) {
 			pSolarSysState->OrbitalCMap = SetAbsColorMapIndex (
 					pSolarSysState->OrbitalCMap, 1);
 			pSolarSysState->XlatRef = SetAbsStringTableIndex (
@@ -2128,7 +2087,8 @@ GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT 
 			switch (PLANALGO (PlanDataPtr->Type))
 			{
 				case GAS_GIANT_ALGO:
-					MakeGasGiant (PlanDataPtr->num_faults, Orbit->lpTopoData, &r, PlanDataPtr->fault_depth);
+					MakeGasGiant (PlanDataPtr->num_faults,
+							Orbit->lpTopoData, &r, PlanDataPtr->fault_depth);
 					break;
 				case TOPO_ALGO:
 				case CRATERED_ALGO:
@@ -2140,47 +2100,38 @@ GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT 
 					for (i = 0; i < PlanDataPtr->num_blemishes; ++i)
 					{
 						RECT crater_r;
-						DWORD random_value; // JMS_GFX
 						UWORD loword;
-						
-						 					
-						// UWORD hiword; // JMS_GFX
-						// BW: reinstate original values...
-						
-						random_value = TFB_Random(); // JMS_GFX
-						loword = LOWORD (RandomContext_Random (SysGenRNG));	
+				
+						loword = LOWORD (RandomContext_Random (SysGenRNG));
 						switch (HIBYTE (loword) & 31)
 						{
 							case 0:
-								crater_r.extent.width = (LOBYTE (loword) % (MAP_HEIGHT >> 2)) + (MAP_HEIGHT >> 2);
+								crater_r.extent.width =
+										(LOBYTE (loword) % (height >> 2))
+										+ (height >> 2);
 								break;
 							case 1:
 							case 2:
 							case 3:
 							case 4:
-								crater_r.extent.width = (LOBYTE (loword) % (MAP_HEIGHT >> 3)) + (MAP_HEIGHT >> 3);
+								crater_r.extent.width =
+										(LOBYTE (loword) % (height >> 3))
+										+ (height >> 3);
 								break;
 							default:
-								crater_r.extent.width = (LOBYTE (loword) % (MAP_HEIGHT >> 4)) + 4;
+								crater_r.extent.width =
+										(LOBYTE (loword) % (height >> 4))
+										+ 4;
 								break;
 						}
-					
-						// loword = LOWORD (RandomContext_Random (SysGenRNG));
-						
-						random_value = TFB_Random(); // JMS_GFX
-						loword = LOWORD (RandomContext_Random (SysGenRNG));	
-						// hiword = HIWORD (random_value); 
-						// JMS_GFX
-						crater_r.extent.height = crater_r.extent.width;	
-						crater_r.corner.x = HIBYTE (loword) % (MAP_WIDTH - crater_r.extent.width);
-						// crater_r.corner.x = loword % (MAP_WIDTH - crater_r.extent.width); // JMS_GFX: changed the previous line to this. BYTE was too small for 4x resolution
-						crater_r.corner.y = LOBYTE (loword) % (MAP_HEIGHT - crater_r.extent.height);
-						// crater_r.corner.y = hiword % (MAP_HEIGHT - crater_r.extent.height); // JMS_GFX: The same
-						// BW: ... then scale them up
-						crater_r.extent.width = crater_r.extent.width * height / MAP_HEIGHT;
+
+						loword = LOWORD (RandomContext_Random (SysGenRNG));
+
 						crater_r.extent.height = crater_r.extent.width;
-						crater_r.corner.x = crater_r.corner.x * width / MAP_WIDTH;	
-						crater_r.corner.y = crater_r.corner.y * height / MAP_HEIGHT;
+						crater_r.corner.x = HIBYTE (loword)
+								% (width - crater_r.extent.width);
+						crater_r.corner.y = LOBYTE (loword)
+								% (height - crater_r.extent.height);
 
 						MakeCrater (&crater_r, Orbit->lpTopoData,
 								PlanDataPtr->fault_depth << 2,
