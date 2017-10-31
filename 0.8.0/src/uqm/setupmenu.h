@@ -87,7 +87,7 @@ typedef struct globalopts_struct {
 	OPT_TDTYPE tdType;
 	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo, music3do, musicremix, speech, keepaspect,
 		cheatMode, godMode, bubbleWarp, unlockShips, headStart, unlockUpgrades, infiniteRU, skipIntro, FMV, // Serosis: except for cheatMode = JMS
-		mainMenuMusic, mineralSubmenu, nebulae, rotatingIpPlanets, texturedIpPlanets; // JMS
+		mainMenuMusic, nebulae, rotatingIpPlanets, texturedIpPlanets; // JMS
 	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, meleezoom, shield;
 	CONTROL_TEMPLATE player1, player2;
 	int speechvol, musicvol, sfxvol;

@@ -69,7 +69,7 @@ FRAME FontGradFrame;
 STRING GameStrings;
 QUEUE disp_q;
 // Serosis
-BOOLEAN seroSetupPresent;
+BOOLEAN solTexturesPresent;
 BOOLEAN seroMenuPresent;
 BOOLEAN rmxGraphicsPresent;
 
@@ -151,9 +151,10 @@ LoadKernel (int argc, char *argv[])
 		printf("Loading RMX-Graphics 1x\n");
 		log_add (log_Debug, "loading rmx-graphics-1x");
 	}
-	if(loadAddon("rmx-planets-1x")){
-
-		seroSetupPresent = TRUE;	
+	if(loadAddon("sol-textures-1x")){
+		solTexturesPresent = TRUE;
+		printf("Loading Sol Textures 1x\n");
+		log_add (log_Debug, "loading sol-textures-1x");
 	}
 	if(loadAddon("sero-menu-1x")){
 		seroMenuPresent = TRUE;
