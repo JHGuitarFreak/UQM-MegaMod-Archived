@@ -59,7 +59,7 @@ extern QUEUE race_q[];
 		 * queue element is STARSHIP */
 
 // Serosis
-extern BOOLEAN seroSetupPresent;
+extern BOOLEAN solTexturesPresent;
 extern BOOLEAN seroMenuPresent;
 extern BOOLEAN rmxGraphicsPresent;
 extern ACTIVITY LastActivity;
