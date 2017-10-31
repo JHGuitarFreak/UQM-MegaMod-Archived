@@ -578,15 +578,13 @@ CreateShieldMask (COUNT radius)
 #define THROB_D_LEVEL   (THROB_MAX_LEVEL - THROB_MIN_LEVEL)
 
 static inline int
-shield_level (int offset, int width)
+shield_level (int offset)
 {
 	int level;
-	int throb_cycle = ((width << 8) / SHIELD_THROBS);
-	int throb_half_cycle = throb_cycle >> 1;
-	
-	offset = (offset << 8) % throb_cycle;
-	level = abs (offset - throb_half_cycle);
-	level = THROB_MIN_LEVEL + level * THROB_D_LEVEL / throb_half_cycle;
+
+	offset = (offset << 8) % THROB_CYCLE;
+	level = abs (offset - THROB_HALF_CYCLE);
+	level = THROB_MIN_LEVEL + level * THROB_D_LEVEL / THROB_HALF_CYCLE;
 
 	return level;
 }
@@ -605,7 +603,7 @@ SetShieldThrobEffect (FRAME ShieldFrame, int offset, FRAME ThrobFrame)
 	width = GetFrameWidth (ShieldFrame);
 	height = GetFrameHeight (ShieldFrame);	
 
-	level = shield_level (offset, width);
+	level = shield_level (offset);
 
 	ReadFramePixelColors (ShieldFrame, Orbit->ScratchArray, width, height);
 	
@@ -715,7 +713,7 @@ RenderPlanetSphere (PLANET_ORBIT *Orbit, FRAME MaskFrame, int offset, BOOLEAN sh
 #endif
 
 
-	shLevel = shield_level (offset, width);
+	shLevel = shield_level (offset);
 
 	pix = Orbit->ScratchArray;
 	clear = BUILD_COLOR_RGBA (0, 0, 0, 0);
