@@ -99,7 +99,7 @@ InitSphereRotation (int direction, BOOLEAN shielded, COUNT width, COUNT height)
 	// Render the first sphere/shield frame
 	// Prepare will set the next one
 	rotFrameIndex = 1;
-	PrepareNextRotationFrame ();
+	PrepareNextRotationFrame (NULL, NULL, TRUE);
 }
 
 void
@@ -116,91 +116,78 @@ UninitSphereRotation (void)
 }
 
 void
-PrepareNextRotationFrame (void)
-{
-	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
+PrepareNextRotationFrame (PLANET_DESC *pPlanetDesc, SIZE frameCounter, BOOLEAN inOrbit)
+{		
+	PLANET_ORBIT *Orbit = inOrbit ? &pSolarSysState->Orbit : &pPlanetDesc->orbit;
 
+	if (!inOrbit){
+		COUNT framerate;
+		int oldPointIndex = pPlanetDesc->rotPointIndex;
+		// Go to next point, taking care of wraparounds
+
+		// No need to rotate planets that are off screen
+		if (pPlanetDesc->radius > 4 * pSolarSysState->SunDesc[0].radius)
+			return;
+
+		// Optimization : the smallest worlds are rotated only once in a while
+		// The framerate is fine-tuned so that the planet is updated
+		// when the landscape has moved 1 pixel approximately
+		switch (pPlanetDesc->size) {
+			case 3: framerate = 15;
+				break;
+			case 4: framerate = 10;
+				break;
+			case 7: framerate = 4;
+				break;
+			case 11: framerate = 2;
+				break;
+			default: framerate = 1;
+				break;
+		}
+		if ((frameCounter % framerate) != 0)
+			return;
+
+		// BW: account for rotation period
+		pPlanetDesc->rotPointIndex = (int)(fmod(pPlanetDesc->rot_speed * daysElapsed(), pPlanetDesc->rotwidth));
+		if (pPlanetDesc->rotPointIndex < 0)
+			pPlanetDesc->rotPointIndex += pPlanetDesc->rotwidth;
+
+		// Nothing to do if there has been no visible rotation
+		if (pPlanetDesc->rotPointIndex == oldPointIndex)
+			return;
+	}
 	// Generate the next rotation frame
 	// We alternate between the frames because we do not call FlushGraphics()
 	// The frame we just drew may not have made it to the screen yet
-	rotFrameIndex ^= 1;
-
-	// Go to next point, taking care of wraparounds
-	rotPointIndex += rotDirection;
-	if (rotPointIndex < 0)
-		rotPointIndex = rotwidth - 1;
-	else if (rotPointIndex >= rotwidth)
-		rotPointIndex = 0;
+	if (inOrbit){
+		rotFrameIndex ^= 1;
+		rotPointIndex += rotDirection;
+		if (rotPointIndex < 0)
+			rotPointIndex = rotwidth - 1;
+		else if (rotPointIndex >= rotwidth)
+			rotPointIndex = 0;
+	} else {
+		pPlanetDesc->rotFrameIndex ^= 1;
+	}
 
 	// prepare the next sphere frame
-	Orbit->SphereFrame = SetAbsFrameIndex (Orbit->SphereFrame, rotFrameIndex);
-	//RenderPlanetSphere (Orbit->SphereFrame, rotPointIndex, throbShield);
-	RenderPlanetSphere (Orbit, Orbit->SphereFrame, rotPointIndex, pSolarSysState->pOrbitalDesc->data_index & PLANET_SHIELDED, throbShield, rotwidth, rotheight, rotheight >> 1); // RADIUS
+	if(inOrbit){
+		Orbit->SphereFrame = SetAbsFrameIndex (Orbit->SphereFrame, rotFrameIndex);
+		//RenderPlanetSphere (Orbit->SphereFrame, rotPointIndex, throbShield);
+		RenderPlanetSphere (Orbit, Orbit->SphereFrame, rotPointIndex, pSolarSysState->pOrbitalDesc->data_index & PLANET_SHIELDED, throbShield, rotwidth, rotheight, rotheight >> 1); // RADIUS
 	
-	if (throbShield)
-	{	// prepare the next shield throb frame
-		Orbit->ObjectFrame = SetAbsFrameIndex (Orbit->ObjectFrame,
-				rotFrameIndex);
-		SetShieldThrobEffect (Orbit->WorkFrame, rotPointIndex,
-				Orbit->ObjectFrame);
+		if (throbShield)
+		{	// prepare the next shield throb frame
+			Orbit->ObjectFrame = SetAbsFrameIndex (Orbit->ObjectFrame,
+					rotFrameIndex);
+			SetShieldThrobEffect (Orbit->WorkFrame, rotPointIndex,
+					Orbit->ObjectFrame);
+		}	
+	} else {
+		Orbit->SphereFrame = SetAbsFrameIndex (Orbit->SphereFrame, pPlanetDesc->rotFrameIndex);
+		RenderPlanetSphere (Orbit, Orbit->SphereFrame, pPlanetDesc->rotPointIndex, pPlanetDesc->data_index & PLANET_SHIELDED, FALSE, pPlanetDesc->rotwidth, pPlanetDesc->rotheight, pPlanetDesc->rotheight >> 1); // RADIUS
+		Orbit->SphereFrame->image->dirty = TRUE;
 	}
-}
-
-void
-PrepareNextRotationFrameForIP (PLANET_DESC *pPlanetDesc, SIZE frameCounter)
-{
-	PLANET_ORBIT *Orbit = &pPlanetDesc->orbit;
-	COUNT framerate;
-	int oldPointIndex = pPlanetDesc->rotPointIndex;
-	// Go to next point, taking care of wraparounds
-
-	// No need to rotate planets that are off screen
-	if (pPlanetDesc->radius > 4 * pSolarSysState->SunDesc[0].radius)
-		return;
-
-	// Optimization : the smallest worlds are rotated only once in a while
-	// The framerate is fine-tuned so that the planet is updated
-	// when the landscape has moved 1 pixel approximately
-	switch (pPlanetDesc->size)
-	{
-	case 3: framerate = 15;
-		break;
-	case 4: framerate = 10;
-		break;
-	case 7: framerate = 4;
-		break;
-	case 11: framerate = 2;
-		break;
-	default: framerate = 1;
-		break;
-	}
-	if ((frameCounter % framerate) != 0)
-		return;
-
-	// BW: account for rotation period
-	pPlanetDesc->rotPointIndex = (int)(fmod(pPlanetDesc->rot_speed * daysElapsed(), pPlanetDesc->rotwidth));
-	if (pPlanetDesc->rotPointIndex < 0)
-		pPlanetDesc->rotPointIndex += pPlanetDesc->rotwidth;
-
-	// Nothing to do if there has been no visible rotation
-	if (pPlanetDesc->rotPointIndex == oldPointIndex)
-		return;
-
-	// Generate the next rotation frame
-	// We alternate between the frames because we do not call FlushGraphics()
-	// The frame we just drew may not have made it to the screen yet
-	pPlanetDesc->rotFrameIndex ^= 1;
-
-	// pPlanetDesc->rotPointIndex += pPlanetDesc->rotDirection;
-	// if (pPlanetDesc->rotPointIndex < 0)
-	//	pPlanetDesc->rotPointIndex = pPlanetDesc->rotwidth - 1;
-	// else if (pPlanetDesc->rotPointIndex >= pPlanetDesc->rotwidth)
-	//	pPlanetDesc->rotPointIndex = 0;
-
-	// prepare the next sphere frame
-	Orbit->SphereFrame = SetAbsFrameIndex (Orbit->SphereFrame, pPlanetDesc->rotFrameIndex);
-	RenderPlanetSphere (Orbit, Orbit->SphereFrame, pPlanetDesc->rotPointIndex, pPlanetDesc->data_index & PLANET_SHIELDED, FALSE, pPlanetDesc->rotwidth, pPlanetDesc->rotheight, pPlanetDesc->rotheight >> 1); // RADIUS
-	Orbit->SphereFrame->image->dirty = TRUE;
 	// BW: slightly hacky but, in DrawTexturedBody, the call
 	// to DrawStamp won't re-blit the frame unless scale has changed.
 }
@@ -275,7 +262,7 @@ ZoomInPlanetSphere (void)
 		repairRect.corner.x = pt.x + frameRect.corner.x;
 		repairRect.corner.y = pt.y + frameRect.corner.y;
 
-		PrepareNextRotationFrame ();
+		PrepareNextRotationFrame (NULL, NULL, TRUE);
 
 		SleepThreadUntil (NextTime);
 	}
@@ -293,7 +280,7 @@ RotatePlanetSphere (BOOLEAN keepRate)
 	NextTime = Now + PLANET_ROTATION_RATE;
 	DrawDefaultPlanetSphere ();
 
-	PrepareNextRotationFrame ();
+	PrepareNextRotationFrame (NULL, NULL, TRUE);
 }
 
 static void

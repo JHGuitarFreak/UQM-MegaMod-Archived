@@ -67,8 +67,8 @@ BOOLEAN optFMV;
 // JMS
 BOOLEAN optMainMenuMusic;
 BOOLEAN optNebulae;
-BOOLEAN optRotatingIpPlanets;
-BOOLEAN optTexturedIpPlanets;
+BOOLEAN optOrbitingPlanets;
+BOOLEAN optTexturedPlanets;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

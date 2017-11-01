@@ -23,10 +23,10 @@
 
 #define END_INTERPLANETARY START_INTERPLANETARY
 
-#define ORBITING_PLANETS TRUE
-#define ROTATING_PLANETS optRotatingIpPlanets
-#define TEXTURED_PLANETS optTexturedIpPlanets
-// TEXTURED_PLANETS should always be defined TRUE if ROTATING_PLANETS is. // Serosis: Why?
+#define ORBITING_PLANETS optOrbitingPlanets
+#define ROTATING_PLANETS optTexturedPlanets
+#define TEXTURED_PLANETS optTexturedPlanets
+// TEXTURED_PLANETS should always be defined TRUE if ROTATING_PLANETS is.
 #define ONE_YEAR 365.25
 #ifndef M_PI
 #define M_PI 3.141592653589
@@ -321,8 +321,7 @@ extern void InitLander (BYTE LanderFlags);
 
 extern void InitSphereRotation (int direction, BOOLEAN shielded, COUNT width, COUNT height);
 extern void UninitSphereRotation (void);
-extern void PrepareNextRotationFrame (void);
-extern void PrepareNextRotationFrameForIP (PLANET_DESC *pPlanetDesc, SIZE frameCounter);
+extern void PrepareNextRotationFrame (PLANET_DESC *pPlanetDesc, SIZE frameCounter, BOOLEAN inOrbit);
 extern void DrawPlanetSphere (int x, int y);
 extern void DrawDefaultPlanetSphere (void);
 extern void RenderPlanetSphere (PLANET_ORBIT *Orbit, FRAME Frame, int offset, BOOLEAN shielded, BOOLEAN doThrob, COUNT width, COUNT height, COUNT radius);

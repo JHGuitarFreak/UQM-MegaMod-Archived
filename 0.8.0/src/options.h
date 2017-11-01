@@ -58,8 +58,8 @@ extern BOOLEAN optFMV;
 // JMS
 extern BOOLEAN optMainMenuMusic;
 extern BOOLEAN optNebulae;
-extern BOOLEAN optRotatingIpPlanets;
-extern BOOLEAN optTexturedIpPlanets;
+extern BOOLEAN optOrbitingPlanets;
+extern BOOLEAN optTexturedPlanets;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;
