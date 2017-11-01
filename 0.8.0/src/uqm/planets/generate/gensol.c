@@ -578,32 +578,32 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 		switch (planetNr) {
 			case 2: /* moons of EARTH */
 				if (moonNr == 1)
-					LoadPlanet (!solTexturesPresent ?  NULL : CaptureDrawable (LoadGraphic (LUNA_MASK_ANIM)));
+					LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : LUNA_MASK_ANIM)));
 				else
 					LoadPlanet (NULL);
 				break;
 			case 4: /* moons of JUPITER */
 				switch (moonNr) {
 					case 0: /* Io */
-						LoadPlanet (!solTexturesPresent ?  NULL : CaptureDrawable (LoadGraphic (IO_MASK_ANIM)));
+						LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : IO_MASK_ANIM)));
 						break;
 					case 1: /* Europa */
-						LoadPlanet (!solTexturesPresent ?  NULL : CaptureDrawable (LoadGraphic (EUROPA_MASK_ANIM)));
+						LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : EUROPA_MASK_ANIM)));
 						break;
 					case 2: /* Ganymede */
-						LoadPlanet (!solTexturesPresent ?  NULL : CaptureDrawable (LoadGraphic (GANYMEDE_MASK_ANIM)));
+						LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : GANYMEDE_MASK_ANIM)));
 						break;
 					case 3: /* Callisto */
-						LoadPlanet (!solTexturesPresent ?  NULL : CaptureDrawable (LoadGraphic (CALLISTO_MASK_ANIM)));
+						LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : CALLISTO_MASK_ANIM)));
 						break;
 				}
 				break;
 			case 5: /* moon of Saturn: Titan */
-				LoadPlanet (!solTexturesPresent ?  NULL : CaptureDrawable (LoadGraphic (TITAN_MASK_ANIM)));
+				LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : TITAN_MASK_ANIM)));
 				break;
 			case 7: /* moon of NEPTUNE: Triton */
 			default:
-				LoadPlanet (!solTexturesPresent ?  NULL : CaptureDrawable (LoadGraphic (TRITON_MASK_ANIM)));
+				LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : TRITON_MASK_ANIM)));
 				break;
 		}
 	}
