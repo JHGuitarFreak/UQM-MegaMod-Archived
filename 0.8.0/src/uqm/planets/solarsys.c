@@ -326,7 +326,7 @@ GenerateTexturedMoons (SOLARSYS_STATE *system, PLANET_DESC *planet)
 				}
 			}
 
-			GeneratePlanetSurfaceForIP (pMoonDesc, SurfFrame, GENERATE_MOON_PERIMETER, GENERATE_MOON_DIAMETER);
+			GeneratePlanetSurface (pMoonDesc, SurfFrame, GENERATE_MOON_PERIMETER, GENERATE_MOON_DIAMETER, FALSE);
 			pMoonDesc->orbit = pSolarSysState->Orbit;
 			PrepareNextRotationFrameForIP (pMoonDesc, 0);
 
@@ -545,7 +545,7 @@ void GenerateTexturedPlanets (void)
 			}
 		}
 		
-		GeneratePlanetSurfaceForIP (pCurDesc, SurfFrame, GENERATE_PLANET_PERIMETER, GENERATE_PLANET_DIAMETER);
+		GeneratePlanetSurface (pCurDesc, SurfFrame, GENERATE_PLANET_PERIMETER, GENERATE_PLANET_DIAMETER, FALSE);
 		pCurDesc->orbit = pSolarSysState->Orbit;
 		PrepareNextRotationFrameForIP (pCurDesc, 0);
 		

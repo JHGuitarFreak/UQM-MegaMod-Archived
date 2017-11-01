@@ -333,9 +333,7 @@ extern void RotatePlanetSphere (BOOLEAN keepRate);
 
 extern void DrawScannedObjects (BOOLEAN Reversed);
 extern void GeneratePlanetSurface (PLANET_DESC *pPlanetDesc,
-		FRAME SurfDefFrame);
-extern void GeneratePlanetSurfaceForIP (PLANET_DESC *pPlanetDesc,
-		FRAME SurfDefFrame, COUNT width, COUNT height);
+		FRAME SurfDefFrame, COUNT width, COUNT height, BOOLEAN inOrbit);
 extern void DeltaTopography (COUNT num_iterations, SBYTE *DepthArray,
 		RECT *pRect, SIZE depth_delta);
 
