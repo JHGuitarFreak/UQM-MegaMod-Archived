@@ -144,8 +144,8 @@ struct options_struct
 	// JMS
 	DECL_CONFIG_OPTION(bool, mainMenuMusic);
 	DECL_CONFIG_OPTION(bool, nebulae);
-	DECL_CONFIG_OPTION(bool, rotatingIpPlanets);
-	DECL_CONFIG_OPTION(bool, texturedIpPlanets);
+	DECL_CONFIG_OPTION(bool, orbitingPlanets);
+	DECL_CONFIG_OPTION(bool, texturedPlanets);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -294,8 +294,8 @@ main (int argc, char *argv[])
 		// JMS
 		INIT_CONFIG_OPTION(  mainMenuMusic,     true ),
 		INIT_CONFIG_OPTION(  nebulae,			true ),
-		INIT_CONFIG_OPTION(  rotatingIpPlanets,	false),
-		INIT_CONFIG_OPTION(  texturedIpPlanets,	false),
+		INIT_CONFIG_OPTION(  orbitingPlanets,	false),
+		INIT_CONFIG_OPTION(  texturedPlanets,	false),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -437,8 +437,8 @@ main (int argc, char *argv[])
 	// JMS
 	optMainMenuMusic = options.mainMenuMusic.value;
 	optNebulae = options.nebulae.value;
-	optRotatingIpPlanets = options.rotatingIpPlanets.value;
-	optTexturedIpPlanets = options.texturedIpPlanets.value;
+	optOrbitingPlanets = options.orbitingPlanets.value;
+	optTexturedPlanets = options.texturedPlanets.value;
  	optCheatMode = options.cheatMode.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
@@ -741,8 +741,8 @@ getUserConfigOptions (struct options_struct *options)
 	// JMS
 	getBoolConfigValue (&options->mainMenuMusic, "config.mainMenuMusic");
 	getBoolConfigValue (&options->nebulae, "config.nebulae");
-	getBoolConfigValue (&options->rotatingIpPlanets, "config.rotatingIpPlanets");
-	getBoolConfigValue (&options->texturedIpPlanets, "config.texturedIpPlanets");
+	getBoolConfigValue (&options->orbitingPlanets, "config.orbitingPlanets");
+	getBoolConfigValue (&options->texturedPlanets, "config.texturedPlanets");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -855,7 +855,7 @@ static struct option longOptions[] =
 	{"fmv", 0, NULL, FMV_OPT},
 	{"mainMenuMusic", 0, NULL, MENUMUS_OPT},
 	{"nebulae", 0, NULL, NEBU_OPT},
-	{"movingorbits", 0, NULL, ORBITS_OPT},
+	{"orbitingplanets", 0, NULL, ORBITS_OPT},
 	{"texturedplanets", 0, NULL, TEXTPLAN_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
@@ -1161,10 +1161,10 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				setBoolOption (&options->nebulae, true);
 				break;
 			case ORBITS_OPT:
-				setBoolOption (&options->rotatingIpPlanets, true);
+				setBoolOption (&options->orbitingPlanets, true);
 				break;
 			case TEXTPLAN_OPT:
-				setBoolOption (&options->texturedIpPlanets, true);
+				setBoolOption (&options->texturedPlanets, true);
 				break;
 			case ADDON_OPT:
 				options->numAddons++;
