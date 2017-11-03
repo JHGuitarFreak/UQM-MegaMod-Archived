@@ -485,10 +485,8 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 // this routine, but a filter can be applied if desired too.
 
 // HALO rim size
-#define SHIELD_HALO          7
-#define SHIELD_HALO_IP       (SHIELD_HALO << 1)
+#define SHIELD_HALO          6
 #define SHIELD_RADIUS        (RADIUS + SHIELD_HALO)
-#define SHIELD_RADIUS_IP     (SHIELD_HALO_IP + RADIUS)
 #define SHIELD_DIAM          ((SHIELD_RADIUS << 1) + 1)
 #define SHIELD_RADIUS_2      (SHIELD_RADIUS * SHIELD_RADIUS)
 #define SHIELD_RADIUS_THRES  ((SHIELD_RADIUS + 1) * (SHIELD_RADIUS + 1))
@@ -496,35 +494,38 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 #define SHIELD_HALO_GLOW_MIN (SHIELD_HALO_GLOW >> 2)
 
 static FRAME
-CreateShieldMask (COUNT radius, BOOLEAN forOrbit)
+CreateShieldMask (COUNT Radius, BOOLEAN forOrbit)
 {
-	Color clear;
-	Color *pix;
+	Color clear,*pix;
 	int x, y;
 	FRAME ShieldFrame;
-	COUNT shieldradius, shielddiam, radius_2, shieldradius_thres;
+	COUNT ShieldHalo, ShieldRadius, ShieldDiam, RadiusSquared, ShieldRadiusThreshold;
+
 	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
 
 	if (forOrbit){
-		shieldradius = SHIELD_RADIUS * radius / RADIUS;
+		ShieldHalo = SHIELD_HALO;
+		ShieldRadius = (Radius + ShieldHalo) * Radius / RADIUS;
+		RadiusSquared = pow((double)Radius, 2); // Radius * Radius;
 	} else {
-		shieldradius = SHIELD_RADIUS_IP * radius / RADIUS;
+		ShieldHalo = SHIELD_HALO << 1;
+		ShieldRadius = (RADIUS + ShieldHalo) * Radius / RADIUS;
+		RadiusSquared = pow((double)RADIUS, 2); // Radius * Radius;
 	}	
-	shielddiam = (shieldradius << 1) + 1;
-	radius_2 = radius * radius;
-	shieldradius_thres = (shieldradius + 1) * (shieldradius + 1);
+	ShieldDiam = (ShieldRadius << 1) + 1;
+	ShieldRadiusThreshold = pow((double)(ShieldRadius + 1), 2); // (ShieldRadius + 1) * (ShieldRadius + 1);
 
 	ShieldFrame = CaptureDrawable (
 			CreateDrawable (WANT_PIXMAP | WANT_ALPHA,
-				shielddiam, shielddiam, 1));
+				ShieldDiam, ShieldDiam, 1));
 
 	pix = Orbit->ScratchArray;
 	//  This is 100% transparent.
 	clear = BUILD_COLOR_RGBA (0, 0, 0, 0);
 
-	for (y = -shieldradius; y <= shieldradius; y++)
+	for (y = -ShieldRadius; y <= ShieldRadius; y++)
 	{
-		for (x = -shieldradius; x <= shieldradius; ++x, ++pix)
+		for (x = -ShieldRadius; x <= ShieldRadius; ++x, ++pix)
 		{
 			int rad_2 = x * x + y * y;
 			// This is a non-transparent red for the halo
@@ -532,13 +533,13 @@ CreateShieldMask (COUNT radius, BOOLEAN forOrbit)
 			int alpha = 255;
 			double rad;
 			
-			if (rad_2 >= shieldradius_thres)
+			if (rad_2 >= ShieldRadiusThreshold)
 			{	// outside all bounds
 				*pix = clear;
 				continue;
 			}
 			// Inside the halo
-			if (rad_2 <= radius_2)
+			if (rad_2 <= RadiusSquared)
 			{	// planet's pixels, ours transparent
 				*pix = clear;
 				continue;
@@ -547,19 +548,16 @@ CreateShieldMask (COUNT radius, BOOLEAN forOrbit)
 			// The halo itself
 			rad = sqrt (rad_2);
 
-			if (rad <= radius + 0.8)
+			if (rad <= Radius + 0.8)
 			{	// pixels common between the shield and planet
 				// do antialiasing using alpha
-				alpha = (int) (red * (rad - radius));
+				alpha = (int) (red * (rad - Radius));
 				red = 255;
 			}
 			else
 			{	// shield pixels
-				if (forOrbit) {
-					red -= (int) ((red - SHIELD_HALO_GLOW_MIN) * (rad - radius) / (SHIELD_HALO * radius / RADIUS));
-				} else {					
-					red -= (int) ((red - SHIELD_HALO_GLOW_MIN) * (rad - radius) / (SHIELD_HALO_IP * radius / RADIUS));
-				}
+				red -= (int) ((red - SHIELD_HALO_GLOW_MIN) * (rad - Radius) / (ShieldHalo * Radius / RADIUS));
+				
 				if (red < 0)
 					red = 0;
 			}
@@ -569,9 +567,9 @@ CreateShieldMask (COUNT radius, BOOLEAN forOrbit)
 	}
 	
 	WriteFramePixelColors (ShieldFrame, Orbit->ScratchArray,
-			shielddiam, shielddiam);
-	SetFrameHot (ShieldFrame, MAKE_HOT_SPOT (shieldradius + 1,
-				shieldradius + 1));
+			ShieldDiam, ShieldDiam);
+	SetFrameHot (ShieldFrame, MAKE_HOT_SPOT (ShieldRadius + 1,
+				ShieldRadius + 1));
 	
 	return ShieldFrame;
 }
@@ -1283,31 +1281,33 @@ static void
 PlanetOrbitInit (COUNT width, COUNT height, BOOLEAN inOrbit)
 {
 	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
-	COUNT spherespanx = height;
-	COUNT shieldradius, shielddiam, i;
-	COUNT diameter = height + 1;
+	COUNT SphereSpanX = height;
+	COUNT OldShieldRadius, ShieldRadius, ShieldDiam, i;
+	COUNT Diameter = height + 1;
 
 	if (inOrbit){
-		shieldradius = (height >> 1) * SHIELD_RADIUS / RADIUS;
+		OldShieldRadius = SHIELD_RADIUS;
 	} else {
-		shieldradius = (height >> 1) * SHIELD_RADIUS_IP / RADIUS;
+		OldShieldRadius = (RADIUS + (SHIELD_HALO << 1));
 	}
-	shielddiam = (shieldradius << 1) + 1;
+	
+	ShieldRadius = (height >> 1) * OldShieldRadius / RADIUS;
+	ShieldDiam = (ShieldRadius << 1) + 1;
 
 
-	Orbit->SphereFrame = CaptureDrawable (CreateDrawable (WANT_PIXMAP | WANT_ALPHA, diameter, diameter, 2));
+	Orbit->SphereFrame = CaptureDrawable (CreateDrawable (WANT_PIXMAP | WANT_ALPHA, Diameter, Diameter, 2));
 	Orbit->ObjectFrame = 0;
 	Orbit->WorkFrame = 0;
 	Orbit->lpTopoData = HCalloc (width * height);
 	Orbit->TopoZoomFrame = CaptureDrawable (CreateDrawable (WANT_PIXMAP, MAP_WIDTH << 2, MAP_HEIGHT << 2, 1));
-	Orbit->TopoColors = HMalloc (sizeof (Orbit->TopoColors[0]) * (height * (width + spherespanx)));
+	Orbit->TopoColors = HMalloc (sizeof (Orbit->TopoColors[0]) * (height * (width + SphereSpanX)));
 	// always allocate the scratch array to largest needed size
-	Orbit->ScratchArray = HMalloc (sizeof (Orbit->ScratchArray[0]) * (shielddiam) * (shielddiam));
-	Orbit->light_diff = HMalloc (sizeof (DWORD *) * diameter);
-	Orbit->map_rotate = HMalloc (sizeof (MAP3D_POINT *) * diameter);
-	for (i=0 ; i < diameter ; i++) {
-		Orbit->light_diff[i] = HMalloc (sizeof (DWORD)* diameter);
-		Orbit->map_rotate[i] = HMalloc (sizeof (MAP3D_POINT) * diameter);
+	Orbit->ScratchArray = HMalloc (sizeof (Orbit->ScratchArray[0]) * (ShieldDiam) * (ShieldDiam));
+	Orbit->light_diff = HMalloc (sizeof (DWORD *) * Diameter);
+	Orbit->map_rotate = HMalloc (sizeof (MAP3D_POINT *) * Diameter);
+	for (i=0 ; i < Diameter ; i++) {
+		Orbit->light_diff[i] = HMalloc (sizeof (DWORD)* Diameter);
+		Orbit->map_rotate[i] = HMalloc (sizeof (MAP3D_POINT) * Diameter);
 	}
 
 	if (inOrbit){
