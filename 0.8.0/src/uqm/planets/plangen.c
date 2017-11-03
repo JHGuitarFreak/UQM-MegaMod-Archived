@@ -487,16 +487,13 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 // HALO rim size
 #define SHIELD_HALO          6
 #define SHIELD_RADIUS        (RADIUS + SHIELD_HALO)
-#define SHIELD_DIAM          ((SHIELD_RADIUS << 1) + 1)
-#define SHIELD_RADIUS_2      (SHIELD_RADIUS * SHIELD_RADIUS)
-#define SHIELD_RADIUS_THRES  ((SHIELD_RADIUS + 1) * (SHIELD_RADIUS + 1))
 #define SHIELD_HALO_GLOW     (SHIELD_GLOW_COMP + SHIELD_REFLECT_COMP)
 #define SHIELD_HALO_GLOW_MIN (SHIELD_HALO_GLOW >> 2)
 
 static FRAME
 CreateShieldMask (COUNT Radius, BOOLEAN forOrbit)
 {
-	Color clear,*pix;
+	Color clear, *pix;
 	int x, y;
 	FRAME ShieldFrame;
 	COUNT ShieldHalo, ShieldRadius, ShieldDiam, RadiusSquared, ShieldRadiusThreshold;
@@ -510,7 +507,7 @@ CreateShieldMask (COUNT Radius, BOOLEAN forOrbit)
 	} else {
 		ShieldHalo = SHIELD_HALO << 1;
 		ShieldRadius = (RADIUS + ShieldHalo) * Radius / RADIUS;
-		RadiusSquared = pow((double)RADIUS, 2); // Radius * Radius;
+		RadiusSquared = pow((double)RADIUS, 2); // RADIUS * RADIUS;
 	}	
 	ShieldDiam = (ShieldRadius << 1) + 1;
 	ShieldRadiusThreshold = pow((double)(ShieldRadius + 1), 2); // (ShieldRadius + 1) * (ShieldRadius + 1);
