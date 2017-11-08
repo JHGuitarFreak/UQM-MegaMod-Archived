@@ -464,11 +464,11 @@ confusion_collision (ELEMENT *ElementPtr0, POINT *pPt0,
 			}
 
 			if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
-				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
+				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr0->playerNr == 0) || 
+				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr0->playerNr == 1))))
 			{
 				ConfusionPtr->life_span = 0;
-			} else {				
+			} else {
 				ConfusionPtr->life_span = 400;
 			}
 			ConfusionPtr->turn_wait =
