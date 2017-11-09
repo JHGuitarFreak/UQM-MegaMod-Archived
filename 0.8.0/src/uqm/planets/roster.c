@@ -235,7 +235,7 @@ static BOOLEAN
 DoModifyRoster (MENU_STATE *pMS)
 {
 	ROSTER_STATE *rosterState = pMS->privData;
-	BOOLEAN select, cancel, up, down, horiz;
+	BOOLEAN select, cancel, up, down, pgup, pgdn, horiz;
 
 	if (GLOBAL (CurrentActivity) & CHECK_ABORT)
 		return FALSE;
@@ -247,6 +247,8 @@ DoModifyRoster (MENU_STATE *pMS)
 	// Left or right produces the same effect because there are 2 columns
 	horiz = PulsedInputState.menu[KEY_MENU_LEFT] ||
 			PulsedInputState.menu[KEY_MENU_RIGHT];
+	pgup = PulsedInputState.menu[KEY_MENU_PAGE_UP];
+	pgdn = PulsedInputState.menu[KEY_MENU_PAGE_DOWN];
 
 	if (cancel && !rosterState->modifyingCrew)
 	{
@@ -258,14 +260,15 @@ DoModifyRoster (MENU_STATE *pMS)
 		if (!rosterState->modifyingCrew)
 		{
 			SetFlashRect (NULL);
-			SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);
+			SetMenuSounds (MENU_SOUND_ARROWS | MENU_SOUND_PAGEUP |
+				MENU_SOUND_PAGEDOWN, MENU_SOUND_SELECT);
 		}
 		else
 		{
 			drawModifiedSupportShip (rosterState);
 			flashSupportShipCrew ();
-			SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN,
-					MENU_SOUND_SELECT | MENU_SOUND_CANCEL);
+			SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN | MENU_SOUND_PAGEUP |
+				MENU_SOUND_PAGEDOWN, MENU_SOUND_SELECT | MENU_SOUND_CANCEL);
 		}
 	}
 	else if (rosterState->modifyingCrew)
@@ -273,17 +276,17 @@ DoModifyRoster (MENU_STATE *pMS)
 		SIZE delta = 0;
 		BOOLEAN failed = FALSE;
 
-		if (up)
+		if (up || pgup)
 		{
 			if (GLOBAL_SIS (CrewEnlisted))
-				delta = 1;
+				delta = pgup ? 10 : 1;
 			else
 				failed = TRUE;
 		}
-		else if (down)
+		else if (down || pgdn)
 		{
 			if (GLOBAL_SIS (CrewEnlisted) < GetCrewPodCapacity ())
-				delta = -1;
+				delta = pgdn ? -10 : -1;
 			else
 				failed = TRUE;
 		}
