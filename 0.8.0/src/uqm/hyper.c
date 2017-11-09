@@ -88,15 +88,15 @@ decorate_vortex (ELEMENT * ElementPtr)
 				HFLEETINFO hFleet;
 				FLEET_INFO *FleetPtr;
 
-				if (vortex_ships[EncounterPtr->flags])
+				if (vortex_ships[EncounterPtr->race_id])
 				{
-					if (ElementPtr->next.image.frame != vortex_ships[EncounterPtr->flags])
-						ElementPtr->next.image.frame = vortex_ships[EncounterPtr->flags];
+					if (ElementPtr->next.image.frame != vortex_ships[EncounterPtr->race_id])
+						ElementPtr->next.image.frame = vortex_ships[EncounterPtr->race_id];
 				}
 				else
 				{
 					hFleet = GetStarShipFromIndex (&GLOBAL (avail_race_q),
-							EncounterPtr->flags);
+							EncounterPtr->race_id);
 					if (hFleet)
 					{
 						FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q),
@@ -116,17 +116,17 @@ decorate_vortex (ELEMENT * ElementPtr)
 						Color trans;
 						STAMP s;
 
-						vortex_ships[EncounterPtr->flags] = CaptureDrawable (
+						vortex_ships[EncounterPtr->race_id] = CaptureDrawable (
 								CreateDrawable (WANT_PIXMAP | WANT_ALPHA,
 								GetFrameWidth (ElementPtr->next.image.frame),
 								GetFrameHeight (ElementPtr->next.image.frame), 1));
 						tmp = CreateContext ("HyperSpaceContext");
 						old = SetContext (tmp);
-						SetContextFGFrame (vortex_ships[EncounterPtr->flags]);
+						SetContextFGFrame (vortex_ships[EncounterPtr->race_id]);
 						trans = BUILD_COLOR (MAKE_RGB15 (0x10, 0x00, 0x10), 0x00);
 						SetContextBackGroundColor (trans);
 						ClearDrawable ();
-						SetFrameTransparentColor (vortex_ships[EncounterPtr->flags], trans); 
+						SetFrameTransparentColor (vortex_ships[EncounterPtr->race_id], trans); 
 
 						// the original element
 						s.frame = ElementPtr->current.image.frame;
@@ -139,15 +139,15 @@ decorate_vortex (ELEMENT * ElementPtr)
 
 						// important to make sure the
 						// collision animation looks correct
-						SetFrameHot (vortex_ships[EncounterPtr->flags],
+						SetFrameHot (vortex_ships[EncounterPtr->race_id],
 								s.origin);
 
 						// cleanup
 						SetContext (old);
 						DestroyContext (tmp);
-						vortex_ships[EncounterPtr->flags]->parent = 
+						vortex_ships[EncounterPtr->race_id]->parent = 
 								ElementPtr->current.image.frame->parent;
-						ElementPtr->next.image.frame = vortex_ships[EncounterPtr->flags];
+						ElementPtr->next.image.frame = vortex_ships[EncounterPtr->race_id];
 					}
 				}
 			}
