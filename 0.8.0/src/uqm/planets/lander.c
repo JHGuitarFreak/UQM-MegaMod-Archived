@@ -583,11 +583,12 @@ pickupMineralNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
 }
 
 static bool
-pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved, 
-	const INTERSECT_CONTROL *LanderControl, const INTERSECT_CONTROL *ElementControl)
+pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
+		ELEMENT *ElementPtr, const INTERSECT_CONTROL *LanderControl,
+		const INTERSECT_CONTROL *ElementControl)
 {
-	UNICODE *pStr; // JMS
-	UNICODE ch; // JMS
+	UNICODE *pStr, ch; // JMS
+
 	if (pPSD->BiologicalLevel >= MAX_SCROUNGED)
 	{
 		// Lander is full.
@@ -605,7 +606,7 @@ pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
 	// JMS: Print biodata amount.
 	pPSD->NumFrames = NUM_TEXT_FRAMES;
 	sprintf (pPSD->AmountBuf, "%u", NumRetrieved);
-	pStr = GAME_STRING (ELEMENTS_STRING_BASE + ELEMENTS_STRING_COUNT - 1);
+	pStr = GAME_STRING (ElementPtr->thrust_wait + BIOLOGICAL_STRING_BASE);
 	pPSD->MineralText[0].baseline.x = (SURFACE_WIDTH >> 1)
 		+ (ElementControl->EndPoint.x - LanderControl->EndPoint.x);
 	pPSD->MineralText[0].baseline.y = (SURFACE_HEIGHT >> 1)
@@ -702,6 +703,10 @@ shotCreature (ELEMENT *ElementPtr, BYTE value,
 		// Can other creatures.
 		else
 		{
+			// stash the type of creature in the
+			// thrust_wait field.  It seems to be unused
+			// by the game for anything at this point
+			ElementPtr->thrust_wait = ElementPtr->mass_points & ~CREATURE_AWARE;
 			ElementPtr->mass_points = value;
 			DisplayArray[ElementPtr->PrimIndex].Object.Stamp.frame =
 			pSolarSysState->PlanetSideFrame[0];
@@ -894,13 +899,11 @@ CheckObjectCollision (COUNT index)
 						case ENERGY_SCAN:
 							break;
 						case MINERAL_SCAN:
-							if (!pickupMineralNode (pPSD, NumRetrieved,
-									ElementPtr, &LanderControl,
-									&ElementControl))
+							if (!pickupMineralNode (pPSD, NumRetrieved, ElementPtr, &LanderControl, &ElementControl))
 								continue;
 							break;
 						case BIOLOGICAL_SCAN:
-							if (!pickupBioNode (pPSD, NumRetrieved, &LanderControl, &ElementControl))
+							if (!pickupBioNode (pPSD, NumRetrieved, ElementPtr, &LanderControl, &ElementControl))
 								continue;
 							break;
 					}
