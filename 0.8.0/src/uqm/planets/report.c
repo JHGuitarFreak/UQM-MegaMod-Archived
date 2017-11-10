@@ -167,12 +167,20 @@ MakeReport (SOUND ReadOutSounds, UNICODE *pStr, COUNT StrLen)
 						PlaySound (ReadOutSounds, NotPositional (), NULL,
 								GAME_SOUND_PRIORITY);
 
-						if (c == ',')
-							TimeOut += ONE_SECOND / 4;
-						if (c == '.' || c == '!' || c == '?')
-							TimeOut += ONE_SECOND / 2;
+						if (last_c && last_c != ' ' && last_c != ',' &&
+								last_c != '.' && last_c != '!' && last_c != '?')
+						{
+							if (c == ',')
+								TimeOut += ONE_SECOND / 4;
+							if (c == '.' || c == '!' || c == '?')
+								TimeOut += ONE_SECOND / 2;
+							else
+								TimeOut += ONE_SECOND / 20;
+						}
 						else
 							TimeOut += ONE_SECOND / 20;
+						last_c = c;
+
 						if (word_chars == 0)
 							TimeOut += ONE_SECOND / 20;
 
