@@ -2169,8 +2169,8 @@ InitLander (BYTE LanderFlags)
 		{
 			r.corner.x = 1;
 			r.extent.width = 4;
-			r.extent.height = MAX_SCROUNGED
-					- (free_space >> capacity_shift) + 1;
+			r.extent.height = MAX_HOLD_BARS - ((free_space >> capacity_shift)
+					* MAX_HOLD_BARS / MAX_SCROUNGED) + 2;
 			SetContextForeGroundColor (BLACK_COLOR);
 			DrawFilledRectangle (&r);
 		}
