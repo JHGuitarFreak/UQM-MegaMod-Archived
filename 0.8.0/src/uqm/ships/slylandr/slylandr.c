@@ -267,8 +267,11 @@ slylandro_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 	EVALUATE_DESC *lpEvalDesc;
 	STARSHIP *StarShipPtr;
 
-	if (LOBYTE (GLOBAL (CurrentActivity)) == IN_ENCOUNTER)
-			/* no dodging in role playing game */
+	// no dodging in role playing game, unless you haven't
+	// visited the starbase yet
+	if ((LOBYTE (GLOBAL (CurrentActivity)) == IN_ENCOUNTER) &&
+			GET_GAME_STATE (STARBASE_AVAILABLE))
+
 		ObjectsOfConcern[ENEMY_WEAPON_INDEX].ObjectPtr = 0;
 
 	lpEvalDesc = &ObjectsOfConcern[ENEMY_SHIP_INDEX];
