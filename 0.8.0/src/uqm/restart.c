@@ -80,8 +80,15 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	t.baseline.y = SCREEN_HEIGHT - 2;
 	t.align = ALIGN_RIGHT;
 	t.CharCount = (COUNT)~0;
-	sprintf (buf, "v%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION, UQM_PATCH_VERSION, UQM_EXTRA_VERSION, svn_revision);
+	sprintf (buf, "v%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION, UQM_PATCH_VERSION, UQM_EXTRA_VERSION);
 	SetContextForeGroundColor (WHITE_COLOR);
+	font_DrawText (&t);
+
+	memset(&buf[0], 0, sizeof(buf));
+	t.baseline.x = 3;
+	t.baseline.y = SCREEN_HEIGHT - 2;
+	t.align = ALIGN_LEFT;
+	sprintf (buf, "Main Menu Music by Saibuster");
 	font_DrawText (&t);
 
 	UnbatchGraphics ();
