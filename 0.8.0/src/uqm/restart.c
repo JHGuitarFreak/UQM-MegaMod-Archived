@@ -76,16 +76,16 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	// Put the version number in the bottom right corner.
 	SetContextFont (TinyFont);
 	t.pStr = buf;
-	t.baseline.x = SCREEN_WIDTH - 3;
+	t.baseline.x = SCREEN_WIDTH - 2;
 	t.baseline.y = SCREEN_HEIGHT - 2;
 	t.align = ALIGN_RIGHT;
 	t.CharCount = (COUNT)~0;
 	sprintf (buf, "v%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION, UQM_PATCH_VERSION, UQM_EXTRA_VERSION);
 	SetContextForeGroundColor (WHITE_COLOR);
 	font_DrawText (&t);
-
+	// Put the main menu music credit in the bottom left corner.
 	memset(&buf[0], 0, sizeof(buf));
-	t.baseline.x = 3;
+	t.baseline.x = 2;
 	t.baseline.y = SCREEN_HEIGHT - 2;
 	t.align = ALIGN_LEFT;
 	sprintf (buf, "Main Menu Music by Saibuster");
