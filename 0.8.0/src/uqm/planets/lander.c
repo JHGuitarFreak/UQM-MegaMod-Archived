@@ -682,6 +682,131 @@ pickupBioNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
 	return true;
 }
 
+// returns true iff the node was picked up.
+static bool
+pickupNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
+		ELEMENT *ElementPtr, const INTERSECT_CONTROL *LanderControl,
+		const INTERSECT_CONTROL *ElementControl, COUNT Scan)
+{
+	BYTE EType;
+	UNICODE ch, *pStr;
+	COUNT *Amount, Max, Offset;
+	bool partialPickup;
+
+	if (Scan == MINERAL_SCAN){
+		Amount = &pPSD->ElementLevel;
+		Max = pPSD->MaxElementLevel;
+		EType = ElementPtr->turn_wait;
+		Offset = ELEMENTS_STRING_BASE;
+	} else if (Scan == BIOLOGICAL_SCAN){
+		Amount = &pPSD->BiologicalLevel;
+		Max = MAX_SCROUNGED;
+		EType = ElementPtr->thrust_wait;
+		Offset = BIOLOGICAL_STRING_BASE;
+	}
+
+	// JMS: The rest of partially scavenged minerals stay on the surface.
+	if (Scan == MINERAL_SCAN)
+		partialPickup = false;
+
+	if (*Amount >= Max)
+	{
+		// Lander full
+		PlaySound (SetAbsSoundIndex (LanderSounds, LANDER_FULL),
+				NotPositional (), NULL, GAME_SOUND_PRIORITY);
+		return false;
+	}
+
+	if (*Amount + NumRetrieved > Max)
+	{
+		SIZE which_node;
+		COUNT oldsize = ElementPtr->mass_points;
+
+		// Deposit could only be picked up partially.
+		NumRetrieved = (COUNT)(Max - *Amount);
+
+		if (Scan == MINERAL_SCAN){
+			// JMS: Subtract the scavenged kilotons from the mineral deposit.
+			// The rest will stay on the surface.
+			ElementPtr->mass_points -= NumRetrieved;
+		
+			// JMS: This makes the mineral deposit subtraction keep  
+			// in effect even after leaving & re-entering the planet.
+			which_node = HIBYTE (ElementPtr->scan_node) - 1;
+			pSolarSysState->SysInfo.PlanetInfo.PartiallyScavengedList[MINERAL_SCAN][which_node] = NumRetrieved;
+		
+			// JMS: If the deposit was large and its amount now equates to a smaller
+			// deposit, change its graphics.
+			if ((oldsize > 22 && ElementPtr->mass_points <= 22)
+				|| (oldsize > 15 && ElementPtr->mass_points <= 15))
+			{
+				PRIMITIVE *pPrim = &DisplayArray[ElementPtr->PrimIndex];
+				BYTE gfx_index_change = 0;
+			
+				if (oldsize > 22 && ElementPtr->mass_points <= 15)
+					gfx_index_change = 2;
+				else
+					gfx_index_change = 1;
+			
+				// Change the scan screen gfx.
+				ElementPtr->current.image.frame = SetRelFrameIndex (
+					ElementPtr->current.image.frame, (2 - gfx_index_change));
+				ElementPtr->next.image.frame = ElementPtr->current.image.frame;
+
+				// Notify the engine that the scan screen gfx should be updated.
+				ElementPtr->state_flags |= CHANGING;
+				SET_GAME_STATE (PLANETARY_CHANGE, 1);
+			
+				// Change the surface screen gfx.
+				pPrim->Object.Stamp.frame = SetRelFrameIndex (pPrim->Object.Stamp.frame, -gfx_index_change);
+			}
+		
+			partialPickup = true;
+		}
+	}
+
+	FillLanderHold (pPSD, Scan, NumRetrieved);
+
+	if (Scan == MINERAL_SCAN)
+		pPSD->ElementAmounts[ElementCategory (EType)] += NumRetrieved;
+
+	pPSD->NumFrames = NUM_TEXT_FRAMES;
+	sprintf (pPSD->AmountBuf, "%u", NumRetrieved);
+	pStr = GAME_STRING (EType + Offset);
+
+	pPSD->MineralText[0].baseline.x = (SURFACE_WIDTH >> 1)
+			+ (ElementControl->EndPoint.x - LanderControl->EndPoint.x);
+	pPSD->MineralText[0].baseline.y = (SURFACE_HEIGHT >> 1)
+			+ (ElementControl->EndPoint.y - LanderControl->EndPoint.y);
+	pPSD->MineralText[0].CharCount = (COUNT)~0;
+	pPSD->MineralText[1].pStr = pStr;
+
+	while ((ch = *pStr++) && ch != ' ')
+		;
+	if (ch == '\0')
+	{
+		pPSD->MineralText[1].CharCount = (COUNT)~0;
+		pPSD->MineralText[2].CharCount = 0;
+	}
+	else  /* ch == ' ' */
+	{
+		// Name contains a space. Print over
+		// two lines.
+		pPSD->MineralText[1].CharCount = utf8StringCountN(
+				pPSD->MineralText[1].pStr, pStr - 1);
+		pPSD->MineralText[2].pStr = pStr;
+		pPSD->MineralText[2].CharCount = (COUNT)~0;
+	}
+
+	// JMS
+	if (Scan == MINERAL_SCAN){
+		if (partialPickup)
+			return false;
+		else
+			return true;
+	}
+}
+
 static void
 ExplodeCritter (ELEMENT *ElementPtr)
 {
@@ -945,11 +1070,8 @@ CheckObjectCollision (COUNT index)
 						case ENERGY_SCAN:
 							break;
 						case MINERAL_SCAN:
-							if (!pickupMineralNode (pPSD, NumRetrieved, ElementPtr, &LanderControl, &ElementControl))
-								continue;
-							break;
 						case BIOLOGICAL_SCAN:
-							if (!pickupBioNode (pPSD, NumRetrieved, ElementPtr, &LanderControl, &ElementControl))
+							if (!pickupNode (pPSD, NumRetrieved, ElementPtr, &LanderControl, &ElementControl, scan))
 								continue;
 							break;
 					}
