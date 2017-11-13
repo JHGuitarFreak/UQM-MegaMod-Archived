@@ -30,7 +30,7 @@
 #include "../nameref.h"
 #include "../resinst.h"
 #include "../settings.h"
-#include "../util.h"
+#include "../util.h" // for get_fuel_to_sol()
 #include "../process.h"
 #include "../setup.h"
 #include "../sounds.h"
@@ -1321,7 +1321,11 @@ GeneratePlanetSide (void)
 			if (scan == MINERAL_SCAN)
 			{
 				NodeElementPtr->turn_wait = info.type;
-				NodeElementPtr->mass_points = HIBYTE (info.density);
+
+				// JMS: Partially scavenged energy blips won't return anymore to original size after leaving planet.
+				NodeElementPtr->mass_points = HIBYTE (info.density)
+				- pSolarSysState->SysInfo.PlanetInfo.PartiallyScavengedList[scan][num_nodes];
+
 				NodeElementPtr->current.image.frame = SetAbsFrameIndex (
 						MiscDataFrame, (NUM_SCANDOT_TRANSITIONS * 2)
 						+ ElementCategory (info.type) * 5);
