@@ -531,6 +531,8 @@ pickupMineralNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
 	BYTE EType;
 	UNICODE ch;
 	UNICODE *pStr;
+	// JMS: The rest of partially scavenged minerals stay on the surface.
+	bool partialPickup = false;
 
 	if (pPSD->ElementLevel >= pPSD->MaxElementLevel)
 	{
@@ -542,8 +544,48 @@ pickupMineralNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
 
 	if (pPSD->ElementLevel + NumRetrieved > pPSD->MaxElementLevel)
 	{
+		SIZE which_node;
+		COUNT oldsize = ElementPtr->mass_points;
+
 		// Deposit could only be picked up partially.
 		NumRetrieved = (COUNT)(pPSD->MaxElementLevel - pPSD->ElementLevel);
+
+		// JMS: Subtract the scavenged kilotons from the mineral deposit.
+		// The rest will stay on the surface.
+		ElementPtr->mass_points -= NumRetrieved;
+		
+		// JMS: This makes the mineral deposit subtraction keep  
+		// in effect even after leaving & re-entering the planet.
+		which_node = HIBYTE (ElementPtr->scan_node) - 1;
+		pSolarSysState->SysInfo.PlanetInfo.PartiallyScavengedList[MINERAL_SCAN][which_node] = NumRetrieved;
+		
+		// JMS: If the deposit was large and its amount now equates to a smaller
+		// deposit, change its graphics.
+		if ((oldsize > 22 && ElementPtr->mass_points <= 22)
+			|| (oldsize > 15 && ElementPtr->mass_points <= 15))
+		{
+			PRIMITIVE *pPrim = &DisplayArray[ElementPtr->PrimIndex];
+			BYTE gfx_index_change = 0;
+			
+			if (oldsize > 22 && ElementPtr->mass_points <= 15)
+				gfx_index_change = 2;
+			else
+				gfx_index_change = 1;
+			
+			// Change the scan screen gfx.
+			ElementPtr->current.image.frame = SetRelFrameIndex (
+				ElementPtr->current.image.frame, (2 - gfx_index_change));
+			ElementPtr->next.image.frame = ElementPtr->current.image.frame;
+
+			// Notify the engine that the scan screen gfx should be updated.
+			ElementPtr->state_flags |= CHANGING;
+			SET_GAME_STATE (PLANETARY_CHANGE, 1);
+			
+			// Change the surface screen gfx.
+			pPrim->Object.Stamp.frame = SetRelFrameIndex (pPrim->Object.Stamp.frame, -gfx_index_change);
+		}
+		
+		partialPickup = true;
 	}
 
 	FillLanderHold (pPSD, MINERAL_SCAN, NumRetrieved);
@@ -579,7 +621,11 @@ pickupMineralNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
 		pPSD->MineralText[2].CharCount = (COUNT)~0;
 	}
 
-	return true;
+	// JMS
+	if (partialPickup)
+		return false;
+	else
+		return true;
 }
 
 static bool
