@@ -1854,7 +1854,7 @@ EnterPlanetOrbit (void)
 
 		if (worldIsMoon (pSolarSysState, pSolarSysState->pOrbitalDesc))
 		{	
-			int moon;	
+			// int moon;
 			// Moon -- use its origin
 			// XXX: The conversion functions do not error-correct, so the
 			//   point we set here will change once flag_ship_preprocess()
@@ -2210,6 +2210,11 @@ CreateStarBackGround (void)
 	if (optNebulae && rmxGraphicsPresent && (CurStarDescPtr->star_pt.y % (numNebulae + 4)) < numNebulae){ // MB: Make some solar systems not have nebulae
 		nebula.origin.x = nebula.origin.y = 0;
 		nebula.frame = SetAbsFrameIndex (NebulaeFrame, CurStarDescPtr->star_pt.x % numNebulae);
+		// For debug, prints out the frame number of the current system's nebula
+		// printf("Nebula Frame: %d\n", CurStarDescPtr->star_pt.x % numNebulae); 
+			// Delta Illuminati		235.4 : 316.6		Frame: 0
+			// Epsilon Illuminati	272.7 : 295.1		Frame: 21
+			// Alpha Saurus			230.6 : 228.5		Frame: NULL
 		DrawStamp(&nebula);
 	}
 
