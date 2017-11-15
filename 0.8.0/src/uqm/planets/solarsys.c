@@ -2189,7 +2189,7 @@ CreateStarBackGround (void)
 	CONTEXT oldContext;
 	RECT clipRect;
 	FRAME frame;
-	BYTE numNebulae = 22;
+	BYTE numNebulae = 46;
 
 	// Use SpaceContext to find out the dimensions of the background
 	oldContext = SetContext (SpaceContext);
