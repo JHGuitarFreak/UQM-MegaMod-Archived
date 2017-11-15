@@ -2206,17 +2206,6 @@ CreateStarBackGround (void)
 	ClearDrawable ();
 
 	RandomContext_SeedRandom (SysGenRNG, GetRandomSeedForStar (CurStarDescPtr));
-	
-	if (optNebulae && rmxGraphicsPresent && (CurStarDescPtr->star_pt.y % (numNebulae + 4)) < numNebulae){ // MB: Make some solar systems not have nebulae
-		nebula.origin.x = nebula.origin.y = 0;
-		nebula.frame = SetAbsFrameIndex (NebulaeFrame, CurStarDescPtr->star_pt.x % numNebulae);
-		// For debug, prints out the frame number of the current system's nebula
-		// printf("Nebula Frame: %d\n", CurStarDescPtr->star_pt.x % numNebulae); 
-			// Delta Illuminati		235.4 : 316.6		Frame: 0
-			// Epsilon Illuminati	272.7 : 295.1		Frame: 21
-			// Alpha Saurus			230.6 : 228.5		Frame: NULL
-		DrawStamp(&nebula);
-	}
 
 #define NUM_DIM_PIECES 8
 	s.frame = SpaceJunkFrame;
@@ -2247,6 +2236,19 @@ CreateStarBackGround (void)
 		}
 		s.frame = IncFrameIndex (s.frame);
 	}
+	
+	if (optNebulae && rmxGraphicsPresent && (CurStarDescPtr->star_pt.y % (numNebulae + 4)) < numNebulae){ // MB: Make some solar systems not have nebulae
+		nebula.origin.x = nebula.origin.y = 0;
+		nebula.frame = SetAbsFrameIndex (NebulaeFrame, CurStarDescPtr->star_pt.x % numNebulae);// CurStarDescPtr->star_pt.x % numNebulae);
+		DrawStamp(&nebula);
+	}
+#ifdef DEBUG
+		// Prints out the frame number of the current system's nebula
+		printf("Nebula Frame: %d\n", CurStarDescPtr->star_pt.x % numNebulae);
+			// Delta Illuminati		235.4 : 316.6		Frame: 0
+			// Epsilon Illuminati	272.7 : 295.1		Frame: 21
+			// Alpha Saurus			230.6 : 228.5		Frame: NULL
+#endif
 
 	SetContext (oldContext);
 
