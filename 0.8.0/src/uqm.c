@@ -146,6 +146,8 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, nebulae);
 	DECL_CONFIG_OPTION(bool, orbitingPlanets);
 	DECL_CONFIG_OPTION(bool, texturedPlanets);
+	// Nic
+	DECL_CONFIG_OPTION(int, optDateFormat);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -296,6 +298,8 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  nebulae,			true ),
 		INIT_CONFIG_OPTION(  orbitingPlanets,	false),
 		INIT_CONFIG_OPTION(  texturedPlanets,	false),
+		// Nic
+		INIT_CONFIG_OPTION(  optDateFormat,		0),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -426,7 +430,7 @@ main (int argc, char *argv[])
 	
 	optGodMode = options.godMode.value; // JMS
 	// Serosis
-	timeDilationScale = (unsigned int) options.timeDilationScale.value;
+	timeDilationScale = options.timeDilationScale.value;
 	optBubbleWarp = options.bubbleWarp.value;
 	optUnlockShips = options.unlockShips.value;
 	optHeadStart = options.headStart.value;
@@ -440,6 +444,8 @@ main (int argc, char *argv[])
 	optOrbitingPlanets = options.orbitingPlanets.value;
 	optTexturedPlanets = options.texturedPlanets.value;
  	optCheatMode = options.cheatMode.value;
+	// Nic
+	optDateFormat = options.optDateFormat.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -743,6 +749,10 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->nebulae, "config.nebulae");
 	getBoolConfigValue (&options->orbitingPlanets, "config.orbitingPlanets");
 	getBoolConfigValue (&options->texturedPlanets, "config.texturedPlanets");
+	// Nic	
+	if (res_IsInteger ("config.dateFormat") && !options->optDateFormat.set) {
+		options->optDateFormat.value = res_GetInteger ("config.dateFormat");
+	}
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -796,6 +806,7 @@ enum
 	NEBU_OPT,
 	ORBITS_OPT,
 	TEXTPLAN_OPT,
+	DATE_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -857,6 +868,7 @@ static struct option longOptions[] =
 	{"nebulae", 0, NULL, NEBU_OPT},
 	{"orbitingplanets", 0, NULL, ORBITS_OPT},
 	{"texturedplanets", 0, NULL, TEXTPLAN_OPT},
+	{"dateformat", 0, NULL, DATE_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1166,6 +1178,20 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case TEXTPLAN_OPT:
 				setBoolOption (&options->texturedPlanets, true);
 				break;
+			case DATE_OPT:{
+				int temp;
+				if (parseIntOption (optarg, &temp, "Date Format") == -1) {
+					badArg = true;
+					break;
+				} else if (temp < 0 || temp > 2) {					
+					saveError ("\nDate Format has to be 0, 1, or 2.\n");
+					badArg = true;
+				} else {
+					options->optDateFormat.value = temp;
+					options->optDateFormat.set = true;
+				}
+				break;
+			}
 			case ADDON_OPT:
 				options->numAddons++;
 				options->addons = HRealloc ((void *) options->addons,

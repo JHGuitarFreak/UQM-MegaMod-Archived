@@ -45,7 +45,7 @@ extern int optMeleeScale;
 extern BOOLEAN optCheatMode; // JMS
 // Serosis
 extern BOOLEAN optGodMode;
-extern unsigned int timeDilationScale;
+extern int timeDilationScale;
 extern BOOLEAN optBubbleWarp;
 extern BOOLEAN optRoseBud;
 extern BOOLEAN optUnlockShips;
@@ -60,6 +60,8 @@ extern BOOLEAN optMainMenuMusic;
 extern BOOLEAN optNebulae;
 extern BOOLEAN optOrbitingPlanets;
 extern BOOLEAN optTexturedPlanets;
+// Nic
+extern int optDateFormat;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

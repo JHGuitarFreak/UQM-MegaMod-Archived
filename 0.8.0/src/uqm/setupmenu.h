@@ -74,6 +74,12 @@ typedef enum {
 	OPTVAL_SLOW,
 	OPTVAL_FAST
 } OPT_TDTYPE;
+ 
+typedef enum {
+	OPTVAL_MMDDYYYY,
+	OPTVAL_DDMMYYYY,
+	OPTVAL_YYYYMMDD
+} OPT_DATETYPE;
 
 /* At the moment, CONTROL_TEMPLATE is directly in this structure.  If
  * CONTROL_TEMPLATE and the options available diverge, this will need
@@ -85,6 +91,7 @@ typedef struct globalopts_struct {
 	OPT_ADRIVERTYPE adriver;
 	OPT_AQUALITYTYPE aquality;
 	OPT_TDTYPE tdType;
+	OPT_DATETYPE dateType;
 	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo, music3do, musicremix, speech, keepaspect,
 		cheatMode, godMode, bubbleWarp, unlockShips, headStart, unlockUpgrades, infiniteRU, skipIntro, FMV, // Serosis: except for cheatMode = JMS
 		mainMenuMusic, nebulae, orbitingPlanets, texturedPlanets; // JMS
