@@ -217,6 +217,7 @@ SetGameClockRate (COUNT seconds_per_day)
 			new_day_in_ticks = new_day_in_ticks / 5;
 			//printf("TD Fast\n");
 			break;
+		case 0:
 		default:
 			//printf("TD Normal\n");
 			break;

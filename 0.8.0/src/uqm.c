@@ -1183,7 +1183,7 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				if (parseIntOption (optarg, &temp, "Date Format") == -1) {
 					badArg = true;
 					break;
-				} else if (temp < 0 || temp > 2) {					
+				} else if (temp < 0 || temp > 3) {					
 					saveError ("\nDate Format has to be 0, 1, or 2.\n");
 					badArg = true;
 				} else {

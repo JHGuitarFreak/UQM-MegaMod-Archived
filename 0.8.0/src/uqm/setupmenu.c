@@ -75,7 +75,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       38
+#define CHOICE_COUNT       39
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -100,7 +100,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	2, 2, 3, 2, 2, 3, 3, 2,	3, 3, 
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2 };
+	2, 2, 2, 2, 3 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -163,6 +163,7 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[35]), // JMS: IP nebulae on/off
 	(WIDGET *)(&choices[36]), // JMS: orbitingPlanets on/off
 	(WIDGET *)(&choices[37]), // JMS: texturedPlanets on/off
+	(WIDGET *)(&choices[38]), // Nic: Switch date formats
 	(WIDGET *)(&buttons[1]),
 	NULL };
 	
@@ -400,7 +401,7 @@ SetDefaults (void)
 	GLOBALOPTS opts;
 	
 	GetGlobalOptions (&opts);
-	if (opts.res == OPTVAL_CUSTOM)
+	if (opts.screenResolution == OPTVAL_CUSTOM)
 	{
 		choices[0].numopts = RES_OPTS + 1;
 	}
@@ -408,7 +409,7 @@ SetDefaults (void)
 	{
 		choices[0].numopts = RES_OPTS;
 	}
-	choices[0].selected = opts.res;
+	choices[0].selected = opts.screenResolution;
 	choices[1].selected = opts.driver;
 	choices[2].selected = opts.scaler;
 	choices[3].selected = opts.scanlines;
@@ -462,7 +463,7 @@ static void
 PropagateResults (void)
 {
 	GLOBALOPTS opts;
-	opts.res = choices[0].selected;
+	opts.screenResolution = choices[0].selected;
 	opts.driver = choices[1].selected;
 	opts.scaler = choices[2].selected;
 	opts.scanlines = choices[3].selected;
@@ -1363,17 +1364,17 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	case 320:
 		if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE)
 		{
-			opts->res = OPTVAL_320_240;
+			opts->screenResolution = OPTVAL_320_240;
 		}
 		else
 		{
 			if (ScreenHeightActual != 240)
 			{
-				opts->res = OPTVAL_CUSTOM;
+				opts->screenResolution = OPTVAL_CUSTOM;
 			}
 			else
 			{
-				opts->res = OPTVAL_320_240;
+				opts->screenResolution = OPTVAL_320_240;
 				opts->driver = OPTVAL_ALWAYS_GL;
 			}
 		}
@@ -1381,17 +1382,17 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	case 640:
 		if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE)
 		{
-			opts->res = OPTVAL_640_480;
+			opts->screenResolution = OPTVAL_640_480;
 		}
 		else
 		{
 			if (ScreenHeightActual != 480)
 			{
-				opts->res = OPTVAL_CUSTOM;
+				opts->screenResolution = OPTVAL_CUSTOM;
 			}
 			else
 			{
-				opts->res = OPTVAL_640_480;
+				opts->screenResolution = OPTVAL_640_480;
 				opts->driver = OPTVAL_ALWAYS_GL;
 			}
 		}
@@ -1399,25 +1400,25 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	case 960:
 		if (ScreenHeightActual != 720)
 		{
-			opts->res = OPTVAL_CUSTOM;
+			opts->screenResolution = OPTVAL_CUSTOM;
 		}
 		else
 		{
-			opts->res = OPTVAL_960_720;
+			opts->screenResolution = OPTVAL_960_720;
 		}
 		break;
 	case 1280:
 		if (ScreenHeightActual != 960)
 		{
-			opts->res = OPTVAL_CUSTOM;
+			opts->screenResolution = OPTVAL_CUSTOM;
 		}
 		else
 		{
-			opts->res = OPTVAL_1280_960;
+			opts->screenResolution = OPTVAL_1280_960;
 		}		
 		break;
 	default:
-		opts->res = OPTVAL_CUSTOM;
+		opts->screenResolution = OPTVAL_CUSTOM;
 		break;
 	}
 
@@ -1481,7 +1482,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 
 	NewGfxFlags &= ~TFB_GFXFLAGS_SCALE_ANY;
 
-	switch (opts->res) {
+	switch (opts->screenResolution) {
 	case OPTVAL_320_240:
 		NewWidth = 320;
 		NewHeight = 240;
@@ -1530,15 +1531,13 @@ SetGlobalOptions (GLOBALOPTS *opts)
 
 	// Serosis: Time Dilation: Increases and divides time in IP and HS by a factor of 12
 	switch (opts->tdType){
-		case OPTVAL_NORMAL:
-			timeDilationScale=0;
-		break;
 		case OPTVAL_SLOW:
 			timeDilationScale=1;
 		break;
 		case OPTVAL_FAST:
 			timeDilationScale=2;
 		break;
+		case OPTVAL_NORMAL:
 		default:
 			timeDilationScale=0;
 		break;
@@ -1596,14 +1595,15 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Nic: Date Format: Switch the displayed date format
 	switch (opts->dateType){
 		case OPTVAL_MMDDYYYY:
-			optDateFormat=0;
-		break;
-		case OPTVAL_DDMMYYYY:
 			optDateFormat=1;
 		break;
-		case OPTVAL_YYYYMMDD:
+		case OPTVAL_DDMMMYYYY:
 			optDateFormat=2;
 		break;
+		case OPTVAL_DDMMYYYY:
+			optDateFormat=3;
+		break;
+		case OPTVAL_MMMDDYYYY:
 		default:
 			optDateFormat=0;
 		break;

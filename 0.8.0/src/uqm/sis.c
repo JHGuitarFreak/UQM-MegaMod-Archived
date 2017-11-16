@@ -347,9 +347,27 @@ void
 DateToString (char *buf, size_t bufLen,
 		BYTE month_index, BYTE day_index, COUNT year_index)
 {
-	snprintf (buf, bufLen, "%s %02d" STR_MIDDLE_DOT "%04d",
-			GAME_STRING (MONTHS_STRING_BASE + month_index - 1),
-			day_index, year_index);
+	switch (optDateFormat) {
+		case 1: /* MM.DD.YYYY */
+			snprintf (buf, bufLen, "%02d%s%02d%s%04d", month_index,
+					STR_MIDDLE_DOT, day_index, STR_MIDDLE_DOT, year_index);
+			break;
+		case 2: /* DD MMM YYYY */
+			snprintf (buf, bufLen, "%02d %s%s%04d", day_index,
+					GAME_STRING (MONTHS_STRING_BASE + month_index - 1),
+					STR_MIDDLE_DOT, year_index);
+			break;
+		case 3: /* DD.MM.YYYY */
+			snprintf (buf, bufLen, "%02d%s%02d%s%04d", day_index,
+					STR_MIDDLE_DOT, month_index, STR_MIDDLE_DOT, year_index);
+			break;
+		case 0:
+		default: /* MMM DD.YYYY */
+			snprintf (buf, bufLen, "%s %02d%s%04d",
+					GAME_STRING (MONTHS_STRING_BASE + month_index - 1),
+					day_index, STR_MIDDLE_DOT, year_index);
+			break;
+	}
 }
 
 void
