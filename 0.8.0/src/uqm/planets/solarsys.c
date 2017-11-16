@@ -2189,7 +2189,8 @@ CreateStarBackGround (void)
 	CONTEXT oldContext;
 	RECT clipRect;
 	FRAME frame;
-	BYTE numNebulae = 46;
+	BYTE numNebulae = 44;
+	COUNT NebulaePercent = CurStarDescPtr->star_pt.x % numNebulae;
 
 	// Use SpaceContext to find out the dimensions of the background
 	oldContext = SetContext (SpaceContext);
@@ -2237,18 +2238,15 @@ CreateStarBackGround (void)
 		s.frame = IncFrameIndex (s.frame);
 	}
 	
-	if (optNebulae && rmxGraphicsPresent && (CurStarDescPtr->star_pt.y % (numNebulae + 4)) < numNebulae){ // MB: Make some solar systems not have nebulae
+	if (optNebulae && seroNebulaePresent && (CurStarDescPtr->star_pt.y % (numNebulae + 6)) < numNebulae){ // MB: Make some solar systems not have nebulae
 		nebula.origin.x = nebula.origin.y = 0;
-		nebula.frame = SetAbsFrameIndex (NebulaeFrame, CurStarDescPtr->star_pt.x % numNebulae);// CurStarDescPtr->star_pt.x % numNebulae);
+		nebula.frame = SetAbsFrameIndex (NebulaeFrame, NebulaePercent);
 		DrawStamp(&nebula);
-	}
 #ifdef DEBUG
 		// Prints out the frame number of the current system's nebula
-		printf("Nebula Frame: %d\n", CurStarDescPtr->star_pt.x % numNebulae);
-			// Delta Illuminati		235.4 : 316.6		Frame: 0
-			// Epsilon Illuminati	272.7 : 295.1		Frame: 21
-			// Alpha Saurus			230.6 : 228.5		Frame: NULL
-#endif
+		printf("Nebula Frame: %d\n", NebulaePercent);
+#endif	
+	}
 
 	SetContext (oldContext);
 
