@@ -119,7 +119,30 @@ LoadKernel (int argc, char *argv[])
 	if (loadIndices (contentDir) == 0)
 		return FALSE; // Must have at least one index in content dir
 
-	/* Load addons demanded by the current configuration. */
+	/* Load addons demanded by the current configuration. */	
+	if(loadAddon("sero-setup-080")){
+		printf("Loading Sero-Setup \n");
+		log_add (log_Debug, "loading sero-setup-080\n");
+	} else {
+		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
+		exit (EXIT_FAILURE);
+ 	}
+	if(loadAddon("sero-menu-1x")){
+		seroMenuPresent = TRUE;
+		printf("Loading Sero-Menu \n");
+		log_add (log_Debug, "loading sero-menu-1x");
+	}
+	if(loadAddon("sero-nebulae-1x")){
+		seroNebulaePresent = TRUE;
+		printf("Loading Sero-Nebulae \n");
+		log_add (log_Debug, "loading sero-nebulae-1x");
+	}
+	if(loadAddon("sol-textures-1x")){
+		solTexturesPresent = TRUE;
+		printf("Loading Sol Textures \n");
+		log_add (log_Debug, "loading sol-textures-1x");
+	}
+
 	if (opt3doMusic)
 	{
 		loadAddon ("3domusic");
@@ -146,28 +169,6 @@ LoadKernel (int argc, char *argv[])
 	{
 		loadAddon ("3dovideo");
 	}
-	if(loadAddon("sero-nebulae-1x")){
-		seroNebulaePresent = TRUE;
-		printf("Loading Sero-Nebulae 1x\n");
-		log_add (log_Debug, "loading sero-nebulae-1x");
-	}
-	if(loadAddon("sol-textures-1x")){
-		solTexturesPresent = TRUE;
-		printf("Loading Sol Textures 1x\n");
-		log_add (log_Debug, "loading sol-textures-1x");
-	}
-	if(loadAddon("sero-menu-1x")){
-		seroMenuPresent = TRUE;
-		printf("Loading Sero-Menu 1x\n");
-		log_add (log_Debug, "loading sero-menu-1x");
-	}
-	if(loadAddon("sero-setup-080")){
-		printf("Loading Sero Setup 0.8.0\n");
-		log_add (log_Debug, "loading sero-setup-080\n");
-	} else {
-		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
-		exit (EXIT_FAILURE);
- 	}
 
 	/* Now load the rest of the addons, in order. */
 	prepareAddons (optAddons);
