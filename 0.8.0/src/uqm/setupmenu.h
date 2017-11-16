@@ -76,9 +76,10 @@ typedef enum {
 } OPT_TDTYPE;
  
 typedef enum {
+	OPTVAL_MMMDDYYYY,
 	OPTVAL_MMDDYYYY,
-	OPTVAL_DDMMYYYY,
-	OPTVAL_YYYYMMDD
+	OPTVAL_DDMMMYYYY,
+	OPTVAL_DDMMYYYY
 } OPT_DATETYPE;
 
 /* At the moment, CONTROL_TEMPLATE is directly in this structure.  If
@@ -86,7 +87,7 @@ typedef enum {
  * to change */
 typedef struct globalopts_struct {
 	OPT_SCALETYPE scaler;
-	OPT_RESTYPE res;
+	OPT_RESTYPE screenResolution;
 	OPT_DRIVERTYPE driver;
 	OPT_ADRIVERTYPE adriver;
 	OPT_AQUALITYTYPE aquality;
