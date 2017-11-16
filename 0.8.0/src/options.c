@@ -55,7 +55,7 @@ const char **optAddons;
 BOOLEAN optCheatMode; // JMS
 // Serosis
 BOOLEAN optGodMode;
-unsigned int timeDilationScale;
+int timeDilationScale;
 BOOLEAN optBubbleWarp;
 BOOLEAN optUnlockShips;
 BOOLEAN optHeadStart;
@@ -69,6 +69,8 @@ BOOLEAN optMainMenuMusic;
 BOOLEAN optNebulae;
 BOOLEAN optOrbitingPlanets;
 BOOLEAN optTexturedPlanets;
+// Nic
+int optDateFormat;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

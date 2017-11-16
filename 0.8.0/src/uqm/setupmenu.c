@@ -449,6 +449,8 @@ SetDefaults (void)
 	choices[35].selected = opts.nebulae;
 	choices[36].selected = opts.orbitingPlanets;
 	choices[37].selected = opts.texturedPlanets;
+	// Nic
+	choices[38].selected = opts.dateType;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -500,6 +502,8 @@ PropagateResults (void)
 	opts.nebulae = choices[35].selected;
 	opts.orbitingPlanets = choices[36].selected;
 	opts.texturedPlanets = choices[37].selected;
+	// Nic
+	opts.dateType = choices[38].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1463,6 +1467,8 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->orbitingPlanets = optOrbitingPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->texturedPlanets = optTexturedPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	// Nic
+	opts->dateType = res_GetInteger ("config.dateFormat");
 }
 
 void
@@ -1585,7 +1591,24 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	
 	// JMS: Textured or plain(==vanilla UQM style) planets in IP.
 	res_PutBoolean ("config.texturedPlanets", opts->texturedPlanets == OPTVAL_ENABLED);
-	optTexturedPlanets = opts->texturedPlanets == OPTVAL_ENABLED;
+	optTexturedPlanets = opts->texturedPlanets == OPTVAL_ENABLED;	
+
+	// Nic: Date Format: Switch the displayed date format
+	switch (opts->dateType){
+		case OPTVAL_MMDDYYYY:
+			optDateFormat=0;
+		break;
+		case OPTVAL_DDMMYYYY:
+			optDateFormat=1;
+		break;
+		case OPTVAL_YYYYMMDD:
+			optDateFormat=2;
+		break;
+		default:
+			optDateFormat=0;
+		break;
+	}
+	res_PutInteger ("config.dateFormat", opts->dateType);
 
 	switch (opts->scaler) {
 	case OPTVAL_BILINEAR_SCALE:
