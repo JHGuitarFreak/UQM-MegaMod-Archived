@@ -476,7 +476,7 @@ DeltaLanderCrew (SIZE crew_delta, COUNT which_disaster)
 static void
 FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 {
-	COUNT start_count;
+	COUNT start_count, tmpholdint;
 	STAMP s;
 	CONTEXT OldContext;
 
@@ -503,6 +503,12 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 
 		s.frame = SetAbsFrameIndex (LanderFrame[0], 43);
 	}
+
+	tmpholdint = ((start_count + NumRetrieved) * MAX_HOLD_BARS / MAX_SCROUNGED)
+			- ((start_count * MAX_HOLD_BARS / MAX_SCROUNGED) + (NumRetrieved *
+			MAX_HOLD_BARS / MAX_SCROUNGED));
+	start_count = start_count * MAX_HOLD_BARS / MAX_SCROUNGED;
+	NumRetrieved = (NumRetrieved * MAX_HOLD_BARS / MAX_SCROUNGED) + tmpholdint;
 
 	s.origin.x = 0;
 	s.origin.y = -(int)start_count;
