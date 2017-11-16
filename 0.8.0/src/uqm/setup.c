@@ -71,7 +71,7 @@ QUEUE disp_q;
 // Serosis
 BOOLEAN solTexturesPresent;
 BOOLEAN seroMenuPresent;
-BOOLEAN rmxGraphicsPresent;
+BOOLEAN seroNebulaePresent;
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -146,10 +146,10 @@ LoadKernel (int argc, char *argv[])
 	{
 		loadAddon ("3dovideo");
 	}
-	if(loadAddon("rmx-graphics-1x")){
-		rmxGraphicsPresent = TRUE;
-		printf("Loading RMX-Graphics 1x\n");
-		log_add (log_Debug, "loading rmx-graphics-1x");
+	if(loadAddon("sero-nebulae-1x")){
+		seroNebulaePresent = TRUE;
+		printf("Loading Sero-Nebulae 1x\n");
+		log_add (log_Debug, "loading sero-nebulae-1x");
 	}
 	if(loadAddon("sol-textures-1x")){
 		solTexturesPresent = TRUE;
@@ -243,7 +243,7 @@ InitKernel (void)
 	if (StatusFrame == NULL)
 		return FALSE;
 
-	if (optNebulae && rmxGraphicsPresent) {
+	if (optNebulae && seroNebulaePresent) {
 		NebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
 		if (NebulaeFrame == NULL)
 			return FALSE;
