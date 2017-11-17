@@ -819,10 +819,8 @@ UpdateCursorInfo (UNICODE *prevbuf)
 	}
 }
 
-static void
-UpdateFuelRequirement (void)
-{
-	UNICODE buf[80];
+static int
+FuelRequired (void){
 	COUNT fuel_required;
 	DWORD f;
 	POINT pt;
@@ -842,6 +840,15 @@ UpdateFuelRequirement (void)
 		fuel_required = 0;
 	else
 		fuel_required = square_root (f) + (FUEL_TANK_SCALE / 20);
+
+	return fuel_required;
+}
+
+static void
+UpdateFuelRequirement (void)
+{
+	UNICODE buf[80];
+	COUNT fuel_required = FuelRequired();
 
 	sprintf (buf, "%s %u.%u",
 			GAME_STRING (NAVIGATION_STRING_BASE + 4),
@@ -1300,30 +1307,30 @@ DoMoveCursor (MENU_STATE *pMS)
 	}
 	else if (PulsedInputState.menu[KEY_MENU_SELECT])
 	{
-		GLOBAL (autopilot) = cursorLoc;
-//#ifdef DEBUG
-		if (optBubbleWarp)
-		{
-			PlayMenuSound (MENU_SOUND_BUBBLEWARP);
-
-			if (inHQSpace ())
-			{
-				// Move to the new location immediately.
-				doInstantMove ();
+		if (optBubbleWarp) {
+			//printf("Fuel Available: %d | Fuel Requirement: %d\n", GLOBAL_SIS (FuelOnBoard), FuelRequired());
+			if (GLOBAL_SIS (FuelOnBoard) >= FuelRequired()){
+				PlayMenuSound (MENU_SOUND_BUBBLEWARP);
+				GLOBAL (autopilot) = cursorLoc;
+				if (inHQSpace ()) {
+					// Move to the new location immediately.
+					doInstantMove ();
+				} else if (LOBYTE (GLOBAL (CurrentActivity)) == IN_INTERPLANETARY) {
+					// We're in a solar system; exit it.
+					GLOBAL (CurrentActivity) |= END_INTERPLANETARY;			
+					// Set a hook to move to the new location:
+					debugHook = doInstantMove;
+				}
+				DrawStarMap (0, NULL);
+				return FALSE;
+			} else {
+				PlayMenuSound (MENU_SOUND_FAILURE);
+				return TRUE;
 			}
-			else if (LOBYTE (GLOBAL (CurrentActivity)) == IN_INTERPLANETARY)
-			{
-				// We're in a solar system; exit it.
-				GLOBAL (CurrentActivity) |= END_INTERPLANETARY;
-			
-				// Set a hook to move to the new location:
-				debugHook = doInstantMove;
-			}
-
-			return FALSE;
+		} else {
+			GLOBAL (autopilot) = cursorLoc;
+			DrawStarMap (0, NULL);
 		}
-//#endif
-		DrawStarMap (0, NULL);
 	}
 	else if (PulsedInputState.menu[KEY_MENU_SEARCH])
 	{
