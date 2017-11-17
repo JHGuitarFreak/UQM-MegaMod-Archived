@@ -28,6 +28,7 @@
 #include "../../setup.h"
 #include "../../state.h"
 #include "libs/mathlib.h"
+#include "../../../options.h"
 
 
 static bool GenerateTalkingPet_generatePlanets (SOLARSYS_STATE *solarSys);
@@ -242,7 +243,9 @@ ZapToUrquanEncounter (void)
 		dx = (SIZE)square_root ((long)dx * dx + (long)dy * dy)
 				+ (FUEL_TANK_SCALE >> 1);
 
-		DeltaSISGauges (0, -dx, 0);
+		if (!optGodMode)
+			DeltaSISGauges (0, -dx, 0);
+
 		if (GLOBAL_SIS (FuelOnBoard) < 5 * FUEL_TANK_SCALE)
 		{
 			dx = ((5 + ((COUNT)TFB_Random () % 5)) * FUEL_TANK_SCALE)
