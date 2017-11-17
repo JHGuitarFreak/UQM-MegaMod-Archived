@@ -254,7 +254,9 @@ MoveSIS (SIZE *pdx, SIZE *pdy)
 		if (cur_fuel_ticks > (COUNT)fuel_ticks)
 		{
 #ifndef TESTING
-			DeltaSISGauges (0, fuel_ticks - cur_fuel_ticks, 0);
+			if (!optGodMode)
+				DeltaSISGauges (0, fuel_ticks - cur_fuel_ticks, 0);
+			
 #endif /* TESTING */
 			if (cur_fuel_ticks > 0x00FF)
 			{

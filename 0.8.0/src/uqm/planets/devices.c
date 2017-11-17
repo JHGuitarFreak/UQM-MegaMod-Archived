@@ -38,6 +38,7 @@
 #include "planets.h"
 		// for SaveSolarSysLocation() and tests
 #include "libs/strlib.h"
+#include "../options.h"
 
 
 // If DEBUG_DEVICES is defined, the device list shown in the game will
@@ -449,7 +450,9 @@ InvokeDevice (BYTE which_device)
 				/* No DeltaSISGauges because the flagship picture
 				 * is currently obscured.
 				 */
-				GLOBAL_SIS (FuelOnBoard) -= PORTAL_FUEL_COST;
+				if (!optGodMode)
+					GLOBAL_SIS (FuelOnBoard) -= PORTAL_FUEL_COST;
+
 				SET_GAME_STATE (PORTAL_COUNTER, 1);
 				return DEVICE_SUCCESS;
 			}
