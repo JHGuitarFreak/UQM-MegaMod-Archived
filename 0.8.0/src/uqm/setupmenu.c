@@ -59,7 +59,7 @@ static int quit_sub_menu (WIDGET *self, int event);
 static int do_graphics (WIDGET *self, int event);
 static int do_audio (WIDGET *self, int event);
 static int do_engine (WIDGET *self, int event);
-static int do_resources (WIDGET *self, int event);
+static int do_cheats (WIDGET *self, int event);
 static int do_keyconfig (WIDGET *self, int event);
 static int do_advanced (WIDGET *self, int event);
 static int do_editkeys (WIDGET *self, int event);
@@ -104,74 +104,89 @@ static int choice_widths[CHOICE_COUNT] = {
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
-	do_audio, do_resources, do_keyconfig, do_advanced, do_editkeys, 
+	do_audio, do_cheats, do_keyconfig, do_advanced, do_editkeys, 
 	do_keyconfig };
 
 /* These refer to uninitialized widgets, but that's OK; we'll fill
  * them in before we touch them */
 static WIDGET *main_widgets[] = {
-	(WIDGET *)(&buttons[2]),
-	(WIDGET *)(&buttons[3]),
-	(WIDGET *)(&buttons[4]),
-	(WIDGET *)(&buttons[5]),
-	(WIDGET *)(&buttons[6]),
-	(WIDGET *)(&buttons[7]),
-	(WIDGET *)(&buttons[0]),
+	(WIDGET *)(&buttons[2]),	// Graphics
+	(WIDGET *)(&buttons[3]),	// PC/3DO Compat Options
+	(WIDGET *)(&buttons[4]),	// Sound
+	(WIDGET *)(&buttons[5]),	// Cheats
+	(WIDGET *)(&buttons[6]),	// Controls
+	(WIDGET *)(&buttons[7]),	// Advanced
+	(WIDGET *)(&buttons[0]),	// Quit Setup Menu
 	NULL };
 
 static WIDGET *graphics_widgets[] = {
-	(WIDGET *)(&choices[0]),
-	(WIDGET *)(&choices[23]),
-	(WIDGET *)(&choices[10]),
-	(WIDGET *)(&sliders[3]),
-	(WIDGET *)(&choices[2]),
-	(WIDGET *)(&choices[3]),
-	(WIDGET *)(&buttons[1]),
-	NULL };
-
-static WIDGET *audio_widgets[] = {
-	(WIDGET *)(&sliders[0]),
-	(WIDGET *)(&sliders[1]),
-	(WIDGET *)(&sliders[2]),
-	(WIDGET *)(&choices[14]),
-	(WIDGET *)(&choices[9]),
-	(WIDGET *)(&choices[21]),
-	(WIDGET *)(&choices[22]),
-	(WIDGET *)(&choices[34]), // JMS: Mainmenumusic on/off
+	(WIDGET *)(&choices[0]),	// Resolution
+	(WIDGET *)(&choices[23]),	// Aspect Ratio
+	(WIDGET *)(&choices[10]),	// Display
+	(WIDGET *)(&sliders[3]),	// Gamma Correction
+	(WIDGET *)(&choices[2]),	// Scaler
+	(WIDGET *)(&choices[3]),	// Scanlines
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
 static WIDGET *engine_widgets[] = {
-	(WIDGET *)(&choices[4]),
-	(WIDGET *)(&choices[5]),
-	(WIDGET *)(&choices[6]),
-	(WIDGET *)(&choices[7]),
-	(WIDGET *)(&choices[8]),
-	(WIDGET *)(&choices[13]),
-	(WIDGET *)(&choices[11]),
-	(WIDGET *)(&choices[17]),
+	(WIDGET *)(&choices[4]),	// Menu Style
+	(WIDGET *)(&choices[5]),	// Font Style
+	(WIDGET *)(&choices[6]),	// Scan Style
+	(WIDGET *)(&choices[7]),	// Scroll Style
+	(WIDGET *)(&choices[8]),	// Subtitles
+	(WIDGET *)(&choices[13]),	// Melee Zoom
+	(WIDGET *)(&choices[11]),	// Cutscenes
+	(WIDGET *)(&choices[33]),	// Extra Cutscenes
+	(WIDGET *)(&choices[17]),	// Slave Shields
+	(WIDGET *)(&buttons[1]),
+	NULL };
+
+static WIDGET *audio_widgets[] = {
+	(WIDGET *)(&sliders[0]),	// Music Volume
+	(WIDGET *)(&sliders[1]),	// SFX Volume
+	(WIDGET *)(&sliders[2]),	// Speech Volume
+	(WIDGET *)(&choices[14]),	// Positional Audio
+	(WIDGET *)(&choices[9]),	// 3DO Remixes
+	(WIDGET *)(&choices[21]),	// Precursor's Remixes
+	(WIDGET *)(&choices[22]),	// Speech
+	(WIDGET *)(&choices[34]),	// JMS: Main Menu Music
+	(WIDGET *)(&buttons[1]),
+	NULL };
+
+static WIDGET *cheat_widgets[] = {
+	(WIDGET *)(&choices[24]), // JMS: cheatMode on/off
+	// Serosis
+	(WIDGET *)(&choices[25]),	// God Mode
+	(WIDGET *)(&choices[26]),	// Time Dilation
+	(WIDGET *)(&choices[27]),	// Bubble Warp
+	(WIDGET *)(&choices[28]),	// Unlock Ships
+	(WIDGET *)(&choices[29]),	// Head Start
+	(WIDGET *)(&choices[30]),	// Unlock Upgrades
+	(WIDGET *)(&choices[31]),	// Infinite RU
+	(WIDGET *)(&buttons[1]),	// Exit to Menu
+	NULL };
+	
+static WIDGET *keyconfig_widgets[] = {
+	(WIDGET *)(&choices[18]),	// Bottom Player
+	(WIDGET *)(&choices[19]),	// Top Player
+	(WIDGET *)(&labels[1]),
+	(WIDGET *)(&buttons[8]),	// Edit Controls
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
 static WIDGET *advanced_widgets[] = {
 #ifdef HAVE_OPENGL
-	(WIDGET *)(&choices[1]),
+	(WIDGET *)(&choices[1]),	// Use Framebuffer
 #endif
-	(WIDGET *)(&choices[12]),
-	(WIDGET *)(&choices[15]),
-	(WIDGET *)(&choices[16]),
-	(WIDGET *)(&choices[35]), // JMS: IP nebulae on/off
-	(WIDGET *)(&choices[36]), // JMS: orbitingPlanets on/off
-	(WIDGET *)(&choices[37]), // JMS: texturedPlanets on/off
-	(WIDGET *)(&choices[38]), // Nic: Switch date formats
-	(WIDGET *)(&buttons[1]),
-	NULL };
-	
-static WIDGET *keyconfig_widgets[] = {
-	(WIDGET *)(&choices[18]),
-	(WIDGET *)(&choices[19]),
-	(WIDGET *)(&labels[1]),
-	(WIDGET *)(&buttons[8]),
+	(WIDGET *)(&choices[12]),	// Show FPS
+	(WIDGET *)(&choices[15]),	// Sound Driver
+	(WIDGET *)(&choices[16]),	// Sound Quality
+	(WIDGET *)(&choices[35]),	// JMS: IP nebulae on/off
+	(WIDGET *)(&choices[36]),	// JMS: orbitingPlanets on/off
+	(WIDGET *)(&choices[37]),	// JMS: texturedPlanets on/off
+	(WIDGET *)(&choices[32]),	// Skip Intro
+	(WIDGET *)(&choices[38]),	// Nic: Switch date formats
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -189,21 +204,6 @@ static WIDGET *editkeys_widgets[] = {
 	(WIDGET *)(&buttons[9]),
 	NULL };
 
-static WIDGET *incomplete_widgets[] = {
-	(WIDGET *)(&choices[24]), // JMS: cheatMode on/off
-	// Serosis
-	(WIDGET *)(&choices[25]), // God Mode
-	(WIDGET *)(&choices[26]), // Time Dilation
-	(WIDGET *)(&choices[27]), // Bubble Warp
-	(WIDGET *)(&choices[28]), // Unlock Ships
-	(WIDGET *)(&choices[29]), // Head Start
-	(WIDGET *)(&choices[30]), // Unlock Upgrades
-	(WIDGET *)(&choices[31]), // Infinite RU
-	(WIDGET *)(&choices[32]), // Skip Intro
-	(WIDGET *)(&choices[33]), // FMV
-	(WIDGET *)(&buttons[1]),  // Exit to Menu
-	NULL };
-
 static const struct
 {
 	WIDGET **widgets;
@@ -215,7 +215,7 @@ menu_defs[] =
 	{graphics_widgets, 1},
 	{audio_widgets, 1},
 	{engine_widgets, 2},
-	{incomplete_widgets, 3},
+	{cheat_widgets, 3},
 	{keyconfig_widgets, 1},
 	{advanced_widgets, 2},
 	{editkeys_widgets, 1},
@@ -299,7 +299,7 @@ do_engine (WIDGET *self, int event)
 }
 
 static int
-do_resources (WIDGET *self, int event)
+do_cheats (WIDGET *self, int event)
 {
 	if (event == WIDGET_EVENT_SELECT)
 	{
