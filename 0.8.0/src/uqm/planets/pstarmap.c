@@ -1307,11 +1307,12 @@ DoMoveCursor (MENU_STATE *pMS)
 	}
 	else if (PulsedInputState.menu[KEY_MENU_SELECT])
 	{
+		// printf("Fuel Available: %d | Fuel Requirement: %d\n", GLOBAL_SIS (FuelOnBoard), FuelRequired());
+
 		if (optBubbleWarp) {
-			//printf("Fuel Available: %d | Fuel Requirement: %d\n", GLOBAL_SIS (FuelOnBoard), FuelRequired());
 			if (GLOBAL_SIS (FuelOnBoard) >= FuelRequired()){
-				PlayMenuSound (MENU_SOUND_BUBBLEWARP);
 				GLOBAL (autopilot) = cursorLoc;
+				PlayMenuSound (MENU_SOUND_BUBBLEWARP);
 				if (inHQSpace ()) {
 					// Move to the new location immediately.
 					doInstantMove ();
@@ -1321,11 +1322,12 @@ DoMoveCursor (MENU_STATE *pMS)
 					// Set a hook to move to the new location:
 					debugHook = doInstantMove;
 				}
-				DrawStarMap (0, NULL);
+				if(!optGodMode)
+					DeltaSISGauges (0, -FuelRequired(), 0);
+				
 				return FALSE;
-			} else {
+			} else { 
 				PlayMenuSound (MENU_SOUND_FAILURE);
-				return TRUE;
 			}
 		} else {
 			GLOBAL (autopilot) = cursorLoc;
