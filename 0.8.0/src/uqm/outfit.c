@@ -243,17 +243,22 @@ DoInstallModule (MENU_STATE *pMS)
 	else if (select || cancel)
 	{
 		new_slot_piece = pMS->CurState;
+
 		if (select)
 		{
 			if (new_slot_piece < EMPTY_SLOT)
 			{
-				if (GLOBAL_SIS (ResUnits) <
-						(DWORD)(GLOBAL (ModuleCost[new_slot_piece])
-						* MODULE_COST_SCALE))
+
+				if (GLOBAL_SIS (ResUnits) < (DWORD)(GLOBAL (ModuleCost[new_slot_piece]) * MODULE_COST_SCALE))
 				{	// not enough RUs to build
 					PlayMenuSound (MENU_SOUND_FAILURE);
 					return (TRUE);
-				}
+				}				
+			
+				if (new_slot_piece == FUEL_TANK && optInfiniteFuel)
+						DeltaSISGauges(0,FUEL_TANK_CAPACITY,0);
+				if (new_slot_piece == HIGHEFF_FUELSYS && optInfiniteFuel)
+						DeltaSISGauges(0,HEFUEL_TANK_CAPACITY,0);
 			}
 			else if (new_slot_piece == EMPTY_SLOT + 2)
 			{
@@ -279,8 +284,15 @@ DoInstallModule (MENU_STATE *pMS)
 							? FUEL_TANK_CAPACITY : HEFUEL_TANK_CAPACITY);
 					if (GLOBAL_SIS (FuelOnBoard) > volume + FUEL_RESERVE)
 					{	// fuel tank still needed for the fuel on board
-						PlayMenuSound (MENU_SOUND_FAILURE);
-						return (TRUE);
+						if(!optInfiniteFuel){
+							PlayMenuSound (MENU_SOUND_FAILURE);
+							return (TRUE);
+						} else {
+							if (old_slot_piece == FUEL_TANK)
+								DeltaSISGauges(0,-FUEL_TANK_CAPACITY,0);
+							else
+								DeltaSISGauges(0,-HEFUEL_TANK_CAPACITY,0);
+						}
 					}
 				}
 				else if (old_slot_piece == STORAGE_BAY)
@@ -783,7 +795,9 @@ ExitOutfit:
 
 		if (pMS->CurState == OUTFIT_DOFUEL)
 		{
-			ChangeFuelQuantity ();
+			if(!optInfiniteFuel)
+				ChangeFuelQuantity ();
+
 			SleepThread (ONE_SECOND / 30);
 		}
 		else
