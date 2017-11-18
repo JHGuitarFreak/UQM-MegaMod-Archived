@@ -450,7 +450,7 @@ InvokeDevice (BYTE which_device)
 				/* No DeltaSISGauges because the flagship picture
 				 * is currently obscured.
 				 */
-				if (!optGodMode)
+				if (!optInfiniteFuel)
 					GLOBAL_SIS (FuelOnBoard) -= PORTAL_FUEL_COST;
 
 				SET_GAME_STATE (PORTAL_COUNTER, 1);

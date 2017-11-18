@@ -334,6 +334,7 @@ SetRaceAllowBuild (RACE_ID race, BOOLEAN flag) {
 
 	if (FleetPtr->allied_state == GOOD_GUY) {
 		/* Strange request, silently ignore it */
+		FleetPtr->allied_state = FleetPtr->allied_state;
 	} else {
 		FleetPtr->allied_state = CAN_BUILD;
 	}
@@ -717,7 +718,13 @@ loadGameCheats (void){
 		oldRU = GlobData.SIS_state.ResUnits;
 	} else {
 		oldRU = 0;
-	}			
+	}
+	if(optInfiniteFuel){
+		loadFuel = GlobData.SIS_state.FuelOnBoard;
+		GLOBAL_SIS (FuelOnBoard) = GetFuelTankCapacity();
+	} else {
+		loadFuel = 0;
+	}
 	if (optUnlockShips){
 		SetRaceAllowBuild (ARILOU_SHIP, TRUE);
 		SetRaceAllowBuild (CHMMR_SHIP, TRUE);

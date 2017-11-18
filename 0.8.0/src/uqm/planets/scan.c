@@ -619,7 +619,7 @@ DispatchLander (void)
 	// Deactivate planet rotation callback
 	oldCallback = SetInputCallback (NULL);
 
-	if (!optGodMode)
+	if (!optInfiniteFuel)
 		DeltaSISGauges (0, -landingFuel, 0);
 
 	SetContext (ScanContext);

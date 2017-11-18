@@ -243,7 +243,7 @@ ZapToUrquanEncounter (void)
 		dx = (SIZE)square_root ((long)dx * dx + (long)dy * dy)
 				+ (FUEL_TANK_SCALE >> 1);
 
-		if (!optGodMode)
+		if (!optInfiniteFuel)
 			DeltaSISGauges (0, -dx, 0);
 
 		if (GLOBAL_SIS (FuelOnBoard) < 5 * FUEL_TANK_SCALE)

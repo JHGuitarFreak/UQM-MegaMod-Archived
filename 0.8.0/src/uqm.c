@@ -148,6 +148,8 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, texturedPlanets);
 	// Nic
 	DECL_CONFIG_OPTION(int, optDateFormat);
+	// Serosis
+	DECL_CONFIG_OPTION(bool, infiniteFuel);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -300,6 +302,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  texturedPlanets,	false),
 		// Nic
 		INIT_CONFIG_OPTION(  optDateFormat,		0),
+		INIT_CONFIG_OPTION(  infiniteFuel,		false),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -446,6 +449,8 @@ main (int argc, char *argv[])
  	optCheatMode = options.cheatMode.value;
 	// Nic
 	optDateFormat = options.optDateFormat.value;
+	// Serosis	
+	optInfiniteFuel = options.infiniteFuel.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -753,6 +758,8 @@ getUserConfigOptions (struct options_struct *options)
 	if (res_IsInteger ("config.dateFormat") && !options->optDateFormat.set) {
 		options->optDateFormat.value = res_GetInteger ("config.dateFormat");
 	}
+	// Serosis	
+	getBoolConfigValue (&options->infiniteFuel, "config.infiniteFuel");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -807,6 +814,7 @@ enum
 	ORBITS_OPT,
 	TEXTPLAN_OPT,
 	DATE_OPT,
+	INFFUEL_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -869,6 +877,7 @@ static struct option longOptions[] =
 	{"orbitingplanets", 0, NULL, ORBITS_OPT},
 	{"texturedplanets", 0, NULL, TEXTPLAN_OPT},
 	{"dateformat", 0, NULL, DATE_OPT},
+	{"infinitefuel", 0, NULL, TEXTPLAN_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1192,6 +1201,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				}
 				break;
 			}
+			case INFFUEL_OPT:
+				setBoolOption (&options->infiniteFuel, true);
+				break;
 			case ADDON_OPT:
 				options->numAddons++;
 				options->addons = HRealloc ((void *) options->addons,
