@@ -1881,6 +1881,8 @@ StarMap (void)
 	transition_pending = TRUE;
 	if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
 		UpdateMap ();
+	
+	DrawSubmenuStarmapKeys (TRUE);
 
 	DrawStarMap (0, (RECT*)-1);
 	transition_pending = FALSE;
@@ -1904,6 +1906,8 @@ StarMap (void)
 	DrawHyperCoords (universe);
 	DrawSISMessage (NULL);
 	DrawStatusMessage (NULL);
+
+	DrawSubmenuStarmapKeys (FALSE);
 
 	if (GLOBAL (autopilot.x) == universe.x
 			&& GLOBAL (autopilot.y) == universe.y)
