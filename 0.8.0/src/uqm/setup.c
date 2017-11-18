@@ -62,6 +62,8 @@ FONT TinyFont;
 QUEUE race_q[NUM_PLAYERS];
 FRAME ActivityFrame;
 FRAME StatusFrame;
+FRAME SubmenuStarmapKeysFrame;
+FRAME ConstellationsFrame; // JMS
 FRAME NebulaeFrame; // JMS
 FRAME FlagStatFrame;
 FRAME MiscDataFrame;
@@ -249,6 +251,16 @@ InitKernel (void)
 		if (NebulaeFrame == NULL)
 			return FALSE;
 	}
+		
+	// JMS: Constellation lines for the constellation starmap.
+	ConstellationsFrame = CaptureDrawable (LoadGraphic (CONSTELLATIONS_MASK_PMAP_ANIM));
+	if (ConstellationsFrame == NULL)
+		return FALSE;
+		
+	// JMS: This is a table of mineral values that will be shown on the status bar.
+	SubmenuStarmapKeysFrame = CaptureDrawable (LoadGraphic (SUBMENUSTARMAPKEYS_MASK_PMAP_ANIM));
+	if (SubmenuStarmapKeysFrame == NULL)
+		return FALSE;
 
 	GameStrings = CaptureStringTable (LoadStringTable (STARCON_GAME_STRINGS));
 	if (GameStrings == 0)
