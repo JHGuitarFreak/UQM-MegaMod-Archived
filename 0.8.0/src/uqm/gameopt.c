@@ -1132,13 +1132,17 @@ DoPickGame (MENU_STATE *pMS)
 		pSD = &pickState->summary[pMS->CurState];
 		if (pickState->saving || pSD->year_index)
 		{	// valid slot
+			DWORD LoadFuelScaled = loadFuel / FUEL_TANK_SCALE;
+			DWORD TankCapacityScaled = GetFuelTankCapacity() / FUEL_TANK_SCALE;
+
 			if(optInfiniteRU)
 				GLOBAL_SIS (ResUnits) = oldRU;
 
 			if(optInfiniteFuel){
 				if(loadFuel <= GetFuelTankCapacity())
 					GLOBAL_SIS (FuelOnBoard) = loadFuel;
-				else					
+				else
+					GLOBAL_SIS (ResUnits) += (LoadFuelScaled - TankCapacityScaled) * GLOBAL (FuelCost);
 					GLOBAL_SIS (FuelOnBoard) = GetFuelTankCapacity();
 			}
 
