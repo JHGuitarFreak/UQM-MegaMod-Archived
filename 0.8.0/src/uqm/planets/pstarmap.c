@@ -1310,7 +1310,7 @@ DoMoveCursor (MENU_STATE *pMS)
 		// printf("Fuel Available: %d | Fuel Requirement: %d\n", GLOBAL_SIS (FuelOnBoard), FuelRequired());
 
 		if (optBubbleWarp) {
-			if (GLOBAL_SIS (FuelOnBoard) >= FuelRequired()){
+			if (GLOBAL_SIS (FuelOnBoard) >= FuelRequired() || optInfiniteFuel){
 				GLOBAL (autopilot) = cursorLoc;
 				PlayMenuSound (MENU_SOUND_BUBBLEWARP);
 				if (inHQSpace ()) {
@@ -1322,7 +1322,7 @@ DoMoveCursor (MENU_STATE *pMS)
 					// Set a hook to move to the new location:
 					debugHook = doInstantMove;
 				}
-				if(!optGodMode)
+				if(!optInfiniteFuel)
 					DeltaSISGauges (0, -FuelRequired(), 0);
 				
 				return FALSE;

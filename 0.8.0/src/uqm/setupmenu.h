@@ -91,11 +91,11 @@ typedef struct globalopts_struct {
 	OPT_DRIVERTYPE driver;
 	OPT_ADRIVERTYPE adriver;
 	OPT_AQUALITYTYPE aquality;
-	OPT_TDTYPE tdType;
-	OPT_DATETYPE dateType;
+	OPT_TDTYPE tdType; // Serosis
+	OPT_DATETYPE dateType; //
 	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo, music3do, musicremix, speech, keepaspect,
 		cheatMode, godMode, bubbleWarp, unlockShips, headStart, unlockUpgrades, infiniteRU, skipIntro, FMV, // Serosis: except for cheatMode = JMS
-		mainMenuMusic, nebulae, orbitingPlanets, texturedPlanets; // JMS
+		mainMenuMusic, nebulae, orbitingPlanets, texturedPlanets, infiniteFuel; // JMS: Except for infiniteFuel = Serosis
 	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, meleezoom, shield;
 	CONTROL_TEMPLATE player1, player2;
 	int speechvol, musicvol, sfxvol;

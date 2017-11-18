@@ -348,10 +348,10 @@ GetEncounterStarShip (STARSHIP *LastStarShipPtr, COUNT which_player)
 				}
 				else
 				{	// Player ran away
-					if (GLOBAL_SIS (FuelOnBoard) > RUN_AWAY_FUEL_COST && !optGodMode)
+					if (GLOBAL_SIS (FuelOnBoard) > RUN_AWAY_FUEL_COST && !optInfiniteFuel)
 						GLOBAL_SIS (FuelOnBoard) -= RUN_AWAY_FUEL_COST;
 					else
-						GLOBAL_SIS (FuelOnBoard) = (optGodMode ? GLOBAL_SIS (FuelOnBoard) : 0);
+						GLOBAL_SIS (FuelOnBoard) = (optInfiniteFuel ? GLOBAL_SIS (FuelOnBoard) : 0);
 				}
 			}
 			return 0;

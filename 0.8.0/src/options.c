@@ -71,6 +71,9 @@ BOOLEAN optOrbitingPlanets;
 BOOLEAN optTexturedPlanets;
 // Nic
 int optDateFormat;
+// Serosis
+BOOLEAN optInfiniteFuel;
+DWORD loadFuel;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

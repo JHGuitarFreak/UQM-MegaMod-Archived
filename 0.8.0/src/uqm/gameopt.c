@@ -1132,9 +1132,16 @@ DoPickGame (MENU_STATE *pMS)
 		pSD = &pickState->summary[pMS->CurState];
 		if (pickState->saving || pSD->year_index)
 		{	// valid slot
-			if(optInfiniteRU){
+			if(optInfiniteRU)
 				GLOBAL_SIS (ResUnits) = oldRU;
+
+			if(optInfiniteFuel){
+				if(loadFuel <= GetFuelTankCapacity())
+					GLOBAL_SIS (FuelOnBoard) = loadFuel;
+				else					
+					GLOBAL_SIS (FuelOnBoard) = GetFuelTankCapacity();
 			}
+
 			PlayMenuSound (MENU_SOUND_SUCCESS);
 			pickState->success = TRUE;
 			return FALSE;

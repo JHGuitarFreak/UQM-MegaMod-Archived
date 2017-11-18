@@ -485,8 +485,12 @@ InitGameStructures (void)
 		SET_GAME_STATE (MOONBASE_DESTROYED, 1);
 	}
 
-	if(optInfiniteRU){
-		oldRU = 0;
+	if(optInfiniteRU)
+		oldRU = 0;	
+
+	if(optInfiniteFuel){ 
+		loadFuel = GlobData.SIS_state.FuelOnBoard;
+		GLOBAL_SIS (FuelOnBoard) = GetFuelTankCapacity();
 	}
 
 	InitQueue (&GLOBAL (built_ship_q),

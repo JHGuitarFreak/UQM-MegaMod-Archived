@@ -75,7 +75,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       39
+#define CHOICE_COUNT       40
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -96,11 +96,11 @@ static WIDGET_CONTROLENTRY controlentries[CONTROLENTRY_COUNT];
 typedef int (*HANDLER)(WIDGET *, int);
 
 static int choice_widths[CHOICE_COUNT] = {
-	3, 2, 3, 3, 2, 2, 2, 2, 2, 2, 
+	3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 
 	2, 2, 3, 2, 2, 3, 3, 2,	3, 3, 
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2, 3 };
+	2, 2, 2, 2, 3, 2 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -164,6 +164,7 @@ static WIDGET *cheat_widgets[] = {
 	(WIDGET *)(&choices[29]),	// Head Start
 	(WIDGET *)(&choices[30]),	// Unlock Upgrades
 	(WIDGET *)(&choices[31]),	// Infinite RU
+	(WIDGET *)(&choices[39]),	// Infinite Fuel
 	(WIDGET *)(&buttons[1]),	// Exit to Menu
 	NULL };
 	
@@ -452,6 +453,7 @@ SetDefaults (void)
 	choices[37].selected = opts.texturedPlanets;
 	// Nic
 	choices[38].selected = opts.dateType;
+	choices[39].selected = opts.infiniteFuel; // Serosis
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -505,6 +507,8 @@ PropagateResults (void)
 	opts.texturedPlanets = choices[37].selected;
 	// Nic
 	opts.dateType = choices[38].selected;
+	// Serosis
+	opts.infiniteFuel = choices[39].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -524,7 +528,7 @@ DoSetupMenu (SETUP_MENU_STATE *pInputState)
 		SetDefaultMenuRepeatDelay ();
 		pInputState->NextTime = GetTimeCounter ();
 		SetDefaults ();
-		Widget_SetFont (StarConFont);
+		Widget_SetFont (TinyFont); // Was StarconFont: Switched for better readability
 		Widget_SetWindowColors (SHADOWBOX_BACKGROUND_COLOR,
 				SHADOWBOX_DARK_COLOR, SHADOWBOX_MEDIUM_COLOR);
 
@@ -1467,9 +1471,10 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->nebulae = optNebulae ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->orbitingPlanets = optOrbitingPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->texturedPlanets = optTexturedPlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	// Nic
 	opts->dateType = res_GetInteger ("config.dateFormat");
+	// Serosis
+	opts->infiniteFuel = optInfiniteFuel ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 }
 
 void
@@ -1608,7 +1613,11 @@ SetGlobalOptions (GLOBALOPTS *opts)
 			optDateFormat=0;
 		break;
 	}
-	res_PutInteger ("config.dateFormat", opts->dateType);
+	res_PutInteger ("config.dateFormat", opts->dateType);	
+	
+	// Serosis: Infinite Fuel
+	res_PutBoolean ("config.infiniteFuel", opts->infiniteFuel == OPTVAL_ENABLED);
+	optInfiniteFuel = opts->infiniteFuel == OPTVAL_ENABLED;	
 
 	switch (opts->scaler) {
 	case OPTVAL_BILINEAR_SCALE:
