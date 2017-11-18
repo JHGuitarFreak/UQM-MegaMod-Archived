@@ -1527,7 +1527,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutBoolean ("config.usegl", NewDriver == TFB_GFXDRIVER_SDL_OPENGL);	
 
 	// JMS: Cheat Mode: Kohr-Ah move at zero speed when trying to cleanse the galaxy
-	res_PutBoolean ("config.cheatMode", opts->cheatMode == OPTVAL_ENABLED);
+	res_PutBoolean ("config.kohrStahp", opts->cheatMode == OPTVAL_ENABLED);
 	optCheatMode = opts->cheatMode == OPTVAL_ENABLED;
 
 	// Serosis: God Mode: Health and Energy does not deplete in battle.
