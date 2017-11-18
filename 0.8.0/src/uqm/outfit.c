@@ -253,12 +253,7 @@ DoInstallModule (MENU_STATE *pMS)
 				{	// not enough RUs to build
 					PlayMenuSound (MENU_SOUND_FAILURE);
 					return (TRUE);
-				}				
-			
-				if (new_slot_piece == FUEL_TANK && optInfiniteFuel)
-						DeltaSISGauges(0,FUEL_TANK_CAPACITY,0);
-				if (new_slot_piece == HIGHEFF_FUELSYS && optInfiniteFuel)
-						DeltaSISGauges(0,HEFUEL_TANK_CAPACITY,0);
+				}
 			}
 			else if (new_slot_piece == EMPTY_SLOT + 2)
 			{
@@ -546,7 +541,10 @@ InitFlash:
 			else
 				SetFlashRect (&pMS->flash_rect0);
 		}
-	}
+	}	
+
+	if(optInfiniteFuel)
+		DeltaSISGauges(0,GetFuelTankCapacity(),0);
 
 	return (TRUE);
 }
