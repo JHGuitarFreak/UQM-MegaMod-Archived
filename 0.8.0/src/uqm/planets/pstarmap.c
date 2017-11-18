@@ -285,21 +285,22 @@ DrawFuelCircles ()
 	long diameter_no_return;
 	POINT corner;
 	Color OldColor;
+	DWORD OnBoardFuel = !optInfiniteFuel ? GLOBAL_SIS (FuelOnBoard) : 0;
 
-	diameter = (long) GLOBAL_SIS (FuelOnBoard) << 1;
+	diameter = OnBoardFuel << 1;
 
 	/* Terribly ugly hack to keep this from being assigned
 	 * a negative value, and also to make sure the inner circle
 	 * is not drawn if we don't have enough fuel to get to Sol at
 	 * all.
 	 */
-	if ((((long)GLOBAL_SIS (FuelOnBoard)) - (long)get_fuel_to_sol() < 0) ||
-		(get_fuel_to_sol () > GLOBAL_SIS (FuelOnBoard)))
+	if (((OnBoardFuel) - (long)get_fuel_to_sol() < 0) ||
+		(get_fuel_to_sol () > OnBoardFuel))
 	{
 		diameter_no_return = 0;
 	} else
 	{
-		diameter_no_return = GLOBAL_SIS (FuelOnBoard) - get_fuel_to_sol();
+		diameter_no_return = OnBoardFuel - get_fuel_to_sol();
 	}
 
 	if (LOBYTE (GLOBAL (CurrentActivity)) != IN_HYPERSPACE)
