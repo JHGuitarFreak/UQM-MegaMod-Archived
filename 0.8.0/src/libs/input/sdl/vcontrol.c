@@ -184,10 +184,12 @@ static void
 key_init (void)
 {
 	unsigned int i;
+	int signed_num_sdl_keys; // JMS: New variable to silence warnings
 	int num_keys; // Temp to match type of param for SDL_GetKeyState().
+
 	pool = allocate_key_chunk ();
-	(void)SDL_GetKeyState (&num_keys);
-	num_sdl_keys = num_keys;
+	(void)SDL_GetKeyState (&signed_num_sdl_keys); // JMS: was num_sdl_keys
+	num_sdl_keys = (unsigned int) signed_num_sdl_keys; // JMS: new line
 	bindings = (keybinding **) HMalloc (sizeof (keybinding *) * num_sdl_keys);
 	for (i = 0; i < num_sdl_keys; i++)
 		bindings[i] = NULL;

@@ -75,6 +75,7 @@ static const char *menu_res_names[] = {
 	"editcancel",
 	"search",
 	"next",
+	"togglemap", // JMS: For showing SC1-era starmap.
 	NULL
 };
 
@@ -250,11 +251,13 @@ initJoystick (void)
 int 
 TFB_InitInput (int driver, int flags)
 {
+	int signed_num_keys; // JMS: New variable to silence warnings
 	(void)driver;
 	(void)flags;
 
 	SDL_EnableUNICODE(1);
-	(void)SDL_GetKeyState (&num_keys);
+	(void)SDL_GetKeyState (&signed_num_keys);
+	num_keys = (unsigned int) signed_num_keys;
 	kbdstate = (int *)HMalloc (sizeof (int) * (num_keys + 1));
 	
 
