@@ -1081,10 +1081,16 @@ DeltaSISGauges_fuelDelta (SIZE fuel_delta)
 	if (new_coarse_fuel != old_coarse_fuel)
 	{
 		TEXT t;
-		UNICODE buf[60];
+		// buf from [60] to [4]: The max fuel anyone can ever get is 1610
+		// I.E. only 4 characters, we don't need that much extra padding.
+		UNICODE buf[4];
 		RECT r;
 
-		snprintf (buf, sizeof buf, "%u", new_coarse_fuel);
+		if(!optInfiniteFuel)
+			snprintf (buf, sizeof buf, "%u", new_coarse_fuel);
+		else
+			snprintf (buf, sizeof buf, "%s", STR_INFINITY_SIGN);
+
 
 		GetGaugeRect (&r, FALSE);
 		
