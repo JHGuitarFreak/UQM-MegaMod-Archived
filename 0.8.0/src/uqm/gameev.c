@@ -712,7 +712,7 @@ spathi_shield_event (int arg)
 static int
 advance_ilwrath_mission (int arg)
 {
-	COUNT MaddLength = 128;
+	COUNT MaddLength = 5; // 128
 	SIZE strength_loss;
 	BYTE ThraddState = GET_GAME_STATE (THRADD_MISSION);
 	HFLEETINFO	hIlwrath = GetStarShipFromIndex (&GLOBAL (avail_race_q), ILWRATH_SHIP),
@@ -723,13 +723,13 @@ advance_ilwrath_mission (int arg)
 	if (IlwrathPtr->loc.x == ((2500 + 2535) >> 1) && IlwrathPtr->loc.y == ((8070 + 8358) >> 1)) {
 		IlwrathPtr->actual_strength = 0;
 		IlwrathPtr->allied_state = DEAD_GUY;	
-		if(ThraddPtr->allied_state != GOOD_GUY){
+		if(ThraddPtr->allied_state != GOOD_GUY || !optThraddStory){
 			ThraddPtr->actual_strength = 0;
 			ThraddPtr->allied_state = DEAD_GUY;
 		}
 	} else if (IlwrathPtr->actual_strength) {
 		if (!GET_GAME_STATE (ILWRATH_FIGHT_THRADDASH) && (IlwrathPtr->dest_loc.x != 2500 || IlwrathPtr->dest_loc.y != 8070)) {
-			SetRaceDest (ILWRATH_SHIP, 2500, 8070, 90, ADVANCE_ILWRATH_MISSION); //90
+			SetRaceDest (ILWRATH_SHIP, 2500, 8070, 5, ADVANCE_ILWRATH_MISSION); //90
 		} else {
 			if (IlwrathPtr->days_left == 0) {	/* arrived for battle */
 				SET_GAME_STATE (ILWRATH_FIGHT_THRADDASH, 1);
@@ -739,7 +739,7 @@ advance_ilwrath_mission (int arg)
 				IlwrathPtr->growth_fract = (BYTE)(((strength_loss % MaddLength) << 8) / MaddLength);
 				SetRaceDest (ILWRATH_SHIP, 2517, 8214, MaddLength - 1, ADVANCE_ILWRATH_MISSION);
 
-				if (ThraddPtr->allied_state == GOOD_GUY){
+				if (ThraddPtr->allied_state == GOOD_GUY && optThraddStory){
 					strength_loss = (SIZE)(ThraddPtr->actual_strength * 0.25); // Smarterer math
 					ThraddPtr->growth = (BYTE)(-strength_loss / MaddLength);
 					ThraddPtr->growth_fract = (BYTE)(((strength_loss % MaddLength) << 8) / MaddLength);
@@ -760,7 +760,7 @@ advance_ilwrath_mission (int arg)
 			}
 		}
 	}
-	if(ThraddPtr->allied_state == GOOD_GUY && !IlwrathPtr->actual_strength){		
+	if(ThraddPtr->allied_state == GOOD_GUY && !IlwrathPtr->actual_strength && optThraddStory){		
 		ThraddPtr->growth = 0;
 		ThraddPtr->growth_fract = 0;
 		SET_GAME_STATE (ILWRATH_FIGHT_THRADDASH, 0);		
