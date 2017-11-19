@@ -19,7 +19,7 @@
 #include "../commall.h"
 #include "resinst.h"
 #include "strings.h"
-
+#include "../../../options.h"
 #include "uqm/lua/luacomm.h"
 #include "uqm/build.h"
 #include "uqm/gameev.h"
@@ -700,7 +700,7 @@ Intro (void)
 		return;
 	}
 
-	if (GET_GAME_STATE (AQUA_HELIX) && ThraddPtr->allied_state != GOOD_GUY)
+	if (GET_GAME_STATE (AQUA_HELIX) && (ThraddPtr->allied_state != GOOD_GUY || !optThraddStory))
 	{
 		NumVisits = GET_GAME_STATE (HELIX_VISITS);
 		switch (NumVisits++)

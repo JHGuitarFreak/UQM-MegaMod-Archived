@@ -29,6 +29,7 @@
 #include "../../setup.h"
 #include "../../state.h"
 #include "libs/mathlib.h"
+#include "../../../options.h"
 
 
 static bool GenerateThraddash_generatePlanets (SOLARSYS_STATE *solarSys);
@@ -216,7 +217,7 @@ GenerateThraddash_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 		SET_GAME_STATE (AQUA_HELIX, 1);
 		SET_GAME_STATE (AQUA_HELIX_ON_SHIP, 1);
 		SET_GAME_STATE (HELIX_UNPROTECTED, 1);
-		if (GET_GAME_STATE (ILWRATH_FIGHT_THRADDASH)){
+		if (GET_GAME_STATE (ILWRATH_FIGHT_THRADDASH) && optThraddStory){
 			SetRaceAllied (THRADDASH_SHIP, FALSE);
 			RemoveEscortShips (THRADDASH_SHIP);
 			strength_loss = (SIZE)(ThraddPtr->actual_strength);
