@@ -74,6 +74,7 @@ int optDateFormat;
 // Serosis
 BOOLEAN optInfiniteFuel;
 DWORD loadFuel;
+BOOLEAN optThraddStory;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;
