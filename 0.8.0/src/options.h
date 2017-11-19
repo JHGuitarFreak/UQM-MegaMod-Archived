@@ -65,6 +65,7 @@ extern int optDateFormat;
 // Serosis
 extern BOOLEAN optInfiniteFuel;
 extern DWORD loadFuel;
+extern BOOLEAN optThraddStory;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

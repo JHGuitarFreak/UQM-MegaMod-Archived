@@ -150,6 +150,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(int, optDateFormat);
 	// Serosis
 	DECL_CONFIG_OPTION(bool, infiniteFuel);
+	DECL_CONFIG_OPTION(bool, thraddStory);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -303,6 +304,7 @@ main (int argc, char *argv[])
 		// Nic
 		INIT_CONFIG_OPTION(  optDateFormat,		0),
 		INIT_CONFIG_OPTION(  infiniteFuel,		false),
+		INIT_CONFIG_OPTION(  thraddStory,		false),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -451,6 +453,7 @@ main (int argc, char *argv[])
 	optDateFormat = options.optDateFormat.value;
 	// Serosis	
 	optInfiniteFuel = options.infiniteFuel.value;
+	optThraddStory = options.thraddStory.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -760,6 +763,7 @@ getUserConfigOptions (struct options_struct *options)
 	}
 	// Serosis	
 	getBoolConfigValue (&options->infiniteFuel, "config.infiniteFuel");
+	getBoolConfigValue (&options->thraddStory, "config.thraddStory");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -815,6 +819,7 @@ enum
 	TEXTPLAN_OPT,
 	DATE_OPT,
 	INFFUEL_OPT,
+	THRADD_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -877,7 +882,8 @@ static struct option longOptions[] =
 	{"orbitingplanets", 0, NULL, ORBITS_OPT},
 	{"texturedplanets", 0, NULL, TEXTPLAN_OPT},
 	{"dateformat", 0, NULL, DATE_OPT},
-	{"infinitefuel", 0, NULL, TEXTPLAN_OPT},
+	{"infinitefuel", 0, NULL, INFFUEL_OPT},
+	{"thraddstory", 0, NULL, THRADD_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1203,6 +1209,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			}
 			case INFFUEL_OPT:
 				setBoolOption (&options->infiniteFuel, true);
+				break;
+			case THRADD_OPT:
+				setBoolOption (&options->thraddStory, true);
 				break;
 			case ADDON_OPT:
 				options->numAddons++;

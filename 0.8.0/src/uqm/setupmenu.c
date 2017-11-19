@@ -75,7 +75,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       40
+#define CHOICE_COUNT       41
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -100,7 +100,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	2, 2, 3, 2, 2, 3, 3, 2,	3, 3, 
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2, 3, 2 };
+	2, 2, 2, 2, 3, 2, 2 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -188,6 +188,7 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[37]),	// JMS: texturedPlanets on/off
 	(WIDGET *)(&choices[32]),	// Skip Intro
 	(WIDGET *)(&choices[38]),	// Nic: Switch date formats
+	(WIDGET *)(&choices[40]),	// Serosis: Thraddash Story switch
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -453,7 +454,9 @@ SetDefaults (void)
 	choices[37].selected = opts.texturedPlanets;
 	// Nic
 	choices[38].selected = opts.dateType;
-	choices[39].selected = opts.infiniteFuel; // Serosis
+	 // Serosis
+	choices[39].selected = opts.infiniteFuel;
+	choices[40].selected = opts.thraddStory;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -509,6 +512,7 @@ PropagateResults (void)
 	opts.dateType = choices[38].selected;
 	// Serosis
 	opts.infiniteFuel = choices[39].selected;
+	opts.thraddStory = choices[40].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1475,6 +1479,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->dateType = res_GetInteger ("config.dateFormat");
 	// Serosis
 	opts->infiniteFuel = optInfiniteFuel ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->thraddStory = optThraddStory ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 }
 
 void
@@ -1618,6 +1623,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Infinite Fuel
 	res_PutBoolean ("config.infiniteFuel", opts->infiniteFuel == OPTVAL_ENABLED);
 	optInfiniteFuel = opts->infiniteFuel == OPTVAL_ENABLED;	
+	
+	// JMS: Textured or plain(==vanilla UQM style) planets in IP.
+	res_PutBoolean ("config.thraddStory", opts->thraddStory == OPTVAL_ENABLED);
+	optThraddStory = opts->thraddStory == OPTVAL_ENABLED;	
 
 	switch (opts->scaler) {
 	case OPTVAL_BILINEAR_SCALE:
