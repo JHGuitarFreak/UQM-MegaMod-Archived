@@ -75,7 +75,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       42
+#define CHOICE_COUNT       43
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -100,7 +100,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	2, 2, 3, 2, 2, 3, 3, 2,	3, 3, 
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2, 3, 2, 2, 2 };
+	2, 2, 2, 2, 3, 2, 2, 2, 2 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -121,6 +121,9 @@ static WIDGET *main_widgets[] = {
 
 static WIDGET *graphics_widgets[] = {
 	(WIDGET *)(&choices[0]),	// Resolution
+#ifdef HAVE_OPENGL
+	(WIDGET *)(&choices[1]),	// Use Framebuffer
+#endif
 	(WIDGET *)(&choices[23]),	// Aspect Ratio
 	(WIDGET *)(&choices[10]),	// Display
 	(WIDGET *)(&sliders[3]),	// Gamma Correction
@@ -178,9 +181,6 @@ static WIDGET *keyconfig_widgets[] = {
 	NULL };
 
 static WIDGET *advanced_widgets[] = {
-#ifdef HAVE_OPENGL
-	(WIDGET *)(&choices[1]),	// Use Framebuffer
-#endif
 	(WIDGET *)(&choices[12]),	// Show FPS
 	(WIDGET *)(&choices[15]),	// Sound Driver
 	(WIDGET *)(&choices[16]),	// Sound Quality
@@ -190,6 +190,7 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[38]),	// Nic: Switch date formats
 	(WIDGET *)(&choices[40]),	// Serosis: Thraddash Story switch
 	(WIDGET *)(&choices[41]),	// Serosis: Partial Pickup switch
+	(WIDGET *)(&choices[42]),	// Serosis: Submenu switch
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -459,6 +460,7 @@ SetDefaults (void)
 	choices[39].selected = opts.infiniteFuel;
 	choices[40].selected = opts.thraddStory;
 	choices[41].selected = opts.partialPickup;
+	choices[42].selected = opts.submenu;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -516,6 +518,7 @@ PropagateResults (void)
 	opts.infiniteFuel = choices[39].selected;
 	opts.thraddStory = choices[40].selected;
 	opts.partialPickup = choices[41].selected;
+	opts.submenu = choices[42].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1484,6 +1487,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->infiniteFuel = optInfiniteFuel ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->thraddStory = optThraddStory ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->partialPickup = optPartialPickup ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->submenu = optSubmenu ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 }
 
 void
@@ -1630,11 +1634,15 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	
 	// Serosis: Optionalized the alt Thraddash story
 	res_PutBoolean ("config.thraddStory", opts->thraddStory == OPTVAL_ENABLED);
-	optThraddStory = opts->thraddStory == OPTVAL_ENABLED;	
+	optThraddStory = opts->thraddStory == OPTVAL_ENABLED;
 	
 	// Serosis: Partial mineral pickup when enabled.
 	res_PutBoolean ("config.partialPickup", opts->partialPickup == OPTVAL_ENABLED);
-	optPartialPickup = opts->partialPickup == OPTVAL_ENABLED;	
+	optPartialPickup = opts->partialPickup == OPTVAL_ENABLED;
+	
+	// Serosis: Show submenu
+	res_PutBoolean ("config.submenu", opts->submenu == OPTVAL_ENABLED);
+	optSubmenu = opts->submenu == OPTVAL_ENABLED;
 
 	switch (opts->scaler) {
 	case OPTVAL_BILINEAR_SCALE:

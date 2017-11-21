@@ -33,7 +33,7 @@ extern RESOURCE_INDEX hResIndex;
 extern FRAME Screen;
 extern FRAME ActivityFrame;
 extern FRAME StatusFrame;
-extern FRAME SubmenuStarmapKeysFrame; // JMS
+extern FRAME SubmenuFrame; // JMS
 extern FRAME ConstellationsFrame; // JMS
 extern FRAME NebulaeFrame;	// JMS
 extern FRAME FlagStatFrame;

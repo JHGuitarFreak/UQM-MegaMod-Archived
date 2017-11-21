@@ -601,3 +601,31 @@ DrawMenuStateStrings (BYTE beg_index, SWORD NewState)
 	PostUpdateFlashRect ();
 }
 
+void
+DrawSubmenu (BYTE Visible)
+{
+	STAMP s;
+	CONTEXT OldContext;
+	
+	OldContext = SetContext (ScreenContext);
+
+	s.origin.x = 0;
+	s.origin.y = 0;
+
+	switch (Visible){
+		case 1: 
+			s.frame = SetAbsFrameIndex (SubmenuFrame, 1);
+			break;
+		case 2:
+			s.frame = SetAbsFrameIndex (SubmenuFrame, 2);
+			break;
+		case 0:
+		default:
+			s.frame = SetAbsFrameIndex (SubmenuFrame, 0);
+	}
+
+	DrawStamp (&s);
+	
+	SetContext (OldContext);
+}
+

@@ -123,6 +123,7 @@ enum
 
 extern BOOLEAN DoMenuChooser (MENU_STATE *pMS, BYTE BaseState);
 extern void DrawMenuStateStrings (BYTE beg_index, SWORD NewState);
+extern void DrawSubmenu (BYTE Visible);
 
 #if defined(__cplusplus)
 }

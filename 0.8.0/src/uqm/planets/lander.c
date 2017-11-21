@@ -35,6 +35,7 @@
 #include "libs/mathlib.h"
 #include "libs/log.h"
 #include "options.h"
+#include "uqm/menustat.h"
 
 //define SPIN_ON_LAUNCH to let the planet spin while
 // the lander animation is playing
@@ -450,8 +451,12 @@ DeltaLanderCrew (SIZE crew_delta, COUNT which_disaster)
 		shieldHit &= 1 << which_disaster;
 		if (!shieldHit || TFB_Random () % 100 >= 95)
 		{	// No shield, or it did not help
-			if (!optGodMode){ shieldHit=0; --crew_left; }
-			else { shieldHit=1; }
+			if (!optGodMode) {
+				shieldHit = 0; 
+				--crew_left; 
+			}
+			else 
+				shieldHit = 1; 
 		}
 
 		damage_index = DAMAGE_CYCLE;
@@ -1831,6 +1836,11 @@ ReturnToOrbit (void)
 
 	SetTransitionSource (&r);
 	BatchGraphics ();
+	
+	// JMS: This will hide the table of mineral values on the status bar.
+	if (optSubmenu)
+		DrawSubmenu (0);
+
 	DrawStarBackGround ();
 	DrawPlanetSurfaceBorder ();
 	RedrawSurfaceScan (NULL);
@@ -2031,6 +2041,10 @@ PlanetSide (POINT planetLoc)
 
 	AnimateLanderWarmup ();
 	AnimateLaunch (LanderFrame[5]);
+
+	if (optSubmenu)
+		DrawSubmenu (1);
+
 	InitPlanetSide (planetLoc);
 
 	landerInputState.NextTime = GetTimeCounter () + PLANET_SIDE_RATE;
