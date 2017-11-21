@@ -887,7 +887,7 @@ static struct option longOptions[] =
 	{"infiniteru", 0, NULL, INFINITERU_OPT},
 	{"skipintro", 0, NULL, SKIPINTRO_OPT},
 	{"fmv", 0, NULL, FMV_OPT},
-	{"mainMenuMusic", 0, NULL, MENUMUS_OPT},
+	{"mainmenumusic", 0, NULL, MENUMUS_OPT},
 	{"nebulae", 0, NULL, NEBU_OPT},
 	{"orbitingplanets", 0, NULL, ORBITS_OPT},
 	{"texturedplanets", 0, NULL, TEXTPLAN_OPT},
@@ -1211,7 +1211,7 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 					badArg = true;
 					break;
 				} else if (temp < 0 || temp > 3) {					
-					saveError ("\nDate Format has to be 0, 1, or 2.\n");
+					saveError ("\nDate Format has to be 0, 1, 2, or 3.\n");
 					badArg = true;
 				} else {
 					options->optDateFormat.value = temp;
@@ -1472,6 +1472,26 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->infiniteRU));
 	log_add (log_User, "  --skipintro : Skips the intro    (default %s)",
 			boolOptString (&defaults->skipIntro));
+	log_add (log_User, "  --fmv : Adds Logo and Commercial 3DO videos    (default %s)",
+			boolOptString (&defaults->FMV));
+	log_add (log_User, "  --mainmenumusic : Switches the main menu music on/off    (default %s)",
+			boolOptString (&defaults->mainMenuMusic));
+	log_add (log_User, "  --nebulae : Enables/Disables nebulae in star systems    (default %s)",
+			boolOptString (&defaults->nebulae));
+	log_add (log_User, "  --orbitingplanets : Enables/Disables orbiting planets in star systems    (default %s)",
+			boolOptString (&defaults->orbitingPlanets));
+	log_add (log_User, "  --texturedplanets : Enables/Disables textured planets in star systems    (default %s)",
+			boolOptString (&defaults->texturedPlanets));
+	log_add (log_User, "  --infinitefuel : Infinite fuel in the main game    (default %s)",
+			boolOptString (&defaults->infiniteFuel));
+	log_add (log_User, "  --thraddstory : Enables/Disables the Alt Thraddash Storyline    (default %s)",
+			boolOptString (&defaults->thraddStory));
+	log_add (log_User, "  --partialpickup : Enables/Disables partial mineral pickup    (default %s)",
+			boolOptString (&defaults->partialPickup));
+	log_add (log_User, "  --submenu : Enables/Disables mineral and star map keys submenu    (default %s)",
+			boolOptString (&defaults->submenu));
+	log_add (log_User, "  --dateformat : 0: MMM DD.YYYY | 1: MM.DD.YYYY"
+			"2: DD MMM.YYYY | 3: DD.MM.YYYY   (default 0)");
 	log_add (log_User, "  --fmv : Adds Logo and Commercial 3DO videos    (default %s)",
 			boolOptString (&defaults->FMV));
 	log_setOutput (old);
