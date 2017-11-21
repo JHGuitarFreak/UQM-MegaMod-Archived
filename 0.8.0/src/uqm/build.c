@@ -322,7 +322,7 @@ SetRaceAllied (RACE_ID race, BOOLEAN flag) {
  * flag == FALSE: Normal, not allowed to build ships if not allied.
  */
 BOOLEAN
-SetRaceAllowBuild (RACE_ID race, BOOLEAN flag) {
+SetRaceAllowBuild (RACE_ID race) {
 	HFLEETINFO hFleet;
 	FLEET_INFO *FleetPtr;
 
@@ -332,10 +332,7 @@ SetRaceAllowBuild (RACE_ID race, BOOLEAN flag) {
 
 	FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hFleet);
 
-	if (FleetPtr->allied_state == GOOD_GUY) {
-		/* Strange request, silently ignore it */
-		FleetPtr->allied_state = FleetPtr->allied_state;
-	} else {
+	if (FleetPtr->allied_state != GOOD_GUY) {
 		FleetPtr->allied_state = CAN_BUILD;
 	}
 
@@ -726,27 +723,27 @@ loadGameCheats (void){
 		loadFuel = 0;
 	}
 	if (optUnlockShips){
-		SetRaceAllowBuild (ARILOU_SHIP, TRUE);
-		SetRaceAllowBuild (CHMMR_SHIP, TRUE);
-		SetRaceAllowBuild (ORZ_SHIP, TRUE);
-		SetRaceAllowBuild (PKUNK_SHIP, TRUE);
-		SetRaceAllowBuild (SHOFIXTI_SHIP, TRUE);
-		SetRaceAllowBuild (SPATHI_SHIP, TRUE);
-		SetRaceAllowBuild (SUPOX_SHIP, TRUE);
-		SetRaceAllowBuild (THRADDASH_SHIP, TRUE);
-		SetRaceAllowBuild (UTWIG_SHIP, TRUE);
-		SetRaceAllowBuild (VUX_SHIP, TRUE);
-		SetRaceAllowBuild (YEHAT_SHIP, TRUE);
-		SetRaceAllowBuild (MELNORME_SHIP, TRUE);
-		SetRaceAllowBuild (DRUUGE_SHIP, TRUE);
-		SetRaceAllowBuild (ILWRATH_SHIP, TRUE);
-		SetRaceAllowBuild (MYCON_SHIP, TRUE);
-		SetRaceAllowBuild (SLYLANDRO_SHIP, TRUE);
-		SetRaceAllowBuild (UMGAH_SHIP, TRUE);
-		SetRaceAllowBuild (URQUAN_SHIP, TRUE);
-		SetRaceAllowBuild (ZOQFOTPIK_SHIP, TRUE);
-		SetRaceAllowBuild (SYREEN_SHIP, TRUE);
-		SetRaceAllowBuild (BLACK_URQUAN_SHIP, TRUE);
+		SetRaceAllowBuild (ARILOU_SHIP);
+		SetRaceAllowBuild (CHMMR_SHIP);
+		SetRaceAllowBuild (ORZ_SHIP);
+		SetRaceAllowBuild (PKUNK_SHIP);
+		SetRaceAllowBuild (SHOFIXTI_SHIP);
+		SetRaceAllowBuild (SPATHI_SHIP);
+		SetRaceAllowBuild (SUPOX_SHIP);
+		SetRaceAllowBuild (THRADDASH_SHIP);
+		SetRaceAllowBuild (UTWIG_SHIP);
+		SetRaceAllowBuild (VUX_SHIP);
+		SetRaceAllowBuild (YEHAT_SHIP);
+		SetRaceAllowBuild (MELNORME_SHIP);
+		SetRaceAllowBuild (DRUUGE_SHIP);
+		SetRaceAllowBuild (ILWRATH_SHIP);
+		SetRaceAllowBuild (MYCON_SHIP);
+		SetRaceAllowBuild (SLYLANDRO_SHIP);
+		SetRaceAllowBuild (UMGAH_SHIP);
+		SetRaceAllowBuild (URQUAN_SHIP);
+		SetRaceAllowBuild (ZOQFOTPIK_SHIP);
+		SetRaceAllowBuild (SYREEN_SHIP);
+		SetRaceAllowBuild (BLACK_URQUAN_SHIP);
 	}
 	if (optUnlockUpgrades){
 		SET_GAME_STATE (IMPROVED_LANDER_SPEED, 1);
