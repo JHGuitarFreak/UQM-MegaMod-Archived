@@ -1202,7 +1202,7 @@ AddEncounterElement (ENCOUNTER *EncounterPtr, POINT *puniverse)
 
 		ElementPtr->turn_wait = VORTEX_WAIT;
 		ElementPtr->preprocess_func = NULL;
-		ElementPtr->postprocess_func = decorate_vortex;
+		ElementPtr->postprocess_func = NULL; // decorate_vortex;
 		ElementPtr->collision_func = encounter_collision;
 
 		SetUpElement (ElementPtr);
