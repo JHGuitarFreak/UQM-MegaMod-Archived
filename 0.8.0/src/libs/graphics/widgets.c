@@ -178,7 +178,7 @@ Widget_DrawToolTips (int numlines, const char **tips)
 	r.corner.x = 2;
 	r.corner.y = 2;
 	r.extent.width = ScreenWidth - 4;
-	r.extent.height = ScreenHeight;
+	r.extent.height = ScreenHeight + 2;
 
 	t.align = ALIGN_CENTER;
 	t.CharCount = ~0;
