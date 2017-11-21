@@ -34,6 +34,11 @@ WIDGET *widget_focus = NULL;
 #define WIDGET_DIALOG_TEXT_COLOR \
 		BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x00), 0x00)
 
+#define WIDGET_ENABLED_COLOR \
+		BUILD_COLOR (MAKE_RGB15 (0x00, 0xC8, 0x00), 0x00)
+#define WIDGET_DISABLED_COLOR \
+		BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x0A), 0x00)
+
 static Color win_bg_clr =
 		BUILD_COLOR (MAKE_RGB15_INIT (0x18, 0x18, 0x1F), 0x00);
 static Color win_medium_clr =
@@ -269,7 +274,7 @@ Widget_DrawChoice (WIDGET *_self, int x, int y)
 {
 	WIDGET_CHOICE *self = (WIDGET_CHOICE *)_self;
 	Color oldtext;
-	Color inactive, default_color, selected;
+	Color default_color, selected, enabled, disabled;
 	FONT  oldfont = 0;
 	FRAME oldFontEffect = SetContextFontEffect (NULL);
 	TEXT t;
@@ -279,8 +284,9 @@ Widget_DrawChoice (WIDGET *_self, int x, int y)
 		oldfont = SetContextFont (cur_font);
 	
 	default_color = WIDGET_INACTIVE_SELECTED_COLOR;
+	enabled = WIDGET_ENABLED_COLOR;
+	disabled = WIDGET_DISABLED_COLOR;
 	selected = WIDGET_ACTIVE_COLOR;
-	inactive = WIDGET_INACTIVE_COLOR;
 
 	t.baseline.x = 2; // Was 'x'.
 	t.baseline.y = y;
@@ -314,11 +320,11 @@ Widget_DrawChoice (WIDGET *_self, int x, int y)
 		}
 		else if (i == self->selected)
 		{
-			SetContextForeGroundColor (default_color);
+			SetContextForeGroundColor (enabled);
 		}
 		else
 		{
-			SetContextForeGroundColor (inactive);
+			SetContextForeGroundColor (disabled);
 		}
 		font_DrawText (&t);
 	}
