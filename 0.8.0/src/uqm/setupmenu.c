@@ -111,8 +111,8 @@ static HANDLER button_handlers[BUTTON_COUNT] = {
  * them in before we touch them */
 static WIDGET *main_widgets[] = {
 	(WIDGET *)(&buttons[2]),	// Graphics
-	(WIDGET *)(&buttons[3]),	// PC/3DO Compat Options
 	(WIDGET *)(&buttons[4]),	// Sound
+	(WIDGET *)(&buttons[3]),	// PC/3DO Compat Options
 	(WIDGET *)(&buttons[5]),	// Cheats
 	(WIDGET *)(&buttons[6]),	// Controls
 	(WIDGET *)(&buttons[7]),	// Advanced
