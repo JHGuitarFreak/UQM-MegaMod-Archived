@@ -17,27 +17,26 @@
 #include "gfx_common.h"
 #include "widgets.h"
 #include "libs/strlib.h"
+#include "uqm/colors.h"
 
 WIDGET *widget_focus = NULL;
 
 /* Some basic color defines */
 #define WIDGET_ACTIVE_COLOR \
-		BUILD_COLOR (MAKE_RGB15 (0x1F, 0x1F, 0x00), 0x0E)
+		MENU_HIGHLIGHT_COLOR
 #define WIDGET_INACTIVE_COLOR \
 		BUILD_COLOR (MAKE_RGB15 (0x18, 0x18, 0x1F), 0x00)
 #define WIDGET_INACTIVE_SELECTED_COLOR \
-		BUILD_COLOR (MAKE_RGB15 (0x1F, 0x1F, 0x1F), 0x0F)
+		WHITE_COLOR
 #define WIDGET_CURSOR_COLOR \
-		BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x00), 0x00)
+		BLACK_COLOR
 #define WIDGET_DIALOG_COLOR \
-		BUILD_COLOR (MAKE_RGB15 (0x14, 0x14, 0x14), 0x07)
+		LTGRAY_COLOR
 #define WIDGET_DIALOG_TEXT_COLOR \
-		BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x00), 0x00)
+		WIDGET_CURSOR_COLOR
 
 #define WIDGET_ENABLED_COLOR \
 		BUILD_COLOR (MAKE_RGB15 (0x00, 0xC8, 0x00), 0x00)
-#define WIDGET_DISABLED_COLOR \
-		BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x0A), 0x00)
 
 static Color win_bg_clr =
 		BUILD_COLOR (MAKE_RGB15_INIT (0x18, 0x18, 0x1F), 0x00);
@@ -173,7 +172,7 @@ Widget_DrawToolTips (int numlines, const char **tips)
 	RECT r;
 	FONT  oldfont = 0;
 	FRAME oldFontEffect = SetContextFontEffect (NULL);
-	Color oldtext = SetContextForeGroundColor (WIDGET_ACTIVE_COLOR);
+	Color oldtext = SetContextForeGroundColor (WIDGET_DIALOG_COLOR);
 	TEXT t;
 	int i;
 
@@ -183,7 +182,7 @@ Widget_DrawToolTips (int numlines, const char **tips)
 	r.corner.x = 2;
 	r.corner.y = 2;
 	r.extent.width = ScreenWidth - 4;
-	r.extent.height = ScreenHeight + 2;
+	r.extent.height = ScreenHeight + 2; // was '- 4'
 
 	t.align = ALIGN_CENTER;
 	t.CharCount = ~0;
@@ -285,7 +284,7 @@ Widget_DrawChoice (WIDGET *_self, int x, int y)
 	
 	default_color = WIDGET_INACTIVE_SELECTED_COLOR;
 	enabled = WIDGET_ENABLED_COLOR;
-	disabled = WIDGET_DISABLED_COLOR;
+	disabled = DKGRAY_COLOR;
 	selected = WIDGET_ACTIVE_COLOR;
 
 	t.baseline.x = 2; // Was 'x'.
