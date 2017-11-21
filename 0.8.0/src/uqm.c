@@ -152,6 +152,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, infiniteFuel);
 	DECL_CONFIG_OPTION(bool, thraddStory);
 	DECL_CONFIG_OPTION(bool, partialPickup);
+	DECL_CONFIG_OPTION(bool, submenu);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -307,6 +308,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  infiniteFuel,		false),
 		INIT_CONFIG_OPTION(  thraddStory,		false),
 		INIT_CONFIG_OPTION(  partialPickup,		false),
+		INIT_CONFIG_OPTION(  submenu,			true),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -457,6 +459,7 @@ main (int argc, char *argv[])
 	optInfiniteFuel = options.infiniteFuel.value;
 	optThraddStory = options.thraddStory.value;
 	optPartialPickup = options.partialPickup.value;
+	optSubmenu = options.submenu.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -768,6 +771,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->infiniteFuel, "config.infiniteFuel");
 	getBoolConfigValue (&options->thraddStory, "config.thraddStory");
 	getBoolConfigValue (&options->partialPickup, "config.partialPickup");
+	getBoolConfigValue (&options->submenu, "config.submenu");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -825,6 +829,7 @@ enum
 	INFFUEL_OPT,
 	THRADD_OPT,
 	PICKUP_OPT,
+	SUBMENU_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -890,6 +895,7 @@ static struct option longOptions[] =
 	{"infinitefuel", 0, NULL, INFFUEL_OPT},
 	{"thraddstory", 0, NULL, THRADD_OPT},
 	{"partialpickup", 0, NULL, PICKUP_OPT},
+	{"submenu", 0, NULL, SUBMENU_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1221,6 +1227,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				break;
 			case PICKUP_OPT:
 				setBoolOption (&options->partialPickup, true);
+				break;
+			case SUBMENU_OPT:
+				setBoolOption (&options->submenu, true);
 				break;
 			case ADDON_OPT:
 				options->numAddons++;

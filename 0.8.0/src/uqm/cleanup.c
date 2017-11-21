@@ -66,7 +66,7 @@ UninitKernel (void)
 	DestroyFont (MicroFont);
 	DestroyStringTable (ReleaseStringTable (GameStrings));
 	DestroyDrawable (ReleaseDrawable (StatusFrame));
-	DestroyDrawable (ReleaseDrawable (SubmenuStarmapKeysFrame)); // JMS
+	DestroyDrawable (ReleaseDrawable (SubmenuFrame)); // JMS
 	DestroyDrawable (ReleaseDrawable (ConstellationsFrame)); // JMS
 	DestroyDrawable (ReleaseDrawable (NebulaeFrame));	// JMS
 	DestroyDrawable (ReleaseDrawable (ActivityFrame));

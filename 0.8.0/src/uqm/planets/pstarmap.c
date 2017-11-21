@@ -1821,28 +1821,6 @@ DoneSphereGrowth:
 	}
 }
 
-
-static void
-DrawSubmenuStarmapKeys (bool menu_visible)
-{
-	STAMP s;
-	CONTEXT OldContext;
-	
-	OldContext = SetContext (ScreenContext);
-
-	s.origin.x = 0;
-	s.origin.y = 0;
-		
-	if (menu_visible)
-		s.frame = SetAbsFrameIndex (SubmenuStarmapKeysFrame, 1);
-	else
-		s.frame = SetAbsFrameIndex (SubmenuStarmapKeysFrame, 0);
-
-	DrawStamp (&s);
-	
-	SetContext (OldContext);
-}
-
 BOOLEAN
 StarMap (void)
 {
@@ -1882,7 +1860,8 @@ StarMap (void)
 	if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
 		UpdateMap ();
 	
-	DrawSubmenuStarmapKeys (TRUE);
+	if(optSubmenu)
+		DrawSubmenu (2);
 
 	DrawStarMap (0, (RECT*)-1);
 	transition_pending = FALSE;
@@ -1907,7 +1886,8 @@ StarMap (void)
 	DrawSISMessage (NULL);
 	DrawStatusMessage (NULL);
 
-	DrawSubmenuStarmapKeys (FALSE);
+	if (optSubmenu)
+		DrawSubmenu (0);
 
 	if (GLOBAL (autopilot.x) == universe.x
 			&& GLOBAL (autopilot.y) == universe.y)

@@ -295,7 +295,7 @@
 #define STARBASE_ANIM "graphics.starbase"
 #define STAR_MASK_PMAP_ANIM "graphics.stars"
 #define STATUS_MASK_PMAP_ANIM "graphics.status"
-#define SUBMENUSTARMAPKEYS_MASK_PMAP_ANIM "graphics.submenu.starmapkeys"
+#define SUBMENU_MASK_PMAP_ANIM "graphics.submenu"
 #define SUN_DEVICE_MASK_PMAP_ANIM "graphics.sundevice"
 #define SUN_MASK_PMAP_ANIM "graphics.truespacesun"
 #define TAALO_DEVICE_MASK_PMAP_ANIM "graphics.taalodevice"

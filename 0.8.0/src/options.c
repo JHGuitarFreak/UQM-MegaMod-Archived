@@ -76,6 +76,7 @@ BOOLEAN optInfiniteFuel;
 DWORD loadFuel;
 BOOLEAN optThraddStory;
 BOOLEAN optPartialPickup;
+BOOLEAN optSubmenu;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;
