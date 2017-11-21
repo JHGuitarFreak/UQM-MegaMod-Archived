@@ -535,7 +535,7 @@ DoSetupMenu (SETUP_MENU_STATE *pInputState)
 		SetDefaultMenuRepeatDelay ();
 		pInputState->NextTime = GetTimeCounter ();
 		SetDefaults ();
-		Widget_SetFont (TinyFont); // Was StarconFont: Switched for better readability
+		Widget_SetFont (LoadFont (PLAYER_FONT)); // Was StarconFont: Switched for better readability
 		Widget_SetWindowColors (SHADOWBOX_BACKGROUND_COLOR,
 				SHADOWBOX_DARK_COLOR, SHADOWBOX_MEDIUM_COLOR);
 
