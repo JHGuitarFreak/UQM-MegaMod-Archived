@@ -1492,8 +1492,6 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->submenu));
 	log_add (log_User, "  --dateformat : 0: MMM DD.YYYY | 1: MM.DD.YYYY"
 			"2: DD MMM.YYYY | 3: DD.MM.YYYY   (default 0)");
-	log_add (log_User, "  --fmv : Adds Logo and Commercial 3DO videos    (default %s)",
-			boolOptString (&defaults->FMV));
 	log_setOutput (old);
 }
 
