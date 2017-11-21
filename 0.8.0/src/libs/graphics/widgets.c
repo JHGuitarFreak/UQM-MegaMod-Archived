@@ -304,7 +304,7 @@ Widget_DrawChoice (WIDGET *_self, int x, int y)
 	{
 		t.baseline.x = home_x + ((i % 3) *
 				(ScreenWidth / (self->maxcolumns + 1)));
-		t.baseline.y = home_y + (8 * (i / 3));
+		t.baseline.y = home_y + (10 * (i / 3)); // Was 8*(i/3): Changed for readability
 		t.pStr = self->options[i].optname;
 		if ((widget_focus == _self) &&
 		    (self->highlighted == i))
