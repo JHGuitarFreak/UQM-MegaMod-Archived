@@ -568,7 +568,7 @@ pickupNode (PLANETSIDE_DESC *pPSD, COUNT NumRetrieved,
 		// Deposit could only be picked up partially.
 		NumRetrieved = (COUNT)(Max - *Amount);
 
-		if (Scan != BIOLOGICAL_SCAN){
+		if (Scan != BIOLOGICAL_SCAN && optPartialPickup){
 			// JMS: Subtract the scavenged kilotons from the mineral deposit.
 			// The rest will stay on the surface.
 			ElementPtr->mass_points -= NumRetrieved;
