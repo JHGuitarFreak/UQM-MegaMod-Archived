@@ -1141,9 +1141,10 @@ DoPickGame (MENU_STATE *pMS)
 			if(optInfiniteFuel){
 				if(loadFuel <= GetFuelTankCapacity())
 					GLOBAL_SIS (FuelOnBoard) = loadFuel;
-				else
+				else {
 					GLOBAL_SIS (ResUnits) += (LoadFuelScaled - TankCapacityScaled) * GLOBAL (FuelCost);
 					GLOBAL_SIS (FuelOnBoard) = GetFuelTankCapacity();
+				}
 			}
 
 			PlayMenuSound (MENU_SOUND_SUCCESS);
