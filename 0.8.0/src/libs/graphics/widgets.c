@@ -168,7 +168,7 @@ Widget_DrawToolTips (int numlines, const char **tips)
 	RECT r;
 	FONT  oldfont = 0;
 	FRAME oldFontEffect = SetContextFontEffect (NULL);
-	Color oldtext = SetContextForeGroundColor (WIDGET_INACTIVE_SELECTED_COLOR);
+	Color oldtext = SetContextForeGroundColor (WIDGET_ACTIVE_COLOR);
 	TEXT t;
 	int i;
 
@@ -178,7 +178,7 @@ Widget_DrawToolTips (int numlines, const char **tips)
 	r.corner.x = 2;
 	r.corner.y = 2;
 	r.extent.width = ScreenWidth - 4;
-	r.extent.height = ScreenHeight - 4;
+	r.extent.height = ScreenHeight;
 
 	t.align = ALIGN_CENTER;
 	t.CharCount = ~0;
@@ -282,7 +282,7 @@ Widget_DrawChoice (WIDGET *_self, int x, int y)
 	selected = WIDGET_ACTIVE_COLOR;
 	inactive = WIDGET_INACTIVE_COLOR;
 
-	t.baseline.x = x;
+	t.baseline.x = 2; // Was 'x'.
 	t.baseline.y = y;
 	t.align = ALIGN_LEFT;
 	t.CharCount = ~0;
@@ -416,7 +416,7 @@ Widget_DrawSlider(WIDGET *_self, int x, int y)
 	selected = WIDGET_ACTIVE_COLOR;
 	inactive = WIDGET_INACTIVE_COLOR;
 
-	t.baseline.x = x;
+	t.baseline.x = 2; // Was 'x'.
 	t.baseline.y = y;
 	t.align = ALIGN_LEFT;
 	t.CharCount = ~0;
@@ -489,7 +489,7 @@ Widget_DrawTextEntry (WIDGET *_self, int x, int y)
 
 	BatchGraphics ();
 
-	t.baseline.x = x;
+	t.baseline.x = 2; // Was 'x'.
 	t.baseline.y = y;
 	t.align = ALIGN_LEFT;
 	t.CharCount = ~0;
@@ -625,7 +625,7 @@ Widget_DrawControlEntry (WIDGET *_self, int x, int y)
 	selected = WIDGET_ACTIVE_COLOR;
 	inactive = WIDGET_INACTIVE_COLOR;
 
-	t.baseline.x = x;
+	t.baseline.x = 2; // Was 'x'.
 	t.baseline.y = y;
 	t.align = ALIGN_LEFT;
 	t.CharCount = ~0;
