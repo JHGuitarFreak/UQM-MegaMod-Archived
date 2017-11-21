@@ -172,7 +172,7 @@ Widget_DrawToolTips (int numlines, const char **tips)
 	RECT r;
 	FONT  oldfont = 0;
 	FRAME oldFontEffect = SetContextFontEffect (NULL);
-	Color oldtext = SetContextForeGroundColor (WIDGET_DIALOG_COLOR);
+	Color oldtext = SetContextForeGroundColor (BUILD_COLOR (MAKE_RGB15 (0x00, 0x18, 0x00), 0x0E));
 	TEXT t;
 	int i;
 
