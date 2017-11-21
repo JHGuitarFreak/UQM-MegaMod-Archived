@@ -151,6 +151,7 @@ struct options_struct
 	// Serosis
 	DECL_CONFIG_OPTION(bool, infiniteFuel);
 	DECL_CONFIG_OPTION(bool, thraddStory);
+	DECL_CONFIG_OPTION(bool, partialPickup);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -305,6 +306,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  optDateFormat,		0),
 		INIT_CONFIG_OPTION(  infiniteFuel,		false),
 		INIT_CONFIG_OPTION(  thraddStory,		false),
+		INIT_CONFIG_OPTION(  partialPickup,		false),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -454,6 +456,7 @@ main (int argc, char *argv[])
 	// Serosis	
 	optInfiniteFuel = options.infiniteFuel.value;
 	optThraddStory = options.thraddStory.value;
+	optPartialPickup = options.partialPickup.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -764,6 +767,7 @@ getUserConfigOptions (struct options_struct *options)
 	// Serosis	
 	getBoolConfigValue (&options->infiniteFuel, "config.infiniteFuel");
 	getBoolConfigValue (&options->thraddStory, "config.thraddStory");
+	getBoolConfigValue (&options->partialPickup, "config.partialPickup");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -820,6 +824,7 @@ enum
 	DATE_OPT,
 	INFFUEL_OPT,
 	THRADD_OPT,
+	PICKUP_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -884,6 +889,7 @@ static struct option longOptions[] =
 	{"dateformat", 0, NULL, DATE_OPT},
 	{"infinitefuel", 0, NULL, INFFUEL_OPT},
 	{"thraddstory", 0, NULL, THRADD_OPT},
+	{"partialpickup", 0, NULL, PICKUP_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1212,6 +1218,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				break;
 			case THRADD_OPT:
 				setBoolOption (&options->thraddStory, true);
+				break;
+			case PICKUP_OPT:
+				setBoolOption (&options->partialPickup, true);
 				break;
 			case ADDON_OPT:
 				options->numAddons++;

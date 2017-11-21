@@ -75,7 +75,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       41
+#define CHOICE_COUNT       42
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -100,7 +100,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	2, 2, 3, 2, 2, 3, 3, 2,	3, 3, 
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2, 3, 2, 2 };
+	2, 2, 2, 2, 3, 2, 2, 2 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -139,6 +139,7 @@ static WIDGET *engine_widgets[] = {
 	(WIDGET *)(&choices[11]),	// Cutscenes
 	(WIDGET *)(&choices[33]),	// Extra Cutscenes
 	(WIDGET *)(&choices[17]),	// Slave Shields
+	(WIDGET *)(&choices[32]),	// Skip Intro
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -186,9 +187,9 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[35]),	// JMS: IP nebulae on/off
 	(WIDGET *)(&choices[36]),	// JMS: orbitingPlanets on/off
 	(WIDGET *)(&choices[37]),	// JMS: texturedPlanets on/off
-	(WIDGET *)(&choices[32]),	// Skip Intro
 	(WIDGET *)(&choices[38]),	// Nic: Switch date formats
 	(WIDGET *)(&choices[40]),	// Serosis: Thraddash Story switch
+	(WIDGET *)(&choices[41]),	// Serosis: Partial Pickup switch
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -215,12 +216,12 @@ menu_defs[] =
 {
 	{main_widgets, 0},
 	{graphics_widgets, 1},
-	{audio_widgets, 1},
-	{engine_widgets, 2},
-	{cheat_widgets, 3},
-	{keyconfig_widgets, 1},
-	{advanced_widgets, 2},
-	{editkeys_widgets, 1},
+	{audio_widgets, 2},
+	{engine_widgets, 3},
+	{cheat_widgets, 4},
+	{keyconfig_widgets, 5},
+	{advanced_widgets, 6},
+	{editkeys_widgets, 7},
 	{NULL, 0}
 };
 
@@ -457,6 +458,7 @@ SetDefaults (void)
 	 // Serosis
 	choices[39].selected = opts.infiniteFuel;
 	choices[40].selected = opts.thraddStory;
+	choices[41].selected = opts.partialPickup;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -513,6 +515,7 @@ PropagateResults (void)
 	// Serosis
 	opts.infiniteFuel = choices[39].selected;
 	opts.thraddStory = choices[40].selected;
+	opts.partialPickup = choices[41].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1480,6 +1483,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis
 	opts->infiniteFuel = optInfiniteFuel ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->thraddStory = optThraddStory ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->partialPickup = optPartialPickup ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 }
 
 void
@@ -1622,11 +1626,15 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	
 	// Serosis: Infinite Fuel
 	res_PutBoolean ("config.infiniteFuel", opts->infiniteFuel == OPTVAL_ENABLED);
-	optInfiniteFuel = opts->infiniteFuel == OPTVAL_ENABLED;	
+	optInfiniteFuel = opts->infiniteFuel == OPTVAL_ENABLED;
 	
-	// JMS: Textured or plain(==vanilla UQM style) planets in IP.
+	// Serosis: Optionalized the alt Thraddash story
 	res_PutBoolean ("config.thraddStory", opts->thraddStory == OPTVAL_ENABLED);
 	optThraddStory = opts->thraddStory == OPTVAL_ENABLED;	
+	
+	// Serosis: Partial mineral pickup when enabled.
+	res_PutBoolean ("config.partialPickup", opts->partialPickup == OPTVAL_ENABLED);
+	optPartialPickup = opts->partialPickup == OPTVAL_ENABLED;	
 
 	switch (opts->scaler) {
 	case OPTVAL_BILINEAR_SCALE:

@@ -75,6 +75,7 @@ int optDateFormat;
 BOOLEAN optInfiniteFuel;
 DWORD loadFuel;
 BOOLEAN optThraddStory;
+BOOLEAN optPartialPickup;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;
