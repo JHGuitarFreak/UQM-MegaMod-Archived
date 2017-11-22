@@ -2657,6 +2657,9 @@
     <ClInclude Include="..\..\src\uqm\igfxres.h">
       <Filter>Source Files\uqm</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\uqm\ikey_con.h">
+      <Filter>Source Files\uqm</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\uqm\imusicre.h">
       <Filter>Source Files\uqm</Filter>
     </ClInclude>

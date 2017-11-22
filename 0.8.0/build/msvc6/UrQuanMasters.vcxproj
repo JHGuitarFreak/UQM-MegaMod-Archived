@@ -1030,6 +1030,7 @@
     <ClInclude Include="..\..\src\uqm\hyper.h" />
     <ClInclude Include="..\..\src\uqm\ifontres.h" />
     <ClInclude Include="..\..\src\uqm\igfxres.h" />
+    <ClInclude Include="..\..\src\uqm\ikey_con.h" />
     <ClInclude Include="..\..\src\uqm\imusicre.h" />
     <ClInclude Include="..\..\src\uqm\init.h" />
     <ClInclude Include="..\..\src\uqm\intel.h" />
