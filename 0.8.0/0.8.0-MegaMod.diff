@@ -7344,8 +7344,8 @@ diff -ruNp src.orig/uqm/restart.c src/uqm/restart.c
  	} while (GLOBAL (CurrentActivity) & CHECK_ABORT);
 diff -ruNp src.orig/uqm/setup.c src/uqm/setup.c
 --- src.orig/uqm/setup.c	2017-11-21 16:07:12 -0600
-+++ src/uqm/setup.c	2017-11-22 08:52:12 -0600
-@@ -62,11 +62,18 @@ FONT TinyFont;
++++ src/uqm/setup.c	2017-11-22 09:28:15 -0600
+@@ -62,11 +62,17 @@ FONT TinyFont;
  QUEUE race_q[NUM_PLAYERS];
  FRAME ActivityFrame;
  FRAME StatusFrame;
@@ -7359,17 +7359,14 @@ diff -ruNp src.orig/uqm/setup.c src/uqm/setup.c
  QUEUE disp_q;
 +// Serosis
 +BOOLEAN solTexturesPresent;
-+BOOLEAN seroMenuPresent;
 +BOOLEAN seroNebulaePresent;
  
  uio_Repository *repository;
  uio_DirHandle *rootDir;
-@@ -114,16 +121,45 @@ LoadKernel (int argc, char *argv[])
- 	if (loadIndices (contentDir) == 0)
+@@ -115,15 +121,39 @@ LoadKernel (int argc, char *argv[])
  		return FALSE; // Must have at least one index in content dir
  
--	/* Load addons demanded by the current configuration. */
-+	/* Load addons demanded by the current configuration. */	
+ 	/* Load addons demanded by the current configuration. */
 +	if(loadAddon("sero-setup-080")){
 +		printf("Loading Sero-Setup \n");
 +		log_add (log_Debug, "loading sero-setup-080\n");
@@ -7377,11 +7374,6 @@ diff -ruNp src.orig/uqm/setup.c src/uqm/setup.c
 +		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
 +		exit (EXIT_FAILURE);
 + 	}
-+	if(loadAddon("sero-menu-1x")){
-+		seroMenuPresent = TRUE;
-+		printf("Loading Sero-Menu \n");
-+		log_add (log_Debug, "loading sero-menu-1x");
-+	}
 +	if(loadAddon("sero-nebulae-1x")){
 +		seroNebulaePresent = TRUE;
 +		printf("Loading Sero-Nebulae \n");
@@ -7413,7 +7405,7 @@ diff -ruNp src.orig/uqm/setup.c src/uqm/setup.c
  	}
  
  	if (optRemixMusic)
-@@ -210,6 +246,22 @@ InitKernel (void)
+@@ -210,6 +240,22 @@ InitKernel (void)
  	if (StatusFrame == NULL)
  		return FALSE;
  
@@ -7438,7 +7430,7 @@ diff -ruNp src.orig/uqm/setup.c src/uqm/setup.c
  		return FALSE;
 diff -ruNp src.orig/uqm/setup.h src/uqm/setup.h
 --- src.orig/uqm/setup.h	2017-11-21 16:07:12 -0600
-+++ src/uqm/setup.h	2017-11-22 08:52:12 -0600
++++ src/uqm/setup.h	2017-11-22 09:27:46 -0600
 @@ -33,6 +33,9 @@ extern RESOURCE_INDEX hResIndex;
  extern FRAME Screen;
  extern FRAME ActivityFrame;
@@ -7455,8 +7447,8 @@ diff -ruNp src.orig/uqm/setup.h src/uqm/setup.h
  
 +// Serosis
 +extern BOOLEAN solTexturesPresent;
-+extern BOOLEAN seroMenuPresent;
 +extern BOOLEAN seroNebulaePresent;
++
  extern ACTIVITY LastActivity;
  
  extern BYTE PlayerControl[];
@@ -8741,7 +8733,7 @@ diff -ruNp src.orig/uqm/ships/vux/vux.c src/uqm/ships/vux/vux.c
  
 diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
 --- src.orig/uqm/shipyard.c	2017-11-21 16:07:15 -0600
-+++ src/uqm/shipyard.c	2017-11-22 08:52:13 -0600
++++ src/uqm/shipyard.c	2017-11-22 09:24:08 -0600
 @@ -37,7 +37,7 @@
  #include "sounds.h"
  #include "libs/graphics/gfx_common.h"
@@ -8751,20 +8743,16 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  
  #ifdef USE_3DO_HANGAR
  // 3DO 4x3 hangar layout
-@@ -99,7 +99,11 @@ animatePowerLines (MENU_STATE *pMS)
+@@ -99,7 +99,7 @@ animatePowerLines (MENU_STATE *pMS)
  	{	// Init animation
  		s.origin.x = 0;
  		s.origin.y = 0;
 -		s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 24);
-+		if(!seroMenuPresent){
-+			s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 24);
-+		} else {
-+			s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 25); // This shifts the animation over one so the Kohr-Ah can have a ship label
-+		}
++		s.frame = SetAbsFrameIndex (pMS->ModuleFrame, 25);
  		ColorMap = SetAbsColorMapIndex (pMS->CurString, 0);
  	}
  
-@@ -124,7 +128,6 @@ on_input_frame (void)
+@@ -124,7 +124,6 @@ on_input_frame (void)
  	SetContext (oldContext);
  }
  
@@ -8772,7 +8760,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  static void
  SpinStarShip (MENU_STATE *pMS, HFLEETINFO hStarShip)
  {
-@@ -140,7 +143,6 @@ SpinStarShip (MENU_STATE *pMS, HFLEETINF
+@@ -140,7 +139,6 @@ SpinStarShip (MENU_STATE *pMS, HFLEETINF
  		DoShipSpin (Index, pMS->hMusic);
  	}
  }
@@ -8780,7 +8768,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  
  // Count the ships which can be built by the player.
  static COUNT
-@@ -156,7 +158,7 @@ GetAvailableRaceCount (void)
+@@ -156,7 +154,7 @@ GetAvailableRaceCount (void)
  		FLEET_INFO *FleetPtr;
  
  		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
@@ -8789,7 +8777,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  			++Index;
  
  		hNextShip = _GetSuccLink (FleetPtr);
-@@ -177,7 +179,7 @@ GetAvailableRaceFromIndex (BYTE Index)
+@@ -177,7 +175,7 @@ GetAvailableRaceFromIndex (BYTE Index)
  		FLEET_INFO *FleetPtr;
  
  		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
@@ -8798,7 +8786,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  		{
  			UnlockFleetInfo (&GLOBAL (avail_race_q), hStarShip);
  			return hStarShip;
-@@ -247,8 +249,12 @@ DrawRaceStrings (MENU_STATE *pMS, BYTE N
+@@ -247,8 +245,12 @@ DrawRaceStrings (MENU_STATE *pMS, BYTE N
  		t.pStr = buf;
  		sprintf (buf, "%u", ShipCost[NewRaceItem]);
  		SetContextFont (TinyFont);
@@ -8813,7 +8801,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  		font_DrawText (&t);
  	}
  	UnbatchGraphics ();
-@@ -635,7 +641,7 @@ DMS_SetMode (MENU_STATE *pMS, DMS_Mode m
+@@ -635,7 +637,7 @@ DMS_SetMode (MENU_STATE *pMS, DMS_Mode m
  			SetFlashRect (SFR_MENU_ANY);
  			break;
  		case DMS_Mode_editCrew:
@@ -8822,7 +8810,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  					MENU_SOUND_SELECT | MENU_SOUND_CANCEL);
  			if (HINIBBLE (pMS->CurState))
  			{
-@@ -656,7 +662,6 @@ DMS_SetMode (MENU_STATE *pMS, DMS_Mode m
+@@ -656,7 +658,6 @@ DMS_SetMode (MENU_STATE *pMS, DMS_Mode m
  }
  
  #define MODIFY_CREW_FLAG (1 << 8)
@@ -8830,7 +8818,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  // Helper function for DoModifyShips(), called when the player presses the
  // special button.
  // It works both when the cursor is over an escort ship, while not editing
-@@ -707,7 +712,6 @@ DMS_SpinShip (MENU_STATE *pMS, HSHIPFRAG
+@@ -707,7 +708,6 @@ DMS_SpinShip (MENU_STATE *pMS, HSHIPFRAG
  
  	return TRUE;
  }
@@ -8838,7 +8826,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  
  // Helper function for DoModifyShips(), called when the player presses the
  // up button when modifying the crew of the flagship.
-@@ -888,62 +892,57 @@ DMS_DismissEscortShipCrew (SHIP_FRAGMENT
+@@ -888,62 +888,57 @@ DMS_DismissEscortShipCrew (SHIP_FRAGMENT
  // 'dy' is -1 if the 'up' button was pressed, or '1' if the down button was
  // pressed.
  static void
@@ -8938,7 +8926,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  }
  
  // Helper function for DoModifyShips(), called when the player presses the
-@@ -985,7 +984,6 @@ DMS_AddEscortShip (MENU_STATE *pMS, BOOL
+@@ -985,7 +980,6 @@ DMS_AddEscortShip (MENU_STATE *pMS, BOOL
  {
  	assert (pMS->delta_item & MODIFY_CREW_FLAG);
  
@@ -8946,7 +8934,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  	if (special)
  	{
  		HSHIPFRAG hStarShip = GetEscortByStarShipIndex (pMS->delta_item);
-@@ -993,9 +991,6 @@ DMS_AddEscortShip (MENU_STATE *pMS, BOOL
+@@ -993,9 +987,6 @@ DMS_AddEscortShip (MENU_STATE *pMS, BOOL
  			DMS_SetMode (pMS, DMS_Mode_addEscort);
  		return;
  	}
@@ -8956,7 +8944,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  
  	if (cancel)
  	{
-@@ -1107,7 +1102,7 @@ DMS_MoveCursor (BYTE curState, SBYTE dx,
+@@ -1107,7 +1098,7 @@ DMS_MoveCursor (BYTE curState, SBYTE dx,
  // called when we are in crew editing mode.
  static void
  DMS_EditCrewMode (MENU_STATE *pMS, HSHIPFRAG hStarShip,
@@ -8965,7 +8953,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  {
  	if (select || cancel)
  	{
-@@ -1131,11 +1126,11 @@ DMS_EditCrewMode (MENU_STATE *pMS, HSHIP
+@@ -1131,11 +1122,11 @@ DMS_EditCrewMode (MENU_STATE *pMS, HSHIP
  		pMS->delta_item &= ~MODIFY_CREW_FLAG;
  		DMS_SetMode (pMS, DMS_Mode_navigate);
  	}
@@ -8979,7 +8967,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  	}
  }
  
-@@ -1158,17 +1153,12 @@ DMS_NavigateShipSlots (MENU_STATE *pMS,
+@@ -1158,17 +1149,12 @@ DMS_NavigateShipSlots (MENU_STATE *pMS,
  		}
  	}
  
@@ -8998,7 +8986,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  	{
  		if (hStarShip == 0 && HINIBBLE (pMS->CurState) == 0)
  		{
-@@ -1186,8 +1176,7 @@ DMS_NavigateShipSlots (MENU_STATE *pMS,
+@@ -1186,8 +1172,7 @@ DMS_NavigateShipSlots (MENU_STATE *pMS,
  			DMS_SetMode (pMS, DMS_Mode_editCrew);
  		}
  	}
@@ -9008,7 +8996,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  		// Leave escort ship editor.
  		pMS->InputFunc = DoShipyard;
  		pMS->CurState = SHIPYARD_CREW;
-@@ -1229,6 +1218,7 @@ DoModifyShips (MENU_STATE *pMS)
+@@ -1229,6 +1214,7 @@ DoModifyShips (MENU_STATE *pMS)
  		BOOLEAN cancel = (PulsedInputState.menu[KEY_MENU_CANCEL] != 0);
  		SBYTE dx = 0;
  		SBYTE dy = 0;
@@ -9016,7 +9004,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  
  		if (PulsedInputState.menu[KEY_MENU_RIGHT])
  			dx = 1;
-@@ -1238,6 +1228,10 @@ DoModifyShips (MENU_STATE *pMS)
+@@ -1238,6 +1224,10 @@ DoModifyShips (MENU_STATE *pMS)
  			dy = -1;
  		if (PulsedInputState.menu[KEY_MENU_DOWN])
  			dy = 1;
@@ -9027,7 +9015,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  
  
  		if (!(pMS->delta_item & MODIFY_CREW_FLAG))
-@@ -1259,7 +1253,7 @@ DoModifyShips (MENU_STATE *pMS)
+@@ -1259,7 +1249,7 @@ DoModifyShips (MENU_STATE *pMS)
  			else
  			{
  				// Crew editing mode.
@@ -9036,7 +9024,7 @@ diff -ruNp src.orig/uqm/shipyard.c src/uqm/shipyard.c
  			}
  		}
  
-@@ -1365,7 +1359,44 @@ DrawBluePrint (MENU_STATE *pMS)
+@@ -1365,7 +1355,44 @@ DrawBluePrint (MENU_STATE *pMS)
  		{
  			COUNT m;
  

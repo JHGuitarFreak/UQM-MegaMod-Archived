@@ -72,7 +72,6 @@ STRING GameStrings;
 QUEUE disp_q;
 // Serosis
 BOOLEAN solTexturesPresent;
-BOOLEAN seroMenuPresent;
 BOOLEAN seroNebulaePresent;
 
 uio_Repository *repository;
@@ -121,7 +120,7 @@ LoadKernel (int argc, char *argv[])
 	if (loadIndices (contentDir) == 0)
 		return FALSE; // Must have at least one index in content dir
 
-	/* Load addons demanded by the current configuration. */	
+	/* Load addons demanded by the current configuration. */
 	if(loadAddon("sero-setup-080")){
 		printf("Loading Sero-Setup \n");
 		log_add (log_Debug, "loading sero-setup-080\n");
@@ -129,11 +128,6 @@ LoadKernel (int argc, char *argv[])
 		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
 		exit (EXIT_FAILURE);
  	}
-	if(loadAddon("sero-menu-1x")){
-		seroMenuPresent = TRUE;
-		printf("Loading Sero-Menu \n");
-		log_add (log_Debug, "loading sero-menu-1x");
-	}
 	if(loadAddon("sero-nebulae-1x")){
 		seroNebulaePresent = TRUE;
 		printf("Loading Sero-Nebulae \n");
