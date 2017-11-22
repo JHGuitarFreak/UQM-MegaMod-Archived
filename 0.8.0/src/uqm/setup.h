@@ -62,8 +62,8 @@ extern QUEUE race_q[];
 
 // Serosis
 extern BOOLEAN solTexturesPresent;
-extern BOOLEAN seroMenuPresent;
 extern BOOLEAN seroNebulaePresent;
+
 extern ACTIVITY LastActivity;
 
 extern BYTE PlayerControl[];
