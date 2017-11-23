@@ -152,7 +152,7 @@ LoadKernel (int argc, char *argv[])
 		loadAddon("rmx-shofixti");
 		loadAddon("rmx-utwig");
 		// Autoload support for Soul Reaver's dialog fixes
-		loadAddon("MelnormeVoicePack");
+		loadAddon("MelnormeVoiceFix");
 		loadAddon("MyconVoiceFix");
 	}
 

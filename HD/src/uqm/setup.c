@@ -134,7 +134,7 @@ LoadKernel (int argc, char *argv[])
 		loadAddon("rmx-shofixti");
 		loadAddon("rmx-subtitle");
 		loadAddon("rmx-utwig");
-		loadAddon("MelnormeVoicePack"); // Autoload support for Soul Reaver's Melnorme dialog fix
+		loadAddon("MelnormeVoiceFix"); // Autoload support for Soul Reaver's Melnorme dialog fix
 	}
 	if (optRemixMusic){
 		loadAddon ("remix");
