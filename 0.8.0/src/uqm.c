@@ -1380,27 +1380,27 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_captureLines (LOG_CAPTURE_ALL);
 	
 	log_add (log_User, "Options:");
-	log_add (log_User, "  -r, --res=WIDTHxHEIGHT (default 640x480, bigger "
+	log_add (log_User, "  -r, --res=WIDTHxHEIGHT (default: 640x480, bigger "
 			"works only with --opengl)");
-	log_add (log_User, "  -f, --fullscreen (default %s)",
+	log_add (log_User, "  -f, --fullscreen (default: %s)",
 			boolOptString (&defaults->fullscreen));
-	log_add (log_User, "  -w, --windowed (default %s)",
+	log_add (log_User, "  -w, --windowed (default: %s)",
 			boolNotOptString (&defaults->fullscreen));
-	log_add (log_User, "  -o, --opengl (default %s)",
+	log_add (log_User, "  -o, --opengl (default: %s)",
 			boolOptString (&defaults->opengl));
-	log_add (log_User, "  -x, --nogl (default %s)",
+	log_add (log_User, "  -x, --nogl (default: %s)",
 			boolNotOptString (&defaults->opengl));
-	log_add (log_User, "  -k, --keepaspectratio (default %s)",
+	log_add (log_User, "  -k, --keepaspectratio (default: %s)",
 			boolOptString (&defaults->keepAspectRatio));
 	log_add (log_User, "  -c, --scale=MODE (bilinear, biadapt, biadv, "
 			"triscan, hq or none (default) )");
 	log_add (log_User, "  -b, --meleezoom=MODE (step, aka pc, or smooth, "
 			"aka 3do; default is 3do)");
-	log_add (log_User, "  -s, --scanlines (default %s)",
+	log_add (log_User, "  -s, --scanlines (default: %s)",
 			boolOptString (&defaults->scanlines));
-	log_add (log_User, "  -p, --fps (default %s)",
+	log_add (log_User, "  -p, --fps (default: %s)",
 			boolOptString (&defaults->showFps));
-	log_add (log_User, "  -g, --gamma=CORRECTIONVALUE (default 1.0, which "
+	log_add (log_User, "  -g, --gamma=CORRECTIONVALUE (default: 1.0, which "
 			"causes no change)");
 	log_add (log_User, "  -C, --configdir=CONFIGDIR");
 	log_add (log_User, "  -n, --contentdir=CONTENTDIR");
@@ -1431,67 +1431,66 @@ usage (FILE *out, const struct options_struct *defaults)
 #endif
 	log_add (log_User, "The following options can take either '3do' or 'pc' "
 			"as an option:");
-	log_add (log_User, "  -i, --intro : Intro/ending version (default %s)",
+	log_add (log_User, "  -i, --intro : Intro/ending version (default: %s)",
 			choiceOptString (&defaults->whichIntro));
 	log_add (log_User, "  --cscan     : coarse-scan display, pc=text, "
-			"3do=hieroglyphs (default %s)",
+			"3do=hieroglyphs (default: %s)",
 			choiceOptString (&defaults->whichCoarseScan));
 	log_add (log_User, "  --menu      : menu type, pc=text, 3do=graphical "
-			"(default %s)", choiceOptString (&defaults->whichMenu));
-	log_add (log_User, "  --font      : font types and colors (default %s)",
+			"(default: %s)", choiceOptString (&defaults->whichMenu));
+	log_add (log_User, "  --font      : font types and colors (default: %s)",
 			choiceOptString (&defaults->whichFonts));
 	log_add (log_User, "  --shield    : slave shield type; pc=static, "
-			"3do=throbbing (default %s)",
+			"3do=throbbing (default: %s)",
 			choiceOptString (&defaults->whichShield));
 	log_add (log_User, "  --scroll    : ff/frev during comm.  pc=per-page, "
-			"3do=smooth (default %s)",
+			"3do=smooth (default: %s)",
 			choiceOptString (&defaults->smoothScroll));
 	log_add (log_User, "The following options are for the Mega Mod"); // Serosis
-	log_add (log_User, "  --kohrstahp : Stops Kohr-Ah advancing.    (default %s)",
+	log_add (log_User, "  --kohrstahp : Stops Kohr-Ah advancing.    (default: %s)",
 			boolOptString (&defaults->cheatMode));
 	log_add (log_User, "  --godmode : Player ships and lander invulnerable. "
-			"Also refills energy every shot during melee.    (default %s)",
+			"Also refills energy every shot during melee.    (default: %s)",
 			boolOptString (&defaults->godMode));
 	log_add (log_User, "  --timedilation : =1 Time is slowed down times 6. "
-			"=2 Time is sped up times 5    (default 0)");
+			"=2 Time is sped up times 5    (default: 0)");
 	log_add (log_User, "  --bubblewarp : Instantaneous travel to any point on "
-			"the Starmap.    (default %s)",
+			"the Starmap.    (default: %s)",
 			boolOptString (&defaults->bubbleWarp));
 	log_add (log_User, "  --unlockships : Allows you to purchase ships that you can't "
-			"normally acquire in the main game.    (default %s)",
+			"normally acquire in the main game.    (default: %s)",
 			boolOptString (&defaults->unlockShips));
-	log_add (log_User, "  --headstart : Equips your ship with full thrusters and jets, "
-			"two ion bolt guns, two cargo bays, two crew pods, four dynamos, two full fuel tanks, "
-			"max landers, 1000 radioactives, and 1000 bio-units.    (default %s)",
+	log_add (log_User, "  --headstart : Gives you an extra storage bay full of minerals, Fwiffo, "
+			"and the Moonbase during a new game   (default: %s)",
 			boolOptString (&defaults->headStart));
 	log_add (log_User, "  --unlockupgrades : Unlocks every upgrade for your flagship "
-			"and landers.    (default %s)",
+			"and landers.    (default: %s)",
 			boolOptString (&defaults->unlockUpgrades));
 	log_add (log_User, "  --infiniteru : Gives you infinite R.U. as long as the cheat is on "
-			" (default %s)",
+			" (default: %s)",
 			boolOptString (&defaults->infiniteRU));
-	log_add (log_User, "  --skipintro : Skips the intro    (default %s)",
+	log_add (log_User, "  --skipintro : Skips the intro and Logo fmv    (default: %s)",
 			boolOptString (&defaults->skipIntro));
-	log_add (log_User, "  --fmv : Adds Logo and Commercial 3DO videos    (default %s)",
+	log_add (log_User, "  --fmv : Plays Logo and Commercial 3DO videos    (default: %s)",
 			boolOptString (&defaults->FMV));
-	log_add (log_User, "  --mainmenumusic : Switches the main menu music on/off    (default %s)",
+	log_add (log_User, "  --mainmenumusic : Switches the main menu music on/off    (default: %s)",
 			boolOptString (&defaults->mainMenuMusic));
-	log_add (log_User, "  --nebulae : Enables/Disables nebulae in star systems    (default %s)",
+	log_add (log_User, "  --nebulae : Enables/Disables nebulae in star systems    (default: %s)",
 			boolOptString (&defaults->nebulae));
-	log_add (log_User, "  --orbitingplanets : Enables/Disables orbiting planets in star systems    (default %s)",
+	log_add (log_User, "  --orbitingplanets : Enables/Disables orbiting planets in star systems    (default: %s)",
 			boolOptString (&defaults->orbitingPlanets));
-	log_add (log_User, "  --texturedplanets : Enables/Disables textured planets in star systems    (default %s)",
+	log_add (log_User, "  --texturedplanets : Enables/Disables textured planets in star systems    (default: %s)",
 			boolOptString (&defaults->texturedPlanets));
-	log_add (log_User, "  --infinitefuel : Infinite fuel in the main game    (default %s)",
+	log_add (log_User, "  --infinitefuel : Infinite fuel in the main game    (default: %s)",
 			boolOptString (&defaults->infiniteFuel));
-	log_add (log_User, "  --thraddstory : Enables/Disables the Alt Thraddash Storyline    (default %s)",
+	log_add (log_User, "  --thraddstory : Enables/Disables the Alt Thraddash Storyline    (default: %s)",
 			boolOptString (&defaults->thraddStory));
-	log_add (log_User, "  --partialpickup : Enables/Disables partial mineral pickup    (default %s)",
+	log_add (log_User, "  --partialpickup : Enables/Disables partial mineral pickup    (default: %s)",
 			boolOptString (&defaults->partialPickup));
-	log_add (log_User, "  --submenu : Enables/Disables mineral and star map keys submenu    (default %s)",
+	log_add (log_User, "  --submenu : Enables/Disables mineral and star map keys submenu    (default: %s)",
 			boolOptString (&defaults->submenu));
-	log_add (log_User, "  --dateformat : 0: MMM DD.YYYY | 1: MM.DD.YYYY"
-			"2: DD MMM.YYYY | 3: DD.MM.YYYY   (default 0)");
+	log_add (log_User, "  --dateformat : 0: MMM DD.YYYY | 1: MM.DD.YYYY | "
+			"2: DD MMM.YYYY | 3: DD.MM.YYYY   (default: 0)");
 	log_setOutput (old);
 }
 
