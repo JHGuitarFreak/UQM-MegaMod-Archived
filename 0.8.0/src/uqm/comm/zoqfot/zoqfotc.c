@@ -43,6 +43,7 @@
 
 static LOCDATA zoqfot_desc =
 {
+	ZOQFOTPIK_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
 	NULL, /* post_encounter_func */
 	NULL, /* uninit_encounter_func */

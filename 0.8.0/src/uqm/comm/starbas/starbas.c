@@ -37,6 +37,7 @@ static void SellMinerals (RESPONSE_REF R);
 
 static LOCDATA commander_desc =
 {
+	COMMANDER_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
 	NULL, /* post_encounter_func */
 	NULL, /* uninit_encounter_func */

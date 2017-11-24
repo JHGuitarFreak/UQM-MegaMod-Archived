@@ -30,6 +30,7 @@ static const NUMBER_SPEECH_DESC probe_numbers_english;
 
 static LOCDATA slylandro_desc =
 {
+	SLYLANDRO_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
 	NULL, /* post_encounter_func */
 	NULL, /* uninit_encounter_func */
