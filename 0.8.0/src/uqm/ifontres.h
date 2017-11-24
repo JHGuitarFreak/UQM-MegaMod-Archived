@@ -10,3 +10,4 @@
 #define PT45AA_FONT "credits.font.pt45"
 #define STARCON_FONT "font.starcon"
 #define TINY_FONT "font.tiny"
+#define COMPUTER_FONT "comm.computer.font"

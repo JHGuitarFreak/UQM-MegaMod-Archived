@@ -28,6 +28,7 @@
 
 static LOCDATA druuge_desc =
 {
+	DRUUGE_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
 	NULL, /* post_encounter_func */
 	NULL, /* uninit_encounter_func */

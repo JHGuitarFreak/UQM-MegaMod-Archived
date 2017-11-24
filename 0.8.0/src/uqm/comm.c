@@ -68,6 +68,7 @@ static CONTEXT AnimContext;
 
 LOCDATA CommData;
 UNICODE shared_phrase_buf[2048];
+FONT ComputerFont;
 
 static BOOLEAN TalkingFinished;
 static CommIntroMode curIntroMode = CIM_DEFAULT;
@@ -159,6 +160,7 @@ add_text (int status, TEXT *pTextIn)
 	static COORD last_baseline;
 	BOOLEAN eol;
 	CONTEXT OldContext = NULL;
+	COUNT computerOn = 0;
 	
 	BatchGraphics ();
 
@@ -275,8 +277,109 @@ add_text (int status, TEXT *pTextIn)
 		else
 		{
 			// Alien speech
-			font_DrawTracedText (pText,
-					CommData.AlienTextFColor, CommData.AlienTextBColor);
+			if (CommData.AlienConv == ORZ_CONVERSATION)
+			{
+				// BW : special case for the Orz conversations
+				// the character $ is recycled as a marker to
+				// switch from and to computer font
+				
+				const char *ptr;
+				RECT rect;
+				COORD baselinex = pText->baseline.x;
+				COORD width = 0;
+				COUNT remChars = pText->CharCount;
+			        // Remaining chars until end of line within width
+				const char *bakptr;
+				COUNT bakChars = remChars;
+				COUNT bakcompOn = computerOn;
+				FONT bakFont = SetContextFont(ComputerFont);
+				
+				SetContextFont(bakFont);
+				ptr = pText->pStr;
+				bakptr = ptr;
+				
+				// We need to manually center the line because
+				// the computer font is larger than the Orzfont
+				
+				// This loop computes the width of the line
+				while (remChars > 0)
+					{
+						while ((*ptr != '$') && remChars > 0)
+							{
+								getCharFromString (&ptr);
+								remChars--;
+							}
+						
+						pText->CharCount -= remChars;
+						TextRect (pText, &rect, NULL);
+						
+						width += rect.extent.width;
+						
+						if (*ptr == '$')
+							{
+								getCharFromString (&ptr);
+								remChars--;
+								computerOn = 1 - computerOn;
+								if (computerOn)
+									SetContextFont (ComputerFont);
+								else
+									SetContextFont (CommData.AlienFont);
+							}
+						pText->CharCount = remChars;
+						pText->pStr = ptr;
+					}
+
+				// This to simulate a centered line
+				pText->baseline.x = baselinex - (width >> 1);
+				pText->align = ALIGN_LEFT;
+				
+				// Put everything back in place for the
+				// actual display 
+				remChars = bakChars;
+				pText->CharCount = bakChars;
+				ptr = bakptr;
+				pText->pStr = bakptr;
+				computerOn = bakcompOn;
+				SetContextFont(bakFont);
+				
+				// This loop is used to look up for $
+				while (remChars > 0)
+					{
+						while ((*ptr != '$') && remChars > 0)
+							{
+								getCharFromString (&ptr);
+								remChars--;
+							}
+						
+						pText->CharCount -= remChars;
+						TextRect (pText, &rect, NULL);
+						
+						font_DrawTracedText (pText,
+								     CommData.AlienTextFColor, CommData.AlienTextBColor);
+						
+						pText->baseline.x += rect.extent.width;
+						
+						if (*ptr == '$')
+							{
+								getCharFromString (&ptr);
+								remChars--;
+								computerOn = 1 - computerOn;
+								if (computerOn)
+									SetContextFont (ComputerFont);
+								else
+									SetContextFont (CommData.AlienFont);
+							}
+						pText->CharCount = remChars;
+						pText->pStr = ptr;
+					}
+				pText->baseline.x = baselinex;
+				pText->align = ALIGN_CENTER;
+			}
+			else
+			{
+				// Normal case : other races than Orz
+				font_DrawTracedText (pText, CommData.AlienTextFColor, CommData.AlienTextBColor);
+			}
 		}
 	} while (!eol && maxchars);
 	pText->pStr = pStr;
@@ -880,11 +983,16 @@ DoConvSummary (SUMMARY_STATE *pSS)
 			}
 
 			t.CharCount = (COUNT)~0;
-			for ( ; row < MAX_SUMM_ROWS &&
-					!getLineWithinWidth (&t, &next, r.extent.width, (COUNT)~0);
-					++row)
-			{
-				font_DrawText (&t);
+			for ( ; row < MAX_SUMM_ROWS && !getLineWithinWidth (&t, &next, r.extent.width, (COUNT)~0); ++row) {
+				if (CommData.AlienConv == ORZ_CONVERSATION) { // MB: nasty hack: remove '$'s from conversation for Orz
+					UNICODE my_copy[80];
+					strcpy(my_copy, t.pStr);
+					remove_char_from_string(my_copy, '$');
+					t.pStr = my_copy;
+					font_DrawText(&t);
+				} else { // Normal mode
+					font_DrawText(&t);
+				}
 				t.baseline.y += DELTA_Y_SUMMARY;
 				t.pStr = next;
 				t.CharCount = (COUNT)~0;
@@ -898,7 +1006,15 @@ DoConvSummary (SUMMARY_STATE *pSS)
 			}
 		
 			// this subtitle fit completely
-			font_DrawText (&t);
+			if (CommData.AlienConv == ORZ_CONVERSATION) { // MB: nasty hack: remove '$'s from conversation for Orz
+				UNICODE my_copy[80];
+				strcpy(my_copy, t.pStr);
+				remove_char_from_string(my_copy, '$');
+				t.pStr = my_copy;
+				font_DrawText(&t);
+			} else { // Normal mode
+				font_DrawText(&t);
+			}
 			t.baseline.y += DELTA_Y_SUMMARY;
 		}
 
@@ -913,6 +1029,11 @@ DoConvSummary (SUMMARY_STATE *pSS)
 			snprintf (buffer, sizeof (buffer), "%s%s%s", // "MORE"
 					STR_MIDDLE_DOT, GAME_STRING (FEEDBACK_STRING_BASE + 1),
 					STR_MIDDLE_DOT);
+
+			if (CommData.AlienConv == ORZ_CONVERSATION) { // MB: nasty hack: remove '$'s from conversation for Orz
+				remove_char_from_string(buffer, '$');
+			}
+
 			mt.pStr = buffer;
 			SetContextForeGroundColor (COMM_MORE_TEXT_COLOR);
 			font_DrawText (&mt);
@@ -1209,6 +1330,7 @@ HailAlien (void)
 
 	ES.InputFunc = DoCommunication;
 	PlayerFont = LoadFont (PLAYER_FONT);
+	ComputerFont = LoadFont (COMPUTER_FONT);
 
 	CommData.AlienFrame = CaptureDrawable (
 			LoadGraphic (CommData.AlienFrameRes));
@@ -1315,6 +1437,7 @@ HailAlien (void)
 	DestroyDrawable (ReleaseDrawable (TextCacheFrame));
 
 	DestroyFont (PlayerFont);
+	DestroyFont (ComputerFont);
 
 	// Some support code tests either of these to see if the
 	// game is currently in comm or encounter

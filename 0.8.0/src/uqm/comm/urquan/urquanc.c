@@ -22,6 +22,7 @@
 
 static LOCDATA urquan_desc =
 {
+	URQUAN_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
 	NULL, /* post_encounter_func */
 	NULL, /* uninit_encounter_func */

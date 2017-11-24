@@ -26,6 +26,7 @@
 
 static LOCDATA shofixti_desc =
 {
+	SHOFIXTI_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
 	NULL, /* post_encounter_func */
 	NULL, /* uninit_encounter_func */
