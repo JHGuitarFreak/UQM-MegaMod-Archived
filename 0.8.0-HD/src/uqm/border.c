@@ -52,29 +52,35 @@ DrawSISFrame (void)
 
 	BatchGraphics ();
 	{
+		// Middle grey rectangles around space window.
 		SetContextForeGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x0A), 0x08));
+			//
 		r.corner.x = 0;
 		r.corner.y = 0;
 		r.extent.width = SIS_ORG_X + SIS_SCREEN_WIDTH + 1;
 		r.extent.height = SIS_ORG_Y - 1;
 		DrawFilledRectangle (&r);
+			//
 		r.corner.x = 0;
 		r.corner.y = 0;
 		r.extent.width = SIS_ORG_X - 1;
 		r.extent.height = SIS_ORG_Y + SIS_SCREEN_HEIGHT + 1;
 		DrawFilledRectangle (&r);
+			//
 		r.corner.x = 0;
 		r.corner.y = r.extent.height;
 		r.extent.width = SIS_ORG_X + SIS_SCREEN_WIDTH + 1;
 		r.extent.height = SCREEN_HEIGHT - SIS_ORG_Y + SIS_SCREEN_HEIGHT;
 		DrawFilledRectangle (&r);
+			//
 		r.corner.x = SIS_ORG_X + SIS_SCREEN_WIDTH + 1;
 		r.corner.y = 0;
 		r.extent.width = SCREEN_WIDTH - r.corner.x;
 		r.extent.height = SCREEN_HEIGHT;
 		DrawFilledRectangle (&r);
-
+		
+		// Light and dark grey edges of the inner space window.
 		r.corner.x = SIS_ORG_X - 1;
 		r.corner.y = SIS_ORG_Y - 1;
 		r.extent.width = SIS_SCREEN_WIDTH + 2;
@@ -84,9 +90,9 @@ DrawSISFrame (void)
 				BUILD_COLOR (MAKE_RGB15 (0x08, 0x08, 0x08), 0x1F),
 				TRUE, BLACK_COLOR);
 
+		// The big Blue box in the upper edge of screen containing the star system name.
 		r.corner.y = 0;
 		r.extent.height = SIS_ORG_Y;
-
 		r.corner.x = SIS_ORG_X;
 		r.extent.width = SIS_MESSAGE_BOX_WIDTH;
 		DrawStarConBox (&r, 1,
@@ -94,6 +100,7 @@ DrawSISFrame (void)
 				BUILD_COLOR (MAKE_RGB15 (0x00, 0x01, 0x1C), 0x4E),
 				TRUE, BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x14), 0x01));
 
+		// The smaller blue box.
 		r.extent.width = SIS_TITLE_BOX_WIDTH;
 		r.corner.x = SIS_ORG_X + SIS_SCREEN_WIDTH - SIS_TITLE_BOX_WIDTH;
 		DrawStarConBox (&r, 1,
@@ -101,18 +108,22 @@ DrawSISFrame (void)
 				BUILD_COLOR (MAKE_RGB15 (0x00, 0x01, 0x1C), 0x4E),
 				TRUE, BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x14), 0x01));
 
+		// Black border between menu area and space window area
 		SetContextForeGroundColor (BLACK_COLOR);
 		r.corner.x = SAFE_X + SPACE_WIDTH - 1;
 		r.corner.y = 0;
-		r.extent.width = 1;
+		r.extent.width = 1; // JMS_GFX
 		r.extent.height = SCREEN_HEIGHT;
 		DrawFilledRectangle (&r);
+		
 		r.corner.x = SAFE_X + SPACE_WIDTH;
-		r.corner.y = SAFE_Y + 139;
+		r.corner.y = SAFE_Y + RES_STAT_SCALE(139); // JMS_GFX
 		DrawPoint (&r.corner);
-		r.corner.x = SCREEN_WIDTH - 1;
+		
+		r.corner.x = SCREEN_WIDTH - 1; // JMS_GFX
 		DrawPoint (&r.corner);
 
+		// Light grey border on the left side of big blue box.
 		SetContextForeGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x10, 0x10, 0x10), 0x19));
 		r.corner.y = 1;
@@ -120,73 +131,93 @@ DrawSISFrame (void)
 		r.extent.height = SAFE_Y + SIS_TITLE_HEIGHT;
 		r.corner.x = SIS_ORG_X - 1;
 		DrawFilledRectangle (&r);
+		
+		// The same for small blue box
 		r.corner.x = SIS_ORG_X + SIS_SCREEN_WIDTH - SIS_TITLE_BOX_WIDTH - 1;
 		DrawFilledRectangle (&r);
 
+		// Light grey horizontal line at the bottom of the screen, space window side
 		r.corner.x = 0;
 		r.corner.y = SCREEN_HEIGHT - 1;
 		r.extent.width = SAFE_X + SPACE_WIDTH - 1;
 		r.extent.height = 1;
 		DrawFilledRectangle (&r);
+		
+		// Light grey vertical line at the right side of space window
 		r.corner.x = SAFE_X + SPACE_WIDTH - 2;
 		r.corner.y = 0;
 		r.extent.width = 1;
 		r.extent.height = SCREEN_HEIGHT - 1;
 		DrawFilledRectangle (&r);
+		
+		// Vertical line at the right side of the menu window, upper part
 		r.corner.x = SCREEN_WIDTH - 1;
 		r.corner.y = 0;
 		r.extent.width = 1;
-		r.extent.height = SAFE_Y + 139;
+		r.extent.height = SAFE_Y + RES_STAT_SCALE(139); // JMS_GFX
 		DrawFilledRectangle (&r);
+		
+		// Horizontal line at the bottom of the screen, menu window side
 		r.corner.x = SAFE_X + SPACE_WIDTH;
 		r.corner.y = SCREEN_HEIGHT - 1;
 		r.extent.width = SCREEN_WIDTH - r.corner.x;
 		r.extent.height = 1;
 		DrawFilledRectangle (&r);
+		
+		// Vertical line at the right side of the menu window, lower part
 		r.corner.x = SCREEN_WIDTH - 1;
-		r.corner.y = SAFE_Y + 140;
+		r.corner.y = SAFE_Y + RES_STAT_SCALE(139) + RES_CASE(1,0,0);
 		r.extent.width = 1;
 		r.extent.height = (SCREEN_HEIGHT - 1) - r.corner.y;
 		DrawFilledRectangle (&r);
 
+		// Dark grey border around blue boxes.
 		SetContextForeGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x08, 0x08, 0x08), 0x1F));
-		r.corner.y = 1;
+		// Vertical line on the right side of the big blue box
+		r.corner.y = 0; // JMS_GFX
 		r.extent.width = 1;
 		r.extent.height = SAFE_Y + SIS_MESSAGE_HEIGHT;
 		r.corner.x = SIS_ORG_X + SIS_MESSAGE_BOX_WIDTH;
 		DrawFilledRectangle (&r);
+		// Vertical line on the right side of the small blue box
 		r.corner.x = SIS_ORG_X + SIS_SCREEN_WIDTH;
 		++r.extent.height;
 		DrawFilledRectangle (&r);
+		//
 		r.corner.y = 0;
 		r.extent.width = (SAFE_X + SPACE_WIDTH - 2) - r.corner.x;
 		r.extent.height = 1;
 		DrawFilledRectangle (&r);
+		//
 		r.corner.x = 0;
 		r.extent.width = SIS_ORG_X - r.corner.x;
 		DrawFilledRectangle (&r);
+		// Horizontal line between boxes
 		r.corner.x = SIS_ORG_X + SIS_MESSAGE_BOX_WIDTH;
 		r.extent.width = SIS_SPACER_BOX_WIDTH;
 		DrawFilledRectangle (&r);
-
+		//
 		r.corner.x = 0;
 		r.corner.y = 1;
 		r.extent.width = 1;
 		r.extent.height = (SCREEN_HEIGHT - 1) - r.corner.y;
 		DrawFilledRectangle (&r);
+		//
 		r.corner.x = SAFE_X + SPACE_WIDTH;
 		r.corner.y = 0;
 		r.extent.width = 1;
-		r.extent.height = SAFE_Y + 139;
+		r.extent.height = SAFE_Y + RES_STAT_SCALE(139); // JMS_GFX 
 		DrawFilledRectangle (&r);
+		//
 		r.corner.x = SAFE_X + SPACE_WIDTH + 1;
-		r.corner.y = SAFE_Y + 139;
+		r.corner.y = SAFE_Y + RES_STAT_SCALE(139); // JMS_GFX
 		r.extent.width = STATUS_WIDTH - 2;
 		r.extent.height = 1;
 		DrawFilledRectangle (&r);
+		//
 		r.corner.x = SAFE_X + SPACE_WIDTH;
-		r.corner.y = SAFE_Y + 140;
+		r.corner.y = SAFE_Y + RES_STAT_SCALE(140); // JMS_GFX
 		r.extent.width = 1;
 		r.extent.height = SCREEN_HEIGHT - r.corner.y;
 		DrawFilledRectangle (&r);

@@ -215,11 +215,11 @@ universeToLogy (COORD uy)
 extern SDWORD sinetab[];
 #define SINVAL(a) sinetab[NORMALIZE_ANGLE(a)]
 #define COSVAL(a) SINVAL((a)+QUADRANT)
-#define SINE(a,m) ((SIZE)((((long)SINVAL(a))*(long)(m))>>SIN_SHIFT))
+#define SINE(a,m) ((SDWORD)((((long)SINVAL(a))*(long)(m))>>SIN_SHIFT)) // JMS: SDWORD was SIZE. Changed to avoid overflows in hires.
 #define COSINE(a,m) SINE((a)+QUADRANT,m)
-extern COUNT ARCTAN (SIZE delta_x, SIZE delta_y);
+extern COUNT ARCTAN (SDWORD delta_x, SDWORD delta_y); // JMS: SDWORD was SIZE. Changed to avoid overflows in hires.
 
-#define WRAP_VAL(v,w) ((COUNT)((v)<0?((v)+(w)):((v)>=(w)?((v)-(w)):(v))))
+#define WRAP_VAL(v,w) ((DWORD)((v)<0?((v)+(w)):((v)>=(w)?((v)-(w)):(v)))) // JMS: DWORD was COUNT. Changed to avoid overflows in hires.
 #define WRAP_X(x) WRAP_VAL(x,LOG_SPACE_WIDTH)
 #define WRAP_Y(y) WRAP_VAL(y,LOG_SPACE_HEIGHT)
 #define WRAP_DELTA_X(dx) ((dx)<0 ? \
