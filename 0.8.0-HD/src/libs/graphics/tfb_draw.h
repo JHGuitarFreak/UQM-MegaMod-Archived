@@ -84,6 +84,7 @@ void TFB_DrawScreen_Rect (RECT *rect, Color, DrawMode, SCREEN dest);
 void TFB_DrawScreen_Image (TFB_Image *img, int x, int y, int scale,
 		int scaleMode, TFB_ColorMap *, DrawMode, SCREEN dest);
 void TFB_DrawScreen_Copy (const RECT *r, SCREEN src, SCREEN dest);
+void TFB_DrawScreen_Copy_Fs (RECT *r, SCREEN src, SCREEN dest); // JMS_GFX
 void TFB_DrawScreen_FilledImage (TFB_Image *img, int x, int y, int scale,
 		int scaleMode, Color, DrawMode, SCREEN dest);
 void TFB_DrawScreen_FontChar (TFB_Char *, TFB_Image *backing, int x, int y,
