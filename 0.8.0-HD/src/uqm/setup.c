@@ -126,6 +126,13 @@ LoadKernel (int argc, char *argv[])
 		return FALSE; // Must have at least one index in content dir
 
 	/* Load addons demanded by the current configuration. */
+	if(loadAddon("sero-setup-080-hd")){
+		printf("Loading Sero-Setup \n");
+		log_add (log_Debug, "loading sero-setup-080\n");
+	} else {
+		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
+		exit (EXIT_FAILURE);
+ 	}
 
 	switch (resolutionFactor) {
 		case 1:
@@ -137,7 +144,7 @@ LoadKernel (int argc, char *argv[])
 					printf("Loading Sero-Menu 2x\n");
 					log_add (log_Debug, "loading sero-menu-2x");
 				}
-				loadAddon("Syreen2xVideoFix"); // Autoload support for Soul Reaver's Syreen video fix
+				loadAddon("Syreen2xVideoFix");
 			}
 			break;
 		case 2:
@@ -154,21 +161,14 @@ LoadKernel (int argc, char *argv[])
 			break;
 		case 0:
 		default:
-			if(loadAddon("sero-setup-080")){
-				printf("Loading Sero-Setup \n");
-				log_add (log_Debug, "loading sero-setup-080\n");
-			} else {
-				log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
-				exit (EXIT_FAILURE);
- 			}
 			if(loadAddon("vux-fix-1x")){
 				printf("Loading Vux-Fix 1x\n");
 				log_add (log_Debug, "loading vux-fix-1x");
 			}
-			if(loadAddon("sero-nebulae-1x")){
+			if(loadAddon("sero-content-1x")){
 				seroNebulaePresent = TRUE;
-				printf("Loading Sero-Nebulae \n");
-				log_add (log_Debug, "loading sero-nebulae-1x");
+				printf("Loading Sero-Content \n");
+				log_add (log_Debug, "loading sero-content-1x");
 			}
 			if(loadAddon("sol-textures-1x")){
 				solTexturesPresent = TRUE;
