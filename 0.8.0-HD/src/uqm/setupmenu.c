@@ -71,13 +71,13 @@ static void rebind_control (WIDGET_CONTROLENTRY *widget);
 static void clear_control (WIDGET_CONTROLENTRY *widget);
 
 #ifdef HAVE_OPENGL
-#define RES_OPTS 4
+#define RES_OPTS 3
 #else
-#define RES_OPTS 2
+#define RES_OPTS 3
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       43
+#define CHOICE_COUNT       44
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -102,7 +102,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	2, 2, 3, 2, 2, 3, 3, 2,	3, 3, 
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2, 3, 2, 2, 2, 2 };
+	2, 2, 2, 2, 3, 2, 2, 2, 2, 3 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -123,6 +123,7 @@ static WIDGET *main_widgets[] = {
 
 static WIDGET *graphics_widgets[] = {
 	(WIDGET *)(&choices[0]),	// Resolution
+	(WIDGET *)(&choices[43]),	// Scale GFX
 #ifdef HAVE_OPENGL
 	(WIDGET *)(&choices[1]),	// Use Framebuffer
 #endif
