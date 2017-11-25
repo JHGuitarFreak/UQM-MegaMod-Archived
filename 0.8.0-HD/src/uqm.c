@@ -502,7 +502,7 @@ main (int argc, char *argv[])
 	if (options.showFps.value)
 		gfxFlags |= TFB_GFXFLAGS_SHOWFPS;
 	TFB_InitGraphics (gfxDriver, gfxFlags, options.resolution.width,
-			options.resolution.height);
+			options.resolution.height, &resolutionFactor);
 	if (options.gamma.set && setGammaCorrection (options.gamma.value))
 		optGamma = options.gamma.value;
 	else

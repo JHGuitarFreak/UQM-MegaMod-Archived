@@ -43,6 +43,8 @@ SDL_Surface *SDL_Screens[TFB_GFX_NUMSCREENS];
 
 SDL_Surface *format_conv_surf = NULL;
 
+const SDL_VideoInfo *SDL_screen_info; // JMS_GFX
+
 static volatile BOOLEAN abortFlag = FALSE;
 
 int GfxFlags = 0;
@@ -89,7 +91,7 @@ TFB_PreQuit (void)
 }
 
 int
-TFB_ReInitGraphics (int driver, int flags, int width, int height)
+TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int resolutionFactor) // JMS_GFX: Added resolutionFactor
 {
 	int result;
 	int togglefullscreen = 0;
@@ -108,19 +110,19 @@ TFB_ReInitGraphics (int driver, int flags, int width, int height)
 	{
 #ifdef HAVE_OPENGL
 		result = TFB_GL_ConfigureVideo (driver, flags, width, height,
-				togglefullscreen);
+				togglefullscreen, resolutionFactor);
 #else
 		driver = TFB_GFXDRIVER_SDL_PURE;
 		log_add (log_Warning, "OpenGL support not compiled in,"
 				" so using pure SDL driver");
 		result = TFB_Pure_ConfigureVideo (driver, flags, width, height,
-				togglefullscreen);
+				togglefullscreen, resolutionFactor);
 #endif
 	}
 	else
 	{
 		result = TFB_Pure_ConfigureVideo (driver, flags, width, height,
-				togglefullscreen);
+				togglefullscreen, resolutionFactor);
 	}
 
 	sprintf (caption, "The Ur-Quan Masters v%d.%d.%d%s",
@@ -137,27 +139,67 @@ TFB_ReInitGraphics (int driver, int flags, int width, int height)
 }
 
 int
-TFB_InitGraphics (int driver, int flags, int width, int height)
+TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *resolutionFactor)
 {
-	int result;
+	int result, i;
 	char caption[200];
 
+	/* Null out screen pointers the first time */
+	for (i = 0; i < TFB_GFX_NUMSCREENS; i++)
+	{
+		SDL_Screens[i] = NULL;
+	}
+
 	GfxFlags = flags;
+	
+	// JMS_GFX: Let's read the size of the desktop so we can scale the
+	// fullscreen game according to it.
+	SDL_screen_info = SDL_GetVideoInfo ();
+	
+	// JMS_GFX: Upon starting the game, let's find out the resolution
+	// of the desktop.
+	if (fs_height == 0)
+	{
+		int curr_h = SDL_screen_info->current_h;
+		int curr_w = SDL_screen_info->current_w;
+		
+		// JMS_GFX: This makes it sure on certain HD 16:9 monitors
+		// that a bogus stretched 1600x1200 mode isn't used.
+		if ((curr_w == 1920 && curr_h == 1080) || (curr_h == (curr_w / 16) * 10)) { // MB: fix for 16:10 resolutions
+			fs_height = curr_h;
+			fs_width  = curr_w;
+		} else if (curr_h > (curr_w / 4) * 3) { // MB: for monitors using 5:4 modes
+			fs_width = curr_w;
+			fs_height = (curr_w / 4) * 3;
+		} else {
+			fs_height = curr_h;
+			fs_width  = (4 * fs_height) / 3;
+		}
+
+		// MB: Sanitising resolution factor:
+		if (fs_height <= 600 && resolutionFactor == 2) { // ie. probably netbook or otherwise
+			*resolutionFactor = 1; // drop down to 640x480. netbook won't be able to handle anything higher and quality difference is minimal
+ 		} else if (fs_height <= 300 && resolutionFactor > 0) { // People who like pixels I guess
+			*resolutionFactor = 0; // drop down to 320x240
+		}
+		
+		log_add (log_Debug, "fs_height %u, fs_width %u, current_w %u", fs_height, fs_width, SDL_screen_info->current_w);
+	}
 
 	if (driver == TFB_GFXDRIVER_SDL_OPENGL)
 	{
 #ifdef HAVE_OPENGL
-		result = TFB_GL_InitGraphics (driver, flags, width, height);
+		result = TFB_GL_InitGraphics (driver, flags, width, height, *resolutionFactor);
 #else
 		driver = TFB_GFXDRIVER_SDL_PURE;
 		log_add (log_Warning, "OpenGL support not compiled in,"
 				" so using pure SDL driver");
-		result = TFB_Pure_InitGraphics (driver, flags, width, height);
+		result = TFB_Pure_InitGraphics (driver, flags, width, height, *resolutionFactor);
 #endif
 	}
 	else
 	{
-		result = TFB_Pure_InitGraphics (driver, flags, width, height);
+		result = TFB_Pure_InitGraphics (driver, flags, width, height, *resolutionFactor);
 	}
 
 	sprintf (caption, "The Ur-Quan Masters v%d.%d.%d%s", 

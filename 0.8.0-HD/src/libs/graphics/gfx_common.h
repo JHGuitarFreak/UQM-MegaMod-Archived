@@ -63,8 +63,8 @@ extern int GfxFlags;
 
 // The following functions are driver-defined
 void TFB_PreInit (void);
-int TFB_InitGraphics (int driver, int flags, int width, int height);
-int TFB_ReInitGraphics (int driver, int flags, int width, int height);
+int TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *resolutionFactor);
+int TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int *resolutionFactor);
 void TFB_UninitGraphics (void);
 void TFB_ProcessEvents (void);
 bool TFB_SetGamma (float gamma);
