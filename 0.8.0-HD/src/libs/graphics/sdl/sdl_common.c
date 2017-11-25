@@ -91,7 +91,7 @@ TFB_PreQuit (void)
 }
 
 int
-TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int resolutionFactor) // JMS_GFX: Added resolutionFactor
+TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int *resolutionFactor) // JMS_GFX: Added resolutionFactor
 {
 	int result;
 	int togglefullscreen = 0;
@@ -110,7 +110,7 @@ TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int r
 	{
 #ifdef HAVE_OPENGL
 		result = TFB_GL_ConfigureVideo (driver, flags, width, height,
-				togglefullscreen, resolutionFactor);
+				togglefullscreen, *resolutionFactor);
 #else
 		driver = TFB_GFXDRIVER_SDL_PURE;
 		log_add (log_Warning, "OpenGL support not compiled in,"
@@ -122,7 +122,7 @@ TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int r
 	else
 	{
 		result = TFB_Pure_ConfigureVideo (driver, flags, width, height,
-				togglefullscreen, resolutionFactor);
+				togglefullscreen, *resolutionFactor);
 	}
 
 	sprintf (caption, "The Ur-Quan Masters v%d.%d.%d%s",
@@ -177,7 +177,7 @@ TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *re
 		}
 
 		// MB: Sanitising resolution factor:
-		if (fs_height <= 600 && resolutionFactor == 2) { // ie. probably netbook or otherwise
+		if (fs_height <= 600 && *resolutionFactor == 2) { // ie. probably netbook or otherwise
 			*resolutionFactor = 1; // drop down to 640x480. netbook won't be able to handle anything higher and quality difference is minimal
  		} else if (fs_height <= 300 && resolutionFactor > 0) { // People who like pixels I guess
 			*resolutionFactor = 0; // drop down to 320x240
