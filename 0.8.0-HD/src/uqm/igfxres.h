@@ -28,6 +28,7 @@
 #define FONTGRAD_PMAP_ANIM "graphics.fontgradient"
 #define GANYMEDE_MASK_ANIM "graphics.ganymedemask"
 #define HYPERSTARS_MASK_PMAP_ANIM "graphics.hyperstars"
+#define HYPERSUNS_MASK_PMAP_ANIM "graphics.hypersuns"
 #define IO_MASK_ANIM "graphics.iomask"
 #define IPBKGND_MASK_PMAP_ANIM "graphics.orbitbackground"
 #define IP_CALLISTO_MASK_ANIM "graphics.ipcallistomask"
