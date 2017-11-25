@@ -130,6 +130,9 @@ struct options_struct
 	DECL_CONFIG_OPTION(float, sfxVolumeScale);
 	DECL_CONFIG_OPTION(float, speechVolumeScale);
 	DECL_CONFIG_OPTION(bool, safeMode);
+	DECL_CONFIG_OPTION(int, resolutionFactor); // JMS_GFX
+	DECL_CONFIG_OPTION(bool, forceAspectRatio); // JMS_GFX
+	DECL_CONFIG_OPTION(int, loresBlowupScale); // JMS_GFX
  	DECL_CONFIG_OPTION(bool, cheatMode); // JMS
 	// Serosis
 	DECL_CONFIG_OPTION(bool, godMode);
@@ -287,6 +290,9 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  sfxVolumeScale,    1.0f ),
 		INIT_CONFIG_OPTION(  speechVolumeScale, 0.8f ),
 		INIT_CONFIG_OPTION(  safeMode,          false ),
+		INIT_CONFIG_OPTION(  resolutionFactor,  0 ),
+		INIT_CONFIG_OPTION(  forceAspectRatio,  false ),
+		INIT_CONFIG_OPTION(  loresBlowupScale,  0 ),
 		INIT_CONFIG_OPTION(  cheatMode,			false ), // JMS
 		//Serosis
 		INIT_CONFIG_OPTION(  godMode,			false ), 
@@ -436,6 +442,10 @@ main (int argc, char *argv[])
 	sfxVolumeScale = options.sfxVolumeScale.value;
 	speechVolumeScale = options.speechVolumeScale.value;
 	optAddons = options.addons;
+	
+	resolutionFactor = (unsigned int) options.resolutionFactor.value; // JMS_GFX
+	forceAspectRatio = options.forceAspectRatio.value; // JMS_GFX
+	loresBlowupScale = (unsigned int) options.loresBlowupScale.value; // JMS_GFX
 	
 	optGodMode = options.godMode.value; // JMS
 	// Serosis
@@ -744,6 +754,22 @@ getUserConfigOptions (struct options_struct *options)
 	getVolumeConfigValue (&options->musicVolumeScale, "config.musicvol");
 	getVolumeConfigValue (&options->sfxVolumeScale, "config.sfxvol");
 	getVolumeConfigValue (&options->speechVolumeScale, "config.speechvol");
+	
+	// JMS_GFX
+	if (res_IsInteger ("config.resolutionfactor") && !options->resolutionFactor.set)
+	{
+		options->resolutionFactor.value = res_GetInteger ("config.resolutionfactor");
+		options->resolutionFactor.set = true;
+	}
+	
+	// JMS_GFX
+	getBoolConfigValue (&options->forceAspectRatio, "config.forceaspectratio");
+	
+	// JMS_GFX
+	if (res_IsInteger ("config.loresBlowupScale"))
+	{
+		options->loresBlowupScale.value = res_GetInteger ("config.loresBlowupScale");
+	}
 
 	getBoolConfigValue (&options->cheatMode, "config.kohrStahp"); // JMS
 	// Serosis

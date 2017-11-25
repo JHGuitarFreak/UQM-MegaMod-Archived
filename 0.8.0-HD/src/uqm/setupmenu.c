@@ -38,6 +38,8 @@
 #include "resinst.h"
 #include "nameref.h"
 #include <math.h>
+#include "gamestr.h"
+#include "libs/graphics/bbox.h"
 
 
 static STRING SetupTab;
@@ -405,14 +407,14 @@ SetDefaults (void)
 	GLOBALOPTS opts;
 	
 	GetGlobalOptions (&opts);
-	if (opts.screenResolution == OPTVAL_CUSTOM)
+	/*if (opts.screenResolution == OPTVAL_CUSTOM)
 	{
 		choices[0].numopts = RES_OPTS + 1;
 	}
 	else
-	{
+	{*/
 		choices[0].numopts = RES_OPTS;
-	}
+	//}
 	choices[0].selected = opts.screenResolution;
 	choices[1].selected = opts.driver;
 	choices[2].selected = opts.scaler;
@@ -460,7 +462,8 @@ SetDefaults (void)
 	choices[39].selected = opts.infiniteFuel;
 	choices[40].selected = opts.thraddStory;
 	choices[41].selected = opts.partialPickup;
-	choices[42].selected = opts.submenu;
+	choices[42].selected = opts.submenu;	
+	choices[43].selected = opts.loresBlowup; // JMS
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -519,6 +522,7 @@ PropagateResults (void)
 	opts.thraddStory = choices[40].selected;
 	opts.partialPickup = choices[41].selected;
 	opts.submenu = choices[42].selected;
+	opts.loresBlowup = choices[43].selected; // JMS
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1373,7 +1377,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	/* Work out resolution.  On the way, try to guess a good default
 	 * for config.alwaysgl, then overwrite it if it was set previously. */
 	opts->driver = OPTVAL_PURE_IF_POSSIBLE;
-	switch (ScreenWidthActual)
+	/*switch (ScreenWidthActual)
 	{
 	case 320:
 		if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE)
@@ -1434,7 +1438,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	default:
 		opts->screenResolution = OPTVAL_CUSTOM;
 		break;
-	}
+	}*/
 
 	if (res_IsBoolean ("config.alwaysgl"))
 	{
@@ -1488,6 +1492,63 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->thraddStory = optThraddStory ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->partialPickup = optPartialPickup ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->submenu = optSubmenu ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
+
+	// JMS_GFX: 1280x960
+	if (resolutionFactor == 2)
+	{
+		opts->screenResolution = OPTVAL_REAL_1280_960;
+		opts->loresBlowup = NO_BLOWUP;	
+	}
+	// JMS_GFX: 640x480
+	else if (resolutionFactor == 1)
+	{
+		opts->screenResolution = OPTVAL_REAL_640_480;
+		opts->loresBlowup = NO_BLOWUP;
+	}
+	// JMS_GFX: 320x240
+	else
+	{
+		switch (ScreenWidthActual)
+		{
+			case 320:
+				if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE)
+				{
+					opts->screenResolution = OPTVAL_320_240;
+				}
+				else
+				{
+					opts->screenResolution = OPTVAL_320_240;
+					opts->driver = OPTVAL_ALWAYS_GL;
+				}
+				break;
+			case 640:
+				if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE)
+				{
+					opts->screenResolution = OPTVAL_320_240;
+					opts->loresBlowup = OPTVAL_320_TO_640;
+				}
+				else
+				{
+					opts->screenResolution = OPTVAL_320_240;
+					opts->loresBlowup = OPTVAL_320_TO_640;
+					opts->driver = OPTVAL_ALWAYS_GL;
+				}
+				break;
+			case 960:
+				opts->screenResolution = OPTVAL_320_240;
+				opts->loresBlowup = OPTVAL_320_TO_960;
+				break;
+			case 1280:
+				opts->screenResolution = OPTVAL_320_240;
+				opts->loresBlowup = OPTVAL_320_TO_1280;	
+				break;
+			default:
+				opts->screenResolution = OPTVAL_320_240;
+				opts->loresBlowup = NO_BLOWUP;
+				break;
+		}
+	}
 }
 
 void
@@ -1497,47 +1558,99 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	int NewWidth = ScreenWidthActual;
 	int NewHeight = ScreenHeightActual;
 	int NewDriver = GraphicsDriver;
+	
+	unsigned int oldResFactor = resolutionFactor; // JMS_GFX
 
 	NewGfxFlags &= ~TFB_GFXFLAGS_SCALE_ANY;
-
+	
+	// JMS_GFX
 	switch (opts->screenResolution) {
-	case OPTVAL_320_240:
-		NewWidth = 320;
-		NewHeight = 240;
+		case OPTVAL_320_240:
+			NewWidth = 320;
+			NewHeight = 240;
 #ifdef HAVE_OPENGL	       
-		NewDriver = (opts->driver == OPTVAL_ALWAYS_GL ? TFB_GFXDRIVER_SDL_OPENGL : TFB_GFXDRIVER_SDL_PURE);
+			NewDriver = (opts->driver == OPTVAL_ALWAYS_GL ? TFB_GFXDRIVER_SDL_OPENGL : TFB_GFXDRIVER_SDL_PURE);
 #else
-		NewDriver = TFB_GFXDRIVER_SDL_PURE;
+			NewDriver = TFB_GFXDRIVER_SDL_PURE;
 #endif
-		break;
-	case OPTVAL_640_480:
-		NewWidth = 640;
-		NewHeight = 480;
+			resolutionFactor = 0;				
+			forceAspectRatio = FALSE;
+			break;
+		case OPTVAL_REAL_640_480:
+			NewWidth = 640;	
+			NewHeight = 480;
 #ifdef HAVE_OPENGL	       
-		NewDriver = (opts->driver == OPTVAL_ALWAYS_GL ? TFB_GFXDRIVER_SDL_OPENGL : TFB_GFXDRIVER_SDL_PURE);
+			NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
 #else
-		NewDriver = TFB_GFXDRIVER_SDL_PURE;
+			NewDriver = TFB_GFXDRIVER_SDL_PURE;
 #endif
-		break;
-	case OPTVAL_960_720:
-		NewWidth = 960;
-		NewHeight = 720;
-		NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
-		break;
-	case OPTVAL_1280_960:
-		NewWidth = 1280;
-		NewHeight = 960;
-		NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
-		break;
-	default:
-		/* Don't mess with the custom value */
-		break;
+			resolutionFactor = 1;
+			forceAspectRatio = FALSE;
+			break;
+		case OPTVAL_REAL_1280_960:
+			NewWidth = 1280;
+			NewHeight = 960;
+#ifdef HAVE_OPENGL	       
+			NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+#else
+			NewDriver = TFB_GFXDRIVER_SDL_PURE;
+#endif
+			resolutionFactor = 2;
+			forceAspectRatio = FALSE;
+			break;
+		default:
+			/* Don't mess with the custom value */
+			resolutionFactor = 0; // JMS_GFX
+			break;
 	}
+
+	if (NewWidth == 320 && NewHeight == 240)
+	{	
+		switch (opts->loresBlowup) {
+			case NO_BLOWUP:
+				// JMS: Default value: Don't do anything.
+				break;
+			case OPTVAL_320_TO_640:
+				NewWidth = 640;
+				NewHeight = 480;
+#ifdef HAVE_OPENGL	       
+				NewDriver = (opts->driver == OPTVAL_ALWAYS_GL ? TFB_GFXDRIVER_SDL_OPENGL : TFB_GFXDRIVER_SDL_PURE);
+#else
+				NewDriver = TFB_GFXDRIVER_SDL_PURE;
+#endif
+				resolutionFactor = 0;
+				break;
+			case OPTVAL_320_TO_960:
+				NewWidth = 960;
+				NewHeight = 720;
+				NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+				resolutionFactor = 0;
+				break;
+			case OPTVAL_320_TO_1280:
+				NewWidth = 1280;
+				NewHeight = 960;
+				NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+				resolutionFactor = 0;
+				break;
+			default:
+				break;
+		}
+	}
+	else
+		opts->loresBlowup = NO_BLOWUP;
+	
+ 	if (oldResFactor != resolutionFactor || (opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || (opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED))) // MB: To force the game to restart when changing music options (otherwise music will not be changed) or resfactor 
+ 		resFactorWasChanged = TRUE;
 
 	res_PutInteger ("config.reswidth", NewWidth);
 	res_PutInteger ("config.resheight", NewHeight);
 	res_PutBoolean ("config.alwaysgl", opts->driver == OPTVAL_ALWAYS_GL);
 	res_PutBoolean ("config.usegl", NewDriver == TFB_GFXDRIVER_SDL_OPENGL);	
+	
+	// JMS_GFX
+	res_PutInteger ("config.resolutionfactor", resolutionFactor);
+	res_PutBoolean ("config.forceaspectratio", forceAspectRatio);
+	res_PutInteger ("config.loresBlowupScale", opts->loresBlowup);
 
 	// JMS: Cheat Mode: Kohr-Ah move at zero speed when trying to cleanse the galaxy
 	res_PutBoolean ("config.kohrStahp", opts->cheatMode == OPTVAL_ENABLED);
@@ -1645,30 +1758,30 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	optSubmenu = opts->submenu == OPTVAL_ENABLED;
 
 	switch (opts->scaler) {
-	case OPTVAL_BILINEAR_SCALE:
-		NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
-		res_PutString ("config.scaler", "bilinear");
-		break;
-	case OPTVAL_BIADAPT_SCALE:
-		NewGfxFlags |= TFB_GFXFLAGS_SCALE_BIADAPT;
-		res_PutString ("config.scaler", "biadapt");
-		break;
-	case OPTVAL_BIADV_SCALE:
-		NewGfxFlags |= TFB_GFXFLAGS_SCALE_BIADAPTADV;
-		res_PutString ("config.scaler", "biadv");
-		break;
-	case OPTVAL_TRISCAN_SCALE:
-		NewGfxFlags |= TFB_GFXFLAGS_SCALE_TRISCAN;
-		res_PutString ("config.scaler", "triscan");
-		break;
-	case OPTVAL_HQXX_SCALE:
-		NewGfxFlags |= TFB_GFXFLAGS_SCALE_HQXX;
-		res_PutString ("config.scaler", "hq");
-		break;
-	default:
-		/* OPTVAL_NO_SCALE has no equivalent in gfxflags. */
-		res_PutString ("config.scaler", "no");
-		break;
+		case OPTVAL_BILINEAR_SCALE:
+			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
+			res_PutString ("config.scaler", "bilinear");
+			break;
+		case OPTVAL_BIADAPT_SCALE:
+			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BIADAPT;
+			res_PutString ("config.scaler", "biadapt");
+			break;
+		case OPTVAL_BIADV_SCALE:
+			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BIADAPTADV;
+			res_PutString ("config.scaler", "biadv");
+			break;
+		case OPTVAL_TRISCAN_SCALE:
+			NewGfxFlags |= TFB_GFXFLAGS_SCALE_TRISCAN;
+			res_PutString ("config.scaler", "triscan");
+			break;
+		case OPTVAL_HQXX_SCALE:
+			NewGfxFlags |= TFB_GFXFLAGS_SCALE_HQXX;
+			res_PutString ("config.scaler", "hq");
+			break;
+		default:
+			/* OPTVAL_NO_SCALE has no equivalent in gfxflags. */
+			res_PutString ("config.scaler", "no");
+			break;
 	}
 	if (opts->scanlines) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
@@ -1682,15 +1795,38 @@ SetGlobalOptions (GLOBALOPTS *opts)
 
 	res_PutBoolean ("config.scanlines", opts->scanlines);
 	res_PutBoolean ("config.fullscreen", opts->fullscreen);
-
-
+	
 	if ((NewWidth != ScreenWidthActual) ||
 	    (NewHeight != ScreenHeightActual) ||
 	    (NewDriver != GraphicsDriver) ||
+		(resFactorWasChanged) || // JMS_GFX
 	    (NewGfxFlags != GfxFlags)) 
 	{
 		FlushGraphics ();
 		UninitVideoPlayer ();
+		
+		// JMS_GFX
+		if (resFactorWasChanged)
+		{
+			// Tell the game the new screen's size.
+			ScreenWidth  = 320 << resolutionFactor;
+			ScreenHeight = 240 << resolutionFactor;
+			
+			log_add (log_Debug, "ScreenWidth:%d, ScreenHeight:%d, Wactual:%d, Hactual:%d",
+				ScreenWidth, ScreenHeight, ScreenWidthActual, ScreenHeightActual);
+			
+			// These solve the context problem that plagued the setupmenu when changing to higher resolution.
+			TFB_BBox_Reset ();
+			TFB_BBox_Init (ScreenWidth, ScreenHeight);
+			
+			// Change how big area of the screen is update-able.
+			DestroyDrawable (ReleaseDrawable (Screen));
+			Screen = CaptureDrawable (CreateDisplay (WANT_MASK | WANT_PIXMAP, &screen_width, &screen_height));
+			SetContext (ScreenContext);
+			SetContextFGFrame ((FRAME)NULL);
+			SetContextFGFrame (Screen);
+		}
+		
 		TFB_DrawScreen_ReinitVideo (NewDriver, NewGfxFlags, NewWidth, NewHeight);
 		FlushGraphics ();
 		InitVideoPlayer (TRUE);
