@@ -64,6 +64,7 @@ FRAME ActivityFrame;
 FRAME StatusFrame;
 FRAME SubmenuFrame;
 FRAME ConstellationsFrame; // JMS
+FRAME hyperspacesuns; // BW
 FRAME NebulaeFrame; // JMS
 FRAME FlagStatFrame;
 FRAME MiscDataFrame;
@@ -73,6 +74,10 @@ QUEUE disp_q;
 // Serosis
 BOOLEAN solTexturesPresent;
 BOOLEAN seroNebulaePresent;
+BOOLEAN seroMenuPresent;
+// JMS_GFX
+BOOLEAN hires2xPackPresent;
+BOOLEAN hires4xPackPresent;
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -121,22 +126,56 @@ LoadKernel (int argc, char *argv[])
 		return FALSE; // Must have at least one index in content dir
 
 	/* Load addons demanded by the current configuration. */
-	if(loadAddon("sero-setup-080")){
-		printf("Loading Sero-Setup \n");
-		log_add (log_Debug, "loading sero-setup-080\n");
-	} else {
-		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
-		exit (EXIT_FAILURE);
- 	}
-	if(loadAddon("sero-nebulae-1x")){
-		seroNebulaePresent = TRUE;
-		printf("Loading Sero-Nebulae \n");
-		log_add (log_Debug, "loading sero-nebulae-1x");
-	}
-	if(loadAddon("sol-textures-1x")){
-		solTexturesPresent = TRUE;
-		printf("Loading Sol Textures \n");
-		log_add (log_Debug, "loading sol-textures-1x");
+
+	switch (resolutionFactor) {
+		case 1:
+			if(loadAddon ("hires2x")){
+				hires2xPackPresent = TRUE;
+				log_add (log_Debug, "loading addon hires2x");
+				if(loadAddon("sero-menu-2x")){
+					seroMenuPresent = TRUE;
+					printf("Loading Sero-Menu 2x\n");
+					log_add (log_Debug, "loading sero-menu-2x");
+				}
+				loadAddon("Syreen2xVideoFix"); // Autoload support for Soul Reaver's Syreen video fix
+			}
+			break;
+		case 2:
+			if(loadAddon ("hires4x")){
+				hires4xPackPresent = TRUE;
+				log_add (log_Debug, "loading addon hires4x");
+				if(loadAddon("sero-menu-4x")){
+					seroMenuPresent = TRUE;
+					printf("Loading Sero-Menu 4x\n");
+					log_add (log_Debug, "loading sero-menu-4x");
+				}
+				loadAddon("Syreen4xVideoFix");
+			}
+			break;
+		case 0:
+		default:
+			if(loadAddon("sero-setup-080")){
+				printf("Loading Sero-Setup \n");
+				log_add (log_Debug, "loading sero-setup-080\n");
+			} else {
+				log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
+				exit (EXIT_FAILURE);
+ 			}
+			if(loadAddon("vux-fix-1x")){
+				printf("Loading Vux-Fix 1x\n");
+				log_add (log_Debug, "loading vux-fix-1x");
+			}
+			if(loadAddon("sero-nebulae-1x")){
+				seroNebulaePresent = TRUE;
+				printf("Loading Sero-Nebulae \n");
+				log_add (log_Debug, "loading sero-nebulae-1x");
+			}
+			if(loadAddon("sol-textures-1x")){
+				solTexturesPresent = TRUE;
+				printf("Loading Sol Textures \n");
+				log_add (log_Debug, "loading sol-textures-1x");
+			}
+			break;
 	}
 
 	if (opt3doMusic)
@@ -239,8 +278,15 @@ InitKernel (void)
 	StatusFrame = CaptureDrawable (LoadGraphic (STATUS_MASK_PMAP_ANIM));
 	if (StatusFrame == NULL)
 		return FALSE;
+	
+	// JMS: Animated hyperspace suns.
+	if (hires4xPackPresent || hires2xPackPresent) { 
+		hyperspacesuns = CaptureDrawable (LoadGraphic (HYPERSUNS_MASK_PMAP_ANIM));
+		if (hyperspacesuns == NULL)
+			return FALSE;
+	}
 
-	if (optNebulae && seroNebulaePresent) {
+	if (optNebulae && (seroNebulaePresent || hires4xPackPresent || hires2xPackPresent)) {
 		NebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
 		if (NebulaeFrame == NULL)
 			return FALSE;
