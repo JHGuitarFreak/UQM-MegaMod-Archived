@@ -69,6 +69,7 @@ UninitKernel (void)
 	DestroyDrawable (ReleaseDrawable (SubmenuFrame)); // JMS
 	DestroyDrawable (ReleaseDrawable (ConstellationsFrame)); // JMS
 	DestroyDrawable (ReleaseDrawable (NebulaeFrame));	// JMS
+	DestroyDrawable (ReleaseDrawable (hyperspacesuns));	// JMS
 	DestroyDrawable (ReleaseDrawable (ActivityFrame));
 	DestroyFont (TinyFont);
 	DestroyFont (StarConFont);
