@@ -173,26 +173,6 @@ FeedbackSetting (BYTE which_setting)
 #define DDSHS_EDIT     1
 #define DDSHS_BLOCKCUR 2
 
-static const RECT captainNameRect = {
-	/* .corner = */ {
-		/* .x = */ 3,
-		/* .y = */ 10
-	}, /* .extent = */ {
-		/* .width = */ SHIP_NAME_WIDTH - 2,
-		/* .height = */ SHIP_NAME_HEIGHT
-	}
-};
-static const RECT shipNameRect = {
-	/* .corner = */ {
-		/* .x = */ 2,
-		/* .y = */ 20
-	}, /* .extent = */ {
-		/* .width = */ SHIP_NAME_WIDTH,
-		/* .height = */ SHIP_NAME_HEIGHT
-	}
-};
-
-
 static BOOLEAN
 DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 		COUNT state)
@@ -203,11 +183,17 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 	FONT Font;
 
 	{
+		r.extent.height = SHIP_NAME_HEIGHT;
+
 		if (nameCaptain)
 		{	// Naming the captain
 			Font = TinyFont;
-			r = captainNameRect;
-			lf.baseline.x = r.corner.x + (r.extent.width >> 1) - 1;
+			r.corner.x = RES_STAT_SCALE(3) - RES_CASE(0,3,5); // JMS_GFX
+			r.corner.y = RES_CASE(10,20,32); // JMS_GFX
+			r.extent.width = SHIP_NAME_WIDTH - RES_CASE(2,1,0);		// JMS_GFX
+			r.extent.height += RESOLUTION_FACTOR; // JMS_GFX
+			lf.baseline.x = (STATUS_WIDTH >> 1) - RES_CASE(1,0,-1);
+			lf.baseline.y = r.corner.y + r.extent.height - RES_CASE(1,4,3);
 
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x1F), 0x09);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x0A, 0x1F, 0x1F), 0x0B);
@@ -215,14 +201,18 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 		else
 		{	// Naming the flagship
 			Font = StarConFont;
-			r = shipNameRect;
+			r.corner.x = RES_CASE(2,3,5); // JMS_GFX
+			r.corner.y = RES_CASE(20,40,63); // JMS_GFX
+			r.extent.width = SHIP_NAME_WIDTH;
+			r.extent.height += RES_CASE(0,0,1); // JMS_GFX
 			lf.baseline.x = r.corner.x + (r.extent.width >> 1);
+			lf.baseline.y = r.corner.y + r.extent.height - RES_CASE(1,4,3); // JMS_GFX
 
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0F, 0x00, 0x00), 0x2D);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x1F, 0x0A, 0x00), 0x7D);
 		}
 
-		lf.baseline.y = r.corner.y + r.extent.height - 1;
+		// lf.baseline.y = r.corner.y + r.extent.height - 1;
 		lf.align = ALIGN_CENTER;
 	}
 
@@ -318,7 +308,7 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 	TEXTENTRY_STATE tes;
 	UNICODE *Setting;
 	COUNT CursPos = 0; // JMS
-	RECT r; // J
+	RECT r; // JMS
 
 	// JMS: This should only be invoked when starting a new game.
 	// It prints a prompt window to the center of the screen, urging
@@ -333,7 +323,7 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 		GetContextClipRect (&clip_r);
 		
 		t.baseline.x = clip_r.extent.width >> 1;
-		t.baseline.y = (clip_r.extent.height >> 1) + 3; // JMS_GFX
+		t.baseline.y = (clip_r.extent.height >> 1) + (3 << RESOLUTION_FACTOR); // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.CharCount = (COUNT)~0;
 		
@@ -351,10 +341,10 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 		}
 		
 		TextRect (&t, &r, NULL);
-		r.corner.x -= 4; // JMS_GFX
-		r.corner.y -= 4; // JMS_GFX
-		r.extent.width += 8; // JMS_GFX
-		r.extent.height += 8; // JMS_GFX
+		r.corner.x -= 4 << RESOLUTION_FACTOR; // JMS_GFX
+		r.corner.y -= 4 << RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.width += 8 << RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.height += 8 << RESOLUTION_FACTOR; // JMS_GFX
 		
 		DrawStarConBox (&r, 2,
 						BUILD_COLOR (MAKE_RGB15 (0x10, 0x10, 0x10), 0x19),
@@ -365,7 +355,7 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 		font_DrawText (&t);
 	}
 
-	SetFlashRect (nameCaptain ? &captainNameRect : &shipNameRect);
+	SetFlashRect (NULL);
 
 	DrawNameString (nameCaptain, buf, CursPos, DDSHS_EDIT);
 
