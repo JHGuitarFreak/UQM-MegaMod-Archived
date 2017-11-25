@@ -108,7 +108,7 @@ static FRAME TextCacheFrame;
 
 RECT CommWndRect = {
 	// default values; actually inited by HailAlien()
-	{SIS_ORG_X, SIS_ORG_Y},
+	{0, 0},
 	{0, 0}
 };
 
