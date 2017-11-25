@@ -54,6 +54,8 @@ static void TFB_GL_Preprocess (int force_full_redraw, int transition_amount, int
 static void TFB_GL_Postprocess (void);
 static void TFB_GL_Scaled_ScreenLayer (SCREEN screen, Uint8 a, SDL_Rect *rect);
 static void TFB_GL_Unscaled_ScreenLayer (SCREEN screen, Uint8 a, SDL_Rect *rect);
+static void TFB_GL_Unscaled_ScreenLayer_2x (SCREEN screen, Uint8 a, SDL_Rect *rect);
+static void TFB_GL_Unscaled_ScreenLayer_4x (SCREEN screen, Uint8 a, SDL_Rect *rect);
 static void TFB_GL_ColorLayer (Uint8 r, Uint8 g, Uint8 b, Uint8 a, SDL_Rect *rect);
 
 static TFB_GRAPHICS_BACKEND opengl_scaled_backend = {
@@ -68,9 +70,21 @@ static TFB_GRAPHICS_BACKEND opengl_unscaled_backend = {
 	TFB_GL_Unscaled_ScreenLayer,
 	TFB_GL_ColorLayer };
 
+static TFB_GRAPHICS_BACKEND opengl_unscaled_backend_2x = {
+	TFB_GL_Preprocess,
+	TFB_GL_Postprocess,
+	TFB_GL_Unscaled_ScreenLayer_2x,
+	TFB_GL_ColorLayer };
+
+static TFB_GRAPHICS_BACKEND opengl_unscaled_backend_4x = {
+	TFB_GL_Preprocess,
+	TFB_GL_Postprocess,
+	TFB_GL_Unscaled_ScreenLayer_4x,
+	TFB_GL_ColorLayer };
+
 
 static int
-AttemptColorDepth (int flags, int width, int height, int bpp)
+AttemptColorDepth (int flags, int width, int height, int bpp, unsigned int resolutionFactor)
 {
 	int videomode_flags;
 	ScreenColorDepth = bpp;
@@ -113,6 +127,17 @@ AttemptColorDepth (int flags, int width, int height, int bpp)
 		videomode_flags |= SDL_FULLSCREEN;
 	videomode_flags |= SDL_ANYFORMAT;
 
+	if (resolutionFactor > 0 && flags & TFB_GFXFLAGS_FULLSCREEN)
+	{
+		height = fs_height;
+		width  = fs_width;
+			
+		log_add (log_Debug,"X:%d y:%d", width, height);
+	}
+	
+	ScreenWidthActual = width;
+	ScreenHeightActual = height;
+
 	SDL_Video = SDL_SetVideoMode (ScreenWidthActual, ScreenHeightActual, 
 		bpp, videomode_flags);
 	if (SDL_Video == NULL)
@@ -120,31 +145,47 @@ AttemptColorDepth (int flags, int width, int height, int bpp)
 		log_add (log_Error, "Couldn't set OpenGL %ix%ix%i video mode: %s",
 				ScreenWidthActual, ScreenHeightActual, bpp,
 				SDL_GetError ());
+
+		if (flags & TFB_GFXFLAGS_FULLSCREEN)
+		{
+			videomode_flags &= ~SDL_FULLSCREEN;
+			log_add (log_Error, "Falling back to windowed mode!!");
+			SDL_Video = SDL_SetVideoMode (ScreenWidthActual, ScreenHeightActual, bpp, videomode_flags);
+			
+			if (SDL_Video != NULL)
+				goto successful_change;
+		}
+
 		return -1;
 	}
 	else
 	{
+		successful_change:
 		log_add (log_Info, "Set the resolution to: %ix%ix%i"
-				" (surface reports %ix%ix%i)",
+				" (surface reports %ix%ix%i) (res_cat %u)",
 				width, height, bpp,			 
 				SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h,
-				SDL_GetVideoSurface()->format->BitsPerPixel);
+				SDL_GetVideoSurface()->format->BitsPerPixel, resolutionFactor);
 
 		log_add (log_Info, "OpenGL renderer: %s version: %s",
 				glGetString (GL_RENDERER), glGetString (GL_VERSION));
+
+		// JMS: Now, this makes the game center horizontally
+		// between the black bars on the sides.
+		ScreenWidthActual = SDL_GetVideoSurface()->w;
 	}
 	return 0;
 }
 
 int
-TFB_GL_ConfigureVideo (int driver, int flags, int width, int height, int togglefullscreen)
+TFB_GL_ConfigureVideo (int driver, int flags, int width, int height, int togglefullscreen, unsigned int resolutionFactor)
 {
 	int i, texture_width, texture_height;
 	GraphicsDriver = driver;
 
-	if (AttemptColorDepth (flags, width, height, 32) &&
-			AttemptColorDepth (flags, width, height, 24) &&
-			AttemptColorDepth (flags, width, height, 16))
+	if (AttemptColorDepth (flags, width, height, 32, resolutionFactor) &&
+			AttemptColorDepth (flags, width, height, 24, resolutionFactor) &&
+			AttemptColorDepth (flags, width, height, 16, resolutionFactor))
 	{
 		log_add (log_Error, "Couldn't set any OpenGL %ix%i video mode!",
 			 width, height);
@@ -209,11 +250,26 @@ TFB_GL_ConfigureVideo (int driver, int flags, int width, int height, int togglef
 	}
 	else
 	{
-		texture_width = 512;
-		texture_height = 256;
+		if (resolutionFactor == 0)
+		{
+			texture_width = 512;
+			texture_height = 256;
+			graphics_backend = &opengl_unscaled_backend;
+		}
+		else if (resolutionFactor == 1)
+		{
+			texture_width = 1024;
+			texture_height = 512;
+			graphics_backend = &opengl_unscaled_backend_2x;
+		}
+		else if (resolutionFactor == 2)
+		{
+			texture_width = 2048;
+			texture_height = 1024;
+			graphics_backend = &opengl_unscaled_backend_4x;
+		}
 
 		scaler = NULL;
-		graphics_backend = &opengl_unscaled_backend;
 	}
 
 
@@ -247,7 +303,7 @@ TFB_GL_ConfigureVideo (int driver, int flags, int width, int height, int togglef
 }
 
 int
-TFB_GL_InitGraphics (int driver, int flags, int width, int height)
+TFB_GL_InitGraphics (int driver, int flags, int width, int height, unsigned int resolutionFactor)
 {
 	char VideoName[256];
 
@@ -258,10 +314,10 @@ TFB_GL_InitGraphics (int driver, int flags, int width, int height)
 	log_add (log_Info, "SDL initialized.");
 	log_add (log_Info, "Initializing Screen.");
 
-	ScreenWidth = 320;
-	ScreenHeight = 240;
+	ScreenWidth = (320 << resolutionFactor); // JMS_GFX
+	ScreenHeight = (240 << resolutionFactor); // JMS_GFX
 
-	if (TFB_GL_ConfigureVideo (driver, flags, width, height, 0))
+	if (TFB_GL_ConfigureVideo (driver, flags, width, height, 0, resolutionFactor))
 	{
 		log_add (log_Fatal, "Could not initialize video: "
 				"no fallback at start of program!");
@@ -405,6 +461,172 @@ TFB_GL_DrawQuad (SDL_Rect *r)
 }
 
 static void
+TFB_GL_DrawQuad_2x (SDL_Rect *r)
+{
+	BOOLEAN keep_aspect_ratio = optKeepAspectRatio;
+	int x1 = 0, y1 = 0, x2 = ScreenWidthActual, y2 = ScreenHeightActual;
+	int sx = 0, sy = 0;
+	int sw, sh;
+	float sx_multiplier = 1;
+	float sy_multiplier = 1;
+	
+	if (keep_aspect_ratio)
+	{
+		float threshold = 0.75f;
+		float ratio = ScreenHeightActual / (float)ScreenWidthActual;
+		
+		if (ratio > threshold)
+		{
+			// screen is narrower than 4:3
+			int height = (int)(ScreenWidthActual * threshold);
+			y1 = (ScreenHeightActual - height) / 2;
+			y2 = ScreenHeightActual - y1;
+			
+			if (r != NULL)
+			{
+				sx_multiplier = ScreenWidthActual / (float)ScreenWidth;
+				sy_multiplier = height / (float)ScreenHeight;
+				sx = (int)(r->x * sx_multiplier);
+				sy = (int)(((ScreenHeight - (r->y + r->h)) * sy_multiplier) + y1);
+			}
+		}
+		else if (ratio < threshold)
+		{
+			// screen is wider than 4:3
+			int width = (int)(ScreenHeightActual / threshold);
+			x1 = (ScreenWidthActual - width) / 2;
+			x2 = ScreenWidthActual - x1;
+			
+			if (r != NULL)
+			{
+				sx_multiplier = width / (float)ScreenWidth;
+				sy_multiplier = ScreenHeightActual / (float)ScreenHeight;
+				sx = (int)((r->x * sx_multiplier) + x1);
+				sy = (int)((ScreenHeight - (r->y + r->h)) * sy_multiplier);
+			}
+		}
+		else
+		{
+			// screen is 4:3
+			keep_aspect_ratio = 0;
+		}
+	}
+	
+	if (r != NULL)
+	{
+		if (!keep_aspect_ratio)
+		{
+			sx_multiplier = ScreenWidthActual / (float)ScreenWidth;
+			sy_multiplier = ScreenHeightActual / (float)ScreenHeight;
+			sx = (int)(r->x * sx_multiplier);
+			sy = (int)((ScreenHeight - (r->y + r->h)) * sy_multiplier);
+		}
+		sw = (int)(r->w * sx_multiplier);
+		sh = (int)(r->h * sy_multiplier);
+		glScissor (sx, sy, sw, sh);
+		glEnable (GL_SCISSOR_TEST);
+	}
+	
+	glBegin (GL_TRIANGLE_FAN);
+	glTexCoord2f (0, 0);
+	glVertex2i (x1, y1);
+	glTexCoord2f (ScreenWidth / 1024.0f, 0);
+	glVertex2i (x2, y1);	
+	glTexCoord2f (ScreenWidth / 1024.0f, ScreenHeight / 512.0f);
+	glVertex2i (x2, y2);
+	glTexCoord2f (0, ScreenHeight / 512.0f);
+	glVertex2i (x1, y2);
+	glEnd ();
+	if (r != NULL)
+	{
+		glDisable (GL_SCISSOR_TEST);
+	}
+}
+
+static void
+TFB_GL_DrawQuad_4x (SDL_Rect *r)
+{
+	BOOLEAN keep_aspect_ratio = optKeepAspectRatio;
+	int x1 = 0, y1 = 0, x2 = ScreenWidthActual, y2 = ScreenHeightActual;
+	int sx = 0, sy = 0;
+	int sw, sh;
+	float sx_multiplier = 1;
+	float sy_multiplier = 1;
+	
+	if (keep_aspect_ratio)
+	{
+		float threshold = 0.75f;
+		float ratio = ScreenHeightActual / (float)ScreenWidthActual;
+		
+		if (ratio > threshold)
+		{
+			// screen is narrower than 4:3
+			int height = (int)(ScreenWidthActual * threshold);
+			y1 = (ScreenHeightActual - height) / 2;
+			y2 = ScreenHeightActual - y1;
+			
+			if (r != NULL)
+			{
+				sx_multiplier = ScreenWidthActual / (float)ScreenWidth;
+				sy_multiplier = height / (float)ScreenHeight;
+				sx = (int)(r->x * sx_multiplier);
+				sy = (int)(((ScreenHeight - (r->y + r->h)) * sy_multiplier) + y1);
+			}
+		}
+		else if (ratio < threshold)
+		{
+			// screen is wider than 4:3
+			int width = (int)(ScreenHeightActual / threshold);
+			x1 = (ScreenWidthActual - width) / 2;
+			x2 = ScreenWidthActual - x1;
+			
+			if (r != NULL)
+			{
+				sx_multiplier = width / (float)ScreenWidth;
+				sy_multiplier = ScreenHeightActual / (float)ScreenHeight;
+				sx = (int)((r->x * sx_multiplier) + x1);
+				sy = (int)((ScreenHeight - (r->y + r->h)) * sy_multiplier);
+			}
+		}
+		else
+		{
+			// screen is 4:3
+			keep_aspect_ratio = 0;
+		}
+	}
+	
+	if (r != NULL)
+	{
+		if (!keep_aspect_ratio)
+		{
+			sx_multiplier = ScreenWidthActual / (float)ScreenWidth;
+			sy_multiplier = ScreenHeightActual / (float)ScreenHeight;
+			sx = (int)(r->x * sx_multiplier);
+			sy = (int)((ScreenHeight - (r->y + r->h)) * sy_multiplier);
+		}
+		sw = (int)(r->w * sx_multiplier);
+		sh = (int)(r->h * sy_multiplier);
+		glScissor (sx, sy, sw, sh);
+		glEnable (GL_SCISSOR_TEST);
+	}
+	
+	glBegin (GL_TRIANGLE_FAN);
+	glTexCoord2f (0, 0);
+	glVertex2i (x1, y1);
+	glTexCoord2f (ScreenWidth / 2048.0f, 0);
+	glVertex2i (x2, y1);	
+	glTexCoord2f (ScreenWidth / 2048.0f, ScreenHeight / 1024.0f);
+	glVertex2i (x2, y2);
+	glTexCoord2f (0, ScreenHeight / 1024.0f);
+	glVertex2i (x1, y2);
+	glEnd ();
+	if (r != NULL)
+	{
+		glDisable (GL_SCISSOR_TEST);
+	}
+}
+
+static void
 TFB_GL_Preprocess (int force_full_redraw, int transition_amount, int fade_amount)
 {
 	glMatrixMode (GL_PROJECTION);
@@ -481,6 +703,100 @@ TFB_GL_Unscaled_ScreenLayer (SCREEN screen, Uint8 a, SDL_Rect *rect)
 	}
 	
 	TFB_GL_DrawQuad (rect);
+}
+
+static void
+TFB_GL_Unscaled_ScreenLayer_2x (SCREEN screen, Uint8 a, SDL_Rect *rect)
+{
+	glBindTexture (GL_TEXTURE_2D, GL_Screens[screen].texture);
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	
+	if (GL_Screens[screen].dirty)
+	{
+		int PitchWords = SDL_Screens[screen]->pitch / 4;
+		glPixelStorei (GL_UNPACK_ROW_LENGTH, PitchWords);
+		/* Matrox OpenGL drivers do not handle GL_UNPACK_SKIP_*
+		 correctly */
+		glPixelStorei (GL_UNPACK_SKIP_ROWS, 0);
+		glPixelStorei (GL_UNPACK_SKIP_PIXELS, 0);
+		SDL_LockSurface (SDL_Screens[screen]);
+		glTexSubImage2D (GL_TEXTURE_2D, 0, GL_Screens[screen].updated.x, 
+						 GL_Screens[screen].updated.y,
+						 GL_Screens[screen].updated.w, 
+						 GL_Screens[screen].updated.h,
+						 GL_RGBA, GL_UNSIGNED_BYTE,
+						 (Uint32 *)SDL_Screens[screen]->pixels +
+						 (GL_Screens[screen].updated.y * PitchWords + 
+						  GL_Screens[screen].updated.x));
+		SDL_UnlockSurface (SDL_Screens[screen]);
+		GL_Screens[screen].dirty = FALSE;
+	}
+	
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, ScreenFilterMode);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, ScreenFilterMode);
+	glEnable (GL_TEXTURE_2D);
+	
+	if (a == 255)
+	{
+		glDisable (GL_BLEND);
+		glColor4f (1, 1, 1, 1);
+	}
+	else
+	{
+		float a_f = a / 255.0f;
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable (GL_BLEND);
+		glColor4f (1, 1, 1, a_f);
+	}
+	
+	TFB_GL_DrawQuad_2x (rect);
+}
+
+static void
+TFB_GL_Unscaled_ScreenLayer_4x (SCREEN screen, Uint8 a, SDL_Rect *rect)
+{
+	glBindTexture (GL_TEXTURE_2D, GL_Screens[screen].texture);
+	glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	
+	if (GL_Screens[screen].dirty)
+	{
+		int PitchWords = SDL_Screens[screen]->pitch / 4;
+		glPixelStorei (GL_UNPACK_ROW_LENGTH, PitchWords);
+		/* Matrox OpenGL drivers do not handle GL_UNPACK_SKIP_*
+		 correctly */
+		glPixelStorei (GL_UNPACK_SKIP_ROWS, 0);
+		glPixelStorei (GL_UNPACK_SKIP_PIXELS, 0);
+		SDL_LockSurface (SDL_Screens[screen]);
+		glTexSubImage2D (GL_TEXTURE_2D, 0, GL_Screens[screen].updated.x, 
+						 GL_Screens[screen].updated.y,
+						 GL_Screens[screen].updated.w, 
+						 GL_Screens[screen].updated.h,
+						 GL_RGBA, GL_UNSIGNED_BYTE,
+						 (Uint32 *)SDL_Screens[screen]->pixels +
+						 (GL_Screens[screen].updated.y * PitchWords + 
+						  GL_Screens[screen].updated.x));
+		SDL_UnlockSurface (SDL_Screens[screen]);
+		GL_Screens[screen].dirty = FALSE;
+	}
+	
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, ScreenFilterMode);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, ScreenFilterMode);
+	glEnable (GL_TEXTURE_2D);
+	
+	if (a == 255)
+	{
+		glDisable (GL_BLEND);
+		glColor4f (1, 1, 1, 1);
+	}
+	else
+	{
+		float a_f = a / 255.0f;
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable (GL_BLEND);
+		glColor4f (1, 1, 1, a_f);
+	}
+	
+	TFB_GL_DrawQuad_4x (rect);
 }
 
 static void
