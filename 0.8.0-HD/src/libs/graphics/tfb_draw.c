@@ -154,6 +154,28 @@ TFB_DrawScreen_Copy (const RECT *r, SCREEN src, SCREEN dest)
 	TFB_EnqueueDrawCommand (&DC);
 }
 
+// JMS_GFX: This ensures the whole screen area is updated in screen transition.
+// Useful at least in hires when landing at planet and transitioning to planetside view.
+// (The planet is cut uglily in about half when using normal TFB_DrawScreen_Copy).
+void
+TFB_DrawScreen_Copy_Fs (RECT *r, SCREEN src, SCREEN dest)
+{
+	RECT locRect;
+	TFB_DrawCommand DC;
+	
+	locRect.corner.x = locRect.corner.y = 0;
+	locRect.extent.width = ScreenWidth;
+	locRect.extent.height = ScreenHeight;
+	r = &locRect;
+	
+	DC.Type = TFB_DRAWCOMMANDTYPE_COPY;
+	DC.data.copy.rect = locRect;
+	DC.data.copy.srcBuffer = src;
+	DC.data.copy.destBuffer = dest;
+	
+	TFB_EnqueueDrawCommand (&DC);
+}
+
 void
 TFB_DrawScreen_SetMipmap (TFB_Image *img, TFB_Image *mmimg, int hotx, int hoty)
 {

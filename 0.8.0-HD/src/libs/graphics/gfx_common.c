@@ -23,6 +23,11 @@
 #include "libs/misc.h"
 		// for TFB_DEBUG_HALT
 
+// JMS_GFX
+unsigned int resolutionFactor;
+int fs_height = 0; 
+int fs_width  = 0;
+// End JMS_GFX
 
 int ScreenWidth;
 int ScreenHeight;
@@ -44,10 +49,24 @@ DrawFromExtraScreen (RECT *r)
 	TFB_DrawScreen_Copy(r, TFB_SCREEN_EXTRA, TFB_SCREEN_MAIN);
 }
 
+// JMS_GFX
+void
+DrawFromExtraScreen_Fs (RECT *r)
+{
+	TFB_DrawScreen_Copy_Fs(r, TFB_SCREEN_EXTRA, TFB_SCREEN_MAIN);
+}
+
 void
 LoadIntoExtraScreen (RECT *r)
 {
 	TFB_DrawScreen_Copy(r, TFB_SCREEN_MAIN, TFB_SCREEN_EXTRA);
+}
+
+// JMS_GFX
+void
+LoadIntoExtraScreen_Fs (RECT *r)
+{
+	TFB_DrawScreen_Copy_Fs(r, TFB_SCREEN_MAIN, TFB_SCREEN_EXTRA);
 }
 
 int

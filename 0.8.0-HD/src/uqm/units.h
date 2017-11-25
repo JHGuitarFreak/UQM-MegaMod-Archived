@@ -27,46 +27,58 @@ extern "C" {
 
 extern int ScreenWidth;
 extern int ScreenHeight;
+extern unsigned int resolutionFactor; // JMS_GFX
 
 #define SCREEN_WIDTH ScreenWidth
 #define SCREEN_HEIGHT ScreenHeight
+#define RESOLUTION_FACTOR resolutionFactor														// JMS_GFX
+#define RES_CASE(a,b,c) (RESOLUTION_FACTOR == 0 ? (a) : (RESOLUTION_FACTOR == 1 ? (b) : (c)))	// JMS_GFX
+#define RES_STAT_SCALE(a) (RESOLUTION_FACTOR < 2 ? ((a) << RESOLUTION_FACTOR) : ((a) * 3))		// JMS_GFX
+
 #define SAFE_X 0
 		/* Left and right screen margin to be left unused */
 #define SAFE_Y 0
 		/* Top and bottom screen margin to be left unused */
 #define SIS_ORG_X (7 + SAFE_X)
 #define SIS_ORG_Y (10 + SAFE_Y)
-#define STATUS_WIDTH 64
-		/* Width of the status "window" (the right part of the screen) */
-#define STATUS_HEIGHT (SCREEN_HEIGHT - (SAFE_Y * 2))
-		/* Height of the status "window" (the right part of the screen) */
-#define SPACE_WIDTH (SCREEN_WIDTH - STATUS_WIDTH - (SAFE_X * 2))
-		/* Width of the space "window" (the left part of the screen) */
-#define SPACE_HEIGHT (SCREEN_HEIGHT - (SAFE_Y * 2))
-		/* Height of the space "window" (the left part of the screen) */
-#define SIS_SCREEN_WIDTH (SPACE_WIDTH - 14)
-		/* Width of the usable part of the space "window" */
-#define SIS_SCREEN_HEIGHT (SPACE_HEIGHT - 13)
-		/* Height of the usable part of the space "window" */
-#define RADAR_X (4 + (SCREEN_WIDTH - STATUS_WIDTH - SAFE_X))
-#define RADAR_WIDTH (STATUS_WIDTH - 8)
-#define RADAR_HEIGHT 53
-#define RADAR_Y (SIS_ORG_Y + SIS_SCREEN_HEIGHT - RADAR_HEIGHT)
 
-#define SIS_TITLE_BOX_WIDTH    57
-#define SIS_TITLE_WIDTH        (SIS_TITLE_BOX_WIDTH - 2)
-#define SIS_TITLE_HEIGHT       8
-#define SIS_SPACER_BOX_WIDTH   12
+/* Status bar & play area sizes. */
+#define STATUS_WIDTH RES_STAT_SCALE(64)
+/* Width of the status "window" (the right part of the screen) */
+#define STATUS_HEIGHT (SCREEN_HEIGHT - (SAFE_Y * 2))
+/* Height of the status "window" (the right part of the screen) */
+#define SPACE_WIDTH (SCREEN_WIDTH - STATUS_WIDTH - (SAFE_X * 2))
+/* Width of the space "window" (the left part of the screen) */
+#define SPACE_HEIGHT (SCREEN_HEIGHT - (SAFE_Y * 2))
+/* Height of the space "window" (the left part of the screen) */
+#define SIS_SCREEN_WIDTH (SPACE_WIDTH - 2 * SIS_ORG_X) // DC: Gray area on the right. just a spacer box
+/* Width of the usable part of the space "window" */
+#define SIS_SCREEN_HEIGHT (SPACE_HEIGHT - RES_CASE(3,6,6) - RES_CASE(10,20,30)) // JMS_GFX
+/* Height of the usable part of the space "window": 3, 6, 6 for the grey bottom border and 10, 20, 30 for the title */
+#define RES_SIS_SCALE(a) ((SIZE)(a) * SIS_SCREEN_WIDTH / 242) // JMS_GFX
+
+		/* Radar. */
+#define RADAR_X (RES_STAT_SCALE(4) + (SCREEN_WIDTH - STATUS_WIDTH - SAFE_X))	// JMS_GFX
+#define RADAR_WIDTH (STATUS_WIDTH - RES_STAT_SCALE(8))							// JMS_GFX
+#define RADAR_HEIGHT RES_STAT_SCALE(53)											// JMS_GFX
+#define RADAR_Y (SIS_ORG_Y + SIS_SCREEN_HEIGHT - (53 << RESOLUTION_FACTOR))		// JMS_GFX
+
+		/* Blue boxes which display messages and the green date box. */
+#define SIS_TITLE_BOX_WIDTH    (57 << RESOLUTION_FACTOR)						// JMS_GFX
+#define SIS_TITLE_WIDTH        (SIS_TITLE_BOX_WIDTH - (2 << RESOLUTION_FACTOR)) // JMS_GFX
+#define SIS_TITLE_HEIGHT       RES_CASE(8,19,29)								// JMS_GFX
+#define SIS_SPACER_BOX_WIDTH   (12 << RESOLUTION_FACTOR)						// JMS_GFX
+
 #define SIS_MESSAGE_BOX_WIDTH  (SIS_SCREEN_WIDTH - SIS_TITLE_BOX_WIDTH \
 			- SIS_SPACER_BOX_WIDTH)
 #define SIS_MESSAGE_WIDTH      (SIS_MESSAGE_BOX_WIDTH - 2)
 #define SIS_MESSAGE_HEIGHT     SIS_TITLE_HEIGHT
 
-#define STATUS_MESSAGE_WIDTH   (STATUS_WIDTH - 4)
-#define STATUS_MESSAGE_HEIGHT  7
+#define STATUS_MESSAGE_WIDTH   (STATUS_WIDTH - RES_CASE(4,6,7))	 // JMS_GFX
+#define STATUS_MESSAGE_HEIGHT  RES_CASE(7,14,24) // JMS_GFX
 
-#define SHIP_NAME_WIDTH        (STATUS_WIDTH - 4)
-#define SHIP_NAME_HEIGHT       7
+#define SHIP_NAME_WIDTH        (STATUS_WIDTH - RES_CASE(4,6,9))// JMS_GFX
+#define SHIP_NAME_HEIGHT       (RES_STAT_SCALE(7) - RES_CASE(0,0,4)) // JMS_GFX
 
 #define MAX_REDUCTION 3
 #define MAX_VIS_REDUCTION 2
