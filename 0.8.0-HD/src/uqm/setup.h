@@ -36,6 +36,7 @@ extern FRAME StatusFrame;
 extern FRAME SubmenuFrame; // JMS
 extern FRAME ConstellationsFrame; // JMS
 extern FRAME NebulaeFrame;	// JMS
+extern FRAME hyperspacesuns;	// BW
 extern FRAME FlagStatFrame;
 extern FRAME MiscDataFrame;
 extern FRAME FontGradFrame;
