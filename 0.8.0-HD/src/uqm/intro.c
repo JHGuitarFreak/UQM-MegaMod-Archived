@@ -179,10 +179,12 @@ Present_UnbatchGraphics (PRESENTATION_INPUT_STATE* pPIS, BOOLEAN bYield)
 static void
 Present_GenerateSIS (PRESENTATION_INPUT_STATE* pPIS)
 {
-#define MODULE_YOFS_P  (-79)
+#define MODULE_YOFS_P  (((-79) << RESOLUTION_FACTOR) + RES_CASE(0,-34,-94)) // JMS_GFX
 #define DRIVE_TOP_Y_P  (DRIVE_TOP_Y + MODULE_YOFS_P)
 #define JET_TOP_Y_P    (JET_TOP_Y + MODULE_YOFS_P)
 #define MODULE_TOP_Y_P (MODULE_TOP_Y + MODULE_YOFS_P)
+#define MODULE_TOP_X_P (MODULE_TOP_X + RES_CASE(0,18,0))
+#define JET_DRIVE_EXTRA_X RES_CASE(0,5,-3)
 	CONTEXT	OldContext;
 	FRAME SisFrame;
 	FRAME ModuleFrame;
@@ -220,7 +222,7 @@ Present_GenerateSIS (PRESENTATION_INPUT_STATE* pPIS)
 		piece = GLOBAL_SIS (DriveSlots[slot]);
 		if (piece < EMPTY_SLOT)
 		{
-			s.origin.x = DRIVE_TOP_X;
+			s.origin.x = DRIVE_TOP_X + JET_DRIVE_EXTRA_X;
 			s.origin.y = DRIVE_TOP_Y_P;
 			s.origin.x += slot * SHIP_PIECE_OFFSET;
 			s.frame = SetAbsFrameIndex (ModuleFrame, piece);
@@ -232,7 +234,7 @@ Present_GenerateSIS (PRESENTATION_INPUT_STATE* pPIS)
 		piece = GLOBAL_SIS (JetSlots[slot]);
 		if (piece < EMPTY_SLOT)
 		{
-			s.origin.x = JET_TOP_X;
+			s.origin.x = JET_TOP_X + JET_DRIVE_EXTRA_X;
 			s.origin.y = JET_TOP_Y_P;
 			s.origin.x += slot * SHIP_PIECE_OFFSET;
 			s.frame = SetAbsFrameIndex (ModuleFrame, piece);
@@ -244,7 +246,7 @@ Present_GenerateSIS (PRESENTATION_INPUT_STATE* pPIS)
 		piece = GLOBAL_SIS (ModuleSlots[slot]);
 		if (piece < EMPTY_SLOT)
 		{
-			s.origin.x = MODULE_TOP_X;
+			s.origin.x = MODULE_TOP_X_P;
 			s.origin.y = MODULE_TOP_Y_P;
 			s.origin.x += slot * SHIP_PIECE_OFFSET;
 			s.frame = SetAbsFrameIndex (ModuleFrame, piece);
@@ -351,6 +353,9 @@ DoPresentation (void *pIS)
 			int w, h;
 			if (2 == sscanf (pStr, "%d %d", &w, &h))
 			{
+				w <<= RESOLUTION_FACTOR; // JMS_GFX
+				h <<= RESOLUTION_FACTOR; // JMS_GFX
+
 				pPIS->clip_r.extent.width = w;
 				pPIS->clip_r.extent.height = h;
 				/* center on screen */
@@ -383,8 +388,101 @@ DoPresentation (void *pIS)
 			}
 
 			SetContextFont (*pFont);
+		}		
+		else if (strcmp (Opcode, "FONT1X") == 0 && RESOLUTION_FACTOR == 0)
+		{	/* set and/or load a font */
+			int index;
+			FONT *pFont;
+			
+			assert (sizeof (pPIS->Buffer) >= 256);
+			
+			pPIS->Buffer[0] = '\0';
+			if (1 > sscanf (pStr, "%d %255[^\n]", &index, pPIS->Buffer) ||
+				index < 0 || index >= MAX_FONTS)
+			{
+				log_add (log_Warning, "Bad FONT command '%s'", pStr);
+				continue;
+			}
+			pFont = &pPIS->Fonts[index];
+			
+			if (pPIS->Buffer[0])
+			{	/* asked to load a font */
+				if (*pFont)
+					DestroyFont (*pFont);
+				*pFont = LoadFontFile (pPIS->Buffer);
+			}
+			SetContextFont (*pFont);
+		}
+		else if (strcmp (Opcode, "FONT2X") == 0 && RESOLUTION_FACTOR == 1)
+		{	/* set and/or load a font */
+			int index;
+			FONT *pFont;
+			
+			assert (sizeof (pPIS->Buffer) >= 256);
+			
+			pPIS->Buffer[0] = '\0';
+			if (1 > sscanf (pStr, "%d %255[^\n]", &index, pPIS->Buffer) ||
+				index < 0 || index >= MAX_FONTS)
+			{
+				log_add (log_Warning, "Bad FONT command '%s'", pStr);
+				continue;
+			}
+			pFont = &pPIS->Fonts[index];
+			
+			if (pPIS->Buffer[0])
+			{	/* asked to load a font */
+				if (*pFont)
+					DestroyFont (*pFont);
+				*pFont = LoadFontFile (pPIS->Buffer);
+			}
+			SetContextFont (*pFont);;
+		}
+		else if (strcmp (Opcode, "FONT4X") == 0 && RESOLUTION_FACTOR == 2)
+		{	/* set and/or load a font */
+			int index;
+			FONT *pFont;
+			
+			assert (sizeof (pPIS->Buffer) >= 256);
+			
+			pPIS->Buffer[0] = '\0';
+			if (1 > sscanf (pStr, "%d %255[^\n]", &index, pPIS->Buffer) ||
+				index < 0 || index >= MAX_FONTS)
+			{
+				log_add (log_Warning, "Bad FONT command '%s'", pStr);
+				continue;
+			}
+			pFont = &pPIS->Fonts[index];
+			
+			if (pPIS->Buffer[0])
+			{	/* asked to load a font */
+				if (*pFont)
+					DestroyFont (*pFont);
+				*pFont = LoadFontFile (pPIS->Buffer);
+			}
+			SetContextFont (*pFont);
 		}
 		else if (strcmp (Opcode, "ANI") == 0)
+		{	/* set ani */
+			utf8StringCopy (pPIS->Buffer, sizeof (pPIS->Buffer), pStr);
+			if (pPIS->Frame)
+				DestroyDrawable (ReleaseDrawable (pPIS->Frame));
+			pPIS->Frame = CaptureDrawable (LoadGraphicFile (pPIS->Buffer));
+		}
+		else if (strcmp (Opcode, "ANI1X") == 0 && RESOLUTION_FACTOR == 0)
+		{	/* set ani */
+			utf8StringCopy (pPIS->Buffer, sizeof (pPIS->Buffer), pStr);
+			if (pPIS->Frame)
+				DestroyDrawable (ReleaseDrawable (pPIS->Frame));
+			pPIS->Frame = CaptureDrawable (LoadGraphicFile (pPIS->Buffer));
+		}
+		else if (strcmp (Opcode, "ANI2X") == 0 && RESOLUTION_FACTOR == 1)
+		{	/* set ani */
+			utf8StringCopy (pPIS->Buffer, sizeof (pPIS->Buffer), pStr);
+			if (pPIS->Frame)
+				DestroyDrawable (ReleaseDrawable (pPIS->Frame));
+			pPIS->Frame = CaptureDrawable (LoadGraphicFile (pPIS->Buffer));
+		}
+		else if (strcmp (Opcode, "ANI4X") == 0 && RESOLUTION_FACTOR == 2)
 		{	/* set ani */
 			utf8StringCopy (pPIS->Buffer, sizeof (pPIS->Buffer), pStr);
 			if (pPIS->Frame)
@@ -472,6 +570,9 @@ DoPresentation (void *pIS)
 			if (3 == sscanf (pStr, "%d %d %255[^\n]", &x, &y, pPIS->Buffer))
 			{
 				TEXT t;
+
+				x <<= RESOLUTION_FACTOR; // JMS_GFX
+				y <<= RESOLUTION_FACTOR; // JMS_GFX
 
 				t.align = ALIGN_CENTER;
 				t.pStr = pPIS->Buffer;
@@ -603,6 +704,9 @@ DoPresentation (void *pIS)
 				y = 0;
 			}
 
+			x <<= RESOLUTION_FACTOR; // JMS_GFX
+			y <<= RESOLUTION_FACTOR; // JMS_GFX
+
 			s.frame = NULL;
 			if (draw_what == PRES_DRAW_INDEX)
 			{	/* draw stamp by index */
@@ -678,6 +782,11 @@ DoPresentation (void *pIS)
 			if (4 == sscanf (pStr, "%d %d %d %d", &x1, &y1, &x2, &y2))
 			{
 				LINE l;
+
+				x1 <<= RESOLUTION_FACTOR; // JMS_GFX
+				y1 <<= RESOLUTION_FACTOR; // JMS_GFX
+				x2 <<= RESOLUTION_FACTOR; // JMS_GFX
+				y2 <<= RESOLUTION_FACTOR; // JMS_GFX
 
 				l.first.x = x1;
 				l.first.y = y1;
