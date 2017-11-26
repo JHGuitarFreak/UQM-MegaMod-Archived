@@ -56,7 +56,11 @@ extern "C" {
 #define TALK_DONE (1 << 6)
 		// In AlienTransitionDesc: indicates a transition to silent state
 		// In AlienTalkDesc: signals the end of talking animation
-#define ANIM_DISABLED (1 << 7)
+#define WHEN_TALKING (1L << 7) // JMS
+#define ANIM_DISABLED (1L << 8) // BW (needed for news anchor and animated background)
+
+#define FAST_STOP_AT_TALK_START (TALK_DONE) // JMS: If there's a very loooong animation, it can be forced to stop when talking with this.
+// (otherwise there'll be nasty, unwanted pauses in the conversation.) 
 
 #define COLORXFORM_ANIM PAUSE_TALKING
 
@@ -72,9 +76,10 @@ typedef struct
 	BYTE NumFrames;
 			// Number of frames in the animation.
 
-	BYTE AnimFlags;
+	COUNT AnimFlags;
 			// One of RANDOM_ANIM, CIRCULAR_ANIM, or YOYO_ANIM
 			// plus flags (WAIT_TALKING, ANIM_DISABLED)
+			// JMS: Changed from BYTE to COUNT to house more possible flags
 
 	COUNT BaseFrameRate;
 			// Minimum interframe delay
@@ -93,7 +98,7 @@ typedef struct
 			// due to the image overlap conflicts.
 } ANIMATION_DESC;
 
-#define MAX_ANIMATIONS 20
+#define MAX_ANIMATIONS 30 // JMS: Was 20
 
 
 #ifdef COMM_INTERNAL

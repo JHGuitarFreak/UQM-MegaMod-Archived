@@ -464,6 +464,36 @@ ProcessCommAnimations (BOOLEAN FullRedraw, BOOLEAN paused)
 				{	// Otherwise, let the animation run until it's safe
 					CanTalk = FALSE;
 				}
+			}			
+			
+			// BW: to be checked. I've tried to remove what's supposed to be removed while keeping the Syreen zoom-in feature.
+			// It may have to be re-programmed in the new commanim style.
+			if (pSeq->AnimType == PICTURE_ANIM
+				&& (ADPtr->AnimFlags & CommData.AlienTalkDesc.AnimFlags & WAIT_TALKING)
+				&& pSeq->Direction != NO_DIR)
+			{
+				// JMS: Cut marked animations short when starting talk.
+				// The animations are marked with FAST_STOP_AT_TALK_START in the races' comm source codes.
+				if (ADPtr->AnimFlags & FAST_STOP_AT_TALK_START)
+				{	CanTalk = TRUE;
+					//pSeq->AnimObj.CurFrame = SetAbsFrameIndex(pSeq->AnimObj.CurFrame, ADPtr->StartIndex);
+					pSeq->Direction = NO_DIR;
+				}
+			}
+			
+			// JMS: This handles ambient animations which should occur only during talk
+			// A lot of conditions are necessary to eliminate unwanted animations
+			// from the duration of talk transition!
+			if (pSeq->AnimType == PICTURE_ANIM
+				&& ADPtr->AnimFlags & WHEN_TALKING 
+				&& (!(CommData.AlienTalkDesc.AnimFlags & WAIT_TALKING) 
+					|| (CommData.AlienTalkDesc.AnimFlags & TALK_INTRO)
+					|| (CommData.AlienTalkDesc.AnimFlags & TALK_DONE))
+				&& !(CommData.AlienTransitionDesc.AnimFlags & PAUSE_TALKING)
+				&& pSeq->Direction != NO_DIR)
+			{
+				// Stop the anim if not talking
+				pSeq->Direction = NO_DIR;
 			}
 		}
 		// All ambient animations have been processed. Advance the mask.
