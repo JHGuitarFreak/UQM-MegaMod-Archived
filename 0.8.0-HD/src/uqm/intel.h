@@ -39,6 +39,29 @@ extern "C" {
 #define MEDIUM_SHIP 45
 #define SLOW_SHIP 25
 
+// JMS_GFX
+#define CLOSE_RANGE_WEAPON_2XRES DISPLAY_TO_WORLD (100)
+#define LONG_RANGE_WEAPON_2XRES DISPLAY_TO_WORLD (2000)
+
+// JMS_GFX: Multiplied by 2*2=4 because of the way the ManeuverabilityIndex
+// is calculated in InitCyborg () (cyborg.c).
+#define FAST_SHIP_2XRES 600
+#define MEDIUM_SHIP_2XRES 180
+#define SLOW_SHIP_2XRES 100
+
+// JMS_GFX
+#define CLOSE_RANGE_WEAPON_4XRES DISPLAY_TO_WORLD (200)
+#define LONG_RANGE_WEAPON_4XRES DISPLAY_TO_WORLD (4000)
+
+// JMS_GFX: Multiplied by 4*4=16 because of the way the ManeuverabilityIndex
+// is calculated in InitCyborg () (cyborg.c).
+#define FAST_SHIP_4XRES 2400
+#define MEDIUM_SHIP_4XRES 720
+#define SLOW_SHIP_4XRES 400
+
+// JMS_GFX
+#define RESOLUTION_COMPENSATED(speed) ((speed << RESOLUTION_FACTOR) << RESOLUTION_FACTOR)
+
 enum
 {
 	ENEMY_SHIP_INDEX = 0,
