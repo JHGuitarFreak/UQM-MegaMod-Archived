@@ -29,7 +29,7 @@
 extern "C" {
 #endif
 
-#define STAR_STRING_COUNT       133
+#define STAR_STRING_COUNT       149
 #define DEVICE_STRING_COUNT      29
 #define CARGO_STRING_COUNT       10
 #define ELEMENTS_STRING_COUNT   133
@@ -37,11 +37,11 @@ extern "C" {
 #define STAR_NUMBER_COUNT        14
 #define PLANET_NUMBER_COUNT      33
 #define MONTHS_STRING_COUNT      12
-#define FEEDBACK_STRING_COUNT     2
+#define FEEDBACK_STRING_COUNT     5
 #define STARBASE_STRING_COUNT     5
 #define ENCOUNTER_STRING_COUNT    8
 #define NAVIGATION_STRING_COUNT   6
-#define NAMING_STRING_COUNT       4
+#define NAMING_STRING_COUNT       6
 #define MELEE_STRING_COUNT        9
 #define SAVEGAME_STRING_COUNT     5
 #define OPTION_STRING_COUNT       5

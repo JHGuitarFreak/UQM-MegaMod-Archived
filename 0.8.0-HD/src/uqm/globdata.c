@@ -45,7 +45,6 @@ FRAME PlayFrame;
 
 GLOBDATA GlobData;
 
-
 // Pre: 0 <= bits <= 32
 // This function is necessary because expressions such as '(1 << bits) - 1'
 // or '~(~0 << bits)' may shift by 32 bits, which is undefined (for 32 bits
