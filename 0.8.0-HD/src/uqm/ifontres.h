@@ -2,12 +2,19 @@
    should not be edited directly.  Modify the master resource list
    instead and regenerate. */
 
+#define FALLBACK_TO1X_FONT "font.fallbackto1x"
+#define FALLBACK_TO2X_FONT "font.fallbackto2x"
+#define FALLBACK_TO4X_FONT "font.fallbackto4x"
 #define LANDER_FONT "font.lander"
 #define MICRO_FONT "font.micro"
+#define NANO_FONT "font.nano"
 #define PLAYER_FONT "font.player"
 #define PT13AA_FONT "credits.font.pt13"
 #define PT17AA_FONT "credits.font.pt17"
 #define PT45AA_FONT "credits.font.pt45"
 #define STARCON_FONT "font.starcon"
 #define TINY_FONT "font.tiny"
+#define TINY_FALLBACK_TO1X_FONT "font.tinyfallbackto1x"
+#define TINY_FALLBACK_TO2X_FONT "font.tinyfallbackto2x"
+#define TINY_FALLBACK_TO4X_FONT "font.tinyfallbackto4x"
 #define COMPUTER_FONT "comm.computer.font"
