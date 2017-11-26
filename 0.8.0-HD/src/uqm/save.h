@@ -61,6 +61,7 @@ typedef struct
 	BYTE ShipList[MAX_BUILT_SHIPS];
 	BYTE DeviceList[MAX_EXCLUSIVE_DEVICES];
 	UNICODE SaveName[SAVE_NAME_SIZE];
+	BYTE res_factor;	// JMS: Stores resolution factor to enable saving/loading from different res modes.
 } SUMMARY_DESC;
 
 extern ACTIVITY NextActivity;
