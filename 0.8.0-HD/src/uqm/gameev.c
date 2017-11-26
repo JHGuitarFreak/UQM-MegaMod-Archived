@@ -31,7 +31,7 @@
 #include "libs/mathlib.h"
 #include "options.h"
 #include <stdlib.h>
-
+#include "setup.h"
 
 static int arilou_entrance_event (int arg);
 static int arilou_exit_event (int arg);
@@ -138,7 +138,7 @@ AddInitialGameEvents (void) {
 	COUNT kohrah_winning_years = optCheatMode ? YEARS_TO_KOHRAH_VICTORY + 25 : YEARS_TO_KOHRAH_VICTORY;
 	AddEvent (RELATIVE_EVENT, 0, 1, 0, HYPERSPACE_ENCOUNTER_EVENT);
 	AddEvent (ABSOLUTE_EVENT, 3, 17, START_YEAR, ARILOU_ENTRANCE_EVENT);
-	AddEvent (RELATIVE_EVENT, 0, 0, YEARS_TO_KOHRAH_VICTORY,
+	AddEvent (RELATIVE_EVENT, 0, 0, kohrah_winning_years,
 			KOHR_AH_VICTORIOUS_EVENT);
 	AddEvent (RELATIVE_EVENT, 0, 0, 0, SLYLANDRO_RAMP_UP);
 }

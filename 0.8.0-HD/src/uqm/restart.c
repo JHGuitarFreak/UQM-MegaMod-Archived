@@ -94,14 +94,14 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	UnbatchGraphics ();
 }
 
+// JMS_GFX: The cleanup boolean can be used to avoid drawing a wrong-sized "Setup" flash overlay.
 static void
-DrawRestartMenu (MENU_STATE *pMS, BYTE NewState, FRAME f)
+DrawRestartMenu (MENU_STATE *pMS, BYTE NewState, FRAME f, BOOLEAN cleanup)
 {
 	POINT origin;
 	origin.x = 0;
 	origin.y = 0;
-	Flash_setOverlay(pMS->flashContext,
-			&origin, SetAbsFrameIndex (f, NewState + 1));
+	Flash_setOverlay (pMS->flashContext, &origin, SetAbsFrameIndex (f, NewState + 1), cleanup);
 }
 
 static BOOLEAN
@@ -135,7 +135,7 @@ DoRestart (MENU_STATE *pMS)
 		Flash_setFrameTime (pMS->flashContext, ONE_SECOND / 16);
 		Flash_setState(pMS->flashContext, FlashState_fadeIn,
 				(3 * ONE_SECOND) / 16);
-		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame);
+		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
 		Flash_start (pMS->flashContext);
 		LastInputTime = GetTimeCounter ();
 		pMS->Initialized = TRUE;
@@ -179,7 +179,7 @@ DoRestart (MENU_STATE *pMS)
 				BatchGraphics ();
 				DrawRestartMenuGraphic (pMS);
 				ScreenTransition (3, NULL);
-				DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame);
+				DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
 				Flash_continue(pMS->flashContext);
 				UnbatchGraphics ();
 				return TRUE;
@@ -216,7 +216,7 @@ DoRestart (MENU_STATE *pMS)
 		if (NewState != pMS->CurState)
 		{
 			BatchGraphics ();
-			DrawRestartMenu (pMS, NewState, pMS->CurFrame);
+			DrawRestartMenu (pMS, NewState, pMS->CurFrame, FALSE);
 			UnbatchGraphics ();
 			pMS->CurState = NewState;
 		}
@@ -237,7 +237,7 @@ DoRestart (MENU_STATE *pMS)
 		SetTransitionSource (NULL);
 		BatchGraphics ();
 		DrawRestartMenuGraphic (pMS);
-		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame);
+		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
 		ScreenTransition (3, NULL);
 		UnbatchGraphics ();
 		Flash_continue(pMS->flashContext);
