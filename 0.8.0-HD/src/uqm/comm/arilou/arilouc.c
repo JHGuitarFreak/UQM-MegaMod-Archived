@@ -502,7 +502,9 @@ AngryHomeArilou (RESPONSE_REF R)
 	else if (PHRASE_ENABLED (what_about_interference))
 		Response (what_about_interference, AngryHomeArilou);
 	Response (ok_lets_be_friends, ArilouHome);
-	Response (i_just_like_to_leave, AngryHomeArilou);
+	if (PHRASE_ENABLED (i_just_like_to_leave)){
+		Response (i_just_like_to_leave, AngryHomeArilou);
+	}
 }
 
 static void

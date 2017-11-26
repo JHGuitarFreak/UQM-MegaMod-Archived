@@ -24,6 +24,8 @@
 #include "uqm/build.h"
 #include "uqm/hyper.h"
 			// for SOL_X/SOL_Y
+#include "../../nameref.h"
+			// JMS_GFX: For LoadGraphic 
 
 
 static LOCDATA chmmr_desc =
@@ -180,8 +182,8 @@ ExitConversation (RESPONSE_REF R)
 
 			/* XXX : this should be unhardcoded eventually */
 			/* transport to Starbase */
-			GLOBAL (ShipStamp.origin.x) = STARBASE_INNER_X - SAFE_X;
-			GLOBAL (ShipStamp.origin.y) = STARBASE_INNER_Y - SAFE_Y;
+			GLOBAL (ShipStamp.origin.x) = SIS_SCREEN_WIDTH >> 1;
+			GLOBAL (ShipStamp.origin.y) = SIS_SCREEN_HEIGHT >> 1;
 		}
 		else
 		{	/* 'Beating Game Differently' mode - never visited Starbase,
@@ -560,6 +562,15 @@ Intro (void)
 			CommData.AlienColorMap = SetAbsColorMapIndex (
 					CommData.AlienColorMap, 1
 					);
+
+			// JMS_GFX: Use separate graphics in hires instead of colormap transform.
+			if (RESOLUTION_FACTOR > 0)
+			{
+				CommData.AlienFrameRes = CHMMR_RED_PMAP_ANIM;
+				CommData.AlienFrame = CaptureDrawable (
+					LoadGraphic (CommData.AlienFrameRes));
+			}
+
 			switch (NumVisits++)
 			{
 				case 0:
