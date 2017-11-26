@@ -209,7 +209,7 @@ TimeCount Flash_nextTime (FlashContext *context);
 void Flash_setRect (FlashContext *context, const RECT *rect);
 void Flash_getRect (FlashContext *context, RECT *rect);
 void Flash_setOverlay(FlashContext *context, const POINT *origin,
-		FRAME overlay);
+		FRAME overlay, BOOLEAN cleanup); // JMS_GFX
 void Flash_preUpdate (FlashContext *context);
 void Flash_postUpdate (FlashContext *context);
 void Flash_setCacheSize (FlashContext *context, COUNT size);
