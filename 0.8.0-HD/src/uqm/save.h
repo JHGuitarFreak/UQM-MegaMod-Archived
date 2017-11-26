@@ -66,8 +66,9 @@ typedef struct
 
 extern ACTIVITY NextActivity;
 
-extern BOOLEAN LoadGame (COUNT which_game, SUMMARY_DESC *summary_desc);
+extern BOOLEAN LoadGame (COUNT which_game, SUMMARY_DESC *summary_desc, BOOLEAN TryVanilla);
 extern BOOLEAN LoadLegacyGame (COUNT which_game, SUMMARY_DESC *summary_desc);
+extern void LoadProblemMessage ();
 
 extern void SaveProblem (void);
 extern BOOLEAN SaveGame (COUNT which_game, SUMMARY_DESC *summary_desc, const char *name);
