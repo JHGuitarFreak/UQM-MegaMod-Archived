@@ -29,7 +29,8 @@
 #include "setup.h"
 #include "state.h"
 #include "grpintrn.h"
-
+#include "util.h"
+#include "gamestr.h" // JMS: For GAME_STRING
 #include "libs/tasklib.h"
 #include "libs/log.h"
 #include "libs/misc.h"
@@ -266,6 +267,9 @@ LoadEncounter (ENCOUNTER *EncounterPtr, void *fh)
 	// Load the stuff after the BRIEF_SHIP_INFO array
 	read_32s (fh, &EncounterPtr->log_x);
 	read_32s (fh, &EncounterPtr->log_y);
+
+	EncounterPtr->log_x <<= RESOLUTION_FACTOR;
+	EncounterPtr->log_y <<= RESOLUTION_FACTOR;
 }
 
 static void
@@ -290,9 +294,11 @@ LoadClockState (CLOCK_STATE *ClockPtr, void *fh)
 }
 
 static BOOLEAN
-LoadGameState (GAME_STATE *GSPtr, void *fh)
+LoadGameState (GAME_STATE *GSPtr, void *fh, BOOLEAN TryVanilla)
 {
 	DWORD magic;
+	BYTE res_scale; // JMS
+
 	read_32 (fh, &magic);
 	if (magic != GLOBAL_STATE_TAG)
 	{
@@ -307,9 +313,27 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 	read_8   (fh, &GSPtr->glob_flags);
 	read_8   (fh, &GSPtr->CrewCost);
 	read_8   (fh, &GSPtr->FuelCost);
+
+	// JMS: Now that we have read the fuelcost, we can compare it
+	// to the correct value. Fuel cost is always FUEL_COST_RU, and if
+	// the savefile tells otherwise, we have read it with the wrong method
+	// (The savegame is from vanilla UQM and we've been reading it as if it
+	// were UQM-HD save.)
+	//
+	// At this point we must then cease reading the savefile, close it
+	// and re-open it again, this time using the vanilla-reading method.
+	if (GSPtr->FuelCost != 20)
+		return FALSE;
+
 	read_a8  (fh, GSPtr->ModuleCost, NUM_MODULES);
 	read_a8  (fh, GSPtr->ElementWorth, NUM_ELEMENT_CATEGORIES);
 	read_16  (fh, &GSPtr->CurrentActivity);
+
+	// JMS
+	if (LOBYTE (GSPtr->CurrentActivity) != IN_INTERPLANETARY)
+		res_scale = RESOLUTION_FACTOR;
+	else
+		res_scale = 0;
 
 	LoadClockState (&GSPtr->GameClock, fh);
 
@@ -324,6 +348,10 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 	read_8   (fh, &GSPtr->ip_planet);
 	read_8   (fh, &GSPtr->in_orbit);
 
+	// JMS: Let's make savegames work even between different resolution modes.
+	GSPtr->ShipStamp.origin.x <<= RESOLUTION_FACTOR; 
+	GSPtr->ShipStamp.origin.y <<= RESOLUTION_FACTOR; 
+
 	/* VELOCITY_DESC velocity */
 	read_16  (fh, &GSPtr->velocity.TravelAngle);
 	read_16s (fh, &GSPtr->velocity.vector.width);
@@ -335,13 +363,24 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 	read_16s (fh, &GSPtr->velocity.incr.width);
 	read_16s (fh, &GSPtr->velocity.incr.height);
 
+	// JMS: Let's make savegames work even between different resolution modes.
+	GSPtr->velocity.vector.width  <<= res_scale; 
+	GSPtr->velocity.vector.height <<= res_scale; 
+	GSPtr->velocity.fract.width	  <<= res_scale; 
+	GSPtr->velocity.fract.height  <<= res_scale; 
+	GSPtr->velocity.error.width	  <<= res_scale; 
+	GSPtr->velocity.error.height  <<= res_scale; 
+	GSPtr->velocity.incr.width	  <<= res_scale; 
+	GSPtr->velocity.incr.height	  <<= res_scale; 
+ 
+
 	read_32 (fh, &magic);
 	if (magic != GAME_STATE_TAG)
 	{
 		return FALSE;
 	}
 	{
-		size_t gameStateByteCount = (NUM_GAME_STATE_BITS + 7) >> 3;
+		size_t gameStateByteCount = ((TryVanilla ? (NUM_GAME_STATE_BITS - 17) : NUM_GAME_STATE_BITS) + 7) >> 3;
 		BYTE *buf;
 		BOOLEAN result;
 
@@ -401,14 +440,20 @@ LoadSisState (SIS_STATE *SSPtr, void *fp)
 			read_str (fp, SSPtr->PlanetName, SIS_NAME_SIZE) != 1
 		)
 		return FALSE;
-	return TRUE;
+ 	else {
+		// JMS: Let's make savegames work even between different resolution modes.
+		SSPtr->log_x <<= RESOLUTION_FACTOR;
+		SSPtr->log_y <<= RESOLUTION_FACTOR;
+		return TRUE;
+	}
 }
 
 static BOOLEAN
-LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
+LoadSummary (SUMMARY_DESC *SummPtr, void *fp, BOOLEAN TryVanilla)
 {
 	SDWORD magic;
 	DWORD nameSize = 0;
+
 	if (!read_32s (fp, &magic))
 		return FALSE;
 	if (magic == SAVEFILE_TAG)
@@ -438,7 +483,8 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
 			read_8  (fp, &SummPtr->NumShips) != 1 ||
 			read_8  (fp, &SummPtr->NumDevices) != 1 ||
 			read_a8 (fp, SummPtr->ShipList, MAX_BUILT_SHIPS) != 1 ||
-			read_a8 (fp, SummPtr->DeviceList, MAX_EXCLUSIVE_DEVICES) != 1
+			read_a8 (fp, SummPtr->DeviceList, MAX_EXCLUSIVE_DEVICES) != 1 ||
+			read_8  (fp, &SummPtr->res_factor) != 1 // JMS: This'll help making saves between different resolutions compatible.		
 		)
 		return FALSE;
 	
@@ -457,6 +503,12 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
 		if (skip_8 (fp, remaining) != 1)
 			return FALSE;
 	}
+
+	// JMS: UQM-HD saves have an extra piece of padding to compensate for the
+	// added res_factor in SummPtr.
+	if (!TryVanilla)
+		read_8 (fp, NULL); /* padding */
+
 	return TRUE;
 }
 
@@ -655,7 +707,7 @@ LoadBattleGroup (uio_Stream *fh, DWORD chunksize)
 }
 
 BOOLEAN
-LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
+LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN TryVanilla)
 {
 	uio_Stream *in_fp;
 	char file[PATH_MAX];
@@ -669,9 +721,16 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 	sprintf (file, "uqmsave.%02u", which_game);
 	in_fp = res_OpenResFile (saveDir, file, "rb");
 	if (!in_fp)
-		return LoadLegacyGame (which_game, SummPtr);
+		return LoadLegacyGame (which_game, SummPtr);	
 
-	if (!LoadSummary (&loc_sd, in_fp))
+	if (!LoadSummary (&loc_sd, in_fp, TryVanilla))
+	{
+		log_add (log_Error, "Warning: Savegame is corrupt");
+		res_CloseResFile (in_fp);
+		return FALSE;
+	}
+
+	if (!LoadSummary (&loc_sd, in_fp, TryVanilla))
 	{
 		res_CloseResFile (in_fp);
 		return LoadLegacyGame (which_game, SummPtr);
@@ -702,11 +761,22 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 	initEventSystem ();
 
 	Activity = GLOBAL (CurrentActivity);
-	if (!LoadGameState (&GlobData.Game_state, in_fp))
+
+	// JMS: We can decide whether the current savefile is vanilla UQM or UQM-HD
+	// only at this point, when reading the game states. If this turns out to be a 
+	// vanilla UQM save, we must close the file and re-open it for reading
+	// with the vanilla method.
+	if (!LoadGameState (&GlobData.Game_state, in_fp, TryVanilla))
 	{
 		res_CloseResFile (in_fp);
-		return FALSE;
+		if (!TryVanilla) {
+			LoadGame (which_game, NULL, TRUE);
+			return TRUE;
+		}
+		else
+			return FALSE;
 	}
+
 	NextActivity = GLOBAL (CurrentActivity);
 	GLOBAL (CurrentActivity) = Activity;
 
