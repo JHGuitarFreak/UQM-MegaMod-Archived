@@ -196,7 +196,7 @@ extern PRIMITIVE DisplayArray[MAX_DISPLAY_PRIMS];
 #define MAX_ENERGY_SIZE 42
 #define MAX_SHIP_MASS 10
 #define GRAVITY_MASS(m) ((m) > MAX_SHIP_MASS * 10)
-#define GRAVITY_THRESHOLD (COUNT)255
+#define GRAVITY_THRESHOLD (COUNT)(255 << RESOLUTION_FACTOR) // JMS_GFX
 
 #define OBJECT_CLOAKED(eptr) \
 		(GetPrimType (&GLOBAL (DisplayArray[(eptr)->PrimIndex])) >= NUM_PRIMS \
@@ -230,7 +230,7 @@ extern COUNT PlotIntercept (ELEMENT *ElementPtr0,
 		ELEMENT *ElementPtr1, COUNT max_turns, COUNT margin_of_error);
 
 extern void InitGalaxy (void);
-extern void MoveGalaxy (VIEW_STATE view_state, SIZE dx, SIZE dy);
+extern void MoveGalaxy (VIEW_STATE view_state, SDWORD dx, SDWORD dy);
 
 extern BOOLEAN CalculateGravity (ELEMENT *ElementPtr);
 
