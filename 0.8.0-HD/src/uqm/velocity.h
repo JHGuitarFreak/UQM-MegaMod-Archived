@@ -38,16 +38,21 @@ typedef struct velocity_desc
 #define ZeroVelocityComponents(pv) memset(pv,0,sizeof (*(pv)))
 #define GetVelocityTravelAngle(pv) (pv)->TravelAngle
 
-extern void GetCurrentVelocityComponents (VELOCITY_DESC *velocityptr,
-		SIZE *pdx, SIZE *pdy);
-extern void GetNextVelocityComponents (VELOCITY_DESC *velocityptr,
-		SIZE *pdx, SIZE *pdy, COUNT num_frames);
-extern void SetVelocityVector (VELOCITY_DESC *velocityptr, SIZE magnitude,
-		COUNT facing);
-extern void SetVelocityComponents (VELOCITY_DESC *velocityptr, SIZE dx,
-		SIZE dy);
-extern void DeltaVelocityComponents (VELOCITY_DESC *velocityptr, SIZE dx,
-		SIZE dy);
+extern void GetCurrentVelocityComponents (VELOCITY_DESC *velocityptr, SIZE *pdx, SIZE *pdy);
+
+// JMS_GFX: New function to prevent overflows in hi-res.
+extern void GetCurrentVelocityComponentsSdword (VELOCITY_DESC *velocityptr, SDWORD *pdx, SDWORD *pdy);
+
+extern void GetNextVelocityComponents (VELOCITY_DESC *velocityptr, SIZE *pdx, SIZE *pdy, COUNT num_frames);
+
+// JMS_GFX: New function to prevent overflows in hi-res.
+extern void GetNextVelocityComponentsSdword (VELOCITY_DESC *velocityptr, SDWORD *pdx, SDWORD *pdy, DWORD num_frames);
+
+extern void SetVelocityVector (VELOCITY_DESC *velocityptr, SDWORD magnitude, COUNT facing); // JMS_GFX: Changed SIZE to SDWORD to prevent overflows
+
+extern void SetVelocityComponents (VELOCITY_DESC *velocityptr, SDWORD dx, SDWORD dy); // JMS_GFX: Changed SIZE to SDWORD to prevent overflows
+
+extern void DeltaVelocityComponents (VELOCITY_DESC *velocityptr, SDWORD dx, SDWORD dy); // JMS_GFX: Changed SIZE to SDWORD to prevent overflows
 
 static inline bool
 IsVelocityZero (VELOCITY_DESC *vptr)
