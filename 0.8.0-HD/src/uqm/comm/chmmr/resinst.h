@@ -7,4 +7,5 @@
 #define CHMMR_FONT "comm.chmmr.font"
 #define CHMMR_MUSIC "comm.chmmr.music"
 #define CHMMR_PMAP_ANIM "comm.chmmr.graphics"
+#define CHMMR_RED_PMAP_ANIM "comm.chmmr.red.graphics"
 #define CHMMR_SCRIPT "comm.chmmr.script"
