@@ -882,10 +882,10 @@ LoadGameState (GAME_STATE *GSPtr, DECODE_REF fh)
 	DummyLoadQueue (&GSPtr->built_ship_q, fh);
 
 	{
-		size_t numBytes = (NUM_GAME_STATE_BITS + 7) >> 3;
+		size_t numBytes = ((NUM_GAME_STATE_BITS - 17) + 7) >> 3;
 		BYTE *buf;
 
-		assert (numBytes % 4 == 3);
+		// assert (numBytes % 4 == 3);
 				// We should have one byte padding.
 		buf = HMalloc (numBytes);
 		if (buf != NULL)
