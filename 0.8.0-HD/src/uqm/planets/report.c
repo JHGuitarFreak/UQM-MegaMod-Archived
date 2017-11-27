@@ -33,8 +33,8 @@
 #include <string.h>
 
 
-#define NUM_CELL_COLS MAP_WIDTH / 6
-#define NUM_CELL_ROWS MAP_HEIGHT / 6
+#define NUM_CELL_COLS (MAP_WIDTH / (6 << RESOLUTION_FACTOR) + RES_CASE(0,3,7) - (optWhichFonts == OPT_PC ? 0 : RES_CASE(0,0,1))) // JMS_GFX 
+#define NUM_CELL_ROWS (MAP_HEIGHT / (6 << RESOLUTION_FACTOR) + RES_CASE(0,1,2)) // JMS_GFX
 #define MAX_CELL_COLS 40
 
 extern FRAME SpaceJunkFrame;
@@ -43,9 +43,19 @@ static void
 ClearReportArea (void)
 {
 	COUNT x, y;
+	BYTE emptycols, emptyrows;  // JMS_GFX
 	RECT r;
 	STAMP s;
 	COORD startx;
+
+	// JMS_GFX
+	if (RESOLUTION_FACTOR > 0) {
+		emptycols = NUM_CELL_COLS + 1;
+		emptyrows = NUM_CELL_ROWS + 1;
+	} else {
+		emptycols = NUM_CELL_COLS;
+		emptyrows = NUM_CELL_ROWS;
+	}
 
 	if (optWhichFonts == OPT_PC)
 		s.frame = SetAbsFrameIndex (SpaceJunkFrame, 21);
@@ -60,12 +70,12 @@ ClearReportArea (void)
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x00, 0x07, 0x00), 0x57));
 	
-	startx = 1 + (r.extent.width >> 1) - 1;
-	s.origin.y = 1;
-	for (y = 0; y < NUM_CELL_ROWS; ++y)
+	startx = 1 + (r.extent.width >> 1) - 1 - (4 * RESOLUTION_FACTOR) + RES_CASE(0,0,8);  // JMS_GFX
+	s.origin.y = 1 + RES_CASE(0,0,9);
+	for (y = 0; y < emptyrows; ++y)
 	{
 		s.origin.x = startx;
-		for (x = 0; x < NUM_CELL_COLS; ++x)
+		for (x = 0; x < emptycols; ++x)
 		{
 			if (optWhichFonts == OPT_PC)
 				DrawStamp (&s);
@@ -132,8 +142,9 @@ MakeReport (SOUND ReadOutSounds, UNICODE *pStr, COUNT StrLen)
 			t.pStr = end_page_buf;
 			StrLen += end_page_len;
 		}
-		t.baseline.x = 1 + (r.extent.width >> 1)
-				+ (col_cells * (r.extent.width + 1)) - 1;
+		t.baseline.x = 1 + (r.extent.width >> 1) 
+			+ (col_cells * (r.extent.width + 1)) 
+			- 1 - 3 * RESOLUTION_FACTOR; // JMS_GFX
 		do
 		{
 			COUNT word_chars;
@@ -215,7 +226,7 @@ MakeReport (SOUND ReadOutSounds, UNICODE *pStr, COUNT StrLen)
 
 InitPageCell:
 			ButtonState = 1;
-			t.baseline.y = r.extent.height + 1;
+			t.baseline.y = r.extent.height + (1 << RESOLUTION_FACTOR) + 3 * RESOLUTION_FACTOR; // JMS_GFX
 			row_cells = 0;
 			if (StrLen)
 			{

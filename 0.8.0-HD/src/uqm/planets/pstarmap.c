@@ -57,9 +57,9 @@ static POINT cursorLoc;
 static POINT mapOrigin;
 static int zoomLevel;
 static FRAME StarMapFrame;
+
 static BOOLEAN show_prewar_situation; // JMS
 static CURRENT_STARMAP_SHOWN which_starmap; // JMS
-
 
 static inline long
 signedDivWithError (long val, long divisor)
@@ -796,7 +796,7 @@ EraseCursor (COORD curs_x, COORD curs_y)
 static void
 ZoomStarMap (SIZE dir)
 {
-#define MAX_ZOOM_SHIFT 4
+#define MAX_ZOOM_SHIFT (BYTE)(4 - RESOLUTION_FACTOR)
 	if (dir > 0)
 	{
 		if (zoomLevel < MAX_ZOOM_SHIFT)
@@ -900,6 +900,9 @@ UpdateCursorLocation (int sx, int sy, const POINT *newpt)
 }
 
 #define CURSOR_INFO_BUFSIZE 256
+// JMS: How close to a star the cursor has to be to 'snap' into it.
+// Don't make this larger than 1 for lo-res(1x). Otherwise the cursor gets stuck on stars.
+#define CURSOR_SNAP_AREA (RES_CASE(0,1,2)) // MB: Fixed cursor snap area so that trying to autopilot to sol no longer selects sirius all the damn time unless you zoom in.
 
 static void
 UpdateCursorInfo (UNICODE *prevbuf)
@@ -922,7 +925,7 @@ UpdateCursorInfo (UNICODE *prevbuf)
 	}
 	else
 	{	
-		// "(Star search:F6 Toggle maps:F7)"
+		// "(Star Search: F6 | Toggle Maps: F7)"
 		utf8StringCopy (buf, sizeof (buf), GAME_STRING (FEEDBACK_STRING_BASE + 2));
 	}
 
@@ -932,17 +935,32 @@ UpdateCursorInfo (UNICODE *prevbuf)
 	SDPtr = BestSDPtr = 0;
 	while ((SDPtr = FindStar (SDPtr, &cursorLoc, 75, 75)))
 	{
-		if (UNIVERSE_TO_DISPX (SDPtr->star_pt.x) == pt.x
-				&& UNIVERSE_TO_DISPY (SDPtr->star_pt.y) == pt.y
-				&& (BestSDPtr == 0
-				|| STAR_TYPE (SDPtr->Type) >= STAR_TYPE (BestSDPtr->Type)))
+		if ((UNIVERSE_TO_DISPX (SDPtr->star_pt.x) >= pt.x - CURSOR_SNAP_AREA && UNIVERSE_TO_DISPX (SDPtr->star_pt.x) <= pt.x + CURSOR_SNAP_AREA)
+			&& (UNIVERSE_TO_DISPY (SDPtr->star_pt.y) >= pt.y - CURSOR_SNAP_AREA && UNIVERSE_TO_DISPY (SDPtr->star_pt.y) <= pt.y + CURSOR_SNAP_AREA)
+			&& (BestSDPtr == 0 || STAR_TYPE (SDPtr->Type) >= STAR_TYPE (BestSDPtr->Type)))
 			BestSDPtr = SDPtr;
 	}
 
 	if (BestSDPtr)
 	{
-		cursorLoc = BestSDPtr->star_pt;
-		GetClusterName (BestSDPtr, buf);
+		// JMS: For masking the names of QS portals not yet entered.
+		BYTE QuasiPortalsKnown[] =
+		{
+			QS_PORTALS_KNOWN
+		};
+		
+		// A star is near the cursor:
+		// Snap cursor onto star only in 1x res. In hi-res modes,
+		// snapping is done when the star is selected as auto-pilot target.
+		if (RESOLUTION_FACTOR == 0)
+			cursorLoc = BestSDPtr->star_pt;
+		
+		if (GET_GAME_STATE(ARILOU_SPACE_SIDE) >= 2
+			&& !(QuasiPortalsKnown[BestSDPtr->Postfix - 133]))
+			utf8StringCopy (buf, sizeof (buf),
+				GAME_STRING (STAR_STRING_BASE + 132));
+		else
+			GetClusterName (BestSDPtr, buf);
 	}
 	else
 	{	// No star found. Reset the coordinates to the cursor's location
@@ -986,7 +1004,35 @@ UpdateCursorInfo (UNICODE *prevbuf)
 	if (strcmp (buf, prevbuf) != 0)
 	{
 		strcpy (prevbuf, buf);
-		DrawSISMessage (buf);
+		// Cursor is on top of a star. Display its name.
+		if (BestSDPtr)
+			DrawSISMessage (buf);
+		// Cursor is elsewhere.
+		else
+		{
+			// In HS, display default star search button name.
+			if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
+			{
+				CONTEXT OldContext;
+				OldContext = SetContext (OffScreenContext);
+				
+				if (show_prewar_situation)
+					SetContextForeGroundColor 
+						(BUILD_COLOR (MAKE_RGB15 (0x18, 0x00, 0x00), 0x00));
+				else
+					SetContextForeGroundColor 
+						(BUILD_COLOR (MAKE_RGB15 (0x0E, 0xA7, 0xD9), 0x00));
+						
+				DrawSISMessageEx (buf, -1, -1, DSME_MYCOLOR);
+				SetContext (OldContext);
+			}
+			// In QS, don't display star search button - the search is unusable.
+			else
+			{
+				strcpy (buf, "QuasiSpace");
+				DrawSISMessage (buf);
+			}
+		}
 	}
 }
 
@@ -1442,9 +1488,10 @@ DoStarSearch (MENU_STATE *pMS)
 static BOOLEAN
 DoMoveCursor (MENU_STATE *pMS)
 {
-#define MIN_ACCEL_DELAY (ONE_SECOND / 60)
-#define MAX_ACCEL_DELAY (ONE_SECOND / 8)
-#define STEP_ACCEL_DELAY (ONE_SECOND / 120)
+// MB: correcting previously-unusable acceleration values
+#define MIN_ACCEL_DELAY (ONE_SECOND / 50)
+#define MAX_ACCEL_DELAY (ONE_SECOND / 13)
+#define STEP_ACCEL_DELAY (ONE_SECOND / 180)
 	static UNICODE last_buf[CURSOR_INFO_BUFSIZE];
 	DWORD TimeIn = GetTimeCounter ();
 	static COUNT moveRepeats;
@@ -1478,6 +1525,34 @@ DoMoveCursor (MENU_STATE *pMS)
 	}
 	else if (PulsedInputState.menu[KEY_MENU_SELECT])
 	{
+		// JMS: The hi-res modes now have a user-friendly starmap cursor.
+		// The cursor finds a star even if the cursor is several pixels away from it (CURSOR_SNAP_AREA)
+		// The cursor centers on the star only when selected as an auto-pilot target.
+		if (RESOLUTION_FACTOR > 0)
+		{
+			STAR_DESC *SDPtr;
+			STAR_DESC *BestSDPtr;
+			POINT pt;
+			
+			pt.x = UNIVERSE_TO_DISPX (cursorLoc.x);
+			pt.y = UNIVERSE_TO_DISPY (cursorLoc.y);
+			SDPtr = BestSDPtr = 0;
+			
+			while ((SDPtr = FindStar (SDPtr, &cursorLoc, 75, 75)))
+			{
+				if ((UNIVERSE_TO_DISPX (SDPtr->star_pt.x) >= pt.x - CURSOR_SNAP_AREA && UNIVERSE_TO_DISPX (SDPtr->star_pt.x) <= pt.x + CURSOR_SNAP_AREA)
+					&& (UNIVERSE_TO_DISPY (SDPtr->star_pt.y) >= pt.y -CURSOR_SNAP_AREA && UNIVERSE_TO_DISPY (SDPtr->star_pt.y) <= pt.y + CURSOR_SNAP_AREA)
+					&& (BestSDPtr == 0 || STAR_TYPE (SDPtr->Type) >= STAR_TYPE (BestSDPtr->Type)))
+					BestSDPtr = SDPtr;
+			}
+			
+			if (BestSDPtr)
+			{
+				cursorLoc = BestSDPtr->star_pt;
+				UpdateCursorLocation (0, 0, &BestSDPtr->star_pt);
+			}
+		}
+
 		// printf("Fuel Available: %d | Fuel Requirement: %d\n", GLOBAL_SIS (FuelOnBoard), FuelRequired());
 
 		if (optBubbleWarp) {
@@ -1563,6 +1638,15 @@ DoMoveCursor (MENU_STATE *pMS)
 		if (PulsedInputState.menu[KEY_MENU_RIGHT])   sx =    1;
 		if (PulsedInputState.menu[KEY_MENU_UP])      sy =   -1;
 		if (PulsedInputState.menu[KEY_MENU_DOWN])    sy =    1;
+
+		if (moveRepeats > 20)
+		{
+			sx *= 1 << RESOLUTION_FACTOR;
+			sy *= 1 << RESOLUTION_FACTOR;
+		}
+		// BW: we need to go through this because 4x only checks for
+		// input every ONE_SECOND/40 or so, thus reducing
+		// MIN_ACCEL_STEP is of no use. In practice it's similar.
 
 		if (sx != 0 || sy != 0)
 		{

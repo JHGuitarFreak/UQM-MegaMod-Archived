@@ -21,15 +21,21 @@
 #include "../controls.h"
 #include "../races.h"
 #include "../units.h"
+#include "../util.h" // JMS: For SaveContextFrame()
 #include "../sis.h"
 #include "../shipcont.h"
 #include "../setup.h"
 #include "../sounds.h"
 #include "port.h"
 #include "libs/gfxlib.h"
+#include "libs/log.h"
 #include "libs/tasklib.h"
 
 #include <stdlib.h>
+
+// JMS_GFX: These exist to prevent the leftover red borders of the rostered ships in hi-res.
+static RECT  savedShipFrame_r;
+static STAMP savedShipFrame;
 
 // Ship icon positions in status display around the flagship
 static const POINT ship_pos[MAX_BUILT_SHIPS] =
@@ -58,20 +64,34 @@ typedef struct
 static SHIP_FRAGMENT* LockSupportShip (ROSTER_STATE *, HSHIPFRAG *phFrag);
 
 static void
-drawSupportShip (ROSTER_STATE *rosterState, bool filled)
+drawSupportShip (ROSTER_STATE *rosterState, bool filled, bool saveFrame)
 {
 	STAMP s;
 
 	if (!rosterState->curShipFrame)
 		return;
 
-	s.origin = rosterState->curShipPt;
+	s.origin.x = RES_STAT_SCALE(rosterState->curShipPt.x)
+		+ (rosterState->curShipPt.x >= ship_pos[1].x ? RES_CASE(0,3,5) : RES_CASE(0,-2,-2)); // JMS_GFX
+	s.origin.y = RES_STAT_SCALE(rosterState->curShipPt.y) + RES_CASE(0,5,0);
 	s.frame = rosterState->curShipFrame;
 	
-	if (filled)
-		DrawFilledStamp (&s);
-	else
-		DrawStamp (&s);
+	// JMS: 
+	if (saveFrame) {
+		savedShipFrame_r.corner.x = s.origin.x;
+		savedShipFrame_r.corner.y = s.origin.y;
+		savedShipFrame_r.extent.width  = 16 << RESOLUTION_FACTOR;
+		savedShipFrame_r.extent.height = 16 << RESOLUTION_FACTOR; 
+	
+		savedShipFrame = SaveContextFrame (&savedShipFrame_r);
+		
+		log_add (log_Debug,"Saved x:%u, y:%u", savedShipFrame_r.corner.x ,savedShipFrame_r.corner.y);
+	} else {
+		if (filled)
+			DrawFilledStamp (&s);
+		else
+			DrawStamp (&s);
+	}
 }
 
 static void
@@ -85,15 +105,17 @@ getSupportShipIcon (ROSTER_STATE *rosterState)
 	if (!ShipFragPtr)
 		return;
 
-	rosterState->curShipFrame = ShipFragPtr->icons;
+	rosterState->curShipFrame = SetAbsFrameIndex (ShipFragPtr->icons, 2);
 	UnlockShipFrag (&GLOBAL (built_ship_q), hShipFrag);
 }
 
 static void
-flashSupportShip (ROSTER_STATE *rosterState)
+flashSupportShip (ROSTER_STATE *rosterState, bool saveFrame)
 {
 	static Color c = BUILD_COLOR (MAKE_RGB15_INIT (0x1F, 0x00, 0x00), 0x24);
 	static TimeCount NextTime = 0;
+
+	drawSupportShip (rosterState, TRUE, saveFrame);
 
 	if (GetTimeCounter () >= NextTime)
 	{
@@ -121,7 +143,7 @@ flashSupportShip (ROSTER_STATE *rosterState)
 		}
 		SetContextForeGroundColor (c);
 
-		drawSupportShip (rosterState, TRUE);
+		drawSupportShip (rosterState, TRUE, FALSE);
 	}
 }
 
@@ -220,7 +242,7 @@ drawModifiedSupportShip (ROSTER_STATE *rosterState)
 {
 	SetContext (StatusContext);
 	SetContextForeGroundColor (ROSTER_MODIFY_SHIP_COLOR);
-	drawSupportShip (rosterState, TRUE);
+	drawSupportShip (rosterState, TRUE, FALSE);
 }
 
 static void
@@ -354,14 +376,26 @@ DoModifyRoster (MENU_STATE *pMS)
 
 		if (NewState != pMS->CurState)
 		{
-			// Draw the previous escort in unselected state
-			drawSupportShip (rosterState, FALSE);
+			// Draw the previous escort in unselected state.
+			// JMS_GFX: In 4x and 2x modes we draw the rectangle of screen
+			// we captured earlier.
+			if (RESOLUTION_FACTOR > 0)
+				DrawStamp (&savedShipFrame);
+			else // In 1x mode we just draw the icon.
+				drawSupportShip (rosterState, FALSE, FALSE);
 			// Select the new one
 			selectSupportShip (rosterState, NewState);
 			pMS->CurState = NewState;
-		}
 
-		flashSupportShip (rosterState);
+			// JMS_GFX: In 2x and 4x modes we now have to capture the
+			// location of this new rectangle.
+			if (RESOLUTION_FACTOR > 0)
+				flashSupportShip (rosterState, TRUE);
+			else
+				flashSupportShip (rosterState, FALSE);
+		} 
+		else
+			flashSupportShip (rosterState, FALSE);
 
 		UnbatchGraphics ();
 	}
@@ -416,14 +450,26 @@ RosterMenu (void)
 	SetContext (StatusContext);
 	selectSupportShip (&RosterState, MenuState.CurState);
 
+	// JMS_GFX: Remember the location of the first ship to be able to erase
+	// the red junk from around it after rostering.
+	if (RESOLUTION_FACTOR > 0)
+		drawSupportShip (&RosterState, TRUE, TRUE);
+
 	SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);
 
 	MenuState.InputFunc = DoModifyRoster;
 	DoInput (&MenuState, TRUE);
 
 	SetContext (StatusContext);
-	// unselect the last ship
-	drawSupportShip (&RosterState, FALSE);
+	
+	// Draw the last escort in unselected state.
+	// JMS_GFX: In 4x and 2x modes we draw the rectangle of screen
+	// we captured earlier.
+	if (RESOLUTION_FACTOR > 0)
+		DrawStamp (&savedShipFrame);
+	else // In 1x mode we just draw the icon.
+		drawSupportShip (&RosterState, FALSE, FALSE);
+
 	DrawStatusMessage (NULL);
 
 	return TRUE;
