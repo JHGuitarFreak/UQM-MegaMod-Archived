@@ -76,7 +76,7 @@ static UNICODE pm_fuel_str[128];
 static void
 DrawPCMenu (BYTE beg_index, BYTE end_index, BYTE NewState, BYTE hilite, RECT *r)
 {
-#define PC_MENU_HEIGHT 8
+#define PC_MENU_HEIGHT (RES_STAT_SCALE(8)) // JMS_GFX
 	BYTE pos;
 	COUNT i;
 	int num_items;
@@ -98,7 +98,7 @@ DrawPCMenu (BYTE beg_index, BYTE end_index, BYTE NewState, BYTE hilite, RECT *r)
 	OldFont = SetContextFont (StarConFont);
 	t.align = ALIGN_LEFT;
 	t.baseline.x = r->corner.x + 2;
-	t.baseline.y = r->corner.y + PC_MENU_HEIGHT -1;
+	t.baseline.y = r->corner.y + PC_MENU_HEIGHT - (1 << RESOLUTION_FACTOR);// - RESOLUTION_FACTOR; // JMS_GFX
 	t.pStr = buf;
 	t.CharCount = (COUNT)~0;
 	r->corner.x++;
@@ -115,7 +115,7 @@ DrawPCMenu (BYTE beg_index, BYTE end_index, BYTE NewState, BYTE hilite, RECT *r)
 			
 			// Draw the background of the selection.
 			SetContextForeGroundColor (PCMENU_SELECTION_BACKGROUND_COLOR);
-			r->corner.y = t.baseline.y - PC_MENU_HEIGHT + 2;
+			r->corner.y = t.baseline.y - PC_MENU_HEIGHT + RES_STAT_SCALE(2); // + RESOLUTION_FACTOR; // JMS_GFX
 			r->extent.height = PC_MENU_HEIGHT - 1;
 			DrawFilledRectangle (r);
 
@@ -503,7 +503,7 @@ DrawMenuStateStrings (BYTE beg_index, SWORD NewState)
 	s.origin.x = RADAR_X - r.corner.x;
 	s.origin.y = RADAR_Y - r.corner.y;
 	r.corner.x = s.origin.x - 1;
-	r.corner.y = s.origin.y - 11;
+	r.corner.y = s.origin.y - (11 << RESOLUTION_FACTOR); // JMS_GFX
 	r.extent.width = RADAR_WIDTH + 2;
 	BatchGraphics ();
 	SetContextForeGroundColor (
@@ -548,7 +548,15 @@ DrawMenuStateStrings (BYTE beg_index, SWORD NewState)
 					break;
 			}
 		}
-		r.extent.height = RADAR_HEIGHT + 11;
+		r.extent.height = RADAR_HEIGHT + (11 << RESOLUTION_FACTOR); // JMS_GFX
+
+		// JMS_GFX: This is to fix the two-line high outfit module texts.
+		// They weren't completely erased in 640x480 when exiting module selection.
+		if (RESOLUTION_FACTOR == 1) {
+			r.corner.y -= 7;
+			r.extent.height += 7;
+		}
+
 		DrawPCMenu (beg_index, end_index, (BYTE)NewState, hilite, &r);
 		s.frame = 0;
 	}
@@ -558,10 +566,10 @@ DrawMenuStateStrings (BYTE beg_index, SWORD NewState)
 		{
 			r.corner.x -= 1;
 			r.extent.width += 1;
-			r.extent.height = RADAR_HEIGHT + 11;
+			r.extent.height = RADAR_HEIGHT + (11 << RESOLUTION_FACTOR); // JMS_GFX
 		}
 		else
-			r.extent.height = 11;
+			r.extent.height = 11 << RESOLUTION_FACTOR;
 		DrawFilledRectangle (&r);
 	}
 	if (s.frame)
