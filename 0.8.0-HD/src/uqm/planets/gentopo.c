@@ -50,8 +50,14 @@ DeltaTopography (COUNT num_iterations, SBYTE *DepthArray, RECT *pRect,
 		w1 = LOWORD (rand_val);
 		w2 = HIWORD (rand_val);
 
-		LineDDA0.x_top = (LOBYTE (w1) % MAP_WIDTH) * width / MAP_WIDTH;
-		LineDDA0.x_bot = (HIBYTE (w1) % MAP_WIDTH) * width / MAP_WIDTH;
+		LineDDA0.x_top = (LOBYTE (w1) % ORIGINAL_MAP_WIDTH) * width / ORIGINAL_MAP_WIDTH;
+		LineDDA0.x_bot = (HIBYTE (w1) % ORIGINAL_MAP_WIDTH) * width / ORIGINAL_MAP_WIDTH;
+		//LineDDA0.x_top = w1 % width; // JMS_GFX: Replaced previous lines with these: BYTE is too small for 640x480 sized maps.
+		//LineDDA0.x_bot = w2 % width; // Using w1 and w2 to get difference between top and bottom.
+		// BW: reinstate previous method and adapt it for higher res.
+		// Overusing w1 and w2 was hampering randomness.
+		// Now planets will look the same no matter what the res is.
+
 		LineDDA0.delta_x = (LineDDA0.x_bot - LineDDA0.x_top) << 1;
 		if (LineDDA0.delta_x >= 0)
 			LineDDA0.x_incr = 1;
