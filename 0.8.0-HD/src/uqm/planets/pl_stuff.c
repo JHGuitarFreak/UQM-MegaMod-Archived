@@ -174,7 +174,7 @@ PrepareNextRotationFrame (PLANET_DESC *pPlanetDesc, SIZE frameCounter, BOOLEAN i
 	if(inOrbit){
 		Orbit->SphereFrame = SetAbsFrameIndex (Orbit->SphereFrame, rotFrameIndex);
 		//RenderPlanetSphere (Orbit->SphereFrame, rotPointIndex, throbShield);
-		RenderPlanetSphere (Orbit, Orbit->SphereFrame, rotPointIndex, pSolarSysState->pOrbitalDesc->data_index & PLANET_SHIELDED, throbShield, rotwidth, rotheight, rotheight >> 1); // RADIUS
+		RenderPlanetSphere (Orbit, Orbit->SphereFrame, rotPointIndex, pSolarSysState->pOrbitalDesc->data_index & PLANET_SHIELDED, throbShield, rotwidth, rotheight, (rotheight >> 1) - RESOLUTION_FACTOR); // RADIUS
 	
 		if (throbShield)
 		{	// prepare the next shield throb frame
@@ -249,7 +249,7 @@ ZoomInPlanetSphere (void)
 
 		BatchGraphics ();
 		if (i > 0)
-			RepairBackRect (&repairRect);
+			RepairBackRect (&repairRect, FALSE);
 
 		oldMode = SetGraphicScaleMode (TFB_SCALE_BILINEAR);
 		oldScale = SetGraphicScale ((int)(base * scale + 0.5));
