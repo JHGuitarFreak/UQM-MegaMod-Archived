@@ -149,7 +149,7 @@ extern PRIM_LINKS DisplayLinks;
 #define ADD_AT_END (1 << 4)
 #define REPAIR_COUNT (0xf)
 
-#define LANDER_SPEED_DENOM 10
+#define LANDER_SPEED_DENOM (10) // JMS_GFX
 
 static BYTE lander_flags;
 static POINT curLanderLoc;
@@ -263,15 +263,16 @@ object_animation (ELEMENT *ElementPtr)
 			else if (ElementPtr->mass_points == EARTHQUAKE_DISASTER)
 			{
 				SIZE s;
+				SIZE frame_amount = 14; // JMS_GFX
 
-				if (frame_index >= 13)
+				if (frame_index >= (frame_amount-1))
 					s = 0;
 				else
-					s = (14 - frame_index) >> 1;
+					s = (frame_amount - frame_index) >> 1;
 				// XXX: Was 0x8000 the background flag on 3DO?
 				//SetPrimColor (pPrim, BUILD_COLOR (0x8000 | MAKE_RGB15 (0x1F, 0x1F, 0x1F), s));
 				SetPrimColor (pPrim, BUILD_COLOR (MAKE_RGB15 (0x1F, 0x1F, 0x1F), s));
-				if (frame_index == 13)
+				if (frame_index == (frame_amount - 1))
 					PlaySound (SetAbsSoundIndex (LanderSounds, EARTHQUAKE_DISASTER),
 							NotPositional (), NULL, GAME_SOUND_PRIORITY);
 			}
@@ -291,8 +292,8 @@ object_animation (ELEMENT *ElementPtr)
 					angle = FACING_TO_ANGLE (ElementPtr->facing);
 					LockElement (hLavaElement, &LavaElementPtr);
 					LavaElementPtr->next.location = ElementPtr->next.location;
-					LavaElementPtr->next.location.x += COSINE (angle, 4);
-					LavaElementPtr->next.location.y += SINE (angle, 4);
+					LavaElementPtr->next.location.x += COSINE (angle, 4 << RESOLUTION_FACTOR); // JMS_GFX
+					LavaElementPtr->next.location.y += SINE (angle, 4 << RESOLUTION_FACTOR); // JMS_GFX
 					if (LavaElementPtr->next.location.y < 0)
 						LavaElementPtr->next.location.y = 0;
 					else if (LavaElementPtr->next.location.y >= (MAP_HEIGHT << MAG_SHIFT))
@@ -412,6 +413,7 @@ object_animation (ELEMENT *ElementPtr)
 						speed = WORLD_TO_VELOCITY (2 * 1) * 9 / 10;
 						break;
 				}
+				speed = speed << RESOLUTION_FACTOR; // JMS_GFX
 
 				SetVelocityComponents (&ElementPtr->velocity,
 						COSINE (angle, speed), SINE (angle, speed));
@@ -470,8 +472,16 @@ DeltaLanderCrew (SIZE crew_delta, COUNT which_disaster)
 				NotPositional (), NULL, GAME_SOUND_PRIORITY);
 	}
 
-	s.origin.x = 11 + (6 * (crew_delta % NUM_CREW_COLS));
-	s.origin.y = 35 - (6 * (crew_delta / NUM_CREW_COLS));
+	if (RESOLUTION_FACTOR == 0) {
+		s.origin.x = ((11 + ((6 << RESOLUTION_FACTOR) * (crew_delta % NUM_CREW_COLS)))); // JMS_GFX
+		s.origin.y = (35 - (6 * (crew_delta / NUM_CREW_COLS))) << RESOLUTION_FACTOR; // JMS_GFX
+	} else if (RESOLUTION_FACTOR == 1) {
+		s.origin.x = ((23 + ((6 << RESOLUTION_FACTOR) * (crew_delta % NUM_CREW_COLS)))); // JMS_GFX
+		s.origin.y = 1 + ((35 - (6 * (crew_delta / NUM_CREW_COLS))) << RESOLUTION_FACTOR); // JMS_GFX
+	} else {
+		s.origin.x = 32 + ((9 * RESOLUTION_FACTOR) * (crew_delta % NUM_CREW_COLS)); // JMS_GFX
+		s.origin.y = (52 * RESOLUTION_FACTOR - (9 * RESOLUTION_FACTOR * (crew_delta / NUM_CREW_COLS))); // JMS_GFX
+	}
 
 	OldContext = SetContext (RadarContext);
 	DrawStamp (&s);
@@ -484,6 +494,8 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 	COUNT start_count, tmpholdint;
 	STAMP s;
 	CONTEXT OldContext;
+	SIZE  rounding_error_startcount = 0; // JMS_GFX
+	SIZE  rounding_error_numretrieved = 0; // JMS_GFX
 
 	PlaySound (SetAbsSoundIndex (LanderSounds, LANDER_PICKUP),
 			NotPositional (), NULL, GAME_SOUND_PRIORITY);
@@ -495,16 +507,15 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 		s.frame = SetAbsFrameIndex (LanderFrame[0], 41);
 
 		pPSD->BiologicalLevel += NumRetrieved;
-	}
-	else
-	{
+	} else {
 		start_count = pPSD->ElementLevel;
 		pPSD->ElementLevel += NumRetrieved;
+
+		rounding_error_startcount = (start_count % 2);
+		rounding_error_numretrieved = (pPSD->ElementLevel % 2);
+
 		if (GET_GAME_STATE (IMPROVED_LANDER_CARGO))
-		{
-			start_count >>= 1;
-			NumRetrieved = (pPSD->ElementLevel >> 1) - start_count;
-		}
+			NumRetrieved = (pPSD->ElementLevel >> 1) - (start_count >> 1);
 
 		s.frame = SetAbsFrameIndex (LanderFrame[0], 43);
 	}
@@ -515,12 +526,34 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 	start_count = start_count * MAX_HOLD_BARS / MAX_SCROUNGED;
 	NumRetrieved = (NumRetrieved * MAX_HOLD_BARS / MAX_SCROUNGED) + tmpholdint;
 
+	start_count *= RES_STAT_SCALE(1); // JMS_GFX
+	
+	if (scan == MINERAL_SCAN && GET_GAME_STATE (IMPROVED_LANDER_CARGO))
+	{
+		start_count >>= 1;
+		
+		// JMS_GFX
+		if (RESOLUTION_FACTOR == 1)
+			start_count += rounding_error_startcount;
+	}
+
 	s.origin.x = 0;
 	s.origin.y = -(int)start_count;
 	if (!(start_count & 1))
 		s.frame = IncFrameIndex (s.frame);
 
-	OldContext = SetContext (RadarContext);
+	OldContext = SetContext (RadarContext);	
+	
+	// JMS_GFX
+	if (scan == MINERAL_SCAN && GET_GAME_STATE (IMPROVED_LANDER_CARGO) && RESOLUTION_FACTOR > 0)
+	{
+		NumRetrieved *= RES_STAT_SCALE(1);
+		NumRetrieved >>= 1;
+		
+		if (RESOLUTION_FACTOR == 1)
+			NumRetrieved += rounding_error_numretrieved;
+	}
+
 	while (NumRetrieved--)
 	{
 		if (start_count++ & 1)
@@ -528,7 +561,7 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 		else
 			s.frame = DecFrameIndex (s.frame);
 		DrawStamp (&s);
-		--s.origin.y;
+		s.origin.y -= RES_STAT_SCALE(1); // JMS_GFX
 	}
 	SetContext (OldContext);
 }
@@ -732,8 +765,8 @@ shotCreature (ELEMENT *ElementPtr, BYTE value,
 				LanderControl->IntersectStamp.frame) -
 				ANGLE_TO_FACING (FULL_CIRCLE));
 		DeltaVelocityComponents (&ElementPtr->velocity,
-				COSINE (angle, WORLD_TO_VELOCITY (1)),
-				SINE (angle, WORLD_TO_VELOCITY (1)));
+				COSINE (angle, WORLD_TO_VELOCITY (1<<RESOLUTION_FACTOR)),
+				SINE (angle, WORLD_TO_VELOCITY (1<<RESOLUTION_FACTOR))); // JMS_GFX
 		ElementPtr->thrust_wait = 0;
 		ElementPtr->mass_points |= CREATURE_AWARE;
 	}
@@ -832,7 +865,11 @@ CheckObjectCollision (COUNT index)
 						{
 							case EARTHQUAKE_DISASTER:
 							case LAVASPOT_DISASTER:
-								if (TFB_Random () % 100 < 25)
+								if (scan == LAVASPOT_DISASTER 
+									&& RESOLUTION_FACTOR == 2 
+									&& TFB_Random () % 100 < 9)
+									DeltaLanderCrew (-1, scan);
+								else if (TFB_Random () % 100 < 25)
 									DeltaLanderCrew (-1, scan);
 								break;
 						}
@@ -1018,14 +1055,26 @@ AddLightning (void)
 
 		rand_val = TFB_Random ();
 		LightningElementPtr->life_span = 10 + (HIWORD (rand_val) % 10) + 1;
-		LightningElementPtr->next.location.x = (curLanderLoc.x
+
+		if (RESOLUTION_FACTOR == 0) {
+			LightningElementPtr->next.location.x = (curLanderLoc.x
 				+ ((MAP_WIDTH << MAG_SHIFT) - ((SURFACE_WIDTH >> 1) - 6))
 				+ (LOBYTE (rand_val) % (SURFACE_WIDTH - 12))
 				) % (MAP_WIDTH << MAG_SHIFT);
-		LightningElementPtr->next.location.y = (curLanderLoc.y
+			LightningElementPtr->next.location.y = (curLanderLoc.y
 				+ ((MAP_HEIGHT << MAG_SHIFT) - ((SURFACE_HEIGHT >> 1) - 6))
 				+ (HIBYTE (rand_val) % (SURFACE_HEIGHT - 12))
 				) % (MAP_HEIGHT << MAG_SHIFT);
+		} else {
+			LightningElementPtr->next.location.x = (curLanderLoc.x
+				+ ((MAP_WIDTH << MAG_SHIFT) - ((SURFACE_WIDTH >> 1) - 6))
+				+ (rand_val % (SURFACE_WIDTH - (12 << RESOLUTION_FACTOR)))
+				) % (MAP_WIDTH << MAG_SHIFT);
+			LightningElementPtr->next.location.y = (curLanderLoc.y
+				+ ((MAP_HEIGHT << MAG_SHIFT) - ((SURFACE_HEIGHT >> 1) - 6))
+				+ (rand_val % (SURFACE_HEIGHT - (12 << RESOLUTION_FACTOR)))
+				) % (MAP_HEIGHT << MAG_SHIFT);
+		}
 
 		LightningElementPtr->cycle = LightningElementPtr->life_span;
 		
@@ -1076,7 +1125,7 @@ AddGroundDisaster (COUNT which_disaster)
 
 		if (which_disaster == EARTHQUAKE_DISASTER)
 		{
-			SetPrimType (pPrim, STAMPFILL_PRIM);
+			SetPrimType (pPrim, STAMP_PRIM); // JMS: was STAMPFILL_PRIM (this rendered it totally white).
 			pPrim->Object.Stamp.frame = LanderFrame[1];
 			GroundDisasterElementPtr->turn_wait = MAKE_BYTE (2, 2);
 		}
@@ -1332,15 +1381,11 @@ ScrollPlanetSide (SIZE dx, SIZE dy, int landingOffset)
 			pPSD->MineralText[0].baseline.x -= dx;
 			pPSD->MineralText[0].baseline.y -= dy;
 			font_DrawText (&pPSD->MineralText[0]);
-			pPSD->MineralText[1].baseline.x =
-					pPSD->MineralText[0].baseline.x;
-			pPSD->MineralText[1].baseline.y =
-					pPSD->MineralText[0].baseline.y + 7;
+			pPSD->MineralText[1].baseline.x = pPSD->MineralText[0].baseline.x;
+			pPSD->MineralText[1].baseline.y = pPSD->MineralText[0].baseline.y + (7 << RESOLUTION_FACTOR); // JMS_GFX
 			font_DrawText (&pPSD->MineralText[1]);
-			pPSD->MineralText[2].baseline.x =
-					pPSD->MineralText[1].baseline.x;
-			pPSD->MineralText[2].baseline.y =
-					pPSD->MineralText[1].baseline.y + 7;
+			pPSD->MineralText[2].baseline.x = pPSD->MineralText[1].baseline.x;
+			pPSD->MineralText[2].baseline.y = pPSD->MineralText[1].baseline.y + (7 << RESOLUTION_FACTOR); // JMS_GFX
 			font_DrawText (&pPSD->MineralText[2]);
 		}
 	}
@@ -1370,7 +1415,7 @@ animationInterframe (TimeCount *TimeIn, COUNT periods)
 }
 
 static void
-AnimateLaunch (FRAME farray)
+AnimateLaunch (FRAME farray, BOOLEAN landing)
 {
 	RECT r;
 	STAMP s;
@@ -1392,7 +1437,7 @@ AnimateLaunch (FRAME farray)
 		NextTime = GetTimeCounter () + (ONE_SECOND / 22);
 
 		BatchGraphics ();
-		RepairBackRect (&r);
+		RepairBackRect (&r, TRUE);
 #ifdef SPIN_ON_LAUNCH
 		RotatePlanetSphere (FALSE);
 #else
@@ -1407,7 +1452,9 @@ AnimateLaunch (FRAME farray)
 		SleepThreadUntil (NextTime);
 	}
 
-	RepairBackRect (&r);
+	// This clears the last lander return / launch) anim frame from the planet window.
+	if (RESOLUTION_FACTOR == 0 || !landing)
+		RepairBackRect (&r, FALSE);
 }
 
 static void
@@ -1481,7 +1528,7 @@ static void
 InitPlanetSide (POINT pt)
 {
 	// Adjust landing location by a random jitter.
-#define RANDOM_MISS 64
+#define RANDOM_MISS (64 << RESOLUTION_FACTOR) // JMS_GFX
 	if(!optGodMode){
 		pt.x -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
 		pt.y -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
@@ -1578,9 +1625,9 @@ LanderFire (SIZE facing)
 
 	angle = FACING_TO_ANGLE (facing);
 	SetVelocityComponents (
-			&WeaponElementPtr->velocity,
-			COSINE (angle, WORLD_TO_VELOCITY (2 * 3)) + wdx,
-			SINE (angle, WORLD_TO_VELOCITY (2 * 3)) + wdy);
+		&WeaponElementPtr->velocity,
+		COSINE (angle, WORLD_TO_VELOCITY ((2 * 3) << RESOLUTION_FACTOR)) + wdx,
+		SINE (angle, WORLD_TO_VELOCITY ((2 * 3) << RESOLUTION_FACTOR)) + wdy); // JMS_GFX
 
 	UnlockElement (hWeaponElement);
 
@@ -1649,11 +1696,11 @@ DoPlanetSide (LanderInputState *pMS)
 
 		angle = FACING_TO_ANGLE (GetFrameIndex (LanderFrame[0]));
 		landerSpeedNumer = GET_GAME_STATE (IMPROVED_LANDER_SPEED) ?
-				WORLD_TO_VELOCITY (2 * 14) :
-				WORLD_TO_VELOCITY (2 * 8);
+			WORLD_TO_VELOCITY (2 * (16 << RESOLUTION_FACTOR)) :
+			WORLD_TO_VELOCITY (2 * (8 << RESOLUTION_FACTOR));
 
 #ifdef FAST_FAST
-landerSpeedNumer = WORLD_TO_VELOCITY (48);
+landerSpeedNumer = WORLD_TO_VELOCITY (48 << RESOLUTION_FACTOR); // JMS
 #endif
 
 		SetVelocityComponents (&GLOBAL (velocity),
@@ -1716,11 +1763,11 @@ landerSpeedNumer = WORLD_TO_VELOCITY (48);
 
 				angle = FACING_TO_ANGLE (index);
 				landerSpeedNumer = GET_GAME_STATE (IMPROVED_LANDER_SPEED) ?
-						WORLD_TO_VELOCITY (2 * 14) :
-						WORLD_TO_VELOCITY (2 * 8);
+					WORLD_TO_VELOCITY ((2 * 16) << RESOLUTION_FACTOR) :
+					WORLD_TO_VELOCITY ((2 * 8) << RESOLUTION_FACTOR);
 
 #ifdef FAST_FAST
-landerSpeedNumer = WORLD_TO_VELOCITY (48);
+landerSpeedNumer = WORLD_TO_VELOCITY (48 << RESOLUTION_FACTOR);
 #endif
 
 				SetVelocityComponents (&GLOBAL (velocity),
@@ -1859,7 +1906,7 @@ IdlePlanetSide (LanderInputState *inputState, TimeCount howLong)
 	while (GetTimeCounter () < TimeOut)
 	{
 		// 10 to clear the lander off of the screen
-		ScrollPlanetSide (0, 0, -(SURFACE_HEIGHT / 2 + 10));
+		ScrollPlanetSide (0, 0, -(SURFACE_HEIGHT / 2 + (10 << RESOLUTION_FACTOR))); // JMS_GFX
 		SleepThreadUntil (inputState->NextTime);
 		inputState->NextTime += PLANET_SIDE_RATE;
 	}
@@ -1870,20 +1917,32 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 {
 // We cannot solve a quadratic equation in a macro, so use a sensible max
 #define MAX_OFFSETS  20
-// 10 to clear the lander off of the screen
-#define DISTANCE_COVERED  (SURFACE_HEIGHT / 2 + 10)
+#define MAX_OFFSETS_4X 400 // JMS_GFX
+// 10 << RESOLUTION_FACTOR to clear the lander off of the screen
+#define DISTANCE_COVERED  (SURFACE_HEIGHT / 2 + (10 << RESOLUTION_FACTOR))
 	int landingOfs[MAX_OFFSETS];
 	int start;
 	int end;
 	int delta;
 	int index;
+	int max_offsets; // JMS_GFX
+	int landingOfs4x[MAX_OFFSETS_4X]; // JMS_GFX
 
 	// Produce smooth acceleration deltas from a simple 1..x progression
 	delta = 0;
-	for (index = 0; index < MAX_OFFSETS && delta < DISTANCE_COVERED; ++index)
+	// JMS_GFX: At 4x resolution we run out of default offsets. -> Use larger offset value.
+	max_offsets = MAX_OFFSETS;
+	if (RESOLUTION_FACTOR == 2) 
+		max_offsets = MAX_OFFSETS_4X;
+
+	for (index = 0; index < max_offsets && delta < DISTANCE_COVERED; ++index)
 	{
 		delta += index + 1;
-		landingOfs[index] = -delta;
+		// JMS_GFX
+		if (RESOLUTION_FACTOR == 2)
+			landingOfs4x[index] = -delta;
+		else
+			landingOfs[index] = -delta;
 	}
 	assert (delta >= DISTANCE_COVERED && "Increase MAX_OFFSETS!");
 
@@ -1906,7 +1965,12 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 	// Draw the landing/takeoff lander positions
 	for (index = start; index != end; index += delta)
 	{
-		ScrollPlanetSide (0, 0, landingOfs[index]);
+		// JMS_GFX
+		if (RESOLUTION_FACTOR == 2)
+			ScrollPlanetSide (0, 0, landingOfs4x[index]);
+		else
+			ScrollPlanetSide (0, 0, landingOfs[index]);
+
 		SleepThreadUntil (inputState->NextTime);
 		inputState->NextTime += PLANET_SIDE_RATE;
 	}
@@ -2040,7 +2104,7 @@ PlanetSide (POINT planetLoc)
 	explosion_index = 0;
 
 	AnimateLanderWarmup ();
-	AnimateLaunch (LanderFrame[5]);
+	AnimateLaunch (LanderFrame[5], TRUE);
 
 	if (optSubmenu)
 		DrawSubmenu (1);
@@ -2073,7 +2137,7 @@ PlanetSide (POINT planetLoc)
 
 			LandingTakeoffSequence (&landerInputState, FALSE);
 			ReturnToOrbit ();
-			AnimateLaunch (LanderFrame[6]);
+			AnimateLaunch (LanderFrame[6], FALSE);
 			
 			DeltaSISGauges (crew_left, 0, 0);
 
@@ -2192,9 +2256,8 @@ InitLander (BYTE LanderFlags)
 		if ((int)free_space < (int)(MAX_SCROUNGED << capacity_shift))
 		{
 			r.corner.x = 1;
-			r.extent.width = 4;
-			r.extent.height = MAX_HOLD_BARS - ((free_space >> capacity_shift)
-					* MAX_HOLD_BARS / MAX_SCROUNGED) + 2;
+			r.extent.width = RES_STAT_SCALE(4) + RESOLUTION_FACTOR; // JMS_GFX
+			r.extent.height = RES_STAT_SCALE(MAX_HOLD_BARS - ((free_space >> capacity_shift) * MAX_HOLD_BARS / MAX_SCROUNGED) + 2);
 			SetContextForeGroundColor (BLACK_COLOR);
 			DrawFilledRectangle (&r);
 		}

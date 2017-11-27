@@ -68,7 +68,7 @@ enum ScanMenuItems
 
 
 void
-RepairBackRect (RECT *pRect)
+RepairBackRect (RECT *pRect, BOOLEAN Fullscreen)
 {
 	RECT new_r, old_r;
 
@@ -79,7 +79,11 @@ RepairBackRect (RECT *pRect)
 
 	new_r.extent.height += new_r.corner.y & 1;
 	new_r.corner.y &= ~1;
-	DrawFromExtraScreen (&new_r);
+	
+	if (Fullscreen)
+		DrawFromExtraScreen_Fs (&new_r);
+	else
+		DrawFromExtraScreen (&new_r);
 }
 
 static void
@@ -991,7 +995,7 @@ ScanPlanet (COUNT scanType)
 		r.extent.height = t.baseline.y - r.corner.y + 1;
 		// XXX: I do not know why we are repairing it here, as there
 		//   should not be anything drawn over the stars at the moment
-		RepairBackRect (&r);
+		RepairBackRect (&r, FALSE);
 
 		SetContextFont (MicroFont);
 		SetContextForeGroundColor (textColors[scan]);
@@ -1033,7 +1037,7 @@ ScanPlanet (COUNT scanType)
 	}
 
 	SetContext (PlanetContext);
-	RepairBackRect (&r);
+	RepairBackRect (&r, FALSE);
 
 	SetContext (ScanContext);
 	if (scanType == AUTO_SCAN)
