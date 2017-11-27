@@ -1546,7 +1546,7 @@ TopoScale4x (SBYTE *pDstTopo, SBYTE *pSrcTopo, int num_faults, int fault_var)
 // Lots of pure Voodoo here ;)
 //  the goal is a 3D illusion, not mathematically correct lighting
 
-#define LMAP_AVG_BLOCK    ((MAP_HEIGHT + 4) / 5)
+#define LMAP_AVG_BLOCK     ((75 + 4) / 5) // BW: hacky but this shouldn't really depend on the size of the original map
 #define LMAP_MAX_DIST     ((LMAP_AVG_BLOCK + 1) >> 1)
 #define LMAP_WEIGHT_THRES (LMAP_MAX_DIST * 2 / 3)
 
@@ -1609,12 +1609,12 @@ GenerateLightMap (SBYTE *pTopo, int w, int h)
 {
 #define LMAP_BLOCKS       (2 * LMAP_MAX_DIST + 1)
 	int x, y;
-	elev_block_t vblocks[LMAP_BLOCKS];
-			// we use a running block average to reduce the amount of work
-			// where a block is a vertical line of map points
 	SBYTE *elev;
 	int min, max, med;
 	int sfact, spread;
+	elev_block_t vblocks[LMAP_BLOCKS];
+	// we use a running block average to reduce the amount of work
+	// where a block is a vertical line of map points
 
 	// normalize the topo data
 	min = 127;
