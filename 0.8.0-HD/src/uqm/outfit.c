@@ -34,6 +34,8 @@
 		// for xxx_DISASTER
 #include "libs/graphics/gfx_common.h"
 
+// How manyeth .png in the module.ani file is the first lander shield.
+#define SHIELD_LOCATION_IN_MODULE_ANI (RES_CASE(5,9,9))
 
 enum
 {
@@ -55,11 +57,11 @@ DrawModuleStrings (MENU_STATE *pMS, BYTE NewModule)
 	OldContext = SetContext (StatusContext);
 	GetContextClipRect (&r);
 	s.origin.x = RADAR_X - r.corner.x;
-	s.origin.y = RADAR_Y - r.corner.y;
+	s.origin.y = RADAR_Y - r.corner.y - 19 * RESOLUTION_FACTOR; // JMS_GFX;
 	r.corner.x = s.origin.x - 1;
 	r.corner.y = s.origin.y - 11;
 	r.extent.width = RADAR_WIDTH + 2;
-	r.extent.height = 11;
+	r.extent.height = 11 + 20 * RESOLUTION_FACTOR; // JMS_GFX;
 	BatchGraphics ();
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x0A), 0x08));
@@ -67,6 +69,7 @@ DrawModuleStrings (MENU_STATE *pMS, BYTE NewModule)
 	if (NewModule >= EMPTY_SLOT)
 	{
 		r.corner = s.origin;
+		r.corner.y += 19 * RESOLUTION_FACTOR; // JMS_GFX
 		r.extent.width = RADAR_WIDTH;
 		r.extent.height = RADAR_HEIGHT;
 		SetContextForeGroundColor (
@@ -80,16 +83,25 @@ DrawModuleStrings (MENU_STATE *pMS, BYTE NewModule)
 
 		s.frame = SetAbsFrameIndex (pMS->CurFrame, NewModule);
 		DrawStamp (&s);
-		t.baseline.x = s.origin.x + RADAR_WIDTH - 2;
-		t.baseline.y = s.origin.y + RADAR_HEIGHT - 2;
+		t.baseline.x = s.origin.x + RADAR_WIDTH - RES_STAT_SCALE(2) - RESOLUTION_FACTOR;
+		t.baseline.y = s.origin.y + RADAR_HEIGHT - RES_STAT_SCALE(2) + 14 * RESOLUTION_FACTOR; // JMS_GFX;
 		t.align = ALIGN_RIGHT;
 		t.CharCount = (COUNT)~0;
 		t.pStr = buf;
 		sprintf (buf, "%u",
 				GLOBAL (ModuleCost[NewModule]) * MODULE_COST_SCALE);
+
+		if ((GLOBAL_SIS (ResUnits)) > (DWORD)((GLOBAL (ModuleCost[NewModule]) * MODULE_COST_SCALE))) {
+			sprintf (buf, "%u", GLOBAL (ModuleCost[NewModule]) * MODULE_COST_SCALE);
+			SetContextForeGroundColor (
+					BUILD_COLOR (MAKE_RGB15 (0x00, 0x1F, 0x00), 0x02));
+		} else {
+			sprintf (buf, "(%u)", GLOBAL (ModuleCost[NewModule]) * MODULE_COST_SCALE);
+			SetContextForeGroundColor (
+					BUILD_COLOR (MAKE_RGB15 (0x1F, 0x00, 0x00), 0x02));
+		}
+
 		SetContextFont (TinyFont);
-		SetContextForeGroundColor (
-				BUILD_COLOR (MAKE_RGB15 (0x00, 0x1F, 0x00), 0x02));
 		font_DrawText (&t);
 	}
 	UnbatchGraphics ();
@@ -113,7 +125,7 @@ RedistributeFuel (void)
 		// If we're less than the fuel level, draw fuel.
 		if (GLOBAL_SIS (FuelOnBoard) < FuelVolume)
 		{
-			r.extent.width = 3;
+			r.extent.width = (3 << RESOLUTION_FACTOR) + RES_CASE(0,2,6); // JMS_GFX
 			DrawPoint (&r.corner);
 			r.corner.x += r.extent.width + 1;
 			DrawPoint (&r.corner);
@@ -123,7 +135,7 @@ RedistributeFuel (void)
 		}
 		else // Otherwise, draw an empty bar.
 		{
-			r.extent.width = 5;
+			r.extent.width = 5 << RESOLUTION_FACTOR; // JMS_GFX
 			SetContextForeGroundColor (
 					BUILD_COLOR (MAKE_RGB15 (0x0B, 0x00, 0x00), 0x2E));
 		}
@@ -135,9 +147,9 @@ RedistributeFuel (void)
 	GLOBAL_SIS (FuelOnBoard) = FuelVolume;
 }
 
-#define LANDER_X 24
-#define LANDER_Y 67
-#define LANDER_WIDTH 15
+#define LANDER_X ((24 << RESOLUTION_FACTOR) + RES_CASE(0,2,0)) // JMS_GFX
+#define LANDER_Y (67 << RESOLUTION_FACTOR) // JMS_GFX
+#define LANDER_WIDTH ((15 << RESOLUTION_FACTOR) - RES_CASE(0,2,0)) // JMS_GFX
 
 static void
 DisplayLanders (MENU_STATE *pMS)
@@ -148,7 +160,8 @@ DisplayLanders (MENU_STATE *pMS)
 	if (GET_GAME_STATE (CHMMR_BOMB_STATE) == 3)
 	{
 		s.origin.x = s.origin.y = 0;
-		s.frame = DecFrameIndex (s.frame);
+		s.frame = SetAbsFrameIndex (pMS->ModuleFrame,
+			GetFrameCount (pMS->ModuleFrame) - SHIELD_LOCATION_IN_MODULE_ANI + 4);
 		DrawStamp (&s);
 	}
 	else
@@ -485,6 +498,12 @@ DoInstallModule (MENU_STATE *pMS)
 				else
 					w = SHIP_PIECE_OFFSET;
 
+				// JMS_GFX
+				if (NewState != PLANET_LANDER && NewState != FUSION_THRUSTER 
+					&& NewState != TURNING_JETS && NewState != EMPTY_SLOT + 0
+					 && NewState != EMPTY_SLOT + 1 && NewState != EMPTY_SLOT + 3)
+					w += RES_CASE(0,1,1);
+
 				w *= (NewItem - pMS->delta_item);
 				pMS->flash_rect0.corner.x += w;
 				pMS->delta_item = NewItem;
@@ -498,35 +517,35 @@ InitFlash:
 				{
 					case PLANET_LANDER:
 					case EMPTY_SLOT + 3:
-						pMS->flash_rect0.corner.x = LANDER_X - 1;
-						pMS->flash_rect0.corner.y = LANDER_Y - 1;
-						pMS->flash_rect0.extent.width = 11 + 2;
-						pMS->flash_rect0.extent.height = 13 + 2;
+						pMS->flash_rect0.corner.x = LANDER_X - 1 + RES_CASE(0,50,114); // JMS_GFX
+						pMS->flash_rect0.corner.y = LANDER_Y - 1 + RES_CASE(0,24,65); // JMS_GFX
+						pMS->flash_rect0.extent.width = (11 + 2) << RESOLUTION_FACTOR; // JMS_GFX
+						pMS->flash_rect0.extent.height = (13 + 2) << RESOLUTION_FACTOR; // JMS_GFX;
 
 						w = LANDER_WIDTH;
 						break;
 					case FUSION_THRUSTER:
 					case EMPTY_SLOT + 0:
-						pMS->flash_rect0.corner.x = DRIVE_TOP_X - 1;
-						pMS->flash_rect0.corner.y = DRIVE_TOP_Y - 1;
-						pMS->flash_rect0.extent.width = 8;
-						pMS->flash_rect0.extent.height = 6;
+						pMS->flash_rect0.corner.x = DRIVE_TOP_X - 1 - RES_CASE(0,4,5);
+						pMS->flash_rect0.corner.y = DRIVE_TOP_Y - 1 + RES_CASE(0,69,146);
+						pMS->flash_rect0.extent.width = 8 << RESOLUTION_FACTOR; // JMS_GFX;
+						pMS->flash_rect0.extent.height = (6 << RESOLUTION_FACTOR) - RES_CASE(0,0,2); // JMS_GFX;
 
 						break;
 					case TURNING_JETS:
 					case EMPTY_SLOT + 1:
-						pMS->flash_rect0.corner.x = JET_TOP_X - 1;
-						pMS->flash_rect0.corner.y = JET_TOP_Y - 1;
-						pMS->flash_rect0.extent.width = 9;
-						pMS->flash_rect0.extent.height = 10;
+						pMS->flash_rect0.corner.x = JET_TOP_X - 1 - RES_CASE(0,3,3);
+						pMS->flash_rect0.corner.y = JET_TOP_Y - 1 + RES_CASE(0,90,185);
+						pMS->flash_rect0.extent.width = 9 << RESOLUTION_FACTOR; // JMS_GFX;
+						pMS->flash_rect0.extent.height = (10 << RESOLUTION_FACTOR) + RES_CASE(0,0,4); // JMS_GFX;
 
 						break;
 					default:
-						pMS->flash_rect0.corner.x = MODULE_TOP_X - 1;
+						pMS->flash_rect0.corner.x = MODULE_TOP_X - 1 + RES_CASE(0,0,2);
 						pMS->flash_rect0.corner.y = MODULE_TOP_Y - 1;
-						pMS->flash_rect0.extent.width = SHIP_PIECE_OFFSET + 2;
-						pMS->flash_rect0.extent.height = 34;
-
+						pMS->flash_rect0.extent.width = SHIP_PIECE_OFFSET + 2 - RES_CASE(0,1,1);
+						pMS->flash_rect0.extent.height = (34 << RESOLUTION_FACTOR) + RES_CASE(0,0,9); // JMS_GFX;
+						w += RES_CASE(0,1,1);
 						break;
 				}
 
@@ -685,7 +704,7 @@ DoOutfit (MENU_STATE *pMS)
 				ShieldFlags = GET_GAME_STATE (LANDER_SHIELDS);
 
 				s.frame = SetAbsFrameIndex (pMS->ModuleFrame,
-						GetFrameCount (pMS->ModuleFrame) - 5);
+						GetFrameCount (pMS->ModuleFrame) - SHIELD_LOCATION_IN_MODULE_ANI);
 				if (ShieldFlags & (1 << EARTHQUAKE_DISASTER))
 					DrawStamp (&s);
 				s.frame = IncFrameIndex (s.frame);

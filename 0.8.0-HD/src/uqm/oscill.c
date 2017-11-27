@@ -24,7 +24,7 @@
 #include "libs/graphics/drawable.h"
 #include "libs/sound/sound.h"
 #include "libs/sound/trackplayer.h"
-
+#include "libs/log.h"
 
 static FRAME scope_frame;
 static int scope_init = 0;
@@ -71,13 +71,20 @@ void
 DrawOscilloscope (void)
 {
 	STAMP s;
-	BYTE scope_data[128];
+	BYTE scope_data[192]; // JMS_GFX: was 128... FIXME:This is a hack: GraphForeGroundStream would really require this to be
+							// less than 256. This "fix" messes up how the oscilloscope looks, but it works for now
+							// (doesn't get caught in asserts). We need to fix this later.
 
+	// BW: fixed. With narrow status panel at 4x, scope width (and data) are never more than 192.
 	if (oscillDisabled)
 		return;
 
-	assert ((size_t)scopeSize.width <= sizeof scope_data);
-	assert (scopeSize.height < 256);
+	//log_add(log_Debug, "(size_t)scopeSize.width %lu, sizeof(scope_data) %lu", (size_t)scopeSize.width, sizeof(scope_data));
+	
+	assert ((size_t)scopeSize.width <= sizeof(scope_data));
+	assert (scopeSize.height < 256); // JMS_GFX: Was 256. FIXME:This is a hack: GraphForeGroundStream would really require this to be
+	// less than 256. This "fix" messes up how the oscilloscope looks, but it works for now
+	// (doesn't get caught in asserts). We need to fix this later.
 
 	if (GraphForegroundStream (scope_data, scopeSize.width, scopeSize.height,
 			usingSpeech))

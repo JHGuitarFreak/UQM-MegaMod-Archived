@@ -88,8 +88,13 @@ spawn_rubble (ELEMENT *AsteroidElementPtr)
 		RubbleElementPtr->turn_wait = RubbleElementPtr->next_turn = 0;
 		SetPrimType (&DisplayArray[RubbleElementPtr->PrimIndex], STAMP_PRIM);
 		RubbleElementPtr->current.image.farray = asteroid;
-		RubbleElementPtr->current.image.frame =
-				SetAbsFrameIndex (asteroid[0], ANGLE_TO_FACING (FULL_CIRCLE));
+		
+		// JMS_GFX
+		if (RESOLUTION_FACTOR == 0)
+			RubbleElementPtr->current.image.frame = SetAbsFrameIndex (asteroid[0], ANGLE_TO_FACING (FULL_CIRCLE));
+		else
+			RubbleElementPtr->current.image.frame = SetAbsFrameIndex (asteroid[0], 29);
+
 		RubbleElementPtr->current.location = AsteroidElementPtr->current.location;
 		RubbleElementPtr->preprocess_func = animation_preprocess;
 		RubbleElementPtr->death_func = spawn_asteroid;
@@ -111,9 +116,13 @@ asteroid_preprocess (ELEMENT *ElementPtr)
 			--frame_index;
 		else
 			++frame_index;
-		ElementPtr->next.image.frame =
-				SetAbsFrameIndex (ElementPtr->current.image.frame,
-				NORMALIZE_FACING (frame_index));
+		
+		// JMS_GFX
+		if (RESOLUTION_FACTOR == 0)
+			ElementPtr->next.image.frame = SetAbsFrameIndex (ElementPtr->current.image.frame, NORMALIZE_FACING (frame_index));
+		else
+			ElementPtr->next.image.frame = SetAbsFrameIndex (ElementPtr->current.image.frame, frame_index % 30);
+
 		ElementPtr->state_flags |= CHANGING;
 
 		ElementPtr->turn_wait = (unsigned char)(ElementPtr->thrust_wait & ((1 << 7) - 1));
@@ -260,7 +269,7 @@ crew_preprocess (ELEMENT *ElementPtr)
 
 	if (hTarget)
 	{
-#define CREW_DELTA SCALED_ONE
+#define CREW_DELTA (SCALED_ONE << RESOLUTION_FACTOR)
 		SIZE delta;
 		ELEMENT *ShipPtr;
 
@@ -332,7 +341,7 @@ AbandonShip (ELEMENT *ShipPtr, ELEMENT *TargetPtr,
 		dx = dy = 0;
 	else
 	{
-#define MORE_THAN_ENOUGH 100
+#define MORE_THAN_ENOUGH (100 << RESOLUTION_FACTOR) // JMS_GFX
 		direction += HALF_CIRCLE;
 		dx = COSINE (direction, MORE_THAN_ENOUGH);
 		dy = SINE (direction, MORE_THAN_ENOUGH);
