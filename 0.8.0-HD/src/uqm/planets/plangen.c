@@ -46,7 +46,7 @@
 #define SHIELD_REFLECT_COMP 100
 
 #define NUM_BATCH_POINTS 64
-#define RADIUS 37
+#define RADIUS RES_CASE(37,74,163) // JMS_GFX
 //2*RADIUS
 #define TWORADIUS (RADIUS << 1)
 //RADIUS^2
@@ -485,10 +485,11 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 // this routine, but a filter can be applied if desired too.
 
 // HALO rim size
-#define SHIELD_HALO          6
+#define SHIELD_HALO          (6 << RESOLUTION_FACTOR) // JMS_GFX
 #define SHIELD_RADIUS        (RADIUS + SHIELD_HALO)
 #define SHIELD_HALO_GLOW     (SHIELD_GLOW_COMP + SHIELD_REFLECT_COMP)
 #define SHIELD_HALO_GLOW_MIN (SHIELD_HALO_GLOW >> 2)
+#define SHIELD_RADIUS_THRES  ((SHIELD_RADIUS + (1 << RESOLUTION_FACTOR)) * (SHIELD_RADIUS + (1 << RESOLUTION_FACTOR))) // JMS_GFX
 
 static FRAME
 CreateShieldMask (COUNT Radius, BOOLEAN forOrbit)
@@ -858,7 +859,7 @@ MakeCrater (RECT *pRect, SBYTE *DepthArray, SIZE rim_delta, SIZE
 	SIZE A, B;
 	SDWORD Asquared, TwoAsquared, Bsquared, TwoBsquared;	// JMS_GFX: Was 'long' - type changed to conform to UQM's own types
 	SDWORD d, dx, dy;									// JMS_GFX: Was 'long' - type changed to conform to UQM's own types
-	COUNT TopIndex, BotIndex, rim_pixels;
+	DWORD TopIndex, BotIndex, rim_pixels; // JMS_GFX: Was COUNT - type changed because of overflow at 4x
  
 
 	A = pRect->extent.width >> 1;
@@ -1043,7 +1044,7 @@ MakeCrater (RECT *pRect, SBYTE *DepthArray, SIZE rim_delta, SIZE
 #define NUM_BAND_COLORS 4
 
 static void
-MakeStorms (COUNT storm_count, SBYTE *DepthArray, COUNT width)
+MakeStorms (COUNT storm_count, SBYTE *DepthArray, COUNT width, COUNT height)
 {
 #define MAX_STORMS 12 // JMS_GFX: was 8
 	COUNT i;
@@ -1070,16 +1071,16 @@ MakeStorms (COUNT storm_count, SBYTE *DepthArray, COUNT width)
 			hiword = HIWORD (rand_val);
 			switch (HIBYTE (hiword) & 31) {
 				case 0:
-					pstorm_r->extent.height = (LOBYTE (hiword) % (MAP_HEIGHT >> 2)) + (MAP_HEIGHT >> 2);
+					pstorm_r->extent.height = (LOBYTE (hiword) % (ORIGINAL_MAP_HEIGHT >> 2)) + (ORIGINAL_MAP_HEIGHT >> 2);
 					break;
 				case 1:
 				case 2:
 				case 3:
 				case 4:
-					pstorm_r->extent.height = (LOBYTE (hiword) % (MAP_HEIGHT >> 3)) + (MAP_HEIGHT >> 3);
+					pstorm_r->extent.height = (LOBYTE (hiword) % (ORIGINAL_MAP_HEIGHT >> 3)) + (ORIGINAL_MAP_HEIGHT >> 3);
 					break;
 				default:
-					pstorm_r->extent.height = (LOBYTE (hiword) % (MAP_HEIGHT >> 4)) + 4;
+					pstorm_r->extent.height = (LOBYTE (hiword) % (ORIGINAL_MAP_HEIGHT >> 4)) + 4;
 					break;
 			}
 
@@ -1092,8 +1093,13 @@ MakeStorms (COUNT storm_count, SBYTE *DepthArray, COUNT width)
 
 			pstorm_r->extent.width = pstorm_r->extent.height + (LOBYTE (loword) % pstorm_r->extent.height);
 
-			pstorm_r->corner.x = HIBYTE (loword) % (MAP_WIDTH - pstorm_r->extent.width);
-			pstorm_r->corner.y = LOBYTE (loword) % (MAP_HEIGHT - pstorm_r->extent.height);
+			pstorm_r->corner.x = HIBYTE (loword) % (ORIGINAL_MAP_WIDTH - pstorm_r->extent.width);
+			pstorm_r->corner.y = LOBYTE (loword) % (ORIGINAL_MAP_HEIGHT - pstorm_r->extent.height);
+
+			pstorm_r->corner.x = pstorm_r->corner.x * width / ORIGINAL_MAP_WIDTH;
+			pstorm_r->extent.width = pstorm_r->extent.width * width / ORIGINAL_MAP_WIDTH;
+			pstorm_r->corner.y = pstorm_r->corner.y * height / ORIGINAL_MAP_HEIGHT;
+			pstorm_r->extent.height = pstorm_r->extent.height * height / ORIGINAL_MAP_HEIGHT;
 
 			for (j = i + 1; j < storm_count; ++j)
 			{
@@ -1164,9 +1170,9 @@ MakeGasGiant (COUNT num_bands, SBYTE *DepthArray, RECT *pRect, SIZE
 	DWORD rand_val;
 
 	// band_height = pRect->extent.height / num_bands;
-	band_height = MAP_HEIGHT / num_bands;
+	band_height = ORIGINAL_MAP_HEIGHT / num_bands;
 	// band_bump = pRect->extent.height % num_bands;
-	band_bump = MAP_HEIGHT % num_bands;
+	band_bump = ORIGINAL_MAP_HEIGHT % num_bands;
 	band_error = num_bands >> 1;
 	lpDst = DepthArray;
 
@@ -1193,10 +1199,10 @@ MakeGasGiant (COUNT num_bands, SBYTE *DepthArray, RECT *pRect, SIZE
 			RECT r;
 
 			cur_y = next_y + ((band_height - 2) >> 1) - ((LOBYTE (hiword) % (band_height - 2)) + 1);
-			cur_y = cur_y * pRect->extent.height / MAP_HEIGHT;
+			cur_y = cur_y * pRect->extent.height / ORIGINAL_MAP_HEIGHT;
 			r.corner.x = r.corner.y = 0;
 			r.extent.width = pRect->extent.width;
-			r.extent.height = 5 * pRect->extent.height / MAP_HEIGHT;
+			r.extent.height = 5 * pRect->extent.height / ORIGINAL_MAP_HEIGHT;
 			DeltaTopography (50,
 					&DepthArray[(cur_y - (r.extent.height >>1)) * r.extent.width],
 					&r, depth_delta);
@@ -1216,7 +1222,7 @@ MakeGasGiant (COUNT num_bands, SBYTE *DepthArray, RECT *pRect, SIZE
 				& (((1 << RANGE_SHIFT) * NUM_BAND_COLORS) - 1);
 	}
 
-	MakeStorms (4 + (TFB_Random () & 7) + 1, DepthArray, pRect->extent.width);
+	MakeStorms (4 + (TFB_Random () & 7) + 1, DepthArray, pRect->extent.width, pRect->extent.height);
 
 	DitherMap (DepthArray, pRect->extent.width, pRect->extent.height);
 }
@@ -1227,7 +1233,7 @@ ValidateMap (SBYTE *DepthArray, COUNT width, COUNT height)
 	BYTE state;
 	BYTE pixel_count[2], lb[2];
 	SBYTE last_byte;
-	COUNT i;
+	DWORD i;
 	SBYTE *lpDst;
 
 	i = width - 1;
@@ -1609,9 +1615,11 @@ GenerateLightMap (SBYTE *pTopo, int w, int h)
 {
 #define LMAP_BLOCKS       (2 * LMAP_MAX_DIST + 1)
 	int x, y;
+
 	SBYTE *elev;
 	int min, max, med;
 	int sfact, spread;
+
 	elev_block_t vblocks[LMAP_BLOCKS];
 	// we use a running block average to reduce the amount of work
 	// where a block is a vertical line of map points
@@ -1727,7 +1735,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	RECT r;
 	const PlanetFrame *PlanDataPtr;
 	PLANET_INFO *PlanetInfo = &pSolarSysState->SysInfo.PlanetInfo;
-	COUNT i, y; 
+	DWORD i, y; 
 	POINT loc;
 	CONTEXT OldContext;
 	CONTEXT TopoContext;
@@ -1855,32 +1863,37 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 						switch (HIBYTE (loword) & 31)
 						{
 							case 0:
-								crater_r.extent.width =
-										(LOBYTE (loword) % (Height >> 2))
-										+ (Height >> 2);
+								crater_r.extent.width = (LOBYTE (loword) 
+									% (ORIGINAL_MAP_HEIGHT >> 2)) 
+									+ (ORIGINAL_MAP_HEIGHT >> 2);
 								break;
 							case 1:
 							case 2:
 							case 3:
 							case 4:
-								crater_r.extent.width =
-										(LOBYTE (loword) % (Height >> 3))
-										+ (Height >> 3);
+								crater_r.extent.width = (LOBYTE (loword) 
+									% (ORIGINAL_MAP_HEIGHT >> 3)) 
+									+ (ORIGINAL_MAP_HEIGHT >> 3);
 								break;
 							default:
-								crater_r.extent.width =
-										(LOBYTE (loword) % (Height >> 4))
-										+ 4;
+								crater_r.extent.width = (LOBYTE (loword) 
+									% (ORIGINAL_MAP_HEIGHT >> 4)) + 4;
 								break;
 						}
 
 						loword = LOWORD (RandomContext_Random (SysGenRNG));
 
 						crater_r.extent.height = crater_r.extent.width;
-						crater_r.corner.x = HIBYTE (loword)
-								% (Width - crater_r.extent.width);
-						crater_r.corner.y = LOBYTE (loword)
-								% (Height - crater_r.extent.height);
+						crater_r.corner.x = HIBYTE (loword) % (ORIGINAL_MAP_WIDTH - crater_r.extent.width);
+						// crater_r.corner.x = loword % (MAP_WIDTH - crater_r.extent.width); // JMS_GFX: changed the previous line to this. BYTE was too small for 4x resolution
+						crater_r.corner.y = LOBYTE (loword) % (ORIGINAL_MAP_HEIGHT - crater_r.extent.height);
+						// crater_r.corner.y = hiword % (MAP_HEIGHT - crater_r.extent.height); // JMS_GFX: The same
+
+						// BW: ... then scale them up
+						crater_r.extent.width = crater_r.extent.width * Height / ORIGINAL_MAP_HEIGHT;
+						crater_r.extent.height = crater_r.extent.width;
+						crater_r.corner.x = crater_r.corner.x * Width / ORIGINAL_MAP_WIDTH;					
+						crater_r.corner.y = crater_r.corner.y * Height / ORIGINAL_MAP_HEIGHT;
 
 						MakeCrater (&crater_r, Orbit->lpTopoData,
 								PlanDataPtr->fault_depth << 2,
@@ -2018,6 +2031,3 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	SetContext (OldContext);
 	DestroyContext (TopoContext);
 }
-
-void
-	newFunct (void) {}
