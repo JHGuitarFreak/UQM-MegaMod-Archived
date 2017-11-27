@@ -33,17 +33,16 @@
 #include "sounds.h"
 #include "libs/mathlib.h"
 
-
 #define NUM_PICK_SHIP_ROWS 2
 #define NUM_PICK_SHIP_COLUMNS 6
 
-#define ICON_WIDTH 16
-#define ICON_HEIGHT 16
+#define ICON_WIDTH (16 << RESOLUTION_FACTOR) // JMS_GFX
+#define ICON_HEIGHT (16 << RESOLUTION_FACTOR) // JMS_GFX
 
-#define FLAGSHIP_X_OFFS 65
-#define FLAGSHIP_Y_OFFS 4
-#define FLAGSHIP_WIDTH 22
-#define FLAGSHIP_HEIGHT 48
+#define FLAGSHIP_X_OFFS (65 << RESOLUTION_FACTOR) // JMS_GFX
+#define FLAGSHIP_Y_OFFS (4 << RESOLUTION_FACTOR) // JMS_GFX
+#define FLAGSHIP_WIDTH (22 << RESOLUTION_FACTOR) // JMS_GFX
+#define FLAGSHIP_HEIGHT (48 << RESOLUTION_FACTOR) // JMS_GFX
 
 static BOOLEAN
 DoPickBattleShip (MENU_STATE *pMS)
@@ -129,15 +128,15 @@ ChangeSelection:
 			else
 			{
 				new_col = pMS->first_item.x;
-				pMS->flash_rect0.corner.x = 5 + pMS->flash_rect1.corner.x - 2
-						+ ((ICON_WIDTH + 4) * new_col);
+				pMS->flash_rect0.corner.x = (5 << RESOLUTION_FACTOR) + pMS->flash_rect1.corner.x - 2
+						+ ((ICON_WIDTH + (4 << RESOLUTION_FACTOR)) * new_col); // JMS_GFX
 				if (new_col > (NUM_PICK_SHIP_COLUMNS >> 1))
 				{
 					--new_col;
 					pMS->flash_rect0.corner.x += FLAGSHIP_WIDTH - ICON_WIDTH;
 				}
-				pMS->flash_rect0.corner.y = 16 + pMS->flash_rect1.corner.y - 2
-						+ ((ICON_HEIGHT + 4) * pMS->first_item.y);
+				pMS->flash_rect0.corner.y = (16 << RESOLUTION_FACTOR) + pMS->flash_rect1.corner.y - 2
+					+ ((ICON_HEIGHT + (4 << RESOLUTION_FACTOR)) * pMS->first_item.y); // JMS_GFX
 				pMS->flash_rect0.extent.width = ICON_WIDTH + 4;
 				pMS->flash_rect0.extent.height = ICON_HEIGHT + 4;
 
@@ -167,10 +166,10 @@ ChangeSelection:
 			pMS->CurFrame = (FRAME)hBattleShip;
 
 			SetContextForeGroundColor (BLACK_COLOR);
-			r.corner.x = pMS->flash_rect1.corner.x + 6;
-			r.corner.y = pMS->flash_rect1.corner.y + 5;
-			r.extent.width = ((ICON_WIDTH + 4) * 3) - 4;
-			r.extent.height = 7;
+			r.corner.x = pMS->flash_rect1.corner.x + (6 << RESOLUTION_FACTOR) - 2*RESOLUTION_FACTOR; // JMS_GFX
+			r.corner.y = pMS->flash_rect1.corner.y + (5 << RESOLUTION_FACTOR) - 2*RESOLUTION_FACTOR; // JMS_GFX
+			r.extent.width = ((ICON_WIDTH + (4 << RESOLUTION_FACTOR)) * 3) - (4 << RESOLUTION_FACTOR) + 2*RESOLUTION_FACTOR;  // JMS_GFX
+			r.extent.height = 7 << RESOLUTION_FACTOR; // JMS_GFX
 			DrawFilledRectangle (&r);
 
 			if (hBattleShip == 0)
@@ -184,7 +183,7 @@ ChangeSelection:
 				SetContextFont (TinyFont);
 
 				t.baseline.x = r.corner.x + (r.extent.width >> 1);
-				t.baseline.y = r.corner.y + (r.extent.height - 1);
+				t.baseline.y = r.corner.y + (r.extent.height - (1 << RESOLUTION_FACTOR)) - 2*RESOLUTION_FACTOR; // JMS_GFX
 				t.align = ALIGN_CENTER;
 
 				StarShipPtr = LockStarShip (&race_q[0], hBattleShip);
@@ -215,9 +214,10 @@ ChangeSelection:
 				SetContextForeGroundColor (BLACK_COLOR);
 			}
 
-			r.corner.x += (ICON_WIDTH + 4)
-					* ((NUM_PICK_SHIP_COLUMNS >> 1) + 1)
-					+ FLAGSHIP_WIDTH - ICON_WIDTH;
+			r.extent.width -= 2*RESOLUTION_FACTOR; // JMS_GFX
+			r.corner.x += (ICON_WIDTH + (4 << RESOLUTION_FACTOR))
+				* ((NUM_PICK_SHIP_COLUMNS >> 1) + 1)
+					+ FLAGSHIP_WIDTH - ICON_WIDTH; // JMS_GFX
 			DrawFilledRectangle (&r);
 
 			if (crew_level)
@@ -388,7 +388,7 @@ GetEncounterStarShip (STARSHIP *LastStarShipPtr, COUNT which_player)
 void
 DrawArmadaPickShip (BOOLEAN draw_salvage_frame, RECT *pPickRect)
 {
-#define PICK_NAME_HEIGHT 6
+#define PICK_NAME_HEIGHT (6 << RESOLUTION_FACTOR); // JMS_GFX
 	//COUNT i;
 	HSTARSHIP hBattleShip, hNextShip;
 	STARSHIP *StarShipPtr;
@@ -433,7 +433,7 @@ DrawArmadaPickShip (BOOLEAN draw_salvage_frame, RECT *pPickRect)
 	DrawStamp (&s);
 
 	t.baseline.x = pick_r.corner.x + (pick_r.extent.width >> 1);
-	t.baseline.y = pick_r.corner.y + pick_r.extent.height - 5;
+	t.baseline.y = pick_r.corner.y + pick_r.extent.height - (5 << RESOLUTION_FACTOR) - 2 * RESOLUTION_FACTOR; // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.pStr = GLOBAL_SIS (ShipName);
 	t.CharCount = (COUNT)~0;
@@ -456,14 +456,14 @@ DrawArmadaPickShip (BOOLEAN draw_salvage_frame, RECT *pPickRect)
 			ship_index = StarShipPtr->index;
 
 			s.origin.x = pick_r.corner.x
-					+ (5 + ((ICON_WIDTH + 4)
-					* (ship_index % NUM_PICK_SHIP_COLUMNS)));
+					+ ((5 << RESOLUTION_FACTOR) + ((ICON_WIDTH + (4 << RESOLUTION_FACTOR))
+				       * (ship_index % NUM_PICK_SHIP_COLUMNS))); // JMS_GFX
 			if ((ship_index % NUM_PICK_SHIP_COLUMNS) >=
 					(NUM_PICK_SHIP_COLUMNS >> 1))
-				s.origin.x += FLAGSHIP_WIDTH + 4;
+				s.origin.x += FLAGSHIP_WIDTH + (4 << RESOLUTION_FACTOR); // JMS_GFX
 			s.origin.y = pick_r.corner.y
-					+ (16 + ((ICON_HEIGHT + 4)
-					* (ship_index / NUM_PICK_SHIP_COLUMNS)));
+					+ ((16 << RESOLUTION_FACTOR) + ((ICON_HEIGHT + (4 << RESOLUTION_FACTOR))
+					* (ship_index / NUM_PICK_SHIP_COLUMNS))); // JMS_GFX
 			s.frame = StarShipPtr->icons;
 			r.corner = s.origin;
 			SetContextForeGroundColor (BLACK_COLOR);
@@ -474,7 +474,12 @@ DrawArmadaPickShip (BOOLEAN draw_salvage_frame, RECT *pPickRect)
 				if (StarShipPtr->SpeciesID == NO_ID)
 				{
 					/* Dead ship - mark with an X. */
-					s.origin.x -= 1;
+					s.origin.x -= (1 << RESOLUTION_FACTOR); // JMS_GFX
+					
+					// JMS_GFX
+					if (RESOLUTION_FACTOR > 0)
+						s.origin.y -= (1 << RESOLUTION_FACTOR);
+
 					s.frame = SetAbsFrameIndex (StatusFrame, 3);
 					DrawStamp (&s);
 				}
