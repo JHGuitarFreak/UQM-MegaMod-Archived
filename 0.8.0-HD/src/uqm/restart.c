@@ -41,6 +41,7 @@
 #include "libs/graphics/gfx_common.h"
 #include "libs/inplib.h"
 #include "libs/graphics/sdl/pure.h"
+#include "libs/log.h"
 #include "options.h"
 
 enum
@@ -104,6 +105,24 @@ DrawRestartMenu (MENU_STATE *pMS, BYTE NewState, FRAME f, BOOLEAN cleanup)
 	Flash_setOverlay (pMS->flashContext, &origin, SetAbsFrameIndex (f, NewState + 1), cleanup);
 }
 
+static void
+ResChanged (MENU_STATE *pMS) {	
+	SetFlashRect (NULL);
+	DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
+	// Got to restart -message
+	SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+	SetTransitionSource (NULL);
+	BatchGraphics ();
+	DrawRestartMenuGraphic (pMS);
+	DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
+	ScreenTransition (3, NULL);
+	UnbatchGraphics ();
+	//fade_buf[0] = FadeAllToBlack;
+	//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
+	SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
+	GLOBAL (CurrentActivity) = CHECK_ABORT;
+}
+
 static BOOLEAN
 DoRestart (MENU_STATE *pMS)
 {
@@ -153,20 +172,128 @@ DoRestart (MENU_STATE *pMS)
 	}
 	else if (PulsedInputState.menu[KEY_MENU_SELECT])
 	{
+		//BYTE fade_buf[1];
+		COUNT oldresfactor;
+		BOOLEAN packsInstalled;
+		
+		if (resolutionFactor == 0)
+			packsInstalled = TRUE;
+		else if (resolutionFactor == 1 && hires2xPackPresent)
+			packsInstalled = TRUE;
+		else if (resolutionFactor == 2 && hires4xPackPresent)
+			packsInstalled = TRUE;
+		else
+			packsInstalled = FALSE;
+
 		switch (pMS->CurState)
 		{
 			case LOAD_SAVED_GAME:
-				LastActivity = CHECK_LOAD;
-				GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
+				if (resFactorWasChanged) {
+					SetFlashRect (NULL);
+					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
+					// Got to restart -message
+					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+					SetTransitionSource (NULL);
+					BatchGraphics ();
+					DrawRestartMenuGraphic (pMS);
+					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
+					ScreenTransition (3, NULL);
+					UnbatchGraphics ();
+					//fade_buf[0] = FadeAllToBlack;
+					//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
+					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
+					GLOBAL (CurrentActivity) = CHECK_ABORT;
+				} else if (!packsInstalled) {
+					Flash_pause(pMS->flashContext);
+					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + resolutionFactor));
+					// Could not find graphics pack - message
+					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+					SetTransitionSource (NULL);
+					BatchGraphics ();
+					DrawRestartMenuGraphic (pMS);
+					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
+					ScreenTransition (3, NULL);
+					UnbatchGraphics ();
+					Flash_continue(pMS->flashContext);
+					SleepThreadUntil (TimeIn + ONE_SECOND / 30);
+					return TRUE;
+				} else {
+					LastActivity = CHECK_LOAD;
+					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
+				}
 				break;
 			case START_NEW_GAME:
-				LastActivity = CHECK_LOAD | CHECK_RESTART;
-				GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
+				if (resFactorWasChanged) {
+					SetFlashRect (NULL);
+					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
+					// Got to restart -message
+					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+					SetTransitionSource (NULL);
+					BatchGraphics ();
+					DrawRestartMenuGraphic (pMS);
+					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
+					ScreenTransition (3, NULL);
+					UnbatchGraphics ();
+					//fade_buf[0] = FadeAllToBlack;
+					//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
+					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
+					GLOBAL (CurrentActivity) = CHECK_ABORT;
+				} else if (!packsInstalled) {
+					Flash_pause(pMS->flashContext);
+					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + resolutionFactor));
+					// Could not find graphics pack - message
+					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+					SetTransitionSource (NULL);
+					BatchGraphics ();
+					DrawRestartMenuGraphic (pMS);
+					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
+					ScreenTransition (3, NULL);
+					UnbatchGraphics ();
+					Flash_continue(pMS->flashContext);
+					SleepThreadUntil (TimeIn + ONE_SECOND / 30);
+					return TRUE;
+				}
+				else
+				{
+					LastActivity = CHECK_LOAD | CHECK_RESTART;
+					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
+				}	
 				break;
 			case PLAY_SUPER_MELEE:
-				GLOBAL (CurrentActivity) = SUPER_MELEE;
+				if (resFactorWasChanged) {
+					SetFlashRect (NULL);
+					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
+					// Got to restart -message
+					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+					SetTransitionSource (NULL);
+					BatchGraphics ();
+					DrawRestartMenuGraphic (pMS);
+					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
+					ScreenTransition (3, NULL);
+					UnbatchGraphics ();
+					//fade_buf[0] = FadeAllToBlack;
+					//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
+					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
+					GLOBAL (CurrentActivity) = CHECK_ABORT;
+				} else if (!packsInstalled) {
+					Flash_pause(pMS->flashContext);
+					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + resolutionFactor));
+					// Could not find graphics pack - message
+					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+					SetTransitionSource (NULL);
+					BatchGraphics ();
+					DrawRestartMenuGraphic (pMS);
+					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
+					ScreenTransition (3, NULL);
+					UnbatchGraphics ();
+					Flash_continue(pMS->flashContext);
+					SleepThreadUntil (TimeIn + ONE_SECOND / 30);
+					return TRUE;
+				} else
+					GLOBAL (CurrentActivity) = SUPER_MELEE;
 				break;
 			case SETUP_GAME:
+				oldresfactor = resolutionFactor;
 				Flash_pause(pMS->flashContext);
 				Flash_setState(pMS->flashContext, FlashState_fadeIn,
 						(3 * ONE_SECOND) / 16);
@@ -179,6 +306,10 @@ DoRestart (MENU_STATE *pMS)
 				BatchGraphics ();
 				DrawRestartMenuGraphic (pMS);
 				ScreenTransition (3, NULL);
+				// JMS_GFX: This prevents drawing an annoying wrong-sized "Setup" frame when changing resolution. 
+				if (oldresfactor < resolutionFactor)
+					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, TRUE);
+				
 				DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
 				Flash_continue(pMS->flashContext);
 				UnbatchGraphics ();
@@ -246,9 +377,13 @@ DoRestart (MENU_STATE *pMS)
 	}
 	else
 	{	// No input received, check if timed out
-		if (GetTimeCounter () - LastInputTime > InactTimeOut)
+		// JMS: After changing resolution mode, prevent displaying credits
+		// (until the next time the game is restarted). This is to prevent
+		// showing the credits with the wrong resolution mode's font&background.
+		if (GetTimeCounter () - LastInputTime > InactTimeOut
+			&& !resFactorWasChanged)
 		{
-			SleepThreadUntil (FadeMusic (0, ONE_SECOND));
+			SleepThreadUntil (FadeMusic (0, ONE_SECOND/2));
 			StopMusic ();
 			FadeMusic (NORMAL_VOLUME, 0);
 
@@ -313,7 +448,35 @@ RestartMenu (MENU_STATE *pMS)
 	if (TimeOut == ONE_SECOND / 8)
 		SleepThread (ONE_SECOND * 3);
 
-	pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM));
+	//DC: Load the different menus depending on the resolution factor
+	if (resolutionFactor < 1)
+		pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM));
+	if (resolutionFactor == 1)
+		pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM2x));
+	if (resolutionFactor > 1)
+		pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM4x));
+
+	// Re-load the info box font so the text shows in correct size after changing the resolution.
+	if (resFactorWasChanged)
+	{	
+		DestroyFont (StarConFont);
+		
+		if (resolutionFactor < 1)
+			StarConFont = LoadFont (FALLBACK_TO1X_FONT);
+		if (resolutionFactor == 1)
+			StarConFont = LoadFont (FALLBACK_TO2X_FONT);
+		if (resolutionFactor > 1)
+			StarConFont = LoadFont (FALLBACK_TO4X_FONT);
+		
+		DestroyFont (TinyFont);
+		
+		if (resolutionFactor < 1)
+			TinyFont = LoadFont (TINY_FALLBACK_TO1X_FONT);
+		if (resolutionFactor == 1)
+			TinyFont = LoadFont (TINY_FALLBACK_TO2X_FONT);
+		if (resolutionFactor > 1)
+			TinyFont = LoadFont (TINY_FALLBACK_TO4X_FONT);
+	}
 
 	DrawRestartMenuGraphic (pMS);
 	GLOBAL (CurrentActivity) &= ~CHECK_ABORT;
