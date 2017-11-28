@@ -150,18 +150,18 @@ UNIVERSE_TO_LOGY (MAX_Y_UNIVERSE + 1) : UNIVERSE_TO_LOGY (-1)) - 1L)
 
 #define ROUNDING_ERROR(div)  ((div) >> 1)
 
-static inline COORD
+static inline SDWORD
 logxToUniverse (SDWORD lx)
 {
-	return (COORD) ((lx * UNIVERSE_UNITS_X + ROUNDING_ERROR(LOG_UNITS_X))
+	return (SDWORD) ((lx * UNIVERSE_UNITS_X + ROUNDING_ERROR(LOG_UNITS_X))
 			/ LOG_UNITS_X);
 }
 #define LOGX_TO_UNIVERSE(lx) \
 		logxToUniverse (lx)
-static inline COORD
+static inline SDWORD
 logyToUniverse (SDWORD ly)
 {
-	return (COORD) (MAX_Y_UNIVERSE -
+	return (SDWORD) (MAX_Y_UNIVERSE -
 			((ly * UNIVERSE_UNITS_Y + ROUNDING_ERROR(LOG_UNITS_Y))
 			/ LOG_UNITS_Y));
 }
