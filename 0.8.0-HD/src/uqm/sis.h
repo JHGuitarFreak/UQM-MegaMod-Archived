@@ -21,6 +21,8 @@
 #include "libs/gfxlib.h"
 #include "planets/elemdata.h"
 		// for NUM_ELEMENT_CATEGORIES
+#include "units.h"
+                // for RESOLUTION_FACTOR
 
 #if defined(__cplusplus)
 extern "C" {
@@ -47,9 +49,10 @@ extern "C" {
 #define CREW_PER_ROW 5
 #define SBAY_MASS_PER_ROW 50
 
-#define MAX_FUEL_BARS 10
+#define MAX_FUEL_BARS RES_CASE(10,40,80)
 #define FUEL_VOLUME_PER_ROW (HEFUEL_TANK_CAPACITY / MAX_FUEL_BARS)
-#define FUEL_RESERVE FUEL_VOLUME_PER_ROW
+#define FUEL_RESERVE (10 * FUEL_TANK_SCALE) // JMS_GFX
+#define FUEL_COST_RU 20 // JMS
 
 #define IP_SHIP_THRUST_INCREMENT 8
 #define IP_SHIP_TURN_WAIT 17
@@ -92,22 +95,22 @@ enum
 #define EMPTY_SLOT NUM_MODULES
 #define NUM_BOMB_MODULES 10
 
-#define DRIVE_SIDE_X 31
-#define DRIVE_SIDE_Y 56
-#define DRIVE_TOP_X 33
-#define DRIVE_TOP_Y (65 + 21)
+#define DRIVE_SIDE_X ((31 << RESOLUTION_FACTOR)) // JMS_GFX
+#define DRIVE_SIDE_Y ((56 << RESOLUTION_FACTOR)) // JMS_GFX
+#define DRIVE_TOP_X ((33 << RESOLUTION_FACTOR) + RES_CASE(0,42,100)) // JMS_GFX
+#define DRIVE_TOP_Y ((86 << RESOLUTION_FACTOR) - RES_CASE(0,45,73)) // JMS_GFX
 
-#define JET_SIDE_X 71
-#define JET_SIDE_Y 48
-#define JET_TOP_X 70
-#define JET_TOP_Y (73 + 21)
+#define JET_SIDE_X ((71 << RESOLUTION_FACTOR)) // JMS_GFX
+#define JET_SIDE_Y ((48 << RESOLUTION_FACTOR)) // JMS_GFX
+#define JET_TOP_X ((70 << RESOLUTION_FACTOR) + RES_CASE(0,32,86)) // JMS_GFX
+#define JET_TOP_Y ((94 << RESOLUTION_FACTOR) - RES_CASE(0,69,120)) // JMS_GFX
 
-#define MODULE_SIDE_X 17
-#define MODULE_SIDE_Y 14
-#define MODULE_TOP_X 17
-#define MODULE_TOP_Y (96 + 21)
+#define MODULE_SIDE_X ((17 << RESOLUTION_FACTOR) + RES_CASE(0,21,55)) // JMS_GFX
+#define MODULE_SIDE_Y ((14 << RESOLUTION_FACTOR) - RES_CASE(0,2,5)) // JMS_GFX
+#define MODULE_TOP_X ((17 << RESOLUTION_FACTOR) + RES_CASE(0,22,55)) // JMS_GFX
+#define MODULE_TOP_Y ((117 << RESOLUTION_FACTOR) + RES_CASE(0,14,59)) // JMS_GFX
 
-#define SHIP_PIECE_OFFSET 12
+#define SHIP_PIECE_OFFSET ((12 << RESOLUTION_FACTOR) - RES_CASE(0,3,2)) // JMS_GFX
 
 #define MAX_BUILT_SHIPS 12
 		/* Maximum number of ships escorting the SIS */
@@ -128,6 +131,8 @@ enum
 	{3 + 42, 30 + (5 * 16)},
 
 #define SIS_NAME_SIZE 16
+#define SAVE_NAME_CHECKER "MegaMod" // JMS
+#define SAVE_CHECKER_SIZE SIS_NAME_SIZE
 
 typedef struct
 {

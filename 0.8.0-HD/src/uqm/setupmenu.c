@@ -863,9 +863,15 @@ init_widgets (void)
 		bank = StringBank_Create ();
 	}
 	
-	if (setup_frame == NULL)
+	if (setup_frame == NULL || resFactorWasChanged)
 	{
-		setup_frame = CaptureDrawable (LoadGraphic (MENUBKG_PMAP_ANIM));
+		// JMS: Load the different menus depending on the resolution factor.
+		if (resolutionFactor < 1)
+			setup_frame = CaptureDrawable (LoadGraphic (MENUBKG_PMAP_ANIM));
+		if (resolutionFactor == 1)
+			setup_frame = CaptureDrawable (LoadGraphic (MENUBKG_PMAP_ANIM2X));
+		if (resolutionFactor > 1)
+			setup_frame = CaptureDrawable (LoadGraphic (MENUBKG_PMAP_ANIM4X));
 	}
 
 	count = GetStringTableCount (SetupTab);
