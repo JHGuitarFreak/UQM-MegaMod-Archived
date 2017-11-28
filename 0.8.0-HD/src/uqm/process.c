@@ -39,9 +39,9 @@
 
 COUNT DisplayFreeList;
 PRIMITIVE DisplayArray[MAX_DISPLAY_PRIMS];
-extern POINT SpaceOrg;
+extern DPOINT SpaceOrg;
 
-SIZE zoom_out = 1 << ZOOM_SHIFT;
+COUNT zoom_out = 1 << ZOOM_SHIFT;
 static SIZE opt_max_zoom_out;
 
 #if 0
@@ -204,7 +204,7 @@ PostProcess (ELEMENT *ElementPtr)
 }
 
 static COUNT
-CalcReduction (SIZE dx, SIZE dy)
+CalcReduction (SDWORD dx, SDWORD dy)
 {
 	COUNT next_reduction;
 
@@ -214,7 +214,7 @@ CalcReduction (SIZE dx, SIZE dy)
 
 	if (optMeleeScale == TFB_SCALE_STEP)
 	{
-		SIZE sdx, sdy;
+		SDWORD sdx, sdy;
 
 		if (LOBYTE (GLOBAL (CurrentActivity)) > IN_ENCOUNTER)
 			return (0);
@@ -232,8 +232,8 @@ CalcReduction (SIZE dx, SIZE dy)
 		if (next_reduction < zoom_out
 				&& zoom_out <= MAX_VIS_REDUCTION)
 		{
-#define HYSTERESIS_X DISPLAY_TO_WORLD(24)
-#define HYSTERESIS_Y DISPLAY_TO_WORLD(20)
+#define HYSTERESIS_X DISPLAY_TO_WORLD(24 << RESOLUTION_FACTOR) // JMS_GFX
+#define HYSTERESIS_Y DISPLAY_TO_WORLD(20 << RESOLUTION_FACTOR) // JMS_GFX
 		if (((sdx + HYSTERESIS_X)
 				<< (MAX_VIS_REDUCTION - next_reduction)) > TRANSITION_WIDTH
 				|| ((sdy + HYSTERESIS_Y)
@@ -281,23 +281,23 @@ CalcReduction (SIZE dx, SIZE dy)
 }
 
 static VIEW_STATE
-CalcView (POINT *pNewScrollPt, SIZE next_reduction,
-		SIZE *pdx, SIZE *pdy, COUNT ships_alive)
+CalcView (DPOINT *pNewScrollPt, SIZE next_reduction,
+		SDWORD *pdx, SDWORD *pdy, COUNT ships_alive)
 {
-	SIZE dx, dy;
+	SDWORD dx, dy;
 	VIEW_STATE view_state;
 
 #ifdef KDEBUG
 	log_add (log_Debug, "CalcView:");
 #endif
-	dx = ((COORD)(LOG_SPACE_WIDTH >> 1) - pNewScrollPt->x);
-	dy = ((COORD)(LOG_SPACE_HEIGHT >> 1) - pNewScrollPt->y);
+	dx = ((SDWORD)(LOG_SPACE_WIDTH >> 1) - pNewScrollPt->x);
+	dy = ((SDWORD)(LOG_SPACE_HEIGHT >> 1) - pNewScrollPt->y);
 	dx = WRAP_DELTA_X (dx);
 	dy = WRAP_DELTA_Y (dy);
 	if (ships_alive == 1)
 	{
-#define ORG_JUMP_X ((SIZE)DISPLAY_ALIGN(LOG_SPACE_WIDTH / 75))
-#define ORG_JUMP_Y ((SIZE)DISPLAY_ALIGN(LOG_SPACE_HEIGHT / 75))
+#define ORG_JUMP_X ((SDWORD)DISPLAY_ALIGN(LOG_SPACE_WIDTH / 75))
+#define ORG_JUMP_Y ((SDWORD)DISPLAY_ALIGN(LOG_SPACE_HEIGHT / 75))
 		if (dx > ORG_JUMP_X)
 			dx = ORG_JUMP_X;
 		else if (dx < -ORG_JUMP_X)
@@ -318,12 +318,8 @@ CalcView (POINT *pNewScrollPt, SIZE next_reduction,
 	{
 		if (optMeleeScale == TFB_SCALE_STEP)
 		{
-			SpaceOrg.x = (COORD)(LOG_SPACE_WIDTH >> 1)
-					- (LOG_SPACE_WIDTH >> ((MAX_REDUCTION + 1)
-					- next_reduction));
-			SpaceOrg.y = (COORD)(LOG_SPACE_HEIGHT >> 1)
-					- (LOG_SPACE_HEIGHT >> ((MAX_REDUCTION + 1)
-					- next_reduction));
+			SpaceOrg.x = (SDWORD)(LOG_SPACE_WIDTH >> 1) - (LOG_SPACE_WIDTH >> ((MAX_REDUCTION + 1) - next_reduction));
+			SpaceOrg.y = (SDWORD)(LOG_SPACE_HEIGHT >> 1) - (LOG_SPACE_HEIGHT >> ((MAX_REDUCTION + 1) - next_reduction));
 		}
 		else
 		{
@@ -336,10 +332,9 @@ CalcView (POINT *pNewScrollPt, SIZE next_reduction,
 				
 			// Always align the origin on a whole pixel to reduce the
 			// amount of object positioning jitter
-			SpaceOrg.x = DISPLAY_ALIGN((int)(LOG_SPACE_WIDTH >> 1) -
-					(LOG_SPACE_WIDTH * next_reduction / (MAX_ZOOM_OUT << 2)));
-			SpaceOrg.y = DISPLAY_ALIGN((int)(LOG_SPACE_HEIGHT >> 1) -
-					(LOG_SPACE_HEIGHT * next_reduction / (MAX_ZOOM_OUT << 2)));
+			SpaceOrg.x = DISPLAY_ALIGN((int)(LOG_SPACE_WIDTH >> 1) - (LOG_SPACE_WIDTH * next_reduction / (MAX_ZOOM_OUT << 2)));
+			SpaceOrg.y = DISPLAY_ALIGN((int)(LOG_SPACE_HEIGHT >> 1) - (LOG_SPACE_HEIGHT * next_reduction / (MAX_ZOOM_OUT << 2)));
+ 		
 		}
 		zoom_out = next_reduction;
 		view_state = VIEW_CHANGE;
@@ -627,11 +622,11 @@ ProcessCollisions (HELEMENT hSuccElement, ELEMENT *ElementPtr,
 }
 
 static VIEW_STATE
-PreProcessQueue (SIZE *pscroll_x, SIZE *pscroll_y)
+PreProcessQueue (SDWORD *pscroll_x, SDWORD *pscroll_y)
 {
 	SIZE min_reduction, max_reduction;
 	COUNT sides_active;
-	POINT Origin;
+	DPOINT Origin;
 	HELEMENT hElement;
 	COUNT ships_alive;
 
@@ -646,8 +641,8 @@ PreProcessQueue (SIZE *pscroll_x, SIZE *pscroll_y)
 	else
 		min_reduction = max_reduction = MAX_ZOOM_OUT + (1 << ZOOM_SHIFT);
 
-	Origin.x = (COORD)(LOG_SPACE_WIDTH >> 1);
-	Origin.y = (COORD)(LOG_SPACE_HEIGHT >> 1);
+	Origin.x = (SDWORD)(LOG_SPACE_WIDTH >> 1);
+	Origin.y = (SDWORD)(LOG_SPACE_HEIGHT >> 1);
 
 	hElement = GetHeadElement ();
 	ships_alive = 0;
@@ -669,7 +664,7 @@ PreProcessQueue (SIZE *pscroll_x, SIZE *pscroll_y)
 
 		if (ElementPtr->state_flags & PLAYER_SHIP)
 		{
-			SIZE dx, dy;
+			SDWORD dx, dy;
 
 			ships_alive++;
 			if (max_reduction > opt_max_zoom_out
@@ -783,7 +778,7 @@ InsertPrim (PRIM_LINKS *pLinks, COUNT primIndex, COUNT iPI)
 PRIM_LINKS DisplayLinks;
 
 static inline COORD
-CalcDisplayCoord (COORD c, COORD orgc, SIZE reduction)
+CalcDisplayCoord (SDWORD c, SDWORD orgc, SIZE reduction)
 {
 	if (optMeleeScale == TFB_SCALE_STEP)
 	{	/* old fixed-step zoom style */
@@ -796,10 +791,9 @@ CalcDisplayCoord (COORD c, COORD orgc, SIZE reduction)
 }
 
 static void
-PostProcessQueue (VIEW_STATE view_state, SIZE scroll_x,
-		SIZE scroll_y)
+PostProcessQueue (VIEW_STATE view_state, SDWORD scroll_x, SDWORD scroll_y)
 {
-	POINT delta;
+	DPOINT delta;
 	SIZE reduction;
 	HELEMENT hElement;
 
@@ -889,35 +883,28 @@ PostProcessQueue (VIEW_STATE view_state, SIZE scroll_x,
 
 				if (ObjType == LINE_PRIM)
 				{
-					SIZE dx, dy;
-
-					dx = ElementPtr->next.location.x
-							- ElementPtr->current.location.x;
-					dy = ElementPtr->next.location.y
-							- ElementPtr->current.location.y;
-
-					next.x = WRAP_X (ElementPtr->current.location.x + delta.x);
-					next.y = WRAP_Y (ElementPtr->current.location.y + delta.y);
-					DisplayArray[ElementPtr->PrimIndex].Object.Line.first.x =
-							CalcDisplayCoord (next.x, SpaceOrg.x, reduction);
-					DisplayArray[ElementPtr->PrimIndex].Object.Line.first.y =
-							CalcDisplayCoord (next.y, SpaceOrg.y, reduction);
+					SDWORD dx, dy;
+					
+					dx = (SDWORD)ElementPtr->next.location.x - (SDWORD)ElementPtr->current.location.x;
+					dy = (SDWORD)ElementPtr->next.location.y - (SDWORD)ElementPtr->current.location.y;
+					
+					next.x = WRAP_X ((SDWORD)ElementPtr->current.location.x + (SDWORD)delta.x);
+					next.y = WRAP_Y ((SDWORD)ElementPtr->current.location.y + (SDWORD)delta.y);
+					DisplayArray[ElementPtr->PrimIndex].Object.Line.first.x = CalcDisplayCoord (next.x, SpaceOrg.x, reduction);
+					DisplayArray[ElementPtr->PrimIndex].Object.Line.first.y = CalcDisplayCoord (next.y, SpaceOrg.y, reduction);
 
 					next.x += dx;
 					next.y += dy;
-					DisplayArray[ElementPtr->PrimIndex].Object.Line.second.x =
-							CalcDisplayCoord (next.x, SpaceOrg.x, reduction);
-					DisplayArray[ElementPtr->PrimIndex].Object.Line.second.y =
-							CalcDisplayCoord (next.y, SpaceOrg.y, reduction);
+					DisplayArray[ElementPtr->PrimIndex].Object.Line.second.x = CalcDisplayCoord (next.x, SpaceOrg.x, reduction);
+					DisplayArray[ElementPtr->PrimIndex].Object.Line.second.y = CalcDisplayCoord (next.y, SpaceOrg.y, reduction);
 				}
 				else
 				{
-					next.x = WRAP_X (ElementPtr->next.location.x + delta.x);
-					next.y = WRAP_Y (ElementPtr->next.location.y + delta.y);
-					DisplayArray[ElementPtr->PrimIndex].Object.Point.x =
-							CalcDisplayCoord (next.x, SpaceOrg.x, reduction);
-					DisplayArray[ElementPtr->PrimIndex].Object.Point.y =
-							CalcDisplayCoord (next.y, SpaceOrg.y, reduction);
+					next.x = WRAP_X ((SDWORD)ElementPtr->next.location.x + (SDWORD)delta.x);
+					next.y = WRAP_Y ((SDWORD)ElementPtr->next.location.y + (SDWORD)delta.y);
+					
+					DisplayArray[ElementPtr->PrimIndex].Object.Point.x = CalcDisplayCoord (next.x, SpaceOrg.x, reduction);
+					DisplayArray[ElementPtr->PrimIndex].Object.Point.y = CalcDisplayCoord (next.y, SpaceOrg.y, reduction);
 
 					if (ObjType == STAMP_PRIM || ObjType == STAMPFILL_PRIM)
 					{
@@ -1012,7 +999,7 @@ UWORD nth_frame = 0;
 void
 RedrawQueue (BOOLEAN clear)
 {
-	SIZE scroll_x, scroll_y;
+	SDWORD scroll_x, scroll_y;
 	VIEW_STATE view_state;
 
 	SetContext (StatusContext);
