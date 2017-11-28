@@ -130,16 +130,16 @@ DrawSISTitle (UNICODE *pStr)
 	RECT r;
 
 	t.baseline.x = SIS_TITLE_WIDTH >> 1;
-	t.baseline.y = SIS_TITLE_HEIGHT - 2;
+	t.baseline.y = SIS_TITLE_HEIGHT - RES_CASE(2,6,8); // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.pStr = pStr;
 	t.CharCount = (COUNT)~0;
 
 	OldContext = SetContext (OffScreenContext);
-	r.corner.x = SIS_ORG_X + SIS_SCREEN_WIDTH - SIS_TITLE_BOX_WIDTH + 1;
+	r.corner.x = SIS_ORG_X + SIS_SCREEN_WIDTH - SIS_TITLE_BOX_WIDTH + (1 << RESOLUTION_FACTOR); // JMS_GFX
 	r.corner.y = SIS_ORG_Y - SIS_TITLE_HEIGHT;
 	r.extent.width = SIS_TITLE_WIDTH;
-	r.extent.height = SIS_TITLE_HEIGHT - 1;
+	r.extent.height = SIS_TITLE_HEIGHT - RES_STAT_SCALE(1); // JMS_GFX
 	SetContextFGFrame (Screen);
 	SetContextClipRect (&r);
 	SetContextFont (TinyFont);
@@ -232,7 +232,7 @@ DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 	if (!(flags & DSME_MYCOLOR))
 		SetContextForeGroundColor (SIS_MESSAGE_TEXT_COLOR);
 
-	t.baseline.y = SIS_MESSAGE_HEIGHT - 2;
+	t.baseline.y = SIS_MESSAGE_HEIGHT - RES_CASE(2,6,8); // JMS_GFX
 	t.pStr = pStr;
 	t.CharCount = (COUNT)~0;
 	SetContextFont (TinyFont);
@@ -256,7 +256,7 @@ DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 		BYTE char_deltas[128];
 		BYTE *pchar_deltas;
 
-		t.baseline.x = 3;
+		t.baseline.x = RES_STAT_SCALE(3); // JMS_GFX
 		t.align = ALIGN_LEFT;
 
 		TextRect (&t, &text_r, char_deltas);
@@ -373,8 +373,8 @@ DateToString (char *buf, size_t bufLen,
 void
 GetStatusMessageRect (RECT *r)
 {
-	r->corner.x = 2;
-	r->corner.y = 130;
+	r->corner.x = RES_STAT_SCALE(2) - RES_CASE(0,1,2); // JMS_GFX
+	r->corner.y = RES_STAT_SCALE(130) + RES_CASE(0,6,18); // JMS_GFX
 	r->extent.width = STATUS_MESSAGE_WIDTH;
 	r->extent.height = STATUS_MESSAGE_HEIGHT;
 }
@@ -436,7 +436,7 @@ DrawStatusMessage (const UNICODE *pStr)
 	}
 
 	t.baseline.x = STATUS_MESSAGE_WIDTH >> 1;
-	t.baseline.y = STATUS_MESSAGE_HEIGHT - 1;
+	t.baseline.y = STATUS_MESSAGE_HEIGHT - RES_CASE(1,4,6); // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.pStr = pStr;
 	t.CharCount = (COUNT)~0;
@@ -480,14 +480,14 @@ DrawCaptainsName (void)
 	OldFont = SetContextFont (TinyFont);
 	OldColor = SetContextForeGroundColor (CAPTAIN_NAME_BACKGROUND_COLOR);
 
-	r.corner.x = 2 + 1;
-	r.corner.y = 10;
-	r.extent.width = SHIP_NAME_WIDTH - 2;
-	r.extent.height = SHIP_NAME_HEIGHT;
+	r.corner.x = RES_STAT_SCALE(3) - RES_CASE(0,3,5);		// JMS_GFX
+	r.corner.y = RES_CASE(10,20,32);						// JMS_GFX
+	r.extent.width = SHIP_NAME_WIDTH - RES_CASE(2,1,0);		// JMS_GFX
+	r.extent.height = SHIP_NAME_HEIGHT + RESOLUTION_FACTOR;	// JMS_GFX
 	DrawFilledRectangle (&r);
 
-	t.baseline.x = (STATUS_WIDTH >> 1) - 1;
-	t.baseline.y = r.corner.y + 6;
+	t.baseline.x = (STATUS_WIDTH >> 1) - RES_CASE(1,0,-1);
+	t.baseline.y = r.corner.y + RES_CASE(6,11,16); // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.pStr = GLOBAL_SIS (CommanderName);
 	t.CharCount = (COUNT)~0;
@@ -515,10 +515,10 @@ DrawFlagshipName (BOOLEAN InStatusArea)
 		OldContext = SetContext (StatusContext);
 		OldFont = SetContextFont (StarConFont);
 
-		r.corner.x = 2;
-		r.corner.y = 20;
-		r.extent.width = SHIP_NAME_WIDTH;
-		r.extent.height = SHIP_NAME_HEIGHT;
+		r.corner.x = RES_CASE(2,3,5);		// JMS_GFX
+		r.corner.y = RES_CASE(20,40,63);	// JMS_GFX
+		r.extent.width = SHIP_NAME_WIDTH;	// JMS_GFX
+		r.extent.height = SHIP_NAME_HEIGHT + RES_CASE(0,0,1);
 
 		t.pStr = GLOBAL_SIS (ShipName);
 	}
@@ -527,23 +527,39 @@ DrawFlagshipName (BOOLEAN InStatusArea)
 		OldContext = SetContext (SpaceContext);
 		OldFont = SetContextFont (MicroFont);
 
-		r.corner.x = 0;
+		r.corner.x = RES_CASE(0,24,0);
 		r.corner.y = 1;
-		r.extent.width = SIS_SCREEN_WIDTH;
-		r.extent.height = SHIP_NAME_HEIGHT;
+		r.extent.width = SIS_SCREEN_WIDTH - RES_CASE(0,24,0); // JMS_GFX
+		r.extent.height = SHIP_NAME_HEIGHT + RES_CASE(0,1,6);// JMS_GFX
 
 		t.pStr = buf;
 		snprintf (buf, sizeof buf, "%s %s",
 				GAME_STRING (NAMING_STRING_BASE + 1), GLOBAL_SIS (ShipName));
 		// XXX: this will not work with UTF-8 strings
 		strupr (buf);
+
+		// JMS: Handling the a-umlaut and o-umlaut characters
+        {
+            unsigned char *ptr;
+            ptr = (unsigned char*)buf;
+            while (*ptr) {
+                if (*ptr == 0xc3) {
+                    ptr++;
+                    if (*ptr == 0xb6 || *ptr == 0xa4) {
+                        *ptr += 'A' - 'a';
+                    }
+                }
+                ptr++;
+            }
+        }
 	}
 	OldFontEffect = SetContextFontEffect (NULL);
 	OldColor = SetContextForeGroundColor (FLAGSHIP_NAME_BACKGROUND_COLOR);
 	DrawFilledRectangle (&r);
 
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
-	t.baseline.y = r.corner.y + (SHIP_NAME_HEIGHT - InStatusArea);
+	t.baseline.y = r.corner.y + (SHIP_NAME_HEIGHT -
+					(InStatusArea ? RES_CASE(1,4,2) : RES_CASE(0,-4,-8))); // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.CharCount = (COUNT)~0;
 	if (optWhichFonts == OPT_PC)
@@ -623,9 +639,9 @@ DrawFlagshipStats (void)
 
 	/* we need room to play.  full screen width, 4 lines tall */
 	r.corner.x = 0;
-	r.corner.y = SIS_SCREEN_HEIGHT - (4 * leading);
+	r.corner.y = SIS_SCREEN_HEIGHT - (4 * leading) - RES_CASE(0, 30, 60); // JMS_GFX
 	r.extent.width = SIS_SCREEN_WIDTH;
-	r.extent.height = (4 * leading);
+	r.extent.height = (4 * leading) + RES_CASE(0, 30, 60);// JMS_GFX
 
 	OldColor = SetContextForeGroundColor (BLACK_COLOR);
 	DrawFilledRectangle (&r);
@@ -634,8 +650,8 @@ DrawFlagshipStats (void)
 	   now that we've cleared out our playground, compensate for the
 	   fact that the leading is way more than is generally needed.
 	*/
-	leading -= 3;
-	t.baseline.x = SIS_SCREEN_WIDTH / 6; //wild-assed guess, but it worked
+	leading -= RES_CASE(3, -3, -6);// JMS_GFX
+	t.baseline.x = SIS_SCREEN_WIDTH / RES_CASE(6, 10, 11); //JMS_GFX
 	t.baseline.y = r.corner.y + leading + 3;
 	t.align = ALIGN_RIGHT;
 	t.CharCount = (COUNT)~0;
@@ -675,7 +691,7 @@ DrawFlagshipStats (void)
 			"%-7.7s", describeWeapon (GLOBAL_SIS (ModuleSlots[0])));
 	font_DrawText (&t);
 
-	t.baseline.x = r.extent.width - 25;
+	t.baseline.x = r.extent.width - 25 - RES_CASE(0,15,60); // JMS_GFX
 	t.baseline.y = r.corner.y + leading + 3;
 	t.align = ALIGN_RIGHT;
 
@@ -693,7 +709,7 @@ DrawFlagshipStats (void)
 	t.pStr = GAME_STRING (FLAGSHIP_STRING_BASE + 7); // "maximum fuel:"
 	font_DrawText (&t);
 
-	t.baseline.x = r.extent.width - 2;
+	t.baseline.x = r.extent.width - RES_CASE(2, 10, 40); // JMS_GFX
 	t.baseline.y = r.corner.y + leading + 3;
 	t.pStr = buf;
 
@@ -760,12 +776,12 @@ DrawLanders (void)
 
 	i = GLOBAL_SIS (NumLanders);
 	r.corner.x = (STATUS_WIDTH >> 1) - r.corner.x;
-	s.origin.x = r.corner.x - (((r.extent.width * i) + (2 * (i - 1))) >> 1);
-	s.origin.y = 29;
+	s.origin.x = r.corner.x - (((r.extent.width * i) + (2 * (i - 1))) >> 1) + RES_CASE(0,1,0);
+	s.origin.y = RES_STAT_SCALE(29) + RES_CASE(0,0,2); // JMS_GFX
 
 	width = r.extent.width + 2;
-	r.extent.width = (r.extent.width * MAX_LANDERS)
-			+ (2 * (MAX_LANDERS - 1)) + 2;
+	r.extent.width = (r.extent.width * MAX_LANDERS) + 
+		(2 * (MAX_LANDERS - 1)) + RES_CASE (2,2,-14); // JMS_GFX
 	r.corner.x -= r.extent.width >> 1;
 	r.corner.y += s.origin.y;
 	SetContextForeGroundColor (BLACK_COLOR);
@@ -789,17 +805,17 @@ DrawStorageBays (BOOLEAN Refresh)
 
 	OldContext = SetContext (StatusContext);
 
-	r.extent.width = 2;
-	r.extent.height = 4;
-	r.corner.y = 123;
+	r.extent.width  = RES_STAT_SCALE(2); // JMS_GFX
+	r.extent.height = RES_STAT_SCALE(4); // JMS_GFX
+	r.corner.y		= RES_STAT_SCALE(123) + RES_CASE(0,8,23); // JMS_GFX
 	if (Refresh)
 	{
 		r.extent.width = NUM_MODULE_SLOTS * (r.extent.width + 1);
-		r.corner.x = (STATUS_WIDTH >> 1) - (r.extent.width >> 1);
+		r.corner.x = (STATUS_WIDTH >> 1) - (r.extent.width >> 1) + RES_CASE(0,2,2);
 
 		SetContextForeGroundColor (BLACK_COLOR);
 		DrawFilledRectangle (&r);
-		r.extent.width = 2;
+		r.extent.width = RES_STAT_SCALE(2); // JMS_GFX
 	}
 
 	i = (BYTE)CountSISPieces (STORAGE_BAY);
@@ -807,42 +823,40 @@ DrawStorageBays (BOOLEAN Refresh)
 	{
 		COUNT j;
 
-		r.corner.x = (STATUS_WIDTH >> 1)
-				- ((i * (r.extent.width + 1)) >> 1);
+		r.corner.x = (STATUS_WIDTH >> 1) - ((i * (r.extent.width + RES_STAT_SCALE(1))) >> 1) + RES_CASE(0,2,2);
 		SetContextForeGroundColor (STORAGE_BAY_FULL_COLOR);
 		for (j = GLOBAL_SIS (TotalElementMass);
 				j >= STORAGE_BAY_CAPACITY; j -= STORAGE_BAY_CAPACITY)
 		{
 			DrawFilledRectangle (&r);
-			r.corner.x += r.extent.width + 1;
+			r.corner.x += r.extent.width + RES_STAT_SCALE(1); // JMS_GFX;
 
 			--i;
 		}
 
-		r.extent.height = (4 * j + (STORAGE_BAY_CAPACITY - 1)) /
-				STORAGE_BAY_CAPACITY;
+		r.extent.height = (RES_STAT_SCALE (4) * j + (STORAGE_BAY_CAPACITY - 1)) / STORAGE_BAY_CAPACITY;
 		if (r.extent.height)
 		{
-			r.corner.y += 4 - r.extent.height;
+			r.corner.y += RES_STAT_SCALE (4) - r.extent.height;
 			DrawFilledRectangle (&r);
-			r.extent.height = 4 - r.extent.height;
+			r.extent.height = RES_STAT_SCALE(4) - r.extent.height;
 			if (r.extent.height)
 			{
-				r.corner.y = 123;
+				r.corner.y = RES_STAT_SCALE(123) + RES_CASE(0,8,23);
 				SetContextForeGroundColor (STORAGE_BAY_EMPTY_COLOR);
 				DrawFilledRectangle (&r);
 			}
-			r.corner.x += r.extent.width + 1;
+			r.corner.x += r.extent.width + RES_STAT_SCALE(1);
 
 			--i;
 		}
-		r.extent.height = 4;
+		r.extent.height = RES_STAT_SCALE(4);
 
 		SetContextForeGroundColor (STORAGE_BAY_EMPTY_COLOR);
 		while (i--)
 		{
 			DrawFilledRectangle (&r);
-			r.corner.x += r.extent.width + 1;
+			r.corner.x += r.extent.width + RES_STAT_SCALE(1);
 		}
 	}
 
@@ -852,10 +866,10 @@ DrawStorageBays (BOOLEAN Refresh)
 void
 GetGaugeRect (RECT *pRect, BOOLEAN IsCrewRect)
 {
-	pRect->extent.width = 24;
-	pRect->corner.x = (STATUS_WIDTH >> 1) - (pRect->extent.width >> 1);
-	pRect->extent.height = 5;
-	pRect->corner.y = IsCrewRect ? 117 : 38;
+	pRect->extent.width = RES_STAT_SCALE(24); // JMS_GFX
+	pRect->corner.x = (STATUS_WIDTH >> 1) - (pRect->extent.width >> 1) + RES_CASE(0,0,4);
+	pRect->extent.height = RES_STAT_SCALE(5); // JMS_GFX
+	pRect->corner.y = IsCrewRect ? RES_CASE(117,244,375) : RES_CASE(38,76,120); // JMS_GFX
 }
 
 static void
@@ -866,23 +880,26 @@ DrawPC_SIS (void)
 
 	GetGaugeRect (&r, FALSE);
 	t.baseline.x = STATUS_WIDTH >> 1;
-	t.baseline.y = r.corner.y - 1;
+	t.baseline.y = r.corner.y - RES_CASE(1,0,2);
 	t.align = ALIGN_CENTER;
 	t.CharCount = (COUNT)~0;
 	SetContextFont (TinyFont);
 	SetContextForeGroundColor (BLACK_COLOR);
 
-	r.corner.y -= 6;
-	r.corner.x--;
-	r.extent.width += 2;
+	// Black rectangle behind "FUEL" text and fuel amount.
+	r.corner.y -= RES_STAT_SCALE(6); // JMS_GFX
+	r.corner.x -= RES_STAT_SCALE(1); // JMS_GFX
+	r.extent.width += RES_STAT_SCALE(2);
+	r.extent.height += RES_CASE(0,2,2);
 	DrawFilledRectangle (&r);
 
 	SetContextFontEffect (SetAbsFrameIndex (FontGradFrame, 1));
 	t.pStr = GAME_STRING (STATUS_STRING_BASE + 3); // "FUEL"
 	font_DrawText (&t);
 
-	r.corner.y += 79;
-	t.baseline.y += 79;
+	// Black rectangle behind "CREW" text and crew amount.
+	r.corner.y += RES_STAT_SCALE(79) + RES_CASE(0,12,18); // JMS_GFX
+	t.baseline.y += RES_STAT_SCALE(79) + RES_CASE(0,9,18); // JMS_GFX
 	DrawFilledRectangle (&r);
 
 	SetContextFontEffect (SetAbsFrameIndex (FontGradFrame, 2));
@@ -891,16 +908,16 @@ DrawPC_SIS (void)
 	SetContextFontEffect (NULL);
 
 	// Background of text "CAPTAIN".
-	r.corner.x = 2 + 1;
-	r.corner.y = 3;
-	r.extent.width = 58;
-	r.extent.height = 7;
+	r.corner.x = (2 + 1) << RESOLUTION_FACTOR; // JMS_GFX;
+	r.corner.y = RES_STAT_SCALE(3); // JMS_GFX
+	r.extent.width = RES_STAT_SCALE(58); // JMS_GFX
+	r.extent.height = RES_STAT_SCALE(7); // JMS_GFX
 	SetContextForeGroundColor (PC_CAPTAIN_STRING_BACKGROUND_COLOR);
 	DrawFilledRectangle (&r);
 
 	// Text "CAPTAIN".
 	SetContextForeGroundColor (PC_CAPTAIN_STRING_TEXT_COLOR);
-	t.baseline.y = r.corner.y + 6;
+	t.baseline.y = r.corner.y + RES_CASE(6,10,18); // JMS_GFX
 	t.pStr = GAME_STRING (STATUS_STRING_BASE + 5); // "CAPTAIN"
 	font_DrawText (&t);
 }
@@ -911,7 +928,7 @@ DrawThrusters (void)
 	STAMP s;
 	COUNT i;
 
-	s.origin.x = 1;
+	s.origin.x = RES_STAT_SCALE(1); // JMS_GFX
 	s.origin.y = 0;
 	for (i = 0; i < NUM_DRIVE_SLOTS; ++i)
 	{
@@ -924,7 +941,7 @@ DrawThrusters (void)
 			DrawStamp (&s);
 		}
 
-		s.origin.y -= 3;
+		s.origin.y -= RES_STAT_SCALE(3); // JMS_GFX
 	}
 }
 
@@ -934,7 +951,7 @@ DrawTurningJets (void)
 	STAMP s;
 	COUNT i;
 
-	s.origin.x = 1;
+	s.origin.x = RES_STAT_SCALE(1); // JMS_GFX
 	s.origin.y = 0;
 	for (i = 0; i < NUM_JET_SLOTS; ++i)
 	{
@@ -947,7 +964,7 @@ DrawTurningJets (void)
 			DrawStamp (&s);
 		}
 
-		s.origin.y -= 3;
+		s.origin.y -= RES_STAT_SCALE(3); // JMS_GFX
 	}
 }
 
@@ -957,7 +974,7 @@ DrawModules (void)
 	STAMP s;
 	COUNT i;
 
-	s.origin.x = 1; // This properly centers the modules.
+	s.origin.x = RES_STAT_SCALE(1); // JMS_GFX // This properly centers the modules.
 	s.origin.y = 1;
 	for (i = 0; i < NUM_MODULE_SLOTS; ++i)
 	{
@@ -968,7 +985,7 @@ DrawModules (void)
 			DrawStamp (&s);
 		}
 
-		s.origin.y -= 3;
+		s.origin.y -= RES_STAT_SCALE(3); // JMS_GFX
 	}
 }
 
@@ -993,8 +1010,10 @@ DrawSupportShips (void)
 		StarShipPtr = LockShipFrag (&GLOBAL (built_ship_q), hStarShip);
 		hNextShip = _GetSuccLink (StarShipPtr);
 
-		s.origin = *pship_pos;
-		s.frame = StarShipPtr->icons;
+		s.origin.x = RES_STAT_SCALE(pship_pos->x) 
+			+ ((pship_pos - ship_pos) % 2 ? RES_CASE(0,3,5) : RES_CASE(0,-2,-2)); // JMS_GFX
+		s.origin.y = RES_STAT_SCALE(pship_pos->y) + RES_CASE(0,5,0); // JMS_GFX
+		s.frame = SetAbsFrameIndex (StarShipPtr->icons, 2);
 		DrawStamp (&s);
 
 		UnlockShipFrag (&GLOBAL (built_ship_q), hStarShip);
@@ -1033,7 +1052,7 @@ DeltaSISGauges_crewDelta (SIZE crew_delta)
 		GetGaugeRect (&r, TRUE);
 		
 		t.baseline.x = STATUS_WIDTH >> 1;
-		t.baseline.y = r.corner.y + r.extent.height;
+		t.baseline.y = r.corner.y + r.extent.height - (RESOLUTION_FACTOR == 1 ? 1 : 0); // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.pStr = buf;
 		t.CharCount = (COUNT)~0;
@@ -1128,10 +1147,7 @@ DeltaSISGauges_resunitDelta (SIZE resunit_delta)
 	{
 		RECT r;
 
-		r.corner.x = 2;
-		r.corner.y = 130;
-		r.extent.width = STATUS_MESSAGE_WIDTH;
-		r.extent.height = STATUS_MESSAGE_HEIGHT;
+		GetStatusMessageRect (&r);
 		SetContextForeGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x00, 0x08, 0x00), 0x6E));
 		DrawFilledRectangle (&r);
@@ -1274,12 +1290,8 @@ GetCrewPodForCrewMember (COUNT crewNr, COUNT *slotNr, COUNT *seatNr)
 COUNT
 GetCPodCapacity (POINT *ppt)
 {
-	COUNT crewCount;
-	COUNT slotNr;
-	COUNT seatNr;
-
-	COUNT rowNr;
-	COUNT colNr;
+	COUNT crewCount, slotNr, seatNr, rowNr, colNr;
+	COUNT ship_piece_offset_scaled = SHIP_PIECE_OFFSET + RES_CASE(0,1,1);  // JMS_GFX
 				
 	static const Color crewRows[] = PC_CREW_COLOR_TABLE;
 
@@ -1298,8 +1310,9 @@ GetCPodCapacity (POINT *ppt)
 	else
 		SetContextForeGroundColor (THREEDO_CREW_COLOR);
 		
-	ppt->x = 27 + (slotNr * SHIP_PIECE_OFFSET) - (colNr * 2);
-	ppt->y = 34 - (rowNr * 2);
+	ppt->x = (27 << RESOLUTION_FACTOR) + (slotNr * ship_piece_offset_scaled) -
+				((colNr * 2) << RESOLUTION_FACTOR) + RES_CASE(0,19,53); // JMS_GFX
+	ppt->y = ((34 - (rowNr * 2)) << RESOLUTION_FACTOR) + RES_CASE(0,6,20); // JMS_GFX
 
 	return GetCrewPodCapacity ();
 }
@@ -1376,19 +1389,15 @@ GetStorageCellForMineralUnit (COUNT unitNr, COUNT *slotNr, COUNT *cellNr)
 COUNT
 GetSBayCapacity (POINT *ppt)
 {
-	COUNT massCount;
-	COUNT slotNr;
-	COUNT cellNr;
-
-	COUNT rowNr;
-	COUNT colNr;
+	COUNT massCount, slotNr, cellNr, rowNr, colNr;
+	COUNT ship_piece_offset_scaled = SHIP_PIECE_OFFSET + RES_CASE(0,1,1);  // JMS_GFX
 				
 	static const Color colorBars[] = STORAGE_BAY_COLOR_TABLE;
 
 	massCount = GetElementMass ();
 	if (!GetStorageCellForMineralUnit (massCount, &slotNr, &cellNr))
 	{
-		// Crew does not fit. *ppt is unchanged.
+		// Mineral does not fit. *ppt is unchanged.
 		return GetStorageBayCapacity ();
 	}
 
@@ -1403,8 +1412,8 @@ GetSBayCapacity (POINT *ppt)
 		SetContextForeGroundColor (colorBars[rowNr]);
 	}
 		
-	ppt->x = 19 + (slotNr * SHIP_PIECE_OFFSET);
-	ppt->y = 34 - (rowNr * 2);
+	ppt->x = (19 << RESOLUTION_FACTOR) + (slotNr * ship_piece_offset_scaled) + RES_CASE(0,19,53); // JMS_GFX
+	ppt->y = ((34 - (rowNr * 2)) << RESOLUTION_FACTOR) - RES_CASE(0,0,9); // JMS_GFX
 
 	return GetStorageBayCapacity ();
 }
@@ -1486,14 +1495,10 @@ GetFuelTankForFuelUnit (DWORD unitNr, COUNT *slotNr, DWORD *compartmentNr)
 DWORD
 GetFTankCapacity (POINT *ppt)
 {
-	DWORD capacity;
-	DWORD fuelAmount;
+	DWORD capacity, rowNr, fuelAmount, compartmentNr, volume, volumehelper;
 	COUNT slotNr;
-	DWORD compartmentNr;
 	BYTE moduleType;
-	DWORD volume;
-
-	COUNT rowNr;
+	COUNT ship_piece_offset_scaled = SHIP_PIECE_OFFSET + RES_CASE(0,1,1);  // JMS_GFX
 	
 	static const Color fuelColors[] = FUEL_COLOR_TABLE;
 		
@@ -1515,13 +1520,23 @@ GetFTankCapacity (POINT *ppt)
 	moduleType = GLOBAL_SIS (ModuleSlots[slotNr]);
 	volume = GetModuleFuelCapacity (moduleType);
 
-	rowNr = ((volume - compartmentNr) * MAX_FUEL_BARS / HEFUEL_TANK_CAPACITY);
-		
-	ppt->x = 21 + (slotNr * SHIP_PIECE_OFFSET);
 	if (volume == FUEL_TANK_CAPACITY)
-		ppt->y = 27 - rowNr;
+		volumehelper = (volume * 10) / RES_CASE(10,22,22);
 	else
-		ppt->y = 30 - rowNr;
+		volumehelper = volume;
+
+	rowNr = ((volumehelper - compartmentNr) * MAX_FUEL_BARS / HEFUEL_TANK_CAPACITY);
+	ppt->x = (21 << RESOLUTION_FACTOR) + (slotNr * ship_piece_offset_scaled);
+	if (volume == FUEL_TANK_CAPACITY) {
+		ppt->x += RES_CASE(0,20,54); // JMS_GFX
+		ppt->y = (27 << RESOLUTION_FACTOR) - rowNr + RES_CASE(0,11,27); // JMS_GFX
+	} else {
+		ppt->x += RES_CASE(0,20,53); // JMS_GFX
+		ppt->y = (30 << RESOLUTION_FACTOR) - rowNr + RES_CASE(0,21,43); // JMS_GFX
+	}
+	
+	rowNr = ((volume - compartmentNr) * 10 * MAX_FUEL_BARS / HEFUEL_TANK_CAPACITY) /
+		MAX_FUEL_BARS;
 
 	assert (rowNr + 1 < (COUNT) (sizeof fuelColors / sizeof fuelColors[0]));
 	SetContextForeGroundColor (fuelColors[rowNr]);

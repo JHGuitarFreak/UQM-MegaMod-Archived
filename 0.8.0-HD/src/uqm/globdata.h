@@ -861,9 +861,6 @@ START_GAME_STATE
 	ADD_GAME_STATE (ORZ_STACK0, 1)
 	ADD_GAME_STATE (ORZ_STACK1, 1)
 
-	// JMS: It is allowed for the autopilot to engage
-	ADD_GAME_STATE (AUTOPILOT_OK, 1)
-
 /* These state bits are actually offsets into defgrp.dat. They really
  * shouldn't be part of the serialized Game State array! --MCM */
 	ADD_GAME_STATE (SHOFIXTI_GRPOFFS, 32)
@@ -880,6 +877,9 @@ START_GAME_STATE
 	ADD_GAME_STATE (URQUAN_PROBE_GRPOFFS, 32)
 	ADD_GAME_STATE (COLONY_GRPOFFS, 32)
 	ADD_GAME_STATE (SAMATRA_GRPOFFS, 32)
+
+	// JMS: It is allowed for the autopilot to engage
+	ADD_GAME_STATE (AUTOPILOT_OK, 1)
 
 	// JMS: Quasispace portal name flags
 	ADD_GAME_STATE (KNOW_QS_PORTAL_0, 1)

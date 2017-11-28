@@ -698,6 +698,25 @@ const GameStateBitMap gameStateBitMap[] = {
 	{ "COLONY_GRPOFFS", 32 },
 	{ "SAMATRA_GRPOFFS", 32 },
 	
+	{ "AUTOPILOT_OK", 1 },
+	
+	{ "KNOW_QS_PORTAL_0", 1 },
+	{ "KNOW_QS_PORTAL_1", 1 },
+	{ "KNOW_QS_PORTAL_2", 1 },
+	{ "KNOW_QS_PORTAL_3", 1 },
+	{ "KNOW_QS_PORTAL_4", 1 },
+	{ "KNOW_QS_PORTAL_5", 1 },
+	{ "KNOW_QS_PORTAL_6", 1 },
+	{ "KNOW_QS_PORTAL_7", 1 },
+	{ "KNOW_QS_PORTAL_8", 1 },
+	{ "KNOW_QS_PORTAL_9", 1 },
+	{ "KNOW_QS_PORTAL_10", 1 },
+	{ "KNOW_QS_PORTAL_11", 1 },
+	{ "KNOW_QS_PORTAL_12", 1 },
+	{ "KNOW_QS_PORTAL_13", 1 },
+	{ "KNOW_QS_PORTAL_14", 1 },
+	{ "KNOW_QS_PORTAL_15", 1 },
+	
 	{ NULL, 0 },
 };
 
@@ -924,8 +943,8 @@ SaveEncounters (uio_Stream *fh)
 		}
 
 		// Save the stuff after the BRIEF_SHIP_INFO array
-		write_32  (fh, EncounterPtr->log_x);
-		write_32  (fh, EncounterPtr->log_y);
+		write_32  (fh, ((EncounterPtr->log_x) >> RESOLUTION_FACTOR));
+		write_32  (fh, ((EncounterPtr->log_y) >> RESOLUTION_FACTOR));
 
 		UnlockEncounter (hEncounter);
 		hEncounter = hNextEncounter;
@@ -979,6 +998,13 @@ SaveClockState (const CLOCK_STATE *ClockPtr, uio_Stream *fh)
 static BOOLEAN
 SaveGameState (const GAME_STATE *GSPtr, uio_Stream *fh)
 {
+	BYTE res_scale; // JMS
+
+	if (LOBYTE (GSPtr->CurrentActivity) != IN_INTERPLANETARY)
+		res_scale = RESOLUTION_FACTOR; 
+	else
+		res_scale = 0;
+
 	write_32  (fh, GLOBAL_STATE_TAG);
 	write_32  (fh, 75);
 	write_8   (fh, GSPtr->glob_flags);
@@ -995,22 +1021,22 @@ SaveGameState (const GAME_STATE *GSPtr, uio_Stream *fh)
 	write_16  (fh, GSPtr->ip_location.x);
 	write_16  (fh, GSPtr->ip_location.y);
 	/* STAMP ShipStamp */
-	write_16  (fh, GSPtr->ShipStamp.origin.x);
-	write_16  (fh, GSPtr->ShipStamp.origin.y);
+	write_16  (fh, (GSPtr->ShipStamp.origin.x >> RESOLUTION_FACTOR));
+	write_16  (fh, (GSPtr->ShipStamp.origin.y >> RESOLUTION_FACTOR));
 	write_16  (fh, GSPtr->ShipFacing);
 	write_8   (fh, GSPtr->ip_planet);
 	write_8   (fh, GSPtr->in_orbit);
 
 	/* VELOCITY_DESC velocity */
-	write_16  (fh, GSPtr->velocity.TravelAngle);
-	write_16  (fh, GSPtr->velocity.vector.width);
-	write_16  (fh, GSPtr->velocity.vector.height);
-	write_16  (fh, GSPtr->velocity.fract.width);
-	write_16  (fh, GSPtr->velocity.fract.height);
-	write_16  (fh, GSPtr->velocity.error.width);
-	write_16  (fh, GSPtr->velocity.error.height);
-	write_16  (fh, GSPtr->velocity.incr.width);
-	write_16  (fh, GSPtr->velocity.incr.height);
+	write_16  (fh, GSPtr->velocity.TravelAngle >> res_scale);
+	write_16  (fh, GSPtr->velocity.vector.width >> res_scale);
+	write_16  (fh, GSPtr->velocity.vector.height >> res_scale);
+	write_16  (fh, GSPtr->velocity.fract.width >> res_scale);
+	write_16  (fh, GSPtr->velocity.fract.height >> res_scale);
+	write_16  (fh, GSPtr->velocity.error.width >> res_scale);
+	write_16  (fh, GSPtr->velocity.error.height >> res_scale);
+	write_16  (fh, GSPtr->velocity.incr.width >> res_scale);
+	write_16  (fh, GSPtr->velocity.incr.height >> res_scale);
 
 	/* The Game state bits. Vanilla UQM uses 155 bytes here at
 	 * present. Only the first 99 bytes are significant, though;
@@ -1035,8 +1061,8 @@ SaveGameState (const GAME_STATE *GSPtr, uio_Stream *fh)
 static void
 SaveSisState (const SIS_STATE *SSPtr, void *fp)
 {
-	write_32  (fp, SSPtr->log_x);
-	write_32  (fp, SSPtr->log_y);
+	write_32  (fp, ((SSPtr->log_x) >> RESOLUTION_FACTOR));
+	write_32  (fp, ((SSPtr->log_y) >> RESOLUTION_FACTOR));
 	write_32  (fp, SSPtr->ResUnits);
 	write_32  (fp, SSPtr->FuelOnBoard);
 	write_16  (fp, SSPtr->CrewEnlisted);
@@ -1074,6 +1100,7 @@ SaveSummary (const SUMMARY_DESC *SummPtr, void *fp)
 	write_a8 (fp, SummPtr->ShipList, MAX_BUILT_SHIPS);
 	write_a8 (fp, SummPtr->DeviceList, MAX_EXCLUSIVE_DEVICES);
 	write_a8 (fp, SummPtr->SaveName, strlen(SummPtr->SaveName));
+	write_8  (fp, SummPtr->res_factor);
 }
 
 /* Save the Star Description chunk. This is not to be confused with
@@ -1152,6 +1179,7 @@ PrepareSummary (SUMMARY_DESC *SummPtr, const char *name)
 	SummPtr->year_index = GLOBAL (GameClock.year_index);
 	SummPtr->SaveName[SAVE_NAME_SIZE-1] = 0;
 	strncpy (SummPtr->SaveName, name, SAVE_NAME_SIZE-1);
+	SummPtr->res_factor = RESOLUTION_FACTOR;
 }
 
 static void
@@ -1190,10 +1218,10 @@ SaveProblemMessage (STAMP *MsgStamp)
 			- r.corner.x;
 	t.baseline.y = ((SIS_SCREEN_HEIGHT >> 1) - (r.extent.height >> 1))
 			- r.corner.y;
-	r.corner.x += t.baseline.x - 4;
-	r.corner.y += t.baseline.y - 4;
-	r.extent.width += 8;
-	r.extent.height += 8;
+	r.corner.x += t.baseline.x - (4 << RESOLUTION_FACTOR);
+	r.corner.y += t.baseline.y - (4 << RESOLUTION_FACTOR);
+	r.extent.width += (8 << RESOLUTION_FACTOR);
+	r.extent.height += (8 << RESOLUTION_FACTOR);
 
 	*MsgStamp = SaveContextFrame (&r);
 

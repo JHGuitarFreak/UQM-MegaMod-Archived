@@ -881,7 +881,12 @@ DrawMeleeShipStrings (MELEE_STATE *pMS, MeleeShip NewStarShip)
 		RECT r;
 		TEXT t;
 
-		ClearShipStatus (0);
+		ClearShipStatus (0, STATUS_WIDTH, TRUE);
+		
+		// JMS_GFX
+		if (RESOLUTION_FACTOR > 0)
+			OutlineShipStatus (0, STATUS_WIDTH, TRUE);
+		
 		SetContextFont (StarConFont);
 		r.corner.x = 3;
 		r.corner.y = 4;
@@ -920,7 +925,7 @@ DrawMeleeShipStrings (MELEE_STATE *pMS, MeleeShip NewStarShip)
 		hMasterShip = GetStarShipFromIndex (&master_q, NewStarShip);
 		MasterPtr = LockMasterShip (&master_q, hMasterShip);
 
-		InitShipStatus (&MasterPtr->ShipInfo, NULL, NULL);
+		InitShipStatus (&MasterPtr->ShipInfo, NULL, NULL, TRUE);
 
 		UnlockMasterShip (&master_q, hMasterShip);
 	}
