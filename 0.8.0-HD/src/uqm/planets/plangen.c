@@ -503,13 +503,14 @@ CreateShieldMask (COUNT Radius, BOOLEAN forOrbit)
 
 	if (forOrbit){
 		ShieldHalo = SHIELD_HALO;
-		ShieldRadius = (Radius + ShieldHalo) * Radius / RADIUS;
+		ShieldRadius = SHIELD_RADIUS * Radius / RADIUS;
 		RadiusSquared = pow((double)Radius, 2); // Radius * Radius;
 	} else {
 		ShieldHalo = SHIELD_HALO << 1;
 		ShieldRadius = (RADIUS + ShieldHalo) * Radius / RADIUS;
 		RadiusSquared = pow((double)RADIUS, 2); // RADIUS * RADIUS;
-	}	
+	}
+
 	ShieldDiam = (ShieldRadius << 1) + 1;
 	ShieldRadiusThreshold = pow((double)(ShieldRadius + 1), 2); // (ShieldRadius + 1) * (ShieldRadius + 1);
 
@@ -1737,8 +1738,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	PLANET_INFO *PlanetInfo = &pSolarSysState->SysInfo.PlanetInfo;
 	DWORD i, y; 
 	POINT loc;
-	CONTEXT OldContext;
-	CONTEXT TopoContext;
+	CONTEXT OldContext, TopoContext;
 	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
 	BOOLEAN SurfDef = FALSE;
 	BOOLEAN shielded = (pPlanetDesc->data_index & PLANET_SHIELDED) != 0;	

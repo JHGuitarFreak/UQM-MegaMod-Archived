@@ -89,9 +89,9 @@ SDWORD sinetab[] =
 };
 
 COUNT
-ARCTAN (SIZE delta_x, SIZE delta_y)
+ARCTAN (SDWORD delta_x, SDWORD delta_y)
 {
-	SIZE v1, v2;
+	SDWORD v1, v2;
 	static COUNT atantab[] =
 	{
 		0,
