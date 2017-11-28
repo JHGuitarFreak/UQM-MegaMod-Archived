@@ -290,7 +290,7 @@ Widget_DrawChoice (WIDGET *_self, int x, int y)
 	disabled = DKGRAY_COLOR;
 	selected = WIDGET_ACTIVE_COLOR;
 
-	t.baseline.x = 2; // Was 'x'.
+	t.baseline.x = 2 << RESOLUTION_FACTOR; // Was 'x'.
 	t.baseline.y = y;
 	t.align = ALIGN_LEFT;
 	t.CharCount = ~0;
@@ -425,7 +425,7 @@ Widget_DrawSlider(WIDGET *_self, int x, int y)
 	selected = WIDGET_ACTIVE_COLOR;
 	inactive = WIDGET_INACTIVE_COLOR;
 
-	t.baseline.x = 2 + (64 * RESOLUTION_FACTOR); // JMS_GFX; // 2 was 'x'.
+	t.baseline.x = 2 << RESOLUTION_FACTOR; // + (64 * RESOLUTION_FACTOR); // JMS_GFX; // 2 was 'x'.
 	t.baseline.y = y;
 	t.align = ALIGN_LEFT;
 	t.CharCount = ~0;
@@ -441,7 +441,7 @@ Widget_DrawSlider(WIDGET *_self, int x, int y)
 	}
 	font_DrawText (&t);
 
-	t.baseline.x -= 64 * RESOLUTION_FACTOR; // JMS_GFX;
+	// t.baseline.x -= 64 * RESOLUTION_FACTOR; // JMS_GFX;
 
 	r.corner.x = t.baseline.x + 3 * tick;
 	r.corner.y = t.baseline.y - 4;

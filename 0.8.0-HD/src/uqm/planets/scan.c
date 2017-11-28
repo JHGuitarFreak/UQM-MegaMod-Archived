@@ -1072,9 +1072,9 @@ callPickupForScanType (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 static void
 ScanPlanet (COUNT scanType)
 {
-#define SCAN_DURATION   (ONE_SECOND * 7 / 4)
+#define SCAN_DURATION   RES_CASE(ONE_SECOND * 7 / 4, ONE_SECOND * 7 / 4, ONE_SECOND * 12 / 4)
 // NUM_FLASH_COLORS for flashing blips; 1 for the final frame
-#define SCAN_LINES      (MAP_HEIGHT + NUM_FLASH_COLORS + 1)
+#define SCAN_LINES      (MAP_HEIGHT + NUM_FLASH_COLORS - 8)
 #define SCAN_LINE_WAIT  (SCAN_DURATION / SCAN_LINES)
 
 	COUNT startScan, endScan;
@@ -1113,7 +1113,7 @@ ScanPlanet (COUNT scanType)
 		TimeCount TimeOut;
 
 		t.baseline.x = SIS_SCREEN_WIDTH >> 1;
-		t.baseline.y = SIS_SCREEN_HEIGHT - MAP_HEIGHT - 7;
+		t.baseline.y = SIS_SCREEN_HEIGHT - MAP_HEIGHT - (7 << RESOLUTION_FACTOR); // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.CharCount = (COUNT)~0;
 
@@ -1121,9 +1121,9 @@ ScanPlanet (COUNT scanType)
 
 		SetContext (PlanetContext);
 		r.corner.x = 0;
-		r.corner.y = t.baseline.y - 10;
+		r.corner.y = t.baseline.y - (10 << RESOLUTION_FACTOR); // JMS_GFX
 		r.extent.width = SIS_SCREEN_WIDTH;
-		r.extent.height = t.baseline.y - r.corner.y + 1;
+		r.extent.height = t.baseline.y - r.corner.y + (1 << RESOLUTION_FACTOR); // JMS_GFX
 		// XXX: I do not know why we are repairing it here, as there
 		//   should not be anything drawn over the stars at the moment
 		RepairBackRect (&r, FALSE);
@@ -1143,7 +1143,7 @@ ScanPlanet (COUNT scanType)
 
 		// Draw the scan slowly line by line
 		TimeOut = GetTimeCounter ();
-		for (i = 0; i < SCAN_LINES; i++)
+		for (i = 0; i < (SWORD)SCAN_LINES; i++)
 		{
 			TimeOut += SCAN_LINE_WAIT;
 			if (WaitForAnyButtonUntil (TRUE, TimeOut, FALSE))
@@ -1158,7 +1158,7 @@ ScanPlanet (COUNT scanType)
 #endif
 		}
 
-		if (i < SCAN_LINES)
+		if (i < (SWORD)SCAN_LINES)
 		{	// Aborted by a keypress; draw in finished state
 			BatchGraphics ();
 			DrawPlanet (SCAN_LINES - 1, tintColor);
@@ -1365,6 +1365,7 @@ generateBioNode (SOLARSYS_STATE *system, ELEMENT *NodeElementPtr,
 		BYTE *life_init_tab, COUNT creatureType)
 {
 	COUNT i;
+	DWORD j;
 
 	// NOTE: TFB_Random() calls here are NOT part of the deterministic planet
 	//   generation PRNG flow.
@@ -1372,10 +1373,15 @@ generateBioNode (SOLARSYS_STATE *system, ELEMENT *NodeElementPtr,
 	{
 		// Place moving creatures at a random location.
 		i = TFB_Random ();
-		NodeElementPtr->current.location.x =
-				(LOBYTE (i) % (MAP_WIDTH - (8 << 1))) + 8;
-		NodeElementPtr->current.location.y =
-				(HIBYTE (i) % (MAP_HEIGHT - (8 << 1))) + 8;
+		j = (DWORD)TFB_Random ();
+		
+		if (RESOLUTION_FACTOR == 0) {
+			NodeElementPtr->current.location.x = (LOBYTE (i) % (MAP_WIDTH - (8 << 1))) + 8;
+			NodeElementPtr->current.location.y = (HIBYTE (i) % (MAP_HEIGHT - (8 << 1))) + 8;
+		} else {
+			NodeElementPtr->current.location.x = (LOWORD (j) % (MAP_WIDTH - (8 << 1))) + 8;	// JMS_GFX: Replaced previous line with this line (BYTE was too small for 640x480 maps.)
+			NodeElementPtr->current.location.y = (HIWORD (j) % (MAP_HEIGHT - (8 << 1))) + 8;  // JMS_GFX: Replaced previous line with this line (BYTE was too small for 1280x960 maps.)
+		}
 	}
 
 	if (system->PlanetSideFrame[0] == 0)

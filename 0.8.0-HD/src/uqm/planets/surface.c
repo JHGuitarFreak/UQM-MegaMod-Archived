@@ -230,10 +230,32 @@ void
 GenerateRandomLocation (POINT *loc)
 {
 	UWORD rand_val;
+	UWORD x, y; // JMS_GFX: Helpers.
 
 	rand_val = RandomContext_Random (SysGenRNG);
-	loc->x = 8 + LOBYTE (rand_val) % (MAP_WIDTH - (8 << 1));
-	loc->y = 8 + HIBYTE (rand_val) % (MAP_HEIGHT - (8 << 1));
+	// loc->x = 8 + LOBYTE (rand_val) % (MAP_WIDTH - (8 << 1));
+	// loc->y = 8 + HIBYTE (rand_val) % (MAP_HEIGHT - (8 << 1));
+
+	x = (LOBYTE (rand_val) % (ORIGINAL_MAP_WIDTH - (8 << 1)));
+	y = (HIBYTE (rand_val) % (ORIGINAL_MAP_HEIGHT - (8 << 1)));
+	
+	// JMS_GFX
+	x <<= RESOLUTION_FACTOR;
+	y <<= RESOLUTION_FACTOR;
+	loc->x = x;
+	loc->y = y;
+	
+	loc->x += 8 << RESOLUTION_FACTOR; // JMS_GFX
+	loc->y += 8 << RESOLUTION_FACTOR; // JMS_GFX
+	
+	// JMS_GFX: Compensate for 1280x960's different aspect ratio
+	if (RESOLUTION_FACTOR == 2)
+	{
+		DWORD xx = (DWORD)loc->x;
+		xx *= 111;
+		xx /= 100;
+		loc->x = (COUNT)xx;
+	}
 }
 
 // Returns:
