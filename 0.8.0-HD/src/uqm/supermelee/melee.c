@@ -96,28 +96,32 @@ enum
 #define TOP_ENTRY CONTROLS_TOP
 #endif
 
-#define MELEE_X_OFFS 2
-#define MELEE_Y_OFFS 21
-#define MELEE_BOX_WIDTH 34
-#define MELEE_BOX_HEIGHT 34
-#define MELEE_BOX_SPACE 1
+// Start of JMS_GFX
+// Top Melee Menu
+#define MELEE_X_OFFS (2 << RESOLUTION_FACTOR) // JMS_GFX
+#define MELEE_Y_OFFS ((21 << RESOLUTION_FACTOR) + (RESOLUTION_FACTOR * 21)) // JMS_GFX
+#define MELEE_BOX_WIDTH (34 << RESOLUTION_FACTOR) // JMS_GFX
+#define MELEE_BOX_HEIGHT (34 << RESOLUTION_FACTOR) // JMS_GFX
+#define MELEE_BOX_SPACE (1 << RESOLUTION_FACTOR) // JMS_GFX
 
-#define MENU_X_OFFS 29
+#define MENU_X_OFFS (29 << RESOLUTION_FACTOR) // JMS_GFX
 
-#define INFO_ORIGIN_X 4
-#define INFO_WIDTH 58
-#define TEAM_INFO_ORIGIN_Y 3
-#define TEAM_INFO_HEIGHT (SHIP_INFO_HEIGHT + 75)
-#define MODE_INFO_ORIGIN_Y (TEAM_INFO_HEIGHT + 6)
-#define MODE_INFO_HEIGHT ((STATUS_HEIGHT - 3) - MODE_INFO_ORIGIN_Y)
-#define RACE_INFO_ORIGIN_Y (SHIP_INFO_HEIGHT + 6)
-#define RACE_INFO_HEIGHT ((STATUS_HEIGHT - 3) - RACE_INFO_ORIGIN_Y)
 
-#define MELEE_STATUS_X_OFFS 1
-#define MELEE_STATUS_Y_OFFS 201
+#define INFO_ORIGIN_X (4 << RESOLUTION_FACTOR) // JMS_GFX
+#define INFO_WIDTH (58 << RESOLUTION_FACTOR) // JMS_GFX
+#define TEAM_INFO_ORIGIN_Y (3 << RESOLUTION_FACTOR) // JMS_GFX
+#define TEAM_INFO_HEIGHT (SHIP_INFO_HEIGHT + (75 << RESOLUTION_FACTOR)) // JMS_GFX
+#define MODE_INFO_ORIGIN_Y (TEAM_INFO_HEIGHT + (6 << RESOLUTION_FACTOR)) // JMS_GFX
+#define MODE_INFO_HEIGHT ((STATUS_HEIGHT - (3 << RESOLUTION_FACTOR)) - MODE_INFO_ORIGIN_Y) // JMS_GFX
+#define RACE_INFO_ORIGIN_Y (SHIP_INFO_HEIGHT + (6 << RESOLUTION_FACTOR)) // JMS_GFX
+#define RACE_INFO_HEIGHT ((STATUS_HEIGHT - (3 << RESOLUTION_FACTOR)) - RACE_INFO_ORIGIN_Y) // JMS_GFX
+
+#define MELEE_STATUS_X_OFFS ((1 << RESOLUTION_FACTOR)) // JMS_GFX
+#define MELEE_STATUS_Y_OFFS (201 << RESOLUTION_FACTOR) // JMS_GFX
 #define MELEE_STATUS_WIDTH  (NUM_MELEE_COLUMNS * \
 		(MELEE_BOX_WIDTH + MELEE_BOX_SPACE))
-#define MELEE_STATUS_HEIGHT 38
+#define MELEE_STATUS_HEIGHT (38 << RESOLUTION_FACTOR) // JMS_GFX
+//End JMS_GFX
 
 #define MELEE_BACKGROUND_COLOR \
 		BUILD_COLOR (MAKE_RGB15 (0x14, 0x00, 0x00), 0x04)
@@ -429,19 +433,19 @@ GetTeamStringRect (COUNT side, RECT *r)
 	r->corner.y = (side + 1) * (MELEE_Y_OFFS
 			+ ((MELEE_BOX_HEIGHT + MELEE_BOX_SPACE) * NUM_MELEE_ROWS + 2));
 	r->extent.width = NUM_MELEE_COLUMNS * (MELEE_BOX_WIDTH + MELEE_BOX_SPACE)
-			- 29;
-	r->extent.height = 13;
+			- (29 << RESOLUTION_FACTOR);
+	r->extent.height = RES_CASE(13,16,32);
 }
 
 static void
 GetFleetValueRect (COUNT side, RECT *r)
 {
 	r->corner.x = MELEE_X_OFFS
-			+ NUM_MELEE_COLUMNS * (MELEE_BOX_WIDTH + MELEE_BOX_SPACE) - 30;
+			+ NUM_MELEE_COLUMNS * (MELEE_BOX_WIDTH + MELEE_BOX_SPACE) - (30 << RESOLUTION_FACTOR);
 	r->corner.y = (side + 1) * (MELEE_Y_OFFS
 			+ ((MELEE_BOX_HEIGHT + MELEE_BOX_SPACE) * NUM_MELEE_ROWS + 2));
-	r->extent.width = 29;
-	r->extent.height = 13;
+	r->extent.width = 29 << RESOLUTION_FACTOR;
+	r->extent.height = RES_CASE(13,16,32);
 }
 
 static void
@@ -495,7 +499,7 @@ DrawTeamString (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState,
 	lfText.pStr = (teamName != NULL) ? teamName :
 			MeleeSetup_getTeamName (pMS->meleeSetup, side);
 	lfText.baseline.y = r.corner.y + r.extent.height - 3;
-	lfText.baseline.x = r.corner.x + 1;
+	lfText.baseline.x = r.corner.x + (1 << RESOLUTION_FACTOR);
 	lfText.align = ALIGN_LEFT;
 	lfText.CharCount = strlen (lfText.pStr);
 
@@ -514,7 +518,7 @@ DrawTeamString (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState,
 		BYTE *pchar_deltas;
 
 		TextRect (&lfText, &text_r, char_deltas);
-		if ((text_r.extent.width + 2) >= r.extent.width)
+		if ((text_r.extent.width + (2 << RESOLUTION_FACTOR)) >= r.extent.width)
 		{	// the text does not fit the input box size and so
 			// will not fit when displayed later
 			UnbatchGraphics ();
@@ -536,25 +540,25 @@ DrawTeamString (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState,
 		{	// Use block cursor for keyboardless systems
 			if (pMS->CurIndex == lfText.CharCount)
 			{	// cursor at end-line -- use insertion point
-				text_r.extent.width = 1;
+				text_r.extent.width = (1 << RESOLUTION_FACTOR);
 			}
 			else if (pMS->CurIndex + 1 == lfText.CharCount)
 			{	// extra pixel for last char margin
-				text_r.extent.width = (SIZE)*pchar_deltas + 2;
+				text_r.extent.width = (SIZE)*pchar_deltas + (2 << RESOLUTION_FACTOR);
 			}
 			else
 			{	// normal mid-line char
-				text_r.extent.width = (SIZE)*pchar_deltas + 1;
+				text_r.extent.width = (SIZE)*pchar_deltas + (1 << RESOLUTION_FACTOR);
 			}
 		}
 		else
 		{	// Insertion point cursor
-			text_r.extent.width = 1;
+			text_r.extent.width = 1 << RESOLUTION_FACTOR;
 		}
 		// position cursor within input field rect
 		++text_r.corner.x;
 		++text_r.corner.y;
-		text_r.extent.height -= 2;
+		text_r.extent.height -= 2 << RESOLUTION_FACTOR;
 		SetContextForeGroundColor (TEAM_NAME_EDIT_CURS_COLOR);
 		DrawFilledRectangle (&text_r);
 
@@ -870,9 +874,9 @@ DrawMeleeShipStrings (MELEE_STATE *pMS, MeleeShip NewStarShip)
 	OldContext = SetContext (StatusContext);
 	GetContextClipRect (&OldRect);
 	r = OldRect;
-	r.corner.x += ((SAFE_X << 1) - 32) + MENU_X_OFFS;
-	r.corner.y += 76;
-	r.extent.height = SHIP_INFO_HEIGHT;
+	r.corner.x += ((SAFE_X << 1) - (32 << RESOLUTION_FACTOR)) + MENU_X_OFFS - RES_CASE(0,0,3);
+	r.corner.y += (76 << RESOLUTION_FACTOR) + RES_CASE(0,2,6);
+	r.extent.height = SHIP_INFO_HEIGHT + RES_CASE(3,6,3);
 	SetContextClipRect (&r);
 	BatchGraphics ();
 
@@ -888,14 +892,14 @@ DrawMeleeShipStrings (MELEE_STATE *pMS, MeleeShip NewStarShip)
 			OutlineShipStatus (0, STATUS_WIDTH, TRUE);
 		
 		SetContextFont (StarConFont);
-		r.corner.x = 3;
-		r.corner.y = 4;
-		r.extent.width = 57;
-		r.extent.height = 60;
+		r.corner.x = RES_STAT_SCALE(3); // JMS_GFX;
+		r.corner.y = RES_STAT_SCALE(4); // JMS_GFX;
+		r.extent.width = RES_STAT_SCALE(57) + RESOLUTION_FACTOR; // JMS_GFX;
+		r.extent.height = (60 << RESOLUTION_FACTOR) - RES_CASE(0,0,6); // JMS_GFX;
 		SetContextForeGroundColor (BLACK_COLOR);
 		DrawRectangle (&r);
 		t.baseline.x = STATUS_WIDTH >> 1;
-		t.baseline.y = 32;
+		t.baseline.y = 32 << RESOLUTION_FACTOR; 
 		t.align = ALIGN_CENTER;
 		if (pMS->row < NUM_MELEE_ROWS)
 		{
@@ -1637,7 +1641,7 @@ DoConnectingDialog (MELEE_STATE *pMS)
 			t.pStr = GAME_STRING (NETMELEE_STRING_BASE + 2);
 					/* "Awaiting outgoing connection */
 		}
-		t.baseline.y = r.corner.y + 10;
+		t.baseline.y = r.corner.y + (10 << RESOLUTION_FACTOR);
 		t.baseline.x = SCREEN_WIDTH >> 1;
 		t.align = ALIGN_CENTER;
 		t.CharCount = ~0;
@@ -1645,7 +1649,7 @@ DoConnectingDialog (MELEE_STATE *pMS)
 
 		t.pStr = GAME_STRING (NETMELEE_STRING_BASE + 18);
 				/* "Press SPACE to cancel" */
-		t.baseline.y += 16;
+		t.baseline.y += 16 << RESOLUTION_FACTOR;
 		font_DrawText (&t);
 
 		// Restore original graphics

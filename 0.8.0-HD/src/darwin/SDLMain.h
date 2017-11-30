@@ -13,4 +13,11 @@
 @interface SDLMain : NSObject
 @end
 
+/* For some reaon, Apple removed setAppleMenu from the headers in 10.4,
+ but the method still is there and works. To avoid warnings, we declare
+ it ourselves here. */
+@interface NSApplication(SDL_Missing_Methods)
+- (void)setAppleMenu:(NSMenu *)menu;
+@end
+
 #endif /* _SDLMain_h_ */

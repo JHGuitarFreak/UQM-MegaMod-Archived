@@ -498,7 +498,7 @@ InitGameStructures (void)
 
 	GLOBAL_SIS (ResUnits) = 0;
 	GLOBAL (CrewCost) = 3;
-	GLOBAL (FuelCost) = 20;
+	GLOBAL (FuelCost) = FUEL_COST_RU; // JMS: Was 20
 	GLOBAL (ModuleCost[PLANET_LANDER]) = 500 / MODULE_COST_SCALE;
 	GLOBAL (ModuleCost[FUSION_THRUSTER]) = 500 / MODULE_COST_SCALE;
 	GLOBAL (ModuleCost[TURNING_JETS]) = 500 / MODULE_COST_SCALE;

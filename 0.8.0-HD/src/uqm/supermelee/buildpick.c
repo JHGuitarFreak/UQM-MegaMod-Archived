@@ -69,8 +69,9 @@ DrawPickIcon (MeleeShip ship, bool DrawErase)
 
 	GetFrameRect (BuildPickFrame, &r);
 
-	s.origin.x = r.corner.x + 20 + (ship % NUM_PICK_COLS) * 18;
-	s.origin.y = r.corner.y +  5 + (ship / NUM_PICK_COLS) * 18;
+	s.origin.x = r.corner.x + (20 << RESOLUTION_FACTOR) + (ship % NUM_PICK_COLS) * (18 << RESOLUTION_FACTOR) - RES_CASE(0,0,2); // JMS_GFX
+	s.origin.y = r.corner.y + (5 << RESOLUTION_FACTOR) + (ship / NUM_PICK_COLS) * (18 << RESOLUTION_FACTOR); // JMS_GFX
+
 	s.frame = GetShipIconsFromIndex (ship);
 	if (DrawErase)
 	{	// draw icon
