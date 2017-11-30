@@ -76,7 +76,19 @@ SplashScreen (void (* DoProcessing)(DWORD TimeOut))
 	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 120));
 	SetContext (ScreenContext);
 	s.origin.x = s.origin.y = 0;
-	s.frame = CaptureDrawable (LoadGraphic (TITLE_ANIM));
+
+	//DC: Title Splashscreen.
+	if (resolutionFactor < 1) {
+		printf("Loading 1x Splashscreen\n");
+		s.frame = CaptureDrawable (LoadGraphic (TITLE_ANIM));
+	} else if (resolutionFactor == 1) {
+		printf("Loading 2x Splashscreen\n");
+		s.frame = CaptureDrawable (LoadGraphic (TITLE_2X));
+	} else if(resolutionFactor > 1) {
+		printf("Loading 4x Splashscreen\n");
+		s.frame = CaptureDrawable (LoadGraphic (TITLE_4X));
+	}
+
 	DrawStamp (&s);
 	DestroyDrawable (ReleaseDrawable (s.frame));
 

@@ -269,6 +269,16 @@ uio_ungetc(int c, uio_Stream *stream) {
 //	return c;
 }
 
+// JMS: The datastream can be stepped back n bytes with this baby.
+int
+uio_backtrack(int rewinded_bytes, uio_Stream *stream) {
+	assert((stream->openFlags & O_ACCMODE) != O_WRONLY);
+
+	stream->operation = uio_StreamOperation_read;
+	stream->dataStart -= rewinded_bytes;
+	return rewinded_bytes;
+}
+
 // NB. POSIX allows errno to be set for vsprintf(), but does not require it:
 // "The value of errno may be set to nonzero by a library function call
 // whether or not there is an error, provided the use of errno is not

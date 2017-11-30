@@ -1738,19 +1738,20 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	PLANET_INFO *PlanetInfo = &pSolarSysState->SysInfo.PlanetInfo;
 	DWORD i, y; 
 	POINT loc;
+	COUNT SphereSpanX, Radius;
 	CONTEXT OldContext, TopoContext;
 	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
 	BOOLEAN SurfDef = FALSE;
 	BOOLEAN shielded = (pPlanetDesc->data_index & PLANET_SHIELDED) != 0;	
 	
-	COUNT SphereSpanX = Height;
-	COUNT Radius = Height >> 1;
+	SphereSpanX = (inOrbit ? SPHERE_SPAN_X : Height);
+	Radius = (inOrbit ? RADIUS : (SphereSpanX >> 1)) ;
 
 	RandomContext_SeedRandom (SysGenRNG, pPlanetDesc->rand_seed);
 
 	TopoContext = CreateContext ("Plangen.TopoContext");
 	OldContext = SetContext (TopoContext);
-	PlanetOrbitInit (Width, Height, inOrbit);
+	PlanetOrbitInit (Width, (inOrbit ? (Height + 1) : Height), inOrbit);
 
 	PlanDataPtr = &PlanData[pPlanetDesc->data_index & ~PLANET_SHIELDED];
 
@@ -1813,18 +1814,18 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 				LoadColorMap (PlanDataPtr->CMapInstance));
 			pSolarSysState->XlatRef = CaptureStringTable (
 				LoadStringTable (PlanDataPtr->XlatTabInstance));
-		}
 
-		if (PlanetInfo->SurfaceTemperature > HOT_THRESHOLD) {
-			pSolarSysState->OrbitalCMap = SetAbsColorMapIndex (
-					pSolarSysState->OrbitalCMap, 2);
-			pSolarSysState->XlatRef = SetAbsStringTableIndex (
-					pSolarSysState->XlatRef, 2);
-		} else if (PlanetInfo->SurfaceTemperature > COLD_THRESHOLD) {
-			pSolarSysState->OrbitalCMap = SetAbsColorMapIndex (
-					pSolarSysState->OrbitalCMap, 1);
-			pSolarSysState->XlatRef = SetAbsStringTableIndex (
-					pSolarSysState->XlatRef, 1);
+			if (PlanetInfo->SurfaceTemperature > HOT_THRESHOLD) {
+				pSolarSysState->OrbitalCMap = SetAbsColorMapIndex (
+						pSolarSysState->OrbitalCMap, 2);
+				pSolarSysState->XlatRef = SetAbsStringTableIndex (
+						pSolarSysState->XlatRef, 2);
+			} else if (PlanetInfo->SurfaceTemperature > COLD_THRESHOLD) {
+				pSolarSysState->OrbitalCMap = SetAbsColorMapIndex (
+						pSolarSysState->OrbitalCMap, 1);
+				pSolarSysState->XlatRef = SetAbsStringTableIndex (
+						pSolarSysState->XlatRef, 1);
+			}
 		}
 		pSolarSysState->XlatPtr = GetStringAddress (pSolarSysState->XlatRef);
 
