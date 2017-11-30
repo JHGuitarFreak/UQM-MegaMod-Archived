@@ -160,7 +160,6 @@ PrepareNextRotationFrame (PLANET_DESC *pPlanetDesc, SIZE frameCounter, BOOLEAN i
 	// We alternate between the frames because we do not call FlushGraphics()
 	// The frame we just drew may not have made it to the screen yet
 	if (inOrbit){
-		rotFrameIndex ^= 1;
 		rotPointIndex += rotDirection;
 		if (rotPointIndex < 0)
 			rotPointIndex = rotwidth - 1;
@@ -173,9 +172,7 @@ PrepareNextRotationFrame (PLANET_DESC *pPlanetDesc, SIZE frameCounter, BOOLEAN i
 	// prepare the next sphere frame
 	if(inOrbit){
 		Orbit->SphereFrame = SetAbsFrameIndex (Orbit->SphereFrame, rotFrameIndex);
-		//RenderPlanetSphere (Orbit->SphereFrame, rotPointIndex, throbShield);
 		RenderPlanetSphere (Orbit, Orbit->SphereFrame, rotPointIndex, pSolarSysState->pOrbitalDesc->data_index & PLANET_SHIELDED, throbShield, rotwidth, rotheight, (rotheight >> 1) - RESOLUTION_FACTOR); // RADIUS
-	
 		if (throbShield)
 		{	// prepare the next shield throb frame
 			Orbit->ObjectFrame = SetAbsFrameIndex (Orbit->ObjectFrame,
@@ -183,9 +180,9 @@ PrepareNextRotationFrame (PLANET_DESC *pPlanetDesc, SIZE frameCounter, BOOLEAN i
 			SetShieldThrobEffect (Orbit->WorkFrame, rotPointIndex,
 					Orbit->ObjectFrame);
 		}	
-	} else {
+	} else {		
 		Orbit->SphereFrame = SetAbsFrameIndex (Orbit->SphereFrame, pPlanetDesc->rotFrameIndex);
-		RenderPlanetSphere (Orbit, Orbit->SphereFrame, pPlanetDesc->rotPointIndex, pPlanetDesc->data_index & PLANET_SHIELDED, FALSE, pPlanetDesc->rotwidth, pPlanetDesc->rotheight, pPlanetDesc->rotheight >> 1); // RADIUS
+		RenderPlanetSphere (Orbit, Orbit->SphereFrame, pPlanetDesc->rotPointIndex, pPlanetDesc->data_index & PLANET_SHIELDED, FALSE, pPlanetDesc->rotwidth, pPlanetDesc->rotheight, (pPlanetDesc->rotheight >> 1) - RESOLUTION_FACTOR); // RADIUS
 		Orbit->SphereFrame->image->dirty = TRUE;
 	}
 	// BW: slightly hacky but, in DrawTexturedBody, the call
