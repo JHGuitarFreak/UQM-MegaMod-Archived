@@ -360,7 +360,7 @@ AbandonShip (ELEMENT *ShipPtr, ELEMENT *TargetPtr,
 		CrewPtr->hit_points = 1;
 		CrewPtr->state_flags = APPEARING | FINITE_LIFE | CREW_OBJECT;
 		CrewPtr->life_span = CREW_LIFE;
-		SetPrimType (&DisplayArray[CrewPtr->PrimIndex], POINT_PRIM);
+		SetPrimType (&DisplayArray[CrewPtr->PrimIndex], POINT_PRIM_HD);
 		SetPrimColor (&DisplayArray[CrewPtr->PrimIndex],
 				BUILD_COLOR (MAKE_RGB15 (0x00, 0x14, 0x00), 0x02));
 		CrewPtr->current.image.frame = DecFrameIndex (stars_in_space);
