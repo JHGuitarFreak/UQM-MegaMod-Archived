@@ -71,8 +71,8 @@ DeltaTopography (COUNT num_iterations, SBYTE *DepthArray, RECT *pRect,
 		else
 			LineDDA0.error_term = -(delta_y >> 1);
 
-		LineDDA1.x_top = (LOBYTE (w2) % (MAP_WIDTH - 1)) * width / MAP_WIDTH + LineDDA0.x_top + 1;
-		LineDDA1.x_bot = (HIBYTE (w2) % (MAP_WIDTH - 1)) * width / MAP_WIDTH + LineDDA0.x_bot + 1;
+		LineDDA1.x_top = (LOBYTE (w2) % (ORIGINAL_MAP_WIDTH - 1)) * width / ORIGINAL_MAP_WIDTH + LineDDA0.x_top + 1;
+		LineDDA1.x_bot = (HIBYTE (w2) % (ORIGINAL_MAP_WIDTH - 1)) * width / ORIGINAL_MAP_WIDTH + LineDDA0.x_bot + 1;
 		LineDDA1.delta_x = (LineDDA1.x_bot - LineDDA1.x_top) << 1;
 		if (LineDDA1.delta_x >= 0)
 			LineDDA1.x_incr = 1;

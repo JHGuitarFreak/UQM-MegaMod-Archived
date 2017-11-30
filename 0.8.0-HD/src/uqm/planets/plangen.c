@@ -212,8 +212,8 @@ GenerateSphereMask (POINT loc, COUNT radius)
 	const DWORD step = 1 << DIFFUSE_BITS;
 	int y, x;
 	COUNT tworadius = radius << 1;
-	COUNT radius_thres = (radius + 1) * (radius + 1);
-	COUNT radius_2 = radius * radius;
+	COUNT radius_thres = pow((double)(radius + 1), 2);
+	COUNT radius_2 = pow((double)(radius), 2);
 
 #define AMBIENT_LIGHT 0.1
 #define LIGHT_Z       1.2
@@ -423,7 +423,7 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 {
 	int x, y;
 	COUNT spherespanx = height;
-	COUNT radius_thres = (radius + 1) * (radius + 1);
+	COUNT radius_thres = pow((double)(radius + 1), 2);
 	const double multx = ((double)spherespanx / M_PI);
 	const double multy = ((double)height / M_PI);
 	const double xadj = ((double)spherespanx / 2.0);
@@ -486,6 +486,7 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 
 // HALO rim size
 #define SHIELD_HALO          (6 << RESOLUTION_FACTOR) // JMS_GFX
+#define SHIELD_HALO_IP       (SHIELD_HALO << (1 << RESOLUTION_FACTOR)) // JMS_GFX
 #define SHIELD_RADIUS        (RADIUS + SHIELD_HALO)
 #define SHIELD_HALO_GLOW     (SHIELD_GLOW_COMP + SHIELD_REFLECT_COMP)
 #define SHIELD_HALO_GLOW_MIN (SHIELD_HALO_GLOW >> 2)
@@ -506,7 +507,7 @@ CreateShieldMask (COUNT Radius, BOOLEAN forOrbit)
 		ShieldRadius = SHIELD_RADIUS * Radius / RADIUS;
 		RadiusSquared = pow((double)Radius, 2); // Radius * Radius;
 	} else {
-		ShieldHalo = SHIELD_HALO << 1;
+		ShieldHalo = SHIELD_HALO_IP;
 		ShieldRadius = (RADIUS + ShieldHalo) * Radius / RADIUS;
 		RadiusSquared = pow((double)RADIUS, 2); // RADIUS * RADIUS;
 	}
@@ -1292,7 +1293,7 @@ PlanetOrbitInit (COUNT width, COUNT height, BOOLEAN inOrbit)
 	if (inOrbit){
 		OldShieldRadius = SHIELD_RADIUS;
 	} else {
-		OldShieldRadius = (RADIUS + (SHIELD_HALO << 1));
+		OldShieldRadius = (RADIUS + SHIELD_HALO_IP);
 	}
 	
 	ShieldRadius = (height >> 1) * OldShieldRadius / RADIUS;
@@ -1303,7 +1304,6 @@ PlanetOrbitInit (COUNT width, COUNT height, BOOLEAN inOrbit)
 	Orbit->ObjectFrame = 0;
 	Orbit->WorkFrame = 0;
 	Orbit->lpTopoData = HCalloc (width * height);
-	Orbit->TopoZoomFrame = CaptureDrawable (CreateDrawable (WANT_PIXMAP, MAP_WIDTH << 2, MAP_HEIGHT << 2, 1));
 	Orbit->TopoColors = HMalloc (sizeof (Orbit->TopoColors[0]) * (height * (width + SphereSpanX)));
 	// always allocate the scratch array to largest needed size
 	Orbit->ScratchArray = HMalloc (sizeof (Orbit->ScratchArray[0]) * (ShieldDiam) * (ShieldDiam));
@@ -1742,7 +1742,12 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	CONTEXT OldContext, TopoContext;
 	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
 	BOOLEAN SurfDef = FALSE;
-	BOOLEAN shielded = (pPlanetDesc->data_index & PLANET_SHIELDED) != 0;	
+	BOOLEAN shielded = (pPlanetDesc->data_index & PLANET_SHIELDED) != 0;
+
+	if(!inOrbit){
+		Width = Width << RESOLUTION_FACTOR;
+		Height = Height << RESOLUTION_FACTOR;
+	}
 	
 	SphereSpanX = (inOrbit ? SPHERE_SPAN_X : Height);
 	Radius = (inOrbit ? RADIUS : (SphereSpanX >> 1)) ;
@@ -1751,7 +1756,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 
 	TopoContext = CreateContext ("Plangen.TopoContext");
 	OldContext = SetContext (TopoContext);
-	PlanetOrbitInit (Width, (inOrbit ? (Height + 1) : Height), inOrbit);
+	PlanetOrbitInit (Width, Height, inOrbit);
 
 	PlanDataPtr = &PlanData[pPlanetDesc->data_index & ~PLANET_SHIELDED];
 
