@@ -61,7 +61,37 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	STAMP s;
 	TEXT t;
 	UNICODE buf[64];
-	COUNT svn_revision = 0; // JMS
+
+	//DC: Load the different menus depending on the resolution factor
+	if (resolutionFactor < 1)
+		pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM));
+	if (resolutionFactor == 1)
+		pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM2x));
+	if (resolutionFactor > 1)
+		pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM4x));
+
+	// Re-load the info box font so the text shows in correct size after changing the resolution.
+	if (resFactorWasChanged)
+	{	
+		DestroyFont (StarConFont);		
+		DestroyFont (TinyFont);
+		
+		switch (resolutionFactor){
+			case 1:
+				StarConFont = LoadFont (FALLBACK_TO2X_FONT);
+				TinyFont = LoadFont (TINY_FONT);
+				break;
+			case 2:
+				StarConFont = LoadFont (STARCON_FONT);
+				TinyFont = LoadFont (TINY_FONT);
+				break;
+			case 0:
+			default:
+				StarConFont = LoadFont (FALLBACK_TO4X_FONT);
+				TinyFont = LoadFont (TINY_FALLBACK_TO4X_FONT);
+				break;
+		}
+	}
 
 	s.frame = pMS->CurFrame;
 	GetFrameRect (s.frame, &r);
@@ -447,36 +477,6 @@ RestartMenu (MENU_STATE *pMS)
 	SleepThreadUntil (FadeScreen (FadeAllToBlack, TimeOut));
 	if (TimeOut == ONE_SECOND / 8)
 		SleepThread (ONE_SECOND * 3);
-
-	//DC: Load the different menus depending on the resolution factor
-	if (resolutionFactor < 1)
-		pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM));
-	if (resolutionFactor == 1)
-		pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM2x));
-	if (resolutionFactor > 1)
-		pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM4x));
-
-	// Re-load the info box font so the text shows in correct size after changing the resolution.
-	if (resFactorWasChanged)
-	{	
-		DestroyFont (StarConFont);
-		
-		if (resolutionFactor < 1)
-			StarConFont = LoadFont (FALLBACK_TO1X_FONT);
-		if (resolutionFactor == 1)
-			StarConFont = LoadFont (FALLBACK_TO2X_FONT);
-		if (resolutionFactor > 1)
-			StarConFont = LoadFont (FALLBACK_TO4X_FONT);
-		
-		DestroyFont (TinyFont);
-		
-		if (resolutionFactor < 1)
-			TinyFont = LoadFont (TINY_FALLBACK_TO1X_FONT);
-		if (resolutionFactor == 1)
-			TinyFont = LoadFont (TINY_FALLBACK_TO2X_FONT);
-		if (resolutionFactor > 1)
-			TinyFont = LoadFont (TINY_FALLBACK_TO4X_FONT);
-	}
 
 	DrawRestartMenuGraphic (pMS);
 	GLOBAL (CurrentActivity) &= ~CHECK_ABORT;

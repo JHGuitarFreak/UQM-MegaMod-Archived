@@ -54,6 +54,7 @@ extern SIZE screen_width, screen_height;
 extern FONT StarConFont;
 extern FONT MicroFont;
 extern FONT TinyFont;
+extern FONT PlyrFont;
 
 extern CondVar RenderingCond;
 

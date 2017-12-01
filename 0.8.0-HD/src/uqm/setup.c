@@ -59,6 +59,7 @@ FRAME Screen;
 FONT StarConFont;
 FONT MicroFont;
 FONT TinyFont;
+FONT PlyrFont;
 QUEUE race_q[NUM_PLAYERS];
 FRAME ActivityFrame;
 FRAME StatusFrame;
@@ -269,6 +270,10 @@ InitKernel (void)
 
 	TinyFont = LoadFont (TINY_FONT);
 	if (TinyFont == NULL)
+		return FALSE;
+
+	PlyrFont = LoadFont (PLAYER_FONT);
+	if (PlyrFont == NULL)
 		return FALSE;
 
 	ActivityFrame = CaptureDrawable (LoadGraphic (ACTIVITY_ANIM));
