@@ -104,7 +104,6 @@ void TFB_PurgeDanglingGraphics (void); // Only call from main thread as part of 
 
 // JMS_GFX
 extern unsigned int resolutionFactor;
-extern BOOLEAN forceAspectRatio;
 extern int fs_height; 
 extern int fs_width;
 // END JMS_GFX

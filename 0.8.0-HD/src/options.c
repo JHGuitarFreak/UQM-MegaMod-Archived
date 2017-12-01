@@ -55,7 +55,6 @@ const char **optAddons;
 // JMS_GFX
 unsigned int loresBlowupScale;
 unsigned int resolutionFactor;
-BOOLEAN forceAspectRatio;
 BOOLEAN resFactorWasChanged;
 
 BOOLEAN optCheatMode; // JMS
