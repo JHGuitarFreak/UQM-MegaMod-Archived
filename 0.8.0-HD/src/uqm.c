@@ -467,6 +467,7 @@ main (int argc, char *argv[])
 	optThraddStory = options.thraddStory.value;
 	optPartialPickup = options.partialPickup.value;
 	optSubmenu = options.submenu.value;
+	resFactorWasChanged = FALSE; // JMS_GFX
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();

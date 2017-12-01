@@ -97,9 +97,11 @@ static WIDGET_CONTROLENTRY controlentries[CONTROLENTRY_COUNT];
 
 typedef int (*HANDLER)(WIDGET *, int);
 
+// Each number corresponds to a choice widget in order starting from choices[0]
+// The value determines how many columns the choice has.
 static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 
-	2, 2, 3, 2, 2, 3, 3, 2,	3, 3, 
+	2, 2, 2, 2, 2, 3, 3, 2,	3, 3, 
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
 	2, 2, 2, 2, 3, 2, 2, 2, 2, 3 };
@@ -113,8 +115,8 @@ static HANDLER button_handlers[BUTTON_COUNT] = {
  * them in before we touch them */
 static WIDGET *main_widgets[] = {
 	(WIDGET *)(&buttons[2]),	// Graphics
-	(WIDGET *)(&buttons[4]),	// Sound
 	(WIDGET *)(&buttons[3]),	// PC/3DO Compat Options
+	(WIDGET *)(&buttons[4]),	// Sound
 	(WIDGET *)(&buttons[5]),	// Cheats
 	(WIDGET *)(&buttons[6]),	// Controls
 	(WIDGET *)(&buttons[7]),	// Advanced
@@ -543,7 +545,7 @@ DoSetupMenu (SETUP_MENU_STATE *pInputState)
 		SetDefaultMenuRepeatDelay ();
 		pInputState->NextTime = GetTimeCounter ();
 		SetDefaults ();
-		Widget_SetFont (LoadFont (PLAYER_FONT)); // Was StarconFont: Switched for better readability
+		Widget_SetFont (PlyrFont); // Was StarConFont: Switched for better readability
 		Widget_SetWindowColors (SHADOWBOX_BACKGROUND_COLOR,
 				SHADOWBOX_DARK_COLOR, SHADOWBOX_MEDIUM_COLOR);
 
@@ -1384,68 +1386,6 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	/* Work out resolution.  On the way, try to guess a good default
 	 * for config.alwaysgl, then overwrite it if it was set previously. */
 	opts->driver = OPTVAL_PURE_IF_POSSIBLE;
-	/*switch (ScreenWidthActual)
-	{
-	case 320:
-		if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE)
-		{
-			opts->screenResolution = OPTVAL_320_240;
-		}
-		else
-		{
-			if (ScreenHeightActual != 240)
-			{
-				opts->screenResolution = OPTVAL_CUSTOM;
-			}
-			else
-			{
-				opts->screenResolution = OPTVAL_320_240;
-				opts->driver = OPTVAL_ALWAYS_GL;
-			}
-		}
-		break;
-	case 640:
-		if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE)
-		{
-			opts->screenResolution = OPTVAL_640_480;
-		}
-		else
-		{
-			if (ScreenHeightActual != 480)
-			{
-				opts->screenResolution = OPTVAL_CUSTOM;
-			}
-			else
-			{
-				opts->screenResolution = OPTVAL_640_480;
-				opts->driver = OPTVAL_ALWAYS_GL;
-			}
-		}
-		break;
-	case 960:
-		if (ScreenHeightActual != 720)
-		{
-			opts->screenResolution = OPTVAL_CUSTOM;
-		}
-		else
-		{
-			opts->screenResolution = OPTVAL_960_720;
-		}
-		break;
-	case 1280:
-		if (ScreenHeightActual != 960)
-		{
-			opts->screenResolution = OPTVAL_CUSTOM;
-		}
-		else
-		{
-			opts->screenResolution = OPTVAL_1280_960;
-		}		
-		break;
-	default:
-		opts->screenResolution = OPTVAL_CUSTOM;
-		break;
-	}*/
 
 	if (res_IsBoolean ("config.alwaysgl"))
 	{
