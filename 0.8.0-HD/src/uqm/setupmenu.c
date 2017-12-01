@@ -1580,8 +1580,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 #else
 			NewDriver = TFB_GFXDRIVER_SDL_PURE;
 #endif
-			resolutionFactor = 0;				
-			forceAspectRatio = FALSE;
+			resolutionFactor = 0;
 			break;
 		case OPTVAL_REAL_640_480:
 			NewWidth = 640;	
@@ -1592,7 +1591,6 @@ SetGlobalOptions (GLOBALOPTS *opts)
 			NewDriver = TFB_GFXDRIVER_SDL_PURE;
 #endif
 			resolutionFactor = 1;
-			forceAspectRatio = FALSE;
 			break;
 		case OPTVAL_REAL_1280_960:
 			NewWidth = 1280;
@@ -1603,7 +1601,6 @@ SetGlobalOptions (GLOBALOPTS *opts)
 			NewDriver = TFB_GFXDRIVER_SDL_PURE;
 #endif
 			resolutionFactor = 2;
-			forceAspectRatio = FALSE;
 			break;
 		default:
 			/* Don't mess with the custom value */
@@ -1656,7 +1653,6 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	
 	// JMS_GFX
 	res_PutInteger ("config.resolutionfactor", resolutionFactor);
-	res_PutBoolean ("config.forceaspectratio", forceAspectRatio);
 	res_PutInteger ("config.loresBlowupScale", opts->loresBlowup);
 
 	// JMS: Cheat Mode: Kohr-Ah move at zero speed when trying to cleanse the galaxy

@@ -131,7 +131,6 @@ struct options_struct
 	DECL_CONFIG_OPTION(float, speechVolumeScale);
 	DECL_CONFIG_OPTION(bool, safeMode);
 	DECL_CONFIG_OPTION(int, resolutionFactor); // JMS_GFX
-	DECL_CONFIG_OPTION(bool, forceAspectRatio); // JMS_GFX
 	DECL_CONFIG_OPTION(int, loresBlowupScale); // JMS_GFX
  	DECL_CONFIG_OPTION(bool, cheatMode); // JMS
 	// Serosis
@@ -291,7 +290,6 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  speechVolumeScale, 0.8f ),
 		INIT_CONFIG_OPTION(  safeMode,          false ),
 		INIT_CONFIG_OPTION(  resolutionFactor,  0 ),
-		INIT_CONFIG_OPTION(  forceAspectRatio,  false ),
 		INIT_CONFIG_OPTION(  loresBlowupScale,  0 ),
 		INIT_CONFIG_OPTION(  cheatMode,			false ), // JMS
 		//Serosis
@@ -444,7 +442,6 @@ main (int argc, char *argv[])
 	optAddons = options.addons;
 	
 	resolutionFactor = (unsigned int) options.resolutionFactor.value; // JMS_GFX
-	forceAspectRatio = options.forceAspectRatio.value; // JMS_GFX
 	loresBlowupScale = (unsigned int) options.loresBlowupScale.value; // JMS_GFX
 	
 	optGodMode = options.godMode.value; // JMS
@@ -761,9 +758,6 @@ getUserConfigOptions (struct options_struct *options)
 		options->resolutionFactor.value = res_GetInteger ("config.resolutionfactor");
 		options->resolutionFactor.set = true;
 	}
-	
-	// JMS_GFX
-	getBoolConfigValue (&options->forceAspectRatio, "config.forceaspectratio");
 	
 	// JMS_GFX
 	if (res_IsInteger ("config.loresBlowupScale"))
