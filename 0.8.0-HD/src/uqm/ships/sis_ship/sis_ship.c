@@ -251,12 +251,6 @@ sis_hyper_preprocess (ELEMENT *ElementPtr)
 			AccelerateDirection = -1;
 			GetCurrentVelocityComponents (&ElementPtr->velocity, &dx, &dy);
 			
-			// JMS: Engage autopilot only after coming to full stop
-			if (dx==0 && dy==0)
-				SET_GAME_STATE (AUTOPILOT_OK, 1);
-			else
-				SET_GAME_STATE (AUTOPILOT_OK, 0);
-			
 			dtempx = (SDWORD)dx;
 			dtempy = (SDWORD)dy;
 			

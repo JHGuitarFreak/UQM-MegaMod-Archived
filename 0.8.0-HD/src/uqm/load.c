@@ -29,8 +29,7 @@
 #include "setup.h"
 #include "state.h"
 #include "grpintrn.h"
-#include "util.h"
-#include "gamestr.h" // JMS: For GAME_STRING
+
 #include "libs/tasklib.h"
 #include "libs/log.h"
 #include "libs/misc.h"
@@ -294,11 +293,10 @@ LoadClockState (CLOCK_STATE *ClockPtr, void *fh)
 }
 
 static BOOLEAN
-LoadGameState (GAME_STATE *GSPtr, void *fh, BOOLEAN TryVanilla)
+LoadGameState (GAME_STATE *GSPtr, void *fh)
 {
 	DWORD magic;
 	BYTE res_scale; // JMS
-
 	read_32 (fh, &magic);
 	if (magic != GLOBAL_STATE_TAG)
 	{
@@ -313,7 +311,6 @@ LoadGameState (GAME_STATE *GSPtr, void *fh, BOOLEAN TryVanilla)
 	read_8   (fh, &GSPtr->glob_flags);
 	read_8   (fh, &GSPtr->CrewCost);
 	read_8   (fh, &GSPtr->FuelCost);
-
 	// JMS: Now that we have read the fuelcost, we can compare it
 	// to the correct value. Fuel cost is always FUEL_COST_RU, and if
 	// the savefile tells otherwise, we have read it with the wrong method
@@ -324,7 +321,6 @@ LoadGameState (GAME_STATE *GSPtr, void *fh, BOOLEAN TryVanilla)
 	// and re-open it again, this time using the vanilla-reading method.
 	if (GSPtr->FuelCost != 20)
 		return FALSE;
-
 	read_a8  (fh, GSPtr->ModuleCost, NUM_MODULES);
 	read_a8  (fh, GSPtr->ElementWorth, NUM_ELEMENT_CATEGORIES);
 	read_16  (fh, &GSPtr->CurrentActivity);
@@ -334,7 +330,6 @@ LoadGameState (GAME_STATE *GSPtr, void *fh, BOOLEAN TryVanilla)
 		res_scale = RESOLUTION_FACTOR;
 	else
 		res_scale = 0;
-
 	LoadClockState (&GSPtr->GameClock, fh);
 
 	read_16s (fh, &GSPtr->autopilot.x);
@@ -351,7 +346,6 @@ LoadGameState (GAME_STATE *GSPtr, void *fh, BOOLEAN TryVanilla)
 	// JMS: Let's make savegames work even between different resolution modes.
 	GSPtr->ShipStamp.origin.x <<= RESOLUTION_FACTOR; 
 	GSPtr->ShipStamp.origin.y <<= RESOLUTION_FACTOR; 
-
 	/* VELOCITY_DESC velocity */
 	read_16  (fh, &GSPtr->velocity.TravelAngle);
 	read_16s (fh, &GSPtr->velocity.vector.width);
@@ -372,15 +366,13 @@ LoadGameState (GAME_STATE *GSPtr, void *fh, BOOLEAN TryVanilla)
 	GSPtr->velocity.error.height  <<= res_scale; 
 	GSPtr->velocity.incr.width	  <<= res_scale; 
 	GSPtr->velocity.incr.height	  <<= res_scale; 
- 
-
 	read_32 (fh, &magic);
 	if (magic != GAME_STATE_TAG)
 	{
 		return FALSE;
 	}
 	{
-		size_t gameStateByteCount = ((TryVanilla ? (NUM_GAME_STATE_BITS - 17) : NUM_GAME_STATE_BITS) + 7) >> 3;
+		size_t gameStateByteCount = (NUM_GAME_STATE_BITS + 7) >> 3;
 		BYTE *buf;
 		BOOLEAN result;
 
@@ -449,11 +441,10 @@ LoadSisState (SIS_STATE *SSPtr, void *fp)
 }
 
 static BOOLEAN
-LoadSummary (SUMMARY_DESC *SummPtr, void *fp, BOOLEAN TryVanilla)
+LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
 {
 	SDWORD magic;
 	DWORD nameSize = 0;
-
 	if (!read_32s (fp, &magic))
 		return FALSE;
 	if (magic == SAVEFILE_TAG)
@@ -506,8 +497,7 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp, BOOLEAN TryVanilla)
 
 	// JMS: UQM-HD saves have an extra piece of padding to compensate for the
 	// added res_factor in SummPtr.
-	if (!TryVanilla)
-		read_8 (fp, NULL); /* padding */
+	//read_8 (fp, NULL); /* padding */
 
 	return TRUE;
 }
@@ -707,7 +697,7 @@ LoadBattleGroup (uio_Stream *fh, DWORD chunksize)
 }
 
 BOOLEAN
-LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN TryVanilla)
+LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 {
 	uio_Stream *in_fp;
 	char file[PATH_MAX];
@@ -721,16 +711,9 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN TryVanilla)
 	sprintf (file, "uqmsave.%02u", which_game);
 	in_fp = res_OpenResFile (saveDir, file, "rb");
 	if (!in_fp)
-		return LoadLegacyGame (which_game, SummPtr);	
+		return LoadLegacyGame (which_game, SummPtr);
 
-	if (!LoadSummary (&loc_sd, in_fp, TryVanilla))
-	{
-		log_add (log_Error, "Warning: Savegame is corrupt");
-		res_CloseResFile (in_fp);
-		return FALSE;
-	}
-
-	if (!LoadSummary (&loc_sd, in_fp, TryVanilla))
+	if (!LoadSummary (&loc_sd, in_fp))
 	{
 		res_CloseResFile (in_fp);
 		return LoadLegacyGame (which_game, SummPtr);
@@ -761,22 +744,11 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN TryVanilla)
 	initEventSystem ();
 
 	Activity = GLOBAL (CurrentActivity);
-
-	// JMS: We can decide whether the current savefile is vanilla UQM or UQM-HD
-	// only at this point, when reading the game states. If this turns out to be a 
-	// vanilla UQM save, we must close the file and re-open it for reading
-	// with the vanilla method.
-	if (!LoadGameState (&GlobData.Game_state, in_fp, TryVanilla))
+	if (!LoadGameState (&GlobData.Game_state, in_fp))
 	{
 		res_CloseResFile (in_fp);
-		if (!TryVanilla) {
-			LoadGame (which_game, NULL, TRUE);
-			return TRUE;
-		}
-		else
-			return FALSE;
+		return FALSE;
 	}
-
 	NextActivity = GLOBAL (CurrentActivity);
 	GLOBAL (CurrentActivity) = Activity;
 

@@ -1100,7 +1100,7 @@ LoadGameDescriptions (SUMMARY_DESC *pSD)
 
 	for (i = 0; i < MAX_SAVED_GAMES; ++i, ++pSD)
 	{
-		if (!LoadGame (i, pSD, FALSE))
+		if (!LoadGame (i, pSD))
 			pSD->year_index = 0;
 	}
 }
@@ -1229,7 +1229,7 @@ SaveLoadGame (PICK_GAME_STATE *pickState, COUNT gameIndex, BOOLEAN *canceled_by_
 	else
 	{
 		ConfirmSaveLoad (pickState->saving ? &saveStamp : NULL);
-		success = LoadGame (gameIndex, NULL, FALSE);
+		success = LoadGame (gameIndex, NULL);
 	}
 
 	// TODO: the same should be done for both save and load if we also
