@@ -241,7 +241,7 @@ DoRestart (MENU_STATE *pMS)
 					GLOBAL (CurrentActivity) = CHECK_ABORT;
 				} else if (!packsInstalled) {
 					Flash_pause(pMS->flashContext);
-					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + resolutionFactor));
+					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
 					// Could not find graphics pack - message
 					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
 					SetTransitionSource (NULL);
@@ -276,7 +276,7 @@ DoRestart (MENU_STATE *pMS)
 					GLOBAL (CurrentActivity) = CHECK_ABORT;
 				} else if (!packsInstalled) {
 					Flash_pause(pMS->flashContext);
-					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + resolutionFactor));
+					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
 					// Could not find graphics pack - message
 					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
 					SetTransitionSource (NULL);
@@ -313,7 +313,7 @@ DoRestart (MENU_STATE *pMS)
 					GLOBAL (CurrentActivity) = CHECK_ABORT;
 				} else if (!packsInstalled) {
 					Flash_pause(pMS->flashContext);
-					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + resolutionFactor));
+					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
 					// Could not find graphics pack - message
 					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
 					SetTransitionSource (NULL);
