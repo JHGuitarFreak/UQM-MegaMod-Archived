@@ -100,7 +100,7 @@ CalcAlphaFormat (const SDL_PixelFormat* video, SDL_PixelFormat* ours)
 }
 
 int
-TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int togglefullscreen, unsigned int resolutionFactor)
+TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int togglefullscreen, unsigned int resFactor)
 {
 	int i, videomode_flags;
 	SDL_PixelFormat conv_fmt;
@@ -121,7 +121,7 @@ TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int toggl
 		videomode_flags = SDL_SWSURFACE;
 		
 		// JMS_GFX: Resolution is calculated with the help of a Resolution factor.
-		if (resolutionFactor == 0)
+		if (resFactor == 0)
 		{
 			// Check the sanity of resolution.
 			if (width != 640 || height != 480)
@@ -139,8 +139,8 @@ TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int toggl
 		}
 		else
 		{
-			ScreenWidthActual  = (320 << resolutionFactor);
-			ScreenHeightActual = (240 << resolutionFactor);
+			ScreenWidthActual  = (320 << resFactor);
+			ScreenHeightActual = (240 << resFactor);
 			graphics_backend = &pure_unscaled_backend;
 		}
 	}
@@ -248,7 +248,7 @@ TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int toggl
 }
 
 int
-TFB_Pure_InitGraphics (int driver, int flags, int width, int height, unsigned int resolutionFactor)
+TFB_Pure_InitGraphics (int driver, int flags, int width, int height, unsigned int resFactor)
 {
 	char VideoName[256];
 
@@ -264,10 +264,10 @@ TFB_Pure_InitGraphics (int driver, int flags, int width, int height, unsigned in
 	log_add (log_Info, "SDL initialized.");
 	log_add (log_Info, "Initializing Screen.");
 
-	ScreenWidth = (320 << resolutionFactor); // 320
-	ScreenHeight = (240 << resolutionFactor); // 240
+	ScreenWidth = (320 << resFactor); // 320
+	ScreenHeight = (240 << resFactor); // 240
 
-	if (TFB_Pure_ConfigureVideo (driver, flags, width, height, 0, resolutionFactor))
+	if (TFB_Pure_ConfigureVideo (driver, flags, width, height, 0, resFactor))
 	{
 		log_add (log_Fatal, "Could not initialize video: "
 				"no fallback at start of program!");

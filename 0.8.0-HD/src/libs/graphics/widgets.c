@@ -103,7 +103,7 @@ DrawLabelAsWindow (WIDGET_LABEL *label, RECT *windowRect)
 		oldfont = SetContextFont (cur_font);
 
 	/* Compute the dimensions of the label */
-	win_h = label->height ((WIDGET *)label) + (16 << resolutionFactor);
+	win_h = label->height ((WIDGET *)label) + (16 << RESOLUTION_FACTOR);
 	win_w = 0;
 	for (i = 0; i < label->line_count; i++)
 	{

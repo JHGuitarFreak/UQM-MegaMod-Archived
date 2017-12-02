@@ -24,6 +24,7 @@
 #include "options.h"
 #include "libs/log.h"
 
+
 typedef struct _gl_screeninfo {
 	SDL_Surface *scaled;
 	GLuint texture;
@@ -84,7 +85,7 @@ static TFB_GRAPHICS_BACKEND opengl_unscaled_backend_4x = {
 
 
 static int
-AttemptColorDepth (int flags, int width, int height, int bpp, unsigned int resolutionFactor)
+AttemptColorDepth (int flags, int width, int height, int bpp, unsigned int resFactor)
 {
 	int videomode_flags;
 	ScreenColorDepth = bpp;
@@ -127,7 +128,7 @@ AttemptColorDepth (int flags, int width, int height, int bpp, unsigned int resol
 		videomode_flags |= SDL_FULLSCREEN;
 	videomode_flags |= SDL_ANYFORMAT;
 
-	if (resolutionFactor > 0 && flags & TFB_GFXFLAGS_FULLSCREEN)
+	if (resFactor > 0 && flags & TFB_GFXFLAGS_FULLSCREEN)
 	{
 		height = fs_height;
 		width  = fs_width;
@@ -165,7 +166,7 @@ AttemptColorDepth (int flags, int width, int height, int bpp, unsigned int resol
 				" (surface reports %ix%ix%i) (res_cat %u)",
 				width, height, bpp,			 
 				SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h,
-				SDL_GetVideoSurface()->format->BitsPerPixel, resolutionFactor);
+				SDL_GetVideoSurface()->format->BitsPerPixel, resFactor);
 
 		log_add (log_Info, "OpenGL renderer: %s version: %s",
 				glGetString (GL_RENDERER), glGetString (GL_VERSION));
@@ -178,14 +179,14 @@ AttemptColorDepth (int flags, int width, int height, int bpp, unsigned int resol
 }
 
 int
-TFB_GL_ConfigureVideo (int driver, int flags, int width, int height, int togglefullscreen, unsigned int resolutionFactor)
+TFB_GL_ConfigureVideo (int driver, int flags, int width, int height, int togglefullscreen, unsigned int resFactor)
 {
 	int i, texture_width, texture_height;
 	GraphicsDriver = driver;
 
-	if (AttemptColorDepth (flags, width, height, 32, resolutionFactor) &&
-			AttemptColorDepth (flags, width, height, 24, resolutionFactor) &&
-			AttemptColorDepth (flags, width, height, 16, resolutionFactor))
+	if (AttemptColorDepth (flags, width, height, 32, resFactor) &&
+			AttemptColorDepth (flags, width, height, 24, resFactor) &&
+			AttemptColorDepth (flags, width, height, 16, resFactor))
 	{
 		log_add (log_Error, "Couldn't set any OpenGL %ix%i video mode!",
 			 width, height);
@@ -250,19 +251,19 @@ TFB_GL_ConfigureVideo (int driver, int flags, int width, int height, int togglef
 	}
 	else
 	{
-		if (resolutionFactor == 0)
+		if (resFactor == 0)
 		{
 			texture_width = 512;
 			texture_height = 256;
 			graphics_backend = &opengl_unscaled_backend;
 		}
-		else if (resolutionFactor == 1)
+		else if (resFactor == 1)
 		{
 			texture_width = 1024;
 			texture_height = 512;
 			graphics_backend = &opengl_unscaled_backend_2x;
 		}
-		else if (resolutionFactor == 2)
+		else if (resFactor == 2)
 		{
 			texture_width = 2048;
 			texture_height = 1024;
@@ -303,7 +304,7 @@ TFB_GL_ConfigureVideo (int driver, int flags, int width, int height, int togglef
 }
 
 int
-TFB_GL_InitGraphics (int driver, int flags, int width, int height, unsigned int resolutionFactor)
+TFB_GL_InitGraphics (int driver, int flags, int width, int height, unsigned int resFactor)
 {
 	char VideoName[256];
 
@@ -314,10 +315,10 @@ TFB_GL_InitGraphics (int driver, int flags, int width, int height, unsigned int 
 	log_add (log_Info, "SDL initialized.");
 	log_add (log_Info, "Initializing Screen.");
 
-	ScreenWidth = (320 << resolutionFactor); // JMS_GFX
-	ScreenHeight = (240 << resolutionFactor); // JMS_GFX
+	ScreenWidth = (320 << resFactor); // JMS_GFX
+	ScreenHeight = (240 << resFactor); // JMS_GFX
 
-	if (TFB_GL_ConfigureVideo (driver, flags, width, height, 0, resolutionFactor))
+	if (TFB_GL_ConfigureVideo (driver, flags, width, height, 0, resFactor))
 	{
 		log_add (log_Fatal, "Could not initialize video: "
 				"no fallback at start of program!");

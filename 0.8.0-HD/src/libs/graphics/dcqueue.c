@@ -26,7 +26,7 @@
 #include "libs/log.h"
 #include "libs/misc.h"
 		// for TFB_DEBUG_HALT
-
+#include "options.h"
 
 static RecursiveMutex DCQ_Mutex;
 

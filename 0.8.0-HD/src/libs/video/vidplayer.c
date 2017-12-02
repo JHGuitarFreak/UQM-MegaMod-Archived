@@ -15,7 +15,7 @@
  */
 
 #include "vidplayer.h"
-
+#include "options.h"
 #include "vidintrn.h"
 #include "libs/graphics/gfx_common.h"
 #include "libs/graphics/tfb_draw.h"
