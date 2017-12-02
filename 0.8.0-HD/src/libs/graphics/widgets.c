@@ -103,7 +103,7 @@ DrawLabelAsWindow (WIDGET_LABEL *label, RECT *windowRect)
 		oldfont = SetContextFont (cur_font);
 
 	/* Compute the dimensions of the label */
-	win_h = label->height ((WIDGET *)label) + 16;
+	win_h = label->height ((WIDGET *)label) + (16 << resolutionFactor);
 	win_w = 0;
 	for (i = 0; i < label->line_count; i++)
 	{
@@ -221,7 +221,7 @@ Widget_DrawMenuScreen (WIDGET *_self, int x, int y)
 	if (cur_font)
 		oldfont = SetContextFont (cur_font);
 	
-	r.corner.x = (2 << RESOLUTION_FACTOR); // JMS_GFX
+	r.corner.x = (2 << RESOLUTION_FACTOR) + 2 * RESOLUTION_FACTOR; // JMS_GFX
 	r.corner.y = (2 << RESOLUTION_FACTOR); // JMS_GFX
 	r.extent.width = ScreenWidth - (4 << RESOLUTION_FACTOR); // JMS_GFX
 	r.extent.height = ScreenHeight - (4 << RESOLUTION_FACTOR); // JMS_GFX
@@ -290,7 +290,7 @@ Widget_DrawChoice (WIDGET *_self, int x, int y)
 	disabled = DKGRAY_COLOR;
 	selected = WIDGET_ACTIVE_COLOR;
 
-	t.baseline.x = 5 << RESOLUTION_FACTOR; // Was 'x'.
+	t.baseline.x = x + RES_SCALE(16);
 	t.baseline.y = y;
 	t.align = ALIGN_LEFT;
 	t.CharCount = ~0;
@@ -304,6 +304,8 @@ Widget_DrawChoice (WIDGET *_self, int x, int y)
 		oldtext = SetContextForeGroundColor (default_color);
 	}
 	font_DrawText (&t);
+
+	t.baseline.x -= t.baseline.x;
 
 	home_x = t.baseline.x + 3 * (ScreenWidth / ((self->maxcolumns + 1) * 2));
 	home_y = t.baseline.y;
@@ -424,7 +426,7 @@ Widget_DrawSlider(WIDGET *_self, int x, int y)
 	selected = WIDGET_ACTIVE_COLOR;
 	inactive = WIDGET_INACTIVE_COLOR;
 
-	t.baseline.x = 5 << RESOLUTION_FACTOR; // 5 was 'x'.
+	t.baseline.x = x + RES_SCALE(16);
 	t.baseline.y = y;
 	t.align = ALIGN_LEFT;
 	t.CharCount = ~0;
@@ -439,6 +441,8 @@ Widget_DrawSlider(WIDGET *_self, int x, int y)
 		oldtext = SetContextForeGroundColor (default_color);
 	}
 	font_DrawText (&t);
+
+	t.baseline.x -= t.baseline.x;
 
 	r.corner.x = t.baseline.x + 3 * tick;
 	r.corner.y = t.baseline.y - 4;
@@ -497,7 +501,7 @@ Widget_DrawTextEntry (WIDGET *_self, int x, int y)
 
 	BatchGraphics ();
 
-	t.baseline.x = 5 << RESOLUTION_FACTOR; // 5 was 'x'.
+	t.baseline.x = x + RES_SCALE(16);
 	t.baseline.y = y;
 	t.align = ALIGN_LEFT;
 	t.CharCount = ~0;
@@ -511,6 +515,8 @@ Widget_DrawTextEntry (WIDGET *_self, int x, int y)
 		oldtext = SetContextForeGroundColor (default_color);
 	}
 	font_DrawText (&t);
+
+	t.baseline.x -= t.baseline.x;
 
 	/* Force string termination */
 	self->value[WIDGET_TEXTENTRY_WIDTH-1] = 0;
@@ -633,7 +639,7 @@ Widget_DrawControlEntry (WIDGET *_self, int x, int y)
 	selected = WIDGET_ACTIVE_COLOR;
 	inactive = WIDGET_INACTIVE_COLOR;
 
-	t.baseline.x = 5 << RESOLUTION_FACTOR; // 5 was 'x'.
+	t.baseline.x = x + RES_SCALE(16);
 	t.baseline.y = y;
 	t.align = ALIGN_LEFT;
 	t.CharCount = ~0;
@@ -647,6 +653,8 @@ Widget_DrawControlEntry (WIDGET *_self, int x, int y)
 		oldtext = SetContextForeGroundColor (default_color);
 	}
 	font_DrawText (&t);
+
+	t.baseline.x -= t.baseline.x;
 
         // 3 * ScreenWidth / ((self->maxcolumns + 1) * 2)) as per CHOICE, but only two options.
 	home_x = t.baseline.x + (ScreenWidth / 2); 

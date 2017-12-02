@@ -130,16 +130,17 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 		{
 			case 0: /* MERCURY */
 				pCurDesc->data_index = METAL_WORLD;
-				pCurDesc->alternate_colormap = !solTexturesPresent ? NULL : MERCURY_COLOR_TAB;
+				if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+					pCurDesc->alternate_colormap = MERCURY_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 39L / 100;
 				pCurDesc->NumPlanets = 0;
 				break;
 			case 1: /* VENUS */
 				pCurDesc->data_index = PRIMORDIAL_WORLD;
-				pCurDesc->alternate_colormap = !solTexturesPresent ? NULL : VENUS_COLOR_TAB;
+				if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+					pCurDesc->alternate_colormap = VENUS_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 72L / 100;
 				pCurDesc->NumPlanets = 0;
-				// angle = NORMALIZE_ANGLE (FULL_CIRCLE - angle);
 				pCurDesc->angle = NORMALIZE_ANGLE (FULL_CIRCLE - pCurDesc->angle);
 				break;
 			case 2: /* EARTH */
@@ -150,40 +151,45 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 				break;
 			case 3: /* MARS */
 				pCurDesc->data_index = DUST_WORLD;
-				pCurDesc->alternate_colormap = !solTexturesPresent ? NULL : MARS_COLOR_TAB;
+				if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+					pCurDesc->alternate_colormap = MARS_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 152L / 100;
 				pCurDesc->NumPlanets = 0;
 				break;
 			case 4: /* JUPITER */
 				pCurDesc->data_index = RED_GAS_GIANT;
-				pCurDesc->alternate_colormap = !solTexturesPresent ? NULL : JUPITER_COLOR_TAB;
+				if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+					pCurDesc->alternate_colormap = JUPITER_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 500L /* 520L */ / 100;
 				pCurDesc->NumPlanets = 4;
 				break;
 			case 5: /* SATURN */
 				pCurDesc->data_index = ORA_GAS_GIANT;
-				pCurDesc->alternate_colormap = !solTexturesPresent ? NULL : SATURN_COLOR_TAB;
+				if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+					pCurDesc->alternate_colormap = SATURN_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 750L /* 952L */ / 100;
 				pCurDesc->NumPlanets = 1;
 				break;
 			case 6: /* URANUS */
 				pCurDesc->data_index = GRN_GAS_GIANT;
-				pCurDesc->alternate_colormap = !solTexturesPresent ? NULL : URANUS_COLOR_TAB;
+				if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+					pCurDesc->alternate_colormap = URANUS_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 1000L /* 1916L */ / 100;
 				pCurDesc->NumPlanets = 0;
 				break;
 			case 7: /* NEPTUNE */
 				pCurDesc->data_index = BLU_GAS_GIANT;
-				pCurDesc->alternate_colormap = !solTexturesPresent ? NULL : NEPTUNE_COLOR_TAB;
+				if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+					pCurDesc->alternate_colormap = NEPTUNE_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 1250L /* 2999L */ / 100;
 				pCurDesc->NumPlanets = 1;
 				break;
 			case 8: /* PLUTO */
 				pCurDesc->data_index = PELLUCID_WORLD;
-				pCurDesc->alternate_colormap = !solTexturesPresent ? NULL : PLUTO_COLOR_TAB;
+				if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+					pCurDesc->alternate_colormap = PLUTO_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 1550L /* 3937L */ / 100;
 				pCurDesc->NumPlanets = 0;
-				// angle = FULL_CIRCLE - OCTANT;
 				pCurDesc->angle = FULL_CIRCLE - OCTANT;
 				break;
 		}
@@ -223,7 +229,8 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 
 			/* Luna: */
 			solarSys->MoonDesc[1].data_index = SELENIC_WORLD;
-			solarSys->MoonDesc[1].alternate_colormap = !solTexturesPresent ? NULL : LUNA_COLOR_TAB;
+			if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+				solarSys->MoonDesc[1].alternate_colormap = LUNA_COLOR_TAB;
 			solarSys->MoonDesc[1].radius = MIN_MOON_RADIUS
 					+ (MAX_MOONS - 1) * MOON_DELTA;
 			rand_val = RandomContext_Random (SysGenRNG);
@@ -237,25 +244,30 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 		}
 		case 4: /* moons of JUPITER */
 			solarSys->MoonDesc[0].data_index = RADIOACTIVE_WORLD;
-			solarSys->MoonDesc[0].alternate_colormap = !solTexturesPresent ? NULL : IO_COLOR_TAB;
+			if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+				solarSys->MoonDesc[0].alternate_colormap = IO_COLOR_TAB;
 			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / 1.77;
 					/* Io */
 			solarSys->MoonDesc[1].data_index = HALIDE_WORLD;
-			solarSys->MoonDesc[1].alternate_colormap = !solTexturesPresent ? NULL : EUROPA_COLOR_TAB;
+			if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+				solarSys->MoonDesc[1].alternate_colormap = EUROPA_COLOR_TAB;
 			solarSys->MoonDesc[1].orb_speed = FULL_CIRCLE / 3.55;
 					/* Europa */
 			solarSys->MoonDesc[2].data_index = CYANIC_WORLD;
-			solarSys->MoonDesc[2].alternate_colormap = !solTexturesPresent ? NULL : GANYMEDE_COLOR_TAB;
+			if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+				solarSys->MoonDesc[2].alternate_colormap = GANYMEDE_COLOR_TAB;
 			solarSys->MoonDesc[2].orb_speed = FULL_CIRCLE / 7.16;
 					/* Ganymede */
 			solarSys->MoonDesc[3].data_index = PELLUCID_WORLD;
-			solarSys->MoonDesc[3].alternate_colormap = !solTexturesPresent ? NULL : CALLISTO_COLOR_TAB;
+			if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+				solarSys->MoonDesc[3].alternate_colormap = CALLISTO_COLOR_TAB;
 			solarSys->MoonDesc[3].orb_speed = FULL_CIRCLE / 16.69;
 					/* Callisto */
 			break;
 		case 5: /* moons of SATURN */
 			solarSys->MoonDesc[0].data_index = ALKALI_WORLD;
-			solarSys->MoonDesc[0].alternate_colormap = !solTexturesPresent ? NULL : TITAN_COLOR_TAB;
+			if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+				solarSys->MoonDesc[0].alternate_colormap = TITAN_COLOR_TAB;
 			solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS
 					+ (MAX_MOONS - 1) * MOON_DELTA;
 			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / 15.95;
@@ -263,7 +275,8 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 			break;
 		case 7: /* moons of NEPTUNE */
 			solarSys->MoonDesc[0].data_index = VINYLOGOUS_WORLD;
-			solarSys->MoonDesc[0].alternate_colormap = !solTexturesPresent ? NULL : TRITON_COLOR_TAB;
+			if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent)
+				solarSys->MoonDesc[0].alternate_colormap = TRITON_COLOR_TAB;
 			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / -5.88;
 					/* Triton */
 			break;
@@ -437,10 +450,8 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 		solarSys->SysInfo.PlanetInfo.SurfaceGravity =
 				CalcGravity (&solarSys->SysInfo.PlanetInfo);
-		if (!solTexturesPresent){
-			LoadPlanet (planetNr == 2 ?
-					CaptureDrawable (LoadGraphic (EARTH_MASK_ANIM)) : NULL);
-		} else {
+		
+		if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent){
 			switch (planetNr) {
 				case 0: /* MERCURY */
 					LoadPlanet (CaptureDrawable (LoadGraphic (MERCURY_MASK_ANIM)));
@@ -473,6 +484,9 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 					LoadPlanet (NULL);
 					break;
 			}
+		} else {
+			LoadPlanet (planetNr == 2 ?
+					CaptureDrawable (LoadGraphic (EARTH_MASK_ANIM)) : NULL);			
 		}
 	}
 	else
@@ -575,36 +589,39 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 		solarSys->SysInfo.PlanetInfo.SurfaceGravity =
 				CalcGravity (&solarSys->SysInfo.PlanetInfo);
-		switch (planetNr) {
-			case 2: /* moons of EARTH */
-				if (moonNr == 1)
-					LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : LUNA_MASK_ANIM)));
-				else
-					LoadPlanet (NULL);
-				break;
-			case 4: /* moons of JUPITER */
-				switch (moonNr) {
-					case 0: /* Io */
-						LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : IO_MASK_ANIM)));
-						break;
-					case 1: /* Europa */
-						LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : EUROPA_MASK_ANIM)));
-						break;
-					case 2: /* Ganymede */
-						LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : GANYMEDE_MASK_ANIM)));
-						break;
-					case 3: /* Callisto */
-						LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : CALLISTO_MASK_ANIM)));
-						break;
-				}
-				break;
-			case 5: /* moon of Saturn: Titan */
-				LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : TITAN_MASK_ANIM)));
-				break;
-			case 7: /* moon of NEPTUNE: Triton */
-			default:
-				LoadPlanet (CaptureDrawable (LoadGraphic (!solTexturesPresent ?  NULL : TRITON_MASK_ANIM)));
-				break;
+		
+		if (solTexturesPresent || hires2xPackPresent || hires4xPackPresent){
+			switch (planetNr) {
+				case 2: /* moons of EARTH */
+					if (moonNr == 1)
+						LoadPlanet (CaptureDrawable (LoadGraphic (LUNA_MASK_ANIM)));
+					else
+						LoadPlanet (NULL);
+					break;
+				case 4: /* moons of JUPITER */
+					switch (moonNr) {
+						case 0: /* Io */
+							LoadPlanet (CaptureDrawable (LoadGraphic (IO_MASK_ANIM)));
+							break;
+						case 1: /* Europa */
+							LoadPlanet (CaptureDrawable (LoadGraphic (EUROPA_MASK_ANIM)));
+							break;
+						case 2: /* Ganymede */
+							LoadPlanet (CaptureDrawable (LoadGraphic (GANYMEDE_MASK_ANIM)));
+							break;
+						case 3: /* Callisto */
+							LoadPlanet (CaptureDrawable (LoadGraphic (CALLISTO_MASK_ANIM)));
+							break;
+					}
+					break;
+				case 5: /* moon of Saturn: Titan */
+					LoadPlanet (CaptureDrawable (LoadGraphic (TITAN_MASK_ANIM)));
+					break;
+				case 7: /* moon of NEPTUNE: Triton */
+				default:
+					LoadPlanet (CaptureDrawable (LoadGraphic (TRITON_MASK_ANIM)));
+					break;
+			}
 		}
 	}
 
