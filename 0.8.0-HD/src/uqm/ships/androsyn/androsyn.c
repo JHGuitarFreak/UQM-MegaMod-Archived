@@ -23,13 +23,6 @@
 
 #include "libs/mathlib.h"
 
-#if RESOLUTION_FACTOR == 0
-#elif RESOLUTION_FACTOR == 1
-#elif RESOLUTION_FACTOR == 2
-	#define MAX_THRUST 96
-	#define THRUST_INCREMENT 12
-#endif
-
 // Core characteristics
 #define MAX_CREW 20
 #define MAX_ENERGY 24
