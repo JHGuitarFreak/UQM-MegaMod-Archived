@@ -136,11 +136,11 @@ RenderTopography (FRAME DstFrame, SBYTE *pTopoData, int w, int h, BOOLEAN SurfDe
 		cbase = GetColorMapAddress (pSolarSysState->OrbitalCMap);
 
 		// JMS: This is for using 8-bits per color channel .ct files for e.g. Mars.
-		if (SurfDef){
+		if (SurfDef)
 			ColorShift = 3;
-		} else {
+		else
 			ColorShift = 1;
-		}
+
 		pSrc = pTopoData;
 		for (pt.y = 0; pt.y < h; ++pt.y) {
 			for (pt.x = 0; pt.x < w; ++pt.x, ++pSrc, ++pix) {
@@ -164,7 +164,8 @@ RenderTopography (FRAME DstFrame, SBYTE *pTopoData, int w, int h, BOOLEAN SurfDe
 
 				// fixed planet surfaces being too dark
 				// ctab shifts were previously >> 3 .. -Mika
-				*pix = BUILD_COLOR (MAKE_RGB15 (ctab[0] >> ColorShift, ctab[1] >> ColorShift, ctab[2] >> ColorShift), d);	
+				*pix = BUILD_COLOR (MAKE_RGB15 (ctab[0] >> ColorShift, 
+					ctab[1] >> ColorShift, ctab[2] >> ColorShift), d);		
 			}
 		}
 		WriteFramePixelColors (DstFrame, map, w, h);
@@ -212,8 +213,8 @@ GenerateSphereMask (POINT loc, COUNT radius)
 	const DWORD step = 1 << DIFFUSE_BITS;
 	int y, x;
 	COUNT tworadius = radius << 1;
-	COUNT radius_thres = pow((double)(radius + 1), 2);
-	COUNT radius_2 = pow((double)(radius), 2);
+	COUNT radius_thres = (radius + 1) * (radius + 1);
+	COUNT radius_2 = radius * radius;
 
 #define AMBIENT_LIGHT 0.1
 #define LIGHT_Z       1.2
@@ -238,7 +239,7 @@ GenerateSphereMask (POINT loc, COUNT radius)
 			POINT3 norm;
 			double diff;
 			
-			if (rad_2 < radius_thres)
+			if (rad_2 < radius_thres) 
 			{
 				// norm is the sphere's surface normal.
 				norm.x = (double)x;
@@ -287,7 +288,7 @@ GenerateSphereMask (POINT loc, COUNT radius)
 				if (diff < AMBIENT_LIGHT)
 					diff = AMBIENT_LIGHT;
 				// Now we antialias the edge of the spere to look nice
-				if (rad_2 > radius_2)
+				if (rad_2 > radius_2) 
 				{
 					diff *= 1 - (sqrt(rad_2) - radius);
 					if (diff < 0) 
@@ -297,6 +298,7 @@ GenerateSphereMask (POINT loc, COUNT radius)
 				// floating-point.
 				diff_int = (DWORD)(diff * step);
 			}
+
 			pSolarSysState->Orbit.light_diff[pt.y][pt.x] = diff_int;
 		}
 	}
@@ -423,7 +425,7 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 {
 	int x, y;
 	COUNT spherespanx = height;
-	COUNT radius_thres = pow((double)(radius + 1), 2);
+	COUNT radius_thres = (radius + 1) * (radius + 1);
 	const double multx = ((double)spherespanx / M_PI);
 	const double multy = ((double)height / M_PI);
 	const double xadj = ((double)spherespanx / 2.0);
@@ -486,34 +488,23 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 
 // HALO rim size
 #define SHIELD_HALO          (6 << RESOLUTION_FACTOR) // JMS_GFX
-#define SHIELD_HALO_IP       (SHIELD_HALO << (1 << RESOLUTION_FACTOR)) // JMS_GFX
 #define SHIELD_RADIUS        (RADIUS + SHIELD_HALO)
 #define SHIELD_HALO_GLOW     (SHIELD_GLOW_COMP + SHIELD_REFLECT_COMP)
 #define SHIELD_HALO_GLOW_MIN (SHIELD_HALO_GLOW >> 2)
-#define SHIELD_RADIUS_THRES  ((SHIELD_RADIUS + (1 << RESOLUTION_FACTOR)) * (SHIELD_RADIUS + (1 << RESOLUTION_FACTOR))) // JMS_GFX
 
 static FRAME
-CreateShieldMask (COUNT Radius, BOOLEAN forOrbit)
+CreateShieldMask (COUNT Radius)
 {
 	Color clear, *pix;
 	int x, y;
 	FRAME ShieldFrame;
-	COUNT ShieldHalo, ShieldRadius, ShieldDiam, RadiusSquared, ShieldRadiusThreshold;
 
 	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
-
-	if (forOrbit){
-		ShieldHalo = SHIELD_HALO;
-		ShieldRadius = SHIELD_RADIUS * Radius / RADIUS;
-		RadiusSquared = pow((double)Radius, 2); // Radius * Radius;
-	} else {
-		ShieldHalo = SHIELD_HALO_IP;
-		ShieldRadius = (RADIUS + ShieldHalo) * Radius / RADIUS;
-		RadiusSquared = pow((double)RADIUS, 2); // RADIUS * RADIUS;
-	}
-
-	ShieldDiam = (ShieldRadius << 1) + 1;
-	ShieldRadiusThreshold = pow((double)(ShieldRadius + 1), 2); // (ShieldRadius + 1) * (ShieldRadius + 1);
+	
+	COUNT ShieldRadius = SHIELD_RADIUS * Radius / RADIUS;
+	COUNT ShieldDiam = (ShieldRadius << 1) + 1;
+	COUNT RadiusSquared = Radius * Radius;
+	COUNT ShieldRadiusThreshold = (ShieldRadius + 1) * (ShieldRadius + 1);
 
 	ShieldFrame = CaptureDrawable (
 			CreateDrawable (WANT_PIXMAP | WANT_ALPHA,
@@ -556,7 +547,7 @@ CreateShieldMask (COUNT Radius, BOOLEAN forOrbit)
 			}
 			else
 			{	// shield pixels
-				red -= (int) ((red - SHIELD_HALO_GLOW_MIN) * (rad - Radius) / (ShieldHalo * Radius / RADIUS));
+				red -= (int) ((red - SHIELD_HALO_GLOW_MIN) * (rad - Radius) / (SHIELD_HALO * Radius / RADIUS));
 				
 				if (red < 0)
 					red = 0;
@@ -709,6 +700,7 @@ RenderPlanetSphere (PLANET_ORBIT *Orbit, FRAME MaskFrame, int offset, BOOLEAN sh
 	Color *pixels;
 	SBYTE *elevs;
 	int shLevel;
+
 	COUNT spherespanx = height;
 	COUNT tworadius = radius << 1;
 	COUNT diameter = tworadius + 1;
@@ -1286,18 +1278,11 @@ static void
 PlanetOrbitInit (COUNT width, COUNT height, BOOLEAN inOrbit)
 {
 	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
+	COUNT i;
 	COUNT SphereSpanX = height;
-	COUNT OldShieldRadius, ShieldRadius, ShieldDiam, i;
-	COUNT Diameter = height + 1;
-
-	if (inOrbit){
-		OldShieldRadius = SHIELD_RADIUS;
-	} else {
-		OldShieldRadius = (RADIUS + SHIELD_HALO_IP);
-	}
-	
-	ShieldRadius = (height >> 1) * OldShieldRadius / RADIUS;
-	ShieldDiam = (ShieldRadius << 1) + 1;
+	COUNT Diameter = height + 1;	
+	COUNT ShieldRadius = (height >> 1) * SHIELD_RADIUS / RADIUS;
+	COUNT ShieldDiam = (ShieldRadius << 1) + 1;
 
 
 	Orbit->SphereFrame = CaptureDrawable (CreateDrawable (WANT_PIXMAP | WANT_ALPHA, Diameter, Diameter, 2));
@@ -1744,10 +1729,10 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	BOOLEAN SurfDef = FALSE;
 	BOOLEAN shielded = (pPlanetDesc->data_index & PLANET_SHIELDED) != 0;
 
-	if(!inOrbit){
+	/*if(!inOrbit){
 		Width = Width << RESOLUTION_FACTOR;
 		Height = Height << RESOLUTION_FACTOR;
-	}
+	}*/
 	
 	SphereSpanX = (inOrbit ? SPHERE_SPAN_X : Height);
 	Radius = (inOrbit ? RADIUS : (SphereSpanX >> 1)) ;
@@ -2017,7 +2002,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	GenerateSphereMask (loc, Radius);
 	CreateSphereTiltMap (PlanetInfo->AxialTilt, Height, Radius);
 	if (shielded)
-		Orbit->ObjectFrame = CreateShieldMask (Radius, inOrbit);
+		Orbit->ObjectFrame = CreateShieldMask (Radius);
 	InitSphereRotation (1 - 2 * (PlanetInfo->AxialTilt & 1), shielded, Width, Height);
 
 	if (!inOrbit){
