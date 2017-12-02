@@ -63,8 +63,8 @@ extern int GfxFlags;
 
 // The following functions are driver-defined
 void TFB_PreInit (void);
-int TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *resolutionFactor);
-int TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int *resolutionFactor);
+int TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *resFactor);
+int TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int *resFactor);
 void TFB_UninitGraphics (void);
 void TFB_ProcessEvents (void);
 bool TFB_SetGamma (float gamma);
@@ -103,7 +103,6 @@ void TFB_FlushGraphics (void); // Only call from main thread!!
 void TFB_PurgeDanglingGraphics (void); // Only call from main thread as part of shutdown.
 
 // JMS_GFX
-extern unsigned int resolutionFactor;
 extern int fs_height; 
 extern int fs_width;
 // END JMS_GFX

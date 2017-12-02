@@ -20,6 +20,7 @@
 #define _UNITS_H
 
 #include "libs/gfxlib.h"
+#include "options.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -27,7 +28,6 @@ extern "C" {
 
 extern int ScreenWidth;
 extern int ScreenHeight;
-extern unsigned int resolutionFactor; // JMS_GFX
 
 		/* Most basic resolution units. */
 #define SCREEN_WIDTH ScreenWidth

@@ -24,7 +24,6 @@
 		// for TFB_DEBUG_HALT
 
 // JMS_GFX
-unsigned int resolutionFactor;
 int fs_height = 0; 
 int fs_width  = 0;
 // End JMS_GFX

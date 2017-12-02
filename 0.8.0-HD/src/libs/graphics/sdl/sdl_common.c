@@ -91,7 +91,7 @@ TFB_PreQuit (void)
 }
 
 int
-TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int *resolutionFactor) // JMS_GFX: Added resolutionFactor
+TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int *resFactor) // JMS_GFX: Added resFactor
 {
 	int result;
 	int togglefullscreen = 0;
@@ -110,19 +110,19 @@ TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int *
 	{
 #ifdef HAVE_OPENGL
 		result = TFB_GL_ConfigureVideo (driver, flags, width, height,
-				togglefullscreen, *resolutionFactor);
+				togglefullscreen, *resFactor);
 #else
 		driver = TFB_GFXDRIVER_SDL_PURE;
 		log_add (log_Warning, "OpenGL support not compiled in,"
 				" so using pure SDL driver");
 		result = TFB_Pure_ConfigureVideo (driver, flags, width, height,
-				togglefullscreen, resolutionFactor);
+				togglefullscreen, resFactor);
 #endif
 	}
 	else
 	{
 		result = TFB_Pure_ConfigureVideo (driver, flags, width, height,
-				togglefullscreen, *resolutionFactor);
+				togglefullscreen, *resFactor);
 	}
 
 	sprintf (caption, "The Ur-Quan Masters v%d.%d.%d%s",
@@ -139,7 +139,7 @@ TFB_ReInitGraphics (int driver, int flags, int width, int height, unsigned int *
 }
 
 int
-TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *resolutionFactor)
+TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *resFactor)
 {
 	int result, i;
 	char caption[200];
@@ -177,10 +177,10 @@ TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *re
 		}
 
 		// MB: Sanitising resolution factor:
-		if (fs_height <= 600 && *resolutionFactor == 2) { // ie. probably netbook or otherwise
-			*resolutionFactor = 1; // drop down to 640x480. netbook won't be able to handle anything higher and quality difference is minimal
- 		} else if (fs_height <= 300 && resolutionFactor > 0) { // People who like pixels I guess
-			*resolutionFactor = 0; // drop down to 320x240
+		if (fs_height <= 600 && *resFactor == 2) { // ie. probably netbook or otherwise
+			*resFactor = 1; // drop down to 640x480. netbook won't be able to handle anything higher and quality difference is minimal
+ 		} else if (fs_height <= 300 && resFactor > 0) { // People who like pixels I guess
+			*resFactor = 0; // drop down to 320x240
 		}
 		
 		log_add (log_Debug, "fs_height %u, fs_width %u, current_w %u", fs_height, fs_width, SDL_screen_info->current_w);
@@ -189,17 +189,17 @@ TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *re
 	if (driver == TFB_GFXDRIVER_SDL_OPENGL)
 	{
 #ifdef HAVE_OPENGL
-		result = TFB_GL_InitGraphics (driver, flags, width, height, *resolutionFactor);
+		result = TFB_GL_InitGraphics (driver, flags, width, height, *resFactor);
 #else
 		driver = TFB_GFXDRIVER_SDL_PURE;
 		log_add (log_Warning, "OpenGL support not compiled in,"
 				" so using pure SDL driver");
-		result = TFB_Pure_InitGraphics (driver, flags, width, height, *resolutionFactor);
+		result = TFB_Pure_InitGraphics (driver, flags, width, height, *resFactor);
 #endif
 	}
 	else
 	{
-		result = TFB_Pure_InitGraphics (driver, flags, width, height, *resolutionFactor);
+		result = TFB_Pure_InitGraphics (driver, flags, width, height, *resFactor);
 	}
 
 	sprintf (caption, "The Ur-Quan Masters v%d.%d.%d%s", 
