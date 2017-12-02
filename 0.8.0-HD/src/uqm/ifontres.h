@@ -17,4 +17,7 @@
 #define PLYR_FALLBACK_TO1X_FONT "font.plyrfallbackto1x"
 #define PLYR_FALLBACK_TO2X_FONT "font.plyrfallbackto2x"
 #define PLYR_FALLBACK_TO4X_FONT "font.plyrfallbackto4x"
+#define SCON_FALLBACK_TO1X_FONT "font.sconfallbackto1x"
+#define SCON_FALLBACK_TO2X_FONT "font.sconfallbackto2x"
+#define SCON_FALLBACK_TO4X_FONT "font.sconfallbackto4x"
 #define COMPUTER_FONT "comm.computer.font"

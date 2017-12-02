@@ -62,19 +62,21 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	TEXT t;
 	UNICODE buf[64];
 
-	//DC: Load the different menus depending on the resolution factor
-
-	// Re-load the info box font so the text shows in correct size after changing the resolution.
+	// Re-load all of the restart menu fonts so the text shows in correct size after changing the resolution.
 	if (resFactorWasChanged) {	
 		DestroyFont (TinyFont);
 		DestroyFont (PlyrFont);
+		DestroyFont (StarConFont);
 	}
-		
+	
+
+	// DC: Load the different menus and fonts depending on the resolution factor	
 	switch (resolutionFactor){
 		case 1:
 			if (resFactorWasChanged) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO2X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO2X_FONT);
+				StarConFont = LoadFont (SCON_FALLBACK_TO2X_FONT);
 			}
 			pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM2x));
 			break;
@@ -82,6 +84,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 			if (resFactorWasChanged) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO4X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO4X_FONT);
+				StarConFont = LoadFont (SCON_FALLBACK_TO4X_FONT);
 			}
 			pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM4x));
 			break;
@@ -90,6 +93,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 			if (resFactorWasChanged) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO1X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO1X_FONT);
+				StarConFont = LoadFont (SCON_FALLBACK_TO1X_FONT);
 			}
 			pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM));
 			break;
