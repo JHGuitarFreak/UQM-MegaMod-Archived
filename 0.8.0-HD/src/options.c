@@ -82,6 +82,7 @@ DWORD loadFuel;
 BOOLEAN optThraddStory;
 BOOLEAN optPartialPickup;
 BOOLEAN optSubmenu;
+BOOLEAN optAddDevices;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;
