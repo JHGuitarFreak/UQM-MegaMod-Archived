@@ -465,8 +465,9 @@ SetDefaults (void)
 	choices[39].selected = opts.infiniteFuel;
 	choices[40].selected = opts.thraddStory;
 	choices[41].selected = opts.partialPickup;
-	choices[42].selected = opts.submenu;	
+	choices[42].selected = opts.submenu;
 	choices[43].selected = opts.loresBlowup; // JMS
+	choices[44].selected = opts.addDevices;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -526,6 +527,7 @@ PropagateResults (void)
 	opts.partialPickup = choices[41].selected;
 	opts.submenu = choices[42].selected;
 	opts.loresBlowup = choices[43].selected; // JMS
+	opts.addDevices = choices[44].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1439,6 +1441,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->thraddStory = optThraddStory ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->partialPickup = optPartialPickup ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->submenu = optSubmenu ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->addDevices = optAddDevices ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
 
 	// JMS_GFX: 1280x960
@@ -1699,6 +1702,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Show submenu
 	res_PutBoolean ("config.submenu", opts->submenu == OPTVAL_ENABLED);
 	optSubmenu = opts->submenu == OPTVAL_ENABLED;
+	
+	// Serosis: get all devices
+	res_PutBoolean ("config.addDevices", opts->addDevices == OPTVAL_ENABLED);
+	optAddDevices = opts->addDevices == OPTVAL_ENABLED;
 
 	switch (opts->scaler) {
 		case OPTVAL_BILINEAR_SCALE:
