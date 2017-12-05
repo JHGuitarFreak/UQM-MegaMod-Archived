@@ -155,6 +155,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, thraddStory);
 	DECL_CONFIG_OPTION(bool, partialPickup);
 	DECL_CONFIG_OPTION(bool, submenu);
+	DECL_CONFIG_OPTION(bool, addDevices);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -313,6 +314,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  thraddStory,		false),
 		INIT_CONFIG_OPTION(  partialPickup,		false),
 		INIT_CONFIG_OPTION(  submenu,			true),
+		INIT_CONFIG_OPTION(  addDevices,		false),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -467,6 +469,7 @@ main (int argc, char *argv[])
 	optThraddStory = options.thraddStory.value;
 	optPartialPickup = options.partialPickup.value;
 	optSubmenu = options.submenu.value;
+	optAddDevices = options.addDevices.value;
 	resFactorWasChanged = FALSE; // JMS_GFX
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
@@ -793,6 +796,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->thraddStory, "config.thraddStory");
 	getBoolConfigValue (&options->partialPickup, "config.partialPickup");
 	getBoolConfigValue (&options->submenu, "config.submenu");
+	getBoolConfigValue (&options->addDevices, "config.addDevices");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -851,6 +855,7 @@ enum
 	THRADD_OPT,
 	PICKUP_OPT,
 	SUBMENU_OPT,
+	DEVICES_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -917,6 +922,7 @@ static struct option longOptions[] =
 	{"thraddstory", 0, NULL, THRADD_OPT},
 	{"partialpickup", 0, NULL, PICKUP_OPT},
 	{"submenu", 0, NULL, SUBMENU_OPT},
+	{"adddevices", 0, NULL, DEVICES_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1252,6 +1258,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case SUBMENU_OPT:
 				setBoolOption (&options->submenu, true);
 				break;
+			case DEVICES_OPT:
+				setBoolOption (&options->addDevices, true);
+				break;
 			case ADDON_OPT:
 				options->numAddons++;
 				options->addons = HRealloc ((void *) options->addons,
@@ -1512,6 +1521,8 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->submenu));
 	log_add (log_User, "  --dateformat : 0: MMM DD.YYYY | 1: MM.DD.YYYY | "
 			"2: DD MMM.YYYY | 3: DD.MM.YYYY   (default: 0)");
+	log_add (log_User, "  --adddevices : Gives you all available devices    (default: %s)",
+			boolOptString (&defaults->addDevices));
 	log_setOutput (old);
 }
 
