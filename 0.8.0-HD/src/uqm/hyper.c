@@ -297,8 +297,8 @@ FreeHyperData (void)
 		DestroyDrawable (ReleaseDrawable (hyperholes[2]));
 		hyperholes[2] = 0;
 		// BW: TODO left out for demo
-		// DestroyDrawable (ReleaseDrawable (hyperspacesuns));
-		// hyperspacesuns = 0;
+		DestroyDrawable (ReleaseDrawable (hyperspacesuns));
+		hyperspacesuns = 0;
 		DestroyDrawable (ReleaseDrawable (npcbubble));
 		npcbubble = 0;
 	}
@@ -1527,8 +1527,6 @@ SeedUniverse (void)
 			{
 				BYTE star_type;
 
-				int which_spaces_star_gfx;
-
 				ex = SDPtr->star_pt.x;
 				ey = SDPtr->star_pt.y;
 				star_type = STAR_TYPE (SDPtr->Type);
@@ -1622,6 +1620,10 @@ SeedUniverse (void)
 			if (ex > (XOFFS / NUM_RADAR_SCREENS)
 				|| ey > (YOFFS / NUM_RADAR_SCREENS))
 			continue;
+
+			hHyperSpaceElement = AllocHyperElement (&SD[i]);
+			if (hHyperSpaceElement == 0)
+				continue;
 
 			LockElement (hHyperSpaceElement, &HyperSpaceElementPtr);
 			HyperSpaceElementPtr->current.image.frame = SetAbsFrameIndex (

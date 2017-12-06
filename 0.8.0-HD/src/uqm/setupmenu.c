@@ -77,7 +77,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       44
+#define CHOICE_COUNT       45
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -104,7 +104,8 @@ static int choice_widths[CHOICE_COUNT] = {
 	2, 2, 2, 2, 2, 3, 3, 2,	3, 3, 
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2, 3, 2, 2, 2, 2, 3 };
+	2, 2, 2, 2, 3, 2, 2, 2, 2, 3,
+	2 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -174,6 +175,7 @@ static WIDGET *cheat_widgets[] = {
 	(WIDGET *)(&choices[30]),	// Unlock Upgrades
 	(WIDGET *)(&choices[31]),	// Infinite RU
 	(WIDGET *)(&choices[39]),	// Infinite Fuel
+	(WIDGET *)(&choices[44]),	// Add Devices
 	(WIDGET *)(&buttons[1]),	// Exit to Menu
 	NULL };
 	
