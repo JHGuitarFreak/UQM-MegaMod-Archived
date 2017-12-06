@@ -66,7 +66,7 @@ extern int ScreenHeight;
 #define RADAR_X (RES_STAT_SCALE(4) + (SCREEN_WIDTH - STATUS_WIDTH - SAFE_X))	// JMS_GFX
 #define RADAR_WIDTH (STATUS_WIDTH - RES_STAT_SCALE(8))							// JMS_GFX
 #define RADAR_HEIGHT RES_STAT_SCALE(53)											// JMS_GFX
-#define RADAR_Y (SIS_ORG_Y + SIS_SCREEN_HEIGHT - (53 << RESOLUTION_FACTOR))		// JMS_GFX
+#define RADAR_Y (SIS_ORG_Y + SIS_SCREEN_HEIGHT - RADAR_HEIGHT)		// JMS_GFX
 
 		/* Blue boxes which display messages and the green date box. */
 #define SIS_TITLE_BOX_WIDTH    (57 << RESOLUTION_FACTOR)						// JMS_GFX
