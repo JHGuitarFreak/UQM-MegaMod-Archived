@@ -1182,6 +1182,7 @@ PlayerResponseInput (ENCOUNTER_STATE *pES)
 				pES->top_response = response;
 				// RefreshResponses (pES);
 			}
+			RefreshResponses (pES);
 			UnbatchGraphics ();
 		}
 
