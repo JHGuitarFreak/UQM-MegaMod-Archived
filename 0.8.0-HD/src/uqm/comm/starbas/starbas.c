@@ -35,7 +35,7 @@ static void TellMission (RESPONSE_REF R);
 static void SellMinerals (RESPONSE_REF R);
 
 
-static LOCDATA commander_desc =
+static LOCDATA commander_desc_1x =
 {
 	COMMANDER_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -134,6 +134,123 @@ static LOCDATA commander_desc =
 			0, /* AnimFlags */
 			0, 0, /* FrameRate */
 			0, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+	},
+	{ /* AlienTransitionDesc */
+		0, /* StartIndex */
+		0, /* NumFrames */
+		0, /* AnimFlags */
+		0, 0, /* FrameRate */
+		0, 0, /* RestartRate */
+		0, /* BlockMask */
+	},
+	{ /* AlienTalkDesc */
+		4, /* StartIndex */
+		6, /* NumFrames */
+		0, /* AnimFlags */
+		ONE_SECOND / 10, ONE_SECOND / 15, /* FrameRate */
+		ONE_SECOND * 7 / 60, ONE_SECOND / 12, /* RestartRate */
+		0, /* BlockMask */
+	},
+	NULL, /* AlienNumberSpeech - none */
+	/* Filler for loaded resources */
+	NULL, NULL, NULL,
+	NULL,
+	NULL,
+};
+
+static LOCDATA commander_desc_4x =
+{
+	COMMANDER_CONVERSATION, /* AlienConv */
+	NULL, /* init_encounter_func */
+	NULL, /* post_encounter_func */
+	NULL, /* uninit_encounter_func */
+	COMMANDER_PMAP_ANIM, /* AlienFrame */
+	COMMANDER_FONT, /* AlienFont */
+	WHITE_COLOR_INIT, /* AlienTextFColor */
+	BLACK_COLOR_INIT, /* AlienTextBColor */
+	{0, 0}, /* AlienTextBaseline */
+	0, /* SIS_TEXT_WIDTH, */ /* AlienTextWidth */
+	ALIGN_CENTER, /* AlienTextAlign */
+	VALIGN_MIDDLE, /* AlienTextValign */
+	COMMANDER_COLOR_MAP, /* AlienColorMap */
+	COMMANDER_MUSIC, /* AlienSong */
+	NULL_RESOURCE, /* AlienAltSong */
+	0, /* AlienSongFlags */
+	STARBASE_CONVERSATION_PHRASES, /* PlayerPhrases */
+	9, /* NumAnimations */
+	{ /* AlienAmbientArray (ambient animations) */
+		{ /* Blink */
+			1, /* StartIndex */
+			3, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, 0, /* FrameRate */
+			0, ONE_SECOND * 8, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{ /* Running light */
+			10, /* StartIndex */
+			27, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 40, 0, /* FrameRate */
+			ONE_SECOND * 2, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{ /* Flagship picture */
+			37, /* StartIndex */
+			1, /* NumFrames */
+			0, /* AnimFlags */
+			0, 0, /* FrameRate */
+			0, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{ /* Flagship side lights */
+			38, /* StartIndex */
+			2, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND * 2, 0, /* FrameRate */
+			0, ONE_SECOND * 12, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{ /* Arc welder 1 */
+			40, /* StartIndex */
+			8, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 40, 0, /* FrameRate */
+			0, ONE_SECOND * 8, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{ /* Arc welder 2 */
+			48, /* StartIndex */
+			6, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND, 0, /* FrameRate */
+			0, ONE_SECOND * 8, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{ /* Arc welder 3 */
+			54, /* StartIndex */
+			6, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 40, 0, /* FrameRate */
+			0, ONE_SECOND * 8, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{ /* Arc welder 4 */
+			60, /* StartIndex */
+			7, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 40, 0, /* FrameRate */
+			0, ONE_SECOND * 8, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{ /* Arc welder 5 */
+			67, /* StartIndex */
+			11, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 40, 0, /* FrameRate */
+			0, ONE_SECOND * 8, /* RestartRate */
 			0, /* BlockMask */
 		},
 	},
@@ -1016,7 +1133,7 @@ DiscussDevices (BOOLEAN TalkAbout)
 				}
 				break;
 			case ARTIFACT_2_DEVICE:
-				if (GET_GAME_STATE (ARTIFACT_2_ON_SHIP)
+				if (GET_GAME_STATE (WIMBLIS_TRIDENT_ON_SHIP)
 						&& !GET_GAME_STATE (DISCUSSED_ARTIFACT_2))
 				{
 					pStr = ABOUT_ARTIFACT_2;
@@ -1024,7 +1141,7 @@ DiscussDevices (BOOLEAN TalkAbout)
 				}
 				break;
 			case ARTIFACT_3_DEVICE:
-				if (GET_GAME_STATE (ARTIFACT_3_ON_SHIP)
+				if (GET_GAME_STATE (GLOWING_ROD_ON_SHIP)
 						&& !GET_GAME_STATE (DISCUSSED_ARTIFACT_3))
 				{
 					pStr = ABOUT_ARTIFACT_3;
@@ -1794,7 +1911,21 @@ post_starbase_enc (void)
 LOCDATA*
 init_starbase_comm ()
 {
+	static LOCDATA commander_desc;
 	LOCDATA *retval;
+
+	switch (RESOLUTION_FACTOR) {
+		case 2:
+			commander_desc = commander_desc_4x;
+			break;
+		case 1:
+			commander_desc = commander_desc_4x;
+			break;
+		case 0:
+		default:
+			commander_desc = commander_desc_1x;
+			break;
+	}
 
 	commander_desc.init_encounter_func = Intro;
 	commander_desc.post_encounter_func = post_starbase_enc;
@@ -1804,9 +1935,9 @@ init_starbase_comm ()
 			// Initialise Lua for string interpolation. This will be
 			// generalised in the future.
 
-	commander_desc.AlienTextWidth = 143;
-	commander_desc.AlienTextBaseline.x = 164;
-	commander_desc.AlienTextBaseline.y = 20;
+	commander_desc.AlienTextWidth = RES_SIS_SCALE(143); // JMS_GFX
+	commander_desc.AlienTextBaseline.x = RES_SIS_SCALE(164); // JMS_GFX
+	commander_desc.AlienTextBaseline.y = RES_SIS_SCALE(20); // JMS_GFX
 
 	// use alternate Starbase track if available
 	commander_desc.AlienAltSongRes = STARBASE_ALT_MUSIC;

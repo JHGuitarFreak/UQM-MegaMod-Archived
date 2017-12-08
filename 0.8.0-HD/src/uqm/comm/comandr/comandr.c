@@ -19,14 +19,14 @@
 #include "../commall.h"
 #include "resinst.h"
 #include "strings.h"
-
+#include "uqm/units.h"
 #include "uqm/setup.h"
 #include "uqm/sis.h"
 		// for DeltaSISGauges(), DrawLanders()
 #include "libs/graphics/gfx_common.h"
 #include "uqm/lua/luacomm.h"
 
-static LOCDATA commander_desc =
+static LOCDATA commander_desc_1x =
 {
 	COMMANDER_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -69,6 +69,75 @@ static LOCDATA commander_desc =
 			RANDOM_ANIM | COLORXFORM_ANIM,/* AnimFlags */
 			0, ONE_SECOND / 30, /* FrameRate */
 			0, ONE_SECOND / 15, /* RestartRate */
+			0, /* BlockMask */
+		},
+	},
+	{ /* AlienTransitionDesc */
+		0, /* StartIndex */
+		0, /* NumFrames */
+		0, /* AnimFlags */
+		0, 0, /* FrameRate */
+		0, 0, /* RestartRate */
+		0, /* BlockMask */
+	},
+	{ /* AlienTalkDesc */
+		4, /* StartIndex */
+		6, /* NumFrames */
+		0, /* AnimFlags */
+		ONE_SECOND / 10, ONE_SECOND / 15, /* FrameRate */
+		ONE_SECOND * 7 / 60, ONE_SECOND / 12, /* RestartRate */
+		0, /* BlockMask */
+	},
+	NULL, /* AlienNumberSpeech - none */
+	/* Filler for loaded resources */
+	NULL, NULL, NULL,
+	NULL,
+	NULL,
+};
+
+static LOCDATA commander_desc_4x =
+{
+	COMMANDER_CONVERSATION, /* AlienConv */
+	NULL, /* init_encounter_func */
+	NULL, /* post_encounter_func */
+	NULL, /* uninit_encounter_func */
+	COMMANDER_PMAP_ANIM, /* AlienFrame */
+	COMMANDER_FONT, /* AlienFont */
+	WHITE_COLOR_INIT, /* AlienTextFColor */
+	BLACK_COLOR_INIT, /* AlienTextBColor */
+	{0, 0}, /* AlienTextBaseline */
+	0, /* SIS_TEXT_WIDTH, */ /* AlienTextWidth */
+	ALIGN_CENTER, /* AlienTextAlign */
+	VALIGN_MIDDLE, /* AlienTextValign */
+	COMMANDER_COLOR_MAP, /* AlienColorMap */
+	COMMANDER_MUSIC, /* AlienSong */
+	NULL_RESOURCE, /* AlienAltSong */
+	0, /* AlienSongFlags */
+	COMMANDER_CONVERSATION_PHRASES, /* PlayerPhrases */
+	3, /* NumAnimations */
+	{ /* AlienAmbientArray (ambient animations) */
+		{ /* Blink */
+			1, /* StartIndex */
+			3, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, 0, /* FrameRate */
+			0, ONE_SECOND * 8, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{ /* Running light */
+			10, /* StartIndex */
+			27, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 40, 0, /* FrameRate */
+			ONE_SECOND * 2, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{ /* Staticcy, noisy anim before radioactives arrive */
+			78, /* StartIndex */
+			6, /* NumFrames */
+			RANDOM_ANIM,/* AnimFlags */
+			0, ONE_SECOND / 5, /* FrameRate */
+			0, ONE_SECOND / 4, /* RestartRate */
 			0, /* BlockMask */
 		},
 	},
@@ -554,7 +623,16 @@ GiveRadios (RESPONSE_REF R)
 		NPCPhrase (FUEL_UP1);		
 		AlienTalkSegue (1);
 
-		CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
+		// JMS_GFX: Disable noisy static animation in hi-res.
+		if (RESOLUTION_FACTOR > 0) {
+			CommData.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
+			CommData.AlienAmbientArray[0].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[1].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
+		}
+		// End color transform anim in lo-res.
+		else
+			CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
 
 		XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
@@ -643,7 +721,22 @@ post_commander_enc (void)
 LOCDATA*
 init_commander_comm ()
 {
+	static LOCDATA commander_desc;
 	LOCDATA *retval;
+
+	// JMS_GFX
+	switch (RESOLUTION_FACTOR) {
+		case 2:
+			commander_desc = commander_desc_4x;
+			break;
+		case 1:
+			commander_desc = commander_desc_4x;
+			break;
+		case 0:
+		default:
+			commander_desc = commander_desc_1x;
+			break;
+	}
 
 	commander_desc.init_encounter_func = Intro;
 	commander_desc.post_encounter_func = post_commander_enc;
@@ -655,21 +748,36 @@ init_commander_comm ()
 
 	if (GET_GAME_STATE (RADIOACTIVES_PROVIDED))
 	{
+		// JMS_GFX: Disable noisy static animation in hi-res.
+		if (RESOLUTION_FACTOR > 0)
+		{
+			commander_desc.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
+			commander_desc.AlienAmbientArray[0].AnimFlags &= ~ANIM_DISABLED;
+			commander_desc.AlienAmbientArray[1].AnimFlags &= ~ANIM_DISABLED;
+		}
 		commander_desc.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
 		// regular track -- let's make sure
 		commander_desc.AlienSongFlags &= ~LDASF_USE_ALTERNATE;
 	}
 	else
 	{	
+		// JMS_GFX: Enable noisy static animation in hi-res.
+		if (RESOLUTION_FACTOR > 0)
+		{
+			commander_desc.AlienTalkDesc.AnimFlags |= PAUSE_TALKING;
+			commander_desc.AlienAmbientArray[0].AnimFlags |= ANIM_DISABLED;
+			commander_desc.AlienAmbientArray[1].AnimFlags |= ANIM_DISABLED;
+		}
 		commander_desc.AlienAmbientArray[2].AnimFlags &= ~ANIM_DISABLED;
 		// use alternate 'low-power' track if available
 		commander_desc.AlienAltSongRes = COMMANDER_LOWPOW_MUSIC;
 		commander_desc.AlienSongFlags |= LDASF_USE_ALTERNATE;
 	}
 
-	commander_desc.AlienTextWidth = 143;
-	commander_desc.AlienTextBaseline.x = 164;
-	commander_desc.AlienTextBaseline.y = 20;
+	// JMS_GFX
+	commander_desc.AlienTextWidth = RES_SIS_SCALE(143); // JMS_GFX
+	commander_desc.AlienTextBaseline.x = RES_SIS_SCALE(164); // JMS_GFX
+	commander_desc.AlienTextBaseline.y = RES_SIS_SCALE(20); // JMS_GFX
 
 	setSegue (Segue_peace);
 	retval = &commander_desc;
