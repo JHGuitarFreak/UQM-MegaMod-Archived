@@ -184,12 +184,11 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 	Stamp.origin.y = (31 << RESOLUTION_FACTOR) + y;
 	Stamp.frame = IncFrameIndex (SIPtr->icons);
 	DrawStamp (&Stamp);
-
+	
 	{
 		SIZE crew_height, energy_height;
-
+		
 #define MIN(a, b) (((a) <= (b)) ? (a) : (b))
-		// At basic resolution.
 		if (RESOLUTION_FACTOR == 0) {
 			crew_height = ((MIN(SIPtr->max_crew, MAX_CREW_SIZE) + 1) & ~1) + 1;
 			energy_height = (((SIPtr->max_energy + 1) >> 1) << 1) + 1;
@@ -201,10 +200,8 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 			energy_height = (((SIPtr->max_energy + 1) >> 1) * 5) + 1;
 		}
 #undef MIN
-		energy_height = (((SIPtr->max_energy + 1) >> 1) << 1) + 1;
-
-		SetContextForeGroundColor (
-				BUILD_COLOR (MAKE_RGB15 (0x08, 0x08, 0x08), 0x1F));
+		
+		SetContextForeGroundColor (BUILD_COLOR (MAKE_RGB15 (0x08, 0x08, 0x08), 0x1F));
 		r.corner.x = CREW_XOFFS - 1;
 		r.corner.y = GAUGE_YOFFS + 1 + y;
 		r.extent.width = STAT_WIDTH + 2;
@@ -222,8 +219,7 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 		r.extent.width = 1;
 		r.extent.height = crew_height;
 		DrawFilledRectangle (&r);
-		SetContextForeGroundColor (
-				BUILD_COLOR (MAKE_RGB15 (0x10, 0x10, 0x10), 0x19));
+		SetContextForeGroundColor (BUILD_COLOR (MAKE_RGB15 (0x10, 0x10, 0x10), 0x19));
 		r.corner.x = CREW_XOFFS - 1;
 		r.corner.y = GAUGE_YOFFS - crew_height + y;
 		r.extent.width = STAT_WIDTH + 2;
@@ -239,9 +235,9 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 		r.corner.y = GAUGE_YOFFS - crew_height + y;
 		r.extent.height = crew_height + 1;
 		DrawFilledRectangle (&r);
-
+		
 		SetContextForeGroundColor (BLACK_COLOR);
-
+		
 		r.extent.width = STAT_WIDTH;
 		r.corner.x = CREW_XOFFS;
 		r.extent.height = crew_height;
