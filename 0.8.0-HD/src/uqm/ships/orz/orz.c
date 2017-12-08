@@ -504,7 +504,7 @@ spawn_marine_ion_trail (ELEMENT *ElementPtr, STARSHIP *StarShipPtr,
 				// 'cycle_ion_trail', it is given new life a number of
 				// times, by setting life_span to thrust_wait.
 		SetPrimType (&(GLOBAL (DisplayArray))[IonElementPtr->PrimIndex],
-				POINT_PRIM);
+				POINT_PRIM); // Actual marine ion trail
 		SetPrimColor (&(GLOBAL (DisplayArray))[IonElementPtr->PrimIndex],
 				START_ION_COLOR);
 		IonElementPtr->colorCycleIndex = 0;
