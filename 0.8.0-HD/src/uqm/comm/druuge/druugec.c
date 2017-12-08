@@ -228,9 +228,9 @@ Buy (RESPONSE_REF R)
 		NPCPhrase (READY_TO_SELL);
 		if (!GET_GAME_STATE (ROSY_SPHERE))
 			NPCPhrase (HAVE_SPHERE);
-		if (!GET_GAME_STATE (ARTIFACT_2_ON_SHIP))
+		if (!GET_GAME_STATE (WIMBLIS_TRIDENT_ON_SHIP))
 			NPCPhrase (HAVE_ART_1);
-		if (!GET_GAME_STATE (ARTIFACT_3_ON_SHIP))
+		if (!GET_GAME_STATE (GLOWING_ROD_ON_SHIP))
 			NPCPhrase (HAVE_ART_2);
 		NPCPhrase (SHIPS_AND_FUEL);
 
@@ -275,7 +275,7 @@ Buy (RESPONSE_REF R)
 		{
 			DeltaSISGauges (-ARTIFACT_CREW_COST, 0, 0);
 			SlaveryCount += ARTIFACT_CREW_COST;
-			SET_GAME_STATE (ARTIFACT_2_ON_SHIP, 1);
+			SET_GAME_STATE (WIMBLIS_TRIDENT_ON_SHIP, 1);
 
 			NPCPhrase (BOUGHT_ART_1);
 		}
@@ -288,7 +288,7 @@ Buy (RESPONSE_REF R)
 		{
 			DeltaSISGauges (-ARTIFACT_CREW_COST, 0, 0);
 			SlaveryCount += ARTIFACT_CREW_COST;
-			SET_GAME_STATE (ARTIFACT_3_ON_SHIP, 1);
+			SET_GAME_STATE (GLOWING_ROD_ON_SHIP, 1);
 
 			NPCPhrase (BOUGHT_ART_2);
 		}
@@ -311,9 +311,9 @@ Buy (RESPONSE_REF R)
 	Response (buy_druuge_ship, Buy);
 	if (!GET_GAME_STATE (ROSY_SPHERE))
 		Response (buy_rosy_sphere, Buy);
-	if (!GET_GAME_STATE (ARTIFACT_2_ON_SHIP))
+	if (!GET_GAME_STATE (WIMBLIS_TRIDENT_ON_SHIP))
 		Response (buy_art_1, Buy);
-	if (!GET_GAME_STATE (ARTIFACT_3_ON_SHIP))
+	if (!GET_GAME_STATE (GLOWING_ROD_ON_SHIP))
 		Response (buy_art_2, Buy);
 	Response (buy_fuel, Buy);
 	Response (done_buying, TradeWorld);
