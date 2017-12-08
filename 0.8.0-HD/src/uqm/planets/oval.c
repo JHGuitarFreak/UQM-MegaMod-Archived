@@ -133,7 +133,7 @@ DrawOval (RECT *pRect, BYTE num_off_pixels)
 		if (quad_visible & (1 << x))
 		{
 			SetPrimNextLink (&prim[x], StartPrim);
-			SetPrimType (&prim[x], POINT_PRIM);
+			SetPrimType (&prim[x], POINT_PRIM); // Orbit dots
 			SetPrimColor (&prim[x], _get_context_fg_color ());
 
 			StartPrim = x;
