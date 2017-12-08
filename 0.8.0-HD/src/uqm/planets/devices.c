@@ -576,10 +576,10 @@ InventoryDevices (BYTE *pDeviceMap, COUNT Size)
 				DeviceState = GET_GAME_STATE (ROSY_SPHERE_ON_SHIP);
 				break;
 			case ARTIFACT_2_DEVICE:
-				DeviceState = GET_GAME_STATE (ARTIFACT_2_ON_SHIP);
+				DeviceState = GET_GAME_STATE (WIMBLIS_TRIDENT_ON_SHIP);
 				break;
 			case ARTIFACT_3_DEVICE:
-				DeviceState = GET_GAME_STATE (ARTIFACT_3_ON_SHIP);
+				DeviceState = GET_GAME_STATE (GLOWING_ROD_ON_SHIP);
 				break;
 			case SUN_EFFICIENCY_DEVICE:
 				DeviceState = GET_GAME_STATE (SUN_DEVICE_ON_SHIP);

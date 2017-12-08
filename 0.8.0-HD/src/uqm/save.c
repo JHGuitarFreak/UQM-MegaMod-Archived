@@ -168,8 +168,8 @@ const GameStateBitMap gameStateBitMap[] = {
 	{ "MOONBASE_DESTROYED", 1 },
 	{ "WILL_DESTROY_BASE", 1 },
 
-	{ "ARTIFACT_2_ON_SHIP", 1 },
-	{ "ARTIFACT_3_ON_SHIP", 1 },
+	{ "WIMBLIS_TRIDENT_ON_SHIP", 1 },
+	{ "GLOWING_ROD_ON_SHIP", 1 },
 
 	{ "KOHR_AH_KILLED_ALL", 1 },
 
