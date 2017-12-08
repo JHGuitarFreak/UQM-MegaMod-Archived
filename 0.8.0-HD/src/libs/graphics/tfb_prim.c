@@ -28,6 +28,7 @@
 #include "cmap.h"
 #include "libs/log.h"
 #include "uqm/units.h"
+#include "uqm/planets/planets.h"
 
 void
 TFB_Prim_Point (POINT *p, Color color, DrawMode mode, POINT ctxOrigin, BOOLEAN forHD)
@@ -39,10 +40,15 @@ TFB_Prim_Point (POINT *p, Color color, DrawMode mode, POINT ctxOrigin, BOOLEAN f
 	r.corner.y = p->y + ctxOrigin.y;
 	r.extent.width = r.extent.height = (forHD ? (1 << RESOLUTION_FACTOR) : 1);
 
-	if (_CurFramePtr->Type == SCREEN_DRAWABLE)
-		TFB_DrawScreen_Rect (&r, color, mode, TFB_SCREEN_MAIN);
-	else
-		TFB_DrawImage_Rect (&r, color, mode, _CurFramePtr->image);
+	if (!forHD){
+		if (_CurFramePtr->Type == SCREEN_DRAWABLE)
+			TFB_DrawScreen_Rect (&r, color, mode, TFB_SCREEN_MAIN);
+		else
+			TFB_DrawImage_Rect (&r, color, mode, _CurFramePtr->image);
+	} else {
+		DrawFilledOval(&r);
+		SetContextForeGroundColor (BUILD_COLOR (MAKE_RGB15 (0x00, 0x14, 0x00), 0x02));
+	}
 }
 
 void
