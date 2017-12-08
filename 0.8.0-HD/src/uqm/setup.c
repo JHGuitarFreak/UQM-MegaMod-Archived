@@ -127,13 +127,6 @@ LoadKernel (int argc, char *argv[])
 		return FALSE; // Must have at least one index in content dir
 
 	/* Load addons demanded by the current configuration. */
-	if(loadAddon("sero-setup-080-hd")){
-		printf("Loading Sero-Setup \n");
-		log_add (log_Debug, "loading sero-setup-080\n");
-	} else {
-		log_add (log_Fatal, "\nPANIC: Sero Setup not found in addons directory!\n");
-		exit (EXIT_FAILURE);
- 	}
 
 	switch (resolutionFactor) {
 		case 1:

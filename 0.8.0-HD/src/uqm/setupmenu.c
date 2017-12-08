@@ -77,7 +77,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       45
+#define CHOICE_COUNT       46
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -105,7 +105,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
 	2, 2, 2, 2, 3, 2, 2, 2, 2, 3,
-	2 };
+	2, 2 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -134,7 +134,8 @@ static WIDGET *graphics_widgets[] = {
 	(WIDGET *)(&choices[10]),	// Display
 	(WIDGET *)(&sliders[3]),	// Gamma Correction
 	(WIDGET *)(&choices[2]),	// Scaler
-	(WIDGET *)(&choices[3]),	// Scanlines
+	(WIDGET *)(&choices[3]),	// Scanlines	
+	(WIDGET *)(&choices[12]),	// Show FPS
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -156,7 +157,9 @@ static WIDGET *audio_widgets[] = {
 	(WIDGET *)(&sliders[0]),	// Music Volume
 	(WIDGET *)(&sliders[1]),	// SFX Volume
 	(WIDGET *)(&sliders[2]),	// Speech Volume
-	(WIDGET *)(&choices[14]),	// Positional Audio
+	(WIDGET *)(&choices[14]),	// Positional Audio	
+	(WIDGET *)(&choices[15]),	// Sound Driver
+	(WIDGET *)(&choices[16]),	// Sound Quality
 	(WIDGET *)(&choices[9]),	// 3DO Remixes
 	(WIDGET *)(&choices[21]),	// Precursor's Remixes
 	(WIDGET *)(&choices[22]),	// Speech
@@ -188,12 +191,10 @@ static WIDGET *keyconfig_widgets[] = {
 	NULL };
 
 static WIDGET *advanced_widgets[] = {
-	(WIDGET *)(&choices[12]),	// Show FPS
-	(WIDGET *)(&choices[15]),	// Sound Driver
-	(WIDGET *)(&choices[16]),	// Sound Quality
 	(WIDGET *)(&choices[35]),	// JMS: IP nebulae on/off
 	(WIDGET *)(&choices[36]),	// JMS: orbitingPlanets on/off
 	(WIDGET *)(&choices[37]),	// JMS: texturedPlanets on/off
+	(WIDGET *)(&choices[45]),	// Serosis: Scaled Planets
 	(WIDGET *)(&choices[38]),	// Nic: Switch date formats
 	(WIDGET *)(&choices[40]),	// Serosis: Thraddash Story switch
 	(WIDGET *)(&choices[41]),	// Serosis: Partial Pickup switch
@@ -470,6 +471,7 @@ SetDefaults (void)
 	choices[42].selected = opts.submenu;
 	choices[43].selected = opts.loresBlowup; // JMS
 	choices[44].selected = opts.addDevices;
+	choices[45].selected = opts.scalePlanets;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -530,6 +532,7 @@ PropagateResults (void)
 	opts.submenu = choices[42].selected;
 	opts.loresBlowup = choices[43].selected; // JMS
 	opts.addDevices = choices[44].selected;
+	opts.scalePlanets = choices[45].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1444,6 +1447,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->partialPickup = optPartialPickup ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->submenu = optSubmenu ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->addDevices = optAddDevices ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->scalePlanets = optScalePlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
 
 	// JMS_GFX: 1280x960
@@ -1708,6 +1712,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: get all devices
 	res_PutBoolean ("config.addDevices", opts->addDevices == OPTVAL_ENABLED);
 	optAddDevices = opts->addDevices == OPTVAL_ENABLED;
+	
+	// Serosis: Scale Planets in HD
+	res_PutBoolean ("config.scalePlanets", opts->scalePlanets == OPTVAL_ENABLED);
+	optScalePlanets = opts->scalePlanets == OPTVAL_ENABLED;
 
 	switch (opts->scaler) {
 		case OPTVAL_BILINEAR_SCALE:
