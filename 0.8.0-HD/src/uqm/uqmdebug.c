@@ -187,12 +187,12 @@ void
 debugKeyPressedSynchronous (void)
 {
 	// State modifying:
-	equipShip ();
-	giveDevices ();
+//	equipShip ();
+//	giveDevices ();
 
 	// Give the player the ships you can't ally with under normal
 	// conditions.
-	clearEscorts ();
+	/*clearEscorts ();
 	AddEscortShips (ARILOU_SHIP, 1);
 	AddEscortShips (PKUNK_SHIP, 1);
 	AddEscortShips (VUX_SHIP, 1);
@@ -204,14 +204,14 @@ debugKeyPressedSynchronous (void)
 	AddEscortShips (SLYLANDRO_SHIP, 1);
 	AddEscortShips (UMGAH_SHIP, 1);
 	AddEscortShips (URQUAN_SHIP, 1);
-	AddEscortShips (BLACK_URQUAN_SHIP, 1);
+	AddEscortShips (BLACK_URQUAN_SHIP, 1);*/
 
-	resetCrewBattle ();
-	resetEnergyBattle ();
-	instantMove = !instantMove;
+//	resetCrewBattle ();
+//	resetEnergyBattle ();
+//	instantMove = !instantMove;
 	showSpheres ();
-	activateAllShips ();
-//	forwardToNextEvent (TRUE);
+//	activateAllShips ();
+	forwardToNextEvent (TRUE);
 //	SET_GAME_STATE (MELNORME_CREDIT1, 100);
 //	GLOBAL_SIS (ResUnits) = 100000;
 
@@ -489,8 +489,8 @@ equipShip (void)
 void
 giveDevices (void) {
 	SET_GAME_STATE (ROSY_SPHERE_ON_SHIP, 1);
-	SET_GAME_STATE (ARTIFACT_2_ON_SHIP, 1);
-	SET_GAME_STATE (ARTIFACT_3_ON_SHIP, 1);
+	SET_GAME_STATE (WIMBLIS_TRIDENT_ON_SHIP, 1);
+	SET_GAME_STATE (GLOWING_ROD_ON_SHIP, 1);
 	SET_GAME_STATE (SUN_DEVICE_ON_SHIP, 1);
 	SET_GAME_STATE (UTWIG_BOMB_ON_SHIP, 1);
 	SET_GAME_STATE (ULTRON_CONDITION, 1);
