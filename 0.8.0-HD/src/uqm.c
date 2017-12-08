@@ -156,6 +156,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, partialPickup);
 	DECL_CONFIG_OPTION(bool, submenu);
 	DECL_CONFIG_OPTION(bool, addDevices);
+	DECL_CONFIG_OPTION(bool, scalePlanets);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -315,6 +316,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  partialPickup,		false),
 		INIT_CONFIG_OPTION(  submenu,			true),
 		INIT_CONFIG_OPTION(  addDevices,		false),
+		INIT_CONFIG_OPTION(  scalePlanets,		true),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -470,6 +472,7 @@ main (int argc, char *argv[])
 	optPartialPickup = options.partialPickup.value;
 	optSubmenu = options.submenu.value;
 	optAddDevices = options.addDevices.value;
+	optScalePlanets = options.scalePlanets.value;
 	resFactorWasChanged = FALSE; // JMS_GFX
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
@@ -797,6 +800,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->partialPickup, "config.partialPickup");
 	getBoolConfigValue (&options->submenu, "config.submenu");
 	getBoolConfigValue (&options->addDevices, "config.addDevices");
+	getBoolConfigValue (&options->scalePlanets, "config.scalePlanets");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -856,6 +860,7 @@ enum
 	PICKUP_OPT,
 	SUBMENU_OPT,
 	DEVICES_OPT,
+	SCALEPLAN_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -923,6 +928,7 @@ static struct option longOptions[] =
 	{"partialpickup", 0, NULL, PICKUP_OPT},
 	{"submenu", 0, NULL, SUBMENU_OPT},
 	{"adddevices", 0, NULL, DEVICES_OPT},
+	{"scaledevices", 0, NULL, SCALEPLAN_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1261,6 +1267,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case DEVICES_OPT:
 				setBoolOption (&options->addDevices, true);
 				break;
+			case SCALEPLAN_OPT:
+				setBoolOption (&options->scalePlanets, true);
+				break;
 			case ADDON_OPT:
 				options->numAddons++;
 				options->addons = HRealloc ((void *) options->addons,
@@ -1476,6 +1485,7 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_add (log_User, "  --scroll    : ff/frev during comm.  pc=per-page, "
 			"3do=smooth (default: %s)",
 			choiceOptString (&defaults->smoothScroll));
+
 	log_add (log_User, "The following options are for the Mega Mod"); // Serosis
 	log_add (log_User, "  --kohrstahp : Stops Kohr-Ah advancing.    (default: %s)",
 			boolOptString (&defaults->cheatMode));
@@ -1523,6 +1533,8 @@ usage (FILE *out, const struct options_struct *defaults)
 			"2: DD MMM.YYYY | 3: DD.MM.YYYY   (default: 0)");
 	log_add (log_User, "  --adddevices : Gives you all available devices    (default: %s)",
 			boolOptString (&defaults->addDevices));
+	log_add (log_User, "  --scaleplanets : Scales textured planets in HD    (default: %s)",
+			boolOptString (&defaults->scalePlanets));
 	log_setOutput (old);
 }
 
