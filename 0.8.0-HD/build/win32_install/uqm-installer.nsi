@@ -328,24 +328,25 @@ SectionGroup "!UQM" SECGRP01
     SectionIn 1 2 3 4 5 6 RO
     SetOutPath "$INSTDIR"
     SetOverwrite try
-    File "AUTHORS.txt"
-    File "COPYING.txt"
+    File "keyjam.exe"
+    File "UrQuanMasters.exe"
+    File "jpeg.dll"
     File "libpng12-0.dll"
-    File "Manual.txt"
     File "ogg.dll"
     File "OpenAL32.dll"
-    File "wrap_oal.dll"
-    File "README.txt"
-    File "README-SDL.txt"
     File "SDL.dll"
-    File "SDL_image.dll"
     File "SDL_gfx.dll"
-    File "uqm.exe"
-    File "keyjam.exe"
+    File "SDL_image.dll"
     File "vorbis.dll"
     File "vorbisfile.dll"
-    File "WhatsNew.txt"
+    File "wrap_oal.dll"
     File "zlib1.dll"
+    File "AUTHORS.txt"
+    File "COPYING.txt"
+    File "Manual.txt"
+    File "README.txt"
+    File "README-SDL.txt"
+    File "WhatsNew.txt"
     SetOutPath $UQMUSERDATA
     SetOverwrite try
     File "uqm-pc.cfg"
@@ -382,8 +383,8 @@ SectionGroup "!UQM" SECGRP01
     AddSize ${PKG_CONTENT_SIZE}
     StrCpy $MANDATORY 1
     StrCpy $MD5SUM "${PKG_CONTENT_MD5SUM}"
-    File "..\..\content\version"
-    StrCpy $DOWNLOADPATH "UQM/0.7/"
+    File "content\version"
+    StrCpy $DOWNLOADPATH "UQM/0.8/"
     Push "${PKG_CONTENT_FILE}"
     Push "$INSTDIR\content\packages"
     Call HandlePackage
@@ -405,7 +406,7 @@ SectionGroup /e "3DO Content" SECGRP02
     AddSize ${PKG_3DOMUSIC_SIZE}
     StrCpy $MANDATORY 0
     StrCpy $MD5SUM "${PKG_3DOMUSIC_MD5SUM}"
-    StrCpy $DOWNLOADPATH "UQM/0.7/"
+    StrCpy $DOWNLOADPATH "UQM/0.8/"
     Push "${PKG_3DOMUSIC_FILE}"
     Push "$INSTDIR\content\addons"
     Call HandlePackage
@@ -419,7 +420,7 @@ SectionGroup /e "3DO Content" SECGRP02
     AddSize ${PKG_VOICE_SIZE}
     StrCpy $MANDATORY 0
     StrCpy $MD5SUM "${PKG_VOICE_MD5SUM}"
-    StrCpy $DOWNLOADPATH "UQM/0.7/"
+    StrCpy $DOWNLOADPATH "UQM/0.8/"
     Push "${PKG_VOICE_FILE}"
     Push "$INSTDIR\content\addons"
     Call HandlePackage
