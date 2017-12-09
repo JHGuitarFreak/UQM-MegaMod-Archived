@@ -297,12 +297,12 @@ FreeHyperData (void)
 		DestroyDrawable (ReleaseDrawable (hyperholes[2]));
 		hyperholes[2] = 0;
 		// BW: TODO left out for demo
-		DestroyDrawable (ReleaseDrawable (hyperspacesuns));
-		hyperspacesuns = 0;
+		// DestroyDrawable (ReleaseDrawable (hyperspacesuns));
+		// hyperspacesuns = 0;
 		DestroyDrawable (ReleaseDrawable (npcbubble));
 		npcbubble = 0;
 	}
-
+	
 	DestroyDrawable (ReleaseDrawable (hyperstars[0]));
 	hyperstars[0] = 0;
 	DestroyDrawable (ReleaseDrawable (hyperstars[1]));
@@ -332,7 +332,7 @@ LoadHyperData (void)
 		}
 		npcbubble = CaptureDrawable (LoadGraphic (NPCBUBBLE_MASK_PMAP_ANIM));
 	}
-
+	
 	if (hyperstars[0] == 0) {
 		hyperstars[0] = CaptureDrawable (
 				LoadGraphic (AMBIENT_MASK_PMAP_ANIM));
@@ -341,7 +341,7 @@ LoadHyperData (void)
 		hyperstars[2] = CaptureDrawable (
 				LoadGraphic (ARISPACE_MASK_PMAP_ANIM));
 
-		hypercmaps[0] = CaptureColorMap (LoadColorMap (HYPER_COLOR_TAB));
+		hypercmaps[0] = CaptureColorMap (LoadColorMap (HYPER_COLOR_TAB));		
 		hypercmaps[1] = CaptureColorMap (LoadColorMap (ARISPACE_COLOR_TAB));
 	}
 }
@@ -1621,7 +1621,7 @@ SeedUniverse (void)
 				|| ey > (YOFFS / NUM_RADAR_SCREENS))
 			continue;
 
-			hHyperSpaceElement = AllocHyperElement (&SD[i]);
+			hHyperSpaceElement = AllocHyperElement (&SD[i].star_pt);
 			if (hHyperSpaceElement == 0)
 				continue;
 
@@ -1667,14 +1667,10 @@ SeedUniverse (void)
 					|| ey > (YOFFS / NUM_RADAR_SCREENS))
 				continue;
 
-			hHyperSpaceElement = AllocHyperElement (&SDPtr->star_pt);
-			if (hHyperSpaceElement == 0)
-				continue;
-
 			star_type = SDPtr->Type;
 
 			if (RESOLUTION_FACTOR == 0) {
-				hHyperSpaceElement = AllocHyperElement (SDPtr);
+				hHyperSpaceElement = AllocHyperElement (&SDPtr->star_pt);
 				if (hHyperSpaceElement == 0)
 					continue;
 				
@@ -1709,9 +1705,9 @@ SeedUniverse (void)
 				if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1 
 					|| ((GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1) && STAR_COLOR (star_type) == YELLOW_BODY))
 				{
-					hHyperSpaceElement = AllocHyperElement (SDPtr);
+					hHyperSpaceElement = AllocHyperElement (&SDPtr->star_pt);
 					if (hHyperSpaceElement == 0)
-					continue;
+						continue;
 				
 					LockElement (hHyperSpaceElement, &HyperSpaceElementPtr);
 				
@@ -1757,7 +1753,7 @@ SeedUniverse (void)
 				}
 				
 				// BW: and then the animated hyperspace portal
-				hHyperSpaceElement = AllocHyperElement (SDPtr);
+				hHyperSpaceElement = AllocHyperElement (&SDPtr->star_pt);
 				if (hHyperSpaceElement == 0)
 					continue;
 				
