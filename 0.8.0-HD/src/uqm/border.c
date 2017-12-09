@@ -61,19 +61,19 @@ DrawSISFrame (void)
 		r.extent.width = SIS_ORG_X + SIS_SCREEN_WIDTH + 1;
 		r.extent.height = SIS_ORG_Y - 1;
 		DrawFilledRectangle (&r);
-			//
+			// Inside Left Border
 		r.corner.x = 0;
 		r.corner.y = 0;
 		r.extent.width = SIS_ORG_X - 1;
 		r.extent.height = SIS_ORG_Y + SIS_SCREEN_HEIGHT + 1;
 		DrawFilledRectangle (&r);
-			//
+			// Bottom left of the border
 		r.corner.x = 0;
 		r.corner.y = r.extent.height;
 		r.extent.width = SIS_ORG_X + SIS_SCREEN_WIDTH + 1;
 		r.extent.height = SCREEN_HEIGHT - SIS_ORG_Y + SIS_SCREEN_HEIGHT;
 		DrawFilledRectangle (&r);
-			//
+			// Top right inside border
 		r.corner.x = SIS_ORG_X + SIS_SCREEN_WIDTH + 1;
 		r.corner.y = 0;
 		r.extent.width = SCREEN_WIDTH - r.corner.x;
@@ -112,7 +112,7 @@ DrawSISFrame (void)
 		SetContextForeGroundColor (BLACK_COLOR);
 		r.corner.x = SAFE_X + SPACE_WIDTH - 1;
 		r.corner.y = 0;
-		r.extent.width = 1; // JMS_GFX
+		r.extent.width = 1;
 		r.extent.height = SCREEN_HEIGHT;
 		DrawFilledRectangle (&r);
 		
@@ -175,7 +175,7 @@ DrawSISFrame (void)
 		SetContextForeGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x08, 0x08, 0x08), 0x1F));
 		// Vertical line on the right side of the big blue box
-		r.corner.y = 0; // JMS_GFX
+		r.corner.y = 1; // There was a reason this was supposed to be "1": Serosis
 		r.extent.width = 1;
 		r.extent.height = SAFE_Y + SIS_MESSAGE_HEIGHT;
 		r.corner.x = SIS_ORG_X + SIS_MESSAGE_BOX_WIDTH;
