@@ -78,20 +78,27 @@
 		 * InitWeaponSlots */
 #define MAX_TRACKING 3
 #define TRACKER_ENERGY_COST 3
-#define BLASTER_OFFSET 8
-#define SIS_VERT_OFFSET 28
+#define BLASTER_OFFSET RES_SCALE(8)
+#define SIS_VERT_OFFSET RES_SCALE(28)
 		/* Used for foward, spread, and rear slots */
-#define SIS_HORZ_OFFSET 20
+#define SIS_HORZ_OFFSET RES_SCALE(20)
 		/* Used for side slot */
-
 
 /* Secondary weapon */
 #define SPECIAL_ENERGY_COST 0
 		/* Increased by 1 for each point defense module */
 #define ANTIMISSILE_ENERGY_INC 1
 #define SPECIAL_WAIT 9
-#define LASER_RANGE (UWORD)100
+#define LASER_RANGE (UWORD)RES_SCALE(100)
 #define MAX_DEFENSE 8
+
+// HD
+#define MAX_THRUST_2XRES 20
+#define THRUST_INCREMENT_2XRES 8
+#define BLASTER_SPEED_2XRES DISPLAY_TO_WORLD (48)
+#define MAX_THRUST_4XRES 40
+#define THRUST_INCREMENT_4XRES 16
+#define BLASTER_SPEED_4XRES DISPLAY_TO_WORLD (96)
 
 
 static RACE_DESC sis_desc =
@@ -166,6 +173,152 @@ static RACE_DESC sis_desc =
 	0, /* CodeRef */
 };
 
+// JMS_GFX
+static RACE_DESC sis_desc_2xres =
+{
+	{ /* SHIP_INFO */
+		"flagship",
+		0,
+		16, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		NULL_RESOURCE,
+		SIS_ICON_MASK_PMAP_ANIM,
+		NULL_RESOURCE,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		0, /* Initial sphere of influence radius */
+		{ /* Known location (center of SoI) */
+			0, 0,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			SIS_BIG_MASK_PMAP_ANIM,
+			SIS_MED_MASK_PMAP_ANIM,
+			SIS_SML_MASK_PMAP_ANIM,
+		},
+		{
+			BLASTER_BIG_MASK_PMAP_ANIM,
+			BLASTER_MED_MASK_PMAP_ANIM,
+			BLASTER_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			SIS_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		SIS_VICTORY_SONG,
+		SIS_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		BLASTER_SPEED_2XRES * BLASTER_LIFE,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC sis_desc_4xres =
+{
+	{ /* SHIP_INFO */
+		"flagship",
+		0,
+		16, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		NULL_RESOURCE,
+		SIS_ICON_MASK_PMAP_ANIM,
+		NULL_RESOURCE,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		0, /* Initial sphere of influence radius */
+		{ /* Known location (center of SoI) */
+			0, 0,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			SIS_BIG_MASK_PMAP_ANIM,
+			SIS_MED_MASK_PMAP_ANIM,
+			SIS_SML_MASK_PMAP_ANIM,
+		},
+		{
+			BLASTER_BIG_MASK_PMAP_ANIM,
+			BLASTER_MED_MASK_PMAP_ANIM,
+			BLASTER_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			SIS_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		SIS_VICTORY_SONG,
+		SIS_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		BLASTER_SPEED_4XRES * BLASTER_LIFE,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
 // Private per-instance SIS data
 typedef struct
 {
@@ -222,18 +375,17 @@ static void
 sis_hyper_preprocess (ELEMENT *ElementPtr)
 {
 	SIZE dx = 0, dy = 0;
+	SDWORD udx = 0, udy = 0, dtempx, dtempy;
 	SIZE AccelerateDirection;
 	STARSHIP *StarShipPtr;
 
-	SDWORD udx = 0, udy = 0, dtempx, dtempy;
-
 	if (ElementPtr->state_flags & APPEARING)
 		ElementPtr->velocity = GLOBAL (velocity);
-
+	
 	AccelerateDirection = 0;
-
 	GetElementStarShip (ElementPtr, &StarShipPtr);
 	++StarShipPtr->weapon_counter; /* no shooting in hyperspace! */
+	
 	if ((GLOBAL (autopilot)).x == ~0
 		|| (GLOBAL (autopilot)).y == ~0
 		|| (StarShipPtr->cur_status_flags & (LEFT | RIGHT | THRUST))
@@ -244,19 +396,26 @@ sis_hyper_preprocess (ELEMENT *ElementPtr)
 		// JMS: This re-check is now needed because of the added autopilot_ok variable to previous check
 		if ((GLOBAL (autopilot)).x == ~0 || (GLOBAL (autopilot)).y == ~0 || (StarShipPtr->cur_status_flags & (LEFT | RIGHT | THRUST)))
 			(GLOBAL (autopilot)).x = (GLOBAL (autopilot)).y = ~0;
+		
 		if (!(StarShipPtr->cur_status_flags & THRUST)
-				|| (GLOBAL_SIS (FuelOnBoard) == 0
-				&& GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
+			|| (GLOBAL_SIS (FuelOnBoard) == 0
+				&& (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)))
 		{
 			AccelerateDirection = -1;
 			GetCurrentVelocityComponents (&ElementPtr->velocity, &dx, &dy);
+			
+			// JMS: Engage autopilot only after coming to full stop
+			if (dx==0 && dy==0)
+				SET_GAME_STATE (AUTOPILOT_OK, 1);
+			else
+				SET_GAME_STATE (AUTOPILOT_OK, 0);
 			
 			dtempx = (SDWORD)dx;
 			dtempy = (SDWORD)dy;
 			
 			udx = dtempx;
 			udy = dtempy;
-
+			
 			StarShipPtr->cur_status_flags &= ~THRUST;
 		}
 	}
@@ -269,11 +428,11 @@ sis_hyper_preprocess (ELEMENT *ElementPtr)
 		universe.y = LOGY_TO_UNIVERSE (GLOBAL_SIS (log_y));
 		udx = (GLOBAL (autopilot)).x - universe.x;
 		udy = -((GLOBAL (autopilot)).y - universe.y);
-		if ((dx = udx) < 0)
+		if ((dx = (SIZE)udx) < 0)
 			dx = -dx;
-		if ((dy = udy) < 0)
+		if ((dy = (SIZE)udy) < 0)
 			dy = -dy;
-		if (dx <= 1 && dy <= 1)
+		if (dx <= (1 << RESOLUTION_FACTOR) && dy <= (1 << RESOLUTION_FACTOR))
 			goto LeaveAutoPilot;
 
 		facing = NORMALIZE_FACING (ANGLE_TO_FACING (ARCTAN (udx, udy)));
@@ -356,11 +515,9 @@ sis_hyper_preprocess (ELEMENT *ElementPtr)
 
 			AccelerateDirection = 0;
 
-			max_velocity = WORLD_TO_VELOCITY (
-					StarShipPtr->RaceDescPtr->characteristics.max_thrust);
+			max_velocity = WORLD_TO_VELOCITY (StarShipPtr->RaceDescPtr->characteristics.max_thrust);
+			dy = (speed / velocity_increment + 1) * velocity_increment;
 
-			dy = (speed / velocity_increment + 1)
-					* velocity_increment;
 			if (dy < speed + velocity_increment)
 				dy = speed + velocity_increment;
 			if ((speed = dy) > max_velocity)
@@ -457,7 +614,7 @@ spawn_point_defense (ELEMENT *ElementPtr)
 			if (ObjectPtr != ShipPtr && CollidingElement (ObjectPtr) &&
 					!OBJECT_CLOAKED (ObjectPtr))
 			{
-				SIZE delta_x, delta_y;
+				SDWORD delta_x, delta_y;
 
 				delta_x = ObjectPtr->next.location.x -
 						ShipPtr->next.location.x;
@@ -629,7 +786,7 @@ blaster_preprocess (ELEMENT *ElementPtr)
 		facing = NORMALIZE_FACING (ANGLE_TO_FACING (
 				GetVelocityTravelAngle (&ElementPtr->velocity)));
 		if (TrackShip (ElementPtr, &facing) > 0)
-			SetVelocityVector (&ElementPtr->velocity, BLASTER_SPEED, facing);
+			SetVelocityVector (&ElementPtr->velocity, RES_SCALE(BLASTER_SPEED), facing);
 
 		ElementPtr->turn_wait = MAKE_BYTE (wait, wait);
 	}
@@ -702,7 +859,7 @@ sis_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 			lpEvalDesc->ObjectPtr = NULL;
 		}
 		else if (MANEUVERABILITY (&StarShipPtr->RaceDescPtr->cyborg_control)
-				< MEDIUM_SHIP
+				< RESOLUTION_COMPENSATED(MEDIUM_SHIP) // JMS_GFX
 				&& lpEvalDesc->MoveState == ENTICE
 				&& (!(lpEvalDesc->ObjectPtr->state_flags & CREW_OBJECT)
 				|| lpEvalDesc->which_turn <= 8)
@@ -723,7 +880,7 @@ sis_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 			&& lpEvalDesc->which_turn <= 16)
 	{
 		COUNT direction_facing;
-		SIZE delta_x, delta_y;
+		SDWORD delta_x, delta_y;
 		UWORD fire_flags, ship_flags;
 		COUNT facing;
 
@@ -776,7 +933,7 @@ InitWeaponSlots (RACE_DESC *RaceDescPtr, const BYTE *ModuleSlots)
 		
 		lpMB->flags = IGNORE_SIMILAR;
 		lpMB->blast_offs = BLASTER_OFFSET;
-		lpMB->speed = BLASTER_SPEED;
+		lpMB->speed = RES_SCALE(BLASTER_SPEED);
 		lpMB->preprocess_func = blaster_preprocess;
 		lpMB->hit_points = BLASTER_HITS * which_gun;
 		lpMB->damage = BLASTER_DAMAGE * which_gun;
@@ -893,7 +1050,7 @@ InitDriveSlots (RACE_DESC *RaceDescPtr, const BYTE *DriveSlots)
 		switch (DriveSlots[i])
 		{
 			case FUSION_THRUSTER:
-				RaceDescPtr->characteristics.max_thrust += 2;
+				RaceDescPtr->characteristics.max_thrust += RES_SCALE(2);
 				++RaceDescPtr->characteristics.thrust_wait;
 				break;
 		}
@@ -933,7 +1090,12 @@ init_sis (void)
 	memset (&empty_data, 0, sizeof (empty_data));
 
 	/* copy initial ship settings to new_sis_desc */
-	new_sis_desc = sis_desc;
+	if (RESOLUTION_FACTOR == 0)
+		new_sis_desc = sis_desc;
+	else if (RESOLUTION_FACTOR == 1)
+		new_sis_desc = sis_desc_2xres;
+	else
+		new_sis_desc = sis_desc_4xres;
 	
 	new_sis_desc.uninit_func = uninit_sis;
 
@@ -950,12 +1112,15 @@ init_sis (void)
 		new_sis_desc.ship_data.victory_ditty_rsc = NULL_RESOURCE;
 		new_sis_desc.ship_data.ship_sounds_rsc = NULL_RESOURCE;
 
-		new_sis_desc.ship_data.ship_rsc[0] = SIS_HYPER_MASK_PMAP_ANIM;
+		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1 && RESOLUTION_FACTOR > 0)
+			new_sis_desc.ship_data.ship_rsc[0] = SIS_QUASI_MASK_PMAP_ANIM;
+		else
+			new_sis_desc.ship_data.ship_rsc[0] = SIS_HYPER_MASK_PMAP_ANIM;
 
 		new_sis_desc.preprocess_func = sis_hyper_preprocess;
 		new_sis_desc.postprocess_func = sis_hyper_postprocess;
 
-		new_sis_desc.characteristics.max_thrust -= 4;
+		new_sis_desc.characteristics.max_thrust -= RES_SCALE(4);
 	}
 	else
 	{
