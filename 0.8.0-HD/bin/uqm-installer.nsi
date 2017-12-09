@@ -58,7 +58,7 @@ RequestExecutionLevel admin
 ; Start menu page
 var ICONS_GROUP
 !define MUI_STARTMENUPAGE_NODISABLE
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER "Games\The Ur-Quan Masters MegaMod"
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "Games\The Ur-Quan Masters HD MegaMod"
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
 !define MUI_STARTMENUPAGE_REGISTRY_KEY "${PRODUCT_UNINST_KEY}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "${PRODUCT_STARTMENU_REGVAL}"
@@ -384,7 +384,7 @@ SectionGroup "!UQM" SECGRP01
     StrCpy $MANDATORY 1
     StrCpy $MD5SUM "${PKG_CONTENT_MD5SUM}"
     File "content\version"
-    StrCpy $DOWNLOADPATH "UQM/0.8/"
+    StrCpy $DOWNLOADPATH "UQM/0.7/"
     Push "${PKG_CONTENT_FILE}"
     Push "$INSTDIR\content\packages"
     Call HandlePackage
@@ -406,7 +406,7 @@ SectionGroup /e "3DO Content" SECGRP02
     AddSize ${PKG_3DOMUSIC_SIZE}
     StrCpy $MANDATORY 0
     StrCpy $MD5SUM "${PKG_3DOMUSIC_MD5SUM}"
-    StrCpy $DOWNLOADPATH "UQM/0.8/"
+    StrCpy $DOWNLOADPATH "UQM/0.7/"
     Push "${PKG_3DOMUSIC_FILE}"
     Push "$INSTDIR\content\addons"
     Call HandlePackage
@@ -420,7 +420,7 @@ SectionGroup /e "3DO Content" SECGRP02
     AddSize ${PKG_VOICE_SIZE}
     StrCpy $MANDATORY 0
     StrCpy $MD5SUM "${PKG_VOICE_MD5SUM}"
-    StrCpy $DOWNLOADPATH "UQM/0.8/"
+    StrCpy $DOWNLOADPATH "UQM/0.7/"
     Push "${PKG_VOICE_FILE}"
     Push "$INSTDIR\content\addons"
     Call HandlePackage
