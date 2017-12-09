@@ -23,8 +23,6 @@
 extern "C" {
 #endif
 
-#define SMOOTH_SYSTEM_ZOOM
-
 extern void LoadIPData (void);
 extern void FreeIPData (void);
 
