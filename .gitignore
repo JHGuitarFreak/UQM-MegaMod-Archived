@@ -271,9 +271,10 @@ HD/bin/content
 !0.8.0-HD/bin/content/addons
 !0.8.0-HD/bin/content/packages
 0.8.0-HD/bin/content/addons/*
-!0.8.0-HD/bin/content/addons/sero-setup-080.uqm
 !0.8.0-HD/bin/content/addons/sol-textures-1x.uqm
-!0.8.0-HD/bin/content/addons/sero-nebulae-1x.uqm
+!0.8.0-HD/bin/content/addons/sol-textures-2x.uqm
+!0.8.0-HD/bin/content/addons/sol-textures-4x.uqm
+!0.8.0-HD/bin/content/addons/sero-content-1x.uqm
 0.8.0-HD/bin/content/packages/*
 !0.8.0-HD/bin/content/packages/uqm-0.8.0-content.uqm
 stderr.txt
