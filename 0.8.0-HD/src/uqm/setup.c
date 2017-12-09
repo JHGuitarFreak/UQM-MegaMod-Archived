@@ -138,6 +138,11 @@ LoadKernel (int argc, char *argv[])
 					printf("Loading Sero-Menu 2x\n");
 					log_add (log_Debug, "loading sero-menu-2x");
 				}
+				if(loadAddon("sol-textures-2x")){
+					solTexturesPresent = TRUE;
+					printf("Loading Sol Textures \n");
+					log_add (log_Debug, "loading sol-textures-2x");
+				}
 				loadAddon("Syreen2xVideoFix");
 			}
 			break;
@@ -149,6 +154,11 @@ LoadKernel (int argc, char *argv[])
 					seroMenuPresent = TRUE;
 					printf("Loading Sero-Menu 4x\n");
 					log_add (log_Debug, "loading sero-menu-4x");
+				}
+				if(loadAddon("sol-textures-4x")){
+					solTexturesPresent = TRUE;
+					printf("Loading Sol Textures \n");
+					log_add (log_Debug, "loading sol-textures-4x");
 				}
 				loadAddon("Syreen4xVideoFix");
 			}
