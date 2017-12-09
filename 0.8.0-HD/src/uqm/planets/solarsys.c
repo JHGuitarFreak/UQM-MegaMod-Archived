@@ -52,8 +52,8 @@
 #include <math.h>
 #include <time.h>
 
-//#define DEBUG_SOLARSYS
-//#define SMOOTH_SYSTEM_ZOOM  1
+// #define DEBUG_SOLARSYS
+#define SMOOTH_SYSTEM_ZOOM  1
 
 #define IP_FRAME_RATE  (ONE_SECOND / 30)
 
@@ -614,7 +614,11 @@ LoadSolarSys (void)
 
 	RandomContext_SeedRandom (SysGenRNG, GetRandomSeedForStar (CurStarDescPtr));
 
-	SunFrame = SetAbsFrameIndex (SunFrame, STAR_TYPE (CurStarDescPtr->Type));
+	// JMS: Animating IP sun in hi-res...
+	if (RESOLUTION_FACTOR == 0)
+		SunFrame = SetAbsFrameIndex (SunFrame, STAR_TYPE (CurStarDescPtr->Type));
+	else
+		SunFrame = SetAbsFrameIndex (SunFrame, (STAR_TYPE (CurStarDescPtr->Type)) * 32);
 
 	pCurDesc = &pSolarSysState->SunDesc[0];
 	pCurDesc->pPrevDesc = 0;
@@ -1605,9 +1609,9 @@ DrawTexturedBody (PLANET_DESC* planet, STAMP s)
 	BatchGraphics ();
 	oldMode = SetGraphicScaleMode (TFB_SCALE_BILINEAR);
 	if (worldIsMoon(pSolarSysState, planet))
-		oldScale = SetGraphicScale (GSCALE_IDENTITY * (optScalePlanets ? RES_SCALE(planet->size * 2) : planet->size) / GENERATE_MOON_DIAMETER);
+		oldScale = SetGraphicScale (GSCALE_IDENTITY * (optScalePlanets ? RES_SCALE(planet->size) : planet->size) / GENERATE_MOON_DIAMETER);
 	else
-		oldScale = SetGraphicScale (GSCALE_IDENTITY * (optScalePlanets ? RES_SCALE(planet->size * 2) : planet->size) / GENERATE_PLANET_DIAMETER);
+		oldScale = SetGraphicScale (GSCALE_IDENTITY * (optScalePlanets ? RES_SCALE(planet->size) : planet->size) / GENERATE_PLANET_DIAMETER);
 	s.frame = planet->orbit.SphereFrame;
 	DrawStamp (&s);
 	if (planet->orbit.ObjectFrame)
@@ -1884,7 +1888,7 @@ DrawOuterSystem (void)
 	DrawSystem (pSolarSysState->SunDesc[0].radius, FALSE);
 	if (ORBITING_PLANETS || ROTATING_PLANETS)
 		DrawOuterPlanets(pSolarSysState->SunDesc[0].radius);
- 	DrawHyperCoords (CurStarDescPtr->star_pt);
+	DrawHyperCoords (CurStarDescPtr->star_pt);
 	IP_frame(); // MB: To fix planet texture and sun corona 'pop-in'
 }
 
