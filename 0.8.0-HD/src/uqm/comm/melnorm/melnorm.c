@@ -24,7 +24,7 @@
 #include "uqm/shipcont.h"
 #include "libs/inplib.h"
 #include "libs/mathlib.h"
-
+#include "libs/log.h"
 #include "uqm/lua/luacomm.h"
 #include "uqm/hyper.h"
 			// for SOL_X/SOL_Y
@@ -35,7 +35,7 @@
 
 static const NUMBER_SPEECH_DESC melnorme_numbers_english;
 
-static LOCDATA melnorme_desc =
+static LOCDATA melnorme_desc_1x =
 {
 	MELNORME_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -87,6 +87,139 @@ static LOCDATA melnorme_desc =
 			ONE_SECOND / 10, ONE_SECOND / 15, /* FrameRate */
 			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
 			0, /* BlockMask */
+		},
+	},
+	{ /* AlienTransitionDesc */
+		0, /* StartIndex */
+		0, /* NumFrames */
+		0, /* AnimFlags */
+		0, 0, /* FrameRate */
+		0, 0, /* RestartRate */
+		0, /* BlockMask */
+	},
+	{ /* AlienTalkDesc */
+		1, /* StartIndex */
+		5, /* NumFrames */
+		0, /* AnimFlags */
+		ONE_SECOND / 15, 0, /* FrameRate */
+		ONE_SECOND / 12, 0, /* RestartRate */
+		0, /* BlockMask */
+	},
+	&melnorme_numbers_english, /* AlienNumberSpeech - default */
+	/* Filler for loaded resources */
+	NULL, NULL, NULL,
+	NULL,
+	NULL,
+};
+
+static LOCDATA melnorme_desc_4x =
+{
+	MELNORME_CONVERSATION, /* AlienConv */
+	NULL, /* init_encounter_func */
+	NULL, /* post_encounter_func */
+	NULL, /* uninit_encounter_func */
+	MELNORME_PMAP_ANIM, /* AlienFrame */
+	MELNORME_FONT, /* AlienFont */
+	WHITE_COLOR_INIT, /* AlienTextFColor */
+	BLACK_COLOR_INIT, /* AlienTextBColor */
+	{0, 0}, /* AlienTextBaseline */
+	0, /* SIS_TEXT_WIDTH - 16, */ /* AlienTextWidth */
+	ALIGN_CENTER, /* AlienTextAlign */
+	VALIGN_TOP, /* AlienTextValign */
+	MELNORME_COLOR_MAP, /* AlienColorMap */
+	MELNORME_MUSIC, /* AlienSong */
+	NULL_RESOURCE, /* AlienAltSong */
+	0, /* AlienSongFlags */
+	MELNORME_CONVERSATION_PHRASES, /* PlayerPhrases */
+	11, /* NumAnimations */
+	{ /* AlienAmbientArray (ambient animations) */
+		{
+			6, /* StartIndex */
+			5, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 12, 0, /* FrameRate */
+			ONE_SECOND * 4, ONE_SECOND * 4,/* RestartRate */
+			(1 << 1), /* BlockMask */
+		},
+		{
+			11, /* StartIndex */
+			9, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND * 4, ONE_SECOND * 4,/* RestartRate */
+			(1 << 0), /* BlockMask */
+		},
+		{
+			20, /* StartIndex */
+			2, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			(1 << 10), /* BlockMask */
+		},
+		{
+			22, /* StartIndex */
+			2, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			(1 << 10), /* BlockMask */
+		},
+		{
+			24, /* StartIndex */
+			11, /* NumFrames */
+			CIRCULAR_ANIM | ONE_SHOT_ANIM | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 11, 0, /* FrameRate */
+			0, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			35, /* StartIndex */
+			2, /* NumFrames */
+			YOYO_ANIM | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			37, /* StartIndex */
+			2, /* NumFrames */
+			YOYO_ANIM | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			39, /* StartIndex */
+			10, /* NumFrames */
+			CIRCULAR_ANIM | ONE_SHOT_ANIM | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 10, 0, /* FrameRate */
+			0, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			49, /* StartIndex */
+			2, /* NumFrames */
+			YOYO_ANIM | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			51, /* StartIndex */
+			2, /* NumFrames */
+			YOYO_ANIM | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			53, /* StartIndex */
+			11, /* NumFrames */
+			CIRCULAR_ANIM | ONE_SHOT_ANIM | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 11, 0, /* FrameRate */
+			0, 0, /* RestartRate */
+			(1 << 2) | (1 << 3) /* BlockMask */
 		},
 	},
 	{ /* AlienTransitionDesc */
@@ -1340,9 +1473,24 @@ NatureOfConversation (RESPONSE_REF R)
 				/* Melnorme reports any news and turns purple */
 			NPCPhrase (BUY_OR_SELL);
 			AlienTalkSegue (1);
-			XFormColorMap (GetColorMapAddress (
+
+			if (RESOLUTION_FACTOR == 0) {
+				XFormColorMap (GetColorMapAddress (
 					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
 					), ONE_SECOND / 2);
+			} else if (RESOLUTION_FACTOR > 0) {
+				CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
+				CommData.AlienAmbientArray[3].AnimFlags |= ANIM_DISABLED;
+				CommData.AlienAmbientArray[4].AnimFlags &= ~ANIM_DISABLED;
+				CommData.AlienAmbientArray[5].AnimFlags &= ~ANIM_DISABLED;
+				CommData.AlienAmbientArray[6].AnimFlags &= ~ANIM_DISABLED;
+				CommData.AlienAmbientArray[7].AnimFlags |= ANIM_DISABLED;
+				CommData.AlienAmbientArray[8].AnimFlags |= ANIM_DISABLED;
+				CommData.AlienAmbientArray[9].AnimFlags |= ANIM_DISABLED;
+				
+				CommData.AlienFrame = SetAbsFrameIndex (CommData.AlienFrame, 33);
+			} 
+
 			AlienTalkSegue ((COUNT)~0);
 		}
 		else if (PLAYER_SAID (R, why_turned_purple))
@@ -1405,12 +1553,27 @@ DoBluster (RESPONSE_REF R)
 {
 	if (PLAYER_SAID (R, trade_is_for_the_weak))
 	{
-		XFormColorMap (GetColorMapAddress (
+		NPCPhrase (WERE_NOT_AFRAID);
+		AlienTalkSegue ((COUNT)~0);
+
+		if (RESOLUTION_FACTOR == 0) {
+			XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
 				), ONE_SECOND / 2);
+		} else if (RESOLUTION_FACTOR > 0) {
+			CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[3].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[4].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[5].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[6].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[7].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[8].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[9].AnimFlags |= ANIM_DISABLED;
+				
+			CommData.AlienFrame = SetAbsFrameIndex (CommData.AlienFrame, 48);
+		}
 
 		SET_GAME_STATE (MELNORME_YACK_STACK2, 4);
-		NPCPhrase (WERE_NOT_AFRAID);
 	}
 	else if (PLAYER_SAID (R, why_blue_light))
 	{
@@ -1591,20 +1754,59 @@ DoFirstMeeting (RESPONSE_REF R)
 	}
 	else if (PLAYER_SAID (R, yes_really_testing))
 	{
-		XFormColorMap (GetColorMapAddress (
+		NPCPhrase (TEST_RESULTS);
+		AlienTalkSegue ((COUNT)~0);
+		
+		if (RESOLUTION_FACTOR == 0)
+		{
+			XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
 				), ONE_SECOND / 2);
-
-		NPCPhrase (TEST_RESULTS);
+		}
+		else if (RESOLUTION_FACTOR > 0)
+		{
+	
+			CommData.AlienAmbientArray[10].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[2].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[3].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[4].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[5].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[6].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[7].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[8].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[9].AnimFlags |= ANIM_DISABLED;
+			
+			CommData.AlienFrame = SetAbsFrameIndex (CommData.AlienFrame, 0);
+		}
 	}
 	else if (PLAYER_SAID (R, we_apologize))
 	{
 		SET_GAME_STATE (MELNORME_ANGER, 0);
-		XFormColorMap (GetColorMapAddress (
+		NPCPhrase (APOLOGY_ACCEPTED);
+		AlienTalkSegue ((COUNT)~0);
+		
+		if (RESOLUTION_FACTOR == 0)
+		{
+			XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
 				), ONE_SECOND / 2);
-
-		NPCPhrase (APOLOGY_ACCEPTED);
+		}
+		else if (RESOLUTION_FACTOR > 0)
+		{
+			
+			CommData.AlienAmbientArray[10].AnimFlags &= ~ANIM_DISABLED;	
+			CommData.AlienAmbientArray[2].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[3].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[4].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[5].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[6].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[7].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[8].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[9].AnimFlags |= ANIM_DISABLED;
+			
+			CommData.AlienFrame = SetAbsFrameIndex (CommData.AlienFrame, 0);
+			
+		}
 	}
 
 	temp_func = stack_func[0];
@@ -1639,9 +1841,28 @@ DoMelnormeMiffed (RESPONSE_REF R)
 		}
 		SET_GAME_STATE (MELNORME_MIFFED_COUNT, miffed_count);
 
-		XFormColorMap (GetColorMapAddress (
-				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
-				), ONE_SECOND / 2);
+		AlienTalkSegue ((COUNT)~0);
+		
+		if (RESOLUTION_FACTOR == 0)
+		{
+			XFormColorMap (GetColorMapAddress (
+ 				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
+ 				), ONE_SECOND / 2);
+		}
+		else if (RESOLUTION_FACTOR > 0)
+		{
+			
+			CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[3].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[4].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[5].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[6].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[7].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[8].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[9].AnimFlags &= ~ANIM_DISABLED;
+			
+			CommData.AlienFrame = SetAbsFrameIndex (CommData.AlienFrame, 48);
+		}
 	}
 	else if (PLAYER_SAID (R, explore_relationship))
 	{
@@ -1711,9 +1932,28 @@ DoMelnormePissed (RESPONSE_REF R)
 		}
 		SET_GAME_STATE (MELNORME_PISSED_COUNT, pissed_count);
 
-		XFormColorMap (GetColorMapAddress (
-				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
-				), ONE_SECOND / 2);
+		AlienTalkSegue ((COUNT)~0);
+		
+		if (RESOLUTION_FACTOR == 0)
+		{
+			XFormColorMap (GetColorMapAddress (
+ 				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
+ 				), ONE_SECOND / 2);
+		}
+		else if (RESOLUTION_FACTOR > 0)
+		{
+			
+			CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[3].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[4].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[5].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[6].AnimFlags |= ANIM_DISABLED;
+			CommData.AlienAmbientArray[7].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[8].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienAmbientArray[9].AnimFlags &= ~ANIM_DISABLED;
+			
+			CommData.AlienFrame = SetAbsFrameIndex (CommData.AlienFrame, 48);
+		} 
 	}
 	else if (PLAYER_SAID (R, beg_forgiveness))
 	{
@@ -1766,9 +2006,28 @@ DoMelnormeHate (RESPONSE_REF R)
 	}
 	SET_GAME_STATE (MELNORME_HATE_COUNT, hate_count);
 
-	XFormColorMap (GetColorMapAddress (
-			SetAbsColorMapIndex (CommData.AlienColorMap, 2)
-			), ONE_SECOND / 2);
+	AlienTalkSegue ((COUNT)~0);
+	
+	if (RESOLUTION_FACTOR == 0)
+	{
+		XFormColorMap (GetColorMapAddress (
+ 			SetAbsColorMapIndex (CommData.AlienColorMap, 2)
+ 			), ONE_SECOND / 2);
+	}
+	else if (RESOLUTION_FACTOR > 0)
+	{
+		
+		CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
+		CommData.AlienAmbientArray[3].AnimFlags |= ANIM_DISABLED;
+		CommData.AlienAmbientArray[4].AnimFlags |= ANIM_DISABLED;
+		CommData.AlienAmbientArray[5].AnimFlags |= ANIM_DISABLED;
+		CommData.AlienAmbientArray[6].AnimFlags |= ANIM_DISABLED;
+		CommData.AlienAmbientArray[7].AnimFlags &= ~ANIM_DISABLED;
+		CommData.AlienAmbientArray[8].AnimFlags &= ~ANIM_DISABLED;
+		CommData.AlienAmbientArray[9].AnimFlags &= ~ANIM_DISABLED;
+
+		CommData.AlienFrame = SetAbsFrameIndex (CommData.AlienFrame, 48);
+	} 
 
 	Response (well_if_thats_the_way_you_feel, ExitConversation);
 	Response (you_hate_us_so_we_go_away, ExitConversation);
@@ -1825,7 +2084,22 @@ post_melnorme_enc (void)
 LOCDATA*
 init_melnorme_comm (void)
 {
-	LOCDATA *retval;
+	static LOCDATA melnorme_desc;
+ 	LOCDATA *retval;
+	
+	switch (RESOLUTION_FACTOR)
+	{
+		case 2:
+			melnorme_desc = melnorme_desc_4x;
+			break;
+		case 1:
+			melnorme_desc = melnorme_desc_4x;
+			break;
+		case 0:
+		default:
+			melnorme_desc = melnorme_desc_1x;
+			break;
+	}
 
 	melnorme_desc.init_encounter_func = Intro;
 	melnorme_desc.post_encounter_func = post_melnorme_enc;
@@ -1837,7 +2111,20 @@ init_melnorme_comm (void)
 
 	melnorme_desc.AlienTextBaseline.x = TEXT_X_OFFS + (SIS_TEXT_WIDTH >> 1);
 	melnorme_desc.AlienTextBaseline.y = 0;
-	melnorme_desc.AlienTextWidth = SIS_TEXT_WIDTH - 16;
+	melnorme_desc.AlienTextWidth = SIS_TEXT_WIDTH - RES_SCALE(16);
+
+	if (RESOLUTION_FACTOR > 0)
+	{
+		melnorme_desc.AlienAmbientArray[2].AnimFlags &= ~ANIM_DISABLED;
+		melnorme_desc.AlienAmbientArray[3].AnimFlags &= ~ANIM_DISABLED;
+		melnorme_desc.AlienAmbientArray[4].AnimFlags |= ANIM_DISABLED;
+		melnorme_desc.AlienAmbientArray[5].AnimFlags |= ANIM_DISABLED;
+		melnorme_desc.AlienAmbientArray[6].AnimFlags |= ANIM_DISABLED;
+		melnorme_desc.AlienAmbientArray[7].AnimFlags |= ANIM_DISABLED;
+		melnorme_desc.AlienAmbientArray[8].AnimFlags |= ANIM_DISABLED;
+		melnorme_desc.AlienAmbientArray[9].AnimFlags |= ANIM_DISABLED;
+		melnorme_desc.AlienAmbientArray[10].AnimFlags |= ANIM_DISABLED;
+	}
 
 	local_stack0 = 0;
 	local_stack1 = 0;

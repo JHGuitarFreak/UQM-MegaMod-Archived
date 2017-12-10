@@ -169,11 +169,6 @@ LoadKernel (int argc, char *argv[])
 				printf("Loading Vux-Fix 1x\n");
 				log_add (log_Debug, "loading vux-fix-1x");
 			}
-			if(loadAddon("sero-content-1x")){
-				seroNebulaePresent = TRUE;
-				printf("Loading Sero-Content \n");
-				log_add (log_Debug, "loading sero-content-1x");
-			}
 			if(loadAddon("sol-textures-1x")){
 				solTexturesPresent = TRUE;
 				printf("Loading Sol Textures \n");
@@ -294,11 +289,9 @@ InitKernel (void)
 			return FALSE;
 	}
 
-	if (optNebulae && (seroNebulaePresent || hires4xPackPresent || hires2xPackPresent)) {
-		NebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
-		if (NebulaeFrame == NULL)
-			return FALSE;
-	}
+	NebulaeFrame = CaptureDrawable (LoadGraphic (NEBULAE_PMAP_ANIM));
+	if (NebulaeFrame == NULL || !NebulaeFrame)
+		return FALSE;
 		
 	// JMS: Constellation lines for the constellation starmap.
 	ConstellationsFrame = CaptureDrawable (LoadGraphic (CONSTELLATIONS_MASK_PMAP_ANIM));

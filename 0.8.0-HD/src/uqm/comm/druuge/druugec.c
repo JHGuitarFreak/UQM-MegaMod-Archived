@@ -26,7 +26,7 @@
 		// for DeltaSISGauges()
 
 
-static LOCDATA druuge_desc =
+static LOCDATA druuge_desc_1x =
 {
 	DRUUGE_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -47,7 +47,8 @@ static LOCDATA druuge_desc =
 	DRUUGE_CONVERSATION_PHRASES, /* PlayerPhrases */
 	11, /* NumAnimations */
 	{ /* AlienAmbientArray (ambient animations) */
-		{
+	
+		{	// Biggest flame
 			5, /* StartIndex */
 			4, /* NumFrames */
 			CIRCULAR_ANIM, /* AnimFlags */
@@ -55,7 +56,7 @@ static LOCDATA druuge_desc =
 			ONE_SECOND * 3 / 40, 0, /* RestartRate */
 			0, /* BlockMask */
 		},
-		{
+		{	// Flame on the right
 			9, /* StartIndex */
 			4, /* NumFrames */
 			CIRCULAR_ANIM, /* AnimFlags */
@@ -63,7 +64,7 @@ static LOCDATA druuge_desc =
 			ONE_SECOND * 3 / 40, 0, /* RestartRate */
 			0, /* BlockMask */
 		},
-		{
+		{	// Smallest flame (behind the biggest flame)
 			13, /* StartIndex */
 			6, /* NumFrames */
 			CIRCULAR_ANIM, /* AnimFlags */
@@ -71,7 +72,141 @@ static LOCDATA druuge_desc =
 			ONE_SECOND * 3 / 40, 0, /* RestartRate */
 			0, /* BlockMask */
 		},
+		{	// Flashing eyes
+			19, /* StartIndex */
+			3, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
 		{
+			22, /* StartIndex */
+			3, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 12, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			25, /* StartIndex */
+			3, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 12, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			28, /* StartIndex */
+			3, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 12, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			31, /* StartIndex */
+			2, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 12, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			33, /* StartIndex */
+			7, /* NumFrames */
+			CIRCULAR_ANIM | WAIT_TALKING, /* AnimFlags */
+			ONE_SECOND / 12, 0, /* FrameRate */
+			ONE_SECOND * 7, ONE_SECOND * 3,/* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			40, /* StartIndex */
+			4, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND * 3 / 10, 0, /* FrameRate */
+			ONE_SECOND * 3 / 10, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			44, /* StartIndex */
+			4, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 5, 0, /* FrameRate */
+			ONE_SECOND / 5, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+	},
+	{ /* AlienTransitionDesc */
+		0, /* StartIndex */
+		0, /* NumFrames */
+		0, /* AnimFlags */
+		0, 0, /* FrameRate */
+		0, 0, /* RestartRate */
+		0, /* BlockMask */
+	},
+	{ /* AlienTalkDesc */
+		1, /* StartIndex */
+		4, /* NumFrames */
+		0, /* AnimFlags */
+		ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+		ONE_SECOND / 12, ONE_SECOND / 12, /* RestartRate */
+		0, /* BlockMask */
+	},
+	NULL, /* AlienNumberSpeech - none */
+	/* Filler for loaded resources */
+	NULL, NULL, NULL,
+	NULL,
+	NULL,
+};
+
+static LOCDATA druuge_desc_4x =
+{
+	DRUUGE_CONVERSATION, /* AlienConv */
+	NULL, /* init_encounter_func */
+	NULL, /* post_encounter_func */
+	NULL, /* uninit_encounter_func */
+	DRUUGE_PMAP_ANIM, /* AlienFrame */
+	DRUUGE_FONT, /* AlienFont */
+	WHITE_COLOR_INIT, /* AlienTextFColor */
+	BLACK_COLOR_INIT, /* AlienTextBColor */
+	{0, 0}, /* AlienTextBaseline */
+	0, /* SIS_TEXT_WIDTH - 16, */ /* AlienTextWidth */
+	ALIGN_CENTER, /* AlienTextAlign */
+	VALIGN_MIDDLE, /* AlienTextValign */
+	DRUUGE_COLOR_MAP, /* AlienColorMap */
+	DRUUGE_MUSIC, /* AlienSong */
+	NULL_RESOURCE, /* AlienAltSong */
+	0, /* AlienSongFlags */
+	DRUUGE_CONVERSATION_PHRASES, /* PlayerPhrases */
+	11, /* NumAnimations */
+	{ /* AlienAmbientArray (ambient animations) */
+	
+		{	// Biggest flame
+			5, /* StartIndex */
+			4, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND * 3 / 20, 0, /* FrameRate */
+			ONE_SECOND * 3 / 20, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{	// Flame on the right
+			9, /* StartIndex */
+			4, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND * 3 / 24, 0, /* FrameRate */
+			ONE_SECOND * 3 / 24, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{	// Smallest flame (behind the biggest flame)
+			13, /* StartIndex */
+			6, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND * 3 / 30, 0, /* FrameRate */
+			ONE_SECOND * 3 / 30, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{	// Flashing eyes
 			19, /* StartIndex */
 			3, /* NumFrames */
 			CIRCULAR_ANIM, /* AnimFlags */
@@ -898,7 +1033,22 @@ post_druuge_enc (void)
 LOCDATA*
 init_druuge_comm (void)
 {
-	LOCDATA *retval;
+	static LOCDATA druuge_desc;
+ 	LOCDATA *retval;
+	
+	switch (RESOLUTION_FACTOR)
+	{
+		case 2:
+			druuge_desc = druuge_desc_4x;
+			break;
+		case 1:
+			druuge_desc = druuge_desc_4x;
+			break;
+		case 0:
+		default:
+			druuge_desc = druuge_desc_1x;
+			break;
+	}
 
 	SlaveryCount = 0;
 	AttemptedSalvage = FALSE;
@@ -908,7 +1058,7 @@ init_druuge_comm (void)
 	druuge_desc.uninit_encounter_func = uninit_druuge;
 
 	druuge_desc.AlienTextBaseline.x = TEXT_X_OFFS + (SIS_TEXT_WIDTH >> 1);
-	druuge_desc.AlienTextBaseline.y = 70;
+	druuge_desc.AlienTextBaseline.y = RES_SIS_SCALE(70);
 	druuge_desc.AlienTextWidth = SIS_TEXT_WIDTH - 16;
 
 	if ((GET_GAME_STATE (DRUUGE_MANNER) == 0
