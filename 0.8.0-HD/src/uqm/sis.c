@@ -775,13 +775,12 @@ DrawLanders (void)
 	GetFrameRect (s.frame, &r);
 
 	i = GLOBAL_SIS (NumLanders);
-	r.corner.x = (STATUS_WIDTH >> 1) - r.corner.x;
-	s.origin.x = r.corner.x - (((r.extent.width * i) + (2 * (i - 1))) >> 1) + RES_CASE(0,1,0);
+	r.corner.x = (STATUS_WIDTH >> 1) - r.corner.x + RES_CASE(0,0,16);
+	s.origin.x = r.corner.x - (((r.extent.width * i) + (2 * (i - 1))) >> 1) + RES_CASE(0,1,-16);
 	s.origin.y = RES_STAT_SCALE(29) + RES_CASE(0,0,2); // JMS_GFX
 
 	width = r.extent.width + 2;
-	r.extent.width = (r.extent.width * MAX_LANDERS) + 
-		(2 * (MAX_LANDERS - 1)) + RES_CASE (2,2,-14); // JMS_GFX
+	r.extent.width = (r.extent.width * MAX_LANDERS) + (2 * (MAX_LANDERS - 1)) + RES_CASE(2,2,-16); // JMS_GFX
 	r.corner.x -= r.extent.width >> 1;
 	r.corner.y += s.origin.y;
 	SetContextForeGroundColor (BLACK_COLOR);
@@ -898,7 +897,7 @@ DrawPC_SIS (void)
 	font_DrawText (&t);
 
 	// Black rectangle behind "CREW" text and crew amount.
-	r.corner.y += RES_STAT_SCALE(79) + RES_CASE(0,12,18); // JMS_GFX
+	r.corner.y += RES_STAT_SCALE(79) + RES_CASE(0,12,19); // JMS_GFX
 	t.baseline.y += RES_STAT_SCALE(79) + RES_CASE(0,9,18); // JMS_GFX
 	DrawFilledRectangle (&r);
 
