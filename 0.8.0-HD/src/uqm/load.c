@@ -319,7 +319,7 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 	//
 	// At this point we must then cease reading the savefile, close it
 	// and re-open it again, this time using the vanilla-reading method.
-	if (GSPtr->FuelCost != 20)
+	if (GSPtr->FuelCost != FUEL_COST_RU)
 		return FALSE;
 	read_a8  (fh, GSPtr->ModuleCost, NUM_MODULES);
 	read_a8  (fh, GSPtr->ElementWorth, NUM_ELEMENT_CATEGORIES);
@@ -330,6 +330,7 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 		res_scale = RESOLUTION_FACTOR;
 	else
 		res_scale = 0;
+
 	LoadClockState (&GSPtr->GameClock, fh);
 
 	read_16s (fh, &GSPtr->autopilot.x);
