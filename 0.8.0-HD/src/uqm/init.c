@@ -37,6 +37,7 @@
 
 
 FRAME stars_in_space;
+FRAME StarPoints;
 FRAME stars_in_quasispace; // JMS_GFX
 FRAME asteroid[NUM_VIEWS];
 FRAME blast[NUM_VIEWS];
@@ -122,6 +123,13 @@ InitSpace (void)
 		if (stars_in_space == NULL)
 			return FALSE;
 
+		if(RESOLUTION_FACTOR > 0){
+			StarPoints = CaptureDrawable (
+					LoadGraphic (STARPOINT_MASK_PMAP_ANIM));
+			if (StarPoints == NULL)
+				return FALSE;
+		}
+
 		if (!load_animation (explosion,
 				BOOM_BIG_MASK_PMAP_ANIM,
 				BOOM_MED_MASK_PMAP_ANIM,
@@ -154,7 +162,9 @@ UninitSpace (void)
 		free_image (asteroid);
 
 		DestroyDrawable (ReleaseDrawable (stars_in_space));
+		DestroyDrawable (ReleaseDrawable (StarPoints));
 		stars_in_space = 0;
+		StarPoints = 0;
 	}
 }
 

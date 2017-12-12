@@ -271,16 +271,24 @@ InitGalaxy (void)
 		}
 		else
 		{
-			SetPrimType (&DisplayArray[p], POINT_PRIM_HD); // Star points in HS
-			if (!inHQSpace ())
-				SetPrimColor (&DisplayArray[p],
-						BUILD_COLOR (MAKE_RGB15 (0x15, 0x15, 0x15), 0x07));
-			else if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
-				SetPrimColor (&DisplayArray[p],
-						BUILD_COLOR (MAKE_RGB15 (0x14, 0x00, 0x00), 0x8C));
-			else
-				SetPrimColor (&DisplayArray[p],
-						BUILD_COLOR (MAKE_RGB15 (0x00, 0x0E, 0x00), 0x8C));
+			if(RESOLUTION_FACTOR > 0){				
+				SetPrimType (&DisplayArray[p], STAMP_PRIM);
+				if (LOBYTE (GLOBAL (CurrentActivity)) != IN_HYPERSPACE){
+					SetPrimType (&DisplayArray[p], POINT_PRIM);
+					SetPrimColor (&DisplayArray[p], BUILD_COLOR (MAKE_RGB15 (0x15, 0x15, 0x15), 0x07));
+				} else if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
+					DisplayArray[p].Object.Stamp.frame = SetAbsFrameIndex (StarPoints, 0);
+				else
+					DisplayArray[p].Object.Stamp.frame = SetAbsFrameIndex (StarPoints, 1);
+			} else {
+				SetPrimType (&DisplayArray[p], POINT_PRIM); // Star points in HS, QS, Melee
+				if (LOBYTE (GLOBAL (CurrentActivity)) != IN_HYPERSPACE)
+					SetPrimColor (&DisplayArray[p], BUILD_COLOR (MAKE_RGB15 (0x15, 0x15, 0x15), 0x07));
+				else if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
+					SetPrimColor (&DisplayArray[p], BUILD_COLOR (MAKE_RGB15 (0x14, 0x00, 0x00), 0x8C));
+				else
+					SetPrimColor (&DisplayArray[p], BUILD_COLOR (MAKE_RGB15 (0x00, 0x0E, 0x00), 0x8C));
+			}
 		}
 
 		InsertPrim (&Links, p, GetPredLink (Links));
