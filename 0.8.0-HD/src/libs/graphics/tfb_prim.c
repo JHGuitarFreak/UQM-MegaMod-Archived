@@ -47,7 +47,7 @@ TFB_Prim_Point (POINT *p, Color color, DrawMode mode, POINT ctxOrigin, BOOLEAN f
 			TFB_DrawImage_Rect (&r, color, mode, _CurFramePtr->image);
 	} else {
 		DrawFilledOval(&r);
-		SetContextForeGroundColor (BUILD_COLOR (MAKE_RGB15 (0x00, 0x14, 0x00), 0x02));
+		SetContextForeGroundColor (color);
 	}
 }
 
