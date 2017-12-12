@@ -302,6 +302,7 @@
 #define SPAPLUTO_MASK_PMAP_ANIM "graphics.fwiffo"
 #define STARBASE_ANIM "graphics.starbase"
 #define STAR_MASK_PMAP_ANIM "graphics.stars"
+#define STARPOINT_MASK_PMAP_ANIM "graphics.starpoints"
 #define STATUS_MASK_PMAP_ANIM "graphics.status"
 #define SUBMENU_MASK_PMAP_ANIM "graphics.submenu"
 #define SUNBLUE_MASK_PMAP_ANIM "graphics.truespacesunblue"
