@@ -271,7 +271,7 @@ InitGalaxy (void)
 		}
 		else
 		{
-			SetPrimType (&DisplayArray[p], POINT_PRIM); // Star points in HS
+			SetPrimType (&DisplayArray[p], POINT_PRIM_HD); // Star points in HS
 			if (!inHQSpace ())
 				SetPrimColor (&DisplayArray[p],
 						BUILD_COLOR (MAKE_RGB15 (0x15, 0x15, 0x15), 0x07));
