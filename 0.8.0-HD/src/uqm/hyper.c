@@ -1911,6 +1911,8 @@ DoHyperspaceMenu (MENU_STATE *pMS)
 			StarMap ();
 			return FALSE;
 		case NAVIGATION:
+			if(RESOLUTION_FACTOR == 1)				
+				DrawSubmenu (0);
 			return FALSE;
 	}
 

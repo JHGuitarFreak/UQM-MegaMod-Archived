@@ -89,8 +89,11 @@ on_battle_frame (void)
 	GameClockTick ();
 	checkArilouGate ();
 
-	if (!(GLOBAL (CurrentActivity) & (CHECK_ABORT | CHECK_LOAD)))
+	if (!(GLOBAL (CurrentActivity) & (CHECK_ABORT | CHECK_LOAD))){		
+		if(RESOLUTION_FACTOR == 1)				
+			DrawSubmenu (0);
 		SeedUniverse ();
+	}
 
 	DrawAutoPilotMessage (FALSE);
 }
