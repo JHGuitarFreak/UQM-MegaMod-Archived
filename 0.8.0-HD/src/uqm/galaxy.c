@@ -239,6 +239,7 @@ InitGalaxy (void)
 	COUNT i, factor;
 	DPOINT *ppt;
 	PRIM_LINKS Links;
+	BOOLEAN HSorQS = (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1 ? FALSE : TRUE);
 
 	log_add (log_Debug, "InitGalaxy(): transition_width = %d, "
 			"transition_height = %d",
@@ -271,17 +272,17 @@ InitGalaxy (void)
 		}
 		else
 		{
-			if(RESOLUTION_FACTOR > 0){				
+			if(RESOLUTION_FACTOR > 0){
+				// In HD the starpoints in HS and QS are images
 				SetPrimType (&DisplayArray[p], STAMP_PRIM);
 				if (LOBYTE (GLOBAL (CurrentActivity)) != IN_HYPERSPACE){
 					SetPrimType (&DisplayArray[p], POINT_PRIM);
 					SetPrimColor (&DisplayArray[p], BUILD_COLOR (MAKE_RGB15 (0x15, 0x15, 0x15), 0x07));
-				} else if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
-					DisplayArray[p].Object.Stamp.frame = SetAbsFrameIndex (StarPoints, 0);
-				else
-					DisplayArray[p].Object.Stamp.frame = SetAbsFrameIndex (StarPoints, 1);
+				} else
+					DisplayArray[p].Object.Stamp.frame = SetAbsFrameIndex (StarPoints, HSorQS);
 			} else {
-				SetPrimType (&DisplayArray[p], POINT_PRIM); // Star points in HS, QS, Melee
+				// Pixel starpoints in original res
+				SetPrimType (&DisplayArray[p], POINT_PRIM);
 				if (LOBYTE (GLOBAL (CurrentActivity)) != IN_HYPERSPACE)
 					SetPrimColor (&DisplayArray[p], BUILD_COLOR (MAKE_RGB15 (0x15, 0x15, 0x15), 0x07));
 				else if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
