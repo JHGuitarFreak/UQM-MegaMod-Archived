@@ -344,6 +344,9 @@ main (int argc, char *argv[])
 #endif
 		for (i = 0; i < argc; ++i)
 			log_add (log_User, "argv[%d] = [%s]", i, argv[i]);
+	} else {
+		// MB: Output log to logfile by default, not console
+		freopen("uqm.log", "w", stderr);
 	}
 
 	if (options.runMode == runMode_version)

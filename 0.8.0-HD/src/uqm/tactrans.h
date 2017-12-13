@@ -38,7 +38,7 @@ extern void ship_transition (ELEMENT *ElementPtr);
 extern BOOLEAN OpponentAlive (STARSHIP *TestStarShipPtr);
 extern void new_ship (ELEMENT *ElementPtr);
 extern void ship_death (ELEMENT *ShipPtr);
-extern void spawn_ion_trail (ELEMENT *ElementPtr);
+extern void spawn_ion_trail (ELEMENT *ElementPtr, SIZE x, SIZE y);
 extern void flee_preprocess (ELEMENT *ElementPtr);
 
 extern void StopDitty (void);

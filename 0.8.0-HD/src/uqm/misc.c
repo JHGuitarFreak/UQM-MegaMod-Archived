@@ -360,11 +360,19 @@ AbandonShip (ELEMENT *ShipPtr, ELEMENT *TargetPtr,
 		CrewPtr->hit_points = 1;
 		CrewPtr->state_flags = APPEARING | FINITE_LIFE | CREW_OBJECT;
 		CrewPtr->life_span = CREW_LIFE;
-		SetPrimType (&DisplayArray[CrewPtr->PrimIndex], POINT_PRIM_HD);
+		if (RESOLUTION_FACTOR == 0) {
+			SetPrimType (&DisplayArray[CrewPtr->PrimIndex], POINT_PRIM);
+			CrewPtr->current.image.frame = DecFrameIndex (stars_in_space);
+			CrewPtr->current.image.farray = &stars_in_space;
+		} else {
+			SetPrimType (&DisplayArray[CrewPtr->PrimIndex], STAMPFILL_PRIM);
+			CrewPtr->current.image.frame = SetAbsFrameIndex (crew_dots[0], 0);
+			CrewPtr->current.image.farray = crew_dots;
+		}
 		SetPrimColor (&DisplayArray[CrewPtr->PrimIndex],
 				BUILD_COLOR (MAKE_RGB15 (0x00, 0x14, 0x00), 0x02));
-		CrewPtr->current.image.frame = DecFrameIndex (stars_in_space);
-		CrewPtr->current.image.farray = &stars_in_space;
+		/*CrewPtr->current.image.frame = DecFrameIndex (stars_in_space);
+		CrewPtr->current.image.farray = &stars_in_space;*/
 		CrewPtr->preprocess_func = crew_preprocess;
 		CrewPtr->collision_func = crew_collision;
 

@@ -765,8 +765,8 @@ shotCreature (ELEMENT *ElementPtr, BYTE value,
 				LanderControl->IntersectStamp.frame) -
 				ANGLE_TO_FACING (FULL_CIRCLE));
 		DeltaVelocityComponents (&ElementPtr->velocity,
-				COSINE (angle, WORLD_TO_VELOCITY (1<<RESOLUTION_FACTOR)),
-				SINE (angle, WORLD_TO_VELOCITY (1<<RESOLUTION_FACTOR))); // JMS_GFX
+				COSINE (angle, WORLD_TO_VELOCITY (1 << RESOLUTION_FACTOR)),
+				SINE (angle, WORLD_TO_VELOCITY (1 << RESOLUTION_FACTOR))); // JMS_GFX
 		ElementPtr->thrust_wait = 0;
 		ElementPtr->mass_points |= CREATURE_AWARE;
 	}
