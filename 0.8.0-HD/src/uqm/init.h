@@ -19,6 +19,7 @@
 
 #include "libs/gfxlib.h"
 #include "libs/reslib.h"
+#include "units.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -30,6 +31,8 @@ extern "C" {
 extern FRAME stars_in_space;
 extern FRAME StarPoints;
 extern FRAME stars_in_quasispace; // JMS_GFX
+extern FRAME crew_dots[NUM_VIEWS]; // JMS_GFX
+extern FRAME ion_trails[NUM_VIEWS]; // JMS_GFX
 
 extern BOOLEAN InitSpace (void);
 extern void UninitSpace (void);

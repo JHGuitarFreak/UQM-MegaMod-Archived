@@ -271,7 +271,7 @@ ship_preprocess (ELEMENT *ElementPtr)
 		if (!OBJECT_CLOAKED (ElementPtr)
 				&& LOBYTE (GLOBAL (CurrentActivity)) <= IN_ENCOUNTER)
 		{
-			spawn_ion_trail (ElementPtr);
+			spawn_ion_trail (ElementPtr, 0, 0);
 		}
 	}
 

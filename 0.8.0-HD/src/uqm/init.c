@@ -39,6 +39,8 @@
 FRAME stars_in_space;
 FRAME StarPoints;
 FRAME stars_in_quasispace; // JMS_GFX
+FRAME crew_dots[NUM_VIEWS]; // JMS_GFX
+FRAME ion_trails[NUM_VIEWS]; // JMS_GFX
 FRAME asteroid[NUM_VIEWS];
 FRAME blast[NUM_VIEWS];
 FRAME explosion[NUM_VIEWS];
@@ -130,6 +132,20 @@ InitSpace (void)
 				return FALSE;
 		}
 
+		// JMS_GFX
+		if (!load_animation (crew_dots,
+								CREW_BIG_MASK_PMAP_ANIM,
+								CREW_MED_MASK_PMAP_ANIM,
+								CREW_SML_MASK_PMAP_ANIM))
+			return FALSE;
+        
+		// JMS_GFX
+		if (!load_animation (ion_trails,
+							IONS_BIG_MASK_PMAP_ANIM,
+							IONS_MED_MASK_PMAP_ANIM,
+							IONS_SML_MASK_PMAP_ANIM))
+			return FALSE;
+
 		if (!load_animation (explosion,
 				BOOM_BIG_MASK_PMAP_ANIM,
 				BOOM_MED_MASK_PMAP_ANIM,
@@ -160,6 +176,10 @@ UninitSpace (void)
 		free_image (blast);
 		free_image (explosion);
 		free_image (asteroid);
+
+		// JMS_GFX
+		free_image (crew_dots);
+		free_image (ion_trails);
 
 		DestroyDrawable (ReleaseDrawable (stars_in_space));
 		DestroyDrawable (ReleaseDrawable (StarPoints));

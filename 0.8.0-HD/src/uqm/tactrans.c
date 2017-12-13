@@ -789,7 +789,7 @@ cycle_ion_trail (ELEMENT *ElementPtr)
 }
 
 void
-spawn_ion_trail (ELEMENT *ElementPtr)
+spawn_ion_trail (ELEMENT *ElementPtr, SIZE x_offset, SIZE y_offset)
 {
 	HELEMENT hIonElement;
 
@@ -818,19 +818,35 @@ spawn_ion_trail (ELEMENT *ElementPtr)
 				// When the element "dies", in the death_func
 				// 'cycle_ion_trail', it is given new life a number of
 				// times, by setting life_span to thrust_wait.
-		SetPrimType (&DisplayArray[IonElementPtr->PrimIndex], POINT_PRIM);
+
+		// JMS_GFX
+		if (RESOLUTION_FACTOR == 0) {
+			SetPrimType (&DisplayArray[IonElementPtr->PrimIndex], POINT_PRIM);
+			IonElementPtr->current.image.frame = DecFrameIndex (stars_in_space);
+			IonElementPtr->current.image.farray = &stars_in_space;
+		}
+		else {
+			SetPrimType (&DisplayArray[IonElementPtr->PrimIndex], STAMPFILL_PRIM);
+			IonElementPtr->current.image.frame = SetAbsFrameIndex (ion_trails[0], 0);
+			IonElementPtr->current.image.farray = ion_trails;
+		}
 		SetPrimColor (&DisplayArray[IonElementPtr->PrimIndex],
 				START_ION_COLOR);
 		IonElementPtr->colorCycleIndex = 0;
-		IonElementPtr->current.image.frame =
+		/*IonElementPtr->current.image.frame =
 				DecFrameIndex (stars_in_space);
-		IonElementPtr->current.image.farray = &stars_in_space;
+		IonElementPtr->current.image.farray = &stars_in_space;*/
 		IonElementPtr->current.location = ElementPtr->current.location;
 		IonElementPtr->current.location.x +=
-				(COORD)COSINE (angle, r.extent.height);
+				(COORD)COSINE (angle, r.extent.height) + x_offset;
 		IonElementPtr->current.location.y +=
-				(COORD)SINE (angle, r.extent.height);
+				(COORD)SINE (angle, r.extent.height) + y_offset;
 		IonElementPtr->death_func = cycle_ion_trail;
+
+		if (RESOLUTION_FACTOR > 0) {
+			IonElementPtr->next.image.frame = IonElementPtr->current.image.frame;
+			IonElementPtr->next.image.farray = IonElementPtr->current.image.farray;
+		}
 
 		SetElementStarShip (IonElementPtr, StarShipPtr);
 
