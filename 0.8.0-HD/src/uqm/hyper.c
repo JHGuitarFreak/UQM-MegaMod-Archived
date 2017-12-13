@@ -50,7 +50,7 @@
 
 static FRAME npcbubble;			// BW: animated bubble
 static FRAME quasiportal;       // JMS: animated quasispace portal in hyperspace
-static FRAME quasiworld;        // JMS: Arilou homeworld in quasispace
+static FRAME Falayalaralfali;        // JMS: Arilou homeworld in quasispace
 static FRAME hyperholes[3];		// BW: One for each flavour of space
 static FRAME hyperstars[4];
 static COLORMAP hypercmaps[2];
@@ -305,8 +305,8 @@ FreeHyperData (void)
 		npcbubble = 0;
 		DestroyDrawable (ReleaseDrawable (quasiportal));
 		quasiportal = 0;
-		DestroyDrawable (ReleaseDrawable (quasiworld));
-		quasiworld = 0;
+		DestroyDrawable (ReleaseDrawable (Falayalaralfali));
+		Falayalaralfali = 0;
 	}
 	
 	DestroyDrawable (ReleaseDrawable (hyperstars[0]));
@@ -338,7 +338,7 @@ LoadHyperData (void)
 		}
 		npcbubble = CaptureDrawable (LoadGraphic (NPCBUBBLE_MASK_PMAP_ANIM));
 		quasiportal = CaptureDrawable (LoadGraphic (QUASIPORTAL_MASK_PMAP_ANIM));
-        quasiworld  = CaptureDrawable (LoadGraphic (QUASIWORLD_MASK_PMAP_ANIM));
+        Falayalaralfali  = CaptureDrawable (LoadGraphic (FALAYALARALFALI_MASK_PMAP_ANIM));
 	}
 	
 	if (hyperstars[0] == 0) {
@@ -1753,9 +1753,9 @@ SeedUniverse (void)
 					// JMS_GFX: Draw Arilou homeworld in quasispace.
 					else if ((GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1) && STAR_COLOR (star_type) == YELLOW_BODY)
 					{
-						// JMS_GFX: Draw Arilou homeworld in quasispace.
-						HyperSpaceElementPtr->current.image.frame = SetAbsFrameIndex (hyperstars[2], 6);
-						HyperSpaceElementPtr->current.image.farray = &hyperstars[2];
+						// JMS_GFX: Draw Arilou homeworld in quasispace | Serosis: Draw *animated* Arilou homeworld
+						HyperSpaceElementPtr->current.image.frame = SetAbsFrameIndex (Falayalaralfali, frameCounter % NUM_HOLES_FRAMES);
+						HyperSpaceElementPtr->current.image.farray = &Falayalaralfali;
 					}
 					HyperSpaceElementPtr->death_func = NULL;
 					HyperSpaceElementPtr->preprocess_func = NULL;
@@ -1808,27 +1808,17 @@ SeedUniverse (void)
 				HyperSpaceElementPtr->current.image.frame = SetRelFrameIndex (
 					HyperSpaceElementPtr->current.image.frame,
 					frameCounter % NUM_HOLES_FRAMES);
-				
-				if ((GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1) && STAR_COLOR (star_type) == YELLOW_BODY) {					
-					HyperSpaceElementPtr->current.image.frame =
-						SetAbsFrameIndex (quasiworld, frameCounter % NUM_HOLES_FRAMES);
-					HyperSpaceElementPtr->current.image.farray = &quasiworld;
-				} else {
-					HyperSpaceElementPtr->current.image.farray = &hyperholes[which_spaces_star_gfx];
-				}
+
+				HyperSpaceElementPtr->current.image.farray = &hyperholes[which_spaces_star_gfx];
 				HyperSpaceElementPtr->preprocess_func = NULL;
 				HyperSpaceElementPtr->postprocess_func = NULL;
 				HyperSpaceElementPtr->collision_func = hyper_collision;
 				
 				SetUpElement (HyperSpaceElementPtr);
 				
-				if ((SDPtr == CurStarDescPtr && GET_GAME_STATE (PORTAL_COUNTER) == 0)
-					||  ((GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1) && STAR_COLOR (star_type) == YELLOW_BODY))
-				{
+				if ((SDPtr == CurStarDescPtr && GET_GAME_STATE (PORTAL_COUNTER) == 0)) {
 					HyperSpaceElementPtr->death_func = hyper_death;
-				}
-				else
-				{
+				} else {
 					HyperSpaceElementPtr->death_func = NULL;
 					HyperSpaceElementPtr->IntersectControl.IntersectStamp.frame =
 					DecFrameIndex (stars_in_space);
