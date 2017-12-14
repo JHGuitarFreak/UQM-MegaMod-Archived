@@ -1278,18 +1278,20 @@ static void
 PlanetOrbitInit (COUNT width, COUNT height, BOOLEAN inOrbit)
 {
 	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
-	COUNT i;
-	COUNT SphereSpanX = height;
-	COUNT Diameter = height + 1;	
 	COUNT ShieldRadius = (height >> 1) * SHIELD_RADIUS / RADIUS;
 	COUNT ShieldDiam = (ShieldRadius << 1) + 1;
+	COUNT Diameter = height + 1;	
+	COUNT SphereSpanX = height;
+	COUNT i;
 
 
-	Orbit->SphereFrame = CaptureDrawable (CreateDrawable (WANT_PIXMAP | WANT_ALPHA, Diameter, Diameter, 2));
+	Orbit->SphereFrame = CaptureDrawable (CreateDrawable (
+			WANT_PIXMAP | WANT_ALPHA, Diameter, Diameter, 2));
 	Orbit->ObjectFrame = 0;
 	Orbit->WorkFrame = 0;
 	Orbit->lpTopoData = HCalloc (width * height);
-	Orbit->TopoColors = HMalloc (sizeof (Orbit->TopoColors[0]) * (height * (width + SphereSpanX)));
+	Orbit->TopoColors = HMalloc (sizeof (Orbit->TopoColors[0]) 
+		* (height * (width + SphereSpanX)));
 	// always allocate the scratch array to largest needed size
 	Orbit->ScratchArray = HMalloc (sizeof (Orbit->ScratchArray[0]) * (ShieldDiam) * (ShieldDiam));
 	Orbit->light_diff = HMalloc (sizeof (DWORD *) * Diameter);
