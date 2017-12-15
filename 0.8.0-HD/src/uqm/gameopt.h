@@ -28,6 +28,7 @@ extern BOOLEAN GameOptions (void);
 
 typedef void (NamingCallback) (void);
 extern void SetNamingCallback (NamingCallback *);
+extern void AskNameForCaptainAndShip(void);
 
 #if defined(__cplusplus)
 }
