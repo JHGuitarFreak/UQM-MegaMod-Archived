@@ -471,7 +471,7 @@ Widget_Slider_DrawValue (WIDGET_SLIDER *self, int x, int y)
 	TEXT t;
 	char buffer[16];
 
-	sprintf (buffer, "%d", self->value);
+	sprintf_s (buffer, 16, "%d", self->value);
 
 	t.baseline.x = x;
 	t.baseline.y = y;

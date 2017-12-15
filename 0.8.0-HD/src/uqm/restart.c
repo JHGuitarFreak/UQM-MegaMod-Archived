@@ -60,7 +60,8 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 {
 	RECT r;
 	STAMP s;
-	TEXT t;
+	TEXT t; 
+	char *Credit;
 	UNICODE buf[64];
 
 	// Re-load all of the restart menu fonts so the text shows in correct size after changing the resolution.
@@ -128,18 +129,18 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	t.align = ALIGN_LEFT;
 	switch (Rando){
 		case 1:
-			sprintf_s (buf, 64, "Main Menu Music by Rush AX");
+			Credit = "Main Menu Music by Rush AX";
 			break;
 		case 2:
-			sprintf_s (buf, 64, "Main Menu Music by Mark Vera");
+			Credit = "Main Menu Music by Mark Vera";
 			break;
 		case 0:
 		default:
-			sprintf_s (buf, 64, "Main Menu Music by Saibuster");
+			Credit = "Main Menu Music by Saibuster";
 			break;
 	}
+	sprintf_s (buf, 64, "%s", Credit);
 	font_DrawText (&t);
-
 	UnbatchGraphics ();
 }
 
