@@ -118,7 +118,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	t.baseline.y = SCREEN_HEIGHT - 2;
 	t.align = ALIGN_RIGHT;
 	t.CharCount = (COUNT)~0;
-	sprintf (buf, "v%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION, UQM_PATCH_VERSION, UQM_EXTRA_VERSION);
+	sprintf_s (buf, 64, "v%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION, UQM_PATCH_VERSION, UQM_EXTRA_VERSION);
 	SetContextForeGroundColor (WHITE_COLOR);
 	font_DrawText (&t);
 	// Put the main menu music credit in the bottom left corner.
@@ -128,14 +128,14 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	t.align = ALIGN_LEFT;
 	switch (Rando){
 		case 1:
-			sprintf (buf, "Main Menu Music by Rush AX");
+			sprintf_s (buf, 64, "Main Menu Music by Rush AX");
 			break;
 		case 2:
-			sprintf (buf, "Main Menu Music by Mark Vera");
+			sprintf_s (buf, 64, "Main Menu Music by Mark Vera");
 			break;
 		case 0:
 		default:
-			sprintf (buf, "Main Menu Music by Saibuster");
+			sprintf_s (buf, 64, "Main Menu Music by Saibuster");
 			break;
 	}
 	font_DrawText (&t);
