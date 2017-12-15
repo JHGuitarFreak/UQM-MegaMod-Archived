@@ -1178,7 +1178,7 @@ PrepareSummary (SUMMARY_DESC *SummPtr, const char *name)
 	SummPtr->month_index = GLOBAL (GameClock.month_index);
 	SummPtr->year_index = GLOBAL (GameClock.year_index);
 	SummPtr->SaveName[SAVE_NAME_SIZE-1] = 0;
-	strncpy (SummPtr->SaveName, name, SAVE_NAME_SIZE-1);
+	strncpy_s (SummPtr->SaveName, 64, name, SAVE_NAME_SIZE-1);
 	SummPtr->res_factor = RESOLUTION_FACTOR;
 }
 
@@ -1465,7 +1465,7 @@ SaveGame (COUNT which_game, SUMMARY_DESC *SummPtr, const char *name)
 		PutGroupInfo (GROUPS_RANDOM, GROUP_SAVE_IP);
 
 	// Write the memory file to the actual savegame file.
-	sprintf (file, "uqmsave.%02u", which_game);
+	sprintf_s (file, 260, "uqmsave.%02u", which_game);
 	if ((out_fp = res_OpenResFile (saveDir, file, "wb")))
 	{
 		io_ok = TRUE;
