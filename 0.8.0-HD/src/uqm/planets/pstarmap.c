@@ -1003,7 +1003,7 @@ UpdateCursorInfo (UNICODE *prevbuf)
 	DrawHyperCoords (cursorLoc);
 	if (strcmp (buf, prevbuf) != 0)
 	{
-		strcpy (prevbuf, buf);
+		strcpy_s (prevbuf, 256, buf);
 		// Cursor is on top of a star. Display its name.
 		if (BestSDPtr)
 			DrawSISMessage (buf);
@@ -1029,14 +1029,14 @@ UpdateCursorInfo (UNICODE *prevbuf)
 			// In QS, don't display star search button - the search is unusable.
 			else
 			{
-				strcpy (buf, "QuasiSpace");
+				strcpy_s (buf, 11, "QuasiSpace");
 				DrawSISMessage (buf);
 			}
 		}
 	}
 }
 
-static int
+static COUNT
 FuelRequired (void){
 	COUNT fuel_required;
 	DWORD f;
@@ -1067,10 +1067,10 @@ UpdateFuelRequirement (void)
 	UNICODE buf[80];
 	COUNT fuel_required = FuelRequired();
 
-	sprintf (buf, "%s %u.%u",
-			GAME_STRING (NAVIGATION_STRING_BASE + 4),
-			fuel_required / FUEL_TANK_SCALE,
-			(fuel_required % FUEL_TANK_SCALE) / 10);
+	sprintf_s (buf, 80, "%s %u.%u", 
+		GAME_STRING (NAVIGATION_STRING_BASE + 4), 
+		fuel_required / FUEL_TANK_SCALE, 
+		(fuel_required % FUEL_TANK_SCALE) / 10);
 
 	DrawStatusMessage (buf);
 }
@@ -1310,11 +1310,11 @@ DrawMatchedStarName (TEXTENTRY_STATE *pTES)
 	{	// draw substring match
 		UNICODE *pstr = buf;
 
-		strcpy (pstr, pSS->Text);
+		strcpy_s (pstr, 256, pSS->Text);
 		ExPos = pSS->ClusterPos;
 		pstr = skipUTF8Chars (pstr, pSS->ClusterPos);
 
-		strcpy (pstr, GAME_STRING (SDPtr->Postfix));
+		strcpy_s (pstr, 256, GAME_STRING (SDPtr->Postfix));
 		ExPos += pSS->ClusterLen;
 		CurPos = pTES->CursorPos;
 
@@ -1339,7 +1339,7 @@ MatchNextStar (STAR_SEARCH_STATE *pSS, BOOLEAN Reset)
 		pSS->LastIndex = -1;
 		pSS->SingleClust = FALSE;
 		pSS->SingleMatch = FALSE;
-		strcpy (pSS->Buffer, pSS->Text);
+		strcpy_s (pSS->Buffer, 256, pSS->Text);
 		SplitStarName (pSS);
 	}
 
@@ -1380,7 +1380,7 @@ OnStarNameChange (TEXTENTRY_STATE *pTES)
 	if (strcmp (pSS->Text, pSS->LastText) != 0)
 	{	// string changed
 		pSS->LastChangeTime = GetTimeCounter ();
-		strcpy (pSS->LastText, pSS->Text);
+		strcpy_s (pSS->LastText, 256, pSS->Text);
 		
 		// reset the search
 		MatchNextStar (pSS, TRUE);
@@ -1591,7 +1591,7 @@ DoMoveCursor (MENU_STATE *pMS)
 				UpdateCursorLocation (0, 0, &oldpt);
 			}
 			// make sure cmp fails
-			strcpy (last_buf, "  <random garbage>  ");
+			strcpy_s (last_buf, 21, "  <random garbage>  ");
 			UpdateCursorInfo (last_buf);
 			UpdateFuelRequirement ();
 

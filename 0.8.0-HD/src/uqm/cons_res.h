@@ -34,7 +34,6 @@ static MUSIC_REF OrbitMusic[NUM_ORBIT_THEMES];
 MUSIC_REF load_orbit_theme (BYTE selector);
 
 #define NUM_MM_THEMES 3
-static MUSIC_REF MenuMusic[NUM_MM_THEMES];
 MUSIC_REF loadMainMenuMusic (BYTE selector);
 
 #if defined(__cplusplus)

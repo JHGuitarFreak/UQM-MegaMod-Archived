@@ -587,8 +587,7 @@ NameSaveGame (COUNT gameIndex, UNICODE *buf)
 }
 
 // JMS: This is for naming captain and ship at game start.
-void
-AskNameForCaptainAndShip()
+void AskNameForCaptainAndShip(void)
 {
 	// Give sounds for arrows and enter.
 	SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);
