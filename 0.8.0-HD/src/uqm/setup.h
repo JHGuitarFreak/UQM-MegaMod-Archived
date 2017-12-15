@@ -69,7 +69,6 @@ extern BOOLEAN hires2xPackPresent; // JMS
 extern BOOLEAN hires4xPackPresent; // JMS
 extern BOOLEAN comingFromInit;
 extern BYTE Rando;
-extern MUSIC_REF RandoMusic;
 
 extern ACTIVITY LastActivity;
 
