@@ -43,6 +43,7 @@
 #include "libs/graphics/sdl/pure.h"
 #include "libs/log.h"
 #include "options.h"
+#include "cons_res.h"
 
 enum
 {
@@ -125,7 +126,18 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	t.baseline.x = 2;
 	t.baseline.y = SCREEN_HEIGHT - 2;
 	t.align = ALIGN_LEFT;
-	sprintf (buf, "Main Menu Music by Saibuster");
+	switch (Rando){
+		case 1:
+			sprintf (buf, "Main Menu Music by Rush AX");
+			break;
+		case 2:
+			sprintf (buf, "Main Menu Music by Mark Vera");
+			break;
+		case 0:
+		default:
+			sprintf (buf, "Main Menu Music by Saibuster");
+			break;
+	}
 	font_DrawText (&t);
 
 	UnbatchGraphics ();
@@ -180,9 +192,11 @@ DoRestart (MENU_STATE *pMS)
 			DestroyMusic (pMS->hMusic);
 			pMS->hMusic = 0;
 		}
+
 		if(!comingFromInit)
-			pMS->hMusic = LoadMusic (MAINMENU1_MUSIC);
-		InactTimeOut = (pMS->hMusic && optMainMenuMusic ? 86 : 20) * ONE_SECOND;
+			pMS->hMusic = RandoMusic;
+		InactTimeOut = (pMS->hMusic && optMainMenuMusic ? 90 : 20) * ONE_SECOND;
+
 		pMS->flashContext = Flash_createOverlay (ScreenContext,
 				NULL, NULL);
 		Flash_setMergeFactors (pMS->flashContext, -3, 3, 16);
@@ -339,7 +353,9 @@ DoRestart (MENU_STATE *pMS)
 				SetupMenu ();
 				SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN,
 						MENU_SOUND_SELECT);
-				InactTimeOut = (pMS->hMusic && optMainMenuMusic ? 86 : 20) * ONE_SECOND;
+
+				InactTimeOut = (pMS->hMusic && optMainMenuMusic ? 90 : 20) * ONE_SECOND;
+
 				LastInputTime = GetTimeCounter ();
 				SetTransitionSource (NULL);
 				BatchGraphics ();

@@ -80,6 +80,8 @@ BOOLEAN seroMenuPresent;
 BOOLEAN hires2xPackPresent;
 BOOLEAN hires4xPackPresent;
 BOOLEAN comingFromInit;
+BYTE Rando;
+MUSIC_REF RandoMusic;
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
