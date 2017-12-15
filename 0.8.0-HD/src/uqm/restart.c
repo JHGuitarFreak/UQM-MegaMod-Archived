@@ -180,7 +180,8 @@ DoRestart (MENU_STATE *pMS)
 			DestroyMusic (pMS->hMusic);
 			pMS->hMusic = 0;
 		}
-		pMS->hMusic = LoadMusic (MAINMENU_MUSIC);
+		if(!comingFromInit)
+			pMS->hMusic = LoadMusic (MAINMENU1_MUSIC);
 		InactTimeOut = (pMS->hMusic && optMainMenuMusic ? 86 : 20) * ONE_SECOND;
 		pMS->flashContext = Flash_createOverlay (ScreenContext,
 				NULL, NULL);
