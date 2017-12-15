@@ -72,7 +72,6 @@ SplashScreen (void (* DoProcessing)(DWORD TimeOut))
 {
 	STAMP s;
 	DWORD TimeOut;
-	MUSIC_REF Music = LoadMusic (MAINMENU1_MUSIC);
 
 	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 120));
 	SetContext (ScreenContext);

@@ -222,23 +222,19 @@ while (--ac > 0)
 	}
 
 	{
-	}
-
-	{
 		COUNT i;
-		MUSIC_REF Music;
-		BYTE rando;
 		srand(time(NULL));
 		
-		rando = (rand() % NUM_MM_THEMES);
+		Rando = (rand() % NUM_MM_THEMES);
 
 		for (i = 0; i < NUM_MM_THEMES; ++i)
 			MenuMusic[i] = loadMainMenuMusic (i);
-		printf("%d\n", rando);
 
-		Music = MenuMusic[((rand() % NUM_MM_THEMES)+1)];
+		printf("%d\n", Rando);
+
+		RandoMusic = MenuMusic[Rando];
 		FadeMusic(0,0);
-		PlayMusic (Music, TRUE, 1);
+		PlayMusic (RandoMusic, TRUE, 1);
 		
 		if (optMainMenuMusic)
 			FadeMusic (NORMAL_VOLUME+70, ONE_SECOND * 3);
