@@ -193,9 +193,9 @@ DoRestart (MENU_STATE *pMS)
 			pMS->hMusic = 0;
 		}
 
-		if(!comingFromInit)
-			pMS->hMusic = RandoMusic;
-		InactTimeOut = (pMS->hMusic && optMainMenuMusic ? 90 : 20) * ONE_SECOND;
+		
+		pMS->hMusic = RandoMusic;
+		InactTimeOut = (optMainMenuMusic ? 90 : 20) * ONE_SECOND;
 
 		pMS->flashContext = Flash_createOverlay (ScreenContext,
 				NULL, NULL);
@@ -354,7 +354,7 @@ DoRestart (MENU_STATE *pMS)
 				SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN,
 						MENU_SOUND_SELECT);
 
-				InactTimeOut = (pMS->hMusic && optMainMenuMusic ? 90 : 20) * ONE_SECOND;
+				InactTimeOut = (optMainMenuMusic ? 90 : 20) * ONE_SECOND;
 
 				LastInputTime = GetTimeCounter ();
 				SetTransitionSource (NULL);
