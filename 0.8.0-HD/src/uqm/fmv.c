@@ -72,6 +72,7 @@ SplashScreen (void (* DoProcessing)(DWORD TimeOut))
 {
 	STAMP s;
 	DWORD TimeOut;
+	MUSIC_REF Music = LoadMusic (MAINMENU_MUSIC);
 
 	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 120));
 	SetContext (ScreenContext);
@@ -94,8 +95,15 @@ SplashScreen (void (* DoProcessing)(DWORD TimeOut))
 
 	TimeOut = FadeScreen (FadeAllToColor, ONE_SECOND / 2);
 
-	if (DoProcessing)
+	if (DoProcessing){
 		DoProcessing (TimeOut);
+		FadeMusic(0,0);
+		PlayMusic (Music, TRUE, 1);
+		
+		if (optMainMenuMusic)
+			FadeMusic (NORMAL_VOLUME+70, ONE_SECOND * 3);
+		comingFromInit = TRUE;
+	}
 	if (GLOBAL (CurrentActivity) & CHECK_ABORT)
 	{
 		return;

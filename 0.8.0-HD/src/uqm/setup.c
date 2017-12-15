@@ -79,6 +79,7 @@ BOOLEAN seroMenuPresent;
 // JMS_GFX
 BOOLEAN hires2xPackPresent;
 BOOLEAN hires4xPackPresent;
+BOOLEAN comingFromInit;
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
