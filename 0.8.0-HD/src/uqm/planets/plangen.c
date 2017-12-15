@@ -1737,7 +1737,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	}*/
 	
 	SphereSpanX = (inOrbit ? SPHERE_SPAN_X : Height);
-	Radius = (inOrbit ? RADIUS : (SphereSpanX >> 1)) ;
+	Radius = (inOrbit ? RADIUS : ((SphereSpanX >> 1) - RESOLUTION_FACTOR)) ;
 
 	RandomContext_SeedRandom (SysGenRNG, pPlanetDesc->rand_seed);
 
