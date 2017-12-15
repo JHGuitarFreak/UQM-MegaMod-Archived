@@ -110,3 +110,11 @@ load_orbit_theme (BYTE selector)
 	buffer[79] = '\0'; /* Shouldn't be necessary, but better safe than sorry */	
 	return LoadMusic (buffer);
 }
+
+MUSIC_REF
+loadMainMenuMusic (BYTE selector)
+{
+	snprintf (buffer, 79, "music.mainmenu%d", selector + 1);
+	buffer[79] = '\0'; /* Shouldn't be necessary, but better safe than sorry */	
+	return LoadMusic (buffer);
+}

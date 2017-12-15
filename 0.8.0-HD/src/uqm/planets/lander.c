@@ -64,8 +64,6 @@ struct LanderInputState {
 FRAME LanderFrame[8];
 static SOUND LanderSounds;
 MUSIC_REF LanderMusic;
-#define NUM_ORBIT_THEMES 5
-static MUSIC_REF OrbitMusic[NUM_ORBIT_THEMES];
 
 const LIFEFORM_DESC CreatureData[] =
 {

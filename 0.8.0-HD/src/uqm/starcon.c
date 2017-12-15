@@ -53,7 +53,10 @@
 #include "setupmenu.h"
 #include "build.h"
 #include "gameopt.h" // JMS: For naming captain and ship at game start.
-
+#include "nameref.h"
+#include "settings.h"
+#include "cons_res.h"
+#include <time.h>//required to use 'srand(time(NULL))'
 
 volatile int MainExited = FALSE;
 #ifdef DEBUG_SLEEP
@@ -217,6 +220,31 @@ while (--ac > 0)
 	if(optWhichIntro == OPT_3DO && optFMV && !optSkipIntro){
 		Logo ();
 	}
+
+	{
+	}
+
+	{
+		COUNT i;
+		MUSIC_REF Music;
+		BYTE rando;
+		srand(time(NULL));
+		
+		rando = (rand() % NUM_MM_THEMES);
+
+		for (i = 0; i < NUM_MM_THEMES; ++i)
+			MenuMusic[i] = loadMainMenuMusic (i);
+		printf("%d\n", rando);
+
+		Music = MenuMusic[((rand() % NUM_MM_THEMES)+1)];
+		FadeMusic(0,0);
+		PlayMusic (Music, TRUE, 1);
+		
+		if (optMainMenuMusic)
+			FadeMusic (NORMAL_VOLUME+70, ONE_SECOND * 3);
+		comingFromInit = TRUE;
+	}
+
 	SplashScreen (BackgroundInitKernel);
 
 //	OpenJournal ();
