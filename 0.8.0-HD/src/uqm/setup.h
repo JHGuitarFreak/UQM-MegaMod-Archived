@@ -67,6 +67,7 @@ extern BOOLEAN solTexturesPresent;
 extern BOOLEAN seroNebulaePresent;
 extern BOOLEAN hires2xPackPresent; // JMS
 extern BOOLEAN hires4xPackPresent; // JMS
+extern BOOLEAN comingFromInit;
 
 extern ACTIVITY LastActivity;
 

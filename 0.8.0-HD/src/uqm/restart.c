@@ -174,7 +174,7 @@ DoRestart (MENU_STATE *pMS)
 
 	if (!pMS->Initialized)
 	{
-		if (pMS->hMusic)
+		if (pMS->hMusic && !comingFromInit)
 		{
 			StopMusic ();
 			DestroyMusic (pMS->hMusic);
@@ -196,11 +196,13 @@ DoRestart (MENU_STATE *pMS)
 		pMS->Initialized = TRUE;
 
 		SleepThreadUntil (FadeScreen (FadeAllToColor, ONE_SECOND / 2));
-		FadeMusic(0,0);
-		PlayMusic (pMS->hMusic, TRUE, 1);
+		if (!comingFromInit){
+			FadeMusic(0,0);
+			PlayMusic (pMS->hMusic, TRUE, 1);
 		
-		if (optMainMenuMusic)
-			FadeMusic (NORMAL_VOLUME+70, ONE_SECOND * 3);
+			if (optMainMenuMusic)
+				FadeMusic (NORMAL_VOLUME+70, ONE_SECOND * 3);
+		}
 	}
 	else if (GLOBAL (CurrentActivity) & CHECK_ABORT)
 	{
@@ -427,7 +429,7 @@ DoRestart (MENU_STATE *pMS)
 			return FALSE;
 		}
 	}
-
+	comingFromInit = FALSE;
 	SleepThreadUntil (TimeIn + ONE_SECOND / 30);
 
 	return TRUE;
