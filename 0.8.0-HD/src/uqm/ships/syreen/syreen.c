@@ -59,7 +59,7 @@
 #define THRUST_INCREMENT_4XRES /* DISPLAY_TO_WORLD (2) */ 36
 #define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
 
-static RACE_DESC syreen_desc =
+static RACE_DESC syreen_desc1x =
 {
 	{ /* SHIP_INFO */
 		"penetrator",
@@ -133,7 +133,7 @@ static RACE_DESC syreen_desc =
 
 
 // JMS_GFX
-static RACE_DESC syreen_desc_2xres =
+static RACE_DESC syreen_desc2x =
 {
 	{ /* SHIP_INFO */
 		"penetrator",
@@ -206,7 +206,7 @@ static RACE_DESC syreen_desc_2xres =
 };
 
 // JMS_GFX
-static RACE_DESC syreen_desc_4xres =
+static RACE_DESC syreen_desc4x =
 {
 	{ /* SHIP_INFO */
 		"penetrator",
@@ -433,29 +433,16 @@ syreen_postprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_syreen (void)
 {
+	
+	static RACE_DESC syreen_desc;
 	RACE_DESC *RaceDescPtr;
 
-	if (RESOLUTION_FACTOR == 0)
-	{
-		syreen_desc.postprocess_func = syreen_postprocess;
-		syreen_desc.init_weapon_func = initialize_dagger;
-		syreen_desc.cyborg_control.intelligence_func = syreen_intelligence;
-		RaceDescPtr = &syreen_desc;
-	}
-	else if (RESOLUTION_FACTOR == 1)
-	{
-		syreen_desc_2xres.postprocess_func = syreen_postprocess;
-		syreen_desc_2xres.init_weapon_func = initialize_dagger;
-		syreen_desc_2xres.cyborg_control.intelligence_func = syreen_intelligence;
-		RaceDescPtr = &syreen_desc_2xres;
-	}
-	else
-	{
-		syreen_desc_4xres.postprocess_func = syreen_postprocess;
-		syreen_desc_4xres.init_weapon_func = initialize_dagger;
-		syreen_desc_4xres.cyborg_control.intelligence_func = syreen_intelligence;
-		RaceDescPtr = &syreen_desc_4xres;
-	}
+	syreen_desc = (RESOLUTION_FACTOR == 0 ? syreen_desc1x : (RESOLUTION_FACTOR == 1 ? syreen_desc2x : syreen_desc4x));
+
+	syreen_desc.postprocess_func = syreen_postprocess;
+	syreen_desc.init_weapon_func = initialize_dagger;
+	syreen_desc.cyborg_control.intelligence_func = syreen_intelligence;
+	RaceDescPtr = &syreen_desc;
 
 	return (RaceDescPtr);
 }
