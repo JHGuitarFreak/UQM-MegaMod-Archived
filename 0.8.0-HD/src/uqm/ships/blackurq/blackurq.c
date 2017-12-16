@@ -71,7 +71,7 @@
 #define MAX_THRUST_4XRES 120		// JMS_GFX
 #define THRUST_INCREMENT_4XRES 24	// JMS_GFX
 
-static RACE_DESC black_urquan_desc =
+static RACE_DESC black_urquan_desc_1x =
 {
 	{ /* SHIP_INFO */
 		"marauder",
@@ -144,7 +144,7 @@ static RACE_DESC black_urquan_desc =
 };
 
 // JMS_GFX
-static RACE_DESC black_urquan_desc_2xres =
+static RACE_DESC black_urquan_desc_2x =
 {
 	{ /* SHIP_INFO */
 		"marauder",
@@ -217,7 +217,7 @@ static RACE_DESC black_urquan_desc_2xres =
 };
 
 // JMS_GFX
-static RACE_DESC black_urquan_desc_4xres =
+static RACE_DESC black_urquan_desc_4x =
 {
 	{ /* SHIP_INFO */
 		"marauder",
@@ -706,29 +706,28 @@ black_urquan_preprocess (ELEMENT *ElementPtr)
 
 RACE_DESC*
 init_black_urquan (void)
-{
+{	
+	static RACE_DESC black_urquan_desc;
 	RACE_DESC *RaceDescPtr;
 
-	// JMS_GFX: A rather clumsy way of giving ship correct stats at hi-res mode
-	if (RESOLUTION_FACTOR == 0) {
-		black_urquan_desc.preprocess_func = black_urquan_preprocess;
-		black_urquan_desc.postprocess_func = black_urquan_postprocess;
-		black_urquan_desc.init_weapon_func = initialize_buzzsaw;
-		black_urquan_desc.cyborg_control.intelligence_func = black_urquan_intelligence;
-		RaceDescPtr = &black_urquan_desc;
-	} else if (RESOLUTION_FACTOR == 1) {
-		black_urquan_desc_2xres.preprocess_func = black_urquan_preprocess;
-		black_urquan_desc_2xres.postprocess_func = black_urquan_postprocess;
-		black_urquan_desc_2xres.init_weapon_func = initialize_buzzsaw;
-		black_urquan_desc_2xres.cyborg_control.intelligence_func = black_urquan_intelligence;
-		RaceDescPtr = &black_urquan_desc_2xres;
-	} else {
-		black_urquan_desc_4xres.preprocess_func = black_urquan_preprocess;
-		black_urquan_desc_4xres.postprocess_func = black_urquan_postprocess;
-		black_urquan_desc_4xres.init_weapon_func = initialize_buzzsaw;
-		black_urquan_desc_4xres.cyborg_control.intelligence_func = black_urquan_intelligence;
-		RaceDescPtr = &black_urquan_desc_4xres;
+	switch (RESOLUTION_FACTOR){
+		case 1:
+			black_urquan_desc = black_urquan_desc_2x;
+			break;
+		case 2:
+			black_urquan_desc = black_urquan_desc_4x;
+			break;
+		case 0:
+		default:			
+			black_urquan_desc = black_urquan_desc_1x;
+			break;
 	}
+
+	black_urquan_desc.preprocess_func = black_urquan_preprocess;
+	black_urquan_desc.postprocess_func = black_urquan_postprocess;
+	black_urquan_desc.init_weapon_func = initialize_buzzsaw;
+	black_urquan_desc.cyborg_control.intelligence_func = black_urquan_intelligence;
+	RaceDescPtr = &black_urquan_desc;
 
 	return (RaceDescPtr);
 }
