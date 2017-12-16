@@ -49,7 +49,7 @@ DoShipSpin (COUNT index, MUSIC_REF hMusic)
 	FreeHyperData ();
 
 	// TODO: It would be nice to have better resource names for these.
-	sprintf_s (vnbuf, 24, "slides.spins.%02u", (unsigned)index);
+	sprintf (vnbuf, "slides.spins.%02u", (unsigned)index);
 	ShowPresentation (vnbuf);
 
 	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 4));
