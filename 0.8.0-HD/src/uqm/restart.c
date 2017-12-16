@@ -119,7 +119,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	t.baseline.y = SCREEN_HEIGHT - 2;
 	t.align = ALIGN_RIGHT;
 	t.CharCount = (COUNT)~0;
-	sprintf_s (buf, 64, "v%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION, UQM_PATCH_VERSION, UQM_EXTRA_VERSION);
+	sprintf (buf, "v%d.%d.%d%s", UQM_MAJOR_VERSION, UQM_MINOR_VERSION, UQM_PATCH_VERSION, UQM_EXTRA_VERSION);
 	SetContextForeGroundColor (WHITE_COLOR);
 	font_DrawText (&t);
 	// Put the main menu music credit in the bottom left corner.
@@ -139,7 +139,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 			Credit = "Main Menu Music by Saibuster";
 			break;
 	}
-	sprintf_s (buf, 64, "%s", Credit);
+	sprintf (buf, "%s", Credit);
 	font_DrawText (&t);
 	UnbatchGraphics ();
 }
