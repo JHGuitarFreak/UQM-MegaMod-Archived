@@ -49,13 +49,19 @@
 
 // Satellites
 #define NUM_SATELLITES 3
-#define SATELLITE_OFFSET DISPLAY_TO_WORLD (64)
+#define SATELLITE_OFFSET DISPLAY_TO_WORLD (64 << RESOLUTION_FACTOR)
 #define SATELLITE_HITPOINTS 10
 #define SATELLITE_MASS 10
-#define DEFENSE_RANGE (UWORD)64
+#define DEFENSE_RANGE (UWORD)(64 << RESOLUTION_FACTOR)
 #define DEFENSE_WAIT 2
 
-static RACE_DESC chmmr_desc =
+// HD
+#define MAX_THRUST_2XRES 70
+#define THRUST_INCREMENT_2XRES 14
+#define MAX_THRUST_4XRES 140
+#define THRUST_INCREMENT_4XRES 28
+
+static RACE_DESC chmmr_desc1x =
 {
 	{ /* SHIP_INFO */
 		"avatar",
@@ -127,6 +133,152 @@ static RACE_DESC chmmr_desc =
 	0, /* CodeRef */
 };
 
+// JMS_GFX
+static RACE_DESC chmmr_desc2x =
+{
+	{ /* SHIP_INFO */
+		"avatar",
+		FIRES_FORE | IMMEDIATE_WEAPON | SEEKING_SPECIAL | HEAVY_POINT_DEFENSE,
+		30, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		CHMMR_RACE_STRINGS,
+		CHMMR_ICON_MASK_PMAP_ANIM,
+		CHMMR_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL//, SHIP_IS_NOT_DAMAGED
+	},
+	{ /* FLEET_STUFF */
+		0, /* Initial sphere of influence radius */
+		{ /* Known location (center of SoI) */
+			0, 0,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			CHMMR_BIG_MASK_PMAP_ANIM,
+			CHMMR_MED_MASK_PMAP_ANIM,
+			CHMMR_SML_MASK_PMAP_ANIM,
+		},
+		{
+			MUZZLE_BIG_MASK_PMAP_ANIM,
+			MUZZLE_MED_MASK_PMAP_ANIM,
+			MUZZLE_SML_MASK_PMAP_ANIM,
+		},
+		{
+			SATELLITE_BIG_MASK_PMAP_ANIM,
+			SATELLITE_MED_MASK_PMAP_ANIM,
+			SATELLITE_SML_MASK_PMAP_ANIM,
+		},
+		{
+			CHMMR_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		CHMMR_VICTORY_SONG,
+		CHMMR_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_2XRES,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC chmmr_desc4x =
+{
+	{ /* SHIP_INFO */
+		"avatar",
+		FIRES_FORE | IMMEDIATE_WEAPON | SEEKING_SPECIAL | HEAVY_POINT_DEFENSE,
+		30, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		CHMMR_RACE_STRINGS,
+		CHMMR_ICON_MASK_PMAP_ANIM,
+		CHMMR_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL//, SHIP_IS_NOT_DAMAGED
+	},
+	{ /* FLEET_STUFF */
+		0, /* Initial sphere of influence radius */
+		{ /* Known location (center of SoI) */
+			0, 0,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			CHMMR_BIG_MASK_PMAP_ANIM,
+			CHMMR_MED_MASK_PMAP_ANIM,
+			CHMMR_SML_MASK_PMAP_ANIM,
+		},
+		{
+			MUZZLE_BIG_MASK_PMAP_ANIM,
+			MUZZLE_MED_MASK_PMAP_ANIM,
+			MUZZLE_SML_MASK_PMAP_ANIM,
+		},
+		{
+			SATELLITE_BIG_MASK_PMAP_ANIM,
+			SATELLITE_MED_MASK_PMAP_ANIM,
+			SATELLITE_SML_MASK_PMAP_ANIM,
+		},
+		{
+			CHMMR_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		CHMMR_VICTORY_SONG,
+		CHMMR_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_4XRES,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
 static void
 animate (ELEMENT *ElementPtr)
 {
@@ -152,7 +304,7 @@ laser_death (ELEMENT *ElementPtr)
 
 	if (StarShipPtr->hShip)
 	{
-		SIZE dx, dy;
+		SDWORD dx, dy;
 		long dist;
 		HELEMENT hIonSpots;
 		ELEMENT *ShipPtr;
@@ -165,8 +317,8 @@ laser_death (ELEMENT *ElementPtr)
 				- ShipPtr->current.location.y;
 		if (((BYTE)TFB_Random () & 0x07)
 				&& (dist = (long)dx * dx + (long)dy * dy) >=
-				(long)DISPLAY_TO_WORLD (CHMMR_OFFSET + 10)
-				* DISPLAY_TO_WORLD (CHMMR_OFFSET + 10)
+				(long)DISPLAY_TO_WORLD ((CHMMR_OFFSET + 10) << RESOLUTION_FACTOR) // JMS_GFX
+				* DISPLAY_TO_WORLD ((CHMMR_OFFSET + 10) << RESOLUTION_FACTOR) // JMS_GFX
 				&& (hIonSpots = AllocElement ()))
 		{
 			COUNT angle, magnitude;
@@ -177,13 +329,13 @@ laser_death (ELEMENT *ElementPtr)
 			IonSpotsPtr->state_flags = FINITE_LIFE | NONSOLID
 					| IGNORE_SIMILAR | APPEARING;
 			IonSpotsPtr->turn_wait = IonSpotsPtr->next_turn = 0;
-			IonSpotsPtr->life_span = 9;
+			IonSpotsPtr->life_span = RES_CASE(9,9,14);
 
 			angle = ARCTAN (dx, dy);
 			magnitude = ((COUNT)TFB_Random ()
 					% ((square_root (dist) + 1)
-					- DISPLAY_TO_WORLD (CHMMR_OFFSET + 10)))
-					+ DISPLAY_TO_WORLD (CHMMR_OFFSET + 10);
+					- DISPLAY_TO_WORLD ((CHMMR_OFFSET + 10) << RESOLUTION_FACTOR))) // JMS_GFX
+					+ DISPLAY_TO_WORLD ((CHMMR_OFFSET + 10) << RESOLUTION_FACTOR); // JMS_GFX
 			IonSpotsPtr->current.location.x =
 					ShipPtr->current.location.x
 					+ COSINE (angle, magnitude);
@@ -236,8 +388,8 @@ initialize_megawatt_laser (ELEMENT *ShipPtr, HELEMENT LaserArray[])
 			+ DISPLAY_TO_WORLD (r.corner.x);
 	LaserBlock.cy = DISPLAY_ALIGN (ShipPtr->next.location.y)
 			+ DISPLAY_TO_WORLD (r.corner.y);
-	LaserBlock.ex = COSINE (FACING_TO_ANGLE (LaserBlock.face), LASER_RANGE);
-	LaserBlock.ey = SINE (FACING_TO_ANGLE (LaserBlock.face), LASER_RANGE);
+	LaserBlock.ex = COSINE (FACING_TO_ANGLE (LaserBlock.face), (LASER_RANGE << RESOLUTION_FACTOR)); // JMS_GFX
+	LaserBlock.ey = SINE (FACING_TO_ANGLE (LaserBlock.face), (LASER_RANGE << RESOLUTION_FACTOR)); // JMS_GFX
 	LaserBlock.sender = ShipPtr->playerNr;
 	LaserBlock.flags = IGNORE_SIMILAR;
 	LaserBlock.pixoffs = 0;
@@ -365,6 +517,22 @@ chmmr_postprocess (ELEMENT *ElementPtr)
 					DISPLAY_TO_WORLD (8 + 9 + 11 + 14),
 					DISPLAY_TO_WORLD (8 + 9 + 11 + 14 + 18),
 				};
+				static const SIZE shadow_offs_2xres[] =
+				{
+					DISPLAY_TO_WORLD (16),
+					DISPLAY_TO_WORLD (16 + 18),
+					DISPLAY_TO_WORLD (16 + 18 + 22),
+					DISPLAY_TO_WORLD (16 + 18 + 22 + 28),
+					DISPLAY_TO_WORLD (16 + 18 + 22 + 28 + 36),
+				};
+				static const SIZE shadow_offs_4xres[] =
+				{
+					DISPLAY_TO_WORLD (32),
+					DISPLAY_TO_WORLD (32 + 36),
+					DISPLAY_TO_WORLD (32 + 36 + 44),
+					DISPLAY_TO_WORLD (32 + 36 + 44 + 56),
+					DISPLAY_TO_WORLD (32 + 36 + 44 + 56 + 72),
+				};
 				static const Color color_tab[] =
 				{
 					BUILD_COLOR (MAKE_RGB15_INIT (0x00, 0x00, 0x10), 0x53),
@@ -378,16 +546,15 @@ chmmr_postprocess (ELEMENT *ElementPtr)
 				// calculate tractor beam effect
 				angle = FACING_TO_ANGLE (StarShipPtr->ShipFacing);
 				dx = (ElementPtr->next.location.x
-						+ COSINE (angle, (LASER_RANGE / 3)
-						+ DISPLAY_TO_WORLD (CHMMR_OFFSET)))
+						+ COSINE (angle, ((LASER_RANGE << RESOLUTION_FACTOR) / 3) // JMS_GFX
+						+ DISPLAY_TO_WORLD (CHMMR_OFFSET << RESOLUTION_FACTOR))) // JMS_GFX
 						- ShipElementPtr->next.location.x;
 				dy = (ElementPtr->next.location.y
-						+ SINE (angle, (LASER_RANGE / 3)
-						+ DISPLAY_TO_WORLD (CHMMR_OFFSET)))
+						+ SINE (angle, ((LASER_RANGE << RESOLUTION_FACTOR) / 3) // JMS_GFX
+						+ DISPLAY_TO_WORLD (CHMMR_OFFSET << RESOLUTION_FACTOR))) // JMS_GFX
 						- ShipElementPtr->next.location.y;
 				angle = ARCTAN (dx, dy);
-				magnitude = WORLD_TO_VELOCITY (12) /
-						ShipElementPtr->mass_points;
+				magnitude = WORLD_TO_VELOCITY (12 << RESOLUTION_FACTOR) / ShipElementPtr->mass_points; // JMS_GFX
 				DeltaVelocityComponents (&ShipElementPtr->velocity,
 						COSINE (angle, magnitude), SINE (angle, magnitude));
 
@@ -417,6 +584,15 @@ chmmr_postprocess (ELEMENT *ElementPtr)
 					if (hShadow)
 					{
 						ELEMENT *ShadowElementPtr;
+						COUNT shadow_magnitude; // JMS_GFX
+
+						// JMS_GFX
+						if (RESOLUTION_FACTOR == 0)
+							shadow_magnitude = shadow_offs[i];
+						else if (RESOLUTION_FACTOR == 1)
+							shadow_magnitude = shadow_offs_2xres[i];
+						else
+							shadow_magnitude = shadow_offs_4xres[i];
 
 						LockElement (hShadow, &ShadowElementPtr);
 						ShadowElementPtr->playerNr = ShipElementPtr->playerNr;
@@ -426,9 +602,9 @@ chmmr_postprocess (ELEMENT *ElementPtr)
 
 						ShadowElementPtr->current = ShipElementPtr->next;
 						ShadowElementPtr->current.location.x +=
-								COSINE (angle, shadow_offs[i]);
+								COSINE (angle, shadow_magnitude);
 						ShadowElementPtr->current.location.y +=
-								SINE (angle, shadow_offs[i]);
+								SINE (angle, shadow_magnitude);
 						ShadowElementPtr->next = ShadowElementPtr->current;
 
 						SetElementStarShip (ShadowElementPtr, EnemyStarShipPtr);
@@ -473,7 +649,7 @@ satellite_preprocess (ELEMENT *ElementPtr)
 	GetElementStarShip (ElementPtr, &StarShipPtr);
 	if (StarShipPtr->hShip)
 	{
-		SIZE dx, dy;
+		SDWORD dx, dy;
 		ELEMENT *ShipPtr;
 
 		StarShipPtr->RaceDescPtr->ship_info.ship_flags |= POINT_DEFENSE;
@@ -489,7 +665,7 @@ satellite_preprocess (ELEMENT *ElementPtr)
 		dx = WRAP_DELTA_X (dx);
 		dy = WRAP_DELTA_Y (dy);
 		if ((long)dx * dx + (long)dy * dy
-				<= DISPLAY_TO_WORLD (20L) * DISPLAY_TO_WORLD (20L))
+				<= DISPLAY_TO_WORLD (20L << RESOLUTION_FACTOR) * DISPLAY_TO_WORLD (20L << RESOLUTION_FACTOR))
 			SetVelocityComponents (&ElementPtr->velocity,
 					WORLD_TO_VELOCITY (dx),
 					WORLD_TO_VELOCITY (dy));
@@ -499,8 +675,8 @@ satellite_preprocess (ELEMENT *ElementPtr)
 
 			angle = ARCTAN (dx, dy);
 			SetVelocityComponents (&ElementPtr->velocity,
-					COSINE (angle, WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (20))),
-					SINE (angle, WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (20))));
+					COSINE (angle, WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (20 << RESOLUTION_FACTOR))),
+					SINE (angle, WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (20 << RESOLUTION_FACTOR))));
 		}
 
 		UnlockElement (StarShipPtr->hShip);
@@ -520,7 +696,7 @@ spawn_point_defense (ELEMENT *ElementPtr)
 
 	GetElementStarShip (ElementPtr, &StarShipPtr);
 	hBestObject = 0;
-	best_dist = DEFENSE_RANGE + 1;
+	best_dist = DEFENSE_RANGE + (1 << RESOLUTION_FACTOR);
 	weakest = 255;
 	LockElement (StarShipPtr->hShip, &ShipPtr);
 	LockElement (ElementPtr->hTarget, &SattPtr);
@@ -534,7 +710,7 @@ spawn_point_defense (ELEMENT *ElementPtr)
 				&& CollisionPossible (ObjectPtr, ShipPtr)
 				&& !OBJECT_CLOAKED (ObjectPtr))
 		{
-			SIZE delta_x, delta_y;
+			SDWORD delta_x, delta_y;
 			UWORD dist;
 
 			delta_x = ObjectPtr->next.location.x
@@ -784,7 +960,10 @@ chmmr_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_chmmr (void)
 {
+	static RACE_DESC chmmr_desc;
 	RACE_DESC *RaceDescPtr;
+	
+	chmmr_desc = (ResFac == 0 ? chmmr_desc1x : (ResFac == 1 ? chmmr_desc2x : chmmr_desc4x));
 
 	chmmr_desc.preprocess_func = chmmr_preprocess;
 	chmmr_desc.postprocess_func = chmmr_postprocess;

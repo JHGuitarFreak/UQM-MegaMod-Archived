@@ -58,7 +58,7 @@
 #define ARILOU_OFFSET_4XRES 36											// JMS_GFX
 #define LASER_RANGE_4XRES DISPLAY_TO_WORLD (400 + ARILOU_OFFSET_4XRES)	// JMS_GFX
 
-static RACE_DESC arilou_desc =
+static RACE_DESC arilou_desc1x =
 {
 	{ /* SHIP_INFO */
 		"skiff",
@@ -131,7 +131,7 @@ static RACE_DESC arilou_desc =
 };
 
 // JMS_GFX
-static RACE_DESC arilou_desc_2xres =
+static RACE_DESC arilou_desc2x =
 {
 	{ /* SHIP_INFO */
 		"skiff",
@@ -204,7 +204,7 @@ static RACE_DESC arilou_desc_2xres =
 };
 
 // JMS_GFX
-static RACE_DESC arilou_desc_4xres =
+static RACE_DESC arilou_desc4x =
 {
 	{ /* SHIP_INFO */
 		"skiff",
@@ -465,25 +465,16 @@ arilou_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_arilou (void)
 {
+	
+	static RACE_DESC arilou_desc;
 	RACE_DESC *RaceDescPtr;
+	
+	arilou_desc = (ResFac == 0 ? arilou_desc1x : (ResFac == 1 ? arilou_desc2x : arilou_desc4x));
 
-	// JMS_GFX: A rather clumsy way of giving ship correct stats at hi-res mode
-	if (RESOLUTION_FACTOR == 0) {
-		arilou_desc.preprocess_func = arilou_preprocess;
-		arilou_desc.init_weapon_func = initialize_autoaim_laser;
-		arilou_desc.cyborg_control.intelligence_func = arilou_intelligence;
-		RaceDescPtr = &arilou_desc;
-	} else if (RESOLUTION_FACTOR == 1) {
-		arilou_desc_2xres.preprocess_func = arilou_preprocess;
-		arilou_desc_2xres.init_weapon_func = initialize_autoaim_laser;
-		arilou_desc_2xres.cyborg_control.intelligence_func = arilou_intelligence;
-		RaceDescPtr = &arilou_desc_2xres;
-	} else {
-		arilou_desc_4xres.preprocess_func = arilou_preprocess;
-		arilou_desc_4xres.init_weapon_func = initialize_autoaim_laser;
-		arilou_desc_4xres.cyborg_control.intelligence_func = arilou_intelligence;
-		RaceDescPtr = &arilou_desc_4xres;
-	}
+	arilou_desc.preprocess_func = arilou_preprocess;
+	arilou_desc.init_weapon_func = initialize_autoaim_laser;
+	arilou_desc.cyborg_control.intelligence_func = arilou_intelligence;
+	RaceDescPtr = &arilou_desc;
 
 	return (RaceDescPtr);
 }
