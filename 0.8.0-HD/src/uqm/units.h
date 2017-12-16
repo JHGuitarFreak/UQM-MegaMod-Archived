@@ -36,7 +36,6 @@ extern int ScreenHeight;
 #define RES_CASE(a,b,c) (RESOLUTION_FACTOR == 0 ? (a) : (RESOLUTION_FACTOR == 1 ? (b) : (c)))	// JMS_GFX
 #define RES_STAT_SCALE(a) (RESOLUTION_FACTOR < 2 ? ((a) << RESOLUTION_FACTOR) : ((a) * 3))		// JMS_GFX
 #define RES_SCALE(a) ((a) << RESOLUTION_FACTOR)
-#define ResFac RESOLUTION_FACTOR
 
 		/* Margins. */
 #define SAFE_X 0

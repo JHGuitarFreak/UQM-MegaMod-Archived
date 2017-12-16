@@ -469,7 +469,7 @@ init_arilou (void)
 	static RACE_DESC arilou_desc;
 	RACE_DESC *RaceDescPtr;
 	
-	arilou_desc = (ResFac == 0 ? arilou_desc1x : (ResFac == 1 ? arilou_desc2x : arilou_desc4x));
+	arilou_desc = (RESOLUTION_FACTOR == 0 ? arilou_desc1x : (RESOLUTION_FACTOR == 1 ? arilou_desc2x : arilou_desc4x));
 
 	arilou_desc.preprocess_func = arilou_preprocess;
 	arilou_desc.init_weapon_func = initialize_autoaim_laser;

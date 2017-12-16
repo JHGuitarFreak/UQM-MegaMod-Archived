@@ -830,7 +830,7 @@ init_chenjesu (void)
 	static RACE_DESC chenjesu_desc;
 	RACE_DESC *RaceDescPtr;
 	
-	chenjesu_desc = (ResFac == 0 ? chenjesu_desc1x : (ResFac == 1 ? chenjesu_desc2x : chenjesu_desc4x));
+	chenjesu_desc = (RESOLUTION_FACTOR == 0 ? chenjesu_desc1x : (RESOLUTION_FACTOR == 1 ? chenjesu_desc2x : chenjesu_desc4x));
 
 	chenjesu_desc.preprocess_func = chenjesu_preprocess;
 	chenjesu_desc.postprocess_func = chenjesu_postprocess;
