@@ -146,6 +146,7 @@ LoadKernel (int argc, char *argv[])
 					log_add (log_Debug, "loading sol-textures-2x");
 				}
 				loadAddon("Syreen2xVideoFix");
+				loadAddon("alt-kohr-2x");
 			}
 			break;
 		case 2:
@@ -163,6 +164,7 @@ LoadKernel (int argc, char *argv[])
 					log_add (log_Debug, "loading sol-textures-4x");
 				}
 				loadAddon("Syreen4xVideoFix");
+				loadAddon("alt-kohr-4x");
 			}
 			break;
 		case 0:
