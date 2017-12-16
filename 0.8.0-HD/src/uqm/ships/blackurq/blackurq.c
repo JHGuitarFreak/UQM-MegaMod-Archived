@@ -710,7 +710,7 @@ init_black_urquan (void)
 	static RACE_DESC black_urquan_desc;
 	RACE_DESC *RaceDescPtr;
 
-	black_urquan_desc = (ResFac == 0 ? black_urquan_desc1x : (ResFac == 1 ? black_urquan_desc2x : black_urquan_desc4x));
+	black_urquan_desc = (RESOLUTION_FACTOR == 0 ? black_urquan_desc1x : (RESOLUTION_FACTOR == 1 ? black_urquan_desc2x : black_urquan_desc4x));
 
 	black_urquan_desc.preprocess_func = black_urquan_preprocess;
 	black_urquan_desc.postprocess_func = black_urquan_postprocess;

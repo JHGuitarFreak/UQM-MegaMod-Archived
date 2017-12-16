@@ -666,7 +666,7 @@ init_androsynth (void)
 	static RACE_DESC androsynth_desc;
 	RACE_DESC *RaceDescPtr;
 	
-	androsynth_desc = (ResFac == 0 ? androsynth_desc1x : (ResFac == 1 ? androsynth_desc2x : androsynth_desc4x));
+	androsynth_desc = (RESOLUTION_FACTOR == 0 ? androsynth_desc1x : (RESOLUTION_FACTOR == 1 ? androsynth_desc2x : androsynth_desc4x));
 
 	androsynth_desc.preprocess_func = androsynth_preprocess;
 	androsynth_desc.postprocess_func = androsynth_postprocess;

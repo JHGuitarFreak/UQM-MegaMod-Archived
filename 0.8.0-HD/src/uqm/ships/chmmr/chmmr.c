@@ -963,7 +963,7 @@ init_chmmr (void)
 	static RACE_DESC chmmr_desc;
 	RACE_DESC *RaceDescPtr;
 	
-	chmmr_desc = (ResFac == 0 ? chmmr_desc1x : (ResFac == 1 ? chmmr_desc2x : chmmr_desc4x));
+	chmmr_desc = (RESOLUTION_FACTOR == 0 ? chmmr_desc1x : (RESOLUTION_FACTOR == 1 ? chmmr_desc2x : chmmr_desc4x));
 
 	chmmr_desc.preprocess_func = chmmr_preprocess;
 	chmmr_desc.postprocess_func = chmmr_postprocess;
