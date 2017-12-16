@@ -7,4 +7,5 @@
 #define ORZ_FONT "comm.orz.font"
 #define ORZ_MUSIC "comm.orz.music"
 #define ORZ_PMAP_ANIM "comm.orz.graphics"
+#define ORZ_ANGRY_PMAP_ANIM "comm.orz.angry.graphics"
 #define ORZ_SCRIPT "comm.orz.script"

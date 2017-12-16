@@ -25,7 +25,7 @@
 #include "uqm/setup.h"
 
 
-static LOCDATA syreen_desc =
+static LOCDATA syreen_desc_1x =
 {
 	SYREEN_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -192,6 +192,191 @@ static LOCDATA syreen_desc =
 	NULL,
 };
 
+static LOCDATA syreen_desc_4x =
+{
+	SYREEN_CONVERSATION, /* AlienConv */
+	NULL, /* init_encounter_func */
+	NULL, /* post_encounter_func */
+	NULL, /* uninit_encounter_func */
+	SYREEN_PMAP_ANIM, /* AlienFrame */
+	SYREEN_FONT, /* AlienFont */
+	WHITE_COLOR_INIT, /* AlienTextFColor */
+	BLACK_COLOR_INIT, /* AlienTextBColor */
+	{0, 0}, /* AlienTextBaseline */
+	0, /* SIS_TEXT_WIDTH - 16, */ /* AlienTextWidth */
+	ALIGN_CENTER, /* AlienTextAlign */
+	VALIGN_TOP, /* AlienTextValign */
+	SYREEN_COLOR_MAP, /* AlienColorMap */
+	SYREEN_MUSIC, /* AlienSong */
+	NULL_RESOURCE, /* AlienAltSong */
+	0, /* AlienSongFlags */
+	SYREEN_CONVERSATION_PHRASES, /* PlayerPhrases */
+	17, /* NumAnimations */
+	{ /* AlienAmbientArray (ambient animations) */
+		{
+			5, /* StartIndex */
+			2, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			7, /* StartIndex */
+			2, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			9, /* StartIndex */
+			2, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			11, /* StartIndex */
+			2, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			13, /* StartIndex */
+			2, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			15, /* StartIndex */
+			2, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			(1 << 12), /* BlockMask */
+		},
+		{
+			17, /* StartIndex */
+			2, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			19, /* StartIndex */
+			2, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			(1 << 13),
+		},
+		{
+			21, /* StartIndex */
+			6, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			27, /* StartIndex */
+			4, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND * 10, ONE_SECOND * 3, /* RestartRate */
+			(1 << 14), /* BlockMask */
+		},
+		{
+			31, /* StartIndex */
+			6, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			37, /* StartIndex */
+			4, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			41, /* StartIndex */
+			3, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND * 10, ONE_SECOND * 3, /* RestartRate */
+			(1 << 5), /* BlockMask */
+		},
+		{
+			44, /* StartIndex */
+			4, /* NumFrames */
+			YOYO_ANIM
+					| WAIT_TALKING, /* AnimFlags */
+			ONE_SECOND / 6, 0, /* FrameRate */
+			ONE_SECOND * 3, ONE_SECOND, /* RestartRate */
+			(1 << 7) | (1 << 14), /* BlockMask */
+		},
+		{
+			48, /* StartIndex */
+			3, /* NumFrames */
+			YOYO_ANIM
+					| WAIT_TALKING, /* AnimFlags */
+			ONE_SECOND * 2 / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND * 10, ONE_SECOND,/* RestartRate */
+			(1 << 9) | (1 << 13), /* BlockMask */
+		},
+		{
+			51, /* StartIndex */
+			13, /* NumFrames */
+			CIRCULAR_ANIM | ONE_SHOT_ANIM 
+				| WAIT_TALKING | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 15, 0, /* FrameRate */
+			0, 0,/* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			64, /* StartIndex */
+			13, /* NumFrames */
+			CIRCULAR_ANIM | ONE_SHOT_ANIM 
+				| WAIT_TALKING | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 15, 0, /* FrameRate */
+			0, 0,/* RestartRate */
+			0, /* BlockMask */
+		},
+	},
+	{ /* AlienTransitionDesc */
+		0, /* StartIndex */
+		0, /* NumFrames */
+		0, /* AnimFlags */
+		0, 0, /* FrameRate */
+		0, 0, /* RestartRate */
+		0, /* BlockMask */
+	},
+	{ /* AlienTalkDesc */
+		1, /* StartIndex */
+		4, /* NumFrames */
+		0, /* AnimFlags */
+		ONE_SECOND / 15, 0, /* FrameRate */
+		ONE_SECOND / 12, 0, /* RestartRate */
+		0, /* BlockMask */
+	},
+	NULL, /* AlienNumberSpeech - none */
+	/* Filler for loaded resources */
+	NULL, NULL, NULL,
+	NULL,
+	NULL,
+};
+
 static void
 FriendlyExit (RESPONSE_REF R)
 {
@@ -221,10 +406,28 @@ FriendlyExit (RESPONSE_REF R)
 		NPCPhrase (SEX_GOODBYE);
 
 		AlienTalkSegue (2);
-		XFormColorMap (GetColorMapAddress (
-				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
-				), ONE_SECOND / 2);
-		AlienTalkSegue ((COUNT)~0);
+		if (RESOLUTION_FACTOR == 0) {
+			XFormColorMap (GetColorMapAddress (
+ 				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
+ 				), ONE_SECOND / 2);
+			AlienTalkSegue ((COUNT)~0);
+		} else {
+			COUNT i = 0;
+			COUNT limit = CommData.NumAnimations;
+			
+			CommData.AlienAmbientArray[limit-1].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienFrame = SetAbsFrameIndex 
+				(CommData.AlienFrame, 0);
+			
+			CommData.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
+			
+			AlienTalkSegue ((COUNT)~0);
+			
+			for (i = 0; i < limit; i++)
+				CommData.AlienAmbientArray[i].AnimFlags &= ~ANIM_DISABLED;
+			
+			CommData.AlienAmbientArray[limit-2].AnimFlags |= ANIM_DISABLED;
+		}
 
 		SET_GAME_STATE (PLAYER_HAD_SEX, 1);
 		SET_GAME_STATE (PLAYER_HAVING_SEX, 0);
@@ -286,9 +489,25 @@ Foreplay (RESPONSE_REF R)
 			NPCPhrase (ABOUT_US);
 		NPCPhrase (MORE_COMFORTABLE);
 		AlienTalkSegue (1);
-		XFormColorMap (GetColorMapAddress (
-				SetAbsColorMapIndex (CommData.AlienColorMap, 1)
-				), ONE_SECOND);
+
+		if (RESOLUTION_FACTOR == 0) {
+			XFormColorMap (GetColorMapAddress (
+					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
+					), ONE_SECOND);
+		} else {
+			COUNT i = 0;
+			COUNT limit = CommData.NumAnimations - 2;
+			
+			for (i = 0; i < limit; i++)
+				CommData.AlienAmbientArray[i].AnimFlags |= ANIM_DISABLED;
+				
+			CommData.AlienAmbientArray[limit].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienFrame = SetAbsFrameIndex 
+				(CommData.AlienFrame, 63);
+				
+			CommData.AlienTalkDesc.AnimFlags |= PAUSE_TALKING;
+		}
+
 		AlienTalkSegue ((COUNT)~0);
 
 		SET_GAME_STATE (PLAYER_HAVING_SEX, 1);
@@ -864,7 +1083,21 @@ post_syreen_enc (void)
 LOCDATA*
 init_syreen_comm (void)
 {
-	LOCDATA *retval;
+	static LOCDATA syreen_desc;
+ 	LOCDATA *retval;
+	
+	switch (RESOLUTION_FACTOR) {
+		case 2:
+			syreen_desc = syreen_desc_4x;
+			break;
+		case 1:
+			syreen_desc = syreen_desc_4x;
+			break;
+		case 0:
+		default:
+			syreen_desc = syreen_desc_1x;
+			break;
+	}
 
 	syreen_desc.init_encounter_func = Intro;
 	syreen_desc.post_encounter_func = post_syreen_enc;

@@ -25,7 +25,7 @@
 #include "uqm/gameev.h"
 
 
-static LOCDATA spahome_desc =
+static LOCDATA spahome_desc_1x =
 {
 	SPATHI_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -160,6 +160,178 @@ static LOCDATA spahome_desc =
 			ONE_SECOND / 20, 0, /* FrameRate */
 			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
 			(1 << 12), /* BlockMask */
+		},
+	},
+	{ /* AlienTransitionDesc - empty */
+		0, /* StartIndex */
+		0, /* NumFrames */
+		0, /* AnimFlags */
+		0, 0, /* FrameRate */
+		0, 0, /* RestartRate */
+		0, /* BlockMask */
+	},
+	{ /* AlienTalkDesc - empty */
+		0, /* StartIndex */
+		0, /* NumFrames */
+		0, /* AnimFlags */
+		0, 0, /* FrameRate */
+		0, 0, /* RestartRate */
+		0, /* BlockMask */
+	},
+	NULL, /* AlienNumberSpeech - none */
+	/* Filler for loaded resources */
+	NULL, NULL, NULL,
+	NULL,
+	NULL,
+};
+
+static LOCDATA spahome_desc_4x =
+{
+	SPATHI_CONVERSATION, /* AlienConv */
+	NULL, /* init_encounter_func */
+	NULL, /* post_encounter_func */
+	NULL, /* uninit_encounter_func */
+	SPATHI_HOME_PMAP_ANIM, /* AlienFrame */
+	SPATHI_FONT, /* AlienFont */
+	WHITE_COLOR_INIT, /* AlienTextFColor */
+	BLACK_COLOR_INIT, /* AlienTextBColor */
+	{0, 0}, /* AlienTextBaseline */
+	0, /* SIS_TEXT_WIDTH - 16, */ /* AlienTextWidth */
+	ALIGN_CENTER, /* AlienTextAlign */
+	VALIGN_TOP, /* AlienTextValign */
+	SPATHI_HOME_COLOR_MAP, /* AlienColorMap */
+	SPATHI_MUSIC, /* AlienSong */
+	NULL_RESOURCE, /* AlienAltSong */
+	0, /* AlienSongFlags */
+	SPATHI_HOME_CONVERSATION_PHRASES, /* PlayerPhrases */
+	15, /* NumAnimations */
+	{ /* AlienAmbientArray (ambient animations) */
+		{
+			1, /* StartIndex */
+			3, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0 | (1 << 14), /* BlockMask */
+		},
+		{
+			4, /* StartIndex */
+			5, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0 | (1 << 14), /* BlockMask */
+		},
+		{
+			9, /* StartIndex */
+			4, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			(1 << 10) | (1 << 11) | (1 << 14), /* BlockMask */
+		},
+		{
+			13, /* StartIndex */
+			6, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND / 20, 0, /* RestartRate */
+			(1 << 4) | (1 << 5) | (1 << 14) /* BlockMask */
+		},
+		{
+			19, /* StartIndex */
+			3, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			(1 << 3) | (1 << 5) | (1 << 14), /* BlockMask */
+		},
+		{
+			22, /* StartIndex */
+			4, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 10, ONE_SECOND / 30, /* RestartRate */
+			(1 << 3) | (1 << 4)
+			| (1 << 10) | (1 << 14), /* BlockMask */
+		},
+		{
+			26, /* StartIndex */
+			3, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND * 10, ONE_SECOND * 3, /* RestartRate */
+			(1 << 10) | (1 << 14), /* BlockMask */
+		},
+		{
+			29, /* StartIndex */
+			3, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND * 10, ONE_SECOND * 3, /* RestartRate */
+			0 | (1 << 14), /* BlockMask */
+		},
+		{
+			32, /* StartIndex */
+			7, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND / 20, 0, /* RestartRate */
+			(1 << 9) | (1 << 10) | (1 << 14), /* BlockMask */
+		},
+		{
+			39, /* StartIndex */
+			3, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			(1 << 8) | (1 << 10) | (1 << 14), /* BlockMask */
+		},
+		{
+			42, /* StartIndex */
+			4, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 30, 0, /* RestartRate */
+			(1 << 8) | (1 << 9)
+			| (1 << 6) | (1 << 2)
+			| (1 << 11) | (1 << 5)
+			 | (1 << 14), /* BlockMask */
+		},
+		{
+			46, /* StartIndex */
+			4, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 10, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 10, ONE_SECOND / 30, /* RestartRate */
+			(1 << 2) | (1 << 10) | (1 << 14), /* BlockMask */
+		},
+		{
+			50, /* StartIndex */
+			6, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND / 20, 0, /* RestartRate */
+			(1 << 13) | (1 << 14), /* BlockMask */
+		},
+		{
+			56, /* StartIndex */
+			3, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			(1 << 12) | (1 << 14), /* BlockMask */
+		},
+		{
+			59, /* StartIndex */
+			11, /* NumFrames */
+			CIRCULAR_ANIM | ONE_SHOT_ANIM | WAIT_TALKING | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 30, 0, /* FrameRate */
+			0, 0,/* RestartRate */
+			(1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) 
+			| (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) 
+			| (1 << 8) | (1 << 9) | (1 << 10) | (1 << 11) 
+			| (1 << 12) | (1 << 13) , /* BlockMask */
 		},
 	},
 	{ /* AlienTransitionDesc - empty */
@@ -583,9 +755,22 @@ AllianceOffer (RESPONSE_REF R)
 	if (PLAYER_SAID (R, misunderstanding))
 	{
 		NPCPhrase (JUST_MISUNDERSTANDING);
-		XFormColorMap (GetColorMapAddress (
-				SetAbsColorMapIndex (CommData.AlienColorMap, 1)
-				), ONE_SECOND / 4);
+		if (RESOLUTION_FACTOR == 0){
+			XFormColorMap (GetColorMapAddress (
+					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
+					), ONE_SECOND / 4);
+		} else {
+			COUNT i = 0;
+			COUNT limit = CommData.NumAnimations;
+			
+			for (i = 0; i < limit; i++)
+				CommData.AlienAmbientArray[i].AnimFlags &= ~ANIM_DISABLED;
+				
+			CommData.AlienFrame = SetAbsFrameIndex 
+				(CommData.AlienFrame, 0);
+				
+			CommData.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
+		}
 
 		SET_GAME_STATE (SPATHI_MANNER, 3);
 		SET_GAME_STATE (SPATHI_VISITS, 0);
@@ -759,9 +944,22 @@ SpathiCouncil (RESPONSE_REF R)
 	else if (PLAYER_SAID (R, good_password))
 	{
 		NPCPhrase (YES_GOOD_PASSWORD);
-		XFormColorMap (GetColorMapAddress (
-				SetAbsColorMapIndex (CommData.AlienColorMap, 1)
-				), ONE_SECOND / 4);
+		if (RESOLUTION_FACTOR == 0) {
+			XFormColorMap (GetColorMapAddress (
+					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
+					), ONE_SECOND / 4);
+		} else {
+			COUNT i = 0;
+			COUNT limit = CommData.NumAnimations;
+			
+			for (i = 0; i < limit; i++)
+				CommData.AlienAmbientArray[i].AnimFlags &= ~ANIM_DISABLED;
+				
+			CommData.AlienFrame = SetAbsFrameIndex 
+				(CommData.AlienFrame, 0);
+				
+			CommData.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
+		}
 
 		SET_GAME_STATE (KNOW_SPATHI_PASSWORD, 1);
 		SET_GAME_STATE (SPATHI_HOME_VISITS, 0);
@@ -897,6 +1095,10 @@ Intro (void)
 {
 	BYTE Manner;
 
+	if (RESOLUTION_FACTOR > 0)
+		CommData.AlienFrame = SetAbsFrameIndex 
+			(CommData.AlienFrame, 59);
+
 	Manner = GET_GAME_STATE (SPATHI_MANNER);
 	if (Manner == 2)
 	{
@@ -912,22 +1114,61 @@ Intro (void)
 	}
 	else if (CheckAlliance (SPATHI_SHIP) == GOOD_GUY)
 	{
-		CommData.AlienColorMap =
-				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+		if (RESOLUTION_FACTOR == 0) {
+			CommData.AlienColorMap =
+ 				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+		} else {
+			COUNT i = 0;
+			COUNT limit = CommData.NumAnimations - 1;
+			
+			for (i = 0; i < limit; i++)
+				CommData.AlienAmbientArray[i].AnimFlags &= ~ANIM_DISABLED;
+			
+			CommData.AlienFrame = SetAbsFrameIndex 
+				(CommData.AlienFrame, 0);
+				
+			CommData.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
+		}
 		SpathiAllies ((RESPONSE_REF)0);
 	}
 	else if (GET_GAME_STATE (SPATHI_PARTY))
 	{
-		CommData.AlienColorMap =
-				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+		if (RESOLUTION_FACTOR == 0){
+			CommData.AlienColorMap =
+ 				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+		} else {
+			COUNT i = 0;
+			COUNT limit = CommData.NumAnimations - 1;
+			
+			for (i = 0; i < limit; i++)
+				CommData.AlienAmbientArray[i].AnimFlags &= ~ANIM_DISABLED;
+				
+			CommData.AlienFrame = SetAbsFrameIndex 
+				(CommData.AlienFrame, 0);
+				
+			CommData.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
+		};
 		SpathiParty ((RESPONSE_REF)0);
 	}
 	else if (GET_GAME_STATE (SPATHI_QUEST))
 	{
 		if (GET_GAME_STATE (LIED_ABOUT_CREATURES) < 2)
 		{
-			CommData.AlienColorMap =
-					SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+			if (RESOLUTION_FACTOR == 0) {
+				CommData.AlienColorMap =
+ 					SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+			} else {
+				COUNT i = 0;
+				COUNT limit = CommData.NumAnimations - 1;
+			
+				for (i = 0; i < limit; i++)
+					CommData.AlienAmbientArray[i].AnimFlags &= ~ANIM_DISABLED;
+				
+				CommData.AlienFrame = SetAbsFrameIndex 
+					(CommData.AlienFrame, 0);
+				
+				CommData.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
+			}
 			SpathiQuest ((RESPONSE_REF)0);
 		}
 		else
@@ -940,16 +1181,42 @@ Intro (void)
 	}
 	else if (GET_GAME_STATE (KNOW_SPATHI_QUEST))
 	{
-		CommData.AlienColorMap =
-				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+		if (RESOLUTION_FACTOR == 0) {
+			CommData.AlienColorMap =
+ 				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+		} else {
+			COUNT i = 0;
+			COUNT limit = CommData.NumAnimations - 1;
+			
+			for (i = 0; i < limit; i++)
+				CommData.AlienAmbientArray[i].AnimFlags &= ~ANIM_DISABLED;
+				
+			CommData.AlienFrame = SetAbsFrameIndex 
+				(CommData.AlienFrame, 0);
+				
+			CommData.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
+		}
 		LearnQuest ((RESPONSE_REF)0);
 	}
 	else if (GET_GAME_STATE (KNOW_SPATHI_PASSWORD)
 			&& (GET_GAME_STATE (FOUND_PLUTO_SPATHI)
 			|| GET_GAME_STATE (SPATHI_HOME_VISITS) != 7))
 	{
-		CommData.AlienColorMap =
-				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+		if (RESOLUTION_FACTOR == 0) {
+			CommData.AlienColorMap =
+ 				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+		} else {
+			COUNT i = 0;
+			COUNT limit = CommData.NumAnimations - 1;
+			
+			for (i = 0; i < limit; i++)
+				CommData.AlienAmbientArray[i].AnimFlags &= ~ANIM_DISABLED;
+				
+			CommData.AlienFrame = SetAbsFrameIndex 
+				(CommData.AlienFrame, 0);
+				
+			CommData.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
+		}
 		SpathiCouncil ((RESPONSE_REF)0);
 	}
 	else
@@ -985,7 +1252,21 @@ post_spahome_enc (void)
 LOCDATA*
 init_spahome_comm ()
 {
-	LOCDATA *retval;
+	static LOCDATA spahome_desc;
+ 	LOCDATA *retval;
+	
+	switch (RESOLUTION_FACTOR) {
+		case 2:
+			spahome_desc = spahome_desc_4x;
+			break;
+		case 1:
+			spahome_desc = spahome_desc_4x;
+			break;
+		case 0:
+		default:
+			spahome_desc = spahome_desc_1x;
+			break;
+	}
 
 	spahome_desc.init_encounter_func = Intro;
 	spahome_desc.post_encounter_func = post_spahome_enc;
@@ -1002,6 +1283,16 @@ init_spahome_comm ()
 	// use alternate "Safe Ones" track if available
 	spahome_desc.AlienAltSongRes = SPAHOME_MUSIC;
 	spahome_desc.AlienSongFlags |= LDASF_USE_ALTERNATE;
+
+	if (RESOLUTION_FACTOR > 0) {
+		COUNT i;
+		COUNT limit = spahome_desc.NumAnimations;
+	
+		for (i = 0; i < limit; i++)
+			spahome_desc.AlienAmbientArray[i].AnimFlags |= ANIM_DISABLED;
+			
+		spahome_desc.AlienTalkDesc.AnimFlags |= PAUSE_TALKING;
+	}
 
 	if (GET_GAME_STATE (SPATHI_MANNER) == 3)
 	{
