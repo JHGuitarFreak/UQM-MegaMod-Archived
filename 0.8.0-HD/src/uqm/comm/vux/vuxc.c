@@ -20,7 +20,7 @@
 #include "resinst.h"
 #include "strings.h"
 
-static LOCDATA vux_desc =
+static LOCDATA vux_desc_1x =
 {
 	VUX_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -201,6 +201,195 @@ static LOCDATA vux_desc =
 	NULL,
 };
 
+static LOCDATA vux_desc_4x =
+{
+	VUX_CONVERSATION, /* AlienConv */
+	NULL, /* init_encounter_func */
+	NULL, /* post_encounter_func */
+	NULL, /* uninit_encounter_func */
+	VUX_PMAP_ANIM, /* AlienFrame */
+	VUX_FONT, /* AlienFont */
+	WHITE_COLOR_INIT, /* AlienTextFColor */
+	BLACK_COLOR_INIT, /* AlienTextBColor */
+	{0, 0}, /* AlienTextBaseline */
+	0, /* (SIS_TEXT_WIDTH - 16) >> 1, */ /* AlienTextWidth */
+	ALIGN_CENTER, /* AlienTextAlign */
+	VALIGN_TOP, /* AlienTextValign */
+	VUX_COLOR_MAP, /* AlienColorMap */
+	VUX_MUSIC, /* AlienSong */
+	NULL_RESOURCE, /* AlienAltSong */
+	0, /* AlienSongFlags */
+	VUX_CONVERSATION_PHRASES, /* PlayerPhrases */
+	18, /* NumAnimations */
+	{ /* AlienAmbientArray (ambient animations) */
+		{
+			12, /* StartIndex */
+			3, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			15, /* StartIndex */
+			5, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			20, /* StartIndex */
+			14, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 30, 0, /* FrameRate */
+			ONE_SECOND / 30, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			34, /* StartIndex */
+			7, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			41, /* StartIndex */
+			6, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			47, /* StartIndex */
+			11, /* NumFrames */
+			CIRCULAR_ANIM, /* AnimFlags */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			58, /* StartIndex */
+			3, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			61, /* StartIndex */
+			4, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			65, /* StartIndex */
+			4, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			69, /* StartIndex */
+			2, /* NumFrames */
+			RANDOM_ANIM, /* AnimFlags */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* FrameRate */
+			ONE_SECOND / 30, ONE_SECOND / 30, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			71, /* StartIndex */
+			3, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			74, /* StartIndex */
+			6, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			80, /* StartIndex */
+			5, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* RestartRate */
+			(1 << 14), /* BlockMask */
+		},
+		{
+			85, /* StartIndex */
+			5, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			90, /* StartIndex */
+			5, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* RestartRate */
+			(1 << 12), /* BlockMask */
+		},
+		{
+			95, /* StartIndex */
+			4, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND * 5, ONE_SECOND * 5,/* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			99, /* StartIndex */
+			4, /* NumFrames */
+			YOYO_ANIM, /* AnimFlags */
+			ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
+			ONE_SECOND * 5, ONE_SECOND * 5,/* RestartRate */
+			0, /* BlockMask */
+		},
+		{
+			103, /* StartIndex */
+			13, /* NumFrames */
+			CIRCULAR_ANIM | ONE_SHOT_ANIM | WAIT_TALKING | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 30, 0, /* FrameRate */
+			0, 0,/* RestartRate */
+			0, /* BlockMask */
+		},
+	},
+	{ /* AlienTransitionDesc */
+		0, /* StartIndex */
+		0, /* NumFrames */
+		0, /* AnimFlags */
+		0, 0, /* FrameRate */
+		0, 0, /* RestartRate */
+		0, /* BlockMask */
+	},
+	{ /* AlienTalkDesc */
+		1, /* StartIndex */
+		11, /* NumFrames */
+		0, /* AnimFlags */
+		ONE_SECOND / 15, 0, /* FrameRate */
+		ONE_SECOND / 12, 0, /* RestartRate */
+		(1 << 18), /* BlockMask */
+	},
+	NULL, /* AlienNumberSpeech - none */
+	/* Filler for loaded resources */
+	NULL, NULL, NULL,
+	NULL,
+	NULL,
+};
+
 static void
 CombatIsInevitable (RESPONSE_REF R)
 {
@@ -214,9 +403,25 @@ CombatIsInevitable (RESPONSE_REF R)
 		NPCPhrase (FOOL_AIEE1);
 
 		AlienTalkSegue (1);
-		XFormColorMap (GetColorMapAddress (
-				SetAbsColorMapIndex (CommData.AlienColorMap, 1)
-				), ONE_SECOND / 4);
+
+		if (RESOLUTION_FACTOR == 0) {
+			XFormColorMap (GetColorMapAddress (
+					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
+					), ONE_SECOND / 4);
+		} else {
+			COUNT i = 0;
+			COUNT limit = CommData.NumAnimations - 1;
+			
+			for (i = 0; i < limit; i++)
+				CommData.AlienAmbientArray[i].AnimFlags |= ANIM_DISABLED;
+				
+			CommData.AlienAmbientArray[limit].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienFrame = SetAbsFrameIndex 
+				(CommData.AlienFrame, 115);
+				
+			CommData.AlienTalkDesc.AnimFlags |= PAUSE_TALKING;
+		}
+
 		AlienTalkSegue ((COUNT)~0);
 
 		SET_GAME_STATE (VUX_BEAST_ON_SHIP, 0);
@@ -771,7 +976,21 @@ post_vux_enc (void)
 LOCDATA*
 init_vux_comm (void)
 {
-	LOCDATA *retval;
+	static LOCDATA vux_desc;
+ 	LOCDATA *retval;
+	
+	switch (RESOLUTION_FACTOR) {
+		case 2:
+			vux_desc = vux_desc_4x;
+			break;
+		case 1:
+			vux_desc = vux_desc_4x;
+			break;
+		case 0:
+		default:
+			vux_desc = vux_desc_1x;
+			break;
+	}
 
 	vux_desc.init_encounter_func = Intro;
 	vux_desc.post_encounter_func = post_vux_enc;

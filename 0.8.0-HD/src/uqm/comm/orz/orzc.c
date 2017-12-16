@@ -22,6 +22,11 @@
 
 #include "uqm/lua/luacomm.h"
 #include "uqm/build.h"
+#include "../../nameref.h"
+		//JMS_GFX: For LoadGraphic 
+
+#include "uqm/setup.h"
+		// for GraphicsLock
 
 
 static LOCDATA orz_desc =
@@ -43,7 +48,7 @@ static LOCDATA orz_desc =
 	NULL_RESOURCE, /* AlienAltSong */
 	0, /* AlienSongFlags */
 	ORZ_CONVERSATION_PHRASES, /* PlayerPhrases */
-	12 /* 13 */, /* NumAnimations */
+	14, /* NumAnimations */
 	{ /* AlienAmbientArray (ambient animations) */
 		{
 			4, /* StartIndex */
@@ -149,6 +154,14 @@ static LOCDATA orz_desc =
 			ONE_SECOND, ONE_SECOND * 3, /* RestartRate */
 			(1 << 10), /* BlockMask */
 		},
+		{
+			129, /* StartIndex */
+			5, /* NumFrames */
+			CIRCULAR_ANIM | ONE_SHOT_ANIM | WAIT_TALKING | ANIM_DISABLED, /* AnimFlags */
+			ONE_SECOND / 20, 0, /* FrameRate */
+			0, 0, /* RestartRate */
+			0, /* BlockMask */
+		},
 	},
 	{ /* AlienTransitionDesc */
 		0, /* StartIndex */
@@ -164,7 +177,7 @@ static LOCDATA orz_desc =
 		0, /* AnimFlags */
 		ONE_SECOND / 15, ONE_SECOND / 15, /* FrameRate */
 		ONE_SECOND / 12, ONE_SECOND * 3 / 8, /* RestartRate */
-		0, /* BlockMask */
+		(1 << 13), /* BlockMask */
 	},
 	NULL, /* AlienNumberSpeech - none */
 	/* Filler for loaded resources */
@@ -226,10 +239,31 @@ ExitConversation (RESPONSE_REF R)
 	else if (PLAYER_SAID (R, about_andro_3)
 			|| PLAYER_SAID (R, must_know_about_androsyn))
 	{
+		// JMS_GFX: Use separate graphics in hires instead of colormap transform.
+		if (RESOLUTION_FACTOR > 0)
+		{
+			int ii;
+			for (ii = 0; ii < CommData.NumAnimations - 1; ii++)
+				CommData.AlienAmbientArray[ii].AnimFlags |= ANIM_DISABLED;
+			
+			CommData.AlienAmbientArray[13].AnimFlags &= ~ANIM_DISABLED;
+			CommData.AlienFrameRes = ORZ_ANGRY_PMAP_ANIM;
+			CommData.AlienFrame = CaptureDrawable (LoadGraphic (CommData.AlienFrameRes));
+		}
+
 		if (PLAYER_SAID (R, about_andro_3))
 			NPCPhrase (BLEW_IT);
 		else
 			NPCPhrase (KNOW_TOO_MUCH);
+
+		// JMS_GFX: Use separate graphics in hires instead of colormap transform.
+		if (RESOLUTION_FACTOR > 0)
+		{
+			int ii;
+			AlienTalkSegue (1);
+			for (ii = 0; ii < CommData.NumAnimations - 1; ii++)
+				CommData.AlienAmbientArray[ii].AnimFlags &= ~ANIM_DISABLED;
+		}
 
 		SET_GAME_STATE (ORZ_VISITS, 0);
 		SET_GAME_STATE (ORZ_MANNER, 2);
@@ -641,6 +675,13 @@ Intro (void)
 	{
 		CommData.AlienColorMap =
 				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
+
+		// JMS_GFX: Use separate red angry graphics in hires instead of colormap transform.
+		if (RESOLUTION_FACTOR > 0) {
+			CommData.AlienFrameRes = ORZ_ANGRY_PMAP_ANIM;
+			CommData.AlienFrame = CaptureDrawable (
+				LoadGraphic (CommData.AlienFrameRes));
+		}
 
 		NumVisits = GET_GAME_STATE (ORZ_VISITS);
 		switch (NumVisits++)
