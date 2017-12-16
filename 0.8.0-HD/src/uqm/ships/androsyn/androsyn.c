@@ -59,7 +59,7 @@
 #define BLAZER_DAMAGE 3
 #define BLAZER_MASS 1
 
-static RACE_DESC androsynth_desc =
+static RACE_DESC androsynth_desc1x =
 {
 	{ /* SHIP_INFO */
 		"guardian",
@@ -132,7 +132,7 @@ static RACE_DESC androsynth_desc =
 	0, /* CodeRef */
 };
 
-static RACE_DESC androsynth_desc_2xres =
+static RACE_DESC androsynth_desc2x =
 {
 	{ /* SHIP_INFO */
 		"guardian",
@@ -205,7 +205,7 @@ static RACE_DESC androsynth_desc_2xres =
 };
 
 // JMS_GFX
-static RACE_DESC androsynth_desc_4xres =
+static RACE_DESC androsynth_desc4x =
 {
 	{ /* SHIP_INFO */
 		"guardian",
@@ -663,28 +663,16 @@ uninit_androsynth (RACE_DESC *pRaceDesc)
 RACE_DESC*
 init_androsynth (void)
 {
+	static RACE_DESC androsynth_desc;
 	RACE_DESC *RaceDescPtr;
+	
+	androsynth_desc = (ResFac == 0 ? androsynth_desc1x : (ResFac == 1 ? androsynth_desc2x : androsynth_desc4x));
 
-	// JMS_GFX: A rather clumsy way of giving ship correct stats at hi-res modes.
-	if (RESOLUTION_FACTOR == 0) {
-		androsynth_desc.preprocess_func = androsynth_preprocess;
-		androsynth_desc.postprocess_func = androsynth_postprocess;
-		androsynth_desc.init_weapon_func = initialize_bubble;
-		androsynth_desc.cyborg_control.intelligence_func = androsynth_intelligence;
-		RaceDescPtr = &androsynth_desc;
-	} else if (RESOLUTION_FACTOR == 1) {
-		androsynth_desc_2xres.preprocess_func = androsynth_preprocess;
-		androsynth_desc_2xres.postprocess_func = androsynth_postprocess;
-		androsynth_desc_2xres.init_weapon_func = initialize_bubble;
-		androsynth_desc_2xres.cyborg_control.intelligence_func = androsynth_intelligence;
-		RaceDescPtr = &androsynth_desc_2xres;
-	} else {
-		androsynth_desc_4xres.preprocess_func = androsynth_preprocess;
-		androsynth_desc_4xres.postprocess_func = androsynth_postprocess;
-		androsynth_desc_4xres.init_weapon_func = initialize_bubble;
-		androsynth_desc_4xres.cyborg_control.intelligence_func = androsynth_intelligence;
-		RaceDescPtr = &androsynth_desc_4xres;
-	}
+	androsynth_desc.preprocess_func = androsynth_preprocess;
+	androsynth_desc.postprocess_func = androsynth_postprocess;
+	androsynth_desc.init_weapon_func = initialize_bubble;
+	androsynth_desc.cyborg_control.intelligence_func = androsynth_intelligence;
+	RaceDescPtr = &androsynth_desc;
 
 	return (RaceDescPtr);
 }

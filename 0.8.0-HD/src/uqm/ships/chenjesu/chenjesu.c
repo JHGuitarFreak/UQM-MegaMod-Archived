@@ -72,7 +72,7 @@
 #define MAX_THRUST_4XRES /* DISPLAY_TO_WORLD (28) */ 108 // JMS_GFX
 #define THRUST_INCREMENT_4XRES /* DISPLAY_TO_WORLD (8) */ 12 // JMS_GFX
 
-static RACE_DESC chenjesu_desc =
+static RACE_DESC chenjesu_desc1x =
 {
 	{ /* SHIP_INFO */
 		"broodhome",
@@ -145,7 +145,7 @@ static RACE_DESC chenjesu_desc =
 };
 
 // JMS_GFX
-static RACE_DESC chenjesu_desc_2xres =
+static RACE_DESC chenjesu_desc2x =
 {
 	{ /* SHIP_INFO */
 		"broodhome",
@@ -218,7 +218,7 @@ static RACE_DESC chenjesu_desc_2xres =
 };
 
 // JMS_GFX
-static RACE_DESC chenjesu_desc_4xres =
+static RACE_DESC chenjesu_desc4x =
 {
 	{ /* SHIP_INFO */
 		"broodhome",
@@ -826,34 +826,17 @@ chenjesu_preprocess (ELEMENT *ElementPtr)
 
 RACE_DESC*
 init_chenjesu (void)
-{
+{	
+	static RACE_DESC chenjesu_desc;
 	RACE_DESC *RaceDescPtr;
+	
+	chenjesu_desc = (ResFac == 0 ? chenjesu_desc1x : (ResFac == 1 ? chenjesu_desc2x : chenjesu_desc4x));
 
-	// JMS_GFX: A rather clumsy way of giving ship correct stats at hi-res mode
-	if (RESOLUTION_FACTOR == 0)
-	{
-		chenjesu_desc.preprocess_func = chenjesu_preprocess;
-		chenjesu_desc.postprocess_func = chenjesu_postprocess;
-		chenjesu_desc.init_weapon_func = initialize_crystal;
-		chenjesu_desc.cyborg_control.intelligence_func = chenjesu_intelligence;
-		RaceDescPtr = &chenjesu_desc;
-	}
-	else if (RESOLUTION_FACTOR == 1)
-	{
-		chenjesu_desc_2xres.preprocess_func = chenjesu_preprocess;
-		chenjesu_desc_2xres.postprocess_func = chenjesu_postprocess;
-		chenjesu_desc_2xres.init_weapon_func = initialize_crystal;
-		chenjesu_desc_2xres.cyborg_control.intelligence_func = chenjesu_intelligence;
-		RaceDescPtr = &chenjesu_desc_2xres;
-	}
-	else
-	{
-		chenjesu_desc_4xres.preprocess_func = chenjesu_preprocess;
-		chenjesu_desc_4xres.postprocess_func = chenjesu_postprocess;
-		chenjesu_desc_4xres.init_weapon_func = initialize_crystal;
-		chenjesu_desc_4xres.cyborg_control.intelligence_func = chenjesu_intelligence;
-		RaceDescPtr = &chenjesu_desc_4xres;
-	}
+	chenjesu_desc.preprocess_func = chenjesu_preprocess;
+	chenjesu_desc.postprocess_func = chenjesu_postprocess;
+	chenjesu_desc.init_weapon_func = initialize_crystal;
+	chenjesu_desc.cyborg_control.intelligence_func = chenjesu_intelligence;
+	RaceDescPtr = &chenjesu_desc;
 
 	return (RaceDescPtr);
 }

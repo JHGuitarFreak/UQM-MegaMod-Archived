@@ -71,7 +71,7 @@
 #define MAX_THRUST_4XRES 120		// JMS_GFX
 #define THRUST_INCREMENT_4XRES 24	// JMS_GFX
 
-static RACE_DESC black_urquan_desc_1x =
+static RACE_DESC black_urquan_desc1x =
 {
 	{ /* SHIP_INFO */
 		"marauder",
@@ -144,7 +144,7 @@ static RACE_DESC black_urquan_desc_1x =
 };
 
 // JMS_GFX
-static RACE_DESC black_urquan_desc_2x =
+static RACE_DESC black_urquan_desc2x =
 {
 	{ /* SHIP_INFO */
 		"marauder",
@@ -217,7 +217,7 @@ static RACE_DESC black_urquan_desc_2x =
 };
 
 // JMS_GFX
-static RACE_DESC black_urquan_desc_4x =
+static RACE_DESC black_urquan_desc4x =
 {
 	{ /* SHIP_INFO */
 		"marauder",
@@ -706,22 +706,11 @@ black_urquan_preprocess (ELEMENT *ElementPtr)
 
 RACE_DESC*
 init_black_urquan (void)
-{	
+{
 	static RACE_DESC black_urquan_desc;
 	RACE_DESC *RaceDescPtr;
 
-	switch (RESOLUTION_FACTOR){
-		case 1:
-			black_urquan_desc = black_urquan_desc_2x;
-			break;
-		case 2:
-			black_urquan_desc = black_urquan_desc_4x;
-			break;
-		case 0:
-		default:			
-			black_urquan_desc = black_urquan_desc_1x;
-			break;
-	}
+	black_urquan_desc = (ResFac == 0 ? black_urquan_desc1x : (ResFac == 1 ? black_urquan_desc2x : black_urquan_desc4x));
 
 	black_urquan_desc.preprocess_func = black_urquan_preprocess;
 	black_urquan_desc.postprocess_func = black_urquan_postprocess;
