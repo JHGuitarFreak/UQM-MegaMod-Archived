@@ -34,21 +34,32 @@
 // Mass Driver
 #define WEAPON_ENERGY_COST 4
 #define WEAPON_WAIT 10
-#define DRUUGE_OFFSET 24
-#define MISSILE_OFFSET 6
+#define DRUUGE_OFFSET RES_SCALE(24)
+#define MISSILE_OFFSET RES_SCALE(6)
 #define MISSILE_SPEED DISPLAY_TO_WORLD (30)
 #define MISSILE_LIFE 20
 #define MISSILE_RANGE (MISSILE_SPEED * MISSILE_LIFE)
 #define MISSILE_HITS 4
 #define MISSILE_DAMAGE 6
-#define RECOIL_VELOCITY WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (6))
+#define RECOIL_VELOCITY WORLD_TO_VELOCITY (DISPLAY_TO_WORLD RES_SCALE(6))
 #define MAX_RECOIL_VELOCITY (RECOIL_VELOCITY * 4)
 
 // Furnace
 #define SPECIAL_ENERGY_COST 16
 #define SPECIAL_WAIT 30
 
-static RACE_DESC druuge_desc =
+// HD
+#define MAX_THRUST_2XRES 40
+#define THRUST_INCREMENT_2XRES 4
+#define MISSILE_SPEED_2XRES DISPLAY_TO_WORLD (60)
+#define MISSILE_RANGE_2XRES (MISSILE_SPEED_2XRES * MISSILE_LIFE)
+
+#define MAX_THRUST_4XRES 80
+#define THRUST_INCREMENT_4XRES 8
+#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
+#define MISSILE_RANGE_4XRES (MISSILE_SPEED_4XRES * MISSILE_LIFE)
+
+static RACE_DESC druuge_desc1x =
 {
 	{ /* SHIP_INFO */
 		"mauler",
@@ -110,6 +121,152 @@ static RACE_DESC druuge_desc =
 	{
 		0,
 		MISSILE_RANGE,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC druuge_desc2x =
+{
+	{ /* SHIP_INFO */
+		"mauler",
+		FIRES_FORE,
+		17, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		DRUUGE_RACE_STRINGS,
+		DRUUGE_ICON_MASK_PMAP_ANIM,
+		DRUUGE_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		1400 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			9500, 2792,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			DRUUGE_BIG_MASK_PMAP_ANIM,
+			DRUUGE_MED_MASK_PMAP_ANIM,
+			DRUUGE_SML_MASK_PMAP_ANIM,
+		},
+		{
+			DRUUGE_CANNON_BIG_MASK_PMAP_ANIM,
+			DRUUGE_CANNON_MED_MASK_PMAP_ANIM,
+			DRUUGE_CANNON_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			DRUUGE_CAPT_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		DRUUGE_VICTORY_SONG,
+		DRUUGE_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		MISSILE_RANGE_2XRES,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC druuge_desc4x =
+{
+	{ /* SHIP_INFO */
+		"mauler",
+		FIRES_FORE,
+		17, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		DRUUGE_RACE_STRINGS,
+		DRUUGE_ICON_MASK_PMAP_ANIM,
+		DRUUGE_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		1400 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			9500, 2792,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			DRUUGE_BIG_MASK_PMAP_ANIM,
+			DRUUGE_MED_MASK_PMAP_ANIM,
+			DRUUGE_SML_MASK_PMAP_ANIM,
+		},
+		{
+			DRUUGE_CANNON_BIG_MASK_PMAP_ANIM,
+			DRUUGE_CANNON_MED_MASK_PMAP_ANIM,
+			DRUUGE_CANNON_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			DRUUGE_CAPT_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		DRUUGE_VICTORY_SONG,
+		DRUUGE_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		MISSILE_RANGE_4XRES,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -208,7 +365,7 @@ druuge_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 	if (StarShipPtr->cur_status_flags & SHIP_BEYOND_MAX_SPEED)
 		lpEvalDesc->MoveState = ENTICE;
 	else if (lpEvalDesc->ObjectPtr
-			&& lpEvalDesc->which_turn <= WORLD_TO_TURN (MISSILE_RANGE * 3 / 4))
+			&& lpEvalDesc->which_turn <= WORLD_TO_TURN (RES_SCALE(MISSILE_RANGE) * 3 / 4))
 	{
 		GetElementStarShip (lpEvalDesc->ObjectPtr, &EnemyStarShipPtr);
 		ship_flags = EnemyStarShipPtr->RaceDescPtr->ship_info.ship_flags;
@@ -258,7 +415,7 @@ druuge_postprocess (ELEMENT *ElementPtr)
 			StarShipPtr->RaceDescPtr->characteristics.weapon_wait)
 	{
 		COUNT angle;
-		SIZE cur_delta_x, cur_delta_y;
+		SDWORD cur_delta_x, cur_delta_y;
 
 		StarShipPtr->cur_status_flags &= ~SHIP_AT_MAX_SPEED;
 
@@ -266,7 +423,7 @@ druuge_postprocess (ELEMENT *ElementPtr)
 		DeltaVelocityComponents (&ElementPtr->velocity,
 				COSINE (angle, RECOIL_VELOCITY),
 				SINE (angle, RECOIL_VELOCITY));
-		GetCurrentVelocityComponents (&ElementPtr->velocity,
+		GetCurrentVelocityComponentsSdword (&ElementPtr->velocity,
 				&cur_delta_x, &cur_delta_y);
 		if ((long)cur_delta_x * (long)cur_delta_x
 				+ (long)cur_delta_y * (long)cur_delta_y
@@ -311,7 +468,10 @@ druuge_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_druuge (void)
 {
+	static RACE_DESC druuge_desc;
 	RACE_DESC *RaceDescPtr;
+
+	druuge_desc = (RESOLUTION_FACTOR == 0 ? druuge_desc1x : (RESOLUTION_FACTOR == 1 ? druuge_desc2x : druuge_desc4x));
 
 	druuge_desc.preprocess_func = druuge_preprocess;
 	druuge_desc.postprocess_func = druuge_postprocess;
