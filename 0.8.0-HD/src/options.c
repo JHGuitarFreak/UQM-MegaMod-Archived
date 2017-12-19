@@ -84,6 +84,7 @@ BOOLEAN optPartialPickup;
 BOOLEAN optSubmenu;
 BOOLEAN optAddDevices;
 BOOLEAN optScalePlanets;
+BOOLEAN optSuperMelee;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;
