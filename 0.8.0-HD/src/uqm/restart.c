@@ -205,6 +205,10 @@ DoRestart (MENU_STATE *pMS)
 		Flash_setFrameTime (pMS->flashContext, ONE_SECOND / 16);
 		Flash_setState(pMS->flashContext, FlashState_fadeIn,
 				(3 * ONE_SECOND) / 16);
+
+		if(optSuperMelee)
+			goto MELEE; // A really shitty way to start Super Melee without using the menu.
+
 		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
 		Flash_start (pMS->flashContext);
 		LastInputTime = GetTimeCounter ();
@@ -313,6 +317,9 @@ DoRestart (MENU_STATE *pMS)
 				}	
 				break;
 			case PLAY_SUPER_MELEE:
+				MELEE:
+				if(optSuperMelee)
+					optSuperMelee = FALSE;
 				if (resFactorWasChanged) {
 					SetFlashRect (NULL);
 					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
