@@ -42,8 +42,8 @@
 #define WEAPON_ENERGY_COST 1
 #define WEAPON_WAIT 0
 #define MISSILE_LIFE 8
-#define ILWRATH_OFFSET 29
-#define MISSILE_SPEED MAX_THRUST
+#define ILWRATH_OFFSET RES_SCALE(29)
+#define MISSILE_SPEED RES_SCALE(MAX_THRUST)
 #define MISSILE_HITS 1
 #define MISSILE_DAMAGE 1
 #define MISSILE_OFFSET 0
@@ -52,7 +52,13 @@
 #define SPECIAL_ENERGY_COST 3
 #define SPECIAL_WAIT 13
 
-static RACE_DESC ilwrath_desc =
+// HD
+#define MAX_THRUST_2XRES 50
+#define THRUST_INCREMENT_2XRES 10
+#define MAX_THRUST_4XRES 100
+#define THRUST_INCREMENT_4XRES 20
+
+static RACE_DESC ilwrath_desc1x =
 {
 	{ /* SHIP_INFO */
 		"avenger",
@@ -114,6 +120,152 @@ static RACE_DESC ilwrath_desc =
 	{
 		0,
 		CLOSE_RANGE_WEAPON,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC ilwrath_desc2x =
+{
+	{ /* SHIP_INFO */
+		"avenger",
+		FIRES_FORE,
+		10, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		ILWRATH_RACE_STRINGS,
+		ILWRATH_ICON_MASK_PMAP_ANIM,
+		ILWRATH_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		1410 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			48, 1700,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			ILWRATH_BIG_MASK_PMAP_ANIM,
+			ILWRATH_MED_MASK_PMAP_ANIM,
+			ILWRATH_SML_MASK_PMAP_ANIM,
+		},
+		{
+			FIRE_BIG_MASK_PMAP_ANIM,
+			FIRE_MED_MASK_PMAP_ANIM,
+			FIRE_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			ILWRATH_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		ILWRATH_VICTORY_SONG,
+		ILWRATH_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_2XRES,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC ilwrath_desc4x =
+{
+	{ /* SHIP_INFO */
+		"avenger",
+		FIRES_FORE,
+		10, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		ILWRATH_RACE_STRINGS,
+		ILWRATH_ICON_MASK_PMAP_ANIM,
+		ILWRATH_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		1410 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			48, 1700,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			ILWRATH_BIG_MASK_PMAP_ANIM,
+			ILWRATH_MED_MASK_PMAP_ANIM,
+			ILWRATH_SML_MASK_PMAP_ANIM,
+		},
+		{
+			FIRE_BIG_MASK_PMAP_ANIM,
+			FIRE_MED_MASK_PMAP_ANIM,
+			FIRE_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			ILWRATH_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		ILWRATH_VICTORY_SONG,
+		ILWRATH_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_4XRES,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -213,11 +365,11 @@ initialize_flame (ELEMENT *ShipPtr, HELEMENT FlameArray[])
 
 	if (FlameArray[0])
 	{
-		SIZE dx, dy;
+		SDWORD dx, dy;
 		ELEMENT *FlamePtr;
 
 		LockElement (FlameArray[0], &FlamePtr);
-		GetCurrentVelocityComponents (&ShipPtr->velocity, &dx, &dy);
+		GetCurrentVelocityComponentsSdword (&ShipPtr->velocity, &dx, &dy);
 		DeltaVelocityComponents (&FlamePtr->velocity, dx, dy);
 		FlamePtr->current.location.x -= VELOCITY_TO_WORLD (dx);
 		FlamePtr->current.location.y -= VELOCITY_TO_WORLD (dy);
@@ -396,8 +548,11 @@ ilwrath_preprocess (ELEMENT *ElementPtr)
 
 RACE_DESC*
 init_ilwrath (void)
-{
+{	
+	static RACE_DESC ilwrath_desc;
 	RACE_DESC *RaceDescPtr;
+
+	ilwrath_desc = (RESOLUTION_FACTOR == 0 ? ilwrath_desc1x : (RESOLUTION_FACTOR == 1 ? ilwrath_desc2x : ilwrath_desc4x));
 
 	ilwrath_desc.preprocess_func = ilwrath_preprocess;
 	ilwrath_desc.init_weapon_func = initialize_flame;

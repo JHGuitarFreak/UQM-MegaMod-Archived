@@ -48,7 +48,7 @@
 #define COMET_DAMAGE 2
 #define COMET_OFFSET 0
 #define COMET_HITS 12
-#define COMET_SPEED DISPLAY_TO_WORLD (12)
+#define COMET_SPEED DISPLAY_TO_WORLD RES_SCALE(12)
 #define COMET_LIFE 2
 #define COMET_TURN_WAIT 3
 #define MAX_COMETS 3
@@ -58,14 +58,14 @@
 
 // Green sentinel
 #define SPECIAL_WAIT ((ONE_SECOND / BATTLE_FRAME_RATE) * 3)
-#define SENTINEL_SPEED DISPLAY_TO_WORLD (8)
+#define SENTINEL_SPEED DISPLAY_TO_WORLD RES_SCALE(8)
 #define SENTINEL_LIFE 2
 #define SENTINEL_OFFSET 0
 #define SENTINEL_HITS 10
 #define SENTINEL_DAMAGE 1
 #define TRACK_WAIT 1
 #define ANIMATION_WAIT 1
-#define RECOIL_VELOCITY WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (10))
+#define RECOIL_VELOCITY WORLD_TO_VELOCITY (DISPLAY_TO_WORLD RES_SCALE(10))
 #define MAX_RECOIL_VELOCITY (RECOIL_VELOCITY * 4)
 #define MAX_SENTINELS 4
 #define SPECIAL_ENERGY_COST 3
@@ -164,7 +164,7 @@ comet_preprocess (ELEMENT *ElementPtr)
 	{
 		if (frame_index == 25)
 		{
-			SIZE cur_delta_x, cur_delta_y;
+			SDWORD cur_delta_x, cur_delta_y;
 			STARSHIP *StarShipPtr;
 
 			GetElementStarShip (ElementPtr, &StarShipPtr);
@@ -172,7 +172,7 @@ comet_preprocess (ELEMENT *ElementPtr)
 			spawn_comet (ElementPtr);
 			ElementPtr->state_flags |= NONSOLID;
 
-			GetCurrentVelocityComponents (&ElementPtr->velocity,
+			GetCurrentVelocityComponentsSdword (&ElementPtr->velocity,
 					&cur_delta_x, &cur_delta_y);
 			SetVelocityComponents (&ElementPtr->velocity,
 					cur_delta_x / 2, cur_delta_y / 2);
@@ -518,7 +518,7 @@ sentinel_preprocess (ELEMENT *ElementPtr)
 			hTarget = ElementPtr->hTarget;
 		else
 		{
-			SIZE delta_x0, delta_y0, delta_x1, delta_y1;
+			SDWORD delta_x0, delta_y0, delta_x1, delta_y1;
 			ELEMENT *ShipPtr;
 			ELEMENT *EnemyShipPtr;
 
@@ -550,7 +550,7 @@ sentinel_preprocess (ELEMENT *ElementPtr)
 		if (hTarget)
 		{
 			COUNT num_frames;
-			SIZE delta_x, delta_y;
+			SDWORD delta_x, delta_y;
 			ELEMENT *TargetPtr;
 			VELOCITY_DESC TargetVelocity;
 
@@ -570,7 +570,7 @@ sentinel_preprocess (ELEMENT *ElementPtr)
 				num_frames = 1;
 
 			TargetVelocity = TargetPtr->velocity;
-			GetNextVelocityComponents (&TargetVelocity,
+			GetNextVelocityComponentsSdword (&TargetVelocity,
 					&delta_x, &delta_y, num_frames);
 
 			delta_x = (TargetPtr->current.location.x + delta_x)
@@ -641,7 +641,7 @@ sentinel_collision (ELEMENT *ElementPtr0, POINT *pPt0,
 				&& ElementPtr1->crew_level
 				&& !GRAVITY_MASS (ElementPtr1->mass_points + 1))
 		{
-			SIZE cur_delta_x, cur_delta_y;
+			SDWORD cur_delta_x, cur_delta_y;
 
 			ElementPtr0->life_span = old_life;
 			ElementPtr0->hit_points = old_hits;
@@ -661,7 +661,7 @@ sentinel_collision (ELEMENT *ElementPtr0, POINT *pPt0,
 			DeltaVelocityComponents (&ElementPtr1->velocity,
 					COSINE (angle, RECOIL_VELOCITY),
 					SINE (angle, RECOIL_VELOCITY));
-			GetCurrentVelocityComponents (&ElementPtr1->velocity,
+			GetCurrentVelocityComponentsSdword (&ElementPtr1->velocity,
 					&cur_delta_x, &cur_delta_y);
 			if ((long)cur_delta_x * (long)cur_delta_x
 					+ (long)cur_delta_y * (long)cur_delta_y
@@ -773,7 +773,7 @@ samatra_preprocess (ELEMENT *ElementPtr)
 	}
 	else
 	{
-		POINT offs[] =
+		POINT offs1x[] =
 		{
 			{-127-9,  -53+18},
 			{ -38-9,  -88+18},
@@ -784,6 +784,34 @@ samatra_preprocess (ELEMENT *ElementPtr)
 			{ -87-9,   58+18},
 			{-136-9,   29+18},
 		};
+		
+		POINT offs2x[] =
+		{
+			{-153, -116}, // Top left generator
+			{-208, -49 }, // The one below the top left generator
+			{-198,  72},
+			{-104,  132},
+			{113,   132},
+			{205,   70},
+			{220,  -44 },
+			{165,  -107}, // Top right generator
+		};
+		
+		POINT offs4x[] =
+		{
+			{-305, -234}, // Top left generator
+			{-414, -96 }, // The one below the top left generator
+			{-396,  140},
+			{-208,  262},
+			{215,   262},
+			{410,   140},
+			{441,  -87 },
+			{329,  -214}, // Top right generator
+		};
+		
+		POINT *offs;
+
+		offs = (RESOLUTION_FACTOR == 0 ? offs1x : (RESOLUTION_FACTOR == 1 ? offs2x : offs4x));
 
 		for (StarShipPtr->RaceDescPtr->num_generators = 0;
 				StarShipPtr->RaceDescPtr->num_generators < MAX_GENERATORS;
@@ -808,11 +836,11 @@ samatra_preprocess (ELEMENT *ElementPtr)
 						);
 				GeneratorPtr->current.location.x =
 						((LOG_SPACE_WIDTH >> 1)
-						+ DISPLAY_TO_WORLD (offs[StarShipPtr->RaceDescPtr->num_generators].x))
+						+ DISPLAY_TO_WORLD ((offs[StarShipPtr->RaceDescPtr->num_generators].x)))
 						& ~((SCALED_ONE << MAX_VIS_REDUCTION) - 1);
 				GeneratorPtr->current.location.y =
 						((LOG_SPACE_HEIGHT >> 1)
-						+ DISPLAY_TO_WORLD (offs[StarShipPtr->RaceDescPtr->num_generators].y))
+						+ DISPLAY_TO_WORLD ((offs[StarShipPtr->RaceDescPtr->num_generators].y)))
 						& ~((SCALED_ONE << MAX_VIS_REDUCTION) - 1);
 				GeneratorPtr->current.image.farray =
 						StarShipPtr->RaceDescPtr->ship_data.special;
