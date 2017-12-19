@@ -322,7 +322,7 @@ LoadSC2Data (void)
 
 	CreateRadar ();
 
-	if (LOBYTE (GLOBAL (CurrentActivity)) == IN_HYPERSPACE)
+	if (inHQSpace())
 	{
 		GLOBAL (ShipStamp.origin.x) =
 				GLOBAL (ShipStamp.origin.y) = -1;
