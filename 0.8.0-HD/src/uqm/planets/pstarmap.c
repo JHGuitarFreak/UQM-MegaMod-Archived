@@ -697,7 +697,15 @@ DrawStarMap (COUNT race_update, RECT *pClipRect)
 
 		++SDPtr;
 	} while (SDPtr->star_pt.x <= MAX_X_UNIVERSE
-			&& SDPtr->star_pt.y <= MAX_Y_UNIVERSE);
+			&& SDPtr->star_pt.y <= MAX_Y_UNIVERSE);	
+	
+	// JMS: Draw a sexy nebula on the map's background (Only in Hyperspace, not in Quasispace).
+	if (which_space <= 1)
+	{
+		nebula.origin.x = nebula.origin.y = 0;
+		nebula.frame = SetAbsFrameIndex (NebulaeFrame, 16);
+		DrawStamp(&nebula);
+	}
 
 	// JMS: This draws the constellation lines on the constellation starmap.
 	if (which_space <= 1 && which_starmap == CONSTELLATION_STARMAP)
@@ -759,15 +767,6 @@ DrawStarMap (COUNT race_update, RECT *pClipRect)
 			DrawCursor (UNIVERSE_TO_DISPX (cursorLoc.x),
 					UNIVERSE_TO_DISPY (cursorLoc.y));
 		}
-	}
-	
-	
-	// JMS: Draw a sexy nebula on the map's background (Only in Hyperspace, not in QS/Orzspace!).
-	if (which_space <= 1)
-	{
-		nebula.origin.x = nebula.origin.y = 0;
-		nebula.frame = SetAbsFrameIndex (NebulaeFrame, 16);
-		DrawStamp(&nebula);
 	}
 }
 
