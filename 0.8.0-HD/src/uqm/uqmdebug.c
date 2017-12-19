@@ -125,7 +125,7 @@ resetEnergyBattle (void)
 	CONTEXT OldContext;
 	
 	if (!(GLOBAL (CurrentActivity) & IN_BATTLE) ||
-			(LOBYTE (GLOBAL (CurrentActivity)) == IN_HYPERSPACE))
+			inHQSpace())
 		return;	
 
 	if (PlayerControl[1] & HUMAN_CONTROL){
