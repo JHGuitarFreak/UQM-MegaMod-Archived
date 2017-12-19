@@ -34,13 +34,13 @@
 // Plasmoid
 #define WEAPON_ENERGY_COST 20
 #define WEAPON_WAIT 5
-#define MYCON_OFFSET 24
+#define MYCON_OFFSET RES_SCALE(24)
 #define MISSILE_OFFSET 0
 #define NUM_PLASMAS 11
 #define NUM_GLOBALLS 8
 #define PLASMA_DURATION 13
 #define MISSILE_LIFE (NUM_PLASMAS * PLASMA_DURATION)
-#define MISSILE_SPEED DISPLAY_TO_WORLD (8)
+#define MISSILE_SPEED DISPLAY_TO_WORLD RES_SCALE(8)
 #define MISSILE_DAMAGE 10
 #define TRACK_WAIT 1
 
@@ -49,7 +49,16 @@
 #define SPECIAL_WAIT 0
 #define REGENERATION_AMOUNT 4
 
-static RACE_DESC mycon_desc =
+// HD
+#define MAX_THRUST_2XRES /* DISPLAY_TO_WORLD (14) */ 54
+#define THRUST_INCREMENT_2XRES /* DISPLAY_TO_WORLD (4) */ 18
+#define MAX_THRUST_4XRES /* DISPLAY_TO_WORLD (28) */ 108
+#define THRUST_INCREMENT_4XRES /* DISPLAY_TO_WORLD (8) */ 36
+
+#define MAX_THRUST_HIRES /* DISPLAY_TO_WORLD (20) */ 108 // DC_GFX
+#define THRUST_INCREMENT_HIRES MAX_THRUST_HIRES // DC_GFX
+
+static RACE_DESC mycon_desc1x =
 {
 	{ /* SHIP_INFO */
 		"podship",
@@ -111,6 +120,152 @@ static RACE_DESC mycon_desc =
 	{
 		0,
 		DISPLAY_TO_WORLD (800),
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC mycon_desc2x =
+{
+	{ /* SHIP_INFO */
+		"podship",
+		FIRES_FORE | SEEKING_WEAPON,
+		21, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		MYCON_RACE_STRINGS,
+		MYCON_ICON_MASK_PMAP_ANIM,
+		MYCON_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		1070 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			6392, 2200,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			MYCON_BIG_MASK_PMAP_ANIM,
+			MYCON_MED_MASK_PMAP_ANIM,
+			MYCON_SML_MASK_PMAP_ANIM,
+		},
+		{
+			PLASMA_BIG_MASK_PMAP_ANIM,
+			PLASMA_MED_MASK_PMAP_ANIM,
+			PLASMA_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			MYCON_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		MYCON_VICTORY_SONG,
+		MYCON_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		DISPLAY_TO_WORLD (1600),
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC mycon_desc4x =
+{
+	{ /* SHIP_INFO */
+		"podship",
+		FIRES_FORE | SEEKING_WEAPON,
+		21, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		MYCON_RACE_STRINGS,
+		MYCON_ICON_MASK_PMAP_ANIM,
+		MYCON_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		1070 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			6392, 2200,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			MYCON_BIG_MASK_PMAP_ANIM,
+			MYCON_MED_MASK_PMAP_ANIM,
+			MYCON_SML_MASK_PMAP_ANIM,
+		},
+		{
+			PLASMA_BIG_MASK_PMAP_ANIM,
+			PLASMA_MED_MASK_PMAP_ANIM,
+			PLASMA_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			MYCON_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		MYCON_VICTORY_SONG,
+		MYCON_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		DISPLAY_TO_WORLD (3200),
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -259,7 +414,7 @@ mycon_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 			|| ShipPtr->crew_level == StarShipPtr->RaceDescPtr->ship_info.max_crew))
 	{
 		COUNT travel_facing, direction_facing;
-		SIZE delta_x, delta_y;
+		SDWORD delta_x, delta_y;
 
 		travel_facing = NORMALIZE_FACING (
 				ANGLE_TO_FACING (GetVelocityTravelAngle (&ShipPtr->velocity)
@@ -288,7 +443,7 @@ mycon_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 	if (StarShipPtr->special_counter == 0)
 	{
 		StarShipPtr->ship_input_state &= ~SPECIAL;
-		StarShipPtr->RaceDescPtr->cyborg_control.WeaponRange = DISPLAY_TO_WORLD (800);
+		StarShipPtr->RaceDescPtr->cyborg_control.WeaponRange = DISPLAY_TO_WORLD (RES_SCALE(800));
 		if (ShipPtr->crew_level < StarShipPtr->RaceDescPtr->ship_info.max_crew)
 		{
 			StarShipPtr->RaceDescPtr->cyborg_control.WeaponRange = MISSILE_SPEED * MISSILE_LIFE;
@@ -364,7 +519,10 @@ mycon_postprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_mycon (void)
 {
+	static RACE_DESC mycon_desc;
 	RACE_DESC *RaceDescPtr;
+
+	mycon_desc = (RESOLUTION_FACTOR == 0 ? mycon_desc1x : (RESOLUTION_FACTOR == 1 ? mycon_desc2x : mycon_desc4x));
 
 	mycon_desc.postprocess_func = mycon_postprocess;
 	mycon_desc.init_weapon_func = initialize_plasma;

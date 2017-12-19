@@ -37,25 +37,25 @@
 #define YWING_ENERGY_REGENERATION 1
 #define YWING_SPECIAL_ENERGY_COST MAX_ENERGY
 #define YWING_ENERGY_WAIT 6
-#define YWING_MAX_THRUST 50
-#define YWING_THRUST_INCREMENT 10
+#define YWING_MAX_THRUST RES_SCALE(50)
+#define YWING_THRUST_INCREMENT RES_SCALE(10)
 #define YWING_THRUST_WAIT 0
 #define YWING_TURN_WAIT 14
 
 // X-Wing Lasers
-#define MMRNMHRM_OFFSET 16
+#define MMRNMHRM_OFFSET RES_SCALE(16)
 #define WEAPON_ENERGY_COST 1
 #define WEAPON_WAIT 0
-#define CENTER_OFFS DISPLAY_TO_WORLD (4)
+#define CENTER_OFFS DISPLAY_TO_WORLD RES_SCALE(4)
 #define WING_OFFS DISPLAY_TO_WORLD (10)
-#define LASER_RANGE DISPLAY_TO_WORLD (125 + MMRNMHRM_OFFSET)
+#define LASER_RANGE DISPLAY_TO_WORLD (RES_SCALE(125) + MMRNMHRM_OFFSET)
 
 // Y-Wing Missiles
 #define YWING_WEAPON_ENERGY_COST 1
 #define YWING_WEAPON_WAIT 20
-#define LAUNCH_OFFS DISPLAY_TO_WORLD (4)
+#define LAUNCH_OFFS DISPLAY_TO_WORLD RES_SCALE(4)
 #define MISSILE_OFFSET 0
-#define MISSILE_SPEED DISPLAY_TO_WORLD (20)
+#define MISSILE_SPEED DISPLAY_TO_WORLD RES_SCALE(20)
 #define MISSILE_LIFE 40
 #define MISSILE_HITS 1
 #define MISSILE_DAMAGE 1
@@ -66,7 +66,13 @@
 #define SPECIAL_WAIT 0
 #define YWING_SPECIAL_WAIT 0
 
-static RACE_DESC mmrnmhrm_desc =
+// HD
+#define MAX_THRUST_2XRES 40
+#define THRUST_INCREMENT_2XRES 10
+#define MAX_THRUST_4XRES 80
+#define THRUST_INCREMENT_4XRES 20
+
+static RACE_DESC mmrnmhrm_desc1x =
 {
 	{ /* SHIP_INFO */
 		"xform",
@@ -128,6 +134,152 @@ static RACE_DESC mmrnmhrm_desc =
 	{
 		0,
 		CLOSE_RANGE_WEAPON,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC mmrnmhrm_desc2x =
+{
+	{ /* SHIP_INFO */
+		"xform",
+		FIRES_FORE | IMMEDIATE_WEAPON,
+		19, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		MMRNMHRM_RACE_STRINGS,
+		MMRNMHRM_ICON_MASK_PMAP_ANIM,
+		MMRNMHRM_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		0, /* Initial sphere of influence radius */
+		{ /* Known location (center of SoI) */
+			0, 0,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			MMRNMHRM_BIG_MASK_PMAP_ANIM,
+			MMRNMHRM_MED_MASK_PMAP_ANIM,
+			MMRNMHRM_SML_MASK_PMAP_ANIM,
+		},
+		{
+			TORP_BIG_MASK_PMAP_ANIM,
+			TORP_MED_MASK_PMAP_ANIM,
+			TORP_SML_MASK_PMAP_ANIM,
+		},
+		{
+			YWING_BIG_MASK_PMAP_ANIM,
+			YWING_MED_MASK_PMAP_ANIM,
+			YWING_SML_MASK_PMAP_ANIM,
+		},
+		{
+			MMRNMHRM_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		MMRNMHRM_VICTORY_SONG,
+		MMRNMHRM_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_2XRES,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC mmrnmhrm_desc4x =
+{
+	{ /* SHIP_INFO */
+		"xform",
+		FIRES_FORE | IMMEDIATE_WEAPON,
+		19, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		MMRNMHRM_RACE_STRINGS,
+		MMRNMHRM_ICON_MASK_PMAP_ANIM,
+		MMRNMHRM_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		0, /* Initial sphere of influence radius */
+		{ /* Known location (center of SoI) */
+			0, 0,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			MMRNMHRM_BIG_MASK_PMAP_ANIM,
+			MMRNMHRM_MED_MASK_PMAP_ANIM,
+			MMRNMHRM_SML_MASK_PMAP_ANIM,
+		},
+		{
+			TORP_BIG_MASK_PMAP_ANIM,
+			TORP_MED_MASK_PMAP_ANIM,
+			TORP_SML_MASK_PMAP_ANIM,
+		},
+		{
+			YWING_BIG_MASK_PMAP_ANIM,
+			YWING_MED_MASK_PMAP_ANIM,
+			YWING_SML_MASK_PMAP_ANIM,
+		},
+		{
+			MMRNMHRM_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		MMRNMHRM_VICTORY_SONG,
+		MMRNMHRM_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_4XRES,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -225,10 +377,10 @@ mmrnmhrm_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 			&& lpEvalDesc->ObjectPtr
 			&& !(StarShipPtr->ship_input_state & WEAPON))
 	{
-		SIZE delta_x, delta_y;
+		SDWORD delta_x, delta_y;
 		COUNT travel_angle, direction_angle;
 
-		GetCurrentVelocityComponents (&lpEvalDesc->ObjectPtr->velocity,
+		GetCurrentVelocityComponentsSdword (&lpEvalDesc->ObjectPtr->velocity,
 				&delta_x, &delta_y);
 		if (delta_x == 0 && delta_y == 0)
 			direction_angle = travel_angle = 0;
@@ -248,7 +400,7 @@ mmrnmhrm_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 		{
 			if (lpEvalDesc->which_turn > 8)
 			{
-				if (MANEUVERABILITY (&EnemyStarShipPtr->RaceDescPtr->cyborg_control) <= SLOW_SHIP
+				if (MANEUVERABILITY (&EnemyStarShipPtr->RaceDescPtr->cyborg_control) <= RESOLUTION_COMPENSATED(SLOW_SHIP) // JMS_GFX
 						|| NORMALIZE_ANGLE (
 								direction_angle - travel_angle + QUADRANT
 								) > HALF_CIRCLE)
@@ -257,9 +409,9 @@ mmrnmhrm_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 		}
 		else
 		{
-			SIZE ship_delta_x, ship_delta_y;
+			SDWORD ship_delta_x, ship_delta_y;
 
-			GetCurrentVelocityComponents (&ShipPtr->velocity,
+			GetCurrentVelocityComponentsSdword (&ShipPtr->velocity,
 					&ship_delta_x, &ship_delta_y);
 			delta_x -= ship_delta_x;
 			delta_y -= ship_delta_y;
@@ -304,7 +456,7 @@ initialize_dual_weapons (ELEMENT *ShipPtr, HELEMENT WeaponArray[])
 {
 	COORD cx, cy;
 	COUNT facing, angle;
-	SIZE offs_x, offs_y;
+	SDWORD offs_x, offs_y;
 	STARSHIP *StarShipPtr;
 
 	GetElementStarShip (ShipPtr, &StarShipPtr);
@@ -426,7 +578,7 @@ mmrnmhrm_postprocess (ELEMENT *ElementPtr)
 
 		if (ElementPtr->next.image.farray == StarShipPtr->RaceDescPtr->ship_data.special)
 		{
-			StarShipPtr->RaceDescPtr->cyborg_control.WeaponRange = LONG_RANGE_WEAPON - 1;
+			StarShipPtr->RaceDescPtr->cyborg_control.WeaponRange = RES_SCALE(LONG_RANGE_WEAPON - 1);
 			StarShipPtr->RaceDescPtr->ship_info.ship_flags &= ~IMMEDIATE_WEAPON;
 			StarShipPtr->RaceDescPtr->ship_info.ship_flags |= SEEKING_WEAPON;
 			StarShipPtr->RaceDescPtr->ship_data.ship_sounds =
@@ -437,7 +589,7 @@ mmrnmhrm_postprocess (ELEMENT *ElementPtr)
 		}
 		else
 		{
-			StarShipPtr->RaceDescPtr->cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON;
+			StarShipPtr->RaceDescPtr->cyborg_control.WeaponRange = RES_SCALE(CLOSE_RANGE_WEAPON);
 			StarShipPtr->RaceDescPtr->ship_info.ship_flags &= ~SEEKING_WEAPON;
 			StarShipPtr->RaceDescPtr->ship_info.ship_flags |= IMMEDIATE_WEAPON;
 			StarShipPtr->RaceDescPtr->ship_data.ship_sounds =
@@ -494,10 +646,14 @@ uninit_mmrnmhrm (RACE_DESC *pRaceDesc)
 RACE_DESC*
 init_mmrnmhrm (void)
 {
+	static RACE_DESC mmrnmhrm_desc;
 	RACE_DESC *RaceDescPtr;
+
 	// The caller of this func will copy the struct
 	static RACE_DESC new_mmrnmhrm_desc;
 	MMRNMHRM_DATA otherwing_desc;
+
+	mmrnmhrm_desc = (RESOLUTION_FACTOR == 0 ? mmrnmhrm_desc1x : (RESOLUTION_FACTOR == 1 ? mmrnmhrm_desc2x : mmrnmhrm_desc4x));
 
 	mmrnmhrm_desc.uninit_func = uninit_mmrnmhrm;
 	mmrnmhrm_desc.preprocess_func = mmrnmhrm_preprocess;
