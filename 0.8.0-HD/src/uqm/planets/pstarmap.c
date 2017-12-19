@@ -461,7 +461,7 @@ DrawStarMap (COUNT race_update, RECT *pClipRect)
 	// long diameter;
 	RECT r, old_r;
 	POINT oldOrigin = {0, 0};
-	STAMP s;
+	STAMP s, nebula;
 	FRAME star_frame;
 	STAR_DESC *SDPtr;
 	BOOLEAN draw_cursor;
@@ -759,6 +759,15 @@ DrawStarMap (COUNT race_update, RECT *pClipRect)
 			DrawCursor (UNIVERSE_TO_DISPX (cursorLoc.x),
 					UNIVERSE_TO_DISPY (cursorLoc.y));
 		}
+	}
+	
+	
+	// JMS: Draw a sexy nebula on the map's background (Only in Hyperspace, not in QS/Orzspace!).
+	if (which_space <= 1)
+	{
+		nebula.origin.x = nebula.origin.y = 0;
+		nebula.frame = SetAbsFrameIndex (NebulaeFrame, 16);
+		DrawStamp(&nebula);
 	}
 }
 
@@ -1943,6 +1952,12 @@ StarMap (void)
 	transition_pending = TRUE;
 	if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
 		UpdateMap ();
+	else
+	{	// This zooms the Quasi map in by 2 if within the local Quasi star cluster.
+		if ((universe.x <= ARILOU_HOME_X && universe.y <= ARILOU_HOME_Y) 
+			&& (universe.x >= 4480 && universe.y >= 4580))
+			zoomLevel = 2;
+	}
 	
 	if(optSubmenu)
 		DrawSubmenu (2);
