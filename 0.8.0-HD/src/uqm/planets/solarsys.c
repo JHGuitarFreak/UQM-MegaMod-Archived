@@ -2271,7 +2271,7 @@ DrawStarBackGround (void)
 static FRAME
 CreateStarBackGround (void)
 {
-	COUNT i, j, NumBRTDrawn;
+	COUNT i, j;
 	DWORD rand_val;
 	STAMP s, nebula; // JMS (added that nebula there)
 	CONTEXT oldContext;
@@ -2312,18 +2312,11 @@ CreateStarBackGround (void)
 		}
 		s.frame = IncFrameIndex (s.frame);
 	}
-
-	// JMS
-	if (optNebulae && NebulaePercentY < numNebulae) { // MB: Make some system not have nebulae
-		NumBRTDrawn = RES_CASE(30, 98, 230); // JMS_GFX - Altered MB
-	} else {
-		NumBRTDrawn = RES_CASE(30, 121, 312); // JMS_GFX - Altered MB
-	}
-
 #define NUM_BRT_PIECES 8
 	for (i = 0; i < NUM_BRT_PIECES; ++i)
 	{
-		for (j = 0; j < NumBRTDrawn; ++j)
+#define NUM_BRT_DRAWN (optNebulae && NebulaePercentY < numNebulae ? RES_CASE(30, 90, 270) : RES_CASE(30, 120, 480))
+		for (j = 0; j < NUM_BRT_DRAWN; ++j)
 		{
 			rand_val = RandomContext_Random (SysGenRNG);
 			s.origin.x = LOWORD (rand_val) % SIS_SCREEN_WIDTH;
