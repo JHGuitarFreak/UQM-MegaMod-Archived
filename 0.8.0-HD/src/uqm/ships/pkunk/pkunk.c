@@ -674,10 +674,6 @@ pkunk_preprocess (ELEMENT *ElementPtr)
 		{	// Start the reincarnation sequence
 			COUNT angle, facing;
 
-			// JMS: Kill Shofixti victory ditty if the this ship was reborn.
-			// Then play Pkunk's victory music.
-			StopMusic ();
-
 			ProcessSound (SetAbsSoundIndex (
 					StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 1
 					), ElementPtr);
