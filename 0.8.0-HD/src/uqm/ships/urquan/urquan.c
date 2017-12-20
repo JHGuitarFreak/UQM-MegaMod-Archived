@@ -22,6 +22,7 @@
 #include "../../intel.h"
 #include "uqm/globdata.h"
 #include "../../setup.h"
+#include "uqm/colors.h"
 #include <stdlib.h>
 
 // Core characteristics
@@ -42,23 +43,31 @@
 #define MISSILE_LIFE 20
 #define MISSILE_HITS 10
 #define MISSILE_DAMAGE 6
-#define MISSILE_OFFSET 8
-#define URQUAN_OFFSET 32
+#define MISSILE_OFFSET RES_SCALE(8)
+#define URQUAN_OFFSET RES_SCALE(32)
 
 // Fighters
 #define SPECIAL_ENERGY_COST 8
 #define SPECIAL_WAIT 9
-#define FIGHTER_OFFSET 4
-#define FIGHTER_SPEED DISPLAY_TO_WORLD (8)
+#define FIGHTER_OFFSET RES_SCALE(4)
+#define FIGHTER_SPEED DISPLAY_TO_WORLD RES_SCALE(8)
 #define ONE_WAY_FLIGHT 125
 #define TRACK_THRESHOLD 6
 #define FIGHTER_LIFE (ONE_WAY_FLIGHT + ONE_WAY_FLIGHT + 150)
 #define FIGHTER_HITS 1
 #define FIGHTER_MASS 0
 #define FIGHTER_WEAPON_WAIT 8
-#define FIGHTER_LASER_RANGE DISPLAY_TO_WORLD (40 + FIGHTER_OFFSET)
+#define FIGHTER_LASER_RANGE DISPLAY_TO_WORLD (RES_SCALE(40) + FIGHTER_OFFSET)
 
-static RACE_DESC urquan_desc =
+// HD
+#define MAX_THRUST_2XRES 60
+#define THRUST_INCREMENT_2XRES 12
+#define MISSILE_SPEED_2XRES DISPLAY_TO_WORLD (40)
+#define MAX_THRUST_4XRES 120
+#define THRUST_INCREMENT_4XRES 24
+#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (80)
+
+static RACE_DESC urquan_desc1x =
 {
 	{ /* SHIP_INFO */
 		"dreadnought",
@@ -130,6 +139,152 @@ static RACE_DESC urquan_desc =
 	0, /* CodeRef */
 };
 
+// JMS_GFX
+static RACE_DESC urquan_desc2x =
+{
+	{ /* SHIP_INFO */
+		"dreadnought",
+		FIRES_FORE | SEEKING_SPECIAL,
+		30, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		URQUAN_RACE_STRINGS,
+		URQUAN_ICON_MASK_PMAP_ANIM,
+		URQUAN_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		2666 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			5750, 6000,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			URQUAN_BIG_MASK_PMAP_ANIM,
+			URQUAN_MED_MASK_PMAP_ANIM,
+			URQUAN_SML_MASK_PMAP_ANIM,
+		},
+		{
+			FUSION_BIG_MASK_PMAP_ANIM,
+			FUSION_MED_MASK_PMAP_ANIM,
+			FUSION_SML_MASK_PMAP_ANIM,
+		},
+		{
+			FIGHTER_BIG_MASK_PMAP_ANIM,
+			FIGHTER_MED_MASK_PMAP_ANIM,
+			FIGHTER_SML_MASK_PMAP_ANIM,
+		},
+		{
+			URQUAN_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		URQUAN_VICTORY_SONG,
+		URQUAN_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		MISSILE_SPEED_2XRES * MISSILE_LIFE,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC urquan_desc4x =
+{
+	{ /* SHIP_INFO */
+		"dreadnought",
+		FIRES_FORE | SEEKING_SPECIAL,
+		30, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		URQUAN_RACE_STRINGS,
+		URQUAN_ICON_MASK_PMAP_ANIM,
+		URQUAN_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		2666 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			5750, 6000,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			URQUAN_BIG_MASK_PMAP_ANIM,
+			URQUAN_MED_MASK_PMAP_ANIM,
+			URQUAN_SML_MASK_PMAP_ANIM,
+		},
+		{
+			FUSION_BIG_MASK_PMAP_ANIM,
+			FUSION_MED_MASK_PMAP_ANIM,
+			FUSION_SML_MASK_PMAP_ANIM,
+		},
+		{
+			FIGHTER_BIG_MASK_PMAP_ANIM,
+			FIGHTER_MED_MASK_PMAP_ANIM,
+			FIGHTER_SML_MASK_PMAP_ANIM,
+		},
+		{
+			URQUAN_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		URQUAN_VICTORY_SONG,
+		URQUAN_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		MISSILE_SPEED_4XRES * MISSILE_LIFE,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
 static COUNT
 initialize_fusion (ELEMENT *ShipPtr, HELEMENT FusionArray[])
 {
@@ -144,7 +299,7 @@ initialize_fusion (ELEMENT *ShipPtr, HELEMENT FusionArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = URQUAN_OFFSET;
-	MissileBlock.speed = MISSILE_SPEED;
+	MissileBlock.speed = RES_SCALE(MISSILE_SPEED);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -205,7 +360,7 @@ fighter_preprocess (ELEMENT *ElementPtr)
 	{
 		BOOLEAN Enroute;
 		COUNT orig_facing, facing;
-		SIZE delta_x, delta_y;
+		SDWORD delta_x, delta_y;
 		ELEMENT *eptr;
 
 		Enroute = TRUE;
@@ -278,16 +433,16 @@ fighter_preprocess (ELEMENT *ElementPtr)
 				if (ElementPtr->turn_wait & LEFT)
 				{
 					delta_x += COSINE (FACING_TO_ANGLE (facing - 4),
-							DISPLAY_TO_WORLD (30));
+							DISPLAY_TO_WORLD RES_SCALE(30));
 					delta_y += SINE (FACING_TO_ANGLE (facing - 4),
-							DISPLAY_TO_WORLD (30));
+							DISPLAY_TO_WORLD RES_SCALE(30));
 				}
 				else
 				{
 					delta_x += COSINE (FACING_TO_ANGLE (facing + 4),
-							DISPLAY_TO_WORLD (30));
+							DISPLAY_TO_WORLD RES_SCALE(30));
 					delta_y += SINE (FACING_TO_ANGLE (facing + 4),
-							DISPLAY_TO_WORLD (30));
+							DISPLAY_TO_WORLD RES_SCALE(30));
 				}
 				facing = NORMALIZE_FACING (
 						ANGLE_TO_FACING (ARCTAN (delta_x, delta_y))
@@ -398,19 +553,19 @@ spawn_fighters (ELEMENT *ElementPtr)
 {
 	SIZE i;
 	COUNT facing;
-	SIZE delta_x, delta_y;
+	SDWORD delta_x, delta_y;
 	HELEMENT hFighterElement;
 	STARSHIP *StarShipPtr;
 
 	GetElementStarShip (ElementPtr, &StarShipPtr);
 	facing = StarShipPtr->ShipFacing + ANGLE_TO_FACING (HALF_CIRCLE);
-	delta_x = COSINE (FACING_TO_ANGLE (facing), DISPLAY_TO_WORLD (14));
-	delta_y = SINE (FACING_TO_ANGLE (facing), DISPLAY_TO_WORLD (14));
+	delta_x = COSINE (FACING_TO_ANGLE (facing), DISPLAY_TO_WORLD RES_SCALE(14));
+	delta_y = SINE (FACING_TO_ANGLE (facing), DISPLAY_TO_WORLD RES_SCALE(14));
 
 	i = ElementPtr->crew_level > 2 ? 2 : 1;
 	while (i-- && (hFighterElement = AllocElement ()))
 	{
-		SIZE sx, sy;
+		SDWORD sx, sy;
 		COUNT fighter_facing;
 		ELEMENT *FighterElementPtr;
 
@@ -512,12 +667,13 @@ urquan_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 				&& (StarShipPtr->RaceDescPtr->characteristics.special_wait < 6
 				|| (MANEUVERABILITY (
 						&EnemyStarShipPtr->RaceDescPtr->cyborg_control
-						) <= SLOW_SHIP
+						) <= RESOLUTION_COMPENSATED(SLOW_SHIP)
 				&& !(EnemyStarShipPtr->cur_status_flags & SHIP_BEYOND_MAX_SPEED))
 				|| (lpEvalDesc->which_turn <= 12
 				&& (StarShipPtr->ship_input_state & (LEFT | RIGHT))
 				&& StarShipPtr->RaceDescPtr->ship_info.energy_level >=
-				(BYTE)(StarShipPtr->RaceDescPtr->ship_info.max_energy >> 1))))
+				(BYTE)(StarShipPtr->RaceDescPtr->ship_info.max_energy >> 1)))
+				&& !OBJECT_CLOAKED (lpEvalDesc->ObjectPtr))
 			StarShipPtr->ship_input_state |= SPECIAL;
 		else
 			StarShipPtr->ship_input_state &= ~SPECIAL;
@@ -549,7 +705,10 @@ urquan_postprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_urquan (void)
 {
+	static RACE_DESC urquan_desc;
 	RACE_DESC *RaceDescPtr;
+
+	urquan_desc = (RESOLUTION_FACTOR == 0 ? urquan_desc1x : (RESOLUTION_FACTOR == 1 ? urquan_desc2x : urquan_desc4x));
 
 	urquan_desc.postprocess_func = urquan_postprocess;
 	urquan_desc.init_weapon_func = initialize_fusion;
