@@ -979,18 +979,7 @@ init_vux_comm (void)
 	static LOCDATA vux_desc;
  	LOCDATA *retval;
 	
-	switch (RESOLUTION_FACTOR) {
-		case 2:
-			vux_desc = vux_desc_4x;
-			break;
-		case 1:
-			vux_desc = vux_desc_4x;
-			break;
-		case 0:
-		default:
-			vux_desc = vux_desc_1x;
-			break;
-	}
+	vux_desc = (RESOLUTION_FACTOR == 0 ? vux_desc_1x : vux_desc_4x);
 
 	vux_desc.init_encounter_func = Intro;
 	vux_desc.post_encounter_func = post_vux_enc;

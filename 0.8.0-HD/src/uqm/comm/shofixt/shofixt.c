@@ -744,18 +744,7 @@ init_shofixti_comm (void)
 	static LOCDATA shofixti_desc;
  	LOCDATA *retval;
 	
-	switch (RESOLUTION_FACTOR){
-		case 2:
-			shofixti_desc = shofixti_desc_4x;
-			break;
-		case 1:
-			shofixti_desc = shofixti_desc_4x;
-			break;
-		case 0:
-		default:
-			shofixti_desc = shofixti_desc_1x;
-			break;
-	}
+	shofixti_desc = (RESOLUTION_FACTOR == 0 ? shofixti_desc_1x : shofixti_desc_4x);
 
 	shofixti_desc.init_encounter_func = Intro;
 	shofixti_desc.post_encounter_func = post_shofixti_enc;

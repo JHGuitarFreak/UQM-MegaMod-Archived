@@ -1035,20 +1035,8 @@ init_druuge_comm (void)
 {
 	static LOCDATA druuge_desc;
  	LOCDATA *retval;
-	
-	switch (RESOLUTION_FACTOR)
-	{
-		case 2:
-			druuge_desc = druuge_desc_4x;
-			break;
-		case 1:
-			druuge_desc = druuge_desc_4x;
-			break;
-		case 0:
-		default:
-			druuge_desc = druuge_desc_1x;
-			break;
-	}
+
+	druuge_desc = (RESOLUTION_FACTOR == 0 ? druuge_desc_1x : druuge_desc_4x);
 
 	SlaveryCount = 0;
 	AttemptedSalvage = FALSE;
