@@ -1859,32 +1859,32 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutInteger ("config.player2control", opts->player2);
 
 	switch (opts->adriver) {
-	case OPTVAL_SILENCE:
-		res_PutString ("config.audiodriver", "none");
-		break;
-	case OPTVAL_MIXSDL:
-		res_PutString ("config.audiodriver", "mixsdl");
-		break;
-	case OPTVAL_OPENAL:
-		res_PutString ("config.audiodriver", "openal");
-	default:
-		/* Shouldn't happen; leave config untouched */
-		break;
+		case OPTVAL_SILENCE:
+			res_PutString ("config.audiodriver", "none");
+			break;
+		case OPTVAL_MIXSDL:
+			res_PutString ("config.audiodriver", "mixsdl");
+			break;
+		case OPTVAL_OPENAL:
+			res_PutString ("config.audiodriver", "openal");
+		default:
+			/* Shouldn't happen; leave config untouched */
+			break;
 	}
 
 	switch (opts->aquality) {
-	case OPTVAL_LOW:
-		res_PutString ("config.audioquality", "low");
-		break;
-	case OPTVAL_MEDIUM:
-		res_PutString ("config.audioquality", "medium");
-		break;
-	case OPTVAL_HIGH:
-		res_PutString ("config.audioquality", "high");
-		break;
-	default:
-		/* Shouldn't happen; leave config untouched */
-		break;
+		case OPTVAL_LOW:
+			res_PutString ("config.audioquality", "low");
+			break;
+		case OPTVAL_MEDIUM:
+			res_PutString ("config.audioquality", "medium");
+			break;
+		case OPTVAL_HIGH:
+			res_PutString ("config.audioquality", "high");
+			break;
+		default:
+			/* Shouldn't happen; leave config untouched */
+			break;
 	}
 
 	res_PutInteger ("config.musicvol", opts->musicvol);
