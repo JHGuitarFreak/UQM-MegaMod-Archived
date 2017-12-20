@@ -36,7 +36,7 @@
 // Gob launcher
 #define WEAPON_ENERGY_COST 1
 #define WEAPON_WAIT 2
-#define SUPOX_OFFSET 23
+#define SUPOX_OFFSET RES_SCALE(23)
 #define MISSILE_OFFSET 2
 #define MISSILE_SPEED DISPLAY_TO_WORLD (30)
 #define MISSILE_LIFE 10
@@ -49,7 +49,15 @@
 #define SPECIAL_WAIT 0
 		/* Unused except to initialize supox_desc.special_wait */
 
-static RACE_DESC supox_desc =
+// HD
+#define MAX_THRUST_2XRES 80
+#define THRUST_INCREMENT_2XRES 16
+#define MISSILE_SPEED_2XRES DISPLAY_TO_WORLD (60)
+#define MAX_THRUST_4XRES 160
+#define THRUST_INCREMENT_4XRES 16
+#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
+
+static RACE_DESC supox_desc1x =
 {
 	{ /* SHIP_INFO */
 		"blade",
@@ -121,6 +129,152 @@ static RACE_DESC supox_desc =
 	0, /* CodeRef */
 };
 
+// JMS_GFX
+static RACE_DESC supox_desc2x =
+{
+	{ /* SHIP_INFO */
+		"blade",
+		FIRES_FORE,
+		16, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		SUPOX_RACE_STRINGS,
+		SUPOX_ICON_MASK_PMAP_ANIM,
+		SUPOX_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		333 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			7468, 9246,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			SUPOX_BIG_MASK_PMAP_ANIM,
+			SUPOX_MED_MASK_PMAP_ANIM,
+			SUPOX_SML_MASK_PMAP_ANIM,
+		},
+		{
+			GOB_BIG_MASK_PMAP_ANIM,
+			GOB_MED_MASK_PMAP_ANIM,
+			GOB_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			SUPOX_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		SUPOX_VICTORY_SONG,
+		SUPOX_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		(MISSILE_SPEED_2XRES * MISSILE_LIFE) >> 1,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC supox_desc4x =
+{
+	{ /* SHIP_INFO */
+		"blade",
+		FIRES_FORE,
+		16, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		SUPOX_RACE_STRINGS,
+		SUPOX_ICON_MASK_PMAP_ANIM,
+		SUPOX_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		333 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			7468, 9246,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			SUPOX_BIG_MASK_PMAP_ANIM,
+			SUPOX_MED_MASK_PMAP_ANIM,
+			SUPOX_SML_MASK_PMAP_ANIM,
+		},
+		{
+			GOB_BIG_MASK_PMAP_ANIM,
+			GOB_MED_MASK_PMAP_ANIM,
+			GOB_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			SUPOX_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		SUPOX_VICTORY_SONG,
+		SUPOX_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		(MISSILE_SPEED_4XRES * MISSILE_LIFE) >> 1,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
 static void
 supox_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 		COUNT ConcernCounter)
@@ -137,7 +291,7 @@ supox_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 	{
 		BOOLEAN LinedUp;
 		COUNT direction_angle;
-		SIZE delta_x, delta_y;
+		SDWORD delta_x, delta_y;
 
 		delta_x = lpEvalDesc->ObjectPtr->next.location.x
 				- ShipPtr->next.location.x;
@@ -200,7 +354,7 @@ initialize_horn (ELEMENT *ShipPtr, HELEMENT HornArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = SUPOX_OFFSET;
-	MissileBlock.speed = MISSILE_SPEED;
+	MissileBlock.speed = RES_SCALE(MISSILE_SPEED);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -276,7 +430,10 @@ supox_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_supox (void)
 {
+	static RACE_DESC supox_desc;
 	RACE_DESC *RaceDescPtr;
+
+	supox_desc = (RESOLUTION_FACTOR == 0 ? supox_desc1x : (RESOLUTION_FACTOR == 1 ? supox_desc2x : supox_desc4x));
 
 	supox_desc.preprocess_func = supox_preprocess;
 	supox_desc.init_weapon_func = initialize_horn;
