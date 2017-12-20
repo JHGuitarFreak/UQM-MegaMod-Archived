@@ -19,10 +19,10 @@
 #include "../ship.h"
 #include "pkunk.h"
 #include "resinst.h"
-
 #include "uqm/globdata.h"
 #include "uqm/tactrans.h"
 #include "libs/mathlib.h"
+#include "../../settings.h" // JMS: For StopMusic
 
 // Core characteristics
 #define MAX_CREW 8
@@ -38,8 +38,8 @@
 // Triple Miniguns
 #define WEAPON_ENERGY_COST 1
 #define WEAPON_WAIT 0
-#define PKUNK_OFFSET 15
-#define MISSILE_OFFSET 1
+#define PKUNK_OFFSET RES_SCALE(15)
+#define MISSILE_OFFSET RES_SCALE(1)
 #define MISSILE_SPEED DISPLAY_TO_WORLD (24)
 #define MISSILE_LIFE 5
 #define MISSILE_HITS 1
@@ -53,9 +53,15 @@
 #define PHOENIX_LIFE 12
 #define START_PHOENIX_COLOR BUILD_COLOR (MAKE_RGB15 (0x1F, 0x15, 0x00), 0x7A)
 #define TRANSITION_LIFE 1
-#define TRANSITION_SPEED DISPLAY_TO_WORLD (20)
+#define TRANSITION_SPEED DISPLAY_TO_WORLD RES_SCALE(20)
 
-static RACE_DESC pkunk_desc =
+// HD
+#define MAX_THRUST_2XRES 128
+#define THRUST_INCREMENT_2XRES 32
+#define MAX_THRUST_4XRES 256
+#define THRUST_INCREMENT_4XRES 64
+
+static RACE_DESC pkunk_desc1x =
 {
 	{ /* SHIP_INFO */
 		"fury",
@@ -117,6 +123,152 @@ static RACE_DESC pkunk_desc =
 	{
 		0,
 		CLOSE_RANGE_WEAPON + 1,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC pkunk_desc2x =
+{
+	{ /* SHIP_INFO */
+		"fury",
+		FIRES_FORE | FIRES_LEFT | FIRES_RIGHT,
+		20, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		PKUNK_RACE_STRINGS,
+		PKUNK_ICON_MASK_PMAP_ANIM,
+		PKUNK_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		666 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			502, 401,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		0, /* SPECIAL_WAIT */
+		SHIP_MASS,
+	},
+	{
+		{
+			PKUNK_BIG_MASK_PMAP_ANIM,
+			PKUNK_MED_MASK_PMAP_ANIM,
+			PKUNK_SML_MASK_PMAP_ANIM,
+		},
+		{
+			BUG_BIG_MASK_PMAP_ANIM,
+			BUG_MED_MASK_PMAP_ANIM,
+			BUG_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			PKUNK_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		PKUNK_VICTORY_SONG,
+		PKUNK_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_2XRES + 2,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC pkunk_desc4x =
+{
+	{ /* SHIP_INFO */
+		"fury",
+		FIRES_FORE | FIRES_LEFT | FIRES_RIGHT,
+		20, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		PKUNK_RACE_STRINGS,
+		PKUNK_ICON_MASK_PMAP_ANIM,
+		PKUNK_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		666 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			502, 401,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		0, /* SPECIAL_WAIT */
+		SHIP_MASS,
+	},
+	{
+		{
+			PKUNK_BIG_MASK_PMAP_ANIM,
+			PKUNK_MED_MASK_PMAP_ANIM,
+			PKUNK_SML_MASK_PMAP_ANIM,
+		},
+		{
+			BUG_BIG_MASK_PMAP_ANIM,
+			BUG_MED_MASK_PMAP_ANIM,
+			BUG_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			PKUNK_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		PKUNK_VICTORY_SONG,
+		PKUNK_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_4XRES + 4,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -199,7 +351,7 @@ initialize_bug_missile (ELEMENT *ShipPtr, HELEMENT MissileArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = PKUNK_OFFSET;
-	MissileBlock.speed = MISSILE_SPEED;
+	MissileBlock.speed = RES_SCALE(MISSILE_SPEED);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -217,11 +369,11 @@ initialize_bug_missile (ELEMENT *ShipPtr, HELEMENT MissileArray[])
 
 		if ((MissileArray[i] = initialize_missile (&MissileBlock)))
 		{
-			SIZE dx, dy;
+			SDWORD dx, dy;
 			ELEMENT *MissilePtr;
 
 			LockElement (MissileArray[i], &MissilePtr);
-			GetCurrentVelocityComponents (&ShipPtr->velocity, &dx, &dy);
+			GetCurrentVelocityComponentsSdword (&ShipPtr->velocity, &dx, &dy);
 			DeltaVelocityComponents (&MissilePtr->velocity, dx, dy);
 			MissilePtr->current.location.x -= VELOCITY_TO_WORLD (dx);
 			MissilePtr->current.location.y -= VELOCITY_TO_WORLD (dy);
@@ -284,8 +436,8 @@ new_pkunk (ELEMENT *ElementPtr)
 	StarShipPtr->RaceDescPtr->ship_info.crew_level = MAX_CREW;
 	StarShipPtr->RaceDescPtr->ship_info.energy_level = MAX_ENERGY;
 				/* fix vux impairment */
-	StarShipPtr->RaceDescPtr->characteristics.max_thrust = MAX_THRUST;
-	StarShipPtr->RaceDescPtr->characteristics.thrust_increment = THRUST_INCREMENT;
+	StarShipPtr->RaceDescPtr->characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+	StarShipPtr->RaceDescPtr->characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 	StarShipPtr->RaceDescPtr->characteristics.turn_wait = TURN_WAIT;
 	StarShipPtr->RaceDescPtr->characteristics.thrust_wait = THRUST_WAIT;
 	StarShipPtr->RaceDescPtr->characteristics.special_wait = 0;
@@ -522,6 +674,10 @@ pkunk_preprocess (ELEMENT *ElementPtr)
 		{	// Start the reincarnation sequence
 			COUNT angle, facing;
 
+			// JMS: Kill Shofixti victory ditty if the this ship was reborn.
+			// Then play Pkunk's victory music.
+			StopMusic ();
+
 			ProcessSound (SetAbsSoundIndex (
 					StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 1
 					), ElementPtr);
@@ -611,10 +767,14 @@ uninit_pkunk (RACE_DESC *pRaceDesc)
 RACE_DESC*
 init_pkunk (void)
 {
-	RACE_DESC *RaceDescPtr;
-	// The caller of this func will copy the struct
+	static RACE_DESC pkunk_desc;
 	static RACE_DESC new_pkunk_desc;
+	RACE_DESC *RaceDescPtr;
 	PKUNK_DATA empty_data;
+
+	pkunk_desc = (RESOLUTION_FACTOR == 0 ? pkunk_desc1x : (RESOLUTION_FACTOR == 1 ? pkunk_desc2x : pkunk_desc4x));
+
+	// The caller of this func will copy the struct
 	memset (&empty_data, 0, sizeof (empty_data));
 
 	pkunk_desc.uninit_func = uninit_pkunk;
