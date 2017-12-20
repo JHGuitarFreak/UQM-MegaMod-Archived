@@ -101,7 +101,7 @@
 #define BLASTER_SPEED_4XRES DISPLAY_TO_WORLD (96)
 
 
-static RACE_DESC sis_desc =
+static RACE_DESC sis_desc1x =
 {
 	{ /* SHIP_INFO */
 		"flagship",
@@ -174,7 +174,7 @@ static RACE_DESC sis_desc =
 };
 
 // JMS_GFX
-static RACE_DESC sis_desc_2xres =
+static RACE_DESC sis_desc2x =
 {
 	{ /* SHIP_INFO */
 		"flagship",
@@ -247,7 +247,7 @@ static RACE_DESC sis_desc_2xres =
 };
 
 // JMS_GFX
-static RACE_DESC sis_desc_4xres =
+static RACE_DESC sis_desc4x =
 {
 	{ /* SHIP_INFO */
 		"flagship",
@@ -1090,12 +1090,7 @@ init_sis (void)
 	memset (&empty_data, 0, sizeof (empty_data));
 
 	/* copy initial ship settings to new_sis_desc */
-	if (RESOLUTION_FACTOR == 0)
-		new_sis_desc = sis_desc;
-	else if (RESOLUTION_FACTOR == 1)
-		new_sis_desc = sis_desc_2xres;
-	else
-		new_sis_desc = sis_desc_4xres;
+	new_sis_desc = (RESOLUTION_FACTOR == 0 ? sis_desc1x : (RESOLUTION_FACTOR == 1 ? sis_desc2x : sis_desc4x));
 	
 	new_sis_desc.uninit_func = uninit_sis;
 

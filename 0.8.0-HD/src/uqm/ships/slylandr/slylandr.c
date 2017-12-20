@@ -38,17 +38,23 @@
 #define WEAPON_ENERGY_COST 2
 #define WEAPON_WAIT 17
 #define SLYLANDRO_OFFSET 9
-#define LASER_LENGTH 32
+#define LASER_LENGTH RES_SCALE(32)
 		/* Total length of lighting bolts. Actual range is usually less than
 		 * this, since the lightning rarely is straight. */
 
 // Harvester
 #define SPECIAL_ENERGY_COST 0
 #define SPECIAL_WAIT 20
-#define HARVEST_RANGE (208 * 3 / 8)
+#define HARVEST_RANGE ((208 * 3 / 8) << RESOLUTION_FACTOR)
 		/* Was originally (SPACE_HEIGHT * 3 / 8) */
 
-static RACE_DESC slylandro_desc =
+// HD
+#define MAX_THRUST_2XRES 120
+#define THRUST_INCREMENT_2XRES MAX_THRUST_2XRES
+#define MAX_THRUST_4XRES 240
+#define THRUST_INCREMENT_4XRES MAX_THRUST_4XRES
+
+static RACE_DESC slylandro_desc1x =
 {
 	{ /* SHIP_INFO */
 		"probe",
@@ -110,6 +116,152 @@ static RACE_DESC slylandro_desc =
 	{
 		0,
 		CLOSE_RANGE_WEAPON << 1,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC slylandro_desc2x =
+{
+	{ /* SHIP_INFO */
+		"probe",
+		SEEKING_WEAPON | CREW_IMMUNE,
+		17, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		SLYLANDRO_RACE_STRINGS,
+		SLYLANDRO_ICON_MASK_PMAP_ANIM,
+		SLYLANDRO_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		INFINITE_RADIUS, /* Initial sphere of influence radius */
+		{ /* Known location (center of SoI) */
+			333, 9812,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			SLYLANDRO_BIG_MASK_PMAP_ANIM,
+			SLYLANDRO_MED_MASK_PMAP_ANIM,
+			SLYLANDRO_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			SLYLANDRO_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		SLYLANDRO_VICTORY_SONG,
+		SLYLANDRO_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_2XRES << 1,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC slylandro_desc4x =
+{
+	{ /* SHIP_INFO */
+		"probe",
+		SEEKING_WEAPON | CREW_IMMUNE,
+		17, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		SLYLANDRO_RACE_STRINGS,
+		SLYLANDRO_ICON_MASK_PMAP_ANIM,
+		SLYLANDRO_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		INFINITE_RADIUS, /* Initial sphere of influence radius */
+		{ /* Known location (center of SoI) */
+			333, 9812,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			SLYLANDRO_BIG_MASK_PMAP_ANIM,
+			SLYLANDRO_MED_MASK_PMAP_ANIM,
+			SLYLANDRO_SML_MASK_PMAP_ANIM,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			SLYLANDRO_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		SLYLANDRO_VICTORY_SONG,
+		SLYLANDRO_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_4XRES << 1,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -324,7 +476,7 @@ harvest_space_junk (ELEMENT *ElementPtr)
 				&& !GRAVITY_MASS (ObjPtr->mass_points)
 				&& CollisionPossible (ObjPtr, ElementPtr))
 		{
-			SIZE dx, dy;
+			SDWORD dx, dy;
 
 			if ((dx = ObjPtr->next.location.x
 					- ElementPtr->next.location.x) < 0)
@@ -429,7 +581,10 @@ slylandro_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_slylandro (void)
 {
+	static RACE_DESC slylandro_desc;
 	RACE_DESC *RaceDescPtr;
+
+	slylandro_desc = (RESOLUTION_FACTOR == 0 ? slylandro_desc1x : (RESOLUTION_FACTOR == 1 ? slylandro_desc2x : slylandro_desc4x));
 
 	slylandro_desc.preprocess_func = slylandro_preprocess;
 	slylandro_desc.postprocess_func = slylandro_postprocess;
