@@ -37,22 +37,22 @@
 // Laser
 #define WEAPON_ENERGY_COST 1
 #define WEAPON_WAIT 0
-#define VUX_OFFSET 12
-#define LASER_BASE 150
+#define VUX_OFFSET RES_SCALE(12)
+#define LASER_BASE RES_SCALE(150)
 #define LASER_RANGE DISPLAY_TO_WORLD (LASER_BASE + VUX_OFFSET)
 
 // Limpet
 #define SPECIAL_ENERGY_COST 2
 #define SPECIAL_WAIT 7
-#define LIMPET_SPEED 25
-#define LIMPET_OFFSET 8
+#define LIMPET_SPEED RES_SCALE(25)
+#define LIMPET_OFFSET RES_SCALE(8)
 #define LIMPET_LIFE 80
 #define LIMPET_HITS 1
 #define LIMPET_DAMAGE 0
-#define MIN_THRUST_INCREMENT DISPLAY_TO_WORLD (1)
+#define MIN_THRUST_INCREMENT DISPLAY_TO_WORLD RES_SCALE(1)
 
 // Aggressive Entry
-#define WARP_OFFSET 46
+#define WARP_OFFSET RES_SCALE(46)
 		/* How far outside of the laser range can the ship warp in. */
 #define MAXX_ENTRY_DIST DISPLAY_TO_WORLD ((LASER_BASE + VUX_OFFSET + WARP_OFFSET) << 1)
 #define MAXY_ENTRY_DIST DISPLAY_TO_WORLD ((LASER_BASE + VUX_OFFSET + WARP_OFFSET) << 1)
@@ -61,7 +61,13 @@
 		 * where SPACE_HEIGHT = SCREEN_HEIGHT - (SAFE_Y * 2)
 		 * But in reality this should be relative to the laser-range. */
 
-static RACE_DESC vux_desc =
+// HD
+#define MAX_THRUST_2XRES /* DISPLAY_TO_WORLD (5) */ 42
+#define THRUST_INCREMENT_2XRES /* DISPLAY_TO_WORLD (2) */ 14
+#define MAX_THRUST_4XRES /* DISPLAY_TO_WORLD (5) */ 84
+#define THRUST_INCREMENT_4XRES /* DISPLAY_TO_WORLD (2) */ 28
+
+static RACE_DESC vux_desc1x =
 {
 	{ /* SHIP_INFO */
 		"intruder",
@@ -133,6 +139,152 @@ static RACE_DESC vux_desc =
 	0, /* CodeRef */
 };
 
+// JMS_GFX
+static RACE_DESC vux_desc2x =
+{
+	{ /* SHIP_INFO */
+		"intruder",
+		FIRES_FORE | SEEKING_SPECIAL | IMMEDIATE_WEAPON,
+		12, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		VUX_RACE_STRINGS,
+		VUX_ICON_MASK_PMAP_ANIM,
+		VUX_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		900 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			4412, 1558,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			VUX_BIG_MASK_PMAP_ANIM,
+			VUX_MED_MASK_PMAP_ANIM,
+			VUX_SML_MASK_PMAP_ANIM,
+		},
+		{
+			SLIME_MASK_PMAP_ANIM,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			LIMPETS_BIG_MASK_PMAP_ANIM,
+			LIMPETS_MED_MASK_PMAP_ANIM,
+			LIMPETS_SML_MASK_PMAP_ANIM,
+		},
+		{
+			VUX_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		VUX_VICTORY_SONG,
+		VUX_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_2XRES,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC vux_desc4x =
+{
+	{ /* SHIP_INFO */
+		"intruder",
+		FIRES_FORE | SEEKING_SPECIAL | IMMEDIATE_WEAPON,
+		12, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		VUX_RACE_STRINGS,
+		VUX_ICON_MASK_PMAP_ANIM,
+		VUX_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		900 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
+		{ /* Known location (center of SoI) */
+			4412, 1558,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			VUX_BIG_MASK_PMAP_ANIM,
+			VUX_MED_MASK_PMAP_ANIM,
+			VUX_SML_MASK_PMAP_ANIM,
+		},
+		{
+			SLIME_MASK_PMAP_ANIM,
+			NULL_RESOURCE,
+			NULL_RESOURCE,
+		},
+		{
+			LIMPETS_BIG_MASK_PMAP_ANIM,
+			LIMPETS_MED_MASK_PMAP_ANIM,
+			LIMPETS_SML_MASK_PMAP_ANIM,
+		},
+		{
+			VUX_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		VUX_VICTORY_SONG,
+		VUX_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		CLOSE_RANGE_WEAPON_4XRES,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
 
 static void
 limpet_preprocess (ELEMENT *ElementPtr)
@@ -181,7 +333,7 @@ limpet_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 			} else {
 				COUNT num_thrusts;
 				num_thrusts = RDPtr->characteristics.max_thrust / RDPtr->characteristics.thrust_increment;
-				--RDPtr->characteristics.thrust_increment;
+				RDPtr->characteristics.thrust_increment -= RES_SCALE(1);
 				RDPtr->characteristics.max_thrust = RDPtr->characteristics.thrust_increment * num_thrusts;
 			}
 			RDPtr->cyborg_control.ManeuverabilityIndex = 0;
@@ -380,7 +532,10 @@ vux_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_vux (void)
 {
+	static RACE_DESC vux_desc;
 	RACE_DESC *RaceDescPtr;
+
+	vux_desc = (RESOLUTION_FACTOR == 0 ? vux_desc1x : (RESOLUTION_FACTOR == 1 ? vux_desc2x : vux_desc4x));
 
 	vux_desc.preprocess_func = vux_preprocess;
 	vux_desc.postprocess_func = vux_postprocess;
