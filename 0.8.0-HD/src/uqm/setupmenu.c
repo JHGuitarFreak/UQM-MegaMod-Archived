@@ -1557,6 +1557,56 @@ SetGlobalOptions (GLOBALOPTS *opts)
 			break;
 	}
 
+	if (NewWidth == 320 && NewHeight == 240) // MB: Moved code to here to make it work with 320x240 resolutions before opts->loresBlowup switch after
+	{
+		switch (opts->scaler)
+		{
+			case OPTVAL_BILINEAR_SCALE:
+				NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
+				res_PutString ("config.scaler", "bilinear");
+				break;
+			case OPTVAL_BIADAPT_SCALE:
+				NewGfxFlags |= TFB_GFXFLAGS_SCALE_BIADAPT;
+				res_PutString ("config.scaler", "biadapt");
+				break;
+			case OPTVAL_BIADV_SCALE:
+				NewGfxFlags |= TFB_GFXFLAGS_SCALE_BIADAPTADV;
+				res_PutString ("config.scaler", "biadv");
+				break;
+			case OPTVAL_TRISCAN_SCALE:
+				NewGfxFlags |= TFB_GFXFLAGS_SCALE_TRISCAN;
+				res_PutString ("config.scaler", "triscan");
+				break;
+			case OPTVAL_HQXX_SCALE:
+				NewGfxFlags |= TFB_GFXFLAGS_SCALE_HQXX;
+				res_PutString ("config.scaler", "hq");
+				break;
+			default:
+				/* OPTVAL_NO_SCALE has no equivalent in gfxflags. */
+				res_PutString ("config.scaler", "no");
+				break;
+		}
+	}
+	else
+	{
+		// JMS: For now, only bilinear works in 1280x960 and 640x480.
+		switch (opts->scaler)
+		{
+			case OPTVAL_BILINEAR_SCALE:
+			case OPTVAL_BIADAPT_SCALE:
+			case OPTVAL_BIADV_SCALE:
+			case OPTVAL_TRISCAN_SCALE:
+			case OPTVAL_HQXX_SCALE:
+				NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
+				res_PutString ("config.scaler", "bilinear");
+				break;
+			default:
+				/* OPTVAL_NO_SCALE has no equivalent in gfxflags. */
+				res_PutString ("config.scaler", "no");
+				break;
+		}
+	}
+
 	if (NewWidth == 320 && NewHeight == 240)
 	{	
 		switch (opts->loresBlowup) {
@@ -1717,33 +1767,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutBoolean ("config.scalePlanets", opts->scalePlanets == OPTVAL_ENABLED);
 	optScalePlanets = opts->scalePlanets == OPTVAL_ENABLED;
 
-	switch (opts->scaler) {
-		case OPTVAL_BILINEAR_SCALE:
-			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
-			res_PutString ("config.scaler", "bilinear");
-			break;
-		case OPTVAL_BIADAPT_SCALE:
-			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BIADAPT;
-			res_PutString ("config.scaler", "biadapt");
-			break;
-		case OPTVAL_BIADV_SCALE:
-			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BIADAPTADV;
-			res_PutString ("config.scaler", "biadv");
-			break;
-		case OPTVAL_TRISCAN_SCALE:
-			NewGfxFlags |= TFB_GFXFLAGS_SCALE_TRISCAN;
-			res_PutString ("config.scaler", "triscan");
-			break;
-		case OPTVAL_HQXX_SCALE:
-			NewGfxFlags |= TFB_GFXFLAGS_SCALE_HQXX;
-			res_PutString ("config.scaler", "hq");
-			break;
-		default:
-			/* OPTVAL_NO_SCALE has no equivalent in gfxflags. */
-			res_PutString ("config.scaler", "no");
-			break;
-	}
-	if (opts->scanlines) {
+	if (opts->scanlines && RESOLUTION_FACTOR == 0) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
 	} else {
 		NewGfxFlags &= ~TFB_GFXFLAGS_SCANLINES;
