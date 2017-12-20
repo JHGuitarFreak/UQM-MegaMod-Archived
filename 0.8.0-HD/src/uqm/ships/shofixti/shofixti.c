@@ -39,8 +39,8 @@
 
 // Dart Gun
 #define WEAPON_ENERGY_COST 1
-#define SHOFIXTI_OFFSET 15
-#define MISSILE_OFFSET 1
+#define SHOFIXTI_OFFSET RES_SCALE(15)
+#define MISSILE_OFFSET RES_SCALE(1)
 #define MISSILE_SPEED DISPLAY_TO_WORLD (24)
 #define MISSILE_LIFE 10
 #define MISSILE_HITS 1
@@ -48,13 +48,21 @@
 
 // Glory Device
 #define SPECIAL_ENERGY_COST 0
-#define DESTRUCT_RANGE 180
-#define MAX_DESTRUCTION (DESTRUCT_RANGE / 10)
+#define DESTRUCT_RANGE RES_SCALE(180)
+#define MAX_DESTRUCTION (RES_SCALE(DESTRUCT_RANGE) / 10)
 
 // Full game: Tanaka/Katana's damaged ships
 #define NUM_LIMPETS 3
 
-static RACE_DESC shofixti_desc =
+// HD
+#define MAX_THRUST_2XRES 70
+#define THRUST_INCREMENT_2XRES 10
+#define MISSILE_SPEED_2XRES DISPLAY_TO_WORLD (48)
+#define MAX_THRUST_4XRES 140
+#define THRUST_INCREMENT_4XRES 20
+#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (96)
+
+static RACE_DESC shofixti_desc1x =
 {
 	{ /* SHIP_INFO */
 		"scout",
@@ -126,6 +134,152 @@ static RACE_DESC shofixti_desc =
 	0, /* CodeRef */
 };
 
+// JMS_GFX
+static RACE_DESC shofixti_desc2x =
+{
+	{ /* SHIP_INFO */
+		"scout",
+		FIRES_FORE,
+		5, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		SHOFIXTI_RACE_STRINGS,
+		SHOFIXTI_ICON_MASK_PMAP_ANIM,
+		SHOFIXTI_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		0, /* Initial sphere of influence radius */
+		{ /* Known location (center of SoI) */
+			0, 0,
+		},
+	},
+	{
+		MAX_THRUST_2XRES,
+		THRUST_INCREMENT_2XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			SHOFIXTI_BIG_MASK_PMAP_ANIM,
+			SHOFIXTI_MED_MASK_PMAP_ANIM,
+			SHOFIXTI_SML_MASK_PMAP_ANIM,
+		},
+		{
+			DART_BIG_MASK_PMAP_ANIM,
+			DART_MED_MASK_PMAP_ANIM,
+			DART_SML_MASK_PMAP_ANIM,
+		},
+		{
+			DESTRUCT_BIG_MASK_ANIM,
+			DESTRUCT_MED_MASK_ANIM,
+			DESTRUCT_SML_MASK_ANIM,
+		},
+		{
+			SHOFIXTI_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		SHOFIXTI_VICTORY_SONG,
+		SHOFIXTI_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		MISSILE_SPEED_2XRES * MISSILE_LIFE,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
+// JMS_GFX
+static RACE_DESC shofixti_desc4x =
+{
+	{ /* SHIP_INFO */
+		"scout",
+		FIRES_FORE,
+		5, /* Super Melee cost */
+		MAX_CREW, MAX_CREW,
+		MAX_ENERGY, MAX_ENERGY,
+		SHOFIXTI_RACE_STRINGS,
+		SHOFIXTI_ICON_MASK_PMAP_ANIM,
+		SHOFIXTI_MICON_MASK_PMAP_ANIM,
+		NULL, NULL, NULL
+	},
+	{ /* FLEET_STUFF */
+		0, /* Initial sphere of influence radius */
+		{ /* Known location (center of SoI) */
+			0, 0,
+		},
+	},
+	{
+		MAX_THRUST_4XRES,
+		THRUST_INCREMENT_4XRES,
+		ENERGY_REGENERATION,
+		WEAPON_ENERGY_COST,
+		SPECIAL_ENERGY_COST,
+		ENERGY_WAIT,
+		TURN_WAIT,
+		THRUST_WAIT,
+		WEAPON_WAIT,
+		SPECIAL_WAIT,
+		SHIP_MASS,
+	},
+	{
+		{
+			SHOFIXTI_BIG_MASK_PMAP_ANIM,
+			SHOFIXTI_MED_MASK_PMAP_ANIM,
+			SHOFIXTI_SML_MASK_PMAP_ANIM,
+		},
+		{
+			DART_BIG_MASK_PMAP_ANIM,
+			DART_MED_MASK_PMAP_ANIM,
+			DART_SML_MASK_PMAP_ANIM,
+		},
+		{
+			DESTRUCT_BIG_MASK_ANIM,
+			DESTRUCT_MED_MASK_ANIM,
+			DESTRUCT_SML_MASK_ANIM,
+		},
+		{
+			SHOFIXTI_CAPTAIN_MASK_PMAP_ANIM,
+			NULL, NULL, NULL, NULL, NULL
+		},
+		SHOFIXTI_VICTORY_SONG,
+		SHOFIXTI_SHIP_SOUNDS,
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		{ NULL, NULL, NULL },
+		NULL, NULL
+	},
+	{
+		0,
+		MISSILE_SPEED_4XRES * MISSILE_LIFE,
+		NULL,
+	},
+	(UNINIT_FUNC *) NULL,
+	(PREPROCESS_FUNC *) NULL,
+	(POSTPROCESS_FUNC *) NULL,
+	(INIT_WEAPON_FUNC *) NULL,
+	0,
+	0, /* CodeRef */
+};
+
 static COUNT
 initialize_standard_missile (ELEMENT *ShipPtr, HELEMENT MissileArray[])
 {
@@ -141,7 +295,7 @@ initialize_standard_missile (ELEMENT *ShipPtr, HELEMENT MissileArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = SHOFIXTI_OFFSET;
-	MissileBlock.speed = MISSILE_SPEED;
+	MissileBlock.speed = RES_SCALE(MISSILE_SPEED);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -264,7 +418,7 @@ self_destruct_kill_objects (ELEMENT *ElementPtr)
 	for (hElement = GetHeadElement (); hElement != 0; hElement = hNextElement)
 	{
 		ELEMENT *ObjPtr;
-		SIZE delta_x, delta_y;
+		SDWORD delta_x, delta_y;
 		DWORD dist;
 
 		LockElement (hElement, &ObjPtr);
@@ -457,9 +611,12 @@ shofixti_postprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_shofixti (void)
 {
+	static RACE_DESC shofixti_desc;
 	RACE_DESC *RaceDescPtr;
 	// The caller of this func will copy the struct
 	static RACE_DESC new_shofixti_desc;
+
+	shofixti_desc = (RESOLUTION_FACTOR == 0 ? shofixti_desc1x : (RESOLUTION_FACTOR == 1 ? shofixti_desc2x : shofixti_desc4x));
 
 	shofixti_desc.postprocess_func = shofixti_postprocess;
 	shofixti_desc.init_weapon_func = initialize_standard_missile;
@@ -480,6 +637,8 @@ init_shofixti (void)
 		new_shofixti_desc.ship_data.special_rsc[2] = NULL_RESOURCE;
 		new_shofixti_desc.ship_data.captain_control.captain_rsc =
 				OLDSHOF_CAPTAIN_MASK_PMAP_ANIM;
+		// JMS: Tanaka also has a corresponding limpeted ship status icon in melee.
+		new_shofixti_desc.ship_info.icons_rsc = OLDSHOF_ICON_MASK_PMAP_ANIM;
 
 		/* Weapon doesn't work as well */
 		new_shofixti_desc.characteristics.weapon_wait = 10;
@@ -493,7 +652,7 @@ init_shofixti (void)
 				--new_shofixti_desc.characteristics.thrust_wait;
 
 /* This should be the same as MIN_THRUST_INCREMENT in vux.c */
-#define MIN_THRUST_INCREMENT DISPLAY_TO_WORLD (1)
+#define MIN_THRUST_INCREMENT DISPLAY_TO_WORLD RES_SCALE(1)
 
 			if (new_shofixti_desc.characteristics.thrust_increment <=
 					MIN_THRUST_INCREMENT)
@@ -507,7 +666,7 @@ init_shofixti (void)
 
 				num_thrusts = new_shofixti_desc.characteristics.max_thrust /
 						new_shofixti_desc.characteristics.thrust_increment;
-				--new_shofixti_desc.characteristics.thrust_increment;
+				new_shofixti_desc.characteristics.thrust_increment -= RES_SCALE(1); // JMS_GFX
 				new_shofixti_desc.characteristics.max_thrust =
 						new_shofixti_desc.characteristics.thrust_increment *
 						num_thrusts;

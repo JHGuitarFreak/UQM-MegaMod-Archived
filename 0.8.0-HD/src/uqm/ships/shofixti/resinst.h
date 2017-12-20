@@ -10,6 +10,7 @@
 #define DESTRUCT_SML_MASK_ANIM "ship.shofixti.graphics.destruct.small"
 #define OLDSHOF_BIG_MASK_PMAP_ANIM "ship.shofixti.graphics.oldscout.large"
 #define OLDSHOF_CAPTAIN_MASK_PMAP_ANIM "ship.shofixti.graphics.oldcaptain"
+#define OLDSHOF_ICON_MASK_PMAP_ANIM "ship.shofixti.oldicons"
 #define OLDSHOF_MED_MASK_PMAP_ANIM "ship.shofixti.graphics.oldscout.medium"
 #define OLDSHOF_SML_MASK_PMAP_ANIM "ship.shofixti.graphics.oldscout.small"
 #define SHOFIXTI_BIG_MASK_PMAP_ANIM "ship.shofixti.graphics.scout.large"
