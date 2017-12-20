@@ -2086,20 +2086,8 @@ init_melnorme_comm (void)
 {
 	static LOCDATA melnorme_desc;
  	LOCDATA *retval;
-	
-	switch (RESOLUTION_FACTOR)
-	{
-		case 2:
-			melnorme_desc = melnorme_desc_4x;
-			break;
-		case 1:
-			melnorme_desc = melnorme_desc_4x;
-			break;
-		case 0:
-		default:
-			melnorme_desc = melnorme_desc_1x;
-			break;
-	}
+
+	melnorme_desc = (RESOLUTION_FACTOR == 0 ? melnorme_desc_1x : melnorme_desc_4x);
 
 	melnorme_desc.init_encounter_func = Intro;
 	melnorme_desc.post_encounter_func = post_melnorme_enc;

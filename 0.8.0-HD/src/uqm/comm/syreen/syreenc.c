@@ -1086,18 +1086,7 @@ init_syreen_comm (void)
 	static LOCDATA syreen_desc;
  	LOCDATA *retval;
 	
-	switch (RESOLUTION_FACTOR) {
-		case 2:
-			syreen_desc = syreen_desc_4x;
-			break;
-		case 1:
-			syreen_desc = syreen_desc_4x;
-			break;
-		case 0:
-		default:
-			syreen_desc = syreen_desc_1x;
-			break;
-	}
+	syreen_desc = (RESOLUTION_FACTOR == 0 ? syreen_desc_1x : syreen_desc_4x);
 
 	syreen_desc.init_encounter_func = Intro;
 	syreen_desc.post_encounter_func = post_syreen_enc;

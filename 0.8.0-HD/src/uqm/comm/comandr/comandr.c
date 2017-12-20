@@ -724,19 +724,7 @@ init_commander_comm ()
 	static LOCDATA commander_desc;
 	LOCDATA *retval;
 
-	// JMS_GFX
-	switch (RESOLUTION_FACTOR) {
-		case 2:
-			commander_desc = commander_desc_4x;
-			break;
-		case 1:
-			commander_desc = commander_desc_4x;
-			break;
-		case 0:
-		default:
-			commander_desc = commander_desc_1x;
-			break;
-	}
+	commander_desc = (RESOLUTION_FACTOR == 0 ? commander_desc_1x : commander_desc_4x);
 
 	commander_desc.init_encounter_func = Intro;
 	commander_desc.post_encounter_func = post_commander_enc;

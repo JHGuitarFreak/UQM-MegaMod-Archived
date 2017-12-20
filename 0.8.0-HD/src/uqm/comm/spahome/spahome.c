@@ -1255,18 +1255,7 @@ init_spahome_comm ()
 	static LOCDATA spahome_desc;
  	LOCDATA *retval;
 	
-	switch (RESOLUTION_FACTOR) {
-		case 2:
-			spahome_desc = spahome_desc_4x;
-			break;
-		case 1:
-			spahome_desc = spahome_desc_4x;
-			break;
-		case 0:
-		default:
-			spahome_desc = spahome_desc_1x;
-			break;
-	}
+	spahome_desc = (RESOLUTION_FACTOR == 0 ? spahome_desc_1x : spahome_desc_4x);
 
 	spahome_desc.init_encounter_func = Intro;
 	spahome_desc.post_encounter_func = post_spahome_enc;
