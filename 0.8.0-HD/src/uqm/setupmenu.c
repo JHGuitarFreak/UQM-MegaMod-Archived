@@ -1426,7 +1426,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
  	opts->cheatMode = optCheatMode ? OPTVAL_ENABLED : OPTVAL_DISABLED; // JMS
 	// Serosis
 	opts->godMode = optGodMode ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->tdType = res_GetInteger ("config.timeDilation");
+	opts->tdType = res_GetInteger ("cheat.timeDilation");
 	opts->bubbleWarp = optBubbleWarp ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->unlockShips = optUnlockShips ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->headStart = optHeadStart ? OPTVAL_ENABLED : OPTVAL_DISABLED;
@@ -1655,11 +1655,11 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutInteger ("config.loresBlowupScale", opts->loresBlowup);
 
 	// JMS: Cheat Mode: Kohr-Ah move at zero speed when trying to cleanse the galaxy
-	res_PutBoolean ("config.kohrStahp", opts->cheatMode == OPTVAL_ENABLED);
+	res_PutBoolean ("cheat.kohrStahp", opts->cheatMode == OPTVAL_ENABLED);
 	optCheatMode = opts->cheatMode == OPTVAL_ENABLED;
 
 	// Serosis: God Mode: Health and Energy does not deplete in battle.
-	res_PutBoolean ("config.godMode", opts->godMode == OPTVAL_ENABLED);
+	res_PutBoolean ("cheat.godMode", opts->godMode == OPTVAL_ENABLED);
 	optGodMode = opts->godMode == OPTVAL_ENABLED;
 
 	// Serosis: Time Dilation: Increases and divides time in IP and HS by a factor of 12
@@ -1675,26 +1675,26 @@ SetGlobalOptions (GLOBALOPTS *opts)
 			timeDilationScale=0;
 		break;
 	}
-	res_PutInteger ("config.timeDilation", opts->tdType);
+	res_PutInteger ("cheat.timeDilation", opts->tdType);
 
 	// Serosis: Bubble Warp: Warp instantly to your destination
-	res_PutBoolean ("config.bubbleWarp", opts->bubbleWarp == OPTVAL_ENABLED);
+	res_PutBoolean ("cheat.bubbleWarp", opts->bubbleWarp == OPTVAL_ENABLED);
 	optBubbleWarp = opts->bubbleWarp == OPTVAL_ENABLED;
 
 	// Serosis: Unlocks ships that you can not unlock under normal conditions
-	res_PutBoolean ("config.unlockShips", opts->unlockShips == OPTVAL_ENABLED);
+	res_PutBoolean ("cheat.unlockShips", opts->unlockShips == OPTVAL_ENABLED);
 	optUnlockShips = opts->unlockShips == OPTVAL_ENABLED;
 
 	// Serosis: Gives you 1000 Radioactives and a better outfitted ship on a a new game
-	res_PutBoolean ("config.headStart", opts->headStart == OPTVAL_ENABLED);
+	res_PutBoolean ("cheat.headStart", opts->headStart == OPTVAL_ENABLED);
 	optHeadStart = opts->headStart == OPTVAL_ENABLED;
 
 	// Serosis: Unlocks all upgrades
-	res_PutBoolean ("config.unlockUpgrades", opts->unlockUpgrades == OPTVAL_ENABLED);
+	res_PutBoolean ("cheat.unlockUpgrades", opts->unlockUpgrades == OPTVAL_ENABLED);
 	optUnlockUpgrades = opts->unlockUpgrades == OPTVAL_ENABLED;
 
 	// Serosis: Virtually Infinite RU
-	res_PutBoolean ("config.infiniteRU", opts->infiniteRU == OPTVAL_ENABLED);
+	res_PutBoolean ("cheat.infiniteRU", opts->infiniteRU == OPTVAL_ENABLED);
 	optInfiniteRU = opts->infiniteRU == OPTVAL_ENABLED;
 
 	// Serosis: Skip the intro
@@ -1744,7 +1744,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutInteger ("config.dateFormat", opts->dateType);	
 	
 	// Serosis: Infinite Fuel
-	res_PutBoolean ("config.infiniteFuel", opts->infiniteFuel == OPTVAL_ENABLED);
+	res_PutBoolean ("cheat.infiniteFuel", opts->infiniteFuel == OPTVAL_ENABLED);
 	optInfiniteFuel = opts->infiniteFuel == OPTVAL_ENABLED;
 	
 	// Serosis: Optionalized the alt Thraddash story
@@ -1760,7 +1760,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	optSubmenu = opts->submenu == OPTVAL_ENABLED;
 	
 	// Serosis: get all devices
-	res_PutBoolean ("config.addDevices", opts->addDevices == OPTVAL_ENABLED);
+	res_PutBoolean ("cheat.addDevices", opts->addDevices == OPTVAL_ENABLED);
 	optAddDevices = opts->addDevices == OPTVAL_ENABLED;
 	
 	// Serosis: Scale Planets in HD
@@ -1905,5 +1905,8 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutString ("keys.6.name", input_templates[5].name);
 
 	SaveResourceIndex (configDir, "uqm.cfg", "config.", TRUE);
+
 	SaveKeyConfiguration (configDir, "flight.cfg");
+	
+	SaveResourceIndex (configDir, "cheat.cfg", "cheat.", TRUE);
 }
