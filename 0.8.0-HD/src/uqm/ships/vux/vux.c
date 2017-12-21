@@ -486,7 +486,7 @@ vux_preprocess (ELEMENT *ElementPtr)
 			// JMS: Not REALLY necessary as VUX can ordinarily never be played against Sa-Matra. 
             // But handy in debugging as a single VUX limpet incapacitates Sa-Matra completely.
             if (LOBYTE (GLOBAL (CurrentActivity)) == IN_LAST_BATTLE) {
-				SA_MATRA_EXTRA_DIST += 1000;
+				SA_MATRA_EXTRA_DIST += RES_SCALE(1000);
 			}
 			do {
                 // JMS_GFX: Circumventing overflows by using temp variables instead of

@@ -450,7 +450,7 @@ arilou_preprocess (ELEMENT *ElementPtr)
                         
                         dist = sqrt(dx*dx + dy*dy);                        
                     } 
-					while (dist < (2800));
+					while (dist < (RES_SCALE(2800)));
                 } else {
                     ElementPtr->next.location.x = WRAP_X (DISPLAY_ALIGN_X (TFB_Random ()));
 					ElementPtr->next.location.y = WRAP_Y (DISPLAY_ALIGN_Y (TFB_Random ()));
