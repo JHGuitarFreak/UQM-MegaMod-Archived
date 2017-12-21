@@ -268,13 +268,13 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  opengl,            true ),
 		INIT_CONFIG_OPTION2( resolution,        640, 480 ),
 		INIT_CONFIG_OPTION(  fullscreen,        false ),
-		INIT_CONFIG_OPTION(  scanlines,         true ),
+		INIT_CONFIG_OPTION(  scanlines,         false ),
 		INIT_CONFIG_OPTION(  scaler,            0 ),
 		INIT_CONFIG_OPTION(  showFps,           false ),
-		INIT_CONFIG_OPTION(  keepAspectRatio,   false ),
+		INIT_CONFIG_OPTION(  keepAspectRatio,   true ),
 		INIT_CONFIG_OPTION(  gamma,             1.0f ),
 		INIT_CONFIG_OPTION(  soundDriver,       audio_DRIVER_MIXSDL ),
-		INIT_CONFIG_OPTION(  soundQuality,      audio_QUALITY_MEDIUM ),
+		INIT_CONFIG_OPTION(  soundQuality,      audio_QUALITY_HIGH ),
 		INIT_CONFIG_OPTION(  use3doMusic,       true ),
 		INIT_CONFIG_OPTION(  useRemixMusic,     false ),
 		INIT_CONFIG_OPTION(  useSpeech,         true ),
@@ -286,13 +286,13 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  smoothScroll,      OPT_PC ),
 		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_TRILINEAR ),
 		INIT_CONFIG_OPTION(  subtitles,         true ),
-		INIT_CONFIG_OPTION(  stereoSFX,         false ),
+		INIT_CONFIG_OPTION(  stereoSFX,         true ),
 		INIT_CONFIG_OPTION(  musicVolumeScale,  1.0f ),
 		INIT_CONFIG_OPTION(  sfxVolumeScale,    1.0f ),
 		INIT_CONFIG_OPTION(  speechVolumeScale, 0.8f ),
 		INIT_CONFIG_OPTION(  safeMode,          false ),
 		INIT_CONFIG_OPTION(  resolutionFactor,  0 ),
-		INIT_CONFIG_OPTION(  loresBlowupScale,  0 ),
+		INIT_CONFIG_OPTION(  loresBlowupScale,  1 ),
 		INIT_CONFIG_OPTION(  cheatMode,			false ), // JMS
 		//Serosis
 		INIT_CONFIG_OPTION(  godMode,			false ), 
@@ -404,6 +404,7 @@ main (int argc, char *argv[])
 	if (!options.safeMode.value)
 	{
 		LoadResourceIndex (configDir, "uqm.cfg", "config.");
+		LoadResourceIndex (configDir, "cheat.cfg", "cheat.");
 		getUserConfigOptions (&options);
 	}
 
@@ -775,17 +776,17 @@ getUserConfigOptions (struct options_struct *options)
 		options->loresBlowupScale.value = res_GetInteger ("config.loresBlowupScale");
 	}
 
-	getBoolConfigValue (&options->cheatMode, "config.kohrStahp"); // JMS
+	getBoolConfigValue (&options->cheatMode, "cheat.kohrStahp"); // JMS
 	// Serosis
-	getBoolConfigValue (&options->godMode, "config.godMode");
-	if (res_IsInteger ("config.timeDilation") && !options->timeDilationScale.set) {
-		options->timeDilationScale.value = res_GetInteger ("config.timeDilation");
+	getBoolConfigValue (&options->godMode, "cheat.godMode");
+	if (res_IsInteger ("cheat.timeDilation") && !options->timeDilationScale.set) {
+		options->timeDilationScale.value = res_GetInteger ("cheat.timeDilation");
 	}
-	getBoolConfigValue (&options->bubbleWarp, "config.bubbleWarp");
-	getBoolConfigValue (&options->unlockShips, "config.unlockShips");
-	getBoolConfigValue (&options->headStart, "config.headStart");
-	getBoolConfigValue (&options->unlockUpgrades, "config.unlockUpgrades");
-	getBoolConfigValue (&options->infiniteRU, "config.infiniteRU");
+	getBoolConfigValue (&options->bubbleWarp, "cheat.bubbleWarp");
+	getBoolConfigValue (&options->unlockShips, "cheat.unlockShips");
+	getBoolConfigValue (&options->headStart, "cheat.headStart");
+	getBoolConfigValue (&options->unlockUpgrades, "cheat.unlockUpgrades");
+	getBoolConfigValue (&options->infiniteRU, "cheat.infiniteRU");
 	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
 	getBoolConfigValue (&options->FMV, "config.FMV");
 	// JMS
@@ -798,11 +799,11 @@ getUserConfigOptions (struct options_struct *options)
 		options->optDateFormat.value = res_GetInteger ("config.dateFormat");
 	}
 	// Serosis	
-	getBoolConfigValue (&options->infiniteFuel, "config.infiniteFuel");
+	getBoolConfigValue (&options->infiniteFuel, "cheat.infiniteFuel");
 	getBoolConfigValue (&options->thraddStory, "config.thraddStory");
 	getBoolConfigValue (&options->partialPickup, "config.partialPickup");
 	getBoolConfigValue (&options->submenu, "config.submenu");
-	getBoolConfigValue (&options->addDevices, "config.addDevices");
+	getBoolConfigValue (&options->addDevices, "cheat.addDevices");
 	getBoolConfigValue (&options->scalePlanets, "config.scalePlanets");
 	
 	if (res_IsInteger ("config.player1control"))
