@@ -226,7 +226,7 @@ while (--ac > 0)
 		
 		Rando = (rand() % NUM_MM_THEMES);
 
-		printf("%d\n", Rando);
+		// printf("Random Music #: %d\n", Rando);
 
 		FadeMusic(0,0);
 		PlayMusic (loadMainMenuMusic(Rando), TRUE, 1);
