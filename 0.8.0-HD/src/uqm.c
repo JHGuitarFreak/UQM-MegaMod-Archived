@@ -404,7 +404,7 @@ main (int argc, char *argv[])
 	if (!options.safeMode.value)
 	{
 		LoadResourceIndex (configDir, "uqm.cfg", "config.");
-		LoadResourceIndex (configDir, "cheat.cfg", "cheat.");
+		LoadResourceIndex (configDir, "cheats.cfg", "cheat.");
 		getUserConfigOptions (&options);
 	}
 

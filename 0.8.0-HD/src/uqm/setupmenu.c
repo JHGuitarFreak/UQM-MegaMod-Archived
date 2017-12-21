@@ -1908,5 +1908,5 @@ SetGlobalOptions (GLOBALOPTS *opts)
 
 	SaveKeyConfiguration (configDir, "flight.cfg");
 	
-	SaveResourceIndex (configDir, "cheat.cfg", "cheat.", TRUE);
+	SaveResourceIndex (configDir, "cheats.cfg", "cheat.", TRUE);
 }
