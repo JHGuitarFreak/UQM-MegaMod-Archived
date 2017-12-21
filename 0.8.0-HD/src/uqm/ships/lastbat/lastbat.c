@@ -525,15 +525,15 @@ sentinel_preprocess (ELEMENT *ElementPtr)
 			LockElement (ElementPtr->hTarget, &EnemyShipPtr);
 
 			LockElement (StarShipPtr->hShip, &ShipPtr);
-			delta_x0 = ShipPtr->current.location.x
-					- ElementPtr->current.location.x;
-			delta_y0 = ShipPtr->current.location.y
-					- ElementPtr->current.location.y;
+			delta_x0 = (SDWORD)ShipPtr->current.location.x
+					- (SDWORD)ElementPtr->current.location.x;
+			delta_y0 = (SDWORD)ShipPtr->current.location.y
+					- (SDWORD)ElementPtr->current.location.y;
 
-			delta_x1 = ShipPtr->current.location.x
-					- EnemyShipPtr->current.location.x;
-			delta_y1 = ShipPtr->current.location.y
-					- EnemyShipPtr->current.location.y;
+			delta_x1 = (SDWORD)ShipPtr->current.location.x
+					- (SDWORD)EnemyShipPtr->current.location.x;
+			delta_y1 = (SDWORD)ShipPtr->current.location.y
+					- (SDWORD)EnemyShipPtr->current.location.y;
 			UnlockElement (StarShipPtr->hShip);
 
 			if ((long)delta_x0 * delta_x0
@@ -556,11 +556,11 @@ sentinel_preprocess (ELEMENT *ElementPtr)
 
 			LockElement (hTarget, &TargetPtr);
 
-			delta_x = TargetPtr->current.location.x
-					- ElementPtr->current.location.x;
+			delta_x = (SDWORD)TargetPtr->current.location.x
+					- (SDWORD)ElementPtr->current.location.x;
 			delta_x = WRAP_DELTA_X (delta_x);
-			delta_y = TargetPtr->current.location.y
-					- ElementPtr->current.location.y;
+			delta_y = (SDWORD)TargetPtr->current.location.y
+					- (SDWORD)ElementPtr->current.location.y;
 			delta_y = WRAP_DELTA_Y (delta_y);
 
 			if ((num_frames = WORLD_TO_TURN (
@@ -573,11 +573,11 @@ sentinel_preprocess (ELEMENT *ElementPtr)
 			GetNextVelocityComponentsSdword (&TargetVelocity,
 					&delta_x, &delta_y, num_frames);
 
-			delta_x = (TargetPtr->current.location.x + delta_x)
-					- ElementPtr->current.location.x;
+			delta_x = ((SDWORD)TargetPtr->current.location.x + (SDWORD)delta_x)
+					- (SDWORD)ElementPtr->current.location.x;
 			delta_x = WRAP_DELTA_X (delta_x);
-			delta_y = (TargetPtr->current.location.y + delta_y)
-					- ElementPtr->current.location.y;
+			delta_y = ((SDWORD)TargetPtr->current.location.y + (SDWORD)delta_y)
+					- (SDWORD)ElementPtr->current.location.y;
 			delta_y = WRAP_DELTA_Y (delta_y);
 
 			UnlockElement (hTarget);
