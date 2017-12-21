@@ -201,51 +201,62 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 		}
 #undef MIN
 		
+		// Dark gray line on the right of energy box
 		SetContextForeGroundColor (BUILD_COLOR (MAKE_RGB15 (0x08, 0x08, 0x08), 0x1F));
 		r.corner.x = CREW_XOFFS - 1;
-		r.corner.y = GAUGE_YOFFS + 1 + y;
+		r.corner.y = GAUGE_YOFFS + 1 + y - RES_CASE(0,0,4);
 		r.extent.width = STAT_WIDTH + 2;
 		r.extent.height = 1;
 		DrawFilledRectangle (&r);
+		// Dark gray line on the right of crew box
 		r.corner.x = ENERGY_XOFFS - 1;
 		DrawFilledRectangle (&r);
+		// Dark gray line on the right of energy box
 		r.corner.x = ENERGY_XOFFS + STAT_WIDTH;
 		r.corner.y -= energy_height;
 		r.extent.width = 1;
 		r.extent.height = energy_height;
 		DrawFilledRectangle (&r);
+		// Dark gray line on the right of crew box
 		r.corner.x = CREW_XOFFS + STAT_WIDTH;
-		r.corner.y = (GAUGE_YOFFS + 1 + y) - crew_height;
+		r.corner.y = (GAUGE_YOFFS + 1 + y) - crew_height - RES_CASE(0,0,4);
 		r.extent.width = 1;
 		r.extent.height = crew_height;
 		DrawFilledRectangle (&r);
+
+		// Light gray line on the top of crew box
 		SetContextForeGroundColor (BUILD_COLOR (MAKE_RGB15 (0x10, 0x10, 0x10), 0x19));
 		r.corner.x = CREW_XOFFS - 1;
-		r.corner.y = GAUGE_YOFFS - crew_height + y;
+		r.corner.y = GAUGE_YOFFS - crew_height + y - RES_CASE(0,0,4);
 		r.extent.width = STAT_WIDTH + 2;
 		r.extent.height = 1;
 		DrawFilledRectangle (&r);
+		// Light gray line on the top of energy box
 		r.corner.x = ENERGY_XOFFS - 1;
-		r.corner.y = GAUGE_YOFFS - energy_height + y;
+		r.corner.y = GAUGE_YOFFS - energy_height + y - RES_CASE(0,0,4);
 		DrawFilledRectangle (&r);
+		// Light gray line on the left of energy box
 		r.extent.width = 1;
 		r.extent.height = energy_height + 1;
 		DrawFilledRectangle (&r);
+		// Light gray line on the left of crew box
 		r.corner.x = CREW_XOFFS - 1;
-		r.corner.y = GAUGE_YOFFS - crew_height + y;
+		r.corner.y = GAUGE_YOFFS - crew_height + y - RES_CASE(0,0,4);
 		r.extent.height = crew_height + 1;
 		DrawFilledRectangle (&r);
 		
 		SetContextForeGroundColor (BLACK_COLOR);
 		
+		// Black rectangle behind green crew boxes
 		r.extent.width = STAT_WIDTH;
 		r.corner.x = CREW_XOFFS;
 		r.extent.height = crew_height;
-		r.corner.y = y - r.extent.height + GAUGE_YOFFS + 1;
+		r.corner.y = y - r.extent.height + GAUGE_YOFFS + 1 - RES_CASE(0,0,4);
 		DrawFilledRectangle (&r);
+		// Black rectangle behind red energy boxes
 		r.corner.x = ENERGY_XOFFS;
 		r.extent.height = energy_height;
-		r.corner.y = y - r.extent.height + GAUGE_YOFFS + 1;
+		r.corner.y = y - r.extent.height + GAUGE_YOFFS + 1 - RES_CASE(0,0,4);
 		DrawFilledRectangle (&r);
 	}
 
@@ -284,7 +295,7 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 			Text.align = ALIGN_CENTER;
 
 			Text.baseline.x = STATUS_WIDTH >> 1;
-			Text.baseline.y = y + GAUGE_YOFFS + 3;
+			Text.baseline.y = y + GAUGE_YOFFS + RES_CASE(3,3,7);
 
 			SetContextForeGroundColor (BLACK_COLOR);
 			font_DrawText (&Text);
@@ -333,7 +344,7 @@ DeltaStatistics (SHIP_INFO *ShipInfoPtr, COORD y_offs,
 		return;
 
 	x = 0;
-	y = GAUGE_YOFFS + y_offs;
+	y = GAUGE_YOFFS + y_offs - RES_CASE(0,0,4);
 
 	r.extent.width = UNIT_WIDTH;
 	r.extent.height = UNIT_HEIGHT;
