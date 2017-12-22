@@ -195,7 +195,7 @@ DrawCargoDisplay (void)
 	for (i = 0; i < NUM_ELEMENT_CATEGORIES; ++i, cy += ELEMENT_SPACING_Y)
 	{
 		// erase background under an element icon
-		SetContextForeGroundColor (BLACK_COLOR);
+		SetContextForeGroundColor (CARGO_BACK_COLOR);
 		r.corner.y = cy;
 		DrawFilledRectangle (&r);
 
