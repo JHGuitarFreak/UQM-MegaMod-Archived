@@ -1492,9 +1492,11 @@ DrawBluePrint (MENU_STATE *pMS)
 				volume = GetModuleFuelCapacity (moduleType);
 			}
 
+				
 			GetFTankCapacity (&r.corner);
-			r.corner.y -= volume == HEFUEL_TANK_CAPACITY ? 0 : 0; // JMS_GFX
-			r.corner.x += volume == HEFUEL_TANK_CAPACITY ? 0 : 0; // JMS_GFX
+			//log_add(log_Debug, "volume on %u, hefueltankcapacity %u", volume, HEFUEL_TANK_CAPACITY);
+			r.corner.y -= volume == HEFUEL_TANK_CAPACITY ? RES_CASE(0,11,19) : RES_CASE(0,14,28); // JMS_GFX
+			r.corner.x += volume == HEFUEL_TANK_CAPACITY ? RES_CASE(0,0,2) : RES_CASE(0,0,1); // JMS_GFX
 			DrawPoint (&r.corner);
 			r.corner.x += r.extent.width + 1;
 			DrawPoint (&r.corner);
