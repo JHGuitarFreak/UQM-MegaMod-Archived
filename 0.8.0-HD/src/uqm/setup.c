@@ -135,17 +135,11 @@ LoadKernel (int argc, char *argv[])
 			if(loadAddon ("hires2x")){
 				hires2xPackPresent = TRUE;
 				log_add (log_Debug, "loading addon hires2x");
-				if(loadAddon("sero-menu-2x")){
-					seroMenuPresent = TRUE;
-					printf("Loading Sero-Menu 2x\n");
-					log_add (log_Debug, "loading sero-menu-2x");
-				}
 				if(loadAddon("sol-textures-2x")){
 					solTexturesPresent = TRUE;
 					printf("Loading Sol Textures \n");
 					log_add (log_Debug, "loading sol-textures-2x");
 				}
-				loadAddon("Syreen2xVideoFix");
 				loadAddon("alt-kohr-2x");
 			}
 			break;
@@ -153,26 +147,16 @@ LoadKernel (int argc, char *argv[])
 			if(loadAddon ("hires4x")){
 				hires4xPackPresent = TRUE;
 				log_add (log_Debug, "loading addon hires4x");
-				if(loadAddon("sero-menu-4x")){
-					seroMenuPresent = TRUE;
-					printf("Loading Sero-Menu 4x\n");
-					log_add (log_Debug, "loading sero-menu-4x");
-				}
 				if(loadAddon("sol-textures-4x")){
 					solTexturesPresent = TRUE;
 					printf("Loading Sol Textures \n");
 					log_add (log_Debug, "loading sol-textures-4x");
 				}
-				loadAddon("Syreen4xVideoFix");
 				loadAddon("alt-kohr-4x");
 			}
 			break;
 		case 0:
 		default:
-			if(loadAddon("vux-fix-1x")){
-				printf("Loading Vux-Fix 1x\n");
-				log_add (log_Debug, "loading vux-fix-1x");
-			}
 			if(loadAddon("sol-textures-1x")){
 				solTexturesPresent = TRUE;
 				printf("Loading Sol Textures \n");
@@ -190,12 +174,10 @@ LoadKernel (int argc, char *argv[])
 	if (optSpeech && !loadAddon ("3dovoice")) {
 		usingSpeech = FALSE;
 	} else {
-		loadAddon("rmx-subtitle");
 		loadAddon("rmx-shofixti");
 		loadAddon("rmx-utwig");
 		// Autoload support for Soul Reaver's dialog fixes
 		loadAddon("MelnormeVoiceFix");
-		loadAddon("MyconVoiceFix");
 	}
 
 	if (optRemixMusic)
