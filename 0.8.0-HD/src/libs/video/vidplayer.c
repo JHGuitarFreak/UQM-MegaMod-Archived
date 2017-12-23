@@ -241,11 +241,6 @@ TFB_PlayVideo (VIDEO_REF vid, uint32 x, uint32 y)
             return false; // drawing outside visible
     }
 
-	sr.corner.x = -sr.corner.x;
-	sr.corner.y = -sr.corner.y;
-	if (!BoxIntersect (&clip_r, &sr, &sr))
-		return false; // drawing outside visible
-
 	dr.corner.x += scrn_r.corner.x;
 	dr.corner.y += scrn_r.corner.y;
 	if (!BoxIntersect (&scrn_r, &dr, &vid->dst_rect))
