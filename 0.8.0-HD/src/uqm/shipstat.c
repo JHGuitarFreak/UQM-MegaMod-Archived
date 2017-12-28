@@ -110,7 +110,7 @@ OutlineShipStatus (COORD y, COORD w, BOOLEAN inMeleeMenu)
 	--r.extent.width;
 	DrawFilledRectangle (&r);
 	r.extent.width = 1;
-	r.extent.height = SHIP_INFO_HEIGHT - RES_CASE((1), (inMeleeMenu ? -1 : 2), (inMeleeMenu ? 5 : 0));
+	r.extent.height = SHIP_INFO_HEIGHT - RES_CASE((1), (inMeleeMenu ? -1 : 2), (inMeleeMenu ? 3 : 0));
 	DrawFilledRectangle (&r);
 	++r.corner.x;
 	DrawFilledRectangle (&r);
@@ -135,12 +135,14 @@ OutlineShipStatus (COORD y, COORD w, BOOLEAN inMeleeMenu)
 	if (inMeleeMenu)
 		DrawFilledRectangle (&r);
 
-	SetContextForeGroundColor (BLACK_COLOR);
-	r.corner.x = 0;
-	r.corner.y = y;
-	r.extent.width = w;
-	r.extent.height = 1;
-	DrawFilledRectangle (&r);
+	if(RESOLUTION_FACTOR == 0){
+		SetContextForeGroundColor (BLACK_COLOR);
+		r.corner.x = 0;
+		r.corner.y = y;
+		r.extent.width = w;
+		r.extent.height = 1;
+		DrawFilledRectangle (&r);
+	}
 }
 
 void
