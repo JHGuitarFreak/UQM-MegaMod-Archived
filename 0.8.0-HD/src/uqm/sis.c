@@ -436,7 +436,7 @@ DrawStatusMessage (const UNICODE *pStr)
 	}
 
 	t.baseline.x = STATUS_MESSAGE_WIDTH >> 1;
-	t.baseline.y = STATUS_MESSAGE_HEIGHT - RES_CASE(1,4,6); // JMS_GFX
+	t.baseline.y = STATUS_MESSAGE_HEIGHT - RES_CASE(1,4,5); // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.pStr = pStr;
 	t.CharCount = (COUNT)~0;
