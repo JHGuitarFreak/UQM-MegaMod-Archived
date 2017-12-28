@@ -172,7 +172,6 @@ FeedbackSetting (BYTE which_setting)
 					GAME_STRING (NAMING_STRING_BASE + 0));
 			break;
 	}
-
 	DrawStatusMessage (buf);
 }
 
@@ -218,8 +217,6 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0F, 0x00, 0x00), 0x2D);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x1F, 0x0A, 0x00), 0x7D);
 		}
-
-		// lf.baseline.y = r.corner.y + r.extent.height - 1;
 		lf.align = ALIGN_CENTER;
 	}
 
@@ -558,10 +555,10 @@ NameSaveGame (COUNT gameIndex, UNICODE *buf)
 	tes.CbParam = gIndex;
 	tes.ChangeCallback = OnSaveNameChange;
 	tes.FrameCallback = 0;
-	r.extent.width = (204 - SAFE_X);
-	r.extent.height = 11;
-	r.corner.x = (30 + SAFE_X);
-	r.corner.y = (160 + ((gameIndex % SAVES_PER_PAGE) * 13));
+	r.extent.width = (RES_SCALE(204) - SAFE_X);
+	r.extent.height = RES_SCALE(11);
+	r.corner.x = (RES_SCALE(30) + SAFE_X);
+	r.corner.y = (RES_SCALE(160) + ((gameIndex % SAVES_PER_PAGE) * RES_SCALE(13)));
 	SetFlashRect (&r);
 
 	if (!DoTextEntry (&tes))
