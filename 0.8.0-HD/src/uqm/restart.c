@@ -154,24 +154,6 @@ DrawRestartMenu (MENU_STATE *pMS, BYTE NewState, FRAME f, BOOLEAN cleanup)
 	Flash_setOverlay (pMS->flashContext, &origin, SetAbsFrameIndex (f, NewState + 1), cleanup);
 }
 
-static void
-ResChanged (MENU_STATE *pMS) {	
-	SetFlashRect (NULL);
-	DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
-	// Got to restart -message
-	SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
-	SetTransitionSource (NULL);
-	BatchGraphics ();
-	DrawRestartMenuGraphic (pMS);
-	DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-	ScreenTransition (3, NULL);
-	UnbatchGraphics ();
-	//fade_buf[0] = FadeAllToBlack;
-	//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
-	SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
-	GLOBAL (CurrentActivity) = CHECK_ABORT;
-}
-
 static BOOLEAN
 DoRestart (MENU_STATE *pMS)
 {
