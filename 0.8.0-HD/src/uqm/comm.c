@@ -1388,6 +1388,7 @@ HailAlien (void)
 		r.extent.width = SIS_SCREEN_WIDTH;
 		CommWndRect.corner.x = SIS_ORG_X; // JMS_GFX: Added these lines because of the 
 		CommWndRect.corner.y = SIS_ORG_Y; // changed init of CommWndRect in the beginning of comm.c
+		CommWndRect.extent = r.extent;
 		
 		SetTransitionSource (NULL);
 		BatchGraphics ();
@@ -1395,7 +1396,7 @@ HailAlien (void)
 		{
 			// set the position of outtakes comm
 			CommWndRect.corner.x = ((SCREEN_WIDTH - CommWndRect.extent.width) / 2); // JMS_GFX
-			CommWndRect.corner.y = RES_CASE(5,0,0); // JMS_GFX
+			CommWndRect.corner.y = RES_SCALE(5); // JMS_GFX
 			r.corner = CommWndRect.corner;
 			SetContextClipRect (&r);
 		}

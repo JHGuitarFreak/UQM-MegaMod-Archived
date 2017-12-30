@@ -32,10 +32,10 @@
 #include <math.h>
 
 // Rates in pixel lines per second
-#define CREDITS_BASE_RATE   (05 << RESOLUTION_FACTOR) // JMS_GFX - MB: tamed
-#define CREDITS_MAX_RATE    (35 << RESOLUTION_FACTOR) // JMS_GFX - MB: tamed
+#define CREDITS_BASE_RATE   (9 << RESOLUTION_FACTOR) // JMS_GFX - MB: tamed
+#define CREDITS_MAX_RATE    (130 << RESOLUTION_FACTOR) // JMS_GFX - MB: tamed
 // Maximum frame rate
-#define CREDITS_FRAME_RATE  (RES_CASE(26,32,36)) // JMS_GFX
+#define CREDITS_FRAME_RATE  (RES_SCALE(36)) // JMS_GFX
 
 #define CREDITS_TIMEOUT   (ONE_SECOND * 5)
 
@@ -795,7 +795,7 @@ Credits (BOOLEAN WithOuttakes)
 
 	// set the position of outtakes comm
 	CommWndRect.corner.x = ((screenRect.extent.width - CommWndRect.extent.width) / 2); // JMS_GFX
-	CommWndRect.corner.y = RES_CASE(5,0,0); // JMS_GFX
+	CommWndRect.corner.y = RES_SCALE(5); // JMS_GFX
 	
 	InitCredits ();
 	SetInputCallback (on_input_frame);
