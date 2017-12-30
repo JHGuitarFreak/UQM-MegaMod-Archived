@@ -44,7 +44,7 @@ extern int ScreenHeight;
 /* Top and bottom screen margin to be left unused */
 #define SIS_ORG_X (7 + SAFE_X)								// JMS_GFX
 //#define SIS_ORG_X (7 * RESOLUTION_FACTOR + SAFE_X)	// JMS_GFX
-#define SIS_ORG_Y RES_CASE(10, 20, 30)						// DC: top status window. Manually entered in for 4x mode.
+#define SIS_ORG_Y RES_STAT_SCALE(10)						// DC: top status window. Manually entered in for 4x mode.
 //#define SIS_ORG_Y (10 * RESOLUTION_FACTOR + SAFE_Y)	// JMS_GFX
 
 /* Status bar & play area sizes. */
@@ -58,7 +58,7 @@ extern int ScreenHeight;
 /* Height of the space "window" (the left part of the screen) */
 #define SIS_SCREEN_WIDTH (SPACE_WIDTH - 2 * SIS_ORG_X) // DC: Gray area on the right. just a spacer box
 /* Width of the usable part of the space "window" */
-#define SIS_SCREEN_HEIGHT (SPACE_HEIGHT - RES_CASE(3,6,6) - RES_CASE(10,20,30)) // JMS_GFX
+#define SIS_SCREEN_HEIGHT (SPACE_HEIGHT - RES_CASE(3,6,6) - RES_STAT_SCALE(10)) // JMS_GFX
 /* Height of the usable part of the space "window": 3, 6, 6 for the grey bottom border and 10, 20, 30 for the title */
 #define RES_SIS_SCALE(a) ((SIZE)(a) * SIS_SCREEN_WIDTH / 242) // JMS_GFX
 

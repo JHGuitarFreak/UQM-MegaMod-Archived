@@ -114,7 +114,7 @@ static FRAME TextCacheFrame;
 RECT CommWndRect = {
 	// default values; actually inited by HailAlien()
 	{0, 0},
-	{0, 0}, //was {SIS_ORG_X, SIS_ORG_Y}, // JMS_GFX
+	{0, 0} //was {SIS_ORG_X, SIS_ORG_Y}, // JMS_GFX
 };
 
 static void ClearSubtitles (void);

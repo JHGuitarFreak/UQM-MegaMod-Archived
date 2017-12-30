@@ -620,17 +620,7 @@ DrawSubmenu (BYTE Visible)
 	s.origin.x = 0;
 	s.origin.y = 0;
 
-	switch (Visible){
-		case 1: 
-			s.frame = SetAbsFrameIndex (SubmenuFrame, 1);
-			break;
-		case 2:
-			s.frame = SetAbsFrameIndex (SubmenuFrame, 2);
-			break;
-		case 0:
-		default:
-			s.frame = SetAbsFrameIndex (SubmenuFrame, 0);
-	}
+	s.frame = SetAbsFrameIndex (SubmenuFrame, Visible);
 
 	DrawStamp (&s);
 	

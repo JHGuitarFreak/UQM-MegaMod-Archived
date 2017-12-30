@@ -193,6 +193,10 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 			r.corner.x += RES_CASE(0,2,4); // JMS_GFX
 		else if (which_slot == NUM_MODULE_SLOTS - 1 && RESOLUTION_FACTOR !=0)
 			r.extent.width -= RES_CASE(0,4,9); // JMS_GFX
+		DrawFilledRectangle (&r);
+		
+		r.extent.width = RES_CASE(1,5,12);
+		r.extent.height = (8 << RESOLUTION_FACTOR) + RES_CASE(0,13,30); // JMS_GFX
 
 		if (RepairSlot == 2)
 		{
