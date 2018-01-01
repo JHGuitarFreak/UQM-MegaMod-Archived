@@ -3,7 +3,7 @@ A fork of The Ur-Quan Masters with added options, cheats, enhancements, and othe
 
 ## Changes from the original
 
-A full list of changes and features can be found on either the [Sourceforge mother-site](http://uqm-mods.sourceforge.net/Features) or the [Github daughter-site](https://serosis.github.io/#Features)
+A full list of changes and features can be found on the [Sourceforge site](http://uqm-mods.sourceforge.net/Features).
 
 The newest major change as of the 1st of Jan 2018 is that the MegaMod is now built on version 0.8.0 from the official Git.
 
