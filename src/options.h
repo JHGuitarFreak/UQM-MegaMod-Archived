@@ -52,7 +52,6 @@ extern BOOLEAN optCheatMode; // JMS
 extern BOOLEAN optGodMode;
 extern int timeDilationScale;
 extern BOOLEAN optBubbleWarp;
-extern BOOLEAN optRoseBud;
 extern BOOLEAN optUnlockShips;
 extern BOOLEAN optHeadStart;
 extern BOOLEAN optUnlockUpgrades;
