@@ -142,7 +142,6 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, unlockUpgrades);
 	DECL_CONFIG_OPTION(bool, infiniteRU);
 	DECL_CONFIG_OPTION(bool, skipIntro);
-	DECL_CONFIG_OPTION(bool, FMV);
 	// JMS
 	DECL_CONFIG_OPTION(bool, mainMenuMusic);
 	DECL_CONFIG_OPTION(bool, nebulae);
@@ -303,7 +302,6 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  unlockUpgrades,	false ),
 		INIT_CONFIG_OPTION(  infiniteRU,		false ),
 		INIT_CONFIG_OPTION(  skipIntro,			false ),
-		INIT_CONFIG_OPTION(  FMV,				false ),
 		// JMS
 		INIT_CONFIG_OPTION(  mainMenuMusic,     true ),
 		INIT_CONFIG_OPTION(  nebulae,			true ),
@@ -461,7 +459,6 @@ main (int argc, char *argv[])
 	optUnlockUpgrades = options.unlockUpgrades.value;
 	optInfiniteRU = options.infiniteRU.value;
 	optSkipIntro = options.skipIntro.value;
-	optFMV = options.FMV.value;
 	// JMS
 	optMainMenuMusic = options.mainMenuMusic.value;
 	optNebulae = options.nebulae.value;
@@ -788,7 +785,6 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->unlockUpgrades, "cheat.unlockUpgrades");
 	getBoolConfigValue (&options->infiniteRU, "cheat.infiniteRU");
 	getBoolConfigValue (&options->skipIntro, "config.skipIntro");
-	getBoolConfigValue (&options->FMV, "config.FMV");
 	// JMS
 	getBoolConfigValue (&options->mainMenuMusic, "config.mainMenuMusic");
 	getBoolConfigValue (&options->nebulae, "config.nebulae");
@@ -853,7 +849,6 @@ enum
 	UPGRADES_OPT,
 	INFINITERU_OPT,
 	SKIPINTRO_OPT,
-	FMV_OPT,
 	MENUMUS_OPT,
 	NEBU_OPT,
 	ORBITS_OPT,
@@ -922,7 +917,6 @@ static struct option longOptions[] =
 	{"unlockupgrades", 0, NULL, UPGRADES_OPT},
 	{"infiniteru", 0, NULL, INFINITERU_OPT},
 	{"skipintro", 0, NULL, SKIPINTRO_OPT},
-	{"fmv", 0, NULL, FMV_OPT},
 	{"mainmenumusic", 0, NULL, MENUMUS_OPT},
 	{"nebulae", 0, NULL, NEBU_OPT},
 	{"orbitingplanets", 0, NULL, ORBITS_OPT},
@@ -1229,9 +1223,6 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case SKIPINTRO_OPT:
 				setBoolOption (&options->skipIntro, true);
 				break;
-			case FMV_OPT:
-				setBoolOption (&options->FMV, true);
-				break;
 			case MENUMUS_OPT:
 				setBoolOption (&options->mainMenuMusic, true);
 				break;
@@ -1520,8 +1511,6 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->infiniteRU));
 	log_add (log_User, "  --skipintro : Skips the intro and Logo fmv    (default: %s)",
 			boolOptString (&defaults->skipIntro));
-	log_add (log_User, "  --fmv : Plays Logo and Commercial 3DO videos    (default: %s)",
-			boolOptString (&defaults->FMV));
 	log_add (log_User, "  --mainmenumusic : Switches the main menu music on/off    (default: %s)",
 			boolOptString (&defaults->mainMenuMusic));
 	log_add (log_User, "  --nebulae : Enables/Disables nebulae in star systems    (default: %s)",

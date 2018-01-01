@@ -100,7 +100,7 @@ typedef struct globalopts_struct {
 	OPT_TDTYPE tdType; // Serosis
 	OPT_DATETYPE dateType; //
 	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo, music3do, musicremix, speech, keepaspect,
-		cheatMode, godMode, bubbleWarp, unlockShips, headStart, unlockUpgrades, infiniteRU, skipIntro, FMV, // Serosis: except for cheatMode = JMS
+		cheatMode, godMode, bubbleWarp, unlockShips, headStart, unlockUpgrades, infiniteRU, skipIntro, // Serosis: except for cheatMode = JMS
 		mainMenuMusic, nebulae, orbitingPlanets, texturedPlanets, // JMS
 		infiniteFuel, thraddStory, partialPickup, submenu, addDevices, scalePlanets; // Serosis
 	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, meleezoom, shield;

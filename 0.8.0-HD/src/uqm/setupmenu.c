@@ -147,7 +147,6 @@ static WIDGET *engine_widgets[] = {
 	(WIDGET *)(&choices[8]),	// Subtitles
 	(WIDGET *)(&choices[13]),	// Melee Zoom
 	(WIDGET *)(&choices[11]),	// Cutscenes
-	(WIDGET *)(&choices[33]),	// Extra Cutscenes
 	(WIDGET *)(&choices[17]),	// Slave Shields
 	(WIDGET *)(&choices[32]),	// Skip Intro
 	(WIDGET *)(&buttons[1]),
@@ -456,7 +455,6 @@ SetDefaults (void)
 	choices[30].selected = opts.unlockUpgrades;
 	choices[31].selected = opts.infiniteRU;
 	choices[32].selected = opts.skipIntro;
-	choices[33].selected = opts.FMV;
 	// JMS
 	choices[34].selected = opts.mainMenuMusic;
 	choices[35].selected = opts.nebulae;
@@ -517,7 +515,6 @@ PropagateResults (void)
 	opts.unlockUpgrades = choices[30].selected;
 	opts.infiniteRU = choices[31].selected;
 	opts.skipIntro = choices[32].selected;
-	opts.FMV = choices[33].selected;
 	 // JMS
 	opts.mainMenuMusic = choices[34].selected;
 	opts.nebulae = choices[35].selected;
@@ -1433,7 +1430,6 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->unlockUpgrades = optUnlockUpgrades ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->infiniteRU = optInfiniteRU ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->skipIntro = optSkipIntro ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->FMV = optFMV ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	// JMS
 	opts->mainMenuMusic = optMainMenuMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->nebulae = optNebulae ? OPTVAL_ENABLED : OPTVAL_DISABLED;
@@ -1700,10 +1696,6 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Skip the intro
 	res_PutBoolean ("config.skipIntro", opts->skipIntro == OPTVAL_ENABLED);
 	optSkipIntro = opts->skipIntro == OPTVAL_ENABLED;
-
-	// Serosis: Adds the Crystal Dynamics Logo and Commercial to the loaded 3DO videos
-	res_PutBoolean ("config.FMV", opts->FMV == OPTVAL_ENABLED);
-	optFMV = opts->FMV == OPTVAL_ENABLED;
 	
 	// JMS: Main menu music
 	res_PutBoolean ("config.mainMenuMusic", opts->mainMenuMusic == OPTVAL_ENABLED);

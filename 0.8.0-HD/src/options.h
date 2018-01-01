@@ -59,7 +59,6 @@ extern BOOLEAN optUnlockUpgrades;
 extern BOOLEAN optInfiniteRU;
 extern DWORD oldRU;
 extern BOOLEAN optSkipIntro;
-extern BOOLEAN optFMV;
 // JMS
 extern BOOLEAN optMainMenuMusic;
 extern BOOLEAN optNebulae;
