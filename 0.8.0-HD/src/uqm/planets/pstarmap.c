@@ -700,12 +700,12 @@ DrawStarMap (COUNT race_update, RECT *pClipRect)
 			&& SDPtr->star_pt.y <= MAX_Y_UNIVERSE);	
 	
 	// JMS: Draw a sexy nebula on the map's background (Only in Hyperspace, not in Quasispace).
-	if (which_space <= 1)
+	/*if (which_space <= 1 && optNebulae)
 	{
 		nebula.origin.x = nebula.origin.y = 0;
 		nebula.frame = SetAbsFrameIndex (NebulaeFrame, 16);
 		DrawStamp(&nebula);
-	}
+	}*/
 
 	// JMS: This draws the constellation lines on the constellation starmap.
 	if (which_space <= 1 && which_starmap == CONSTELLATION_STARMAP)
