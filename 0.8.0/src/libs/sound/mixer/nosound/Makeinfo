@@ -1,2 +1,0 @@
-uqm_CFILES="audiodrv_nosound.c"
-uqm_HFILES="audiodrv_nosound.h"
