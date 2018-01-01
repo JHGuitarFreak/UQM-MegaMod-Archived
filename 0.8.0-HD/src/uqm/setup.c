@@ -74,8 +74,6 @@ STRING GameStrings;
 QUEUE disp_q;
 // Serosis
 BOOLEAN solTexturesPresent;
-BOOLEAN seroNebulaePresent;
-BOOLEAN seroMenuPresent;
 // JMS_GFX
 BOOLEAN hires2xPackPresent;
 BOOLEAN hires4xPackPresent;
@@ -174,7 +172,6 @@ LoadKernel (int argc, char *argv[])
 	if (optSpeech && !loadAddon ("3dovoice")) {
 		usingSpeech = FALSE;
 	} else {
-		loadAddon("rmx-shofixti");
 		loadAddon("rmx-utwig");
 		// Autoload support for Soul Reaver's dialog fixes
 		loadAddon("MelnormeVoiceFix");

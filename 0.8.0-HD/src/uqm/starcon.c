@@ -217,9 +217,7 @@ while (--ac > 0)
 	GLOBAL (CurrentActivity) = 0;
 	luaUqm_initState ();
 	// show logo then splash and init the kernel in the meantime
-	if(optFMV && !optSkipIntro){
-		Logo ();
-	}
+	Logo ();
 
 	{
 		srand(time(NULL));
@@ -259,7 +257,7 @@ while (--ac > 0)
 
 		do
 		{
-//#ifdef DEBUG
+
 			if (debugHook != NULL)
 			{
 				void (*saveDebugHook) (void);
@@ -270,7 +268,7 @@ while (--ac > 0)
 				(*saveDebugHook) ();
 				continue;
 			}
-//#endif
+
 			SetStatusMessageMode (SMM_DEFAULT);
 
 			if (!((GLOBAL (CurrentActivity) | NextActivity) & CHECK_LOAD))

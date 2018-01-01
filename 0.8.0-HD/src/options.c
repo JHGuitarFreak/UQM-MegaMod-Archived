@@ -68,7 +68,6 @@ BOOLEAN optUnlockUpgrades;
 BOOLEAN optInfiniteRU;
 DWORD oldRU;
 BOOLEAN optSkipIntro;
-BOOLEAN optFMV;
 // JMS
 BOOLEAN optMainMenuMusic;
 BOOLEAN optNebulae;
