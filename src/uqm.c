@@ -1533,6 +1533,7 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->addDevices));
 	log_add (log_User, "  --scaleplanets : Scales textured planets in HD    (default: %s)",
 			boolOptString (&defaults->scalePlanets));
+	log_add (log_User, "  --melee : Takes you straight to Super Melee after the splash screen.");
 	log_setOutput (old);
 }
 
