@@ -578,9 +578,9 @@ ChangeFuelQuantity (void)
 	else if (PulsedInputState.menu[KEY_MENU_DOWN])
 		incr = -FUEL_TANK_SCALE; // -1 Unit
 	else if (PulsedInputState.menu[KEY_MENU_PAGE_UP])
-		incr = FUEL_VOLUME_PER_ROW;  // +1 Bar
+		incr = (FUEL_TANK_SCALE * 10); // +1 Bar
 	else if (PulsedInputState.menu[KEY_MENU_PAGE_DOWN])
-		incr = -FUEL_VOLUME_PER_ROW; // -1 Bar
+		incr = -(FUEL_TANK_SCALE * 10); // -1 Bar
 	else
 		return;
 
