@@ -613,17 +613,6 @@ Intro (void)
 			}
 
 			SET_GAME_STATE (CHMMR_UNLEASHED, 1);
-
-			// Setup a Chmmr sphere-of-influence, now that they're out
-			// of their shell.  EncounterPercent for the Chmmr is 0,
-			// so this is purely decorative.
-			if (ChmmrPtr) {
-				ChmmrPtr->actual_strength = 1800 / SPHERE_RADIUS_INCREMENT * 2;
-				ChmmrPtr->loc.x = 742;
-				ChmmrPtr->loc.y = 2268;
-				StartSphereTracking (CHMMR_SHIP);
-			}
-			UnlockFleetInfo (&GLOBAL (avail_race_q), hChmmr);
 		}
 		SET_GAME_STATE (CHMMR_HOME_VISITS, NumVisits);
 	}
