@@ -7,7 +7,7 @@ Var UQMUSERDATA
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "The Ur-Quan Masters MegaMod"
-!define PRODUCT_VERSION "0.8.0 Beta"
+!define PRODUCT_VERSION "0.8.0 Gamma"
 !define PRODUCT_WEB_SITE "http://uqm-mods.sourceforge.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\UrQuanMasters.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -58,7 +58,7 @@ RequestExecutionLevel admin
 ; Start menu page
 var ICONS_GROUP
 !define MUI_STARTMENUPAGE_NODISABLE
-!define MUI_STARTMENUPAGE_DEFAULTFOLDER "Games\The Ur-Quan Masters MegaMod"
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "Games\The Ur-Quan Masters HD MegaMod"
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
 !define MUI_STARTMENUPAGE_REGISTRY_KEY "${PRODUCT_UNINST_KEY}"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "${PRODUCT_STARTMENU_REGVAL}"
@@ -105,15 +105,15 @@ Function .onInit
   StrCpy $MAKEICON 0
   ReadEnvStr $0 APPDATA
   StrCmp $0 "" NoAppData
-  ExpandEnvStrings $UQMUSERDATA "%APPDATA%\uqm"
+  ExpandEnvStrings $UQMUSERDATA "%APPDATA%\uqm-080-hd"
   Goto GotAppData
 NoAppData:
   ReadEnvStr $0 USERPROFILE
   StrCmp $0 "" NoProfile
-  ExpandEnvStrings $UQMUSERDATA "%USERPROFILE%\Application Data\uqm"
+  ExpandEnvStrings $UQMUSERDATA "%USERPROFILE%\Application Data\uqm-080-hd"
   Goto GotAppData
 NoProfile:
-  StrCpy $UQMUSERDATA "$INSTDIR\userdata\uqm"
+  StrCpy $UQMUSERDATA "$INSTDIR\userdata\uqm-080-hd"
 GotAppData:
 FunctionEnd
 
@@ -249,7 +249,7 @@ AttemptDownload:
   GetTempFileName $DOWNLOADTARGET
   Delete $DOWNLOADTARGET
   CreateDirectory $DOWNLOADTARGET
-  NSISdl::download "http://$2.dl.sourceforge.net/project/sc2/$DOWNLOADPATH$1" "$DOWNLOADTARGET\$1"
+  NSISdl::download "http://$2.dl.sourceforge.net/projects/uqm-mods/files/MegaMod/Content/0.8.0-HD/$DOWNLOADPATH$1" "$DOWNLOADTARGET\$1"
   Pop $2
   StrCmp $2 "success" DownloadSuccessful
   StrCmp $2 "cancel" DownloadCanceled
