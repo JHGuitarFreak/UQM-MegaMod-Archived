@@ -596,7 +596,7 @@ typedef enum
 		 0,  /* URQUAN_DRONE_SHIP */
 
 #define RACE_INTERPLANETARY_PERCENT \
-		 5,  /* ARILOU_SHIP */ \
+		 0,  /* ARILOU_SHIP */ \
 		 0,  /* CHMMR_SHIP */ \
 		 0,  /* HUMAN_SHIP */ \
 		20,  /* ORZ_SHIP */ \
