@@ -331,11 +331,7 @@ BuildGroups (void)
 						// is only the Slylandro Probes)
 						i = 4;
 					}
-
-					// JMS: No Ur-Quan or Kohr-Ah at Zoqfot home system.
-					if (!(CurStarDescPtr->Index == ZOQFOT_DEFINED && (FleetPtr->SpeciesID == UR_QUAN_ID || FleetPtr->SpeciesID == KOHR_AH_ID)))
-						BestPercent = i;
-
+					BestPercent = i;
 					BestIndex = Index;
 				}
 			}
