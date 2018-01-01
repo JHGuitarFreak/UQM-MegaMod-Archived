@@ -63,9 +63,19 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	TEXT t; 
 	char *Credit;
 	UNICODE buf[64];
+	BOOLEAN packsInstalled;
+		
+	if (resolutionFactor == 0)
+		packsInstalled = TRUE;
+	else if (resolutionFactor == 1 && hires2xPackPresent)
+		packsInstalled = TRUE;
+	else if (resolutionFactor == 2 && hires4xPackPresent)
+		packsInstalled = TRUE;
+	else
+		packsInstalled = FALSE;
 
 	// Re-load all of the restart menu fonts so the text shows in correct size after changing the resolution.
-	if (resFactorWasChanged) {	
+	if (resFactorWasChanged || !packsInstalled) {	
 		DestroyFont (TinyFont);
 		DestroyFont (PlyrFont);
 		DestroyFont (StarConFont);
@@ -75,7 +85,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	// DC: Load the different menus and fonts depending on the resolution factor	
 	switch (resolutionFactor){
 		case 1:
-			if (resFactorWasChanged) {
+			if (resFactorWasChanged || !packsInstalled) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO2X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO2X_FONT);
 				StarConFont = LoadFont (SCON_FALLBACK_TO2X_FONT);
@@ -83,7 +93,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 			pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM2x));
 			break;
 		case 2:
-			if (resFactorWasChanged) {
+			if (resFactorWasChanged || !packsInstalled) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO4X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO4X_FONT);
 				StarConFont = LoadFont (SCON_FALLBACK_TO4X_FONT);
@@ -92,7 +102,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 			break;
 		case 0:
 		default:
-			if (resFactorWasChanged) {
+			if (resFactorWasChanged || !packsInstalled) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO1X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO1X_FONT);
 				StarConFont = LoadFont (SCON_FALLBACK_TO1X_FONT);
@@ -577,7 +587,7 @@ StartGame (void)
 			{	// timed out
 				GLOBAL (CurrentActivity) = 0;
 				SplashScreen (0);
-				if(optWhichIntro == OPT_3DO && optFMV){
+				if(optWhichIntro == OPT_3DO){
 					Drumall ();
 				}
 				Credits (FALSE);
