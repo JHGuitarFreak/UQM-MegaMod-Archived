@@ -50,7 +50,7 @@
 #define SPECIAL_ENERGY_COST 8
 #define SPECIAL_WAIT 9
 #define FIGHTER_OFFSET RES_SCALE(4)
-#define FIGHTER_SPEED DISPLAY_TO_WORLD RES_SCALE(8)
+#define FIGHTER_SPEED DISPLAY_TO_WORLD (RES_SCALE(8))
 #define ONE_WAY_FLIGHT 125
 #define TRACK_THRESHOLD 6
 #define FIGHTER_LIFE (ONE_WAY_FLIGHT + ONE_WAY_FLIGHT + 150)
@@ -433,16 +433,16 @@ fighter_preprocess (ELEMENT *ElementPtr)
 				if (ElementPtr->turn_wait & LEFT)
 				{
 					delta_x += COSINE (FACING_TO_ANGLE (facing - 4),
-							DISPLAY_TO_WORLD RES_SCALE(30));
+							DISPLAY_TO_WORLD (RES_SCALE(30)));
 					delta_y += SINE (FACING_TO_ANGLE (facing - 4),
-							DISPLAY_TO_WORLD RES_SCALE(30));
+							DISPLAY_TO_WORLD (RES_SCALE(30)));
 				}
 				else
 				{
 					delta_x += COSINE (FACING_TO_ANGLE (facing + 4),
-							DISPLAY_TO_WORLD RES_SCALE(30));
+							DISPLAY_TO_WORLD (RES_SCALE(30)));
 					delta_y += SINE (FACING_TO_ANGLE (facing + 4),
-							DISPLAY_TO_WORLD RES_SCALE(30));
+							DISPLAY_TO_WORLD (RES_SCALE(30)));
 				}
 				facing = NORMALIZE_FACING (
 						ANGLE_TO_FACING (ARCTAN (delta_x, delta_y))
@@ -559,8 +559,8 @@ spawn_fighters (ELEMENT *ElementPtr)
 
 	GetElementStarShip (ElementPtr, &StarShipPtr);
 	facing = StarShipPtr->ShipFacing + ANGLE_TO_FACING (HALF_CIRCLE);
-	delta_x = COSINE (FACING_TO_ANGLE (facing), DISPLAY_TO_WORLD RES_SCALE(14));
-	delta_y = SINE (FACING_TO_ANGLE (facing), DISPLAY_TO_WORLD RES_SCALE(14));
+	delta_x = COSINE (FACING_TO_ANGLE (facing), DISPLAY_TO_WORLD (RES_SCALE(14)));
+	delta_y = SINE (FACING_TO_ANGLE (facing), DISPLAY_TO_WORLD (RES_SCALE(14)));
 
 	i = ElementPtr->crew_level > 2 ? 2 : 1;
 	while (i-- && (hFighterElement = AllocElement ()))
