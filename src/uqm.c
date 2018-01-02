@@ -280,7 +280,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  whichCoarseScan,   OPT_PC ),
 		INIT_CONFIG_OPTION(  whichMenu,         OPT_3DO ),
 		INIT_CONFIG_OPTION(  whichFonts,        OPT_PC ),
-		INIT_CONFIG_OPTION(  whichIntro,        OPT_3DO ),
+		INIT_CONFIG_OPTION(  whichIntro,        OPT_PC ),
 		INIT_CONFIG_OPTION(  whichShield,       OPT_3DO ),
 		INIT_CONFIG_OPTION(  smoothScroll,      OPT_PC ),
 		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_TRILINEAR ),
