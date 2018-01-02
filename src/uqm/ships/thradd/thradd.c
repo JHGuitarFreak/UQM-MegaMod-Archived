@@ -57,7 +57,7 @@
 		 * decay one step (one animation frame) per NAPALM_DECAY_RATE
 		 * frames. */
 #define NUM_NAPALM_FADES 6
-#define STATIONARY_SPEED WORLD_TO_VELOCITY (DISPLAY_TO_WORLD RES_SCALE(4))
+#define STATIONARY_SPEED WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (RES_SCALE(4)))
 
 // HD
 #define MAX_THRUST_2XRES 56

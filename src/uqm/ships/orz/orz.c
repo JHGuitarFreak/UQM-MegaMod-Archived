@@ -679,9 +679,9 @@ spawn_marine_ion_trail (ELEMENT *ElementPtr, STARSHIP *StarShipPtr,
 		IonElementPtr->colorCycleIndex = 0;
 		IonElementPtr->current.location = ElementPtr->current.location;
 		IonElementPtr->current.location.x +=
-				(COORD)COSINE (angle, DISPLAY_TO_WORLD RES_SCALE(2));
+				(COORD)COSINE (angle, DISPLAY_TO_WORLD (RES_SCALE(2)));
 		IonElementPtr->current.location.y +=
-				(COORD)SINE (angle, DISPLAY_TO_WORLD RES_SCALE(2));
+				(COORD)SINE (angle, DISPLAY_TO_WORLD (RES_SCALE(2)));
 		IonElementPtr->death_func = ion_preprocess;
 
 		SetElementStarShip (IonElementPtr, StarShipPtr);

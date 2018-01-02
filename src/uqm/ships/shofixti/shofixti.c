@@ -652,7 +652,7 @@ init_shofixti (void)
 				--new_shofixti_desc.characteristics.thrust_wait;
 
 /* This should be the same as MIN_THRUST_INCREMENT in vux.c */
-#define MIN_THRUST_INCREMENT DISPLAY_TO_WORLD RES_SCALE(1)
+#define MIN_THRUST_INCREMENT DISPLAY_TO_WORLD (RES_SCALE(1))
 
 			if (new_shofixti_desc.characteristics.thrust_increment <=
 					MIN_THRUST_INCREMENT)
