@@ -130,7 +130,7 @@ LoadKernel (int argc, char *argv[])
 
 	switch (resolutionFactor) {
 		case 1:
-			if(loadAddon ("hires2x")){
+			if(loadAddon ("mm-hires2x")){
 				hires2xPackPresent = TRUE;
 				log_add (log_Debug, "loading addon hires2x");
 				if(loadAddon("sol-textures-2x")){
@@ -142,7 +142,7 @@ LoadKernel (int argc, char *argv[])
 			}
 			break;
 		case 2:
-			if(loadAddon ("hires4x")){
+			if(loadAddon ("mm-hires4x")){
 				hires4xPackPresent = TRUE;
 				log_add (log_Debug, "loading addon hires4x");
 				if(loadAddon("sol-textures-4x")){
