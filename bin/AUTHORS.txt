@@ -10,7 +10,7 @@ DCzanik (Original HD art)
 Metamorphosis A.K.A. Matt Bentley (UQM-HD Remix Code)
 Nic (UQM-Extended Code and various bug-fixes)
 darklord42 (QA, art, and invaluable feedback)
-Soul Reaver (Mycon & Melnorme voice mods and the Syreen HD fix)
+Soul Reaver A.K.A. Andy Krieg (Mycon & Melnorme voice fixes and the Syreen HD fix)
 
 Thanks to Saibuster, Mark Vera, and Rush AX for the Main Menu Music
 and the entire Star Control Discord for putting up with my crap and
