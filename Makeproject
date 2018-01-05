@@ -3,10 +3,10 @@ TARGETS="uqm"
 # For the 'uqm' target:
 if [ "$DEBUG" = "1" ]; then
 	uqm_OBJS=obj/debug/    # Directory for object files
-	uqm_NAME=uqm-debug     # File name of executable
+	uqm_NAME=UrQuanMastersDebug     # File name of executable
 else
 	uqm_OBJS=obj/release/  # Directory for object files
-	uqm_NAME=uqm           # File name of executable
+	uqm_NAME=UrQuanMasters           # File name of executable
 fi
 case "$HOST_SYSTEM" in
 	ARMV5|WINSCW|GCCE)
