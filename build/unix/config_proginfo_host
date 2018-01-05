@@ -45,7 +45,7 @@ SYSTEM_HOST_LDFLAGS=""
 LIB_SDL_NAME="Simple DirectMedia Layer"
 case "$HOST_SYSTEM" in
 	Darwin)
-		LIB_SDL_CFLAGS=''
+		LIB_SDL_CFLAGS='-I/Library/Frameworks/SDL.framework/Headers'
 		LIB_SDL_LDFLAGS='-framework SDL -framework Cocoa -lobjc'
 		LIB_SDL_VERSION=$(echo \
                       "SDL_MAJOR_VERSION.SDL_MINOR_VERSION.SDL_PATCHLEVEL" | \
