@@ -677,7 +677,8 @@ static inline Color
 get_map_pixel (Color *pixels, int x, int y, COUNT width, COUNT spherespanx)
 {
 	/*if (y * (width + spherespanx) + x > 463000)
-		log_add(log_Warning,"x:%u, y:%u, width:%u, spherespanx:%u, slot:%u. Max:%u", x, y, width, spherespanx, y * (width + spherespanx) + x, (MAP_HEIGHT+1) * (MAP_WIDTH + spherespanx));*/
+		log_add(log_Warning,"x:%u, y:%u, width:%u, spherespanx:%u, slot:%u. Max:%u", x, y, width, spherespanx, y * (width + spherespanx) + x, (MAP_HEIGHT+1) * (MAP_WIDTH + spherespanx)); */
+
 	return pixels[y * (width + spherespanx) + x];
 }
 
@@ -1743,7 +1744,10 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 
 	TopoContext = CreateContext ("Plangen.TopoContext");
 	OldContext = SetContext (TopoContext);
-	PlanetOrbitInit (Width, Height, inOrbit);
+
+
+
+	PlanetOrbitInit (Width, (inOrbit && RESOLUTION_FACTOR > 1 ? (Height + 1) : Height), inOrbit);
 
 	PlanDataPtr = &PlanData[pPlanetDesc->data_index & ~PLANET_SHIELDED];
 
