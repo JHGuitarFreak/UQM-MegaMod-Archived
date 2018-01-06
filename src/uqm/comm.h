@@ -17,11 +17,11 @@
 #ifndef _COMM_H
 #define _COMM_H
 
-#include "globdata.h"
-#include "units.h"
+#include "uqm/globdata.h"
+#include "uqm/units.h"
 #include "libs/compiler.h"
 #include "libs/gfxlib.h"
-#include "commglue.h"
+#include "uqm/commglue.h"
 		// for CONVERSATION
 
 #ifdef COMM_INTERNAL
@@ -29,7 +29,7 @@
 #define SLIDER_Y ((107 << RESOLUTION_FACTOR) + RES_CASE(0,6,46)) // JMS_GFX
 #define SLIDER_HEIGHT RES_CASE(15, 15, 30) // JMS_GFX
 
-#include "commanim.h"
+#include "uqm/commanim.h"
 
 #if defined(__cplusplus)
 extern "C" {
