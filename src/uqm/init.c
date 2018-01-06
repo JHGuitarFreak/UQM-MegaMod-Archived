@@ -126,25 +126,24 @@ InitSpace (void)
 			return FALSE;
 
 		if(RESOLUTION_FACTOR > 0){
-			StarPoints = CaptureDrawable (
-					LoadGraphic (STARPOINT_MASK_PMAP_ANIM));
+			StarPoints = CaptureDrawable (LoadGraphic (STARPOINT_MASK_PMAP_ANIM));
 			if (StarPoints == NULL)
 				return FALSE;
-		}
 
-		// JMS_GFX
-		if (!load_animation (crew_dots,
-								CREW_BIG_MASK_PMAP_ANIM,
-								CREW_MED_MASK_PMAP_ANIM,
-								CREW_SML_MASK_PMAP_ANIM))
-			return FALSE;
+			// JMS_GFX
+			if (!load_animation (crew_dots,
+					CREW_BIG_MASK_PMAP_ANIM,
+					CREW_MED_MASK_PMAP_ANIM,
+					CREW_SML_MASK_PMAP_ANIM))
+				return FALSE;
         
-		// JMS_GFX
-		if (!load_animation (ion_trails,
-							IONS_BIG_MASK_PMAP_ANIM,
-							IONS_MED_MASK_PMAP_ANIM,
-							IONS_SML_MASK_PMAP_ANIM))
-			return FALSE;
+			// JMS_GFX
+			if (!load_animation (ion_trails,
+					IONS_BIG_MASK_PMAP_ANIM,
+					IONS_MED_MASK_PMAP_ANIM,
+					IONS_SML_MASK_PMAP_ANIM))
+				return FALSE;
+		}
 
 		if (!load_animation (explosion,
 				BOOM_BIG_MASK_PMAP_ANIM,
