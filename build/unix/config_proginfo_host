@@ -189,7 +189,7 @@ case "$HOST_SYSTEM" in
 		;;
 	*)
 		LIB_vorbisfile_CFLAGS=""
-		LIB_vorbisfile_LDFLAGS="-lvorbisfile -lvorbis"
+		LIB_vorbisfile_LDFLAGS="-lvorbisfile -lvorbis -lm"
 		;;
 esac
 LIB_vorbisfile_VERSION=""
