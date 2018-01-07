@@ -261,6 +261,7 @@ bin/content/*
 bin/content/addons/*
 bin/content/packages/*
 !bin/content/packages/uqm-0.8.0-content.uqm
+build.vars
 config.state
 uqm-wrapper
 stderr.txt
