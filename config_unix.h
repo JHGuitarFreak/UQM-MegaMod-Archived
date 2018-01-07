@@ -11,7 +11,7 @@
 #define _CONFIG_UNIX_H
 
 /* Directory where the UQM game data is located */
-#define CONTENTDIR "/uqm/content"
+#define CONTENTDIR "/usr/local/games/share/uqm/content"
 
 /* Directory where game data will be stored */
 #define USERDIR "~/.uqm-megamod/"
