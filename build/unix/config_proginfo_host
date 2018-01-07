@@ -150,7 +150,7 @@ case "$HOST_SYSTEM" in
 		;;
 	*)
 		LIB_opengl_CFLAGS=""
-		LIB_opengl_LDFLAGS="-lGL"
+		LIB_opengl_LDFLAGS="-lGL -lm"
 		;;
 esac
 LIB_opengl_VERSION=""
@@ -189,7 +189,7 @@ case "$HOST_SYSTEM" in
 		;;
 	*)
 		LIB_vorbisfile_CFLAGS=""
-		LIB_vorbisfile_LDFLAGS="-lvorbisfile -lvorbis -lm"
+		LIB_vorbisfile_LDFLAGS="-lvorbisfile -lvorbis"
 		;;
 esac
 LIB_vorbisfile_VERSION=""
