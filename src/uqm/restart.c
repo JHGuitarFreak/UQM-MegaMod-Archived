@@ -75,7 +75,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 		packsInstalled = FALSE;
 
 	// Re-load all of the restart menu fonts so the text shows in correct size after changing the resolution.
-	if (resFactorWasChanged || !packsInstalled) {	
+	if (optRequiresRestart || !packsInstalled) {	
 		DestroyFont (TinyFont);
 		DestroyFont (PlyrFont);
 		DestroyFont (StarConFont);
@@ -84,7 +84,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	// DC: Load the different menus and fonts depending on the resolution factor	
 	switch (resolutionFactor){
 		case 1:
-			if (resFactorWasChanged || !packsInstalled) {
+			if (optRequiresRestart || !packsInstalled) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO2X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO2X_FONT);
 				StarConFont = LoadFont (SCON_FALLBACK_TO2X_FONT);
@@ -92,7 +92,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 			pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM2x));
 			break;
 		case 2:
-			if (resFactorWasChanged || !packsInstalled) {
+			if (optRequiresRestart || !packsInstalled) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO4X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO4X_FONT);
 				StarConFont = LoadFont (SCON_FALLBACK_TO4X_FONT);
@@ -101,7 +101,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 			break;
 		case 0:
 		default:
-			if (resFactorWasChanged || !packsInstalled) {
+			if (optRequiresRestart || !packsInstalled) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO1X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO1X_FONT);
 				StarConFont = LoadFont (SCON_FALLBACK_TO1X_FONT);
@@ -186,7 +186,7 @@ DoRestart (MENU_STATE *pMS)
 		}
 		
 		pMS->hMusic = loadMainMenuMusic (Rando);
-		InactTimeOut = (optMainMenuMusic ? 90 : 20) * ONE_SECOND;
+		InactTimeOut = (optMainMenuMusic ? 60 : 20) * ONE_SECOND;
 
 		pMS->flashContext = Flash_createOverlay (ScreenContext,
 				NULL, NULL);
@@ -236,7 +236,7 @@ DoRestart (MENU_STATE *pMS)
 		switch (pMS->CurState)
 		{
 			case LOAD_SAVED_GAME:
-				if (resFactorWasChanged) {
+				if (optRequiresRestart) {
 					SetFlashRect (NULL);
 					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
 					// Got to restart -message
@@ -271,7 +271,7 @@ DoRestart (MENU_STATE *pMS)
 				}
 				break;
 			case START_NEW_GAME:
-				if (resFactorWasChanged) {
+				if (optRequiresRestart) {
 					SetFlashRect (NULL);
 					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
 					// Got to restart -message
@@ -311,7 +311,7 @@ DoRestart (MENU_STATE *pMS)
 				MELEE:
 				if(optSuperMelee)
 					optSuperMelee = FALSE;
-				if (resFactorWasChanged) {
+				if (optRequiresRestart) {
 					SetFlashRect (NULL);
 					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
 					// Got to restart -message
@@ -352,7 +352,7 @@ DoRestart (MENU_STATE *pMS)
 				SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN,
 						MENU_SOUND_SELECT);
 
-				InactTimeOut = (optMainMenuMusic ? 90 : 20) * ONE_SECOND;
+				InactTimeOut = (optMainMenuMusic ? 60 : 20) * ONE_SECOND;
 
 				LastInputTime = GetTimeCounter ();
 				SetTransitionSource (NULL);
@@ -434,7 +434,7 @@ DoRestart (MENU_STATE *pMS)
 		// (until the next time the game is restarted). This is to prevent
 		// showing the credits with the wrong resolution mode's font&background.
 		if (GetTimeCounter () - LastInputTime > InactTimeOut
-			&& !resFactorWasChanged)
+			&& !optRequiresRestart)
 		{
 			SleepThreadUntil (FadeMusic (0, ONE_SECOND/2));
 			StopMusic ();

@@ -45,7 +45,7 @@ extern int optMeleeScale;
 // JMS_GFX
 extern unsigned int loresBlowupScale;
 extern unsigned int resolutionFactor;
-extern BOOLEAN resFactorWasChanged;
+extern BOOLEAN optRequiresRestart;
 
 extern BOOLEAN optCheatMode; // JMS
 // Serosis

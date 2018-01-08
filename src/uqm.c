@@ -477,7 +477,7 @@ main (int argc, char *argv[])
 	optSubmenu = options.submenu.value;
 	optAddDevices = options.addDevices.value;
 	optScalePlanets = options.scalePlanets.value;
-	resFactorWasChanged = FALSE; // JMS_GFX
+	optRequiresRestart = FALSE; // JMS_GFX
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
