@@ -869,7 +869,7 @@ init_widgets (void)
 		bank = StringBank_Create ();
 	}
 	
-	if (setup_frame == NULL || resFactorWasChanged)
+	if (setup_frame == NULL || optRequiresRestart)
 	{
 		// JMS: Load the different menus depending on the resolution factor.
 		if (resolutionFactor < 1)
@@ -1637,9 +1637,14 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	}
 	else
 		opts->loresBlowup = NO_BLOWUP;
-	
- 	if (oldResFactor != resolutionFactor || (opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || (opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED))) // MB: To force the game to restart when changing music options (otherwise music will not be changed) or resfactor 
- 		resFactorWasChanged = TRUE;
+
+	// MB: Serosis: To force the game to restart when changing music, video, speech, resolution options (otherwise they will not be changed)
+ 	if (oldResFactor != resolutionFactor || 
+		(opts->speech != (optSpeech ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || 
+		(opts->intro != (optWhichIntro == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC) || 
+		(opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || 
+		(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED))) 
+ 		optRequiresRestart = TRUE;
 
 	res_PutInteger ("config.reswidth", NewWidth);
 	res_PutInteger ("config.resheight", NewHeight);
@@ -1775,14 +1780,14 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	if ((NewWidth != ScreenWidthActual) ||
 	    (NewHeight != ScreenHeightActual) ||
 	    (NewDriver != GraphicsDriver) ||
-		(resFactorWasChanged) || // JMS_GFX
+		(optRequiresRestart) || // JMS_GFX
 	    (NewGfxFlags != GfxFlags)) 
 	{
 		FlushGraphics ();
 		UninitVideoPlayer ();
 		
 		// JMS_GFX
-		if (resFactorWasChanged)
+		if (optRequiresRestart)
 		{
 			// Tell the game the new screen's size.
 			ScreenWidth  = 320 << resolutionFactor;
