@@ -251,6 +251,7 @@ DoRestart (MENU_STATE *pMS)
 					//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
 					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
 					GLOBAL (CurrentActivity) = CHECK_ABORT;
+					restartGame = TRUE;
 				} else if (!packsInstalled) {
 					Flash_pause(pMS->flashContext);
 					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
@@ -286,6 +287,7 @@ DoRestart (MENU_STATE *pMS)
 					//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
 					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
 					GLOBAL (CurrentActivity) = CHECK_ABORT;
+					restartGame = TRUE;
 				} else if (!packsInstalled) {
 					Flash_pause(pMS->flashContext);
 					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
@@ -326,6 +328,7 @@ DoRestart (MENU_STATE *pMS)
 					//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
 					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
 					GLOBAL (CurrentActivity) = CHECK_ABORT;
+					restartGame = TRUE;
 				} else if (!packsInstalled) {
 					Flash_pause(pMS->flashContext);
 					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
