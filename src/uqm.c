@@ -57,6 +57,7 @@
 #include "uqm/setup.h"
 #include "uqm/starcon.h"
 
+BOOLEAN restartGame;
 
 #if defined (GFXMODULE_SDL)
 #	include SDL_INCLUDE(SDL.h)
