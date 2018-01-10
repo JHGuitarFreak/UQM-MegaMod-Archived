@@ -164,10 +164,6 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 			break;
 	}
 
-	if (optWhichIntro == OPT_3DO) {
-		loadAddon ("3dovideo");
-	}
-
 	usingSpeech = optSpeech;
 	if (optSpeech && !loadAddon ("3dovoice")) {
 		usingSpeech = FALSE;
@@ -183,6 +179,10 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 
 	if (optRemixMusic) {
 		loadAddon ("remix");
+	}
+
+	if (optWhichIntro == OPT_3DO) {
+		loadAddon ("3dovideo");
 	}
 
 	if(!ReloadPackages){
