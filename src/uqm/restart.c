@@ -163,6 +163,39 @@ DrawRestartMenu (MENU_STATE *pMS, BYTE NewState, FRAME f, BOOLEAN cleanup)
 	Flash_setOverlay (pMS->flashContext, &origin, SetAbsFrameIndex (f, NewState + 1), cleanup);
 }
 
+static void
+RestartMessage(MENU_STATE *pMS){	
+	SetFlashRect (NULL);
+	DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
+	// Got to restart -message
+	SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+	SetTransitionSource (NULL);
+	BatchGraphics ();
+	DrawRestartMenuGraphic (pMS);
+	DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
+	ScreenTransition (3, NULL);
+	UnbatchGraphics ();
+	SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
+	GLOBAL (CurrentActivity) = CHECK_ABORT;	
+	restartGame = TRUE;
+}
+
+static void
+PacksMessage(MENU_STATE *pMS, TimeCount TimeIn){
+	Flash_pause(pMS->flashContext);
+	DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
+	// Could not find graphics pack - message
+	SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+	SetTransitionSource (NULL);
+	BatchGraphics ();
+	DrawRestartMenuGraphic (pMS);
+	DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
+	ScreenTransition (3, NULL);
+	UnbatchGraphics ();
+	Flash_continue(pMS->flashContext);
+	SleepThreadUntil (TimeIn + ONE_SECOND / 30);
+}
+
 static BOOLEAN
 DoRestart (MENU_STATE *pMS)
 {
@@ -237,33 +270,10 @@ DoRestart (MENU_STATE *pMS)
 		{
 			case LOAD_SAVED_GAME:
 				if (optRequiresRestart) {
-					SetFlashRect (NULL);
-					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
-					// Got to restart -message
-					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
-					SetTransitionSource (NULL);
-					BatchGraphics ();
-					DrawRestartMenuGraphic (pMS);
-					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-					ScreenTransition (3, NULL);
-					UnbatchGraphics ();
-					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
-					GLOBAL (CurrentActivity) = CHECK_ABORT;
-					restartGame = TRUE;
+					RestartMessage(pMS);
 					return TRUE;
 				} else if (!packsInstalled) {
-					Flash_pause(pMS->flashContext);
-					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
-					// Could not find graphics pack - message
-					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
-					SetTransitionSource (NULL);
-					BatchGraphics ();
-					DrawRestartMenuGraphic (pMS);
-					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-					ScreenTransition (3, NULL);
-					UnbatchGraphics ();
-					Flash_continue(pMS->flashContext);
-					SleepThreadUntil (TimeIn + ONE_SECOND / 30);
+					PacksMessage(pMS, TimeIn);
 					return TRUE;
 				} else {
 					if(optRequiresReload)
@@ -275,33 +285,10 @@ DoRestart (MENU_STATE *pMS)
 				break;
 			case START_NEW_GAME:
 				if (optRequiresRestart) {
-					SetFlashRect (NULL);
-					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
-					// Got to restart -message
-					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
-					SetTransitionSource (NULL);
-					BatchGraphics ();
-					DrawRestartMenuGraphic (pMS);
-					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-					ScreenTransition (3, NULL);
-					UnbatchGraphics ();
-					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
-					GLOBAL (CurrentActivity) = CHECK_ABORT;
-					restartGame = TRUE;
+					RestartMessage(pMS);
 					return TRUE;
-				} else if (!packsInstalled) {
-					Flash_pause(pMS->flashContext);
-					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
-					// Could not find graphics pack - message
-					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
-					SetTransitionSource (NULL);
-					BatchGraphics ();
-					DrawRestartMenuGraphic (pMS);
-					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-					ScreenTransition (3, NULL);
-					UnbatchGraphics ();
-					Flash_continue(pMS->flashContext);
-					SleepThreadUntil (TimeIn + ONE_SECOND / 30);
+				} else if (!packsInstalled) {					
+					PacksMessage(pMS, TimeIn);
 					return TRUE;
 				} else {
 					if(optRequiresReload)
@@ -313,42 +300,18 @@ DoRestart (MENU_STATE *pMS)
 				break;
 			case PLAY_SUPER_MELEE:
 				MELEE:
-				if(optSuperMelee)
-					optSuperMelee = FALSE;
-				if (optRequiresRestart) {
-					SetFlashRect (NULL);
-					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
-					// Got to restart -message
-					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
-					SetTransitionSource (NULL);
-					BatchGraphics ();
-					DrawRestartMenuGraphic (pMS);
-					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-					ScreenTransition (3, NULL);
-					UnbatchGraphics ();
-					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
-					GLOBAL (CurrentActivity) = CHECK_ABORT;
-					restartGame = TRUE;
+				if (optRequiresRestart) {					
+					RestartMessage(pMS);
 					return TRUE;
-				} else if (!packsInstalled) {
-					Flash_pause(pMS->flashContext);
-					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
-					// Could not find graphics pack - message
-					SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
-					SetTransitionSource (NULL);
-					BatchGraphics ();
-					DrawRestartMenuGraphic (pMS);
-					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-					ScreenTransition (3, NULL);
-					UnbatchGraphics ();
-					Flash_continue(pMS->flashContext);
-					SleepThreadUntil (TimeIn + ONE_SECOND / 30);
+				} else if (!packsInstalled) {					
+					PacksMessage(pMS, TimeIn);
 					return TRUE;
 				} else {
 					if(optRequiresReload)
 						if(LoadKernel(0,0,TRUE))
 							printf("Packages Reloaded\n");
 					GLOBAL (CurrentActivity) = SUPER_MELEE;
+					optSuperMelee = FALSE;
 				}
 				break;
 			case SETUP_GAME:
