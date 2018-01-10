@@ -163,8 +163,8 @@ DrawRestartMenu (MENU_STATE *pMS, BYTE NewState, FRAME f, BOOLEAN cleanup)
 	Flash_setOverlay (pMS->flashContext, &origin, SetAbsFrameIndex (f, NewState + 1), cleanup);
 }
 
-static void
-RestartMessage(MENU_STATE *pMS){	
+static BOOLEAN
+RestartMessage(MENU_STATE *pMS){
 	SetFlashRect (NULL);
 	DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
 	// Got to restart -message
@@ -178,9 +178,10 @@ RestartMessage(MENU_STATE *pMS){
 	SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
 	GLOBAL (CurrentActivity) = CHECK_ABORT;	
 	restartGame = TRUE;
+	return TRUE;
 }
 
-static void
+static BOOLEAN
 PacksMessage(MENU_STATE *pMS, TimeCount TimeIn){
 	Flash_pause(pMS->flashContext);
 	DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
@@ -194,6 +195,7 @@ PacksMessage(MENU_STATE *pMS, TimeCount TimeIn){
 	UnbatchGraphics ();
 	Flash_continue(pMS->flashContext);
 	SleepThreadUntil (TimeIn + ONE_SECOND / 30);
+	return TRUE;
 }
 
 static BOOLEAN
@@ -269,12 +271,10 @@ DoRestart (MENU_STATE *pMS)
 		switch (pMS->CurState)
 		{
 			case LOAD_SAVED_GAME:
-				if (optRequiresRestart) {
-					RestartMessage(pMS);
-					return TRUE;
+				if (optRequiresRestart) {					
+					return RestartMessage(pMS);
 				} else if (!packsInstalled) {
-					PacksMessage(pMS, TimeIn);
-					return TRUE;
+					return PacksMessage(pMS, TimeIn);
 				} else {
 					if(optRequiresReload)
 						if(LoadKernel(0,0,TRUE))
@@ -284,12 +284,10 @@ DoRestart (MENU_STATE *pMS)
 				}
 				break;
 			case START_NEW_GAME:
-				if (optRequiresRestart) {
-					RestartMessage(pMS);
-					return TRUE;
-				} else if (!packsInstalled) {					
-					PacksMessage(pMS, TimeIn);
-					return TRUE;
+				if (optRequiresRestart) {					
+					return RestartMessage(pMS);
+				} else if (!packsInstalled) {
+					return PacksMessage(pMS, TimeIn);
 				} else {
 					if(optRequiresReload)
 						if(LoadKernel(0,0,TRUE))
@@ -301,11 +299,9 @@ DoRestart (MENU_STATE *pMS)
 			case PLAY_SUPER_MELEE:
 				MELEE:
 				if (optRequiresRestart) {					
-					RestartMessage(pMS);
-					return TRUE;
-				} else if (!packsInstalled) {					
-					PacksMessage(pMS, TimeIn);
-					return TRUE;
+					return RestartMessage(pMS);
+				} else if (!packsInstalled) {
+					return PacksMessage(pMS, TimeIn);
 				} else {
 					if(optRequiresReload)
 						if(LoadKernel(0,0,TRUE))
