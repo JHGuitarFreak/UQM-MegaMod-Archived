@@ -45,6 +45,7 @@ extern int optMeleeScale;
 // JMS_GFX
 extern unsigned int loresBlowupScale;
 extern unsigned int resolutionFactor;
+extern BOOLEAN optRequiresReload;
 extern BOOLEAN optRequiresRestart;
 
 extern BOOLEAN optCheatMode; // JMS

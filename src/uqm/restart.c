@@ -247,11 +247,10 @@ DoRestart (MENU_STATE *pMS)
 					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
 					ScreenTransition (3, NULL);
 					UnbatchGraphics ();
-					//fade_buf[0] = FadeAllToBlack;
-					//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
 					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
 					GLOBAL (CurrentActivity) = CHECK_ABORT;
 					restartGame = TRUE;
+					return TRUE;
 				} else if (!packsInstalled) {
 					Flash_pause(pMS->flashContext);
 					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
@@ -267,6 +266,9 @@ DoRestart (MENU_STATE *pMS)
 					SleepThreadUntil (TimeIn + ONE_SECOND / 30);
 					return TRUE;
 				} else {
+					if(optRequiresReload)
+						if(LoadKernel(0,0,TRUE))
+							printf("Packages Reloaded\n");
 					LastActivity = CHECK_LOAD;
 					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
 				}
@@ -283,11 +285,10 @@ DoRestart (MENU_STATE *pMS)
 					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
 					ScreenTransition (3, NULL);
 					UnbatchGraphics ();
-					//fade_buf[0] = FadeAllToBlack;
-					//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
 					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
 					GLOBAL (CurrentActivity) = CHECK_ABORT;
 					restartGame = TRUE;
+					return TRUE;
 				} else if (!packsInstalled) {
 					Flash_pause(pMS->flashContext);
 					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
@@ -302,12 +303,13 @@ DoRestart (MENU_STATE *pMS)
 					Flash_continue(pMS->flashContext);
 					SleepThreadUntil (TimeIn + ONE_SECOND / 30);
 					return TRUE;
-				}
-				else
-				{
+				} else {
+					if(optRequiresReload)
+						if(LoadKernel(0,0,TRUE))
+							printf("Packages Reloaded\n");
 					LastActivity = CHECK_LOAD | CHECK_RESTART;
 					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
-				}	
+				}
 				break;
 			case PLAY_SUPER_MELEE:
 				MELEE:
@@ -324,11 +326,10 @@ DoRestart (MENU_STATE *pMS)
 					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
 					ScreenTransition (3, NULL);
 					UnbatchGraphics ();
-					//fade_buf[0] = FadeAllToBlack;
-					//SleepThreadUntil (XFormColorMap ((COLORMAPPTR)fade_buf, ONE_SECOND / 2));
 					SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
 					GLOBAL (CurrentActivity) = CHECK_ABORT;
 					restartGame = TRUE;
+					return TRUE;
 				} else if (!packsInstalled) {
 					Flash_pause(pMS->flashContext);
 					DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
@@ -343,8 +344,12 @@ DoRestart (MENU_STATE *pMS)
 					Flash_continue(pMS->flashContext);
 					SleepThreadUntil (TimeIn + ONE_SECOND / 30);
 					return TRUE;
-				} else
+				} else {
+					if(optRequiresReload)
+						if(LoadKernel(0,0,TRUE))
+							printf("Packages Reloaded\n");
 					GLOBAL (CurrentActivity) = SUPER_MELEE;
+				}
 				break;
 			case SETUP_GAME:
 				oldresfactor = resolutionFactor;

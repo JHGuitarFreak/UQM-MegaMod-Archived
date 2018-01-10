@@ -100,34 +100,35 @@ UninitPlayerInput (void)
 }
 
 BOOLEAN
-LoadKernel (int argc, char *argv[])
+LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 {
-	InitSound (argc, argv);
-	InitVideoPlayer (TRUE);
+	if(!ReloadPackages){
+		InitSound (argc, argv);
+		InitVideoPlayer (TRUE);
 
-	ScreenContext = CreateContext ("ScreenContext");
-	if (ScreenContext == NULL)
-		return FALSE;
+		ScreenContext = CreateContext ("ScreenContext");
+		if (ScreenContext == NULL)
+			return FALSE;
 
-	Screen = CaptureDrawable (CreateDisplay (WANT_MASK | WANT_PIXMAP,
-				&screen_width, &screen_height));
-	if (Screen == NULL)
-		return FALSE;
+		Screen = CaptureDrawable (CreateDisplay (WANT_MASK | WANT_PIXMAP,
+					&screen_width, &screen_height));
+		if (Screen == NULL)
+			return FALSE;
 
-	SetContext (ScreenContext);
-	SetContextFGFrame (Screen);
-	SetContextOrigin (MAKE_POINT (0, 0));
+		SetContext (ScreenContext);
+		SetContextFGFrame (Screen);
+		SetContextOrigin (MAKE_POINT (0, 0));
 
-	hResIndex = (RESOURCE_INDEX) InitResourceSystem ();
-	if (hResIndex == 0)
-		return FALSE;
+		hResIndex = (RESOURCE_INDEX) InitResourceSystem ();
+		if (hResIndex == 0)
+			return FALSE;
+	}
 	
 	/* Load base content. */
 	if (loadIndices (contentDir) == 0)
 		return FALSE; // Must have at least one index in content dir
-
+	
 	/* Load addons demanded by the current configuration. */
-
 	switch (resolutionFactor) {
 		case 1:
 			if(loadAddon ("mm-hires2x")){
@@ -163,9 +164,8 @@ LoadKernel (int argc, char *argv[])
 			break;
 	}
 
-	if (opt3doMusic)
-	{
-		loadAddon ("3domusic");
+	if (optWhichIntro == OPT_3DO) {
+		loadAddon ("3dovideo");
 	}
 
 	usingSpeech = optSpeech;
@@ -177,32 +177,33 @@ LoadKernel (int argc, char *argv[])
 		loadAddon("MelnormeVoiceFix");
 	}
 
-	if (optRemixMusic)
-	{
+	if (opt3doMusic) {
+		loadAddon ("3domusic");
+	}
+
+	if (optRemixMusic) {
 		loadAddon ("remix");
 	}
 
-	if (optWhichIntro == OPT_3DO)
-	{
-		loadAddon ("3dovideo");
+	if(!ReloadPackages){
+		/* Now load the rest of the addons, in order. */
+		prepareAddons (optAddons);
+
+		{
+			COLORMAP ColorMapTab;
+
+			ColorMapTab = CaptureColorMap (LoadColorMap (STARCON_COLOR_MAP));
+			if (ColorMapTab == NULL)
+				return FALSE; // The most basic resource is missing
+			SetColorMap (GetColorMapAddress (ColorMapTab));
+			DestroyColorMap (ReleaseColorMap (ColorMapTab));
+		}
+
+		InitPlayerInput ();
+
+		GLOBAL (CurrentActivity) = (ACTIVITY)~0;
 	}
 
-	/* Now load the rest of the addons, in order. */
-	prepareAddons (optAddons);
-
-	{
-		COLORMAP ColorMapTab;
-
-		ColorMapTab = CaptureColorMap (LoadColorMap (STARCON_COLOR_MAP));
-		if (ColorMapTab == NULL)
-			return FALSE; // The most basic resource is missing
-		SetColorMap (GetColorMapAddress (ColorMapTab));
-		DestroyColorMap (ReleaseColorMap (ColorMapTab));
-	}
-
-	InitPlayerInput ();
-
-	GLOBAL (CurrentActivity) = (ACTIVITY)~0;
 	return TRUE;
 }
 

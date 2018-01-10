@@ -1638,12 +1638,27 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	else
 		opts->loresBlowup = NO_BLOWUP;
 
-	// MB: Serosis: To force the game to restart when changing music, video, speech, resolution options (otherwise they will not be changed)
- 	if (oldResFactor != resolutionFactor || 
-		(opts->speech != (optSpeech ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || 
+	// Serosis: To force the game to reload content when changing music, video, and speech options
+ 	if ((opts->speech != (optSpeech ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || 
 		(opts->intro != (optWhichIntro == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC) || 
 		(opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || 
-		(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED))) 
+		(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)))
+	{
+		if(opts->speech != (optSpeech ? OPTVAL_ENABLED : OPTVAL_DISABLED)){
+			printf("Voice Option Changed\n");
+		}
+		if(opts->intro != (optWhichIntro == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC){
+			printf("Video/Slide Option Changed\n");
+		}
+		if((opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || 
+			(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED))){
+			printf("Music Option Changed\n");
+		}		
+ 		optRequiresReload = TRUE;
+	}
+
+	// MB: To force the game to restart when changing resolution options (otherwise they will not be changed)
+	if(oldResFactor != resolutionFactor)
  		optRequiresRestart = TRUE;
 
 	res_PutInteger ("config.reswidth", NewWidth);
