@@ -478,6 +478,7 @@ main (int argc, char *argv[])
 	optSubmenu = options.submenu.value;
 	optAddDevices = options.addDevices.value;
 	optScalePlanets = options.scalePlanets.value;
+	optRequiresReload = FALSE; // Serosis
 	optRequiresRestart = FALSE; // JMS_GFX
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);

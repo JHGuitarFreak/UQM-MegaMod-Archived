@@ -201,7 +201,7 @@ while (--ac > 0)
 		initAudio (snddriver, soundflags);
 	}
 
-	if (!LoadKernel (0,0))
+	if (!LoadKernel (0,0, FALSE))
 	{
 		log_add (log_Fatal, "\n  *** FATAL ERROR: Could not load basic content ***\n\nUQM requires at least the base content pack to run properly.");
 		log_add (log_Fatal, "This file is typically called uqm-%d.%d.0-content.uqm.  UQM was expecting", UQM_MAJOR_VERSION, UQM_MINOR_VERSION);
