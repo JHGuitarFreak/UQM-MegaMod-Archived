@@ -97,23 +97,24 @@ DrawLabelAsWindow (WIDGET_LABEL *label, RECT *windowRect)
 	FRAME oldFontEffect = SetContextFontEffect (NULL);
 	RECT r;
 	TEXT t;
-	int i, win_w, win_h;
+	int i, win_w, win_h, extra;
 
 	if (cur_font)
 		oldfont = SetContextFont (cur_font);
 
 	/* Compute the dimensions of the label */
-	win_h = label->height ((WIDGET *)label) + (16 << RESOLUTION_FACTOR);
+	win_h = label->height ((WIDGET *)label) + (16);
 	win_w = 0;
 	for (i = 0; i < label->line_count; i++)
 	{
 		int len = utf8StringCount (label->lines[i]);
 		if (len > win_w)
 		{
-			win_w = len;
+			win_w = (RESOLUTION_FACTOR < 2 ? len : len * 2);
 		}
 	}
-	win_w = (win_w * (6 << RES_CASE(0,1,1))) + 16; // JMS_GFX
+	extra = (RESOLUTION_FACTOR < 1 ? 6 : (label->line_count == 3 ? 12 : 6));
+	win_w = (win_w * extra) + 16;
 
 	BatchGraphics ();
 	r.corner.x = (ScreenWidth - win_w) >> 1;
@@ -123,14 +124,14 @@ DrawLabelAsWindow (WIDGET_LABEL *label, RECT *windowRect)
 	DrawShadowedBox (&r, win_bg_clr, win_dark_clr, win_medium_clr);
 
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
-	t.baseline.y = r.corner.y + (16 << RES_CASE(0,0,1)); // JMS_GFX
+	t.baseline.y = r.corner.y + RES_CASE(14,22,38); // JMS_GFX
 	for (i = 0; i < label->line_count; i++)
 	{
 		t.pStr = label->lines[i];
 		t.align = ALIGN_CENTER;
 		t.CharCount = (COUNT)~0;
 		font_DrawText (&t);
-		t.baseline.y += (8 << RESOLUTION_FACTOR); // JMS_GFX
+		t.baseline.y += RES_SCALE(8); // JMS_GFX
 	}
 
 	UnbatchGraphics ();
@@ -144,10 +145,10 @@ DrawLabelAsWindow (WIDGET_LABEL *label, RECT *windowRect)
 		// Add the outer border added by DrawShadowedBox.
 		// XXX: It may be nicer to add a border size parameter to
 		// DrawShadowedBox, instead of assuming 2 here.
-		windowRect->corner.x = r.corner.x - 2 * (1 + RESOLUTION_FACTOR);
-		windowRect->corner.y = r.corner.y - 2 * (1 + RESOLUTION_FACTOR);
-		windowRect->extent.width = r.extent.width + 4 * (1 + RESOLUTION_FACTOR);
-		windowRect->extent.height = r.extent.height + 4 * (1 + RESOLUTION_FACTOR);
+		windowRect->corner.x = r.corner.x - 2;
+		windowRect->corner.y = r.corner.y - 2;
+		windowRect->extent.width = r.extent.width + 4;
+		windowRect->extent.height = r.extent.height + 4;
 	}
 }
 
