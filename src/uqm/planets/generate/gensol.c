@@ -622,7 +622,8 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 					LoadPlanet (CaptureDrawable (LoadGraphic (TRITON_MASK_ANIM)));
 					break;
 			}
-		}
+		} else			
+			LoadPlanet (NULL);
 	}
 
 	return true;
