@@ -1616,13 +1616,13 @@ GenerateLightMap (SBYTE *pTopo, int w, int h)
 	// normalize the topo data
 	min = 127;
 	max = -128;
-	for (x = 0, elev = pTopo; x < w * h; ++x, ++elev)
+	for (elev = pTopo; elev != pTopo + w * h; ++elev)
 	{
-		int v = *elev;
-		if (v > max)
-			max = v;
-		if (v < min)
-			min = v;
+		// Louis Delacroix: Bug#1151
+		if (*elev > max)
+			max = *elev;
+		if (*elev < min)
+			min = *elev;
 	}
 	med = (min + max) / 2;
 	spread = max - med;
@@ -1644,11 +1644,10 @@ GenerateLightMap (SBYTE *pTopo, int w, int h)
 		sfact = 100; // full spread
 	
 	// apply spread
-	for (x = 0, elev = pTopo; x < w * h; ++x, ++elev)
+	for (elev = pTopo; elev != pTopo + w * h; ++elev)
 	{
-		int v = *elev;
-		v = (v - med) * sfact / spread;
-		*elev = v;
+		// Louis Delacroix: Bug#1151
+		*elev = (*elev - med) * sfact / spread;
 	}
 
 	// compute and apply weighted averages of surrounding points
