@@ -12,7 +12,7 @@ Nic (UQM-Extended Code and various bug-fixes)
 darklord42 (QA, art, and invaluable feedback)
 Soul Reaver A.K.A. Andy Krieg (Mycon & Melnorme voice fixes and the Syreen HD fix)
 
-Nebulae and HD Super Melee backgrounds created using wwwtyro's space2d & space2dwgl procedural space-scape generator
+Nebulae and HD Super Melee backgrounds created using wwwtyro's space2d & space2dwgl procedural space-scape generator.
 
 Thanks to Saibuster, Mark Vera, and Rush AX for the Main Menu Music
 and the entire Star Control Discord for putting up with my crap and
@@ -35,11 +35,11 @@ Additional programming (in alphabetical order):
 Music remixers (in alphabetical order):
     Jouni Airaksinen <markvera@spacesynth.net>
     Tore Aune Fjellstad
-    Espen G‰tzschmann
+    Espen G√§tzschmann
     Aaron J. Grier <agrier@poofygoof.com>
     Dan Nicholson <dan@kosmic.org>
     George Nowik <norgio@attbi.com>
-    Riku Nuottaj‰rvi <riku.nuottajarvi@pp.inet.fi>
+    Riku Nuottaj√§rvi <riku.nuottajarvi@pp.inet.fi>
     Erol Otus <erol@toysforbob.com>
 
 Other contributions (in alphabetical order):
@@ -153,7 +153,7 @@ Additional writing:
 Music:
     Burke Treischmann
     Dan Nicholson
-    Riku Nuottaj‰rvi
+    Riku Nuottaj√§rvi
     Eric Berge
     Erol Otus
     Marc Brown
