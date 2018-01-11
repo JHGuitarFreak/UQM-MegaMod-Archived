@@ -54,6 +54,25 @@ enum
 	QUIT_GAME
 };
 
+static BOOLEAN
+PacksInstalled(void){
+	BOOLEAN packsInstalled;
+	
+	switch (resolutionFactor){
+		case 0:
+			packsInstalled = TRUE;
+			break;
+		case 1:
+			packsInstalled = (hires2xPackPresent ? TRUE : FALSE);
+			break;
+		case 2:
+			packsInstalled = (hires4xPackPresent ? TRUE : FALSE);
+			break;
+	}
+
+	return packsInstalled;
+}
+
 // Draw the full restart menu. Nothing is done with selections.
 static void
 DrawRestartMenuGraphic (MENU_STATE *pMS)
@@ -63,19 +82,9 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	TEXT t; 
 	char *Credit;
 	UNICODE buf[64];
-	BOOLEAN packsInstalled;
-		
-	if (resolutionFactor == 0)
-		packsInstalled = TRUE;
-	else if (resolutionFactor == 1 && hires2xPackPresent)
-		packsInstalled = TRUE;
-	else if (resolutionFactor == 2 && hires4xPackPresent)
-		packsInstalled = TRUE;
-	else
-		packsInstalled = FALSE;
 
 	// Re-load all of the restart menu fonts so the text shows in correct size after changing the resolution.
-	if (optRequiresRestart || !packsInstalled) {	
+	if (optRequiresRestart || !PacksInstalled()) {	
 		DestroyFont (TinyFont);
 		DestroyFont (PlyrFont);
 		DestroyFont (StarConFont);
@@ -84,7 +93,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	// DC: Load the different menus and fonts depending on the resolution factor	
 	switch (resolutionFactor){
 		case 1:
-			if (optRequiresRestart || !packsInstalled) {
+			if (optRequiresRestart || !PacksInstalled()) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO2X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO2X_FONT);
 				StarConFont = LoadFont (SCON_FALLBACK_TO2X_FONT);
@@ -92,7 +101,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 			pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM2x));
 			break;
 		case 2:
-			if (optRequiresRestart || !packsInstalled) {
+			if (optRequiresRestart || !PacksInstalled()) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO4X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO4X_FONT);
 				StarConFont = LoadFont (SCON_FALLBACK_TO4X_FONT);
@@ -101,7 +110,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 			break;
 		case 0:
 		default:
-			if (optRequiresRestart || !packsInstalled) {
+			if (optRequiresRestart || !PacksInstalled()) {
 				TinyFont = LoadFont (TINY_FALLBACK_TO1X_FONT);
 				PlyrFont = LoadFont (PLYR_FALLBACK_TO1X_FONT);
 				StarConFont = LoadFont (SCON_FALLBACK_TO1X_FONT);
@@ -164,38 +173,28 @@ DrawRestartMenu (MENU_STATE *pMS, BYTE NewState, FRAME f, BOOLEAN cleanup)
 }
 
 static BOOLEAN
-RestartMessage(MENU_STATE *pMS){
-	SetFlashRect (NULL);
-	DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
-	// Got to restart -message
-	SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
-	SetTransitionSource (NULL);
-	BatchGraphics ();
-	DrawRestartMenuGraphic (pMS);
-	DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-	ScreenTransition (3, NULL);
-	UnbatchGraphics ();
-	SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
-	GLOBAL (CurrentActivity) = CHECK_ABORT;	
-	restartGame = TRUE;
-	return TRUE;
-}
-
-static BOOLEAN
-PacksMessage(MENU_STATE *pMS, TimeCount TimeIn){
-	Flash_pause(pMS->flashContext);
-	DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
-	// Could not find graphics pack - message
-	SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
-	SetTransitionSource (NULL);
-	BatchGraphics ();
-	DrawRestartMenuGraphic (pMS);
-	DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-	ScreenTransition (3, NULL);
-	UnbatchGraphics ();
-	Flash_continue(pMS->flashContext);
-	SleepThreadUntil (TimeIn + ONE_SECOND / 30);
-	return TRUE;
+RestartMessage(MENU_STATE *pMS, TimeCount TimeIn){	
+	if(optRequiresRestart){
+		SetFlashRect (NULL);
+		DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35));
+		// Got to restart -message
+		SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+		SetTransitionSource (NULL);
+		SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
+		GLOBAL (CurrentActivity) = CHECK_ABORT;	
+		restartGame = TRUE;
+		return TRUE;
+	} else if (!PacksInstalled()) {
+		Flash_pause(pMS->flashContext);
+		DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
+		// Could not find graphics pack - message
+		SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
+		SetTransitionSource (NULL);
+		Flash_continue(pMS->flashContext);
+		SleepThreadUntil (TimeIn + ONE_SECOND / 30);
+		return TRUE;
+	} else 
+		return FALSE;
 }
 
 static BOOLEAN
@@ -257,58 +256,39 @@ DoRestart (MENU_STATE *pMS)
 	{
 		//BYTE fade_buf[1];
 		COUNT oldresfactor;
-		BOOLEAN packsInstalled;
-		
-		if (resolutionFactor == 0)
-			packsInstalled = TRUE;
-		else if (resolutionFactor == 1 && hires2xPackPresent)
-			packsInstalled = TRUE;
-		else if (resolutionFactor == 2 && hires4xPackPresent)
-			packsInstalled = TRUE;
-		else
-			packsInstalled = FALSE;
 
 		switch (pMS->CurState)
 		{
 			case LOAD_SAVED_GAME:
-				if (optRequiresRestart) {					
-					return RestartMessage(pMS);
-				} else if (!packsInstalled) {
-					return PacksMessage(pMS, TimeIn);
-				} else {
+				if (!RestartMessage(pMS, TimeIn)) {
 					if(optRequiresReload)
 						if(LoadKernel(0,0,TRUE))
 							printf("Packages Reloaded\n");
 					LastActivity = CHECK_LOAD;
 					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
-				}
+				} else
+					return TRUE;
 				break;
 			case START_NEW_GAME:
-				if (optRequiresRestart) {					
-					return RestartMessage(pMS);
-				} else if (!packsInstalled) {
-					return PacksMessage(pMS, TimeIn);
-				} else {
+				if (!RestartMessage(pMS, TimeIn)) {
 					if(optRequiresReload)
 						if(LoadKernel(0,0,TRUE))
 							printf("Packages Reloaded\n");
 					LastActivity = CHECK_LOAD | CHECK_RESTART;
 					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
-				}
+				} else
+					return TRUE;
 				break;
 			case PLAY_SUPER_MELEE:
 				MELEE:
-				if (optRequiresRestart) {					
-					return RestartMessage(pMS);
-				} else if (!packsInstalled) {
-					return PacksMessage(pMS, TimeIn);
-				} else {
+				if (!RestartMessage(pMS, TimeIn)) {
 					if(optRequiresReload)
 						if(LoadKernel(0,0,TRUE))
 							printf("Packages Reloaded\n");
 					GLOBAL (CurrentActivity) = SUPER_MELEE;
 					optSuperMelee = FALSE;
-				}
+				} else
+					return TRUE;
 				break;
 			case SETUP_GAME:
 				oldresfactor = resolutionFactor;
