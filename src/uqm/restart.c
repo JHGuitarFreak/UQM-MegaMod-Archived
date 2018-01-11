@@ -381,7 +381,7 @@ DoRestart (MENU_STATE *pMS)
 		// (until the next time the game is restarted). This is to prevent
 		// showing the credits with the wrong resolution mode's font&background.
 		if (GetTimeCounter () - LastInputTime > InactTimeOut
-			&& !optRequiresRestart)
+			&& !optRequiresRestart && PacksInstalled())
 		{
 			SleepThreadUntil (FadeMusic (0, ONE_SECOND/2));
 			StopMusic ();
