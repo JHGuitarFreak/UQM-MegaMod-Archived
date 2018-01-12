@@ -23,7 +23,7 @@
 #include "scalers.h"
 #include "options.h"
 #include "libs/log.h"
-#include "../../../uqm/units.h"
+#include "uqm/units.h"
 
 typedef struct _gl_screeninfo {
 	SDL_Surface *scaled;
@@ -349,7 +349,7 @@ TFB_GL_ScanLines (void)
 }
 
 static void
-TFB_GL_DrawQuad (SDL_Rect *r)
+TFB_GL_DrawQuad (SDL_Rect *r, BYTE ResFactor)
 {
 	BOOLEAN keep_aspect_ratio = optKeepAspectRatio;
 	int x1 = 0, y1 = 0, x2 = ScreenWidthActual, y2 = ScreenHeightActual;
@@ -357,6 +357,7 @@ TFB_GL_DrawQuad (SDL_Rect *r)
 	int sw, sh;
 	float sx_multiplier = 1;
 	float sy_multiplier = 1;
+	float tex1, tex2;
 
 	if (keep_aspect_ratio)
 	{
@@ -396,7 +397,7 @@ TFB_GL_DrawQuad (SDL_Rect *r)
 		else
 		{
 			// screen is 4:3
-			keep_aspect_ratio = 0;
+			keep_aspect_ratio = FALSE;
 		}
 	}
 
@@ -414,181 +415,16 @@ TFB_GL_DrawQuad (SDL_Rect *r)
 		glScissor (sx, sy, sw, sh);
 		glEnable (GL_SCISSOR_TEST);
 	}
-	
+	tex1 = (ResFactor == 0 ? 512.0f : (ResFactor == 1 ? 1024.0f : 2048.0f));
+	tex2 = (ResFactor == 0 ? 256.0f : (ResFactor == 1 ? 512.0f : 1024.0f));
 	glBegin (GL_TRIANGLE_FAN);
 	glTexCoord2f (0, 0);
 	glVertex2i (x1, y1);
-	glTexCoord2f (ScreenWidth / 512.0f, 0);
+	glTexCoord2f (ScreenWidth / tex1, 0);
 	glVertex2i (x2, y1);	
-	glTexCoord2f (ScreenWidth / 512.0f, ScreenHeight / 256.0f);
+	glTexCoord2f (ScreenWidth / tex1, ScreenHeight / tex2);
 	glVertex2i (x2, y2);
-	glTexCoord2f (0, ScreenHeight / 256.0f);
-	glVertex2i (x1, y2);
-	glEnd ();
-	if (r != NULL)
-	{
-		glDisable (GL_SCISSOR_TEST);
-	}
-}
-
-static void
-TFB_GL_DrawQuad_2x (SDL_Rect *r)
-{
-	BOOLEAN keep_aspect_ratio = optKeepAspectRatio;
-	int x1 = 0, y1 = 0, x2 = ScreenWidthActual, y2 = ScreenHeightActual;
-	int sx = 0, sy = 0;
-	int sw, sh;
-	float sx_multiplier = 1;
-	float sy_multiplier = 1;
-	
-	if (keep_aspect_ratio)
-	{
-		float threshold = 0.75f;
-		float ratio = ScreenHeightActual / (float)ScreenWidthActual;
-		
-		if (ratio > threshold)
-		{
-			// screen is narrower than 4:3
-			int height = (int)(ScreenWidthActual * threshold);
-			y1 = (ScreenHeightActual - height) / 2;
-			y2 = ScreenHeightActual - y1;
-			
-			if (r != NULL)
-			{
-				sx_multiplier = ScreenWidthActual / (float)ScreenWidth;
-				sy_multiplier = height / (float)ScreenHeight;
-				sx = (int)(r->x * sx_multiplier);
-				sy = (int)(((ScreenHeight - (r->y + r->h)) * sy_multiplier) + y1);
-			}
-		}
-		else if (ratio < threshold)
-		{
-			// screen is wider than 4:3
-			int width = (int)(ScreenHeightActual / threshold);
-			x1 = (ScreenWidthActual - width) / 2;
-			x2 = ScreenWidthActual - x1;
-			
-			if (r != NULL)
-			{
-				sx_multiplier = width / (float)ScreenWidth;
-				sy_multiplier = ScreenHeightActual / (float)ScreenHeight;
-				sx = (int)((r->x * sx_multiplier) + x1);
-				sy = (int)((ScreenHeight - (r->y + r->h)) * sy_multiplier);
-			}
-		}
-		else
-		{
-			// screen is 4:3
-			keep_aspect_ratio = 0;
-		}
-	}
-	
-	if (r != NULL)
-	{
-		if (!keep_aspect_ratio)
-		{
-			sx_multiplier = ScreenWidthActual / (float)ScreenWidth;
-			sy_multiplier = ScreenHeightActual / (float)ScreenHeight;
-			sx = (int)(r->x * sx_multiplier);
-			sy = (int)((ScreenHeight - (r->y + r->h)) * sy_multiplier);
-		}
-		sw = (int)(r->w * sx_multiplier);
-		sh = (int)(r->h * sy_multiplier);
-		glScissor (sx, sy, sw, sh);
-		glEnable (GL_SCISSOR_TEST);
-	}
-	
-	glBegin (GL_TRIANGLE_FAN);
-	glTexCoord2f (0, 0);
-	glVertex2i (x1, y1);
-	glTexCoord2f (ScreenWidth / 1024.0f, 0);
-	glVertex2i (x2, y1);	
-	glTexCoord2f (ScreenWidth / 1024.0f, ScreenHeight / 512.0f);
-	glVertex2i (x2, y2);
-	glTexCoord2f (0, ScreenHeight / 512.0f);
-	glVertex2i (x1, y2);
-	glEnd ();
-	if (r != NULL)
-	{
-		glDisable (GL_SCISSOR_TEST);
-	}
-}
-
-static void
-TFB_GL_DrawQuad_4x (SDL_Rect *r)
-{
-	BOOLEAN keep_aspect_ratio = optKeepAspectRatio;
-	int x1 = 0, y1 = 0, x2 = ScreenWidthActual, y2 = ScreenHeightActual;
-	int sx = 0, sy = 0;
-	int sw, sh;
-	float sx_multiplier = 1;
-	float sy_multiplier = 1;
-	
-	if (keep_aspect_ratio)
-	{
-		float threshold = 0.75f;
-		float ratio = ScreenHeightActual / (float)ScreenWidthActual;
-		
-		if (ratio > threshold)
-		{
-			// screen is narrower than 4:3
-			int height = (int)(ScreenWidthActual * threshold);
-			y1 = (ScreenHeightActual - height) / 2;
-			y2 = ScreenHeightActual - y1;
-			
-			if (r != NULL)
-			{
-				sx_multiplier = ScreenWidthActual / (float)ScreenWidth;
-				sy_multiplier = height / (float)ScreenHeight;
-				sx = (int)(r->x * sx_multiplier);
-				sy = (int)(((ScreenHeight - (r->y + r->h)) * sy_multiplier) + y1);
-			}
-		}
-		else if (ratio < threshold)
-		{
-			// screen is wider than 4:3
-			int width = (int)(ScreenHeightActual / threshold);
-			x1 = (ScreenWidthActual - width) / 2;
-			x2 = ScreenWidthActual - x1;
-			
-			if (r != NULL)
-			{
-				sx_multiplier = width / (float)ScreenWidth;
-				sy_multiplier = ScreenHeightActual / (float)ScreenHeight;
-				sx = (int)((r->x * sx_multiplier) + x1);
-				sy = (int)((ScreenHeight - (r->y + r->h)) * sy_multiplier);
-			}
-		}
-		else
-		{
-			// screen is 4:3
-			keep_aspect_ratio = 0;
-		}
-	}
-	
-	if (r != NULL)
-	{
-		if (!keep_aspect_ratio)
-		{
-			sx_multiplier = ScreenWidthActual / (float)ScreenWidth;
-			sy_multiplier = ScreenHeightActual / (float)ScreenHeight;
-			sx = (int)(r->x * sx_multiplier);
-			sy = (int)((ScreenHeight - (r->y + r->h)) * sy_multiplier);
-		}
-		sw = (int)(r->w * sx_multiplier);
-		sh = (int)(r->h * sy_multiplier);
-		glScissor (sx, sy, sw, sh);
-		glEnable (GL_SCISSOR_TEST);
-	}
-	
-	glBegin (GL_TRIANGLE_FAN);
-	glTexCoord2f (0, 0);
-	glVertex2i (x1, y1);
-	glTexCoord2f (ScreenWidth / 2048.0f, 0);
-	glVertex2i (x2, y1);	
-	glTexCoord2f (ScreenWidth / 2048.0f, ScreenHeight / 1024.0f);
-	glVertex2i (x2, y2);
-	glTexCoord2f (0, ScreenHeight / 1024.0f);
+	glTexCoord2f (0, ScreenHeight / tex2);
 	glVertex2i (x1, y2);
 	glEnd ();
 	if (r != NULL)
@@ -673,18 +509,7 @@ TFB_GL_Unscaled_ScreenLayer (SCREEN screen, Uint8 a, SDL_Rect *rect)
 		glColor4f (1, 1, 1, a_f);
 	}
 
-	switch (RESOLUTION_FACTOR){
-		case 1:
-			TFB_GL_DrawQuad_2x (rect);
-			break;
-		case 2:
-			TFB_GL_DrawQuad_4x (rect);
-			break;
-		case 0:
-		default:
-			TFB_GL_DrawQuad (rect);
-			break;
-	}
+	TFB_GL_DrawQuad (rect, RESOLUTION_FACTOR);
 }
 
 static void
@@ -733,7 +558,7 @@ TFB_GL_Scaled_ScreenLayer (SCREEN screen, Uint8 a, SDL_Rect *rect)
 		glColor4f (1, 1, 1, a_f);
 	}
 	
-	TFB_GL_DrawQuad (rect);
+	TFB_GL_DrawQuad (rect, 0);
 }
 
 static void
@@ -756,7 +581,7 @@ TFB_GL_ColorLayer (Uint8 r, Uint8 g, Uint8 b, Uint8 a, SDL_Rect *rect)
 		glDisable (GL_BLEND);
 	}
 	
-	TFB_GL_DrawQuad (rect);
+	TFB_GL_DrawQuad (rect, 0);
 }
 
 static void
