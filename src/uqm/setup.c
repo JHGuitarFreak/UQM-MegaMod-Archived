@@ -185,6 +185,9 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 		loadAddon ("3dovideo");
 	}
 
+	if(ReloadPackages)
+		optRequiresReload = FALSE;
+
 	if(!ReloadPackages){
 		/* Now load the rest of the addons, in order. */
 		prepareAddons (optAddons);
