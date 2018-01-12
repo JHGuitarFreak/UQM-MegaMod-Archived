@@ -251,8 +251,8 @@ TFB_GL_ConfigureVideo (int driver, int flags, int width, int height, int togglef
 	}
 	else
 	{
-		texture_width = (resFactor == 0 ? 512 : (resFactor == 1 ? 1024 : 2048));
-		texture_height = (resFactor == 0 ? 256 : (resFactor == 1 ? 512 : 1024));
+		texture_width = 512 << resFactor;
+		texture_height = 256 << resFactor;
 		graphics_backend = (resFactor == 0 ? &opengl_unscaled_backend : (resFactor == 1 ? &opengl_unscaled_backend_2x : &opengl_unscaled_backend_4x));
 		
 		scaler = NULL;
