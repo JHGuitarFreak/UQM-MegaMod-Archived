@@ -251,25 +251,10 @@ TFB_GL_ConfigureVideo (int driver, int flags, int width, int height, int togglef
 	}
 	else
 	{
-		if (resFactor == 0)
-		{
-			texture_width = 512;
-			texture_height = 256;
-			graphics_backend = &opengl_unscaled_backend;
-		}
-		else if (resFactor == 1)
-		{
-			texture_width = 1024;
-			texture_height = 512;
-			graphics_backend = &opengl_unscaled_backend_2x;
-		}
-		else if (resFactor == 2)
-		{
-			texture_width = 2048;
-			texture_height = 1024;
-			graphics_backend = &opengl_unscaled_backend_4x;
-		}
-
+		texture_width = (resFactor == 0 ? 512 : (resFactor == 1 ? 1024 : 2048));
+		texture_height = (resFactor == 0 ? 256 : (resFactor == 1 ? 512 : 1024));
+		graphics_backend = (resFactor == 0 ? &opengl_unscaled_backend : (resFactor == 1 ? &opengl_unscaled_backend_2x : &opengl_unscaled_backend_4x));
+		
 		scaler = NULL;
 	}
 
