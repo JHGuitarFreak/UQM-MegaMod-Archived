@@ -82,10 +82,7 @@ RepairBackRect (RECT *pRect, BOOLEAN Fullscreen)
 	new_r.extent.height += new_r.corner.y & 1;
 	new_r.corner.y &= ~1;
 	
-	if (Fullscreen)
-		DrawFromExtraScreen_Fs (&new_r);
-	else
-		DrawFromExtraScreen (&new_r);
+	DrawFromExtraScreen (&new_r, Fullscreen);
 }
 
 static void
