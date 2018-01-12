@@ -206,6 +206,11 @@ DoRestart (MENU_STATE *pMS)
 
 	/* Cancel any presses of the Pause key. */
 	GamePaused = FALSE;
+	
+	if(optSuperMelee && PacksInstalled()){
+		pMS->CurState = PLAY_SUPER_MELEE;
+		PulsedInputState.menu[KEY_MENU_SELECT] = 65535;
+	}
 
 	if (pMS->Initialized)
 		Flash_process(pMS->flashContext);
@@ -230,9 +235,6 @@ DoRestart (MENU_STATE *pMS)
 		Flash_setFrameTime (pMS->flashContext, ONE_SECOND / 16);
 		Flash_setState(pMS->flashContext, FlashState_fadeIn,
 				(3 * ONE_SECOND) / 16);
-
-		if(optSuperMelee)
-			goto MELEE; // A really shitty way to start Super Melee without using the menu.
 
 		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
 		Flash_start (pMS->flashContext);
@@ -278,7 +280,6 @@ DoRestart (MENU_STATE *pMS)
 					return TRUE;
 				break;
 			case PLAY_SUPER_MELEE:
-				MELEE:
 				if (!RestartMessage(pMS, TimeIn)) {
 					if(optRequiresReload && LoadKernel(0,0,TRUE))
 						printf("Packages Reloaded\n");
