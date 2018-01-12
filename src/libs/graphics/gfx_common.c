@@ -43,29 +43,15 @@ static int gscale = GSCALE_IDENTITY;
 static int gscale_mode = TFB_SCALE_NEAREST;
 
 void
-DrawFromExtraScreen (RECT *r)
-{
-	TFB_DrawScreen_Copy(r, TFB_SCREEN_EXTRA, TFB_SCREEN_MAIN);
-}
-
-// JMS_GFX
-void
-DrawFromExtraScreen_Fs (RECT *r)
-{
-	TFB_DrawScreen_Copy_Fs(r, TFB_SCREEN_EXTRA, TFB_SCREEN_MAIN);
+DrawFromExtraScreen (RECT *r, BOOLEAN Fs)
+{	// Serosis: Added BOOLEAN trigger to minimize function redundancy
+	TFB_DrawScreen_Copy(r, TFB_SCREEN_EXTRA, TFB_SCREEN_MAIN, Fs);
 }
 
 void
-LoadIntoExtraScreen (RECT *r)
-{
-	TFB_DrawScreen_Copy(r, TFB_SCREEN_MAIN, TFB_SCREEN_EXTRA);
-}
-
-// JMS_GFX
-void
-LoadIntoExtraScreen_Fs (RECT *r)
-{
-	TFB_DrawScreen_Copy_Fs(r, TFB_SCREEN_MAIN, TFB_SCREEN_EXTRA);
+LoadIntoExtraScreen (RECT *r, BOOLEAN Fs)
+{	// Serosis: Added BOOLEAN trigger to minimize function redundancy
+	TFB_DrawScreen_Copy(r, TFB_SCREEN_MAIN, TFB_SCREEN_EXTRA, Fs);
 }
 
 int
@@ -169,7 +155,7 @@ SetTransitionSource (const RECT *pRect)
 		pRect = &ActualRect;
 		ExpandRect (&ActualRect, 2);
 	}
-	TFB_DrawScreen_Copy (pRect, TFB_SCREEN_MAIN, TFB_SCREEN_TRANSITION);
+	TFB_DrawScreen_Copy (pRect, TFB_SCREEN_MAIN, TFB_SCREEN_TRANSITION, FALSE);
 }
 
 // ScreenTransition() is synchronous (does not return until transition done)
