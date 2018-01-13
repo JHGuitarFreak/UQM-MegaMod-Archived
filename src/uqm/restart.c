@@ -284,6 +284,7 @@ DoRestart (MENU_STATE *pMS)
 				break;
 			case SETUP_GAME:
 				oldresfactor = resolutionFactor;
+				
 				Flash_pause(pMS->flashContext);
 				Flash_setState(pMS->flashContext, FlashState_fadeIn,
 						(3 * ONE_SECOND) / 16);
