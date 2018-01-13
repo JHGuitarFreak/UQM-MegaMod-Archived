@@ -367,7 +367,7 @@ main (int argc, char *argv[])
 			__DATE__, __TIME__);
 #ifdef NETPLAY
 	log_add (log_User, "Netplay protocol version %d.%d. Netplay opponent "
-			"must have UQM %d.%d.%d or later.",
+			"must have UQM %d.%d.%d or later.\n",
 			NETPLAY_PROTOCOL_VERSION_MAJOR, NETPLAY_PROTOCOL_VERSION_MINOR,
 			NETPLAY_MIN_UQM_VERSION_MAJOR, NETPLAY_MIN_UQM_VERSION_MINOR,
 			NETPLAY_MIN_UQM_VERSION_PATCH);

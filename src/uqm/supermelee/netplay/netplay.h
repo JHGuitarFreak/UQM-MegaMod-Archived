@@ -16,6 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "../../../uqmversion.h"
+
 #if !defined(_NETPLAY_H) && defined(NETPLAY)
 #define _NETPLAY_H
 
@@ -27,9 +29,9 @@
 #define NETPLAY_PROTOCOL_VERSION_MAJOR 0
 #define NETPLAY_PROTOCOL_VERSION_MINOR 4
 
-#define NETPLAY_MIN_UQM_VERSION_MAJOR 0
-#define NETPLAY_MIN_UQM_VERSION_MINOR 6
-#define NETPLAY_MIN_UQM_VERSION_PATCH 9
+#define NETPLAY_MIN_UQM_VERSION_MAJOR UQM_MAJOR_VERSION
+#define NETPLAY_MIN_UQM_VERSION_MINOR UQM_MINOR_VERSION
+#define NETPLAY_MIN_UQM_VERSION_PATCH UQM_PATCH_VERSION
 
 #undef NETPLAY_DEBUG
 		/* Extra debugging for netplay */
