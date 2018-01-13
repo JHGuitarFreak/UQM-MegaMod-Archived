@@ -52,7 +52,7 @@ HMalloc (size_t size)
 }
 
 void
-HFree (void *p)
+HFree (void **p)
 {
 	free (p);
 }
