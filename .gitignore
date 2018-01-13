@@ -254,6 +254,7 @@ paket-files/
 *.sln.iml
 
 # Addons directory and miscellany
+bin/config/*
 bin/content/*
 !bin/content/version
 !bin/content/addons
