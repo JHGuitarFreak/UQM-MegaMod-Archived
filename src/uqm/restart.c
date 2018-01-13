@@ -263,8 +263,6 @@ DoRestart (MENU_STATE *pMS)
 		{
 			case LOAD_SAVED_GAME:
 				if (!RestartMessage(pMS, TimeIn)) {
-					if(optRequiresReload && LoadKernel(0,0,TRUE))
-						printf("Packages Reloaded\n");
 					LastActivity = CHECK_LOAD;
 					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
 				} else
@@ -272,8 +270,6 @@ DoRestart (MENU_STATE *pMS)
 				break;
 			case START_NEW_GAME:
 				if (!RestartMessage(pMS, TimeIn)) {
-					if(optRequiresReload && LoadKernel(0,0,TRUE))
-						printf("Packages Reloaded\n");
 					LastActivity = CHECK_LOAD | CHECK_RESTART;
 					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
 				} else
@@ -281,8 +277,6 @@ DoRestart (MENU_STATE *pMS)
 				break;
 			case PLAY_SUPER_MELEE:
 				if (!RestartMessage(pMS, TimeIn)) {
-					if(optRequiresReload && LoadKernel(0,0,TRUE))
-						printf("Packages Reloaded\n");
 					GLOBAL (CurrentActivity) = SUPER_MELEE;
 					optSuperMelee = FALSE;
 				} else

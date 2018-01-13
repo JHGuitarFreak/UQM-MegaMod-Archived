@@ -1898,6 +1898,9 @@ SetGlobalOptions (GLOBALOPTS *opts)
 			/* Shouldn't happen; leave config untouched */
 			break;
 	}
+	
+	if(optRequiresReload && LoadKernel(0,0,TRUE))
+		printf("Packages Reloaded\n");
 
 	res_PutInteger ("config.musicvol", opts->musicvol);
 	res_PutInteger ("config.sfxvol", opts->sfxvol);
