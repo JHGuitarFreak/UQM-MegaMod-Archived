@@ -55,6 +55,8 @@ const char **optAddons;
 // JMS_GFX
 unsigned int loresBlowupScale;
 unsigned int resolutionFactor;
+unsigned int audioDriver;
+unsigned int audioQuality;
 BOOLEAN optRequiresReload;
 BOOLEAN optRequiresRestart;
 

@@ -872,12 +872,7 @@ init_widgets (void)
 	if (setup_frame == NULL || optRequiresRestart)
 	{
 		// JMS: Load the different menus depending on the resolution factor.
-		if (resolutionFactor < 1)
-			setup_frame = CaptureDrawable (LoadGraphic (MENUBKG_PMAP_ANIM));
-		if (resolutionFactor == 1)
-			setup_frame = CaptureDrawable (LoadGraphic (MENUBKG_PMAP_ANIM2X));
-		if (resolutionFactor > 1)
-			setup_frame = CaptureDrawable (LoadGraphic (MENUBKG_PMAP_ANIM4X));
+		setup_frame = CaptureDrawable (LoadGraphic (RES_CASE(MENUBKG_PMAP_ANIM, MENUBKG_PMAP_ANIM2X, MENUBKG_PMAP_ANIM4X)));
 	}
 
 	count = GetStringTableCount (SetupTab);
@@ -1374,6 +1369,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 		opts->adriver = OPTVAL_SILENCE;
 		break;
 	}
+	audioDriver = opts->adriver;
 	if (soundflags & audio_QUALITY_HIGH)
 	{
 		opts->aquality = OPTVAL_HIGH;
@@ -1386,6 +1382,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	{
 		opts->aquality = OPTVAL_MEDIUM;
 	}
+	audioQuality = opts->aquality;
 
 	/* Work out resolution.  On the way, try to guess a good default
 	 * for config.alwaysgl, then overwrite it if it was set previously. */
@@ -1658,7 +1655,9 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	}
 
 	// MB: To force the game to restart when changing resolution options (otherwise they will not be changed)
-	if(oldResFactor != resolutionFactor)
+	if(oldResFactor != resolutionFactor ||
+		audioDriver != opts->adriver ||
+		audioQuality != opts->aquality)
  		optRequiresRestart = TRUE;
 
 	res_PutInteger ("config.reswidth", NewWidth);

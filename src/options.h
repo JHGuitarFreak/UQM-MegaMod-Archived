@@ -45,6 +45,8 @@ extern int optMeleeScale;
 // JMS_GFX
 extern unsigned int loresBlowupScale;
 extern unsigned int resolutionFactor;
+extern unsigned int audioDriver;
+extern unsigned int audioQuality;
 extern BOOLEAN optRequiresReload;
 extern BOOLEAN optRequiresRestart;
 
