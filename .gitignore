@@ -262,6 +262,7 @@ bin/content/*
 bin/content/addons/*
 bin/content/packages/*
 !bin/content/packages/uqm-0.8.0-content.uqm
+UQM-MegaMod.zip
 build.vars
 config.state
 uqm-wrapper
