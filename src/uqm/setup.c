@@ -140,6 +140,8 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 					log_add (log_Debug, "loading sol-textures-2x");
 				}
 				loadAddon("alt-kohr-2x");
+				loadAddon("orange-peel-melnorme2x");
+				loadAddon("yellow-fried-2x");
 			}
 			break;
 		case 2:
@@ -152,6 +154,8 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 					log_add (log_Debug, "loading sol-textures-4x");
 				}
 				loadAddon("alt-kohr-4x");
+				loadAddon("orange-peel-melnorme4x");
+				loadAddon("yellow-fried-4x");
 			}
 			break;
 		case 0:
@@ -161,6 +165,7 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 				printf("Loading Sol Textures \n");
 				log_add (log_Debug, "loading sol-textures-1x");
 			}
+			loadAddon("yellow-fried-1x");
 			break;
 	}
 
