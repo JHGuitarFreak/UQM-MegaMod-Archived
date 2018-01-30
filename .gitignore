@@ -3,7 +3,6 @@
 
 # User-specific files
 *.suo
-*.user
 *.userosscache
 *.sln.docstates
 *.sdf
@@ -83,7 +82,6 @@ ipch/
 *.cachefile
 *.VC.db
 *.VC.VC.opendb
-!*.vcxproj.user
 
 # Visual Studio profiler
 *.psess
