@@ -7,8 +7,6 @@
 *.userosscache
 *.sln.docstates
 *.sdf
-*.suo
-*.sdf
 *.bsc
 
 # User-specific files (MonoDevelop/Xamarin Studio)
