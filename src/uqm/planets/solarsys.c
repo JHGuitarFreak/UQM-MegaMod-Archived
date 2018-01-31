@@ -367,8 +367,10 @@ FreeIPData (void)
 	OrbitalFrame = 0;
 	DestroyDrawable (ReleaseDrawable (SpaceJunkFrame));
 	SpaceJunkFrame = 0;
-	DestroyMusic (SpaceMusic);
-	SpaceMusic = 0;
+	if(LastActivity != IN_INTERPLANETARY && !optBubbleWarp){
+		 DestroyMusic (SpaceMusic);
+		 SpaceMusic = 0;
+	}
 
 	RandomContext_Delete (SysGenRNG);
 	SysGenRNG = NULL;
@@ -402,7 +404,7 @@ LoadIPData (void)
 		OrbitalCMap = CaptureColorMap (LoadColorMap (ORBPLAN_COLOR_MAP));
 		OrbitalFrame = CaptureDrawable (LoadGraphic (ORBPLAN_MASK_PMAP_ANIM));
 		SunCMap = CaptureColorMap (LoadColorMap (IPSUN_COLOR_MAP));
-
+				
 		SpaceMusic = LoadMusic (IP_MUSIC);
 	}
 
@@ -849,8 +851,9 @@ FreeSolarSys (void)
 		}
 	// End clean up
 	}
-
-	StopMusic ();
+	
+	if(LastActivity != IN_INTERPLANETARY && !optBubbleWarp)
+		StopMusic ();
 
 //    FreeIPData ();
 }
