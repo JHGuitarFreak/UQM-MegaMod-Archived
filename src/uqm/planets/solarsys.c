@@ -855,7 +855,7 @@ FreeSolarSys (void)
 	if((LastActivity != IN_INTERPLANETARY && LOBYTE (NextActivity) != IN_INTERPLANETARY) && !optBubbleWarp)
 		StopMusic ();
 
-//    FreeIPData ();
+	FreeIPData ();
 }
 
 static FRAME
