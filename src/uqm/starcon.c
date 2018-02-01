@@ -217,7 +217,8 @@ while (--ac > 0)
 	GLOBAL (CurrentActivity) = 0;
 	luaUqm_initState ();
 	// show logo then splash and init the kernel in the meantime
-	Logo ();
+	if(!optSkipIntro)
+		Logo ();
 
 	{
 		srand(time(NULL));
