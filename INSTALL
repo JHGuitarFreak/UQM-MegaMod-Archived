@@ -49,6 +49,7 @@ OpenAL (optional)
 	A cross-platform spatialized audio library.
 	Homepage: http://www.openal.org/
 	Windows SDK download: http://connect.creativelabs.com/openal/Downloads/OpenAL11CoreSDK.zip
+    Debian package: libopenal-dev
 
 libogg and libvorbis (optional but highly recommended)
 	Audio codec to play Ogg Vorbis files, used for music and speech.
