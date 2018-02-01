@@ -139,10 +139,8 @@ Victory (void)
  
 void
 Logo (void)
-{
-	if(optWhichIntro == OPT_3DO && LOGOPRES2_STRTAB != NULL && !optSkipIntro)
-		ShowPresentation (LOGOPRES2_STRTAB);
-	ShowPresentation (LOGOPRES1_STRTAB);
+{	
+	ShowPresentation (LOGOPRES_STRTAB);
 	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 2));
 }
 
