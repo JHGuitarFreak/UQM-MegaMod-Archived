@@ -88,6 +88,16 @@ Lua (also included with UQM source)
 	Homepage: http://www.lua.org/
 	Download: http://www.lua.org/download.html
 
+___________________________________________________________________________________________________________________
+
+For Debian users (Or at least Mint and Ubuntu users) here is the basic command to install what you need to compile:
+
+	sudo apt-get install libsdl1.2-dev libsdl-image1.2 libsdl-image1.2-dev libogg-dev libvorbis-dev
+
+Please make sure you update your repositories first with: sudo apt-get update
+___________________________________________________________________________________________________________________
+
+
 If you find these aren't enough, or if you know the names
 of the corresponding RPM etc. packages, please report to
 <sc2-devel@lists.sourceforge.net> or visit
