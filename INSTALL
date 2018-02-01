@@ -73,6 +73,7 @@ Libmikmod (also included with UQM source)
 	Audio codec to play .mod files, used for the original PC music.
 	Homepage: http://mikmod.raphnet.net/
 	Download: https://sourceforge.net/projects/mikmod/files/
+    Debian package: libmikmod-dev
 
 Zlib v1.2
 	Data compression / decompression library
