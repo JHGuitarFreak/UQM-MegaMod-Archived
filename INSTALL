@@ -59,6 +59,7 @@ libogg and libvorbis (optional but highly recommended)
 	    For Linux:
 			http://www.xiph.org/downloads/
 			download libogg and libvorbis.
+            Debian Packages: libogg-dev libvorbis-dev
 
 Tremor (alternative for libogg and libvorbis)
 	Audio codec to play Ogg Vorbis files, used for music and speech.
