@@ -36,7 +36,9 @@
 
 #if defined unix || (defined __APPLE__ && defined __MACH__)
 #include <pwd.h>
+#include <unistd.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 #include <string.h>

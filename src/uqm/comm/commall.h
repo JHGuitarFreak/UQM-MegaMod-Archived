@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _COMMALL_H
-#define _COMMALL_H
+#ifndef COMM_COMMALL_H
+#define COMM_COMMALL_H
 
 #include "uqm/colors.h"
 #include "uqm/comm.h"

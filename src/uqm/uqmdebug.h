@@ -36,8 +36,8 @@ STARSHIP* findPlayerShip (SIZE playerNr);
 // Resets the energy of the first player (the bottom one) to its maximum.
 void resetEnergyBattle(void);
 
-#if !defined(_DEBUG_H) && (defined(DEBUG) || defined(USE_DEBUG_KEY))
-#define _DEBUG_H
+#if !defined(UQMDEBUG_H) && (defined(DEBUG) || defined(USE_DEBUG_KEY))
+#define UQMDEBUG_H
 
 
 // If set to true, interactive routines that are called (indirectly) in debug

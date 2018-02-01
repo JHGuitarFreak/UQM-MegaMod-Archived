@@ -471,6 +471,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\getopt\getopt.c" />
     <ClCompile Include="..\..\src\getopt\getopt1.c" />
+    <ClCompile Include="..\..\src\libs\network\wspiapiwrap.c" />
     <ClCompile Include="..\..\src\regex\regex.c" />
     <ClCompile Include="..\..\src\libs\callback\alarm.c" />
     <ClCompile Include="..\..\src\libs\callback\async.c" />
