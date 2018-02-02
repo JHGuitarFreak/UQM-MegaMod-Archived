@@ -220,6 +220,7 @@ case "$HOST_SYSTEM" in
 		BUILDTOOL_LINK_DEPEND='mingw_gcc'
 		;;
 	*)
+		EXTRA_PLATFORM_GCC_FLAGS_LINK='-lm'
 		useGccBuildTools
 		;;
 esac	
