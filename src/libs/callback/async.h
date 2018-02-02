@@ -16,13 +16,13 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _ASYNC_H
-#define _ASYNC_H
+#ifndef LIBS_CALLBACK_ASYNC_H_
+#define LIBS_CALLBACK_ASYNC_H_
 
 #include "types.h"
 
 void Async_process(void);
 uint32 Async_timeBeforeNextMs(void);
 
-#endif  /* _ASYNC_H */
+#endif  /* LIBS_CALLBACK_ASYNC_H_ */
 

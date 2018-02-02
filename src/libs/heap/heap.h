@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _HEAP_H
-#define _HEAP_H
+#ifndef LIBS_HEAP_HEAP_H_
+#define LIBS_HEAP_HEAP_H_
 
 #include "types.h"
 
@@ -65,5 +65,5 @@ size_t Heap_count(const Heap *heap);
 bool Heap_hasMore(const Heap *heap);
 void Heap_remove(Heap *heap, HeapValue *value);
 
-#endif  /* _HEAP_H */
+#endif  /* LIBS_HEAP_HEAP_H_ */
 

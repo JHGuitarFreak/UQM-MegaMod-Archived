@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _MOUNT_H
-#define _MOUNT_H
+#ifndef LIBS_UIO_MOUNT_H_
+#define LIBS_UIO_MOUNT_H_
 
 
 typedef struct uio_Repository uio_Repository;
@@ -60,5 +60,5 @@ void uio_repositoryRemoveMount(uio_Repository *repository,
 
 #endif  /* uio_INTERNAL */
 
-#endif  /* _MOUNT_H */
+#endif  /* LIBS_UIO_MOUNT_H_ */
 

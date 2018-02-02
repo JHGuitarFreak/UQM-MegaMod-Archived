@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _STRLIB_H
-#define _STRLIB_H
+#ifndef LIBS_STRLIB_H_
+#define LIBS_STRLIB_H_
 
 #include "libs/compiler.h"
 #include "port.h"
@@ -77,5 +77,5 @@ extern STRING GetStringByName (STRING_TABLE StringTable, const char *index);
 }
 #endif
 
-#endif /* _STRLIB_H */
+#endif /* LIBS_STRLIB_H_ */
 

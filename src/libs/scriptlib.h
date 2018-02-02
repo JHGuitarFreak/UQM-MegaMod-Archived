@@ -14,10 +14,10 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _SCRIPTLIB_H
-#define _SCRIPTLIB_H
+#ifndef LIBS_SCRIPTLIB_H_
+#define LIBS_SCRIPTLIB_H_
 
 #include "luauqm/luauqm.h"
 
-#endif  /* _SCRIPTLIB_H */
+#endif  /* LIBS_SCRIPTLIB_H_ */
 

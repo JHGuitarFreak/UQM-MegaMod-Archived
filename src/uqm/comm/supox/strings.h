@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef SUPOX_STRINGS_H
-#define SUPOX_STRINGS_H
+#ifndef UQM_COMM_SUPOX_STRINGS_H
+#define UQM_COMM_SUPOX_STRINGS_H
 
 enum
 {
@@ -117,4 +117,4 @@ enum
 	OUT_TAKES,
 };
 
-#endif /* __STRINGS_H */
+#endif /* UQM_COMM_SUPOX_STRINGS_H */

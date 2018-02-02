@@ -19,8 +19,8 @@
  * CDP dlopen() & Co. WIN32 implementation
  */
 
-#ifndef _WINDL_H
-#define _WINDL_H
+#ifndef LIBS_CDP_WINDL_H_
+#define LIBS_CDP_WINDL_H_
 
 #include "types.h"
 
@@ -34,4 +34,4 @@ extern char *dlerror (void);
 #define RTLD_NOW	2	/* immediate function call binding */
 #define RTLD_GLOBAL	4	/* symbols in this dlopen'ed obj are visible to other dlopen'ed objs */
 
-#endif  /* _WINDL_H */
+#endif  /* LIBS_CDP_WINDL_H_ */

@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _THRCOMMON_H
-#define _THRCOMMON_H
+#ifndef LIBS_THREADS_THRCOMMON_H_
+#define LIBS_THREADS_THRCOMMON_H_
 
 
 #if defined(THREADLIB_SDL)

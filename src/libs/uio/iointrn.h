@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _IOINTERN_H
-#define _IOINTERN_H
+#ifndef LIBS_UIO_IOINTRN_H_
+#define LIBS_UIO_IOINTRN_H_
 
 #define uio_INTERNAL
 
@@ -192,6 +192,6 @@ uio_PFileHandle_unref(uio_PFileHandle *handle) {
 }
 
 
-#endif  /* _IOINTERN_H */
+#endif  /* LIBS_UIO_IOINTRN_H_ */
 
 

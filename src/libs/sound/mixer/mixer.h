@@ -17,8 +17,8 @@
 /* Mixer for low-level sound output drivers
  */
 
-#ifndef _MIXER_H
-#define _MIXER_H
+#ifndef LIBS_SOUND_MIXER_MIXER_H_
+#define LIBS_SOUND_MIXER_MIXER_H_
 
 #include "config.h"
 #include "types.h"
@@ -271,4 +271,4 @@ MIX_COMPILE_TIME_ASSERT (mixer_IntVal,
 
 #undef MIX_COMPILE_TIME_ASSERT
 
-#endif /* _MIXER_H */
+#endif /* LIBS_SOUND_MIXER_MIXER_H_ */

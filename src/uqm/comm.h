@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _COMM_H
-#define _COMM_H
+#ifndef UQM_COMM_H_
+#define UQM_COMM_H_
 
 #include "uqm/globdata.h"
 #include "uqm/units.h"
@@ -139,6 +139,6 @@ extern void EnableTalkingAnim (BOOLEAN enable);
 }
 #endif
 
-#endif  /* _COMM_H */
+#endif  /* UQM_COMM_H_ */
 
 

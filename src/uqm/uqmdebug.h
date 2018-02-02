@@ -36,8 +36,8 @@ STARSHIP* findPlayerShip (SIZE playerNr);
 // Resets the energy of the first player (the bottom one) to its maximum.
 void resetEnergyBattle(void);
 
-#if !defined(UQMDEBUG_H) && (defined(DEBUG) || defined(USE_DEBUG_KEY))
-#define UQMDEBUG_H
+#if !defined(UQM_UQMDEBUG_H_) && (defined(DEBUG) || defined(USE_DEBUG_KEY))
+#define UQM_UQMDEBUG_H_
 
 
 // If set to true, interactive routines that are called (indirectly) in debug
@@ -202,5 +202,5 @@ void debugContexts (void);
 // To add some day:
 // - a function to fast forward the game clock to a specifiable time.
 
-#endif  /* _DEBUG_H */
+#endif  /* UQM_UQMDEBUG_H_ */
 

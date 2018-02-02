@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _STARBASE_H
-#define _STARBASE_H
+#ifndef UQM_STARBASE_H_
+#define UQM_STARBASE_H_
 
 #include "menustat.h"
 
@@ -52,5 +52,5 @@ extern COUNT WrapText (const UNICODE *pStr, COUNT len, TEXT *tarray, SIZE
 }
 #endif
 
-#endif /* _STARBASE_H */
+#endif /* UQM_STARBASE_H_ */
 

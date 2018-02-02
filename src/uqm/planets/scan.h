@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _SCAN_H
-#define _SCAN_H
+#ifndef UQM_PLANETS_SCAN_H_
+#define UQM_PLANETS_SCAN_H_
 
 typedef struct scan_desc SCAN_DESC;
 typedef struct scan_block SCAN_BLOCK;
@@ -69,5 +69,5 @@ void setNodeNotRetrieved (PLANET_INFO *planetInfo, BYTE scanType, BYTE nodeNr);
 }
 #endif
 
-#endif /* _SCAN_H */
+#endif /* UQM_PLANETS_SCAN_H_ */
 

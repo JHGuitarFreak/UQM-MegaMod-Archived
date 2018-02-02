@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _NETMANAGER_H
-#define _NETMANAGER_H
+#ifndef LIBS_NETWORK_NETMANAGER_NETMANAGER_H_
+#define LIBS_NETWORK_NETMANAGER_NETMANAGER_H_
 
 #include "port.h"
 #include "types.h"
@@ -44,5 +44,5 @@ void NetManager_deactivateWriteCallback(NetDescriptor *nd);
 void NetManager_activateExceptionCallback(NetDescriptor *nd);
 void NetManager_deactivateExceptionCallback(NetDescriptor *nd);
 
-#endif  /* _NETMANAGER_H */
+#endif  /* LIBS_NETWORK_NETMANAGER_NETMANAGER_H_ */
 

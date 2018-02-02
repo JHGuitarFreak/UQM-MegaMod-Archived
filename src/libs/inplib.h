@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _INPLIB_H
-#define _INPLIB_H
+#ifndef LIBS_INPLIB_H_
+#define LIBS_INPLIB_H_
 
 #include <stddef.h>
 #include "libs/compiler.h"
@@ -67,5 +67,5 @@ void BeginInputFrame (void);
 }
 #endif
 
-#endif /* _INPLIB_H */
+#endif /* LIBS_INPLIB_H_ */
 

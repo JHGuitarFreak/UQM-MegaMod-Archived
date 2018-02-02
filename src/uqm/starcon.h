@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _STARCON_H
-#define _STARCON_H
+#ifndef UQM_STARCON_H_
+#define UQM_STARCON_H_
 
 #if defined(__cplusplus)
 extern "C" {
@@ -32,5 +32,5 @@ extern void FreeGameData (void);
 }
 #endif
 
-#endif  /* _STARCON_H */
+#endif  /* UQM_STARCON_H_ */
 

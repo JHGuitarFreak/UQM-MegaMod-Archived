@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _FMV_H
-#define _FMV_H
+#ifndef UQM_FMV_H_
+#define UQM_FMV_H_
 
 #include "libs/compiler.h"
 #include "libs/sndlib.h"
@@ -38,5 +38,5 @@ extern BOOLEAN ShowPresentation (RESOURCE presentation);
 }
 #endif
 
-#endif  /* _FMV_H */
+#endif  /* UQM_FMV_H_ */
 

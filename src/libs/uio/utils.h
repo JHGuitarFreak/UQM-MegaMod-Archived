@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _UTILS_H
-#define _UTILS_H
+#ifndef LIBS_UIO_UTILS_H_
+#define LIBS_UIO_UTILS_H_
 
 #include <stdarg.h>
 
@@ -39,5 +39,5 @@ void uio_releaseStdioAccess(uio_StdioAccessHandle *handle);
 char *uio_vasprintf(const char *format, va_list args);
 char *uio_asprintf(const char *format, ...);
 
-#endif  /* _UTILS_H */
+#endif  /* LIBS_UIO_UTILS_H_ */
 

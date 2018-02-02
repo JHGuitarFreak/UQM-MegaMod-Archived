@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef _STRINGHASHTABLE_H
-#define _STRINGHASHTABLE_H
+#ifndef LIBS_STRINGS_STRINGHASHTABLE_H_
+#define LIBS_STRINGS_STRINGHASHTABLE_H_
 
 // HashTable from 'char *' to STRING.
 // We don't actually copy the index, which means that the caller is
@@ -40,4 +40,4 @@ typedef STRING_TABLE_ENTRY_DESC HASHTABLE_(Value);
 #include "libs/uio/hashtable.h"
 
 
-#endif  /* _STRINGHASHTABLE_H */
+#endif  /* LIBS_STRINGS_STRINGHASHTABLE_H_ */

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _PLANETS_H
-#define _PLANETS_H
+#ifndef UQM_PLANETS_PLANETS_H_
+#define UQM_PLANETS_PLANETS_H_
 
 #include "libs/mathlib.h"
 
@@ -351,5 +351,5 @@ extern void SaveSolarSysLocation (void);
 }
 #endif
 
-#endif /* _PLANETS_H */
+#endif /* UQM_PLANETS_PLANETS_H_ */
 

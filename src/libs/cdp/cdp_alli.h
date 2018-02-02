@@ -19,8 +19,8 @@
  * CDP All-interface list (for simplicity)
  */
 
-#ifndef _CDPALLI_H
-#define _CDPALLI_H
+#ifndef LIBS_CDP_CDP_ALLI_H_
+#define LIBS_CDP_CDP_ALLI_H_
 
 #include "cdp_iio.h"
 #include "cdp_imem.h"
@@ -28,4 +28,4 @@
 #include "cdp_ivid.h"
 // TODO: add more cdp_iXXX.h here as they are defined
 
-#endif  /* _CDPALLI_H */
+#endif  /* LIBS_CDP_CDP_ALLI_H_ */

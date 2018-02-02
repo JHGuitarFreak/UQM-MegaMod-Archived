@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _UIO_H
-#define _UIO_H
+#ifndef LIBS_UIO_H_
+#define LIBS_UIO_H_
 
 #if defined(__cplusplus)
 extern "C" {
@@ -31,5 +31,5 @@ extern "C" {
 }
 #endif
 
-#endif  /* _UIO_H */
+#endif  /* LIBS_UIO_H_ */
 

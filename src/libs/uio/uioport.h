@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _UIOPORT_H
-#define _UIOPORT_H
+#ifndef LIBS_UIO_UIOPORT_H_
+#define LIBS_UIO_UIOPORT_H_
 
 #ifdef _MSC_VER
 #	include <io.h>
@@ -169,5 +169,5 @@ typedef unsigned short mode_t;
 	int readdir_r (DIR *dirp, struct dirent *entry, struct dirent **result);
 #endif
 
-#endif  /* _UIOPORT_H */
+#endif  /* LIBS_UIO_UIOPORT_H_ */
 

@@ -1,8 +1,8 @@
 /* This file contains some compile-time configuration options for Symbian
  */
 
-#ifndef _CONFIG_H
-#define _CONFIG_H
+#ifndef SYMBIAN_CONFIG_H_
+#define SYMBIAN_CONFIG_H_
 
 /* Directory where the UQM game data is located */
 #define CONTENTDIR "content"
@@ -54,4 +54,4 @@
 
 #define PATH_MAX _POSIX_PATH_MAX
 
-#endif /* _CONFIG_H */
+#endif /* SYMBIAN_CONFIG_H_ */

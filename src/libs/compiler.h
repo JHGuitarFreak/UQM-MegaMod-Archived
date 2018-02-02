@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _COMPILER_H
-#define _COMPILER_H
+#ifndef LIBS_COMPILER_H_
+#define LIBS_COMPILER_H_
 
 #include "types.h"
 
@@ -93,5 +93,5 @@ typedef DWORD    (*PDWORDFUNC) (void);
 }
 #endif
 
-#endif /* _COMPILER_H */
+#endif /* LIBS_COMPILER_H_ */
 

@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _SDLUIO_H
-#define _SDLUIO_H
+#ifndef LIBS_GRAPHICS_SDL_SDLUIO_H_
+#define LIBS_GRAPHICS_SDL_SDLUIO_H_
 
 #include "port.h"
 #include "libs/uio.h"
@@ -29,5 +29,5 @@ int sdluio_write (SDL_RWops *context, const void *ptr, int size, int num);
 int sdluio_close (SDL_RWops *context);
 
 
-#endif  /* _SDLUIO_H */
+#endif  /* LIBS_GRAPHICS_SDL_SDLUIO_H_ */
 

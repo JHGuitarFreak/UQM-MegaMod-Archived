@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _UTIL_H
-#define _UTIL_H
+#ifndef UQM_UTIL_H_
+#define UQM_UTIL_H_
 
 #include "libs/compiler.h"
 #include "libs/gfxlib.h"
@@ -38,5 +38,5 @@ extern DWORD get_fuel_to_sol (void);
 }
 #endif
 
-#endif  /* _UTIL_H */
+#endif  /* UQM_UTIL_H_ */
 

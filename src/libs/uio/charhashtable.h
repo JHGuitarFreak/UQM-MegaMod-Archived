@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _CHARHASHTABLE_H
-#define _CHARHASHTABLE_H
+#ifndef LIBS_UIO_CHARHASHTABLE_H_
+#define LIBS_UIO_CHARHASHTABLE_H_
 
 
 #define HASHTABLE_(identifier) CharHashTable ## _ ## identifier
@@ -35,5 +35,5 @@ typedef void HASHTABLE_(Value);
 #include "hashtable.h"
 
 
-#endif  /* _CHARHASHTABLE_H */
+#endif  /* LIBS_UIO_CHARHASHTABLE_H_ */
 

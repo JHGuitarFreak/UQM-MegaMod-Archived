@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _LZH_H
-#define _LZH_H
+#ifndef LIBS_DECOMP_LZH_H_
+#define LIBS_DECOMP_LZH_H_
 
 #include "libs/declib.h"
 #include "libs/memlib.h"
@@ -87,5 +87,5 @@ extern BYTE*          _Stream;
 extern UWORD          _workbuf;
 extern BYTE           _workbuflen;
 
-#endif /* _LZH_H */
+#endif /* LIBS_DECOMP_LZH_H_ */
 

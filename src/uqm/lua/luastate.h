@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _LUASTATE_H
-#define _LUASTATE_H
+#ifndef UQM_LUA_LUASTATE_H_
+#define UQM_LUA_LUASTATE_H_
 
 #include "libs/compiler.h"
 #include "libs/scriptlib.h"
@@ -43,5 +43,5 @@ void luaUqm_getEventTable (lua_State *luaState);
 }
 #endif
 
-#endif  /* _LUASTATE_H */
+#endif  /* UQM_LUA_LUASTATE_H_ */
 

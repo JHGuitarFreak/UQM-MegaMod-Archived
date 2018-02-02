@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _NAMEREF_H
-#define _NAMEREF_H
+#ifndef UQM_NAMEREF_H_
+#define UQM_NAMEREF_H_
 
 #include "libs/reslib.h"
 
@@ -29,5 +29,5 @@
 #define LoadSound       LoadSoundInstance
 #define LoadMusic       LoadMusicInstance
 
-#endif /* _NAMEREF_H */
+#endif /* UQM_NAMEREF_H_ */
 

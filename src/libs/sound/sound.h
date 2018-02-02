@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _UQM_SOUND_H // try avoiding collisions on id
-#define _UQM_SOUND_H
+#ifndef LIBS_SOUND_SOUND_H_ // try avoiding collisions on id
+#define LIBS_SOUND_SOUND_H_
 
 #include "types.h"
 #include "audiocore.h"
@@ -78,4 +78,4 @@ bool TFB_TagBuffer (TFB_SoundSample*, audio_Object buffer, intptr_t data);
 
 #include "stream.h"
 
-#endif // _UQM_SOUND_H
+#endif // LIBS_SOUND_SOUND_H_

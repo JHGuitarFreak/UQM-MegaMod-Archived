@@ -18,8 +18,8 @@
 
 // JMS 2011: Added DPOINT type - a coordinate point with larger values to avoid overflows in hires modes.
 
-#ifndef _GFXLIB_H
-#define _GFXLIB_H
+#ifndef LIBS_GFXLIB_H_
+#define LIBS_GFXLIB_H_
 
 #include "port.h"
 #include "libs/compiler.h"
@@ -485,4 +485,4 @@ void ClearSystemRect (void);
 }
 #endif
 
-#endif /* _GFXLIB_H */
+#endif /* LIBS_GFXLIB_H_ */

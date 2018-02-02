@@ -13,8 +13,8 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
-#ifndef _COLORS_H
-#define _COLORS_H
+#ifndef UQM_COLORS_H_
+#define UQM_COLORS_H_
 
 // To be used as an indicator that the actual value of the color does not
 // matter, for instance in structure initialisations for fields which
@@ -451,5 +451,5 @@
 		BUILD_COLOR (MAKE_RGB15_INIT (0x00, 0x00, 0x00), 0x00)
 
 
-#endif  /* _COLORS_H */
+#endif  /* UQM_COLORS_H_ */
 

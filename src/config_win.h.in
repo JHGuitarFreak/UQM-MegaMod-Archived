@@ -7,8 +7,8 @@
  * from src/config_unix.h.in.
  */
 
-#ifndef _CONFIG_WIN_H
-#define _CONFIG_WIN_H
+#ifndef CONFIG_WIN_H_
+#define CONFIG_WIN_H_
 
 /* Directory where the UQM game data is located */
 #define CONTENTDIR "../content/"
@@ -60,6 +60,6 @@
 /* Defined if your system has _Bool of its own */
 @HAVE__BOOL@
 
-#endif  /* _CONFIG_WIN_H */
+#endif  /* CONFIG_WIN_H_ */
 
 

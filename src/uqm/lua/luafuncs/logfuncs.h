@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _LOGFUNCS_H
-#define _LOGFUNCS_H
+#ifndef UQM_LUA_LUAFUNCS_LOGFUNCS_H_
+#define UQM_LUA_LUAFUNCS_LOGFUNCS_H_
 
 #include "libs/scriptlib.h"
 
@@ -29,4 +29,4 @@ int luaUqm_log_open(lua_State *luaState);
 }
 #endif
 
-#endif  /* _LOGFUNCS_H */
+#endif  /* UQM_LUA_LUAFUNCS_LOGFUNCS_H_ */

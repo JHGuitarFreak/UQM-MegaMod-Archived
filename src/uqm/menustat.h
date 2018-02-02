@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _MENUSTAT_H
-#define _MENUSTAT_H
+#ifndef UQM_MENUSTAT_H_
+#define UQM_MENUSTAT_H_
 
 #include "libs/gfxlib.h"
 #include "libs/sndlib.h"
@@ -129,5 +129,5 @@ extern void DrawSubmenu (BYTE Visible);
 }
 #endif
 
-#endif /* _MENUSTAT_H */
+#endif /* UQM_MENUSTAT_H_ */
 

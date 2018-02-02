@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef _CDPLIB_H
-#define _CDPLIB_H
+#ifndef LIBS_CDPLIB_H_
+#define LIBS_CDPLIB_H_
 
 #if defined(__cplusplus)
 extern "C" {
@@ -29,4 +29,4 @@ extern "C" {
 }
 #endif
 
-#endif  /* _CDPLIB_H */
+#endif  /* LIBS_CDPLIB_H_ */

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _CONTROLS_H_
-#define _CONTROLS_H_
+#ifndef UQM_CONTROLS_H_
+#define UQM_CONTROLS_H_
 
 #include "libs/compiler.h"
 #include "libs/strlib.h"

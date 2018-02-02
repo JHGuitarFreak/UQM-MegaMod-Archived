@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef _LIB_MD5_H
-#define _LIB_MD5_H
+#ifndef LIBS_MD5_H_
+#define LIBS_MD5_H_
 
 #if defined(__cplusplus)
 extern "C" {
@@ -29,5 +29,5 @@ extern "C" {
 }
 #endif
 
-#endif  /* _LIB_MD5_H */
+#endif  /* LIBS_MD5_H_ */
 

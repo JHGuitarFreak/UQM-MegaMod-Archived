@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _CHECKBUF_H
-#define _CHECKBUF_H
+#ifndef UQM_SUPERMELEE_NETPLAY_CHECKBUF_H_
+#define UQM_SUPERMELEE_NETPLAY_CHECKBUF_H_
 
 #if defined(__cplusplus)
 extern "C" {
@@ -74,5 +74,5 @@ bool ChecksumBuffer_getChecksum(ChecksumBuffer *cb,
 }
 #endif
 
-#endif  /* _CHECKBUF_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_CHECKBUF_H_ */
 

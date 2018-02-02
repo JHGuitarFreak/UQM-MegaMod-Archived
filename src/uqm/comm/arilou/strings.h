@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef ARILOU_STRINGS_H
-#define ARILOU_STRINGS_H
+#ifndef UQM_COMM_ARILOU_STRINGS_H
+#define UQM_COMM_ARILOU_STRINGS_H
 
 enum
 {
@@ -121,4 +121,4 @@ enum
 	OUT_TAKES,
 };
 
-#endif /* __STRINGS_H */
+#endif /* UQM_COMM_ARILOU_STRINGS_H */

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _NETRCV_H
-#define _NETRCV_H
+#ifndef UQM_SUPERMELEE_NETPLAY_NETRCV_H_
+#define UQM_SUPERMELEE_NETPLAY_NETRCV_H_
 
 #include "libs/net.h"
 
@@ -31,5 +31,5 @@ void dataReadyCallback(NetDescriptor *nd);
 }
 #endif
 
-#endif  /* _NETRCV_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_NETRCV_H_ */
 

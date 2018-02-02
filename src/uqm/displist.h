@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _DISPLIST_H
-#define _DISPLIST_H
+#ifndef UQM_DISPLIST_H_
+#define UQM_DISPLIST_H_
 
 #include <assert.h>
 #include "port.h"
@@ -128,5 +128,5 @@ void ForAllLinks(QUEUE *pq, void (*callback)(LINK *, void *), void *arg);
 }
 #endif
 
-#endif /* _DISPLIST_H */
+#endif /* UQM_DISPLIST_H_ */
 

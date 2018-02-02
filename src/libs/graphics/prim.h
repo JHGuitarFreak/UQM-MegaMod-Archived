@@ -13,8 +13,8 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#ifndef _PRIM_H
-#define _PRIM_H
+#ifndef LIBS_GRAPHICS_PRIM_H_
+#define LIBS_GRAPHICS_PRIM_H_
 
 enum gfx_object
 {

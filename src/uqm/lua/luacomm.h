@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _LUACOMM_H
-#define _LUACOMM_H
+#ifndef UQM_LUA_LUACOMM_H_
+#define UQM_LUA_LUACOMM_H_
 
 #include "libs/compiler.h"
 #include "libs/reslib.h"
@@ -42,5 +42,5 @@ extern lua_State *luaUqm_commState;
 }
 #endif
 
-#endif  /* _LUACOMM_H */
+#endif  /* UQM_LUA_LUACOMM_H_ */
 

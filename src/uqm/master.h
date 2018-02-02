@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _MASTER_H
-#define _MASTER_H
+#ifndef UQM_MASTER_H_
+#define UQM_MASTER_H_
 
 #include "races.h"
 #include "libs/compiler.h"
@@ -66,5 +66,5 @@ FRAME GetShipMeleeIconsFromIndex (unsigned Index);
 }
 #endif
 
-#endif  /* _MASTER_H */
+#endif  /* UQM_MASTER_H_ */
 

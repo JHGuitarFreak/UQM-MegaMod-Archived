@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _RACES_H
-#define _RACES_H
+#ifndef UQM_RACES_H_
+#define UQM_RACES_H_
 
 #include "types.h"
 #include "libs/compiler.h"
@@ -756,5 +756,5 @@ typedef enum
 }
 #endif
 
-#endif /* _RACES_H */
+#endif /* UQM_RACES_H_ */
 

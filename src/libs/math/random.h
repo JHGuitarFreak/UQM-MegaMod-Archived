@@ -26,8 +26,8 @@
 * Copyright (c) 1989, Robert Leyland and Scott Anderson
 ****************************************************************************/
 
-#ifndef _RANDOM_H
-#define _RANDOM_H
+#ifndef LIBS_MATH_RANDOM_H_
+#define LIBS_MATH_RANDOM_H_
 
 /* ----------------------------GLOBALS/EXTERNS---------------------------- */
 
@@ -51,6 +51,6 @@ DWORD RandomContext_SeedRandom (RandomContext *context, DWORD new_seed);
 DWORD RandomContext_GetSeed (RandomContext *context);
 
 
-#endif  /* _RANDOM_H */
+#endif  /* LIBS_MATH_RANDOM_H_ */
 
 

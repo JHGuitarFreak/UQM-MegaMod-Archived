@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _PACKET_H
-#define _PACKET_H
+#ifndef UQM_SUPERMELEE_NETPLAY_PACKET_H_
+#define UQM_SUPERMELEE_NETPLAY_PACKET_H_
 
 #if defined(__cplusplus)
 extern "C" {
@@ -295,5 +295,5 @@ Packet_Reset *Packet_Reset_create(uint16 reason);
 }
 #endif
 
-#endif  /* _PACKET_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_PACKET_H_ */
 

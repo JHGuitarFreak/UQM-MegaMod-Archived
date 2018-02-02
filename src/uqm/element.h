@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _ELEMENT_H
-#define _ELEMENT_H
+#ifndef UQM_ELEMENT_H_
+#define UQM_ELEMENT_H_
 
 #include "displist.h"
 #include "units.h"
@@ -239,5 +239,5 @@ extern BOOLEAN CalculateGravity (ELEMENT *ElementPtr);
 }
 #endif
 
-#endif /* _ELEMENT_H */
+#endif /* UQM_ELEMENT_H_ */
 

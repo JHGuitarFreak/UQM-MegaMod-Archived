@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _TACTRANS_H
-#define _TACTRANS_H
+#ifndef UQM_TACTRANS_H_
+#define UQM_TACTRANS_H_
 
 #include "libs/compiler.h"
 #include "races.h"
@@ -54,6 +54,6 @@ extern void StartShipExplosion (ELEMENT *ShipPtr, bool playSound);
 }
 #endif
 
-#endif  /* _TACTRANS_H */
+#endif  /* UQM_TACTRANS_H_ */
 
 

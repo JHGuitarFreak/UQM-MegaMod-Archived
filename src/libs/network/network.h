@@ -16,12 +16,12 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _NETWORK_H
-#define _NETWORK_H
+#ifndef LIBS_NETWORK_NETWORK_H_
+#define LIBS_NETWORK_NETWORK_H_
 
 void Network_init(void);
 void Network_uninit(void);
 
-#endif  /* _NETWORK_H */
+#endif  /* LIBS_NETWORK_NETWORK_H_ */
 
 

@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _FSTYPES_H
-#define _FSTYPES_H
+#ifndef LIBS_UIO_FSTYPES_H_
+#define LIBS_UIO_FSTYPES_H_
 
 typedef int uio_FileSystemID;
 #define uio_FSTYPE_STDIO 1
@@ -109,5 +109,5 @@ uio_FileSystemInfo *uio_getFileSystemInfo(uio_FileSystemID id);
 
 #endif  /* uio_INTERNAL */
 
-#endif  /* _FSTYPES_H */
+#endif  /* LIBS_UIO_FSTYPES_H_ */
 

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _SUNDATA_H
-#define _SUNDATA_H
+#ifndef UQM_PLANETS_SUNDATA_H_
+#define UQM_PLANETS_SUNDATA_H_
 
 #include "plandata.h"
 #include "libs/compiler.h"
@@ -69,5 +69,5 @@ extern void DoPlanetaryAnalysis (SYSTEM_INFO *SysInfoPtr,
 }
 #endif
 
-#endif /* _SUNDATA_H */
+#endif /* UQM_PLANETS_SUNDATA_H_ */
 

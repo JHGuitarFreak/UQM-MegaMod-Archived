@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _NETINPUT_H
-#define _NETINPUT_H
+#ifndef UQM_SUPERMELEE_NETPLAY_NETINPUT_H_
+#define UQM_SUPERMELEE_NETPLAY_NETINPUT_H_
 
 #include "../../controls.h"
 		// for BATTLE_INPUT_STATE
@@ -54,5 +54,5 @@ BattleInputBuffer *getBattleInputBuffer(size_t player);
 }
 #endif
 
-#endif  /* _NETINPUT_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_NETINPUT_H_ */
 

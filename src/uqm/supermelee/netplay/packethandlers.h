@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _PACKETHANDLERS_H
-#define _PACKETHANDLERS_H
+#ifndef UQM_SUPERMELEE_NETPLAY_PACKETHANDLERS_H_
+#define UQM_SUPERMELEE_NETPLAY_PACKETHANDLERS_H_
 
 #include "packet.h"
 
@@ -53,4 +53,4 @@ DECLARE_PACKETHANDLER(Reset);
 }
 #endif
 
-#endif  /* _PACKETHANDLERS_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_PACKETHANDLERS_H_ */

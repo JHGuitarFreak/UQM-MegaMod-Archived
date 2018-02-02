@@ -19,8 +19,8 @@
  * CDP Video Interface 
  */
 
-#ifndef _CDPIVID_H
-#define _CDPIVID_H
+#ifndef LIBS_CDP_CDP_IVID_H_
+#define LIBS_CDP_CDP_IVID_H_
 
 #include "types.h"
 #include "libs/video/video.h"
@@ -40,4 +40,4 @@ typedef struct
 typedef cdp_Itf_VideoVtbl_v1 cdp_Itf_VideoVtbl;
 typedef cdp_Itf_VideoVtbl    cdp_Itf_Video;
 
-#endif  /* _CDPIVID_H */
+#endif  /* LIBS_CDP_CDP_IVID_H_ */

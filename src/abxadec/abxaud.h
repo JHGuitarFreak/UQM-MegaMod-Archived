@@ -18,8 +18,8 @@
  * .abx speech track decoder
  */
 
-#ifndef _ABXAUD_H
-#define _ABXAUD_H
+#ifndef ABXADEC_ABXAUD_H_
+#define ABXADEC_ABXAUD_H_
 
 typedef enum
 {
@@ -31,4 +31,4 @@ typedef enum
 	abxa_ErrOther = -1000,
 } abxa_Error;
 
-#endif // _ABXAUD_H
+#endif // ABXADEC_ABXAUD_H_

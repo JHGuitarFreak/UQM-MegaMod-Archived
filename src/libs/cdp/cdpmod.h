@@ -20,8 +20,8 @@
  * all CDP modules should #include this .h
  */
 
-#ifndef _CDPMOD_H
-#define _CDPMOD_H
+#ifndef LIBS_CDP_CDPMOD_H_
+#define LIBS_CDP_CDPMOD_H_
 
 #include "types.h"
 #include "cdpapi.h"
@@ -89,4 +89,4 @@ typedef struct
 #	define CDPEXPORT
 #endif
 
-#endif  /* _CDPMOD_H */
+#endif  /* LIBS_CDP_CDPMOD_H_ */

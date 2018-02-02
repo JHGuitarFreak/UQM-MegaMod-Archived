@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _STREAM_H
-#define _STREAM_H
+#ifndef LIBS_UIO_UIOSTREAM_H_
+#define LIBS_UIO_UIOSTREAM_H_
 
 
 typedef struct uio_Stream uio_Stream;
@@ -93,6 +93,6 @@ struct uio_Stream {
 
 #endif  /* uio_INTERNAL */
 
-#endif  /* _STREAM_H */
+#endif  /* LIBS_UIO_UIOSTREAM_H_ */
 
 

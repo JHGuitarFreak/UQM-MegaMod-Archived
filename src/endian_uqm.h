@@ -19,8 +19,8 @@
  * Original copyright (C) Sam Lantinga
  */
 
-#ifndef _ENDIAN_UQM_H
-#define _ENDIAN_UQM_H
+#ifndef ENDIAN_UQM_H_
+#define ENDIAN_UQM_H_
 
 #include "config.h"
 #include "types.h"
