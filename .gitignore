@@ -269,5 +269,5 @@ stdout.txt
 src.orig
 log.txt
 *.lnk
-
-\.DS_Store
+*.lib
+.DS_Store
