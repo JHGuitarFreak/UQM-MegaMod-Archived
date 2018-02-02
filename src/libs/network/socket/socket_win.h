@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _SOCKET_WIN_H
-#define _SOCKET_WIN_H
+#ifndef LIBS_NETWORK_SOCKET_SOCKET_WIN_H_
+#define LIBS_NETWORK_SOCKET_SOCKET_WIN_H_
 
 #ifdef SOCKET_INTERNAL
 #include <winsock2.h>
@@ -29,6 +29,6 @@ struct Socket {
 typedef int socklen_t;
 struct sockaddr;
 
-#endif /* _SOCKET_WIN_H */
+#endif /* LIBS_NETWORK_SOCKET_SOCKET_WIN_H_ */
 
 

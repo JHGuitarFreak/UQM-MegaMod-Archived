@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _SDLTHREAD_H
-#define _SDLTHREAD_H
+#ifndef LIBS_THREADS_SDL_SDLTHREADS_H_
+#define LIBS_THREADS_SDL_SDLTHREADS_H_
 
 #include "port.h"
 #include SDL_INCLUDE(SDL.h)
@@ -102,5 +102,5 @@ int  GetRecursiveMutexDepth_SDL (RecursiveMutex m);
 #define NativeUnlockRecursiveMutex UnlockRecursiveMutex_SDL
 #define NativeGetRecursiveMutexDepth GetRecursiveMutexDepth_SDL
 
-#endif  /* _SDLTHREAD_H */
+#endif  /* LIBS_THREADS_SDL_SDLTHREADS_H_ */
 

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef COMANDR_STRINGS_H
-#define COMANDR_STRINGS_H
+#ifndef UQM_COMM_COMANDR_STRINGS_H
+#define UQM_COMM_COMANDR_STRINGS_H
 
 enum
 {
@@ -119,4 +119,4 @@ enum
 	goodbye_commander,
 };
 
-#endif /* __STRINGS_H */
+#endif /* UQM_COMM_COMANDR_STRINGS_H */

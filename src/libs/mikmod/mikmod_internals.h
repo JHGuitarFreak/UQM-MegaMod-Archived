@@ -26,8 +26,8 @@
 
 ==============================================================================*/
 
-#ifndef _MIKMOD_INTERNALS_H
-#define _MIKMOD_INTERNALS_H
+#ifndef LIBS_MIKMOD_MIKMOD_INTERNALS_H_
+#define LIBS_MIKMOD_MIKMOD_INTERNALS_H_
 
 #ifdef __cplusplus
 extern "C" {

@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _GAMEEV_H
-#define _GAMEEV_H
+#ifndef UQM_GAMEEV_H_
+#define UQM_GAMEEV_H_
 
 #include "libs/compiler.h"
 #include "libs/gfxlib.h"
@@ -71,5 +71,5 @@ extern void SetRaceDest (BYTE which_race, COORD x, COORD y, BYTE days_left,
 }
 #endif
 
-#endif  /* _GAMEEV_H */
+#endif  /* UQM_GAMEEV_H_ */
 

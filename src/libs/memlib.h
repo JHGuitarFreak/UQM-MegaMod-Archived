@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _MEMLIB_H
-#define _MEMLIB_H
+#ifndef LIBS_MEMLIB_H_
+#define LIBS_MEMLIB_H_
 
 #include <stddef.h>
 
@@ -39,5 +39,5 @@ extern void *HRealloc (void *p, size_t size);
 }
 #endif
 
-#endif /* _MEMLIB_H */
+#endif /* LIBS_MEMLIB_H_ */
 

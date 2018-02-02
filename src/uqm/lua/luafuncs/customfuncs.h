@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _CUSTOMFUNCS_H
-#define _CUSTOMFUNCS_H
+#ifndef UQM_LUA_LUAFUNCS_CUSTOMFUNCS_H_
+#define UQM_LUA_LUAFUNCS_CUSTOMFUNCS_H_
 
 #if defined(__cplusplus)
 extern "C" {

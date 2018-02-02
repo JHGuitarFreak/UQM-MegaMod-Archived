@@ -19,8 +19,8 @@
  * CDP Memory Interface 
  */
 
-#ifndef _CDPIMEM_H
-#define _CDPIMEM_H
+#ifndef LIBS_CDP_CDP_IMEM_H_
+#define LIBS_CDP_CDP_IMEM_H_
 
 #include "types.h"
 #include "libs/memlib.h"
@@ -39,4 +39,4 @@ typedef struct
 typedef cdp_Itf_MemoryVtbl_v1 cdp_Itf_MemoryVtbl;
 typedef cdp_Itf_MemoryVtbl    cdp_Itf_Memory;
 
-#endif  /* _CDPIMEM_H */
+#endif  /* LIBS_CDP_CDP_IMEM_H_ */

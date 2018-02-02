@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef REBEL_STRINGS_H
-#define REBEL_STRINGS_H
+#ifndef UQM_COMM_REBEL_STRINGS_H
+#define UQM_COMM_REBEL_STRINGS_H
 
 enum
 {
@@ -58,4 +58,4 @@ enum
 	HATE_PKUNK_REBEL,
 };
 
-#endif /* __STRINGS_H */
+#endif /* UQM_COMM_REBEL_STRINGS_H */

@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _SAVE_H
-#define _SAVE_H
+#ifndef UQM_SAVE_H_
+#define UQM_SAVE_H_
 
 #include "sis.h" // SUMMARY_DESC includes SIS_STATE in it
 #include "globdata.h"
@@ -78,5 +78,5 @@ extern const GameStateBitMap gameStateBitMap[];
 }
 #endif
 
-#endif  /* _SAVE_H */
+#endif  /* UQM_SAVE_H_ */
 

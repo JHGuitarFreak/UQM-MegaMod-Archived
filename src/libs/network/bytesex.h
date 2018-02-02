@@ -22,8 +22,8 @@
 // functions are in winsock2.h, which includes windows.h, which includes
 // pretty much Microsoft's complete collection of .h files.
 
-#ifndef _BYTESEX_H
-#define _BYTESEX_H
+#ifndef LIBS_NETWORK_BYTESEX_H_
+#define LIBS_NETWORK_BYTESEX_H_
 
 #include "port.h"
 		// for inline
@@ -92,5 +92,5 @@ ntoh32(uint32 x) {
 
 #endif  /* defined(WORDS_BIGENDIAN) */
 
-#endif  /* _BYTESEX_H */
+#endif  /* LIBS_NETWORK_BYTESEX_H_ */
 

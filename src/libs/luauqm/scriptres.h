@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _SCRIPTRES_H
-#define _SCRIPTRES_H
+#ifndef LIBS_LUAUQM_SCRIPTRES_H_
+#define LIBS_LUAUQM_SCRIPTRES_H_
 
 #include "libs/compiler.h"
 #include "libs/reslib.h"

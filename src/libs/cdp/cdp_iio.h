@@ -19,8 +19,8 @@
  * CDP Unified IO Interface 
  */
 
-#ifndef _CDPIIO_H
-#define _CDPIIO_H
+#ifndef LIBS_CDP_CDP_IIO_H_
+#define LIBS_CDP_CDP_IIO_H_
 
 #include "types.h"
 #include "libs/uio.h"
@@ -47,4 +47,4 @@ typedef struct
 typedef cdp_Itf_IoVtbl_v1 cdp_Itf_IoVtbl;
 typedef cdp_Itf_IoVtbl    cdp_Itf_Io;
 
-#endif  /* _CDPIIO_H */
+#endif  /* LIBS_CDP_CDP_IIO_H_ */

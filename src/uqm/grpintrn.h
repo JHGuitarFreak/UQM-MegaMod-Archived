@@ -1,5 +1,5 @@
-#ifndef _GRPINTRN_H
-#define _GRPINTRN_H
+#ifndef UQM_GRPINTRN_H_
+#define UQM_GRPINTRN_H_
 
 // For IPGROUP
 #include "grpinfo.h"

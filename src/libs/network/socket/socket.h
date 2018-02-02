@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _UQM_SOCKET_H
-#define _UQM_SOCKET_H
+#ifndef LIBS_NETWORK_SOCKET_SOCKET_H_
+#define LIBS_NETWORK_SOCKET_SOCKET_H_
 
 typedef struct Socket Socket;
 #define Socket_noSocket ((Socket *) NULL)
@@ -95,5 +95,5 @@ int Socket_setInlineOOB(Socket *sock);
 int Socket_setKeepAlive(Socket *sock);
 int Socket_getError(Socket *sock, int *err);
 
-#endif  /* _UQM_SOCKET_H */
+#endif  /* LIBS_NETWORK_SOCKET_SOCKET_H_ */
 

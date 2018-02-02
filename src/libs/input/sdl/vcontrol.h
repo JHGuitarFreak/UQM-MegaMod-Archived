@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _VCONTROL_H_
-#define _VCONTROL_H_
+#ifndef LIBS_INPUT_SDL_VCONTROL_H_
+#define LIBS_INPUT_SDL_VCONTROL_H_
 
 #include "port.h"
 #include SDL_INCLUDE(SDL.h)

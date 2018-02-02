@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _STRINTRN_H
-#define _STRINTRN_H
+#ifndef LIBS_STRINGS_STRINTRN_H_
+#define LIBS_STRINGS_STRINTRN_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -52,5 +52,5 @@ void *_GetStringData (uio_Stream *fp, DWORD length);
 void *_GetBinaryTableData (uio_Stream *fp, DWORD length);
 void _GetConversationData (const char *path, RESOURCE_DATA *resdata);
 
-#endif /* _STRINTRN_H */
+#endif /* LIBS_STRINGS_STRINTRN_H_ */
 

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef ZOQFOT_STRINGS_H
-#define ZOQFOT_STRINGS_H
+#ifndef UQM_COMM_ZOQFOT_STRINGS_H
+#define UQM_COMM_ZOQFOT_STRINGS_H
 
 enum
 {
@@ -358,5 +358,5 @@ enum
 	OUT_TAKES13,
 };
 
-#endif /* __STRINGS_H */
+#endif /* UQM_COMM_ZOQFOT_STRINGS_H */
 

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _NETMANAGER_WIN_H
-#define _NETMANAGER_WIN_H
+#ifndef LIBS_NETWORK_NETMANAGER_NETMANAGER_WIN_H_
+#define LIBS_NETWORK_NETMANAGER_NETMANAGER_WIN_H_
 
 typedef struct SocketManagementDataWin SocketManagementDataWin;
 typedef SocketManagementDataWin SocketManagementData;
@@ -30,6 +30,6 @@ struct SocketManagementDataWin {
 #endif  /* NETMANAGER_INTERNAL */
 
 
-#endif  /* _NETMANAGER_WIN_H */
+#endif  /* LIBS_NETWORK_NETMANAGER_NETMANAGER_WIN_H_ */
 
 

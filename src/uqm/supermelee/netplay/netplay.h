@@ -18,8 +18,8 @@
 
 #include "../../../uqmversion.h"
 
-#if !defined(_NETPLAY_H) && defined(NETPLAY)
-#define _NETPLAY_H
+#if !defined(UQM_SUPERMELEE_NETPLAY_NETPLAY_H_) && defined(NETPLAY)
+#define UQM_SUPERMELEE_NETPLAY_NETPLAY_H_
 
 // NETPLAY can either be unset (in which case we will never get here)
 // NETPLAY_FULL, or NETPLAY_IPV4 (disables IPv6)
@@ -75,5 +75,5 @@
 #endif
 
 
-#endif  /* _NETPLAY_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_NETPLAY_H_ */
 

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _CLOCK_H
-#define _CLOCK_H
+#ifndef UQM_CLOCK_H_
+#define UQM_CLOCK_H_
 
 #include "libs/tasklib.h"
 #include "displist.h"
@@ -106,5 +106,5 @@ extern BOOLEAN GameClockRunning (void);
 }
 #endif
 
-#endif /* _CLOCK_H */
+#endif /* UQM_CLOCK_H_ */
 

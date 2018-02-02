@@ -19,8 +19,8 @@
  * CDP library declarations
  */
 
-#ifndef _CDP_H
-#define _CDP_H
+#ifndef LIBS_CDP_CDP_H_
+#define LIBS_CDP_CDP_H_
 
 #include "types.h"
 #include "cdpapi.h"
@@ -44,4 +44,4 @@ const char* cdp_GetModuleComment (cdp_Module* module, bool bMetaString);
 int cdp_LoadAllModules (void);
 void cdp_FreeAllModules (void);
 
-#endif  /* _CDP_H */
+#endif  /* LIBS_CDP_CDP_H_ */

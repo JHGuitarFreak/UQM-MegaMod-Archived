@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _MELEE_H
-#define _MELEE_H
+#ifndef UQM_SUPERMELEE_MELEE_H_
+#define UQM_SUPERMELEE_MELEE_H_
 
 #include "../init.h"
 #include "libs/gfxlib.h"
@@ -141,5 +141,5 @@ void Melee_RemoteChange_teamName (MELEE_STATE *pMS, NetConnection *conn,
 }
 #endif
 
-#endif /* _MELEE_H */
+#endif /* UQM_SUPERMELEE_MELEE_H_ */
 

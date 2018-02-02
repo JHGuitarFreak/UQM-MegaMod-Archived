@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _PATHS_H
-#define _PATHS_H
+#ifndef LIBS_UIO_PATHS_H_
+#define LIBS_UIO_PATHS_H_
 
 typedef struct uio_PathComp uio_PathComp;
 
@@ -92,5 +92,5 @@ uio_PathComp *uio_makePathComps(const char *path, uio_PathComp *upComp);
 void uio_printPathComp(FILE *outStream, const uio_PathComp *comp);
 void uio_printPathToComp(FILE *outStream, const uio_PathComp *comp);
 
-#endif  /* _PATHS_H */
+#endif  /* LIBS_UIO_PATHS_H_ */
 

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _NETMISC_H
-#define _NETMISC_H
+#ifndef UQM_SUPERMELEE_NETPLAY_NETMISC_H_
+#define UQM_SUPERMELEE_NETPLAY_NETMISC_H_
 
 typedef struct BattleStateData BattleStateData;
 
@@ -74,6 +74,6 @@ readyFlagsMeaningful(NetState state) {
 }
 #endif
 
-#endif  /* _NETMISC_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_NETMISC_H_ */
 
 

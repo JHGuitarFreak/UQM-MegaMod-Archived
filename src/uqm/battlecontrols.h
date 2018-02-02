@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _BATTLECONTROLS_H
-#define _BATTLECONTROLS_H
+#ifndef UQM_BATTLECONTROLS_H_
+#define UQM_BATTLECONTROLS_H_
 
 typedef struct BattleInputHandlers BattleInputHandlers;
 typedef struct InputContext InputContext;
@@ -96,6 +96,6 @@ void InputContext_delete (InputContext *context);
 }
 #endif
 
-#endif  /* _BATTLECONTROLS_H */
+#endif  /* UQM_BATTLECONTROLS_H_ */
 
 

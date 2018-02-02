@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _GLOBDATA_H
-#define _GLOBDATA_H
+#ifndef UQM_GLOBDATA_H_
+#define UQM_GLOBDATA_H_
 
 #include "clock.h"
 #include "libs/gfxlib.h"
@@ -1118,5 +1118,5 @@ extern void UninitGameStructures (void);
 }
 #endif
 
-#endif /* _GLOBDATA_H */
+#endif /* UQM_GLOBDATA_H_ */
 

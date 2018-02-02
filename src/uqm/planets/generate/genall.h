@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _GENALL_H
-#define _GENALL_H
+#ifndef UQM_PLANETS_GENERATE_GENALL_H_
+#define UQM_PLANETS_GENERATE_GENALL_H_
 
 #include "gendefault.h"
 #include "types.h"
@@ -23,5 +23,5 @@
 #include "libs/compiler.h"
 
 
-#endif  /* _GENALL_H */
+#endif  /* UQM_PLANETS_GENERATE_GENALL_H_ */
 

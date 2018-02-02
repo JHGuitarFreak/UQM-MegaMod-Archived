@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _IOAUX_H
-#define _IOAUX_H
+#ifndef LIBS_UIO_IOAUX_H_
+#define LIBS_UIO_IOAUX_H_
 
 #include "iointrn.h"
 #include "physical.h"
@@ -49,5 +49,5 @@ ssize_t uio_resolvePath(uio_DirHandle *dirHandle, const char *path,
 		size_t pathLen, char **destPath);
 
 
-#endif  /* _IOAUX_H */
+#endif  /* LIBS_UIO_IOAUX_H_ */
 

@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _CONNECT_RESOLVE_H
-#define _CONNECT_RESOLVE_H
+#ifndef LIBS_NETWORK_CONNECT_RESOLVE_H_
+#define LIBS_NETWORK_CONNECT_RESOLVE_H_
 
 
 typedef struct ResolveFlags ResolveFlags;
@@ -105,5 +105,5 @@ void splitAddrInfoOnFamily(struct addrinfo *info, int family,
 		struct addrinfo **rest, struct addrinfo ***restEnd);
 
 
-#endif  /* _CONNECT_RESOLVE_H */
+#endif  /* LIBS_NETWORK_CONNECT_RESOLVE_H_ */
 

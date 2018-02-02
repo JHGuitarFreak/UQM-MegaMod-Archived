@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _CREDITS_H
-#define _CREDITS_H
+#ifndef UQM_CREDITS_H_
+#define UQM_CREDITS_H_
 
 #include "libs/compiler.h"
 
@@ -29,5 +29,5 @@ extern void Credits (BOOLEAN WithOuttakes);
 }
 #endif
 
-#endif  /* _CREDITS_H */
+#endif  /* UQM_CREDITS_H_ */
 

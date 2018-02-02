@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _SNDLIB_H
-#define _SNDLIB_H
+#ifndef LIBS_SNDLIB_H_
+#define LIBS_SNDLIB_H_
 
 #include "port.h"
 #include "libs/strlib.h"
@@ -103,5 +103,5 @@ extern DWORD FadeMusic (BYTE end_vol, SIZE TimeInterval);
 }
 #endif
 
-#endif /* _SNDLIB_H */
+#endif /* LIBS_SNDLIB_H_ */
 

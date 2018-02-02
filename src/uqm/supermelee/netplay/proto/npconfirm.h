@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _NPCONFIRM_H
-#define _NPCONFIRM_H
+#ifndef UQM_SUPERMELEE_NETPLAY_PROTO_NPCONFIRM_H_
+#define UQM_SUPERMELEE_NETPLAY_PROTO_NPCONFIRM_H_
 
 #include "../netplay.h"
 #include "../netconnection.h"
@@ -33,6 +33,6 @@ int Netplay_cancelConfirmation(NetConnection *conn);
 }
 #endif
 
-#endif  /* _NPCONFIRM_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_PROTO_NPCONFIRM_H_ */
 
 

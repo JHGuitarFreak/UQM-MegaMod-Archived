@@ -26,8 +26,8 @@
 
 ==============================================================================*/
 
-#ifndef _MIKMOD_H_
-#define _MIKMOD_H_
+#ifndef LIBS_MIKMOD_MIKMOD_H_
+#define LIBS_MIKMOD_MIKMOD_H_
 
 #include <stdio.h>
 #include <stdlib.h>

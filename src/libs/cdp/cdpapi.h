@@ -20,8 +20,8 @@
  * the API is used by both the engine and modules
  */
 
-#ifndef _CDPAPI_H
-#define _CDPAPI_H
+#ifndef LIBS_CDP_CDPAPI_H_
+#define LIBS_CDP_CDPAPI_H_
 
 #include "types.h"
 
@@ -151,4 +151,4 @@ typedef struct
 typedef cdp_Itf_HostVtbl_v1 cdp_Itf_HostVtbl;
 typedef cdp_Itf_HostVtbl    cdp_Itf_Host;
 
-#endif  /* _CDPAPI_H */
+#endif  /* LIBS_CDP_CDPAPI_H_ */

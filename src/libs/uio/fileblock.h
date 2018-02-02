@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _FILEBLOCK_H
-#define _FILEBLOCK_H
+#ifndef LIBS_UIO_FILEBLOCK_H_
+#define LIBS_UIO_FILEBLOCK_H_
 
 typedef struct uio_FileBlock uio_FileBlock;
 
@@ -83,6 +83,6 @@ void uio_setFileBlockUsageHint(uio_FileBlock *block, int usage,
 		size_t readAheadBufSize);
 void uio_clearFileBlockBuffers(uio_FileBlock *block);
 
-#endif  /* _FILEBLOCK_H */
+#endif  /* LIBS_UIO_FILEBLOCK_H_ */
 
 

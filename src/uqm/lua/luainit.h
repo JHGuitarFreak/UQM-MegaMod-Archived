@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _LUAINIT_H
-#define _LUAINIT_H
+#ifndef UQM_LUA_LUAINIT_H_
+#define UQM_LUA_LUAINIT_H_
 
 #include "libs/compiler.h"
 
@@ -29,5 +29,5 @@ void luaUqm_runInitScripts(void);
 }
 #endif
 
-#endif  /* _LUAINIT_H */
+#endif  /* UQM_LUA_LUAINIT_H_ */
 

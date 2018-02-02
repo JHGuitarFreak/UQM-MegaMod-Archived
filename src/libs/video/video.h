@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _UQM_VIDEO_H
-#define _UQM_VIDEO_H
+#ifndef LIBS_VIDEO_VIDEO_H_
+#define LIBS_VIDEO_VIDEO_H_
 
 #include "libs/vidlib.h"
 #include "libs/sndlib.h"
@@ -53,4 +53,4 @@ typedef struct tfb_videoclip
 
 extern VIDEO_REF _init_video_file(const char *pStr);
 
-#endif // _UQM_VIDEO_H
+#endif // LIBS_VIDEO_VIDEO_H_

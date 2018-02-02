@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _NOTIFY_H
-#define _NOTIFY_H
+#ifndef UQM_SUPERMELEE_NETPLAY_NOTIFY_H_
+#define UQM_SUPERMELEE_NETPLAY_NOTIFY_H_
 
 #include "netplay.h"
 		// for NETPLAY_CHECKSUM
@@ -59,5 +59,5 @@ void Netplay_Notify_checksum(NetConnection *conn,
 }
 #endif
 
-#endif  /* _NOTIFY_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_NOTIFY_H_ */
 

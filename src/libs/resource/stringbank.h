@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _STRINGBANK_H_
-#define _STRINGBANK_H_
+#ifndef LIBS_RESOURCE_STRINGBANK_H_
+#define LIBS_RESOURCE_STRINGBANK_H_
 
 #ifdef SB_DEBUG
 #include <stdio.h>
@@ -54,4 +54,4 @@ int SplitString (const char *s, char splitchar, int n, const char **result, stri
 void StringBank_Dump (stringbank *bank, FILE *s);
 #endif  /* SB_DEBUG */
 
-#endif  /* _STRINGBANK_H_ */
+#endif  /* LIBS_RESOURCE_STRINGBANK_H_ */

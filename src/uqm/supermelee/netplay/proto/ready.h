@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _READY_H
-#define _READY_H
+#ifndef UQM_SUPERMELEE_NETPLAY_PROTO_READY_H_
+#define UQM_SUPERMELEE_NETPLAY_PROTO_READY_H_
 
 #include "../netconnection.h"
 
@@ -35,5 +35,5 @@ bool Netplay_isRemoteReady(const NetConnection *conn);
 }
 #endif
 
-#endif  /* _READY_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_PROTO_READY_H_ */
 

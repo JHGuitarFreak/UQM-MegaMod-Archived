@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _NETPORT_H
-#define _NETPORT_H
+#ifndef LIBS_NETWORK_NETPORT_H_
+#define LIBS_NETWORK_NETPORT_H_
 
 #include "port.h"
 
@@ -38,6 +38,6 @@ gai_strerror(int err) {
 
 #endif
 
-#endif  /* _NETPORT_H */
+#endif  /* LIBS_NETWORK_NETPORT_H_ */
 
 

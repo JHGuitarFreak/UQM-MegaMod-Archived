@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _LUAUQM_H
-#define _LUAUQM_H
+#ifndef LIBS_LUAUQM_LUAUQM_H_
+#define LIBS_LUAUQM_LUAUQM_H_
 
 #ifdef USE_INTERNAL_LUA
 #   include "libs/lua/lua.h"
@@ -75,5 +75,5 @@ void luaUqm_dumpStack(lua_State *luaState);
 }
 #endif
 
-#endif  /* _LUAUQM_H */
+#endif  /* LIBS_LUAUQM_LUAUQM_H_ */
 

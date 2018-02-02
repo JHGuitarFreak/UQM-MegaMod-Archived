@@ -19,8 +19,8 @@
  * the game. libs/strlib.h is for the string library.
  */
 
-#ifndef _GAMESTR_H
-#define _GAMESTR_H
+#ifndef UQM_GAMESTR_H_
+#define UQM_GAMESTR_H_
 
 
 #include "libs/strlib.h"
@@ -92,5 +92,5 @@ extern STRING GameStrings;
 }
 #endif
 
-#endif  /* _GAMESTR_H */
+#endif  /* UQM_GAMESTR_H_ */
 

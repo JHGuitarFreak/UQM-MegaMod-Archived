@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _EVENTFUNCS_H
-#define _EVENTFUNCS_H
+#ifndef UQM_LUA_LUAFUNCS_EVENTFUNCS_H_
+#define UQM_LUA_LUAFUNCS_EVENTFUNCS_H_
 
 #include "libs/scriptlib.h"
 
@@ -29,5 +29,5 @@ int luaUqm_event_open(lua_State *luaState);
 }
 #endif
 
-#endif  /* _EVENTFUNCS_H */
+#endif  /* UQM_LUA_LUAFUNCS_EVENTFUNCS_H_ */
 

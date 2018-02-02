@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef _IO_H
-#define _IO_H
+#ifndef LIBS_UIO_IO_H_
+#define LIBS_UIO_IO_H_
 
 #include <assert.h>
 #include <sys/stat.h>
@@ -155,5 +155,5 @@ void uio_DirHandle_print(const uio_DirHandle *dirHandle, FILE *out);
 #	define uio_DEBUG
 #endif
 
-#endif  /* _IO_H */
+#endif  /* LIBS_UIO_IO_H_ */
 

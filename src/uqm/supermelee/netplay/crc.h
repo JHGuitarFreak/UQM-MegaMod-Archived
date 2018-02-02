@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _CRC_H
-#define _CRC_H
+#ifndef UQM_SUPERMELEE_NETPLAY_CRC_H_
+#define UQM_SUPERMELEE_NETPLAY_CRC_H_
 
 typedef struct crc_State crc_State;
 
@@ -56,5 +56,5 @@ uint32 crc_finish(const crc_State *state);
 			(void) 0
 #endif
 
-#endif  /* _CRC_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_CRC_H_ */
 

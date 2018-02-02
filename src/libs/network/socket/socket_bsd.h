@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _SOCKET_BSD_H
-#define _SOCKET_BSD_H
+#ifndef LIBS_NETWORK_SOCKET_SOCKET_BSD_H_
+#define LIBS_NETWORK_SOCKET_SOCKET_BSD_H_
 
 #include "types.h"
 #include <sys/socket.h>
@@ -29,5 +29,5 @@ struct Socket {
 #endif  /* SOCKET_INTERNAL */
 
 
-#endif /* _SOCKET_BSD_H */
+#endif /* LIBS_NETWORK_SOCKET_SOCKET_BSD_H_ */
 

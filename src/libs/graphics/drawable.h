@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _DRAWABLE_H
-#define _DRAWABLE_H
+#ifndef LIBS_GRAPHICS_DRAWABLE_H_
+#define LIBS_GRAPHICS_DRAWABLE_H_
 
 #include <stdio.h>
 #include "tfb_draw.h"
@@ -84,5 +84,5 @@ extern FRAME _CurFramePtr;
 // ClipRect is relative to ctxOrigin
 extern void _text_blt (RECT *pClipRect, TEXT *TextPtr, POINT ctxOrigin);
 
-#endif /* _DRAWABLE_H */
+#endif /* LIBS_GRAPHICS_DRAWABLE_H_ */
 

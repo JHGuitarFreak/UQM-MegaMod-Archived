@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _CHECKSUM_H
-#define _CHECKSUM_H
+#ifndef UQM_SUPERMELEE_NETPLAY_CHECKSUM_H_
+#define UQM_SUPERMELEE_NETPLAY_CHECKSUM_H_
 
 
 #include "types.h"
@@ -96,6 +96,6 @@ bool verifyChecksums(BattleFrameCounter frameNr);
 }
 #endif
 
-#endif  /* _CHECKSUM_H */
+#endif  /* UQM_SUPERMELEE_NETPLAY_CHECKSUM_H_ */
 
 

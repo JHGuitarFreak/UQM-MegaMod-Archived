@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _FONT_H
-#define _FONT_H
+#ifndef LIBS_GRAPHICS_FONT_H_
+#define LIBS_GRAPHICS_FONT_H_
 
 #include "libs/memlib.h"
 
@@ -67,5 +67,5 @@ extern FONT _CurFontPtr;
 extern void *_GetFontData (uio_Stream *fp, DWORD length);
 extern BOOLEAN _ReleaseFontData (void *handle);
 
-#endif /* _FONT_H */
+#endif /* LIBS_GRAPHICS_FONT_H_ */
 

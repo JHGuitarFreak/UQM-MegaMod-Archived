@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _2XSCALERS_MMX_H_
-#define _2XSCALERS_MMX_H_
+#ifndef LIBS_GRAPHICS_SDL_2XSCALERS_MMX_H_
+#define LIBS_GRAPHICS_SDL_2XSCALERS_MMX_H_
 
 // MMX versions
 void Scale_MMX_PrepPlatform (const SDL_PixelFormat* fmt);
@@ -53,4 +53,4 @@ void Scale_3DNow_HqFilter (SDL_Surface *src, SDL_Surface *dst, SDL_Rect *r);
 extern const Scale_FuncDef_t Scale_3DNow_Functions[];
 
 
-#endif /* _2XSCALERS_MMX_H_ */
+#endif /* LIBS_GRAPHICS_SDL_2XSCALERS_MMX_H_ */

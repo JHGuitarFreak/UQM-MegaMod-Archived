@@ -14,8 +14,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _PICKMELE_H
-#define _PICKMELE_H
+#ifndef UQM_SUPERMELEE_PICKMELE_H_
+#define UQM_SUPERMELEE_PICKMELE_H_
 
 typedef struct getmelee_struct GETMELEE_STATE;
 
@@ -98,5 +98,5 @@ bool setShipSelected(GETMELEE_STATE *gms, COUNT playerI, COUNT choice,
 
 #endif  /* PICKMELE_INTERNAL */
 
-#endif  /* _PICKMELE_H */
+#endif  /* UQM_SUPERMELEE_PICKMELE_H_ */
 

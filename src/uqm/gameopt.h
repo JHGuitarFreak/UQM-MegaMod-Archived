@@ -13,8 +13,8 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#ifndef _GAMEOPT_H
-#define _GAMEOPT_H
+#ifndef UQM_GAMEOPT_H_
+#define UQM_GAMEOPT_H_
 
 #include "libs/compiler.h"
 #include "libs/gfxlib.h"
@@ -34,5 +34,5 @@ extern void AskNameForCaptainAndShip(void);
 }
 #endif
 
-#endif  /* _GAMEOPT_H */
+#endif  /* UQM_GAMEOPT_H_ */
 

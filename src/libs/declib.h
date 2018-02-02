@@ -16,8 +16,8 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _DECLIB_H
-#define _DECLIB_H
+#ifndef LIBS_DECLIB_H_
+#define LIBS_DECLIB_H_
 
 #include "libs/compiler.h"
 
@@ -54,4 +54,4 @@ extern COUNT cwrite (const void *pStr, COUNT size, COUNT count,
 }
 #endif
 
-#endif /* _DECLIB_H */
+#endif /* LIBS_DECLIB_H_ */
