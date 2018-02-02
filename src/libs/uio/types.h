@@ -23,6 +23,12 @@
 
 #include "config.h"
 
+#ifdef _MSC_VER
+#	if (_MSC_VER > 1700)
+#		include <stdbool.h>
+#	endif
+#endif
+
 // ISO C99 compatible boolean types. The ISO C99 standard defines:
 // - An object declared as type _Bool, large enough to store the values 0
 //   and 1, the rank of which is less than the rank of all other standard

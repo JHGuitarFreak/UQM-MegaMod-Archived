@@ -115,6 +115,7 @@ readdir_r(DIR *dirp, struct dirent *entry, struct dirent **result) {
 #endif
 
 #ifdef _MSC_VER
+#if (_MSC_VER <= 1700)
 // MSVC does not have snprintf() and vsnprintf(). It does have a _snprintf()
 // and _vsnprintf(), but these do not terminate a truncated string as
 // the C standard prescribes.
@@ -141,5 +142,6 @@ vsnprintf(char *str, size_t size, const char *format, va_list args)
 		str[size - 1] = '\0';
 	return result;
 }
+#endif
 #endif  /* _MSC_VER */
 
