@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UrQuanMasters", "UrQuanMasters.vcxproj", "{9AF8F380-1E87-419D-9993-29891E83F39B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug NoAccel|x86 = Debug NoAccel|x86
+		Debug|x86 = Debug|x86
+		Release NoAccel|x86 = Release NoAccel|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AF8F380-1E87-419D-9993-29891E83F39B}.Debug NoAccel|x86.ActiveCfg = Debug NoAccel|Win32
+		{9AF8F380-1E87-419D-9993-29891E83F39B}.Debug NoAccel|x86.Build.0 = Debug NoAccel|Win32
+		{9AF8F380-1E87-419D-9993-29891E83F39B}.Debug|x86.ActiveCfg = Debug|Win32
+		{9AF8F380-1E87-419D-9993-29891E83F39B}.Debug|x86.Build.0 = Debug|Win32
+		{9AF8F380-1E87-419D-9993-29891E83F39B}.Release NoAccel|x86.ActiveCfg = Release NoAccel|Win32
+		{9AF8F380-1E87-419D-9993-29891E83F39B}.Release NoAccel|x86.Build.0 = Release NoAccel|Win32
+		{9AF8F380-1E87-419D-9993-29891E83F39B}.Release|x86.ActiveCfg = Release|Win32
+		{9AF8F380-1E87-419D-9993-29891E83F39B}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
