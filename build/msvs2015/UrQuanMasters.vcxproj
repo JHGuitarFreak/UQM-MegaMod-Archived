@@ -139,6 +139,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\Programming\C++\UQM\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Programming\C++\UQM\lib;$(LibraryPath)</LibraryPath>
+    <ExcludePath>$(VcpkgRoot);$(ExcludePath)</ExcludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
