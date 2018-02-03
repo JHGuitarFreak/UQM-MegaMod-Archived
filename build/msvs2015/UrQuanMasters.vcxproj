@@ -39,6 +39,7 @@
     <SccLocalPath />
     <ProjectName>UrQuanMasters</ProjectName>
     <ProjectGuid>{DF55CB3F-4271-B954-F8B8-A60BCAE9334D}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -137,8 +138,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Programming\C++\UQM\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Programming\C++\UQM\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Programming\UQM\VS2015\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Programming\UQM\VS2015\lib;$(LibraryPath)</LibraryPath>
     <ExcludePath>$(VcpkgRoot);$(ExcludePath)</ExcludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -158,8 +159,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Programming\C++\UQM\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Programming\C++\UQM\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Programming\UQM\VS2015\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Programming\UQM\VS2015\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
