@@ -2,334 +2,334 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{547ec132-1b93-4e77-a686-42c5d9521fd3}</UniqueIdentifier>
+      <UniqueIdentifier>{d4afe9e2-00c2-4204-bc59-eb13e9c2c18a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\getopt">
-      <UniqueIdentifier>{4f0a6b9c-d548-4a24-b012-f25530f903d7}</UniqueIdentifier>
+      <UniqueIdentifier>{d98a6508-8c6c-4e72-a2af-139f4189a37e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\regex">
-      <UniqueIdentifier>{e3b36e7d-3a61-420f-9933-7b909df2bb71}</UniqueIdentifier>
+      <UniqueIdentifier>{53bc8c6d-a65d-4c6b-a9e5-2bd9ffa10bf1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs">
-      <UniqueIdentifier>{b677b07f-0331-4a40-b8f7-f5ad67a0c958}</UniqueIdentifier>
+      <UniqueIdentifier>{54f1b955-0e23-4acc-8b67-e73a2ab7f32a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\callback">
-      <UniqueIdentifier>{287a9067-5b3f-440e-ad72-4a727b55faff}</UniqueIdentifier>
+      <UniqueIdentifier>{a0711978-9417-40f3-aa11-d98e216368cc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\decomp">
-      <UniqueIdentifier>{2b24e829-b75b-4c58-9a8c-45d44fdfd2ed}</UniqueIdentifier>
+      <UniqueIdentifier>{cdf0e802-87d1-4820-8e68-40d4accde6fb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\file">
-      <UniqueIdentifier>{f7e4d756-5780-427d-8574-0207311c42bb}</UniqueIdentifier>
+      <UniqueIdentifier>{5b84dd0f-6db0-41c3-8d05-6de06dd4b12e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\graphics">
-      <UniqueIdentifier>{b6d696bf-5e87-4fc6-aa1a-7e8364e492de}</UniqueIdentifier>
+      <UniqueIdentifier>{ac0a87fc-0f91-48bc-8fb6-bd16b28feba5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\graphics\sdl">
-      <UniqueIdentifier>{749964a9-323a-403d-94a1-e168459c308a}</UniqueIdentifier>
+      <UniqueIdentifier>{a2044e3b-35b2-4625-8ab0-7e9719ed398f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\heap">
-      <UniqueIdentifier>{0d73f8ff-9b7f-423d-b4fc-1c67ba7711bc}</UniqueIdentifier>
+      <UniqueIdentifier>{35981505-4657-4a4e-ac97-c26ace3b223c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\input">
-      <UniqueIdentifier>{b49b55d2-719f-49d9-b6f6-2f08f9d40074}</UniqueIdentifier>
+      <UniqueIdentifier>{48aaa369-58d4-434b-bbd7-ec5a7827fe0b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\input\sdl No. 1">
-      <UniqueIdentifier>{579a7d3c-f1a5-4712-a6d2-4f0a39c0e4e7}</UniqueIdentifier>
+      <UniqueIdentifier>{055a3bed-732b-407b-99e6-75611bd340c0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\list">
-      <UniqueIdentifier>{e0a93992-c687-4c60-a000-90dfae3d40fb}</UniqueIdentifier>
+      <UniqueIdentifier>{0f5c6d30-9a64-422f-ba0b-fbc634f77f8c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\lua">
-      <UniqueIdentifier>{ea180539-36aa-46f0-adde-bb55e53a5db2}</UniqueIdentifier>
+      <UniqueIdentifier>{129a1f39-d39b-424b-9c01-240299866ed8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\luauqm">
-      <UniqueIdentifier>{d57ae6b9-3d1e-4aed-9304-8c6f7634379c}</UniqueIdentifier>
+      <UniqueIdentifier>{7de9de46-1138-4d45-95bd-e81e3e63248f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\log">
-      <UniqueIdentifier>{8a1c3429-16b8-4dc1-bc91-9eb9a61f5052}</UniqueIdentifier>
+      <UniqueIdentifier>{f0cc160e-897a-4410-8e1e-6deb930bb67a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\math">
-      <UniqueIdentifier>{d9313cd2-859f-407f-bdf4-dbcf0567613c}</UniqueIdentifier>
+      <UniqueIdentifier>{cd278cb8-50ed-4841-891e-1eadcadc2007}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\md5">
-      <UniqueIdentifier>{83ce5ebd-1380-4230-82ad-d97387be2b5d}</UniqueIdentifier>
+      <UniqueIdentifier>{7dbb9d3d-b255-4114-805c-685882395d0d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\memory">
-      <UniqueIdentifier>{fcf9d1ce-730a-4152-aa65-2d1122da49d4}</UniqueIdentifier>
+      <UniqueIdentifier>{ebbe2060-1b64-46cb-b7cd-3d8fc40a5b58}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\resource">
-      <UniqueIdentifier>{60009850-1389-4fd9-9f02-477ffda4f397}</UniqueIdentifier>
+      <UniqueIdentifier>{d8692994-5ddd-452e-92c4-58ed0ff2986f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\sound">
-      <UniqueIdentifier>{36a7cd97-0aa0-4983-b8b3-6955f3822d40}</UniqueIdentifier>
+      <UniqueIdentifier>{cf833020-77cd-46fb-96dc-b04733667f44}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\sound\openal">
-      <UniqueIdentifier>{363e985d-b0b5-424c-b4e7-9fb895219d1b}</UniqueIdentifier>
+      <UniqueIdentifier>{5e17ff02-97c4-4d86-a72a-d97babca68a1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\sound\decoders">
-      <UniqueIdentifier>{55b835f2-0e84-4282-a761-251474d3049c}</UniqueIdentifier>
+      <UniqueIdentifier>{a1f680c0-7274-4993-84df-87941289e7f6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\sound\mixer">
-      <UniqueIdentifier>{247e5e14-a5f0-4046-a0db-827bf2c335d6}</UniqueIdentifier>
+      <UniqueIdentifier>{c148ea18-56f0-4dbf-a212-f047c9c593bb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\sound\mixer\mixsdl">
-      <UniqueIdentifier>{857ae280-53f4-4bc5-9fbf-c1606d6fbeff}</UniqueIdentifier>
+      <UniqueIdentifier>{1ca04d56-d6f6-49b1-b9bb-9cbec55ebc7c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\sound\mixer\nosound">
-      <UniqueIdentifier>{3d3d8a28-877d-4ae4-898e-9c95d7c24f6f}</UniqueIdentifier>
+      <UniqueIdentifier>{e5e96861-495c-4ed3-bf55-0729ca9d8166}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\strings">
-      <UniqueIdentifier>{e28df82c-930c-4872-9bf6-36d9ab9c2eed}</UniqueIdentifier>
+      <UniqueIdentifier>{f2787915-d13f-4bf2-a93b-3e70e93de9c2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\video">
-      <UniqueIdentifier>{d76675a3-3a50-4182-8e4d-9f5e7aaaf4e6}</UniqueIdentifier>
+      <UniqueIdentifier>{6c569cc6-c38d-4ff5-b9a8-9efcdde0b2e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\threads">
-      <UniqueIdentifier>{ccc29ee2-a24c-4a73-982b-3f8f5078e0c3}</UniqueIdentifier>
+      <UniqueIdentifier>{53267a13-459d-47d8-a104-b1d41a9b5b9b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\threads\sdl No. 3">
-      <UniqueIdentifier>{80aabdd5-2605-4138-b051-7c1405bb1e0f}</UniqueIdentifier>
+      <UniqueIdentifier>{9b452a12-f4ad-4ff6-a74c-d8e31f214ae7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\time">
-      <UniqueIdentifier>{d1cfea77-fe3b-45bc-8475-904fa111e5b8}</UniqueIdentifier>
+      <UniqueIdentifier>{9555e3c2-8b00-4449-82ed-f82d0ad28743}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\time\sdl No. 4">
-      <UniqueIdentifier>{643a4b5b-760a-4dbf-9b53-5958e150ac6e}</UniqueIdentifier>
+      <UniqueIdentifier>{629cd040-5f23-4df6-80c9-77b795f5aa10}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\task">
-      <UniqueIdentifier>{940eff42-eda0-48f6-ba8b-53fb1c580a20}</UniqueIdentifier>
+      <UniqueIdentifier>{25f944eb-cc95-4a3c-8c3b-b32ea6dbddb9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\uio">
-      <UniqueIdentifier>{31d87439-4394-4595-bf98-cfcb99b7f35e}</UniqueIdentifier>
+      <UniqueIdentifier>{cf01d3a4-9293-4205-a748-41101fe5dc3e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\uio\stdio">
-      <UniqueIdentifier>{f2b9f784-1f0f-445b-aa8b-074206382b86}</UniqueIdentifier>
+      <UniqueIdentifier>{6ef88c42-b677-4f59-93cb-7f9e0febccb6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\uio\zip">
-      <UniqueIdentifier>{933a876c-ec04-460d-a5aa-09835e3cc312}</UniqueIdentifier>
+      <UniqueIdentifier>{906afb81-9751-4f0d-94a5-b9710dd67e2b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\mikmod">
-      <UniqueIdentifier>{5b0209bd-cc6a-4374-9a8b-6ee82a95b1c8}</UniqueIdentifier>
+      <UniqueIdentifier>{d977ac71-f7d6-483a-ac26-9fb8b452af2f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\network">
-      <UniqueIdentifier>{32b2b00f-320b-409b-a289-c7876c52159c}</UniqueIdentifier>
+      <UniqueIdentifier>{1fc4c3ef-9870-4aae-9ff5-4984353c0bca}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\network\connect">
-      <UniqueIdentifier>{06c2d96c-4e3a-42cc-abb4-6df7e7fce3ee}</UniqueIdentifier>
+      <UniqueIdentifier>{891cf014-390f-4cea-b5de-3055e66344c6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\network\netmanager">
-      <UniqueIdentifier>{67ba7325-a36e-4c71-897f-1e41535f928c}</UniqueIdentifier>
+      <UniqueIdentifier>{7cd40e2b-b587-4b5b-8fa0-9df099b8d346}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\libs\network\socket">
-      <UniqueIdentifier>{cfcc6ee4-2191-4210-ac50-1c940039263a}</UniqueIdentifier>
+      <UniqueIdentifier>{5bcbe874-6054-43cb-a782-46455647509f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm">
-      <UniqueIdentifier>{5bfd3ad9-b931-4d16-ac58-eab3428f1b42}</UniqueIdentifier>
+      <UniqueIdentifier>{d7ab7509-6895-4238-9d1c-dd072fe7fa50}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm">
-      <UniqueIdentifier>{bfef7938-f279-45dc-97b0-02c8cd6297ef}</UniqueIdentifier>
+      <UniqueIdentifier>{9c0d2771-1132-40de-8b9e-0777865cb009}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\arilou.comm">
-      <UniqueIdentifier>{e09d9f93-8899-4168-9a12-3ef514f537ef}</UniqueIdentifier>
+      <UniqueIdentifier>{2df46c3e-e5ab-4547-bac5-ecbc59bb27f3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\blackur.comm">
-      <UniqueIdentifier>{198cde08-8faa-4ed5-bec6-1d2c601e8292}</UniqueIdentifier>
+      <UniqueIdentifier>{7b0d2073-954d-4beb-a2f6-1b6fc946f112}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\chmmr.comm">
-      <UniqueIdentifier>{f113dc70-e25e-468b-b54f-aa61bf5c0fed}</UniqueIdentifier>
+      <UniqueIdentifier>{8af447d0-be6b-462f-8dc8-06f66f18cb8d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\comandr.comm">
-      <UniqueIdentifier>{a09f1cbd-9c36-4b24-b93a-93bab5ad0022}</UniqueIdentifier>
+      <UniqueIdentifier>{a0879f3e-9341-48eb-b675-b9b3bc01335b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\druuge.comm">
-      <UniqueIdentifier>{88d1ddde-0a2f-47eb-921e-1f32492e7e96}</UniqueIdentifier>
+      <UniqueIdentifier>{3fa8b009-cc9b-4fb7-99e5-0ad403f53b74}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\ilwrath.comm">
-      <UniqueIdentifier>{d478c853-bb11-488f-a1cb-b7d259574b1a}</UniqueIdentifier>
+      <UniqueIdentifier>{912ac9dc-f3be-4f71-86da-2d52193e4609}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\melnorm.comm">
-      <UniqueIdentifier>{0bac52ac-bb65-494c-90de-a8b82e39ade9}</UniqueIdentifier>
+      <UniqueIdentifier>{16bf1ca2-7171-4a1a-8f20-5e1a1d4816cc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\mycon.comm">
-      <UniqueIdentifier>{e9a9874a-f579-41cf-9e30-5e0f1a703efb}</UniqueIdentifier>
+      <UniqueIdentifier>{a35bfd35-ce6f-4052-b543-46fd8864bb17}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\orz.comm">
-      <UniqueIdentifier>{fcce2b31-4ffd-4fc3-8455-a4b1d325beaf}</UniqueIdentifier>
+      <UniqueIdentifier>{396182fd-b15a-4093-98c4-5ce5a68957f8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\pkunk.comm">
-      <UniqueIdentifier>{bfd5ac52-e032-44a2-a139-be25379c371e}</UniqueIdentifier>
+      <UniqueIdentifier>{e96623be-3a50-44a5-a4ab-f0a694b0f8a0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\rebel.comm">
-      <UniqueIdentifier>{7a7aa093-ec95-4b8d-8d78-c0f8fb24a816}</UniqueIdentifier>
+      <UniqueIdentifier>{f77fd48c-dbef-409f-b1b0-b34316ebc337}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\shofixt.comm">
-      <UniqueIdentifier>{5079550b-84dc-4481-8a76-7b8926719035}</UniqueIdentifier>
+      <UniqueIdentifier>{f9030831-a0c0-44dc-8971-861ab09de915}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\slyhome.comm">
-      <UniqueIdentifier>{5aab07d8-670b-4fd4-9124-71c9e271d6aa}</UniqueIdentifier>
+      <UniqueIdentifier>{1066c25f-f996-43ff-bdd6-e2e78133f0e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\slyland.comm">
-      <UniqueIdentifier>{f605a27f-3daf-4013-972d-cc0e554aceb7}</UniqueIdentifier>
+      <UniqueIdentifier>{6ae9bac6-0d39-40db-9bd5-f1e0235ad31a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\spahome.comm">
-      <UniqueIdentifier>{5a6efc23-cd25-418e-a9d0-20b21c9d01c5}</UniqueIdentifier>
+      <UniqueIdentifier>{5d1ac160-129f-4e43-8a90-c5022c8af7d0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\spathi.comm">
-      <UniqueIdentifier>{35db6b5c-074a-4370-82c2-36bbcd5e6105}</UniqueIdentifier>
+      <UniqueIdentifier>{aafa3f61-21fe-4d65-9149-367dfa7535ac}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\starbas.comm">
-      <UniqueIdentifier>{4a61b877-7acc-4964-8c1b-5354f985d455}</UniqueIdentifier>
+      <UniqueIdentifier>{d7495e3e-7a48-4847-bc5e-ec7c53327bd4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\supox.comm">
-      <UniqueIdentifier>{ffbd44d3-0546-4353-a080-c3aec74381d0}</UniqueIdentifier>
+      <UniqueIdentifier>{97ae61e7-9d12-4051-9c9a-dd14285ac0e8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\syreen.comm">
-      <UniqueIdentifier>{362e569e-d882-4892-b5d2-573d2ca695cc}</UniqueIdentifier>
+      <UniqueIdentifier>{b904a1a0-bcb2-43e3-acad-2ac6d06ace74}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\talkpet.comm">
-      <UniqueIdentifier>{e20c139f-529c-48b8-b05e-48e843209c66}</UniqueIdentifier>
+      <UniqueIdentifier>{9e09d18d-9c60-444b-9f44-9e6878cb64d4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\thradd.comm">
-      <UniqueIdentifier>{33f1e1aa-4cf0-4661-b8bd-a61fd47f054c}</UniqueIdentifier>
+      <UniqueIdentifier>{560d0fc5-19a3-423e-8eeb-d0a43b6f0e8d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\umgah.comm">
-      <UniqueIdentifier>{1b805146-f3d8-4cfe-acd2-fe52348d79f7}</UniqueIdentifier>
+      <UniqueIdentifier>{e48852f9-167b-499e-9126-49f35a699b2e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\urquan.comm">
-      <UniqueIdentifier>{68fea989-074a-49d5-b2dd-6feee3970607}</UniqueIdentifier>
+      <UniqueIdentifier>{b33d1e6f-feab-4e4e-9612-a3302b3bcd67}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\utwig.comm">
-      <UniqueIdentifier>{06e22311-52ab-4c27-bc17-a230214236cf}</UniqueIdentifier>
+      <UniqueIdentifier>{4dfd7822-24ab-4acb-9927-0330b7c68a20}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\vux.comm">
-      <UniqueIdentifier>{afd1e1a9-3c45-4ea5-951c-616009094cf7}</UniqueIdentifier>
+      <UniqueIdentifier>{0e9180bb-9b60-445c-98b3-dc3a6b2fe052}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\yehat.comm">
-      <UniqueIdentifier>{fa759887-7c6d-45c3-9445-5ab4dda351c0}</UniqueIdentifier>
+      <UniqueIdentifier>{eda1642f-1195-4b4f-8239-d0bff4fea662}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\comm\zoqfot.comm">
-      <UniqueIdentifier>{8ab52bea-5115-48bd-bc56-bb85d459d60b}</UniqueIdentifier>
+      <UniqueIdentifier>{0bdb3d51-25e0-47eb-9ca0-a9f1e73ba71e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\lua %28uqm%29">
-      <UniqueIdentifier>{0345d6a6-5944-4a49-b39a-facdfae5ce5e}</UniqueIdentifier>
+      <UniqueIdentifier>{842128e3-cad0-4b19-8990-f21b1ba51d7c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\lua %28uqm%29\luafuncs">
-      <UniqueIdentifier>{bc42acfd-de0e-4451-9456-424d72b2455b}</UniqueIdentifier>
+      <UniqueIdentifier>{521f49f1-6b81-4302-a555-9e2879ce13f9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\planets">
-      <UniqueIdentifier>{8d89d0f6-5cf3-466f-ad0a-9fb37f5fd71f}</UniqueIdentifier>
+      <UniqueIdentifier>{ec9e046e-b851-4dde-8a49-1aca5e492c97}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\planets\generate">
-      <UniqueIdentifier>{0ef73101-7f2f-4e2d-a97a-ce18234ba3a5}</UniqueIdentifier>
+      <UniqueIdentifier>{9f185bd2-6c8d-4a61-9be5-738f5ce4a227}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships">
-      <UniqueIdentifier>{9b4fda3f-db3f-465f-bdc3-940d5bbfca45}</UniqueIdentifier>
+      <UniqueIdentifier>{6131505a-a7b6-4772-966f-5328183cebd9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\androsyn">
-      <UniqueIdentifier>{f28965fd-2db8-4375-a0fd-ded4b180dccd}</UniqueIdentifier>
+      <UniqueIdentifier>{fa84f228-14dc-443d-819c-5a77f0654862}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\arilou">
-      <UniqueIdentifier>{380eb6f0-a6b1-4f8b-a090-2b3fb45fbc5d}</UniqueIdentifier>
+      <UniqueIdentifier>{a5e1e5f5-567a-47bb-8728-82850c956940}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\blackurq">
-      <UniqueIdentifier>{ba804d1d-929e-4ef3-a9aa-c21b43151411}</UniqueIdentifier>
+      <UniqueIdentifier>{a6ab6188-cb43-4002-9642-a73bb7ae2650}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\chenjesu">
-      <UniqueIdentifier>{aa47fb33-f3ab-4544-a803-f4f03944d85a}</UniqueIdentifier>
+      <UniqueIdentifier>{2df070ad-1d71-4aa3-ae25-5462b9b39a9f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\chmmr">
-      <UniqueIdentifier>{bc12d22d-98b5-4257-b2e0-0f71e27a5a21}</UniqueIdentifier>
+      <UniqueIdentifier>{0d956331-ef61-449e-b76b-2be121309a67}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\druuge">
-      <UniqueIdentifier>{7baf8f6d-5625-4b71-9249-2d1b573f495d}</UniqueIdentifier>
+      <UniqueIdentifier>{91c698f1-a53d-401f-9df3-1a157f0a878c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\human">
-      <UniqueIdentifier>{d7a3c69d-5e26-4a27-b129-f40612b0b4b6}</UniqueIdentifier>
+      <UniqueIdentifier>{3c96042e-d8ec-4c5f-9a62-ee56f9649a91}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\ilwrath">
-      <UniqueIdentifier>{5aa4009b-ec5c-48c0-a117-9a0ff4b29281}</UniqueIdentifier>
+      <UniqueIdentifier>{6641ec9e-d9d0-4191-9322-09413bc65e61}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\lastbat">
-      <UniqueIdentifier>{d4c694e7-9cc5-4112-bc26-1d33e5b4daca}</UniqueIdentifier>
+      <UniqueIdentifier>{c4da09c3-1923-472b-b3c9-327754e4a2b5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\melnorme">
-      <UniqueIdentifier>{6b56f385-4a60-443e-a615-52e6e0c0ef17}</UniqueIdentifier>
+      <UniqueIdentifier>{511fa36b-0cc2-4205-8bcc-ee015d969807}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\mmrnmhrm">
-      <UniqueIdentifier>{300a3e10-ab52-4620-a3d6-d5bf4f7f1430}</UniqueIdentifier>
+      <UniqueIdentifier>{a01cfeb5-c59a-4209-957f-81e6f6f509d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\mycon">
-      <UniqueIdentifier>{c8c2ad13-5d73-455c-bfb9-50e234adb692}</UniqueIdentifier>
+      <UniqueIdentifier>{b26f2d6a-f1f2-440c-ab52-7eebb7663755}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\orz">
-      <UniqueIdentifier>{79bd7033-454c-4e25-8b2b-6effe4f2c40b}</UniqueIdentifier>
+      <UniqueIdentifier>{383ff16f-4447-4494-b8cf-9f83a2b7cf3c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\pkunk">
-      <UniqueIdentifier>{239cca9c-3fc8-4bb7-b049-b4d8eeeca4d6}</UniqueIdentifier>
+      <UniqueIdentifier>{544f5fcb-0507-4adb-aadd-4d667fd7097b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\probe">
-      <UniqueIdentifier>{68e6da39-03b1-4b15-aed8-44e549bddfe7}</UniqueIdentifier>
+      <UniqueIdentifier>{09b24ffa-1dd3-471a-a19d-5a066f3fdc58}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\shofixti">
-      <UniqueIdentifier>{2675c65b-df5d-454e-a6b8-086c6bbcf169}</UniqueIdentifier>
+      <UniqueIdentifier>{034a4912-e4f9-4e94-97ad-0aeeef4d8776}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\sis_ship">
-      <UniqueIdentifier>{f7231409-4116-4cc4-aa34-67de58e96a65}</UniqueIdentifier>
+      <UniqueIdentifier>{8afa95ef-648a-4716-b0d8-4fee393c1f3b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\slylandr">
-      <UniqueIdentifier>{2e0aa587-c4e6-48e8-a3c2-faa49602c7c6}</UniqueIdentifier>
+      <UniqueIdentifier>{a917eea1-4d4e-43ab-a515-eeab0bb7c3f7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\spathi">
-      <UniqueIdentifier>{72fa4ccf-7ba9-4973-9a6c-1c969ab11c49}</UniqueIdentifier>
+      <UniqueIdentifier>{255ec608-a83b-4d14-8c4a-505b47c276ce}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\supox">
-      <UniqueIdentifier>{03db371a-62bf-4021-976c-c5caba646ace}</UniqueIdentifier>
+      <UniqueIdentifier>{a2581832-ba5f-4c17-a059-9e3965cc6284}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\syreen">
-      <UniqueIdentifier>{18543637-e274-455c-b0bf-f26cf41ac2e9}</UniqueIdentifier>
+      <UniqueIdentifier>{ff0ceeac-0984-47eb-bf7c-ca801ea2fbb7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\thradd">
-      <UniqueIdentifier>{da5d5d7b-e63b-4754-8d52-7a45518f9045}</UniqueIdentifier>
+      <UniqueIdentifier>{824f0cea-26c9-4975-90da-215d41ad28c2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\umgah">
-      <UniqueIdentifier>{968a592f-a384-48bc-9736-29c1b910b62f}</UniqueIdentifier>
+      <UniqueIdentifier>{68b4cd17-73c3-471f-95fc-4e033ea72a25}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\urquan">
-      <UniqueIdentifier>{93667277-6379-4d7c-b4fd-d31cd6506e54}</UniqueIdentifier>
+      <UniqueIdentifier>{372ace38-549c-4e80-9c60-b7f045ba0c6a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\utwig">
-      <UniqueIdentifier>{9636d408-f48d-426a-86a6-4c105ba1ee2f}</UniqueIdentifier>
+      <UniqueIdentifier>{30ad06d8-2a04-4494-a0d1-f466e5e3ae51}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\vux">
-      <UniqueIdentifier>{55c6ffd9-949b-4446-aad7-97c1cfbca1dd}</UniqueIdentifier>
+      <UniqueIdentifier>{076ca2d6-f395-455c-8bc9-6f90d725c86c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\yehat">
-      <UniqueIdentifier>{9235c246-82ba-469e-9c64-092332999ef6}</UniqueIdentifier>
+      <UniqueIdentifier>{c7f9f1bd-84fe-48e1-acf2-e3d62e396f76}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\ships\zoqfot">
-      <UniqueIdentifier>{3c243647-c364-4ab8-af72-ac658631c7ca}</UniqueIdentifier>
+      <UniqueIdentifier>{2f855b90-1cb3-486e-9c80-d7f04f6c2545}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\supermelee">
-      <UniqueIdentifier>{20ac6b29-072c-4d17-b832-0def093d0631}</UniqueIdentifier>
+      <UniqueIdentifier>{c3fce6c3-c8a8-405a-84f1-6ed44eea09d8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\supermelee\netplay">
-      <UniqueIdentifier>{dc3e4184-158b-45da-9b6d-9d12552ada4c}</UniqueIdentifier>
+      <UniqueIdentifier>{7a981283-e94a-48e7-9412-97f9435bafd9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\uqm\supermelee\netplay\proto">
-      <UniqueIdentifier>{5239905f-7024-4293-b2cf-4e403de3b54e}</UniqueIdentifier>
+      <UniqueIdentifier>{9e87ce88-d908-4765-85f0-ed463a4a1426}</UniqueIdentifier>
     </Filter>
     <Filter Include="Doc">
-      <UniqueIdentifier>{441d697e-82cf-4c3f-99ce-5bc559fcabaf}</UniqueIdentifier>
+      <UniqueIdentifier>{663e4442-6849-4780-bb46-dfaa79b1bf7d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Doc\Devel">
-      <UniqueIdentifier>{2f3e9ac5-0788-4382-b7d5-c6b37cd98a23}</UniqueIdentifier>
+      <UniqueIdentifier>{7a60722c-798c-4c03-9eb6-8f5fe10a2008}</UniqueIdentifier>
     </Filter>
     <Filter Include="Doc\Users">
-      <UniqueIdentifier>{685dc1f5-3431-46aa-97a3-10ca9371146d}</UniqueIdentifier>
+      <UniqueIdentifier>{c72cda53-e29f-49bd-8f29-139b31b7ebde}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources">
-      <UniqueIdentifier>{a85300c9-29fa-4710-a800-90d1b9ac9d2f}</UniqueIdentifier>
+      <UniqueIdentifier>{d82aab96-5346-4d53-8772-f47f3e1a86bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1493,6 +1493,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\uqm.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\libs\network\wspiapiwrap.c">
+      <Filter>Source Files\libs\network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2788,34 +2791,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\doc\users\manual.txt">
-      <Filter>Doc\Users</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\src\res\kohr-ah1.ico">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="..\..\src\res\sis1.ico">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="..\..\src\res\starcon2.ico">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="..\..\src\res\ur-quan-icon-alpha.ico">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="..\..\src\res\ur-quan-icon-std.ico">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="..\..\src\res\ur-quan1.ico">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="..\..\src\res\ur-quan2.ico">
-      <Filter>Resources</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="..\..\src\res\UrQuanMasters.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
@@ -2908,6 +2883,9 @@
     <CustomBuild Include="..\..\doc\devel\timing">
       <Filter>Doc\Devel</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\..\doc\users\manual.txt">
+      <Filter>Doc\Users</Filter>
+    </CustomBuild>
     <CustomBuild Include="..\..\doc\users\unixinstall">
       <Filter>Doc\Users</Filter>
     </CustomBuild>
@@ -2919,6 +2897,27 @@
     </CustomBuild>
     <CustomBuild Include="..\..\TODO">
       <Filter>Doc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\res\kohr-ah1.ico">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\res\sis1.ico">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\res\starcon2.ico">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\res\ur-quan-icon-alpha.ico">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\res\ur-quan-icon-std.ico">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\res\ur-quan1.ico">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\src\res\ur-quan2.ico">
+      <Filter>Resources</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
