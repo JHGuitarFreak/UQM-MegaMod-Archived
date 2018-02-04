@@ -148,9 +148,9 @@ $PREFIX it is. I can work with that.
 
 EOF
 
-if [ -d "${PREFIX}/share/uqm/content" ]; then
-	if [ -f "${PREFIX}/share/uqm/content/version" ]; then
-		read UQM_OLDVERSION < "${PREFIX}/share/uqm/content/version"
+if [ -d "${PREFIX}/share/uqm-megamod/content" ]; then
+	if [ -f "${PREFIX}/share/uqm-megamod/content/version" ]; then
+		read UQM_OLDVERSION < "${PREFIX}/share/uqm-megamod/content/version"
 	else
 		UQM_OLDVERSION=0.1
 	fi
@@ -235,7 +235,7 @@ echo "A word as good as any."
 echo
 
 echo "Making directories..."
-mkdir -p -- "$PREFIX"/share/uqm/content 2> /dev/null
+mkdir -p -- "$PREFIX"/share/uqm-megamod/content 2> /dev/null
 mkdir -p -- "$PREFIX"/bin 2> /dev/null
 
 echo "Unpacking packages..."
@@ -259,16 +259,16 @@ echo "Creating wrapper script..."
 cat << EOF > "$PREFIX"bin/uqm
 #!/bin/sh
 # Wrapper script for starting The Ur-Quan Masters
-"${PREFIX}lib/uqm/uqm" "--contentdir=${PREFIX}share/uqm/content" "\$@"
+"${PREFIX}lib/uqm-megamod/UrQuanMasters" "--contentdir=${PREFIX}share/uqm-megamod/content" "\$@"
 EOF
-chmod 755 "$PREFIX"bin/uqm
+chmod 755 "$PREFIX"bin/UrQuanMasters
 
 cat << EOF
 
 All done. Now you can play The Ur-Quan masters.
 I told you I was going to make you very happy.
 And if you're looking for documentation, you can find some in
-${PREFIX}share/uqm/doc/. If you aren't looking for documentation, too.
+${PREFIX}share/uqm-megamod/doc/. If you aren't looking for documentation, too.
 But feel free to delete them. You know where to find them.
 EOF
 
