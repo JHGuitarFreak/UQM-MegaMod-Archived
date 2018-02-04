@@ -62,8 +62,8 @@ packages.
 3.5 Install zlib:
 - Download zlib128-dll.zip ("zlib compiled DLL") from
   https://web.archive.org/web/20161211163242/http://www.zlib.net/
-- Create a folder "zlib-1.2.5" in "C:\Build\"
-- Unzip "zlib128-dll.zip" in C:\Build\zlib-1.2.5\"
+- Create a folder "zlib-1.2.8" in "C:\Build\"
+- Unzip "zlib128-dll.zip" in C:\Build\zlib-1.2.8\"
 
 3.6 Install OpenAL
 - https://web.archive.org/web/20160627220515/http://www.vorbis.com/files/1.0.1/windows/OggVorbis-win32sdk-1.0.1.zip
