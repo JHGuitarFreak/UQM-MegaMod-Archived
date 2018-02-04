@@ -389,7 +389,7 @@ snprintf(char *str, size_t size, const char *format, ...)
 #endif
 
 
-#if (_MSC_VER <= 1700)
+#if (_MSC_VER <= 1800)
 // MSVC does not have vsnprintf(). It does have a _vsnprintf(), but it does
 // not \0-terminate a truncated string as the C standard prescribes.
 static inline int

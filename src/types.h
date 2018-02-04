@@ -86,7 +86,7 @@ extern "C" {
 #endif /* !__STRICT_ANSI__ */
 
 #ifdef _MSC_VER
-#	if (_MSC_VER > 1700)
+#	if (_MSC_VER >= 1800)
 #		include <stdbool.h>
 #	endif
 #endif
