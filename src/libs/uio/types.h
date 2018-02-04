@@ -24,7 +24,7 @@
 #include "config.h"
 
 #ifdef _MSC_VER
-#	if (_MSC_VER > 1700)
+#	if (_MSC_VER >= 1800)
 #		include <stdbool.h>
 #	endif
 #endif
