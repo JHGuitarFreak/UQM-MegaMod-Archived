@@ -41,6 +41,6 @@ uqm_INSTALL_SHARED_content_MODE="go+rX"
 # config.
 uqm_INSTALL_BINS=wrapper
 uqm_INSTALL_BIN_wrapper_SRC="$BUILD_WORK/uqm-wrapper"
-uqm_INSTALL_BIN_wrapper_DEST="uqm-megamod"
+uqm_INSTALL_BIN_wrapper_DEST="UrQuanMasters"
 uqm_INSTALL_BIN_wrapper_MODE="0755"
 
