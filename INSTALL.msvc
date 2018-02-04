@@ -42,10 +42,10 @@ Create a folder "Build" in "C:\"; this is where we will put our dependency
 packages.
 
 3.2 Install the SDL SDK:
-- Download SDL-devel-1.2.14-VC6.zip from
+- Download SDL-devel-1.2.15-VC6.zip from
   http://www.libsdl.org/download-1.2.php
 - Unzip ("Extract" in WinZip) the file in "C:\Build"
-  A folder "SDL-1.2.14" will be created.
+  A folder "SDL-1.2.15" will be created.
 
 3.3 Install the SDL_image SDK:
 - Download SDL_image-devel-1.2.10-VC.zip from
@@ -60,13 +60,13 @@ packages.
   A folder "oggvorbis-win32sdk-1.0.1" will be created.
 
 3.5 Install zlib:
-- Download zlib123-dll.zip ("zlib compiled DLL") from
-  http://www.gzip.org/zlib/
+- Download zlib128-dll.zip ("zlib compiled DLL") from
+  https://web.archive.org/web/20161211163242/http://www.zlib.net/
 - Create a folder "zlib-1.2.5" in "C:\Build\"
-- Unzip "zlib125-dll.zip" in C:\Build\zlib-1.2.5\"
+- Unzip "zlib128-dll.zip" in C:\Build\zlib-1.2.5\"
 
 3.6 Install OpenAL
-- Download http://connect.creativelabs.com/openal/Downloads/OpenAL11CoreSDK.zip
+- https://web.archive.org/web/20160627220515/http://www.vorbis.com/files/1.0.1/windows/OggVorbis-win32sdk-1.0.1.zip
 - Unzip and run the installer and follow the instructions
 - Create a directory "AL" in "C:\Program Files\OpenAL 1.1 SDK\include"
 - Copy all the .h files from "C:\Program Files\OpenAL 1.1 SDK\include"
@@ -88,7 +88,7 @@ packages.
 4.2. Copy the runtime libraries where they can be found by UQM when run
      from MSVC++.
 - Copy the following files to "C:\Build\sc2\":
-  - "C:\Build\SDL-1.2.14\lib\SDL.dll"
+  - "C:\Build\SDL-1.2.15\lib\SDL.dll"
   - "C:\Build\SDL_image-1.2.10\lib\jpeg.dll"
   - "C:\Build\SDL_image-1.2.10\lib\libpng12-0.dll"
   - "C:\Build\SDL_image-1.2.10\lib\libtiff-3.dll"
@@ -120,11 +120,11 @@ packages.
 - Add the paths to the "include" folders of all of the dependency
   libraries:
   - "C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include"
-  - "C:\Build\SDL-1.2.14\include"
+  - "C:\Build\SDL-1.2.15\include"
   - "C:\Build\SDL_image-1.2.10\include"
   - "C:\Build\oggvorbis-win32sdk-1.0.1\include"
   - "C:\Program Files\OpenAL 1.1 SDK\include"
-  - "C:\Build\zlib-1.2.5\include"
+  - "C:\Build\zlib-1.2.8\include"
 
 5.3. Setup the additional library locations for the project:
 - Still in the project properties pages, in the left part of the screen,
@@ -134,11 +134,11 @@ packages.
 - Add the paths to the "lib" folders of all of the dependency
   libraries:
   - "C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Lib"
-  - "C:\Build\SDL-1.2.14\lib"
+  - "C:\Build\SDL-1.2.15\lib"
   - "C:\Build\SDL_image-1.2.10\lib"
   - "C:\Build\oggvorbis-win32sdk-1.0.1\lib"
   - "C:\Program Files\OpenAL 1.1 SDK\libs\Win32"
-  - "C:\Build\zlib-1.2.5\lib"
+  - "C:\Build\zlib-1.2.8\lib"
 
 5.4. Remove unnecessary dependencies
 - Still in the "Linker" part of the project properties pages, in the left
