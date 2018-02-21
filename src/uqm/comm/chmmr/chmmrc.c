@@ -144,7 +144,12 @@ ExitConversation (RESPONSE_REF R)
 		SET_GAME_STATE (CHMMR_STACK, 0);
 		SET_GAME_STATE (CHMMR_BOMB_STATE, 2);
 		SET_GAME_STATE (UTWIG_BOMB_ON_SHIP, 0);
-		GLOBAL_SIS (ResUnits) = 4000000000L;
+
+		if(!optInfiniteRU)
+			GLOBAL_SIS (ResUnits) = 4000000000L;
+		else
+			oldRU = 4000000000L;
+
 		GLOBAL_SIS (NumLanders) = 0;
 		GLOBAL (ModuleCost[PLANET_LANDER]) = 0;
 
