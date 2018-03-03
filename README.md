@@ -3,7 +3,7 @@ A fork of The Ur-Quan Masters with added options, cheats, enhancements, and othe
 
 ## Changes from the original
 
-A full list of changes and features can be found on the [Sourceforge site](http://uqm-mods.sourceforge.net/Features).
+A full list of changes and features can be found on the [Main site](http://megamod.serosis.net/Features).
 
 The newest major change as of the 1st of Jan 2018 is that the MegaMod is now built on version 0.8.0 from the official Git.
 
@@ -21,7 +21,7 @@ Mount the .dmg file and copy the app to your Applications folder.
 
 ## Building Yourself
 
-When building from source you will need the respective uqm-0.8.0-content.uqm file in the packages folder. You can grab this file on  [Sourceforge](https://sourceforge.net/projects/uqm-mods/files/MegaMod/uqm-0.8.0-content.uqm).
+When building from source you will need the respective uqm-0.8.0-content.uqm file in the packages folder. You can grab this file on the [Main site](http://files.serosis.net/MegaMod/uqm-0.8.0-content.uqm).
 
 ## Contributors
 
