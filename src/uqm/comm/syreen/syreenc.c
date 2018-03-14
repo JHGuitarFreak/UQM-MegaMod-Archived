@@ -780,7 +780,9 @@ NormalSyreen (RESPONSE_REF R)
 		SET_GAME_STATE (SYREEN_HOME_VISITS, 0);
 		SET_GAME_STATE (SYREEN_KNOW_ABOUT_MYCON, 1);
 
-		SyreenShuttle ((RESPONSE_REF)0);
+		if(!SyreenVoiceFix){
+			SyreenShuttle ((RESPONSE_REF)0);
+		}
 		return;
 	}
 
@@ -1011,8 +1013,8 @@ Intro (void)
 			Response (we_are_impressed, InitialSyreen);
 		}
 	}
-#ifdef NEVER
-	else if (!GET_GAME_STATE (SYREEN_SHUTTLE))
+
+	else if (!GET_GAME_STATE (SYREEN_SHUTTLE) && SyreenVoiceFix)
 	{
 		switch (NumVisits++)
 		{
@@ -1024,7 +1026,7 @@ Intro (void)
 
 		SyreenShuttle ((RESPONSE_REF)0);
 	}
-#endif /* NEVER */
+
 	else if (GET_GAME_STATE (SHIP_VAULT_UNLOCKED))
 	{
 		PlanAmbush ((RESPONSE_REF)0);

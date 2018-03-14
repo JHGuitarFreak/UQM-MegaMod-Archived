@@ -74,11 +74,12 @@ STRING GameStrings;
 QUEUE disp_q;
 // Serosis
 BOOLEAN solTexturesPresent;
+BOOLEAN SyreenVoiceFix;
+BOOLEAN comingFromInit;
+BYTE Rando;
 // JMS_GFX
 BOOLEAN hires2xPackPresent;
 BOOLEAN hires4xPackPresent;
-BOOLEAN comingFromInit;
-BYTE Rando;
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -176,6 +177,9 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 		loadAddon("rmx-utwig");
 		// Autoload support for Soul Reaver's dialog fixes
 		loadAddon("MelnormeVoiceFix");
+		if(loadAddon("SyreenVoiceFix")){
+			SyreenVoiceFix = TRUE;
+		}
 	}
 
 	if (opt3doMusic) {
