@@ -225,40 +225,12 @@ playerInInnerSystem (void)
 	return pSolarSysState->pBaseDesc != pSolarSysState->PlanetDesc;
 }
 
-// Sets the SysGenRNG to the required state first.
-static void
-GenerateMoons (SOLARSYS_STATE *system, PLANET_DESC *planet)
-{
-	COUNT i;
-	COUNT facing;
-	PLANET_DESC *pMoonDesc;
-
-	RandomContext_SeedRandom (SysGenRNG, planet->rand_seed);
-
-	for (i = 0, pMoonDesc = &system->MoonDesc[0];
-			i < MAX_MOONS; ++i, ++pMoonDesc)
-	{
-		pMoonDesc->pPrevDesc = planet;
-		if (i >= planet->NumPlanets)
-			continue;
-		
-		pMoonDesc->temp_color = planet->temp_color;
-	}
-
-	(*system->genFuncs->generateName) (system, planet);
-	(*system->genFuncs->generateMoons) (system, planet);
-
-	facing = NORMALIZE_FACING (ANGLE_TO_FACING (
-			ARCTAN (planet->location.x, planet->location.y)));
-}
-
 static void
 GenerateTexturedMoons (SOLARSYS_STATE *system, PLANET_DESC *planet)
 {
 	COUNT i;
 	FRAME SurfFrame;
 	PLANET_DESC *pMoonDesc;
-
 	PLANET_DESC *previousOrbitalDesc;
 	previousOrbitalDesc = pSolarSysState->pOrbitalDesc;
 
@@ -350,6 +322,36 @@ GenerateTexturedMoons (SOLARSYS_STATE *system, PLANET_DESC *planet)
 		}
 	}
 	pSolarSysState->pOrbitalDesc = previousOrbitalDesc;
+}
+
+// Sets the SysGenRNG to the required state first.
+static void
+GenerateMoons (SOLARSYS_STATE *system, PLANET_DESC *planet)
+{
+	COUNT i;
+	COUNT facing;
+	PLANET_DESC *pMoonDesc;
+	DWORD old_seed;
+
+	old_seed = RandomContext_SeedRandom (SysGenRNG, planet->rand_seed);
+
+	for (i = 0, pMoonDesc = &system->MoonDesc[0];
+			i < MAX_MOONS; ++i, ++pMoonDesc)
+	{
+		pMoonDesc->pPrevDesc = planet;
+		if (i >= planet->NumPlanets)
+			continue;
+		
+		pMoonDesc->temp_color = planet->temp_color;
+	}
+
+	(*system->genFuncs->generateName) (system, planet);
+	(*system->genFuncs->generateMoons) (system, planet);
+
+	facing = NORMALIZE_FACING (ANGLE_TO_FACING (
+			ARCTAN (planet->location.x, planet->location.y)));
+
+	RandomContext_SeedRandom (SysGenRNG, old_seed);
 }
 
 void
@@ -753,7 +755,7 @@ FreeSolarSys (void)
 	DestroyDrawable (ReleaseDrawable (SolarSysFrame));
 	SolarSysFrame = NULL;
 	
-	if (TEXTURED_PLANETS)
+	if (optTexturedPlanets)
 	{
 		// BW: clean up data generated for textured IP planets
 		for (i = 0, pCurDesc = pSolarSysState->PlanetDesc;
@@ -875,7 +877,7 @@ getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 
 // Returns the planet with which the flagship is colliding
 static PLANET_DESC *
-CheckIntersect (void)
+CheckIntersect (BOOLEAN just_checking)
 {
 	COUNT i;
 	PLANET_DESC *pCurDesc;
@@ -896,10 +898,12 @@ CheckIntersect (void)
 	PlanetIntersect.IntersectStamp.origin.x = SIS_SCREEN_WIDTH >> 1;
 	PlanetIntersect.IntersectStamp.origin.y = SIS_SCREEN_HEIGHT >> 1;
 	PlanetIntersect.EndPoint = PlanetIntersect.IntersectStamp.origin;
-
+	
 	PlanetIntersect.IntersectStamp.frame = getCollisionFrame (pCurDesc,
 			MAKE_WORD (PlanetOffset, MoonOffset));
 
+	//log_add (log_Debug,"Nyt: x:%d, y:%d", PlanetIntersect.IntersectStamp.origin.x, PlanetIntersect.IntersectStamp.origin.y);
+	
 	// Start with no collisions
 	NewWaitPlanet = 0;
 
@@ -947,6 +951,8 @@ CheckIntersect (void)
 		PlanetIntersect.IntersectStamp.frame = getCollisionFrame (pCurDesc,
 				MAKE_WORD (PlanetOffset, MoonOffset));
 
+		//log_add (log_Debug, "Ship x:%d y:%d. Planet x:%d, y:%d", ShipIntersect.IntersectStamp.origin.x, ShipIntersect.IntersectStamp.origin.y, PlanetIntersect.IntersectStamp.origin.x, PlanetIntersect.IntersectStamp.origin.y);
+		
 		if (DrawablesIntersect (&ShipIntersect,
 				&PlanetIntersect, MAX_TIME_VALUE))
 		{
@@ -966,9 +972,16 @@ CheckIntersect (void)
 				continue;
 			}
 			
-			// Collision with a new planet/moon. This may cause a transition
-			// to an inner system or start an orbital view.
-			pSolarSysState->WaitIntersect = NewWaitPlanet;
+			if (playerInInnerSystem ())
+			{	// Collision in the inner system (starts orbital)
+				pSolarSysState->WaitIntersect = NewWaitPlanet;
+			}
+			else
+			{	// Going into an inner system
+				// So there is now no existing collision
+				if (!just_checking)
+					pSolarSysState->WaitIntersect = 0;
+			}
 			return pCurDesc;
 		}
 	}
@@ -1013,8 +1026,9 @@ static void
 ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 {
 	COUNT index;
-
-	if (ORBITING_PLANETS) {
+	
+	if (optOrbitingPlanets)
+	{
 		// BW: recompute planet position to account for orbiting
 		// COUNT newAngle;
 		// newAngle = NORMALIZE_ANGLE(planet->angle + (COUNT)(daysElapsed() * planet->orb_speed));
@@ -1060,8 +1074,8 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 		else if (worldIsMoon (pSolarSysState, planet))
 		{
 			Size = 2; // += 2;
-			// BW:	Force moons to size 2 to avoid issues with
-			//		Triton (the one and only large rocky moon)
+			// BW: Force moons to size 2 to avoid issues with
+			//     Triton (the one and only large rocky moon)
 		}
 		else if (denom <= (MAX_ZOOM_RADIUS >> 2))
 		{
@@ -1079,9 +1093,11 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 			angle = ARCTAN (planet->pPrevDesc->location.x,
 					planet->pPrevDesc->location.y);
 		}
-		if (TEXTURED_PLANETS) {
+		if (optTexturedPlanets)
+		{
 			// Those match the sizes of the png planets
-			switch (Size) {
+			switch (Size)
+			{
 			case 0: planet->size = 3;
 				break;
 			case 1: planet->size = 4;
@@ -1290,9 +1306,11 @@ enterInnerSystem (PLANET_DESC *planet)
 			planetOuterLocation (planetIndex (pSolarSysState, planet));
 	ZeroVelocityComponents (&GLOBAL (velocity));
 
+	
 	GenerateMoons (pSolarSysState, planet);
-	if (TEXTURED_PLANETS)
+	if (optTexturedPlanets)
 		GenerateTexturedMoons (pSolarSysState, planet);
+
 	pSolarSysState->pBaseDesc = pSolarSysState->MoonDesc;
 	pSolarSysState->pOrbitalDesc = planet;
 }
@@ -1319,7 +1337,7 @@ leaveInnerSystem (PLANET_DESC *planet)
 
 	// Now the ship is in outer system (as per game logic)
 
-	if (TEXTURED_PLANETS) {
+	if (optTexturedPlanets) {
 		// BW: clean up data generated for textured IP moons
 		for (i = 0, pMoonDesc = pSolarSysState->MoonDesc;
 			 i < planet->NumPlanets; ++i, ++pMoonDesc)
@@ -1361,7 +1379,7 @@ leaveInnerSystem (PLANET_DESC *planet)
 	// See if we also intersect with another planet, and if we do,
 	// disable collisions comletely until we stop intersecting
 	// with any planet at all.
-	CheckIntersect ();
+	CheckIntersect (TRUE);
 	if (pSolarSysState->WaitIntersect != outerPlanetWait)
 		pSolarSysState->WaitIntersect = (COUNT)~0;
 }
@@ -1419,7 +1437,7 @@ CheckShipLocation (SIZE *newRadius)
 	if (GLOBAL (autopilot.x) == ~0 && GLOBAL (autopilot.y) == ~0
 		&& (ec < 60 || RESOLUTION_FACTOR == 0))
 	{	// Not on autopilot -- may collide with a planet
-		PLANET_DESC *planet = CheckIntersect ();
+		PLANET_DESC *planet = CheckIntersect (FALSE);
 		if (planet)
 		{	// Collision with a planet
 			if (playerInInnerSystem ())
@@ -1565,7 +1583,7 @@ AnimateSun (SIZE radius)
 	DrawStamp (&pSunDesc->image);
 	
 	// BW: temporary workaround, drawing order will have to be redone anyway
-	if (!TEXTURED_PLANETS)
+	if (!optTexturedPlanets)
 	{
 		// Re-draw the image of the nearest planet, so the sun won't obscure it.
 		SetPlanetColorMap (pNearestPlanetDesc);
@@ -1638,7 +1656,7 @@ DrawInnerPlanets (PLANET_DESC *planet)
 	s.origin.x = SIS_SCREEN_WIDTH >> 1;
 	s.origin.y = SIS_SCREEN_HEIGHT >> 1;
 
-	if (TEXTURED_PLANETS) {
+	if (optTexturedPlanets) {
 		// Draw the planet image
 		DrawTexturedBody (planet, s);
 		
@@ -1687,7 +1705,7 @@ DrawOuterPlanets (SIZE radius)
 	for (;;)
 	{
 		pCurDesc = &pSolarSysState->PlanetDesc[index];
-		if (TEXTURED_PLANETS)
+		if (optTexturedPlanets)
 		{
 			if (pCurDesc == &pSolarSysState->SunDesc[0])
 			{	// It's a sun
@@ -1774,7 +1792,7 @@ IP_frame (void)
 		BatchGraphics ();
 		RestoreSystemView ();
 
-		if (ORBITING_PLANETS) {
+		if (optOrbitingPlanets || optTexturedPlanets) {
 			// BW: recompute planet position to account for orbiting
 			if (playerInInnerSystem ()) {
 				// Draw the inner system view
@@ -1785,7 +1803,7 @@ IP_frame (void)
 			}
 		}
 		
-		if (ROTATING_PLANETS) {
+		if (optTexturedPlanets) {
 		// BW: rotate planets
 		// every frame in Inner (not much CPU required)
 		// depending on planet size and speed in Outer
@@ -1796,7 +1814,7 @@ IP_frame (void)
 			}
 		}
 
-		if (ORBITING_PLANETS || ROTATING_PLANETS) { 
+		if (optOrbitingPlanets || optTexturedPlanets) { 
 			// Planets have probably moved or changed
 			if (playerInInnerSystem ()) {	
 				// Draw the inner system view
@@ -1878,7 +1896,7 @@ DrawInnerSystem (void)
 {
 	ValidateInnerOrbits ();
 	DrawSystem (pSolarSysState->pOrbitalDesc->radius, TRUE);
-	if (ORBITING_PLANETS || ROTATING_PLANETS)
+	if (optOrbitingPlanets || optTexturedPlanets)
 		DrawInnerPlanets(pSolarSysState->pOrbitalDesc);
 	DrawSISTitle (GLOBAL_SIS (PlanetName));
 	IP_frame(); // MB: To fix planet texture and sun corona 'pop-in'
@@ -1889,7 +1907,7 @@ DrawOuterSystem (void)
 {
 	ValidateOrbits ();
 	DrawSystem (pSolarSysState->SunDesc[0].radius, FALSE);
-	if (ORBITING_PLANETS || ROTATING_PLANETS)
+	if (optOrbitingPlanets || optTexturedPlanets)
 		DrawOuterPlanets(pSolarSysState->SunDesc[0].radius);
 	DrawHyperCoords (CurStarDescPtr->star_pt);
 	IP_frame(); // MB: To fix planet texture and sun corona 'pop-in'
@@ -1915,7 +1933,7 @@ ResetSolarSys (void)
 	// TODO: this may need logic similar to one in leaveInnerSystem()
 	//   for when the ship collides with more than one planet at
 	//   the same time. While quite rare, it's still possible.
-	CheckIntersect ();
+	CheckIntersect (TRUE);
 	
 	pSolarSysState->InIpFlight = TRUE;
 
@@ -1993,7 +2011,7 @@ EnterPlanetOrbit (void)
 		ValidateOrbits ();
 		ValidateInnerOrbits ();
 		ResetSolarSys ();
-		if (TEXTURED_PLANETS) {
+		if (optTexturedPlanets) {
 			if (worldIsMoon (pSolarSysState, pSolarSysState->pOrbitalDesc)) {
 				GenerateTexturedMoons(pSolarSysState, pSolarSysState->pOrbitalDesc->pPrevDesc);
 			} else {
@@ -2096,7 +2114,7 @@ InitSolarSys (void)
 		else
 		{	// Entered a new system, or loaded into inner or outer
 			if (InnerSystem) {
-				if (TEXTURED_PLANETS) {
+				if (optTexturedPlanets) {
 					GenerateTexturedMoons(pSolarSysState, pSolarSysState->pOrbitalDesc);
 				}
  				DrawInnerSystem ();
@@ -2201,7 +2219,7 @@ DrawSystem (SIZE radius, BOOLEAN IsInnerSystem)
 	CONTEXT oldContext;
 	STAMP s;
 
-	if (TEXTURED_PLANETS) {
+	if (optTexturedPlanets) {
 		// BW: This to test if we have already rendered 
 		if (!pSolarSysState->PlanetDesc->orbit.lpTopoData)
 			GenerateTexturedPlanets();
@@ -2240,11 +2258,11 @@ DrawSystem (SIZE radius, BOOLEAN IsInnerSystem)
 					radius);
 	}
 
-	if (!ORBITING_PLANETS && !ROTATING_PLANETS) {
+	if (!optOrbitingPlanets && !optTexturedPlanets) {
 		if (IsInnerSystem) {	
 			// Draw the inner system view
 			DrawInnerPlanets (pSolarSysState->pOrbitalDesc);
-		} else {	
+		} else {
 			// Draw the outer system view
 			DrawOuterPlanets (radius);
 		}
