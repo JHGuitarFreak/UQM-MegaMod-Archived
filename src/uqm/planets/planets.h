@@ -23,10 +23,6 @@
 
 #define END_INTERPLANETARY START_INTERPLANETARY
 
-#define ORBITING_PLANETS optOrbitingPlanets
-#define TEXTURED_PLANETS optTexturedPlanets
-#define ROTATING_PLANETS TEXTURED_PLANETS
-// ROTATING_PLANETS should always be defined TRUE if TEXTURED_PLANETS is.
 #define ONE_YEAR 365.25
 #ifndef M_PI
 #define M_PI 3.141592653589
