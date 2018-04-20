@@ -780,7 +780,7 @@ NormalSyreen (RESPONSE_REF R)
 		SET_GAME_STATE (SYREEN_HOME_VISITS, 0);
 		SET_GAME_STATE (SYREEN_KNOW_ABOUT_MYCON, 1);
 
-		if(!SyreenVoiceFix){
+		if(!SyreenVoiceFix && usingSpeech){
 			SyreenShuttle ((RESPONSE_REF)0);
 		}
 		return;
@@ -1014,7 +1014,7 @@ Intro (void)
 		}
 	}
 
-	else if (!GET_GAME_STATE (SYREEN_SHUTTLE) && SyreenVoiceFix)
+	else if (!GET_GAME_STATE (SYREEN_SHUTTLE) && (SyreenVoiceFix || !usingSpeech))
 	{
 		switch (NumVisits++)
 		{
