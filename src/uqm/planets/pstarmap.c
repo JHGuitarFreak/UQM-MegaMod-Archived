@@ -641,6 +641,8 @@ DrawStarMap (COUNT race_update, RECT *pClipRect)
 						t.CharCount = GetStringLength (locString);
 						t.pStr = (UNICODE *)GetStringAddress (locString);
 					}
+					
+					TextRect (&t, &r, NULL);
 
 					if (r.corner.x <= 0)
 						t.baseline.x -= r.corner.x - 1;
