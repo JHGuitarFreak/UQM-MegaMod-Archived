@@ -173,7 +173,9 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 	usingSpeech = optSpeech;
 	if (optSpeech && !loadAddon ("3dovoice")) {
 		usingSpeech = FALSE;
-	} else {
+	} 
+	
+	if (usingSpeech){
 		loadAddon("rmx-utwig");
 		// Autoload support for Soul Reaver's dialog fixes
 		loadAddon("MelnormeVoiceFix");
