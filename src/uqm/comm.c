@@ -1029,7 +1029,7 @@ DoConvSummary (SUMMARY_STATE *pSS)
 		if (row >= MAX_SUMM_ROWS && (pSS->NextSub || pSS->LeftOver))
 		{	// draw *MORE*
 			TEXT mt;
-			UNICODE buffer[80];
+			UNICODE buffer[128];
 
 			mt.baseline.x = SIS_SCREEN_WIDTH >> 1;
 			mt.baseline.y = t.baseline.y;
