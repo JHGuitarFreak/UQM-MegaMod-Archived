@@ -993,7 +993,7 @@ DoConvSummary (SUMMARY_STATE *pSS)
 			t.CharCount = (COUNT)~0;
 			for ( ; row < MAX_SUMM_ROWS && !getLineWithinWidth (&t, &next, r.extent.width, (COUNT)~0); ++row) {
 				if (CommData.AlienConv == ORZ_CONVERSATION) { // MB: nasty hack: remove '$'s from conversation for Orz
-					UNICODE my_copy[80];
+					UNICODE my_copy[128];
 					strcpy(my_copy, t.pStr);
 					remove_char_from_string(my_copy, '$');
 					t.pStr = my_copy;
@@ -1015,7 +1015,7 @@ DoConvSummary (SUMMARY_STATE *pSS)
 		
 			// this subtitle fit completely
 			if (CommData.AlienConv == ORZ_CONVERSATION) { // MB: nasty hack: remove '$'s from conversation for Orz
-				UNICODE my_copy[80];
+				UNICODE my_copy[128];
 				strcpy(my_copy, t.pStr);
 				remove_char_from_string(my_copy, '$');
 				t.pStr = my_copy;
