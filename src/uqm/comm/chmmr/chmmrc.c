@@ -146,9 +146,9 @@ ExitConversation (RESPONSE_REF R)
 		SET_GAME_STATE (UTWIG_BOMB_ON_SHIP, 0);
 
 		if(!optInfiniteRU)
-			GLOBAL_SIS (ResUnits) = 4000000000L;
+			GLOBAL_SIS (ResUnits) = 1000000L;
 		else
-			oldRU = 4000000000L;
+			oldRU = 1000000L;
 
 		GLOBAL_SIS (NumLanders) = 0;
 		GLOBAL (ModuleCost[PLANET_LANDER]) = 0;
