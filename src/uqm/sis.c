@@ -414,7 +414,7 @@ DrawStatusMessage (const UNICODE *pStr)
 		}
 		else if (curMsgMode == SMM_RES_UNITS)
 		{
-			if (GET_GAME_STATE (CHMMR_BOMB_STATE) > 2 || GLOBAL_SIS (ResUnits) > 1000000000L) {
+			if (GET_GAME_STATE (CHMMR_BOMB_STATE) > 2 || optInfiniteRU) {
 				snprintf (buf, sizeof buf, "%s %s",
 						(optWhichMenu == OPT_PC) ?
 							GAME_STRING (STATUS_STRING_BASE + 2)
