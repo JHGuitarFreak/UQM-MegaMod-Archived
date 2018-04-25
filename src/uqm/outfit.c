@@ -560,10 +560,7 @@ InitFlash:
 			else
 				SetFlashRect (&pMS->flash_rect0);
 		}
-	}	
-
-	if(optInfiniteFuel)
-		DeltaSISGauges(0,GetFuelTankCapacity(),0);
+	}
 
 	return (TRUE);
 }
@@ -820,6 +817,14 @@ ExitOutfit:
 		else
 			DoMenuChooser (pMS, PM_FUEL);
 	}
+	
+
+	if(optInfiniteFuel){		
+		DeltaSISGauges(0,GetFuelTankCapacity(),0);
+		RedistributeFuel ();
+	}
+	if(optInfiniteRU)		
+		GLOBAL_SIS (ResUnits) = 1000000L;
 
 	return (TRUE);
 }
