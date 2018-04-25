@@ -340,7 +340,7 @@ while (--ac > 0)
 				break;
 			}
 			if (optInfiniteRU){
-				GLOBAL_SIS (ResUnits) = 4000000000L;
+				GLOBAL_SIS (ResUnits) = 1000000L;
 			}
 		} while (!(GLOBAL (CurrentActivity) & CHECK_ABORT));
 
