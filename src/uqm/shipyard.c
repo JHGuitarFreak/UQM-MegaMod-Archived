@@ -1621,6 +1621,9 @@ ExitShipyard:
 		DoMenuChooser (pMS, PM_CREW);
 	}
 
+	if(optInfiniteRU)		
+		GLOBAL_SIS (ResUnits) = 1000000L;
+
 	return TRUE;
 }
 
