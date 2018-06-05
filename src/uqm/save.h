@@ -60,14 +60,14 @@ typedef struct
 	BYTE NumShips, NumDevices;
 	BYTE ShipList[MAX_BUILT_SHIPS];
 	BYTE DeviceList[MAX_EXCLUSIVE_DEVICES];
-	UNICODE SaveName[SAVE_NAME_SIZE];
+	UNICODE SaveName[SAVE_NAME_SIZE], SaveNameChecker[SAVE_CHECKER_SIZE], LegacySaveName[LEGACY_SAVE_NAME_SIZE]; // JMS
 	BYTE res_factor;	// JMS: Stores resolution factor to enable saving/loading from different res modes.
 } SUMMARY_DESC;
 
 extern ACTIVITY NextActivity;
 
 extern BOOLEAN LoadGame (COUNT which_game, SUMMARY_DESC *summary_desc);
-extern BOOLEAN LoadLegacyGame (COUNT which_game, SUMMARY_DESC *summary_desc);
+extern BOOLEAN LoadLegacyGame  (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN try_vanilla);
 
 extern void SaveProblem (void);
 extern BOOLEAN SaveGame (COUNT which_game, SUMMARY_DESC *summary_desc, const char *name);

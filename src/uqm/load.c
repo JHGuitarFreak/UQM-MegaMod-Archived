@@ -712,12 +712,12 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 	sprintf (file, "uqmsave.%02u", which_game);
 	in_fp = res_OpenResFile (saveDir, file, "rb");
 	if (!in_fp)
-		return LoadLegacyGame (which_game, SummPtr);
+		return LoadLegacyGame(which_game, SummPtr, FALSE);
 
 	if (!LoadSummary (&loc_sd, in_fp))
 	{
 		res_CloseResFile (in_fp);
-		return LoadLegacyGame (which_game, SummPtr);
+		return LoadLegacyGame(which_game, SummPtr, FALSE);
 	}
 
 	if (!SummPtr)

@@ -131,7 +131,8 @@ enum
 	{3 + 42, 30 + (5 * 16)},
 
 #define SIS_NAME_SIZE 16
-#define SAVE_NAME_CHECKER "MegaMod" // JMS
+#define LEGACY_SAVE_NAME_SIZE 32 // JMS
+#define LEGACY_SAVE_NAME_CHECKER "superbutcherX !" // JMS
 #define SAVE_CHECKER_SIZE SIS_NAME_SIZE
 
 typedef struct

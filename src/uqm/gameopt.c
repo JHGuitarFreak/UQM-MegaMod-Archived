@@ -1071,7 +1071,13 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 		{
 			DateToString (buf2, sizeof buf2, desc->month_index,
 					desc->day_index, desc->year_index);
-			snprintf (buf, sizeof buf, "%s: %s", buf2, desc->SaveName[0] ? desc->SaveName : GAME_STRING (SAVEGAME_STRING_BASE + 4));
+
+			if (!(strncmp(desc->SaveNameChecker, LEGACY_SAVE_NAME_CHECKER, SAVE_CHECKER_SIZE)))
+				SaveName = desc->LegacySaveName;
+			else
+				SaveName = desc->SaveName[0] ? desc->SaveName : GAME_STRING (SAVEGAME_STRING_BASE + 4);
+
+			snprintf (buf, sizeof buf, "%s: %s", buf2, SaveName);
 		}
 		font_DrawText (&t);
 	}
