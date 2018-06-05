@@ -780,6 +780,10 @@ LoadEncounter (ENCOUNTER *EncounterPtr, DECODE_REF fh)
 	// Load the stuff after the BRIEF_SHIP_INFO array
 	cread_32s (fh, &EncounterPtr->log_x);
 	cread_32s (fh, &EncounterPtr->log_y);
+	
+	// JMS: Let's make savegames work even between different resolution modes.
+	EncounterPtr->log_x <<= RESOLUTION_FACTOR;
+	EncounterPtr->log_y <<= RESOLUTION_FACTOR;
 }
 
 static void
@@ -833,19 +837,38 @@ LoadClockState (CLOCK_STATE *ClockPtr, DECODE_REF fh)
 	DummyLoadQueue (&ClockPtr->event_q, fh);
 }
 
-static void
-LoadGameState (GAME_STATE *GSPtr, DECODE_REF fh)
+static BOOLEAN
+LoadGameState (GAME_STATE *GSPtr, DECODE_REF fh, BOOLEAN vanilla)
 {
 	BYTE dummy8;
+	BYTE res_scale; // JMS
 
 	cread_8   (fh, &dummy8); /* obsolete */
 	cread_8   (fh, &GSPtr->glob_flags);
 	cread_8   (fh, &GSPtr->CrewCost);
 	cread_8   (fh, &GSPtr->FuelCost);
+	
+	// JMS: Now that we have read the fuelcost, we can compare it
+	// to the correct value. Fuel cost is always FUEL_COST_RU, and if
+	// the savefile tells otherwise, we have read it with the wrong method
+	// (The savegame is from vanilla UQM and we've been reading it as if it
+	// were UQM-HD save.)
+	//
+	// At this point we must then cease reading the savefile, close it
+	// and re-open it again, this time using the vanilla-reading method.
+	if (GSPtr->FuelCost != FUEL_COST_RU)
+		return FALSE;
+	
 	cread_a8  (fh, GSPtr->ModuleCost, NUM_MODULES);
 	cread_a8  (fh, GSPtr->ElementWorth, NUM_ELEMENT_CATEGORIES);
 	cread_ptr (fh); /* not loading ptr; PRIMITIVE *DisplayArray */
 	cread_16  (fh, &GSPtr->CurrentActivity);
+	
+	// JMS
+	if (LOBYTE (GSPtr->CurrentActivity) != IN_INTERPLANETARY)
+		res_scale = RESOLUTION_FACTOR;
+	else
+		res_scale = 0;
 	
 	cread_16  (fh, NULL); /* CLOCK_STATE alignment padding */
 	LoadClockState (&GSPtr->GameClock, fh);
@@ -860,6 +883,9 @@ LoadGameState (GAME_STATE *GSPtr, DECODE_REF fh)
 	cread_16  (fh, &GSPtr->ShipFacing);
 	cread_8   (fh, &GSPtr->ip_planet);
 	cread_8   (fh, &GSPtr->in_orbit);
+	
+	GSPtr->ShipStamp.origin.x <<= RESOLUTION_FACTOR; // JMS: Let's make savegames work even between different resolution modes.
+	GSPtr->ShipStamp.origin.y <<= RESOLUTION_FACTOR; // JMS: Let's make savegames work even between different resolution modes.
 
 	/* VELOCITY_DESC velocity */
 	cread_16  (fh, &GSPtr->velocity.TravelAngle);
@@ -872,6 +898,15 @@ LoadGameState (GAME_STATE *GSPtr, DECODE_REF fh)
 	cread_16s (fh, &GSPtr->velocity.incr.width);
 	cread_16s (fh, &GSPtr->velocity.incr.height);
 	cread_16  (fh, NULL); /* VELOCITY_DESC padding */
+	
+	GSPtr->velocity.vector.width  <<= res_scale; // JMS: Let's make savegames work even between different resolution modes.
+	GSPtr->velocity.vector.height <<= res_scale; // JMS: Let's make savegames work even between different resolution modes.
+	GSPtr->velocity.fract.width	  <<= res_scale; // JMS: Let's make savegames work even between different resolution modes.
+	GSPtr->velocity.fract.height  <<= res_scale; // JMS: Let's make savegames work even between different resolution modes.
+	GSPtr->velocity.error.width	  <<= res_scale; // JMS: Let's make savegames work even between different resolution modes.
+	GSPtr->velocity.error.height  <<= res_scale; // JMS: Let's make savegames work even between different resolution modes.
+	GSPtr->velocity.incr.width	  <<= res_scale; // JMS: Let's make savegames work even between different resolution modes.
+	GSPtr->velocity.incr.height	  <<= res_scale; // JMS: Let's make savegames work even between different resolution modes.
 
 	cread_32  (fh, &GSPtr->BattleGroupRef);
 	
@@ -881,22 +916,26 @@ LoadGameState (GAME_STATE *GSPtr, DECODE_REF fh)
 	DummyLoadQueue (&GSPtr->encounter_q, fh);
 	DummyLoadQueue (&GSPtr->built_ship_q, fh);
 
-	{
-		size_t numBytes = ((NUM_GAME_STATE_BITS - 17) + 7) >> 3;
-		BYTE *buf;
+	// JMS: Let's not read the 'autopilot ok' and QS portal
+	// coord bits for vanilla UQM saves.
+	{ 
+		size_t numBytes = ((NUM_GAME_STATE_BITS + 7) >> 3); 
+		BYTE *buf; 
+		
+		numBytes = (vanilla ? numBytes - 2 : numBytes);
 
-		// assert (numBytes % 4 == 3);
-				// We should have one byte padding.
-		buf = HMalloc (numBytes);
-		if (buf != NULL)
-		{
-			cread_a8  (fh, buf, numBytes);
-			deserialiseGameState (legacyGameStateBitMap, buf, numBytes);
-			HFree(buf);
-		}
-	}
+		buf = HMalloc (numBytes); 
+		if (buf != NULL) 
+		{ 
+			cread_a8  (fh, buf, numBytes); 
+			deserialiseGameState ((vanilla ? legacyGameStateBitMap : gameStateBitMap), buf, numBytes); 
+			HFree(buf); 
+		} 
+	} 
 
 	cread_8  (fh, NULL); /* GAME_STATE alignment padding */
+	
+	return TRUE;
 }
 
 static BOOLEAN
@@ -924,15 +963,80 @@ LoadSisState (SIS_STATE *SSPtr, void *fp)
 		)
 		return FALSE;
 	else
+	{
+		// JMS: Let's make savegames work even between different resolution modes.
+		SSPtr->log_x <<= RESOLUTION_FACTOR;
+		SSPtr->log_y <<= RESOLUTION_FACTOR;
 		return TRUE;
+	}
 }
 
 static BOOLEAN
-LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
+LoadSummary (SUMMARY_DESC *SummPtr, void *fp, BOOLEAN try_vanilla)
 {
+	// JMS: New variables required for compatibility between
+	// old, unnamed saves and the new, named ones.
+	SDWORD  temp_log_x = 0;
+	SDWORD  temp_log_y = 0;
+	DWORD   temp_ru    = 0;
+	DWORD   temp_fuel  = 0;
+	BOOLEAN no_savename = FALSE;	
+	
+	// First we check if there is a savegamename identifier.
+	// The identifier tells us whether the name exists at all.
+	read_str (fp, SummPtr->SaveNameChecker, SAVE_CHECKER_SIZE);
+		
+	// If the name doesn't exist (because this most probably
+	// is a savegame from an older version), we have to rewind the
+	// savefile to be able to read the saved variables into their
+	// correct places.
+	if (strncmp(SummPtr->SaveNameChecker, LEGACY_SAVE_NAME_CHECKER, SAVE_CHECKER_SIZE))
+	{
+		COUNT i;
+			
+		// Apparently the bytes read to SummPtr->SaveNameChecker with
+		// read_str are destroyed from fp, so we must copy these bytes
+		// to temp variables at this point to preserve them.
+		no_savename = TRUE;
+		memcpy(&temp_log_x, SummPtr->SaveNameChecker, sizeof(SDWORD));
+		memcpy(&temp_log_y, &(SummPtr->SaveNameChecker[sizeof(SDWORD)]), sizeof(SDWORD));
+		memcpy(&temp_ru, &(SummPtr->SaveNameChecker[2 * sizeof(SDWORD)]), sizeof(DWORD));
+		memcpy(&temp_fuel, &(SummPtr->SaveNameChecker[2 * sizeof(SDWORD)+ sizeof(DWORD)]), sizeof(DWORD));
+			
+		// Rewind the position in savefile.
+		for (i = 0; i < SAVE_CHECKER_SIZE; i++)
+			uio_backtrack (1, (uio_Stream *) fp);
+			
+		// Zero the bogus savenamechecker.
+		for (i = 0; i < SAVE_CHECKER_SIZE; i++)
+			SummPtr->SaveNameChecker[i] = 0;
+			
+		// Make sure the save's name is empty.
+		for (i = 0; i < LEGACY_SAVE_NAME_SIZE; i++)
+			SummPtr->LegacySaveName[i] = 0;
+		}
+	else
+	{
+		// If the name identifier exists, let's also read
+		// the savegame's actual name, which is situated right
+		// after the identifier.
+		read_str (fp, SummPtr->LegacySaveName, LEGACY_SAVE_NAME_SIZE);
+	}
+		
+	//log_add (log_Debug, "fp: %d Check:%s Name:%s", fp, SummPtr->SaveNameChecker, SummPtr->SaveName);
+	
 	if (!LoadSisState (&SummPtr->SS, fp))
 		return FALSE;
-
+		
+	// JMS: Now we'll put those temp variables into action.
+	if (no_savename)
+	{
+		SummPtr->SS.log_x = temp_log_x;
+		SummPtr->SS.log_y = temp_log_y;
+		SummPtr->SS.ResUnits = temp_ru;
+		SummPtr->SS.FuelOnBoard = temp_fuel;
+	}
+	
 	if (
 			read_8  (fp, &SummPtr->Activity) != 1 ||
 			read_8  (fp, &SummPtr->Flags) != 1 ||
@@ -945,12 +1049,20 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
 			read_8  (fp, &SummPtr->NumDevices) != 1 ||
 			read_a8 (fp, SummPtr->ShipList, MAX_BUILT_SHIPS) != 1 ||
 			read_a8 (fp, SummPtr->DeviceList, MAX_EXCLUSIVE_DEVICES) != 1 ||
-
-			read_16  (fp, NULL) != 1 /* padding */
+			read_8  (fp, &SummPtr->res_factor) != 1 || // JMS: This'll help making saves between different resolutions compatible.
+		
+			read_8  (fp, NULL) != 1 /* padding */
 		)
 		return FALSE;
 	else
+	{
+		// JMS: UQM-HD saves have an extra piece of padding to compensate for the
+		// added res_factor in SummPtr.
+		if (!try_vanilla)
+			read_8 (fp, NULL); /* padding */
+	
 		return TRUE;
+	}
 }
 
 static void
@@ -965,7 +1077,7 @@ LoadStarDesc (STAR_DESC *SDPtr, DECODE_REF fh)
 }
 
 BOOLEAN
-LoadLegacyGame (COUNT which_game, SUMMARY_DESC *SummPtr)
+LoadLegacyGame (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN try_vanilla)
 {
 	uio_Stream *in_fp;
 	char file[PATH_MAX];
@@ -983,7 +1095,7 @@ LoadLegacyGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 		return FALSE;
 
 	loc_sd.SaveName[0] = '\0';
-	if (!LoadSummary (&loc_sd, in_fp))
+	if (!LoadSummary (&loc_sd, in_fp, try_vanilla))
 	{
 		log_add (log_Error, "Warning: Savegame is corrupt");
 		res_CloseResFile (in_fp);
@@ -1036,7 +1148,24 @@ LoadLegacyGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 	initEventSystem ();
 
 	Activity = GLOBAL (CurrentActivity);
-	LoadGameState (&GlobData.Game_state, fh);
+	
+	// JMS: We can decide whether the current savefile is vanilla UQM or UQM-HD
+	// only at this point, when reading the game states. If this turns out to be a 
+	// vanilla UQM save, we must close the file and re-open it for reading
+	// with the vanilla method.
+	if (!(LoadGameState (&GlobData.Game_state, fh, try_vanilla)))
+	{
+		res_CloseResFile (in_fp);
+		
+		if (!try_vanilla)
+		{			
+			LoadLegacyGame (which_game, NULL, TRUE);
+			return TRUE;
+		}
+		else
+			return FALSE;
+	}
+	
 	NextActivity = GLOBAL (CurrentActivity);
 	GLOBAL (CurrentActivity) = Activity;
 
