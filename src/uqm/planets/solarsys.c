@@ -1111,6 +1111,7 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 			case 5: planet->size = 29;
 				break;
 			}
+			planet->size = (optScalePlanets ? RES_SCALE(planet->size) : planet->size);
 		}
 		planet->image.frame =	SetAbsFrameIndex (OrbitalFrame,
 				(Size << FACING_SHIFT) + NORMALIZE_FACING (
@@ -1628,11 +1629,11 @@ DrawTexturedBody (PLANET_DESC* planet, STAMP s)
 	int oldMode;
 	
 	BatchGraphics ();
-	oldMode = SetGraphicScaleMode (TFB_SCALE_BILINEAR);
+	oldMode = SetGraphicScaleMode (TFB_SCALE_TRILINEAR);
 	if (worldIsMoon(pSolarSysState, planet))
-		oldScale = SetGraphicScale (GSCALE_IDENTITY * (optScalePlanets ? RES_SCALE(planet->size) : planet->size) / GENERATE_MOON_DIAMETER);
+		oldScale = SetGraphicScale (GSCALE_IDENTITY * planet->size / GENERATE_MOON_DIAMETER);
 	else
-		oldScale = SetGraphicScale (GSCALE_IDENTITY * (optScalePlanets ? RES_SCALE(planet->size) : planet->size) / GENERATE_PLANET_DIAMETER);
+		oldScale = SetGraphicScale (GSCALE_IDENTITY * planet->size / GENERATE_PLANET_DIAMETER);
 	s.frame = planet->orbit.SphereFrame;
 	DrawStamp (&s);
 	if (planet->orbit.ObjectFrame)
