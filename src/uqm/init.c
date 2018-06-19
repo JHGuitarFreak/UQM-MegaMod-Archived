@@ -208,6 +208,10 @@ SIZE
 InitShips (void)
 {
 	SIZE num_ships;
+	BYTE numAsteroids, numPlanets;
+
+	numAsteroids = 5;
+	numPlanets = 1;
 
 	InitSpace ();
 
@@ -255,11 +259,9 @@ InitShips (void)
 			free_gravity_well ();
 		else
 		{
-#define NUM_ASTEROIDS 5
-			for (i = 0; i < NUM_ASTEROIDS; ++i)
+			for (i = 0; i < numAsteroids; ++i)
 				spawn_asteroid (NULL);
-#define NUM_PLANETS 1
-			for (i = 0; i < NUM_PLANETS; ++i)
+			for (i = 0; i < numPlanets; ++i)
 				spawn_planet ();
 		}
 	
