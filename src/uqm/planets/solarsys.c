@@ -865,8 +865,8 @@ getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 {
 	if (pSolarSysState->WaitIntersect != (COUNT)~0
 			&& pSolarSysState->WaitIntersect != WaitPlanet)
-	{	// New collisions are with a single point (center of planet)
-		return DecFrameIndex (stars_in_space);
+	{	// Serosis - New collisions are determined by the size of the planet image.
+		return planet->image.frame;
 	}
 	else
 	{	// Existing collisions are cleared only once the ship does not
