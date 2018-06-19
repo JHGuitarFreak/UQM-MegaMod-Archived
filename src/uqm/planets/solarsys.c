@@ -1629,15 +1629,11 @@ DrawTexturedBody (PLANET_DESC* planet, STAMP s)
 	int oldMode;
 	
 	BatchGraphics ();
-	oldMode = SetGraphicScaleMode (TFB_SCALE_TRILINEAR);
-	if (worldIsMoon(pSolarSysState, planet))
-		oldScale = SetGraphicScale (GSCALE_IDENTITY * planet->size / GENERATE_MOON_DIAMETER);
-	else
-		oldScale = SetGraphicScale (GSCALE_IDENTITY * planet->size / GENERATE_PLANET_DIAMETER);
+	oldMode = SetGraphicScaleMode (TFB_SCALE_BILINEAR);
+	oldScale = SetGraphicScale (GSCALE_IDENTITY * planet->size / (worldIsMoon(pSolarSysState, planet) ? GENERATE_MOON_DIAMETER : GENERATE_PLANET_DIAMETER));
 	s.frame = planet->orbit.SphereFrame;
 	DrawStamp (&s);
-	if (planet->orbit.ObjectFrame)
-	{
+	if (planet->orbit.ObjectFrame) {
 		s.frame = planet->orbit.ObjectFrame;
 		DrawStamp (&s);
 	}
