@@ -149,8 +149,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Programming\UQM\VS2012\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Programming\UQM\VS2012\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\dev-lib\Windows\VS2008\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\dev-lib\Windows\VS2008\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
