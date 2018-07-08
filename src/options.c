@@ -87,6 +87,7 @@ BOOLEAN optSubmenu;
 BOOLEAN optAddDevices;
 BOOLEAN optScalePlanets;
 BOOLEAN optSuperMelee;
+BOOLEAN optLoadGame;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;
