@@ -866,6 +866,7 @@ enum
 	DEVICES_OPT,
 	SCALEPLAN_OPT,
 	MELEE_OPT,
+	LOADGAME_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -934,6 +935,7 @@ static struct option longOptions[] =
 	{"adddevices", 0, NULL, DEVICES_OPT},
 	{"scaledevices", 0, NULL, SCALEPLAN_OPT},
 	{"melee", 0, NULL, MELEE_OPT},
+	{"loadgame", 0, NULL, LOADGAME_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1274,6 +1276,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				break;
 			case MELEE_OPT:
 				optSuperMelee = TRUE;
+				break;
+			case LOADGAME_OPT:
+				optLoadGame = TRUE;
 				break;
 			case ADDON_OPT:
 				options->numAddons++;

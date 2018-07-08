@@ -198,8 +198,12 @@ DoRestart (MENU_STATE *pMS)
 	/* Cancel any presses of the Pause key. */
 	GamePaused = FALSE;
 	
-	if(optSuperMelee && PacksInstalled()){
+	if(optSuperMelee && !optLoadGame && PacksInstalled()){
 		pMS->CurState = PLAY_SUPER_MELEE;
+		PulsedInputState.menu[KEY_MENU_SELECT] = 65535;
+	}
+	if(optLoadGame && !optSuperMelee && PacksInstalled()){
+		pMS->CurState = LOAD_SAVED_GAME;
 		PulsedInputState.menu[KEY_MENU_SELECT] = 65535;
 	}
 
@@ -256,6 +260,7 @@ DoRestart (MENU_STATE *pMS)
 				if (!RestartMessage(pMS, TimeIn)) {
 					LastActivity = CHECK_LOAD;
 					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
+					optLoadGame = FALSE;
 				} else
 					return TRUE;
 				break;
