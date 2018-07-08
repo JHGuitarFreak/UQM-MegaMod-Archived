@@ -8,10 +8,8 @@ Only the Runtime is truly necessary, but the devel extras are nice.
 
 SDL_image: http://www.libsdl.org/projects/SDL_image/
 The last version of stock framework that can be used is v1.2.7.
-Starting with v1.2.8, the stock framework uses ImageIO by default to
-load PNG files, which strips out the PNG palettes. Later versions will
-work if you build your own copy that defines
-SDL_IMAGE_USE_COMMON_BACKEND.
+Starting with v1.2.8, the stock framework uses ImageIO by default
+to load PNG files, which strips out the PNG palettes.
 
 Ogg Vorbis: http://www.xiph.org/downloads/
 Theoretically optional, but necessary if you're using the 3DO music
@@ -30,7 +28,14 @@ Unzip the libogg and libvorbis archives somewhere convenient.
 For libogg:
 - Go to the macosx directory, open the xcodeproj.
 - Open Project->Project Settings and set the Configuration to
-  "Release".  Ensure the Architecture is set to "i386 x86_64".
+  "Release".  Ensure the Architecture is set to "i386 ppc".
+- If you are using XCode 3.2.1 (Snow Leopard), you will need to use
+  GCC 4.0 instead of the default 4.2 (which will not work for the 10.4
+  target).  Inside Project Settings, add the following User-Defined
+  Settings via the gear menu at the bottom left:
+  - GCC_VERSION_i386 = 4.0
+  - GCC_VERSION_ppc  = 4.0
+- Choose the "10.4 | Release" target and build.
 - If there are no errors, the Ogg.framework file should have turned
   from red to black.  Control-click it, choose "reveal in finder".
 - Copy Ogg.framework to /Library/Frameworks.
@@ -56,11 +61,3 @@ To build:
 
 - If it builds without errors (last line is LINK uqm or LINK
   uqm-debug), ./build.sh uqm install to build the .app.
-
-- The .app that is built will link against the frameworks in
-  /Library/Frameworks. To produce a distributable image you will need
-  to move the libraries into place inside the app bundle and fix up
-  any linkage of names. build/unix_installer/copy_mac_frameworks.pl
-  should do the hard work for you, but you may need to edit the
-  patterns it edits depending on the precise details of the computer
-  you are building on.
