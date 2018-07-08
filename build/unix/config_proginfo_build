@@ -77,10 +77,10 @@ useGccBuildTools() {
 }
 case "$HOST_SYSTEM" in
 	Darwin)
-		EXTRA_PLATFORM_GCC_FLAGS_COMPILE_C='-mmacosx-version-min=10.6 -arch i386 -arch x86_64'
-		EXTRA_PLATFORM_GCC_FLAGS_COMPILE_CXX='-mmacosx-version-min=10.4 -arch i386 -arch x86_64'
-		EXTRA_PLATFORM_GCC_FLAGS_COMPILE_OBJC='-mmacosx-version-min=10.4 -arch i386 -arch x86_64'
-		EXTRA_PLATFORM_GCC_FLAGS_LINK='-mmacosx-version-min=10.4 -arch i386 -arch x86_64'
+		EXTRA_PLATFORM_GCC_FLAGS_COMPILE_C='-mmacosx-version-min=10.4 -arch i386'
+		EXTRA_PLATFORM_GCC_FLAGS_COMPILE_CXX='-mmacosx-version-min=10.4 -arch i386'
+		EXTRA_PLATFORM_GCC_FLAGS_COMPILE_OBJC='-mmacosx-version-min=10.4 -arch i386'
+		EXTRA_PLATFORM_GCC_FLAGS_LINK='-mmacosx-version-min=10.4 -arch i386'
 		useGccBuildTools
 		;;
 	WINSCW)
@@ -326,11 +326,7 @@ PROG_windres_VERSION='windres --version'
 
 ### Rez resource compiler (for MacOS X) ###
 PROG_Rez_NAME="Rez resource compiler (Apple Developer Tools)"
-
-###For use when compiling on Snow Leopard
-###PROG_Rez_FILE="Rez"
-
-PROG_Rez_FILE="/usr/bin/Rez"
+PROG_Rez_FILE="Rez"
 PROG_Rez_ACTION=""
 PROG_Rez_VERSION=''
 
