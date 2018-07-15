@@ -65,6 +65,7 @@ UninitKernel (void)
 	DestroySound (ReleaseSound (MenuSounds));
 	DestroyFont (MicroFont);
 	DestroyStringTable (ReleaseStringTable (GameStrings));
+	DestroyDrawable (ReleaseDrawable (BorderFrame)); // JMS
 	DestroyDrawable (ReleaseDrawable (StatusFrame));
 	DestroyDrawable (ReleaseDrawable (SubmenuFrame)); // JMS
 	DestroyDrawable (ReleaseDrawable (ConstellationsFrame)); // JMS

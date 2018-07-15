@@ -66,6 +66,7 @@ DrawModuleStrings (MENU_STATE *pMS, BYTE NewModule)
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x0A), 0x08));
 	DrawFilledRectangle (&r);
+	DrawBorder(7);
 	if (NewModule >= EMPTY_SLOT)
 	{
 		r.corner = s.origin;
@@ -80,7 +81,6 @@ DrawModuleStrings (MENU_STATE *pMS, BYTE NewModule)
 	{
 		TEXT t;
 		UNICODE buf[40];
-
 		s.frame = SetAbsFrameIndex (pMS->CurFrame, NewModule);
 		DrawStamp (&s);
 		t.baseline.x = s.origin.x + RADAR_WIDTH - RES_STAT_SCALE(2) - RESOLUTION_FACTOR;
@@ -624,7 +624,7 @@ static void
 onNamingDone (void)
 {
 	// In case player just named a ship, redraw it
-	DrawFlagshipName (FALSE);
+	DrawFlagshipName (FALSE, FALSE);
 }
 
 BOOLEAN
@@ -716,7 +716,7 @@ DoOutfit (MENU_STATE *pMS)
 			}
 
 			DrawMenuStateStrings (PM_FUEL, pMS->CurState);
-			DrawFlagshipName (FALSE);
+			DrawFlagshipName (FALSE, FALSE);
 			if (optWhichFonts == OPT_PC)
 				DrawFlagshipStats ();
 

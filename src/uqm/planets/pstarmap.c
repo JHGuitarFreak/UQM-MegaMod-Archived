@@ -1960,8 +1960,14 @@ StarMap (void)
 			zoomLevel = 2;
 	}
 	
-	if(optSubmenu)
-		DrawSubmenu (2);
+	if(optSubmenu){
+		if(optCustomBorder){
+			if(optWhichMenu != OPT_PC)
+				DrawBorder(17);
+			DrawBorder(15);
+		} else
+			DrawSubmenu (2);
+	}
 
 	DrawStarMap (0, (RECT*)-1);
 	transition_pending = FALSE;
@@ -1985,9 +1991,13 @@ StarMap (void)
 	DrawHyperCoords (universe);
 	DrawSISMessage (NULL);
 	DrawStatusMessage (NULL);
-
-	if (optSubmenu)
-		DrawSubmenu (0);
+	
+	if (optSubmenu){
+		if(optCustomBorder)
+			DrawBorder(13);
+		else
+			DrawSubmenu (0);
+	}
 
 	if (GLOBAL (autopilot.x) == universe.x
 			&& GLOBAL (autopilot.y) == universe.y)

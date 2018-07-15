@@ -154,6 +154,8 @@ DrawDevicesDisplay (DEVICES_STATE *devState)
 			SHADOWBOX_MEDIUM_COLOR, SHADOWBOX_DARK_COLOR,
 			TRUE, DEVICES_BACK_COLOR);
 
+	DrawBorder(12);
+
 	// print the "DEVICES" title
 	SetContextFont (StarConFont);
 	t.baseline.x = (STATUS_WIDTH >> 1) - RES_STAT_SCALE(1); // JMS_GFX

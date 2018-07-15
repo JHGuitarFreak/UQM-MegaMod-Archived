@@ -78,6 +78,7 @@ extern BOOLEAN optAddDevices;
 extern BOOLEAN optScalePlanets;
 extern BOOLEAN optSuperMelee;
 extern BOOLEAN optLoadGame;
+extern BOOLEAN optCustomBorder;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

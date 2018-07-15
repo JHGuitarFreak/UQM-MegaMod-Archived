@@ -152,6 +152,8 @@ DrawCargoDisplay (void)
 			SHADOWBOX_MEDIUM_COLOR, SHADOWBOX_DARK_COLOR,
 			TRUE, CARGO_BACK_COLOR);
 
+	DrawBorder(12);
+
 	// draw the "CARGO" title
 	SetContextFont (StarConFont);
 	t.baseline.x = (STATUS_WIDTH >> 1) - RES_STAT_SCALE(1); // JMS_GFX

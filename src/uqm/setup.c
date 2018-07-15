@@ -272,6 +272,10 @@ InitKernel (void)
 	if (PlyrFont == NULL)
 		return FALSE;
 
+	BorderFrame = CaptureDrawable (LoadGraphic(BORDER_MASK_PMAP_ANIM));
+	if (BorderFrame == NULL)
+		return FALSE;
+
 	ActivityFrame = CaptureDrawable (LoadGraphic (ACTIVITY_ANIM));
 	if (ActivityFrame == NULL)
 		return FALSE;

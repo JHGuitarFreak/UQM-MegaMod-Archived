@@ -228,9 +228,9 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 	if (!(state & DDSHS_EDIT))
 	{	// normal state
 		if (nameCaptain)
-			DrawCaptainsName ();
+			DrawCaptainsName (nameCaptain);
 		else
-			DrawFlagshipName (TRUE);
+			DrawFlagshipName (TRUE, !nameCaptain);
 	}
 	else
 	{	// editing state

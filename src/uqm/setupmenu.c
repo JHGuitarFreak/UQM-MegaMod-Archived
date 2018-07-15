@@ -77,7 +77,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       46
+#define CHOICE_COUNT       47
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -105,7 +105,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
 	2, 2, 2, 2, 3, 2, 2, 2, 2, 3,
-	2, 2 };
+	2, 2, 2 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -198,7 +198,8 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[40]),	// Serosis: Thraddash Story switch
 	(WIDGET *)(&choices[41]),	// Serosis: Partial Pickup switch
 	(WIDGET *)(&choices[42]),	// Serosis: Submenu switch
-	(WIDGET *)(&buttons[1]),
+	(WIDGET *)(&choices[46]),	// Serosis: Custom Border switch
+	(WIDGET *)(&buttons[1]),	
 	NULL };
 
 static WIDGET *editkeys_widgets[] = {
@@ -470,6 +471,7 @@ SetDefaults (void)
 	choices[43].selected = opts.loresBlowup; // JMS
 	choices[44].selected = opts.addDevices;
 	choices[45].selected = opts.scalePlanets;
+	choices[46].selected = opts.customBorder;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -530,6 +532,7 @@ PropagateResults (void)
 	opts.loresBlowup = choices[43].selected; // JMS
 	opts.addDevices = choices[44].selected;
 	opts.scalePlanets = choices[45].selected;
+	opts.customBorder = choices[46].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1441,6 +1444,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->submenu = optSubmenu ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->addDevices = optAddDevices ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->scalePlanets = optScalePlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->customBorder = optCustomBorder ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
 
 	// JMS_GFX: 1280x960
@@ -1777,6 +1781,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Scale Planets in HD
 	res_PutBoolean ("config.scalePlanets", opts->scalePlanets == OPTVAL_ENABLED);
 	optScalePlanets = opts->scalePlanets == OPTVAL_ENABLED;
+	
+	// Serosis: Show custom border
+	res_PutBoolean ("config.customBorder", opts->customBorder == OPTVAL_ENABLED);
+	optCustomBorder = opts->customBorder == OPTVAL_ENABLED;
 
 	if (opts->scanlines && RESOLUTION_FACTOR == 0) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;

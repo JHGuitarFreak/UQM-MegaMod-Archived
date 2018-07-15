@@ -24,7 +24,7 @@
 #include "sis.h"
 #include "units.h"
 #include "util.h"
-
+#include "menustat.h"
 
 void
 InitSISContexts (void)
@@ -227,6 +227,8 @@ DrawSISFrame (void)
 		r.extent.width = 1;
 		r.extent.height = SCREEN_HEIGHT - r.corner.y;
 		DrawFilledRectangle (&r);
+
+		DrawBorder(0);
 	}
 
 	InitSISContexts ();
@@ -234,4 +236,3 @@ DrawSISFrame (void)
 
 	UnbatchGraphics ();
 }
-
