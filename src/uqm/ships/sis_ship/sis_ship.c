@@ -25,6 +25,7 @@
 #include "uqm/globdata.h"
 #include "uqm/hyper.h"
 #include "libs/mathlib.h"
+#include "../../setup.h"
 
 /* Core characteristics.
  * All of these are changed at init time by some module, except for
@@ -1107,7 +1108,7 @@ init_sis (void)
 		new_sis_desc.ship_data.victory_ditty_rsc = NULL_RESOURCE;
 		new_sis_desc.ship_data.ship_sounds_rsc = NULL_RESOURCE;
 
-		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1 && RESOLUTION_FACTOR > 0)
+		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1 && (RESOLUTION_FACTOR > 0 || EndlessSCLoaded))
 			new_sis_desc.ship_data.ship_rsc[0] = SIS_QUASI_MASK_PMAP_ANIM;
 		else
 			new_sis_desc.ship_data.ship_rsc[0] = SIS_HYPER_MASK_PMAP_ANIM;

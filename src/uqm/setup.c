@@ -70,12 +70,14 @@ FRAME NebulaeFrame; // JMS
 FRAME FlagStatFrame;
 FRAME MiscDataFrame;
 FRAME FontGradFrame;
+FRAME BorderFrame;
 STRING GameStrings;
 QUEUE disp_q;
 // Serosis
 BOOLEAN solTexturesPresent;
 BOOLEAN SyreenVoiceFix;
 BOOLEAN comingFromInit;
+BOOLEAN EndlessSCLoaded;
 BYTE Rando;
 // JMS_GFX
 BOOLEAN hires2xPackPresent;
@@ -161,6 +163,11 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 			break;
 		case 0:
 		default:
+			if(loadAddon("EndlessSC-1x")){
+				EndlessSCLoaded = TRUE;
+				printf("Loading Endless SC \n");
+				log_add (log_Debug, "loading EndlessSC-1x");
+			}
 			if(loadAddon("sol-textures-1x")){
 				solTexturesPresent = TRUE;
 				printf("Loading Sol Textures \n");

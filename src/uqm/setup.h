@@ -69,6 +69,7 @@ extern BOOLEAN SyreenVoiceFix;
 extern BOOLEAN hires2xPackPresent; // JMS
 extern BOOLEAN hires4xPackPresent; // JMS
 extern BOOLEAN comingFromInit;
+extern BOOLEAN EndlessSCLoaded;
 extern BYTE Rando;
 
 extern ACTIVITY LastActivity;
