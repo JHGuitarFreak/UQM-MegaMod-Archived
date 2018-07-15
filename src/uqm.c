@@ -157,6 +157,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, submenu);
 	DECL_CONFIG_OPTION(bool, addDevices);
 	DECL_CONFIG_OPTION(bool, scalePlanets);
+	DECL_CONFIG_OPTION(bool, customBorder);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -316,6 +317,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  submenu,			true),
 		INIT_CONFIG_OPTION(  addDevices,		false),
 		INIT_CONFIG_OPTION(  scalePlanets,		true),
+		INIT_CONFIG_OPTION(  customBorder,		true),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -478,6 +480,7 @@ main (int argc, char *argv[])
 	optSubmenu = options.submenu.value;
 	optAddDevices = options.addDevices.value;
 	optScalePlanets = options.scalePlanets.value;
+	optCustomBorder = options.customBorder.value;
 	optRequiresReload = FALSE; // Serosis
 	optRequiresRestart = FALSE; // JMS_GFX
 
@@ -806,6 +809,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->submenu, "config.submenu");
 	getBoolConfigValue (&options->addDevices, "cheat.addDevices");
 	getBoolConfigValue (&options->scalePlanets, "config.scalePlanets");
+	getBoolConfigValue (&options->customBorder, "config.customBorder");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -867,6 +871,7 @@ enum
 	SCALEPLAN_OPT,
 	MELEE_OPT,
 	LOADGAME_OPT,
+	CUSTBORD_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -936,6 +941,7 @@ static struct option longOptions[] =
 	{"scaledevices", 0, NULL, SCALEPLAN_OPT},
 	{"melee", 0, NULL, MELEE_OPT},
 	{"loadgame", 0, NULL, LOADGAME_OPT},
+	{"customborder", 0, NULL, CUSTBORD_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1279,6 +1285,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				break;
 			case LOADGAME_OPT:
 				optLoadGame = TRUE;
+				break;
+			case CUSTBORD_OPT:
+				optCustomBorder = TRUE;
 				break;
 			case ADDON_OPT:
 				options->numAddons++;

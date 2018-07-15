@@ -94,7 +94,8 @@ DrawPCMenu (BYTE beg_index, BYTE end_index, BYTE NewState, BYTE hilite, RECT *r)
 	else
 		r->corner.y += (r->extent.height - num_items * PC_MENU_HEIGHT) / 2;
 	r->extent.height = num_items * PC_MENU_HEIGHT + 4;
-	DrawPCMenuFrame (r);
+	DrawPCMenuFrame (r);	
+	DrawBorder(16);
 	OldFont = SetContextFont (StarConFont);
 	t.align = ALIGN_LEFT;
 	t.baseline.x = r->corner.x + 2;
@@ -114,19 +115,19 @@ DrawPCMenu (BYTE beg_index, BYTE end_index, BYTE NewState, BYTE hilite, RECT *r)
 			// Currently selected menu option.
 			
 			// Draw the background of the selection.
-			SetContextForeGroundColor (PCMENU_SELECTION_BACKGROUND_COLOR);
+			SetContextForeGroundColor ((optCustomBorder ? SHADOWBOX_MEDIUM_COLOR : PCMENU_SELECTION_BACKGROUND_COLOR));
 			r->corner.y = t.baseline.y - PC_MENU_HEIGHT + RES_STAT_SCALE(2); // + RESOLUTION_FACTOR; // JMS_GFX
 			r->extent.height = PC_MENU_HEIGHT - 1;
 			DrawFilledRectangle (r);
 
 			// Draw the text of the selected item.
-			SetContextForeGroundColor (PCMENU_SELECTION_TEXT_COLOR);
+			SetContextForeGroundColor ((optCustomBorder ? NORMAL_ILLUMINATED_COLOR : PCMENU_SELECTION_TEXT_COLOR));
 			font_DrawText (&t);
 		}
 		else
 		{
 			// Draw the text of an unselected item.
-			SetContextForeGroundColor (PCMENU_TEXT_COLOR);
+			SetContextForeGroundColor ((optCustomBorder ? SHADOWBOX_BACKGROUND_COLOR : PCMENU_TEXT_COLOR));
 			font_DrawText (&t);
 		}
 		t.baseline.y += PC_MENU_HEIGHT;
@@ -556,7 +557,6 @@ DrawMenuStateStrings (BYTE beg_index, SWORD NewState)
 			r.corner.y -= 7;
 			r.extent.height += 7;
 		}
-
 		DrawPCMenu (beg_index, end_index, (BYTE)NewState, hilite, &r);
 		s.frame = 0;
 	}
@@ -571,6 +571,7 @@ DrawMenuStateStrings (BYTE beg_index, SWORD NewState)
 		else
 			r.extent.height = 11 << RESOLUTION_FACTOR;
 		DrawFilledRectangle (&r);
+		DrawBorder(7);
 	}
 	if (s.frame)
 	{
@@ -623,6 +624,25 @@ DrawSubmenu (BYTE Visible)
 	s.frame = SetAbsFrameIndex (SubmenuFrame, Visible);
 
 	DrawStamp (&s);
+	
+	SetContext (OldContext);
+}
+
+void
+DrawBorder (BYTE Visible)
+{
+	STAMP s;
+	CONTEXT OldContext;
+	
+	OldContext = SetContext (ScreenContext);
+
+	s.origin.x = 0;
+	s.origin.y = 0;
+
+	s.frame = SetAbsFrameIndex (BorderFrame, Visible);
+
+	if (optCustomBorder && RESOLUTION_FACTOR == 0)
+		DrawStamp (&s);
 	
 	SetContext (OldContext);
 }

@@ -167,6 +167,8 @@ DrawPlanetSurfaceBorder (void)
 	r.extent.width = MAP_WIDTH + 2;
 	r.extent.height = 1;
 	DrawFilledRectangle (&r);
+
+	DrawBorder(9);
 	
 	UnbatchGraphics ();
 

@@ -238,8 +238,8 @@ extern DWORD GetFTankCapacity (POINT *ppt);
 
 extern COUNT CountSISPieces (BYTE piece_type);
 
-extern void DrawFlagshipName (BOOLEAN InStatusArea);
-extern void DrawCaptainsName (void);
+extern void DrawFlagshipName (BOOLEAN InStatusArea, bool NewGame);
+extern void DrawCaptainsName (bool NewGame);
 
 #if defined(__cplusplus)
 }

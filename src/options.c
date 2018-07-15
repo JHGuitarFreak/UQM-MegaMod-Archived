@@ -88,6 +88,7 @@ BOOLEAN optAddDevices;
 BOOLEAN optScalePlanets;
 BOOLEAN optSuperMelee;
 BOOLEAN optLoadGame;
+BOOLEAN optCustomBorder;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

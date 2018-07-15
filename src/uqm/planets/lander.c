@@ -1883,8 +1883,12 @@ ReturnToOrbit (void)
 	BatchGraphics ();
 	
 	// JMS: This will hide the table of mineral values on the status bar.
-	if (optSubmenu)
-		DrawSubmenu (0);
+	if (optSubmenu){
+		if(optCustomBorder)
+			DrawBorder(13);
+		else
+			DrawSubmenu (0);
+	}
 
 	DrawStarBackGround ();
 	DrawPlanetSurfaceBorder ();
@@ -2104,8 +2108,12 @@ PlanetSide (POINT planetLoc)
 	AnimateLanderWarmup ();
 	AnimateLaunch (LanderFrame[5], TRUE);
 
-	if (optSubmenu)
-		DrawSubmenu (1);
+	if (optSubmenu){
+		if(optCustomBorder)
+			DrawBorder(14);
+		else
+			DrawSubmenu (1);
+	}
 
 	InitPlanetSide (planetLoc);
 
@@ -2198,6 +2206,8 @@ InitLander (BYTE LanderFlags)
 	r.extent.height = RADAR_HEIGHT;
 	SetContextForeGroundColor (BLACK_COLOR);
 	DrawFilledRectangle (&r);
+
+	DrawBorder(7);
 	
 	if (GLOBAL_SIS (NumLanders) || LanderFlags)
 	{

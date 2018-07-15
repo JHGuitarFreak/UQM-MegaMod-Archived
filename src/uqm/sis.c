@@ -73,6 +73,8 @@ RepairSISBorder (void)
 	r.extent.height = 1;
 	DrawFilledRectangle (&r);
 
+	DrawBorder(8);
+
 	UnbatchGraphics ();
 
 	SetContext (OldContext);
@@ -149,6 +151,8 @@ DrawSISTitle (UNICODE *pStr)
 	// Background color
 	SetContextBackGroundColor (SIS_TITLE_BACKGROUND_COLOR);
 	ClearDrawable ();
+	
+	DrawBorder (3);
 
 	// Text color
 	SetContextForeGroundColor (SIS_TITLE_TEXT_COLOR);
@@ -243,6 +247,8 @@ DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 	if (CurPos < 0 && ExPos < 0)
 	{	// normal state
 		ClearDrawable ();
+
+		DrawBorder(2);
 		t.baseline.x = SIS_MESSAGE_WIDTH >> 1;
 		t.align = ALIGN_CENTER;
 		font_DrawText (&t);
@@ -449,6 +455,8 @@ DrawStatusMessage (const UNICODE *pStr)
 		SetContextForeGroundColor (STATUS_MESSAGE_TEXT_COLOR);
 	}
 
+	DrawBorder(6);
+
 	SetContextFont (TinyFont);
 	SetContextForeGroundColor (STATUS_MESSAGE_TEXT_COLOR);
 	font_DrawText (&t);
@@ -468,7 +476,7 @@ SetStatusMessageMode (StatMsgMode newMode)
 }
 
 void
-DrawCaptainsName (void)
+DrawCaptainsName (bool NewGame)
 {
 	RECT r;
 	TEXT t;
@@ -486,6 +494,9 @@ DrawCaptainsName (void)
 	r.extent.height = SHIP_NAME_HEIGHT + RESOLUTION_FACTOR;	// JMS_GFX
 	DrawFilledRectangle (&r);
 
+	if(!NewGame)
+		DrawBorder(5);
+
 	t.baseline.x = (STATUS_WIDTH >> 1) - RES_CASE(1,0,-1);
 	t.baseline.y = r.corner.y + RES_CASE(6,11,16); // JMS_GFX
 	t.align = ALIGN_CENTER;
@@ -500,7 +511,7 @@ DrawCaptainsName (void)
 }
 
 void
-DrawFlagshipName (BOOLEAN InStatusArea)
+DrawFlagshipName (BOOLEAN InStatusArea, bool NewGame)
 {
 	RECT r;
 	TEXT t;
@@ -556,6 +567,9 @@ DrawFlagshipName (BOOLEAN InStatusArea)
 	OldFontEffect = SetContextFontEffect (NULL);
 	OldColor = SetContextForeGroundColor (FLAGSHIP_NAME_BACKGROUND_COLOR);
 	DrawFilledRectangle (&r);
+
+	if(!NewGame)
+		DrawBorder(11);
 
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
 	t.baseline.y = r.corner.y + (SHIP_NAME_HEIGHT -
@@ -914,6 +928,8 @@ DrawPC_SIS (void)
 	SetContextForeGroundColor (PC_CAPTAIN_STRING_BACKGROUND_COLOR);
 	DrawFilledRectangle (&r);
 
+	DrawBorder(4);
+
 	// Text "CAPTAIN".
 	SetContextForeGroundColor (PC_CAPTAIN_STRING_TEXT_COLOR);
 	t.baseline.y = r.corner.y + RES_CASE(6,10,18); // JMS_GFX
@@ -1185,6 +1201,8 @@ DeltaSISGauges (SIZE crew_delta, SIZE fuel_delta, int resunit_delta)
 		s.frame = FlagStatFrame;
 		DrawStamp (&s);
 
+		DrawBorder(1);
+
 		if (optWhichFonts == OPT_PC)
 			DrawPC_SIS();
 
@@ -1204,8 +1222,8 @@ DeltaSISGauges (SIZE crew_delta, SIZE fuel_delta, int resunit_delta)
 
 	if (crew_delta == UNDEFINED_DELTA)
 	{
-		DrawFlagshipName (TRUE);
-		DrawCaptainsName ();
+		DrawFlagshipName (TRUE, FALSE);
+		DrawCaptainsName (FALSE);
 		DrawLanders ();
 		DrawStorageBays (FALSE);
 	}

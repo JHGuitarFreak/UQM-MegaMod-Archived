@@ -40,6 +40,7 @@ extern FRAME hyperspacesuns;	// BW
 extern FRAME FlagStatFrame;
 extern FRAME MiscDataFrame;
 extern FRAME FontGradFrame;
+extern FRAME BorderFrame;
 
 extern CONTEXT OffScreenContext;
 		// OffScreenContext can often refer to a deleted ForeGroundFrame
