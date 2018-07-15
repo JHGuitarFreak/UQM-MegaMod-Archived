@@ -402,13 +402,13 @@ LoadHyperspace (void)
 
 	SetContext (SpaceContext);
 	if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
-	{
+	{	// Hyperspace Color
 		SetContextBackGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x07, 0x00, 0x00), 0x2F));
 		SetColorMap (GetColorMapAddress (hypercmaps[0]));
 	}
 	else
-	{
+	{	// Quasispace Color
 		SetContextBackGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x00, 0x1A, 0x00), 0x2F));
 		SetColorMap (GetColorMapAddress (hypercmaps[1]));
