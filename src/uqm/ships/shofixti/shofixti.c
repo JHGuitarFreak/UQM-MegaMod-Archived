@@ -19,7 +19,7 @@
 #include "../ship.h"
 #include "shofixti.h"
 #include "resinst.h"
-
+#include "../../setup.h"
 #include "uqm/globdata.h"
 #include "uqm/tactrans.h"
 #include "libs/mathlib.h"
@@ -448,8 +448,15 @@ self_destruct_kill_objects (ELEMENT *ElementPtr)
 			// XXX: Why not simply call do_damage()?
 			if (ObjPtr->state_flags & PLAYER_SHIP)
 			{
-				if (!DeltaCrew (ObjPtr, -destruction))
-					ObjPtr->life_span = 0;
+				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
+					(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
+					((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
+				{
+					// Glory device does no damage to player
+				} else {
+					if (!DeltaCrew (ObjPtr, -destruction))
+						ObjPtr->life_span = 0;
+				}
 			}
 			else if (!GRAVITY_MASS (ObjPtr->mass_points))
 			{
