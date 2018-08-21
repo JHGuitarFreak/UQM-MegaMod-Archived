@@ -569,7 +569,7 @@ DrawFlagshipName (BOOLEAN InStatusArea, bool NewGame)
 	DrawFilledRectangle (&r);
 
 	if(!NewGame)
-		DrawBorder(11);
+		DrawBorder(10);
 
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
 	t.baseline.y = r.corner.y + (SHIP_NAME_HEIGHT -
