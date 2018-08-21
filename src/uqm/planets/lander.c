@@ -1885,7 +1885,7 @@ ReturnToOrbit (void)
 	// JMS: This will hide the table of mineral values on the status bar.
 	if (optSubmenu){
 		if(optCustomBorder)
-			DrawBorder(13);
+			DrawBorder(12);
 		else
 			DrawSubmenu (0);
 	}
@@ -2110,7 +2110,7 @@ PlanetSide (POINT planetLoc)
 
 	if (optSubmenu){
 		if(optCustomBorder)
-			DrawBorder(14);
+			DrawBorder(13);
 		else
 			DrawSubmenu (1);
 	}
