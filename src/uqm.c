@@ -1576,6 +1576,9 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_add (log_User, "  --scaleplanets : Scales textured planets in HD    (default: %s)",
 			boolOptString (&defaults->scalePlanets));
 	log_add (log_User, "  --melee : Takes you straight to Super Melee after the splash screen.");
+	log_add (log_User, "  --loadgame : Takes you straight to the Load Game sceen after the splash screen.");
+	log_add (log_User, "  --customborder : Enables the custom border frame.");	
+	log_add (log_User, "  --customseed=# : Allows you to customize the internal seed used to generate the solar systems in-game.");
 	log_setOutput (old);
 }
 
