@@ -89,6 +89,8 @@ BOOLEAN optScalePlanets;
 BOOLEAN optSuperMelee;
 BOOLEAN optLoadGame;
 BOOLEAN optCustomBorder;
+int optCustomSeed;
+int savedSeed;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

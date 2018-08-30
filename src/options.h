@@ -79,6 +79,8 @@ extern BOOLEAN optScalePlanets;
 extern BOOLEAN optSuperMelee;
 extern BOOLEAN optLoadGame;
 extern BOOLEAN optCustomBorder;
+extern int optCustomSeed;
+extern int savedSeed;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

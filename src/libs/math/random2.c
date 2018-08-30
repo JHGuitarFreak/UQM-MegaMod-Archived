@@ -25,12 +25,12 @@
 #include "random.h"
 
 #include "libs/memlib.h"
+#include "../options.h"
 
-
-#define A 16807 /* a relatively prime number -- also M div Q */
-#define M 2147483647 /* 0xFFFFFFFF / 2 */
-#define Q 127773 /* M div A */
-#define R 2836 /* M mod A */
+#define A (savedSeed != NULL ? savedSeed : optCustomSeed) // Serosis - Default: 16807 - a relatively prime number - also M div Q
+#define M 2147483647 // 0xFFFFFFFF div 2
+#define Q (M / A) // Serosis - Default: 127773L - M div A
+#define R (M % A) // Serosis - Default: 2836 - M mod A 
 
 RandomContext *
 RandomContext_New (void)

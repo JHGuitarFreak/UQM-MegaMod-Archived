@@ -158,6 +158,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, addDevices);
 	DECL_CONFIG_OPTION(bool, scalePlanets);
 	DECL_CONFIG_OPTION(bool, customBorder);
+	DECL_CONFIG_OPTION(int, customSeed);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -311,6 +312,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  texturedPlanets,	false),
 		// Nic
 		INIT_CONFIG_OPTION(  optDateFormat,		0),
+		//Serosis
 		INIT_CONFIG_OPTION(  infiniteFuel,		false),
 		INIT_CONFIG_OPTION(  thraddStory,		false),
 		INIT_CONFIG_OPTION(  partialPickup,		false),
@@ -318,6 +320,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  addDevices,		false),
 		INIT_CONFIG_OPTION(  scalePlanets,		true),
 		INIT_CONFIG_OPTION(  customBorder,		true),
+		INIT_CONFIG_OPTION(  customSeed,		16807),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -481,6 +484,7 @@ main (int argc, char *argv[])
 	optAddDevices = options.addDevices.value;
 	optScalePlanets = options.scalePlanets.value;
 	optCustomBorder = options.customBorder.value;
+	optCustomSeed = options.customSeed.value;
 	optRequiresReload = FALSE; // Serosis
 	optRequiresRestart = FALSE; // JMS_GFX
 
@@ -810,6 +814,9 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->addDevices, "cheat.addDevices");
 	getBoolConfigValue (&options->scalePlanets, "config.scalePlanets");
 	getBoolConfigValue (&options->customBorder, "config.customBorder");
+	if (res_IsInteger ("config.customSeed") && !options->customSeed.set) {
+		options->customSeed.value = res_GetInteger ("config.customSeed");
+	}
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -869,9 +876,10 @@ enum
 	SUBMENU_OPT,
 	DEVICES_OPT,
 	SCALEPLAN_OPT,
+	CUSTBORD_OPT,
+	EXSEED_OPT,
 	MELEE_OPT,
 	LOADGAME_OPT,
-	CUSTBORD_OPT,
 #ifdef NETPLAY
 	NETHOST1_OPT,
 	NETPORT1_OPT,
@@ -932,16 +940,17 @@ static struct option longOptions[] =
 	{"nebulae", 0, NULL, NEBU_OPT},
 	{"orbitingplanets", 0, NULL, ORBITS_OPT},
 	{"texturedplanets", 0, NULL, TEXTPLAN_OPT},
-	{"dateformat", 0, NULL, DATE_OPT},
+	{"dateformat", 1, NULL, DATE_OPT},
 	{"infinitefuel", 0, NULL, INFFUEL_OPT},
 	{"thraddstory", 0, NULL, THRADD_OPT},
 	{"partialpickup", 0, NULL, PICKUP_OPT},
 	{"submenu", 0, NULL, SUBMENU_OPT},
 	{"adddevices", 0, NULL, DEVICES_OPT},
 	{"scaledevices", 0, NULL, SCALEPLAN_OPT},
+	{"customborder", 0, NULL, CUSTBORD_OPT},
+	{"customseed", 1, NULL, EXSEED_OPT},
 	{"melee", 0, NULL, MELEE_OPT},
 	{"loadgame", 0, NULL, LOADGAME_OPT},
-	{"customborder", 0, NULL, CUSTBORD_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1280,14 +1289,28 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case SCALEPLAN_OPT:
 				setBoolOption (&options->scalePlanets, true);
 				break;
+			case CUSTBORD_OPT:
+				optCustomBorder = TRUE;
+				break;
+			case EXSEED_OPT:{
+				int temp;
+				if (parseIntOption (optarg, &temp, "Custom Seed") == -1) {
+					badArg = true;
+					break;
+				} else if (temp <= 1 || temp >= 2147483646) {					
+					saveError ("\nCustom Seed can not be 1, less than 1, 2147483646, or greater than 2147483646.\n");
+					badArg = true;
+				} else {
+					options->customSeed.value = temp;
+					options->customSeed.set = true;
+				}
+				break;
+			}
 			case MELEE_OPT:
 				optSuperMelee = TRUE;
 				break;
 			case LOADGAME_OPT:
 				optLoadGame = TRUE;
-				break;
-			case CUSTBORD_OPT:
-				optCustomBorder = TRUE;
 				break;
 			case ADDON_OPT:
 				options->numAddons++;

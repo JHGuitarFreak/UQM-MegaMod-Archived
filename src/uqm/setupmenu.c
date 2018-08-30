@@ -1445,6 +1445,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->addDevices = optAddDevices ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->scalePlanets = optScalePlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->customBorder = optCustomBorder ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->customSeed = res_GetInteger ("config.customSeed");
 	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
 
 	// JMS_GFX: 1280x960
@@ -1510,7 +1511,8 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	int NewGfxFlags = GfxFlags;
 	int NewWidth = ScreenWidthActual;
 	int NewHeight = ScreenHeightActual;
-	int NewDriver = GraphicsDriver;
+	int NewDriver = GraphicsDriver;	
+	int SeedStuff;
 	
 	unsigned int oldResFactor = resolutionFactor; // JMS_GFX
 
@@ -1785,6 +1787,13 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Show custom border
 	res_PutBoolean ("config.customBorder", opts->customBorder == OPTVAL_ENABLED);
 	optCustomBorder = opts->customBorder == OPTVAL_ENABLED;
+	
+	// Serosis: Externalized Seed Generation
+	SeedStuff = res_GetInteger ("config.customSeed");
+	if(SeedStuff == NULL || SeedStuff <= 0 || SeedStuff >= 2147483647){
+		opts->customSeed = 16807;
+		res_PutInteger ("config.customSeed", opts->customSeed);
+	}
 
 	if (opts->scanlines && RESOLUTION_FACTOR == 0) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
