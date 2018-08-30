@@ -270,6 +270,8 @@ while (--ac > 0)
 				continue;
 			}
 
+			// printf("Seed A: %d\n", (LastActivity == (CHECK_LOAD | CHECK_RESTART) ? optCustomSeed : (savedSeed ? savedSeed : 16807)));
+
 			SetStatusMessageMode (SMM_DEFAULT);
 
 			if (!((GLOBAL (CurrentActivity) | NextActivity) & CHECK_LOAD))

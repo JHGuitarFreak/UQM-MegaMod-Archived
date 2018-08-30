@@ -512,6 +512,8 @@ LoadStarDesc (STAR_DESC *SDPtr, void *fh)
 	read_8  (fh, &SDPtr->Index);
 	read_8  (fh, &SDPtr->Prefix);
 	read_8  (fh, &SDPtr->Postfix);
+	if(savedSeed)
+		savedSeed = 0;
 	read_32s (fh, &savedSeed);
 }
 

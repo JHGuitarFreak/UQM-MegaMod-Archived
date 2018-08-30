@@ -1790,10 +1790,11 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	
 	// Serosis: Externalized Seed Generation
 	SeedStuff = res_GetInteger ("config.customSeed");
-	if(SeedStuff == NULL || SeedStuff <= 0 || SeedStuff >= 2147483647){
+	if(SeedStuff == NULL || SeedStuff <= 0 || SeedStuff >= 2147483647)
 		opts->customSeed = 16807;
-		res_PutInteger ("config.customSeed", opts->customSeed);
-	}
+	else 
+		opts->customSeed = optCustomSeed;
+	res_PutInteger ("config.customSeed", opts->customSeed);
 
 	if (opts->scanlines && RESOLUTION_FACTOR == 0) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
