@@ -46,11 +46,25 @@ const GenerateFunctions generateSlylandroFunctions = {
 static bool
 GenerateSlylandro_generatePlanets (SOLARSYS_STATE *solarSys)
 {
-	GenerateDefault_generatePlanets (solarSys);
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+	solarSys->SunDesc[0].ExtraByte = 3;
 
-	solarSys->PlanetDesc[3].data_index = RED_GAS_GIANT;
-	solarSys->PlanetDesc[3].alternate_colormap = NULL;
-	solarSys->PlanetDesc[3].NumPlanets = 1;
+	if(SeedA != PrimeA){
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+		solarSys->SunDesc[0].ExtraByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
+	}
+
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);
+
+	solarSys->PlanetDesc[solarSys->SunDesc[0].ExtraByte].data_index = RED_GAS_GIANT;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].ExtraByte].alternate_colormap = NULL;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].ExtraByte].NumPlanets = 1;
+
+	if(SeedA != PrimeA){
+		solarSys->PlanetDesc[solarSys->SunDesc[0].ExtraByte].data_index = (RandomContext_Random (SysGenRNG) % (YEL_GAS_GIANT - BLU_GAS_GIANT) + BLU_GAS_GIANT);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].ExtraByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
+	}
 
 	return true;
 }
@@ -59,7 +73,7 @@ static bool
 GenerateSlylandro_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world)
 {
-	if (matchWorld (solarSys, world, 3, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].ExtraByte, MATCH_PLANET))
 	{
 		InitCommunication (SLYLANDRO_HOME_CONVERSATION);
 		return true;

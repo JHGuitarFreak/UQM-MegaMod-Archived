@@ -27,7 +27,6 @@
 #include "libs/mathlib.h"
 
 
-static void GeneratePlanets (SOLARSYS_STATE *system);
 static void check_yehat_rebellion (void);
 
 
@@ -284,7 +283,7 @@ GenerateDefault_landerReportCycle (SOLARSYS_STATE *solarSys)
 }
 
 // NB. This function modifies the RNG state.
-static void
+void
 GeneratePlanets (SOLARSYS_STATE *solarSys)
 {
 	COUNT i;
