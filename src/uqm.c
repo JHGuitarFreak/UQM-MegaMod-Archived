@@ -56,6 +56,7 @@
 #endif
 #include "uqm/setup.h"
 #include "uqm/starcon.h"
+#include "libs/math/random.h"
 
 BOOLEAN restartGame;
 
@@ -320,7 +321,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  addDevices,		false),
 		INIT_CONFIG_OPTION(  scalePlanets,		true),
 		INIT_CONFIG_OPTION(  customBorder,		true),
-		INIT_CONFIG_OPTION(  customSeed,		16807),
+		INIT_CONFIG_OPTION(  customSeed,		PrimeA),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
