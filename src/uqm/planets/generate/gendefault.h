@@ -54,6 +54,7 @@ COUNT GenerateDefault_generateRuins (const SOLARSYS_STATE *,
 		COUNT whichNode, NODE_INFO *info);
 bool GenerateDefault_landerReport (SOLARSYS_STATE *);
 bool GenerateDefault_landerReportCycle (SOLARSYS_STATE *);
+extern void GeneratePlanets (SOLARSYS_STATE *system);
 
 
 extern const GenerateFunctions generateDefaultFunctions;

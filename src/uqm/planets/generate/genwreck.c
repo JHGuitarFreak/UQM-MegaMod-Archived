@@ -51,11 +51,16 @@ const GenerateFunctions generateWreckFunctions = {
 
 static bool
 GenerateWreck_generatePlanets (SOLARSYS_STATE *solarSys)
-{
-	solarSys->SunDesc[0].NumPlanets = (SeedA != 16807 ? (RandomContext_Random (SysGenRNG) % (9 - 6) + 6) : 9 );
+{	
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
 
-	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, &solarSys->PlanetDesc[0], FALSE);
-	if(SeedA != 16807){
+	if (SeedA != PrimeA)
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 7) + 7);
+
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);
+
+	if(SeedA != PrimeA){
 		solarSys->PlanetDesc[6].data_index = (RandomContext_Random (SysGenRNG) % LAST_SMALL_ROCKY_WORLD);
 		solarSys->PlanetDesc[6].alternate_colormap = NULL;
 	}
