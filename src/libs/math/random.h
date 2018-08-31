@@ -47,7 +47,7 @@ struct RandomContext {
 #endif
 
 #define PrimeA 16807
-#define SeedA (LastActivity == (CHECK_LOAD | CHECK_RESTART) ? optCustomSeed : (savedSeed ? savedSeed : PrimeA)) // Serosis - Default: 16807 - a relatively prime number - also M div Q
+#define SeedA (newGameSeed ? newGameSeed : (savedSeed ? savedSeed : PrimeA)) // Serosis - Default: 16807 - a relatively prime number - also M div Q
 #define SeedM 2147483647 // 0xFFFFFFFF div 2
 #define SeedQ (SeedM / SeedA) // Serosis - Default: 127773L - M div A
 #define SeedR (SeedM % SeedA) // Serosis - Default: 2836 - M mod A 
