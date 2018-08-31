@@ -2351,10 +2351,6 @@ CreateStarBackGround (void)
 		nebula.origin.x = nebula.origin.y = 0;
 		nebula.frame = SetAbsFrameIndex (NebulaeFrame, NebulaePercentX);
 		DrawStamp(&nebula);
-#ifdef DEBUG
-		// Prints out the frame number of the current system's nebula
-		printf("Nebula Frame: %d\n", NebulaePercentX);
-#endif	
 	}
 
 	SetContext (oldContext);
