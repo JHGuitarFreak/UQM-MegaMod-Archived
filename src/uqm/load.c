@@ -512,8 +512,6 @@ LoadStarDesc (STAR_DESC *SDPtr, void *fh)
 	read_8  (fh, &SDPtr->Index);
 	read_8  (fh, &SDPtr->Prefix);
 	read_8  (fh, &SDPtr->Postfix);
-	if(savedSeed)
-		savedSeed = 0;
 	read_32s (fh, &savedSeed);
 }
 
@@ -819,6 +817,8 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 			}
 			break;
 		case STAR_TAG:
+			savedSeed = 0;
+			newGameSeed = 0;
 			LoadStarDesc (&SD, in_fp);			
 			loadGameCheats();
 			break;

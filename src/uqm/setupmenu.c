@@ -1791,7 +1791,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	
 	// Serosis: Externalized Seed Generation
 	SeedStuff = res_GetInteger ("config.customSeed");
-	if(SeedStuff == NULL || SeedStuff <= 0 || SeedStuff >= 2147483647)
+	if(SeedStuff <= 1 || SeedStuff >= 2147483646)
 		opts->customSeed = PrimeA;
 	else 
 		opts->customSeed = optCustomSeed;

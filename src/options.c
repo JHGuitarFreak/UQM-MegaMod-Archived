@@ -91,6 +91,7 @@ BOOLEAN optLoadGame;
 BOOLEAN optCustomBorder;
 int optCustomSeed;
 int savedSeed;
+int newGameSeed;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

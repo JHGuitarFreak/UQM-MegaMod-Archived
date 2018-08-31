@@ -545,6 +545,8 @@ FreeSC2Data (void)
 	MiscDataFrame = 0;
 	DestroyDrawable (ReleaseDrawable (FlagStatFrame));
 	FlagStatFrame = 0;
+	newGameSeed = 0;
+	savedSeed = 0;
 }
 
 void
