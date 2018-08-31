@@ -24,7 +24,7 @@
 #include "../../resinst.h"
 #include "libs/mathlib.h"
 
-
+static bool GenerateWreck_generatePlanets (SOLARSYS_STATE *solarSys);
 static bool GenerateWreck_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world);
 static COUNT GenerateWreck_generateEnergy (const SOLARSYS_STATE *,
@@ -37,7 +37,7 @@ const GenerateFunctions generateWreckFunctions = {
 	/* .initNpcs         = */ GenerateDefault_initNpcs,
 	/* .reinitNpcs       = */ GenerateDefault_reinitNpcs,
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
-	/* .generatePlanets  = */ GenerateDefault_generatePlanets,
+	/* .generatePlanets  = */ GenerateWreck_generatePlanets,
 	/* .generateMoons    = */ GenerateDefault_generateMoons,
 	/* .generateName     = */ GenerateDefault_generateName,
 	/* .generateOrbital  = */ GenerateWreck_generateOrbital,
@@ -49,6 +49,19 @@ const GenerateFunctions generateWreckFunctions = {
 	/* .pickupLife       = */ GenerateDefault_pickupLife,
 };
 
+static bool
+GenerateWreck_generatePlanets (SOLARSYS_STATE *solarSys)
+{
+	solarSys->SunDesc[0].NumPlanets = (SeedA != 16807 ? (RandomContext_Random (SysGenRNG) % (9 - 6) + 6) : 9 );
+
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, &solarSys->PlanetDesc[0], FALSE);
+	if(SeedA != 16807){
+		solarSys->PlanetDesc[6].data_index = (RandomContext_Random (SysGenRNG) % LAST_SMALL_ROCKY_WORLD);
+		solarSys->PlanetDesc[6].alternate_colormap = NULL;
+	}
+
+	return true;
+}
 
 static bool
 GenerateWreck_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)

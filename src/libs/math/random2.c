@@ -25,13 +25,6 @@
 #include "random.h"
 
 #include "libs/memlib.h"
-#include "../options.h"
-#include "../uqm/setup.h"
-
-#define A (LastActivity == (CHECK_LOAD | CHECK_RESTART) ? optCustomSeed : (savedSeed ? savedSeed : 16807)) // Serosis - Default: 16807 - a relatively prime number - also M div Q
-#define M 2147483647 // 0xFFFFFFFF div 2
-#define Q (M / A) // Serosis - Default: 127773L - M div A
-#define R (M % A) // Serosis - Default: 2836 - M mod A 
 
 RandomContext *
 RandomContext_New (void)
@@ -58,9 +51,9 @@ RandomContext_Copy (const RandomContext *source)
 DWORD
 RandomContext_Random (RandomContext *context)
 {
-	context->seed = A * (context->seed % Q) - R * (context->seed / Q);
-	if (context->seed > M) {
-		context->seed -= M;
+	context->seed = SeedA * (context->seed % SeedQ) - SeedR * (context->seed / SeedQ);
+	if (context->seed > SeedM) {
+		context->seed -= SeedM;
 	} else if (context->seed == 0)
 		context->seed = 1;
 
@@ -75,8 +68,8 @@ RandomContext_SeedRandom (RandomContext *context, DWORD new_seed)
 	/* coerce the seed to be in the range 1..M */
 	if (new_seed == 0) /* 0 becomes 1 */
 		new_seed = 1;
-	else if (new_seed > M) /* and less than M */
-		new_seed -= M;
+	else if (new_seed > SeedM) /* and less than M */
+		new_seed -= SeedM;
 
 	old_seed = context->seed;
 	context->seed = new_seed;

@@ -1117,7 +1117,7 @@ SaveStarDesc (const STAR_DESC *SDPtr, uio_Stream *fh)
 	write_8  (fh, SDPtr->Index);
 	write_8  (fh, SDPtr->Prefix);
 	write_8  (fh, SDPtr->Postfix);
-	write_32 (fh, (savedSeed ? savedSeed : optCustomSeed));
+	write_32 (fh, SeedA);
 }
 
 static void
