@@ -190,7 +190,7 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 					pCurDesc->alternate_colormap = PLUTO_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 1550L /* 3937L */ / 100;
 				pCurDesc->NumPlanets = 0;
-				if(SeedA == 16807)
+				if(SeedA == PrimeA)
 					pCurDesc->angle = FULL_CIRCLE - OCTANT;
 				break;
 		}

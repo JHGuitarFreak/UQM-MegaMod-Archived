@@ -40,6 +40,7 @@
 #include <math.h>
 #include "gamestr.h"
 #include "libs/graphics/bbox.h"
+#include "libs/math/random.h"
 
 
 static STRING SetupTab;
@@ -1791,7 +1792,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Externalized Seed Generation
 	SeedStuff = res_GetInteger ("config.customSeed");
 	if(SeedStuff == NULL || SeedStuff <= 0 || SeedStuff >= 2147483647)
-		opts->customSeed = 16807;
+		opts->customSeed = PrimeA;
 	else 
 		opts->customSeed = optCustomSeed;
 	res_PutInteger ("config.customSeed", opts->customSeed);
