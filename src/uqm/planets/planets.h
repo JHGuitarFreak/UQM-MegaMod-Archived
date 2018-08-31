@@ -173,7 +173,8 @@ struct planet_desc
 	int rotFrameIndex, rotPointIndex, rotDirection, rotwidth, rotheight;
 	
 	RESOURCE alternate_colormap; // JMS: Special color maps for Sol system planets
-	BYTE ExtraByte;
+	BYTE PlanetByte;
+	BYTE MoonByte;
 };
 
 struct star_desc

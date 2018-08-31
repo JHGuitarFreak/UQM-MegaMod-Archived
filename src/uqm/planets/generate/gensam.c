@@ -117,7 +117,7 @@ GenerateSaMatra_reinitNpcs (SOLARSYS_STATE *solarSys)
 		COUNT angle;
 		POINT org;
 
-		org = planetOuterLocation (4);
+		org = planetOuterLocation (solarSys->SunDesc[0].PlanetByte);
 		angle = ARCTAN (GLOBAL (ip_location.x) - org.x,
 				GLOBAL (ip_location.y) - org.y);
 		GLOBAL (ip_location.x) = org.x + COSINE (angle, 3000);
@@ -133,8 +133,33 @@ GenerateSaMatra_reinitNpcs (SOLARSYS_STATE *solarSys)
 static bool
 GenerateSaMatra_generatePlanets (SOLARSYS_STATE *solarSys)
 {
-	GenerateDefault_generatePlanets (solarSys);
-	solarSys->PlanetDesc[4].NumPlanets = 1;
+	
+	
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+	solarSys->SunDesc[0].PlanetByte = 4;
+	solarSys->SunDesc[0].MoonByte = 0;
+
+	if(SeedA != PrimeA){
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+		solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
+	}
+
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);
+
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+
+	if(SeedA != PrimeA){
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = (RandomContext_Random (SysGenRNG) % MAROON_WORLD);
+
+		if(solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index == RAINBOW_WORLD)
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = RAINBOW_WORLD - 1;
+		else if(solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index == SHATTERED_WORLD)			
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = SHATTERED_WORLD + 1;
+
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (4 - 1) + 1);
+		solarSys->SunDesc[0].MoonByte = (RandomContext_Random (SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
+	}
 	return true;
 }
 
@@ -143,20 +168,24 @@ GenerateSaMatra_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 {
 	GenerateDefault_generateMoons (solarSys, planet);
 
-	if (matchWorld (solarSys, planet, 4, MATCH_PLANET))
+	if (matchWorld (solarSys, planet, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		COUNT angle;
 		DWORD rand_val;
 
-		solarSys->MoonDesc[0].data_index = SA_MATRA;
-		solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS + (2 * MOON_DELTA);
-		rand_val = RandomContext_Random (SysGenRNG);
-		angle = NORMALIZE_ANGLE (LOWORD (rand_val));
-		solarSys->MoonDesc[0].location.x =
-				COSINE (angle, solarSys->MoonDesc[0].radius);
-		solarSys->MoonDesc[0].location.y =
-				SINE (angle, solarSys->MoonDesc[0].radius);
-		ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = SA_MATRA;
+
+		if(SeedA == PrimeA){
+			solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS + (2 * MOON_DELTA);
+			rand_val = RandomContext_Random (SysGenRNG);
+			angle = NORMALIZE_ANGLE (LOWORD (rand_val));
+			solarSys->MoonDesc[0].location.x =
+					COSINE (angle, solarSys->MoonDesc[0].radius);
+			solarSys->MoonDesc[0].location.y =
+					SINE (angle, solarSys->MoonDesc[0].radius);
+			ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
+		}
+		
 	}
 
 	return true;
@@ -166,7 +195,7 @@ static bool
 GenerateSaMatra_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 {
 	/* Samatra */
-	if (matchWorld (solarSys, world, 4, 0))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
 	{
 		PutGroupInfo (GROUPS_RANDOM, GROUP_SAVE_IP);
 		ReinitQueue (&GLOBAL (ip_group_q));
@@ -277,7 +306,7 @@ BuildUrquanGuard (SOLARSYS_STATE *solarSys)
 
 	GetGroupInfo (GLOBAL (BattleGroupRef), GROUP_INIT_IP);
 
-	org = planetOuterLocation (4);
+	org = planetOuterLocation (solarSys->SunDesc[0].PlanetByte);
 	hGroup = GetHeadLink (&GLOBAL (ip_group_q));
 	for (b0 = 0, b1 = 0;
 			b0 < NUM_URQUAN_GUARDS0;
@@ -292,7 +321,7 @@ BuildUrquanGuard (SOLARSYS_STATE *solarSys)
 		hNextGroup = _GetSuccLink (GroupPtr);
 		GroupPtr->task = ON_STATION | IGNORE_FLAGSHIP;
 		GroupPtr->sys_loc = 0;
-		GroupPtr->dest_loc = 4 + 1;
+		GroupPtr->dest_loc = solarSys->SunDesc[0].PlanetByte + 1;
 		GroupPtr->orbit_pos = NORMALIZE_FACING (ANGLE_TO_FACING (b1));
 		GroupPtr->group_counter = 0;
 		GroupPtr->loc.x = org.x + COSINE (b1, STATION_RADIUS);
@@ -311,7 +340,7 @@ BuildUrquanGuard (SOLARSYS_STATE *solarSys)
 		hNextGroup = _GetSuccLink (GroupPtr);
 		GroupPtr->task = ON_STATION | IGNORE_FLAGSHIP;
 		GroupPtr->sys_loc = 0;
-		GroupPtr->dest_loc = 4 + 1;
+		GroupPtr->dest_loc = solarSys->SunDesc[0].PlanetByte + 1;
 		GroupPtr->orbit_pos = NORMALIZE_FACING (ANGLE_TO_FACING (b1));
 		GroupPtr->group_counter = 0;
 		GroupPtr->loc.x = org.x + COSINE (b1, STATION_RADIUS);
