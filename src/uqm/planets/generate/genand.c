@@ -58,17 +58,29 @@ GenerateAndrosynth_generatePlanets (SOLARSYS_STATE *solarSys)
 {
 	COUNT angle;
 
-	GenerateDefault_generatePlanets (solarSys);
+	
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+	solarSys->SunDesc[0].PlanetByte = 1;
 
-	solarSys->PlanetDesc[1].data_index = TELLURIC_WORLD;
-	solarSys->PlanetDesc[1].radius = EARTH_RADIUS * 204L / 100;
-	angle = ARCTAN (solarSys->PlanetDesc[1].location.x,
-			solarSys->PlanetDesc[1].location.y);
-	solarSys->PlanetDesc[1].location.x =
-			COSINE (angle, solarSys->PlanetDesc[1].radius);
-	solarSys->PlanetDesc[1].location.y =
-			SINE (angle, solarSys->PlanetDesc[1].radius);
-	ComputeSpeed(&solarSys->PlanetDesc[1], FALSE, 1);
+	if(SeedA != PrimeA){
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+		solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
+	}
+
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);	
+
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = TELLURIC_WORLD;
+
+	if(SeedA != PrimeA){
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
+	} else {
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius = EARTH_RADIUS * 204L / 100;
+		angle = ARCTAN (solarSys->PlanetDesc[1].location.x, solarSys->PlanetDesc[1].location.y);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x = COSINE (angle, solarSys->PlanetDesc[1].radius);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y = SINE (angle, solarSys->PlanetDesc[1].radius);
+		ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
+	}
 
 	return true;
 }
@@ -76,7 +88,7 @@ GenerateAndrosynth_generatePlanets (SOLARSYS_STATE *solarSys)
 static bool
 GenerateAndrosynth_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 {
-	if (matchWorld (solarSys, world, 1, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		COUNT i;
 		COUNT visits = 0;
@@ -114,7 +126,7 @@ GenerateAndrosynth_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world
 
 	GenerateDefault_generateOrbital (solarSys, world);
 
-	if (matchWorld (solarSys, world, 1, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) && SeedA == PrimeA)
 	{
 		solarSys->SysInfo.PlanetInfo.AtmoDensity =
 				EARTH_ATMOSPHERE * 144 / 100;
@@ -130,7 +142,7 @@ static bool
 GenerateAndrosynth_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 		COUNT whichNode)
 {
-	if (matchWorld (solarSys, world, 1, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		PLANET_INFO *planetInfo = &solarSys->SysInfo.PlanetInfo;
 
@@ -156,7 +168,7 @@ static COUNT
 GenerateAndrosynth_generateEnergy (const SOLARSYS_STATE *solarSys,
 		const PLANET_DESC *world, COUNT whichNode, NODE_INFO *info)
 {
-	if (matchWorld (solarSys, world, 1, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		return GenerateDefault_generateRuins (solarSys, whichNode, info);
 	}
