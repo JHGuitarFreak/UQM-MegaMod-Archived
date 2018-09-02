@@ -248,7 +248,7 @@ UseCaster (void)
 
 	if (playerInPlanetOrbit ()
 			&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
-				1, MATCH_PLANET)
+				pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET)
 			&& CurStarDescPtr->Index == CHMMR_DEFINED
 			&& !GET_GAME_STATE (CHMMR_UNLEASHED))
 	{
@@ -347,7 +347,7 @@ InvokeDevice (BYTE which_device)
 				if (CurStarDescPtr->Index != CHMMR_DEFINED
 						|| !matchWorld (pSolarSysState,
 								pSolarSysState->pOrbitalDesc,
-								1, MATCH_PLANET))
+								pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET))
 				{
 					FadeScreen (FadeAllToColor, ONE_SECOND * 2);
 				}
