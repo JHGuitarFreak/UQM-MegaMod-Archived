@@ -133,8 +133,6 @@ GenerateSaMatra_reinitNpcs (SOLARSYS_STATE *solarSys)
 static bool
 GenerateSaMatra_generatePlanets (SOLARSYS_STATE *solarSys)
 {
-	
-	
 	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
 	solarSys->SunDesc[0].PlanetByte = 4;
 	solarSys->SunDesc[0].MoonByte = 0;

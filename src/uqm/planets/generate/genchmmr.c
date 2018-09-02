@@ -55,12 +55,30 @@ const GenerateFunctions generateChmmrFunctions = {
 static bool
 GenerateChmmr_generatePlanets (SOLARSYS_STATE *solarSys)
 {
-	GenerateDefault_generatePlanets (solarSys);
+	int jewelArray[] = { SAPPHIRE_WORLD, EMERALD_WORLD, RUBY_WORLD };
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+	solarSys->SunDesc[0].PlanetByte = 1;
+	solarSys->SunDesc[0].MoonByte = 0;
 
-	solarSys->PlanetDesc[1].data_index = SAPPHIRE_WORLD;
+	if(SeedA != PrimeA){
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+		solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
+	}
+
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);
+
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = SAPPHIRE_WORLD;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+
+	if(SeedA != PrimeA){
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = jewelArray[RandomContext_Random (SysGenRNG) % 2];
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (4 - 1) + 1);
+		solarSys->SunDesc[0].MoonByte = (RandomContext_Random (SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
+	}
+	
 	if (!GET_GAME_STATE (CHMMR_UNLEASHED))
-		solarSys->PlanetDesc[1].data_index |= PLANET_SHIELDED;
-	solarSys->PlanetDesc[1].NumPlanets = 1;
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index |= PLANET_SHIELDED;
 
 	return true;
 }
@@ -70,20 +88,23 @@ GenerateChmmr_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 {
 	GenerateDefault_generateMoons (solarSys, planet);
 
-	if (matchWorld (solarSys, planet, 1, MATCH_PLANET))
+	if (matchWorld (solarSys, planet, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		COUNT angle;
 		DWORD rand_val;
 
-		solarSys->MoonDesc[0].data_index = HIERARCHY_STARBASE;
-		solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS;
-		rand_val = RandomContext_Random (SysGenRNG);
-		angle = NORMALIZE_ANGLE (LOWORD (rand_val));
-		solarSys->MoonDesc[0].location.x =
-				COSINE (angle, solarSys->MoonDesc[0].radius);
-		solarSys->MoonDesc[0].location.y =
-				SINE (angle, solarSys->MoonDesc[0].radius);
-		ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = HIERARCHY_STARBASE;
+
+		if(SeedA == PrimeA){
+			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius = MIN_MOON_RADIUS;
+			rand_val = RandomContext_Random (SysGenRNG);
+			angle = NORMALIZE_ANGLE (LOWORD (rand_val));
+			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.x =
+					COSINE (angle, solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius);
+			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.y =
+					SINE (angle, solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius);
+			ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
+		}
 	}
 
 	return true;
@@ -92,7 +113,7 @@ GenerateChmmr_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 static bool
 GenerateChmmr_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 {
-	if (matchWorld (solarSys, world, 1, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		if (GET_GAME_STATE (CHMMR_UNLEASHED))
 		{
@@ -131,7 +152,7 @@ GenerateChmmr_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 			return true;
 		}
 	}
-	else if (matchWorld (solarSys, world, 1, 0))
+	else if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
 	{
 		/* Starbase */
 		LoadStdLanderFont (&solarSys->SysInfo.PlanetInfo);
