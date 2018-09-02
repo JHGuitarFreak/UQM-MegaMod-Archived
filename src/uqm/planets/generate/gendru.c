@@ -61,26 +61,49 @@ GenerateDruuge_generatePlanets (SOLARSYS_STATE *solarSys)
 {
 	COUNT angle;
 
-	GenerateDefault_generatePlanets (solarSys);
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+	solarSys->SunDesc[0].PlanetByte = 0;
 
-	memmove (&solarSys->PlanetDesc[1], &solarSys->PlanetDesc[0],
-			sizeof (solarSys->PlanetDesc[0])
-			* solarSys->SunDesc[0].NumPlanets);
-	++solarSys->SunDesc[0].NumPlanets;
+	if(SeedA != PrimeA){
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+	}
 
-	solarSys->PlanetDesc[0].data_index = DUST_WORLD;
-	solarSys->PlanetDesc[0].alternate_colormap = NULL;
-	solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 50L / 100;
-	solarSys->PlanetDesc[0].NumPlanets = 0;
-	angle = HALF_CIRCLE - OCTANT;
-	solarSys->PlanetDesc[0].location.x =
-			COSINE (angle, solarSys->PlanetDesc[0].radius);
-	solarSys->PlanetDesc[0].location.y =
-			SINE (angle, solarSys->PlanetDesc[0].radius);
-	solarSys->PlanetDesc[0].rand_seed = MAKE_DWORD (
-			solarSys->PlanetDesc[0].location.x,
-			solarSys->PlanetDesc[0].location.y);
-	ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);
+
+	if(SeedA == PrimeA){
+		memmove (&solarSys->PlanetDesc[1], &solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte],
+				sizeof (solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte])
+				* solarSys->SunDesc[0].NumPlanets);
+		++solarSys->SunDesc[0].NumPlanets;
+	}
+
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = DUST_WORLD;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 0;
+
+	if(SeedA != PrimeA){
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = 
+			(RandomContext_Random (SysGenRNG) % MAROON_WORLD);
+
+		if(solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index == RAINBOW_WORLD)
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = RAINBOW_WORLD - 1;
+		else if(solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index == SHATTERED_WORLD)			
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = SHATTERED_WORLD + 1;
+
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
+	} else {
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius = EARTH_RADIUS * 50L / 100;
+		angle = HALF_CIRCLE - OCTANT;
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x =
+				COSINE (angle, solarSys->PlanetDesc[0].radius);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y =
+				SINE (angle, solarSys->PlanetDesc[0].radius);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].rand_seed = MAKE_DWORD (
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x,
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y);
+		ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
+	}
 
 	return true;
 }
@@ -88,7 +111,7 @@ GenerateDruuge_generatePlanets (SOLARSYS_STATE *solarSys)
 static bool
 GenerateDruuge_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 {
-	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		if (StartSphereTracking (DRUUGE_SHIP))
 		{
@@ -137,7 +160,7 @@ static bool
 GenerateDruuge_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 		COUNT whichNode)
 {
-	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		GenerateDefault_landerReportCycle (solarSys);
 
@@ -161,7 +184,7 @@ static COUNT
 GenerateDruuge_generateEnergy (const SOLARSYS_STATE *solarSys,
 		const PLANET_DESC *world, COUNT whichNode, NODE_INFO *info)
 {
-	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		return GenerateDefault_generateRuins (solarSys, whichNode, info);
 	}
