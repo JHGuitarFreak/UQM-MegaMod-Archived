@@ -58,18 +58,43 @@ GenerateBurvixese_generatePlanets (SOLARSYS_STATE *solarSys)
 {
 	COUNT angle;
 
-	GenerateDefault_generatePlanets (solarSys);
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+	solarSys->SunDesc[0].PlanetByte = 0;
+	solarSys->SunDesc[0].MoonByte = 0;
 
-	solarSys->PlanetDesc[0].data_index = REDUX_WORLD;
-	solarSys->PlanetDesc[0].NumPlanets = 1;
-	solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 39L / 100;
-	angle = ARCTAN (solarSys->PlanetDesc[0].location.x,
-			solarSys->PlanetDesc[0].location.y);
-	solarSys->PlanetDesc[0].location.x =
-			COSINE (angle, solarSys->PlanetDesc[0].radius);
-	solarSys->PlanetDesc[0].location.y =
-			SINE (angle, solarSys->PlanetDesc[0].radius);
-	ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
+	if(SeedA != PrimeA){
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+		// solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
+	}
+
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);
+
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = REDUX_WORLD;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+
+	if(SeedA != PrimeA){
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = 
+			(RandomContext_Random (SysGenRNG) % (MAROON_WORLD - FLUORESCENT_WORLD) + FLUORESCENT_WORLD);
+
+		if(solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index == RAINBOW_WORLD)
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = RAINBOW_WORLD - 1;
+		else if(solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index == SHATTERED_WORLD)			
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = SHATTERED_WORLD + 1;
+
+		// solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (4 - 1) + 1);
+		// solarSys->SunDesc[0].MoonByte = (RandomContext_Random (SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
+	} else {
+		solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 39L / 100;
+		angle = ARCTAN (solarSys->PlanetDesc[0].location.x,
+				solarSys->PlanetDesc[0].location.y);
+		solarSys->PlanetDesc[0].location.x =
+				COSINE (angle, solarSys->PlanetDesc[0].radius);
+		solarSys->PlanetDesc[0].location.y =
+				SINE (angle, solarSys->PlanetDesc[0].radius);
+		ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
+	}
 	return true;
 }
 
@@ -78,21 +103,27 @@ GenerateBurvixese_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 {
 	GenerateDefault_generateMoons (solarSys, planet);
 
-	if (matchWorld (solarSys, planet, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, planet, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		COUNT angle;
 		DWORD rand_val;
 
-		solarSys->MoonDesc[0].data_index = SELENIC_WORLD;
-		solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = SELENIC_WORLD;
+
+		if (SeedA == PrimeA){
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius = MIN_MOON_RADIUS
 				+ (MAX_MOONS - 1) * MOON_DELTA;
 		rand_val = RandomContext_Random (SysGenRNG);
 		angle = NORMALIZE_ANGLE (LOWORD (rand_val));
-		solarSys->MoonDesc[0].location.x =
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.x =
 				COSINE (angle, solarSys->MoonDesc[0].radius);
-		solarSys->MoonDesc[0].location.y =
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.y =
 				SINE (angle, solarSys->MoonDesc[0].radius);
 		ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
+		} else {			
+			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = 
+				(RandomContext_Random (SysGenRNG) % LAST_SMALL_ROCKY_WORLD);
+		}
 	}
 	return true;
 }
@@ -114,7 +145,7 @@ GenerateBurvixese_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 	solarSys->SysInfo.PlanetInfo.ScanSeed[ENERGY_SCAN] = rand_val;
 
-	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		LoadStdLanderFont (&solarSys->SysInfo.PlanetInfo);
 		solarSys->PlanetSideFrame[1] =
@@ -123,10 +154,12 @@ GenerateBurvixese_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 		solarSys->SysInfo.PlanetInfo.DiscoveryString =
 				CaptureStringTable (
 						LoadStringTable (BURV_RUINS_STRTAB));
-		solarSys->SysInfo.PlanetInfo.Weather = 0;
-		solarSys->SysInfo.PlanetInfo.Tectonics = 0;
+		if (SeedA == PrimeA){
+			solarSys->SysInfo.PlanetInfo.Weather = 0;
+			solarSys->SysInfo.PlanetInfo.Tectonics = 0;
+		}
 	}
-	else if (matchWorld (solarSys, world, 0, 0)
+	else if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, 0)
 			&& !GET_GAME_STATE (BURVIXESE_BROADCASTERS))
 	{
 		LoadStdLanderFont (&solarSys->SysInfo.PlanetInfo);
@@ -145,12 +178,12 @@ static COUNT
 GenerateBurvixese_generateEnergy (const SOLARSYS_STATE *solarSys,
 		const PLANET_DESC *world, COUNT whichNode, NODE_INFO *info)
 {
-	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		return GenerateDefault_generateRuins (solarSys, whichNode, info);
 	}
 
-	if (matchWorld (solarSys, world, 0, 0))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
 	{
 		// This check is redundant since the retrieval bit will keep the
 		// node from showing up again
@@ -169,14 +202,14 @@ static bool
 GenerateBurvixese_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 		COUNT whichNode)
 {
-	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		// Standard ruins report
 		GenerateDefault_landerReportCycle (solarSys);
 		return false;
 	}
 
-	if (matchWorld (solarSys, world, 0, 0))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
 	{
 		assert (!GET_GAME_STATE (BURVIXESE_BROADCASTERS) && whichNode == 0);
 
