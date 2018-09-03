@@ -77,9 +77,12 @@ GenerateAndrosynth_generatePlanets (SOLARSYS_STATE *solarSys)
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
 	} else {
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius = EARTH_RADIUS * 204L / 100;
-		angle = ARCTAN (solarSys->PlanetDesc[1].location.x, solarSys->PlanetDesc[1].location.y);
-		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x = COSINE (angle, solarSys->PlanetDesc[1].radius);
-		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y = SINE (angle, solarSys->PlanetDesc[1].radius);
+		angle = ARCTAN (solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x, 
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x = 
+			COSINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y = 
+			SINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
 		ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
 	}
 
