@@ -51,23 +51,35 @@ GenerateRainbowWorld_generatePlanets (SOLARSYS_STATE *solarSys)
 {
 	COUNT angle;
 
-	GenerateDefault_generatePlanets (solarSys);
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+	solarSys->SunDesc[0].PlanetByte = 0;
 
-	solarSys->PlanetDesc[0].data_index = RAINBOW_WORLD;
-	solarSys->PlanetDesc[0].alternate_colormap = NULL;
-	solarSys->PlanetDesc[0].NumPlanets = 0;
-	solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 50L / 100;
-	angle = ARCTAN (solarSys->PlanetDesc[0].location.x,
-			solarSys->PlanetDesc[0].location.y);
+	if(SeedA != PrimeA){
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+	}
+
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);
+
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = RAINBOW_WORLD;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 0;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius = EARTH_RADIUS * 50L / 100;
+	angle = ARCTAN (solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x,
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y);
 	if (angle <= QUADRANT)
 		angle += QUADRANT;
 	else if (angle >= FULL_CIRCLE - QUADRANT)
 		angle -= QUADRANT;
-	solarSys->PlanetDesc[0].location.x =
-			COSINE (angle, solarSys->PlanetDesc[0].radius);
-	solarSys->PlanetDesc[0].location.y =
-			SINE (angle, solarSys->PlanetDesc[0].radius);
-	ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x =
+			COSINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y =
+			SINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
+	ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
+
+	if(SeedA != PrimeA){
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
+	}
 
 	return true;
 }
@@ -75,7 +87,7 @@ GenerateRainbowWorld_generatePlanets (SOLARSYS_STATE *solarSys)
 static bool
 GenerateRainbowWorld_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 {
-	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		BYTE which_rainbow;
 		UWORD rainbow_mask;
