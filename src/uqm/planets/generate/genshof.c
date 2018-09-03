@@ -131,20 +131,23 @@ GenerateShofixti_generatePlanets (SOLARSYS_STATE *solarSys)
 {
 	COUNT i;
 
-#define NUM_PLANETS 6
-	solarSys->SunDesc[0].NumPlanets = NUM_PLANETS;
-	for (i = 0; i < NUM_PLANETS; ++i)
+	solarSys->SunDesc[0].NumPlanets = 6;
+
+	if(SeedA != PrimeA)
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 2) + 2);
+
+	for (i = 0; i < solarSys->SunDesc[0].NumPlanets; ++i)
 	{
 		PLANET_DESC *pCurDesc = &solarSys->PlanetDesc[i];
 
 		pCurDesc->NumPlanets = 0;
-		if (i < (NUM_PLANETS >> 1))
+		if (i < (solarSys->SunDesc[0].NumPlanets >> 1))
 			pCurDesc->data_index = SELENIC_WORLD;
 		else
 			pCurDesc->data_index = METAL_WORLD;
 	}
 
-	FillOrbits (solarSys, NUM_PLANETS, solarSys->PlanetDesc, TRUE);
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, TRUE);
 
 	return true;
 }
