@@ -67,6 +67,7 @@ GenerateSpathi_generatePlanets (SOLARSYS_STATE *solarSys)
 {
 	PLANET_DESC *pMinPlanet;
 	COUNT angle;
+	int planetArray[] = { PRIMORDIAL_WORLD, WATER_WORLD, TELLURIC_WORLD };
 
 	pMinPlanet = &solarSys->PlanetDesc[0];
 	solarSys->SunDesc[0].NumPlanets = 1;
@@ -78,6 +79,10 @@ GenerateSpathi_generatePlanets (SOLARSYS_STATE *solarSys)
 	pMinPlanet->location.x = COSINE (angle, pMinPlanet->radius);
 	pMinPlanet->location.y = SINE (angle, pMinPlanet->radius);
 	pMinPlanet->data_index = WATER_WORLD;
+
+	if(SeedA != PrimeA)		
+		pMinPlanet->data_index = planetArray[RandomContext_Random (SysGenRNG) % 2];
+
 	pMinPlanet->alternate_colormap = NULL;
 	if (GET_GAME_STATE (SPATHI_SHIELDED_SELVES))
 		pMinPlanet->data_index |= PLANET_SHIELDED;
@@ -103,13 +108,18 @@ GenerateSpathi_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 
 		solarSys->MoonDesc[0].data_index = PELLUCID_WORLD;
 		solarSys->MoonDesc[0].alternate_colormap = NULL;
-		solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS + MOON_DELTA;
-		angle = NORMALIZE_ANGLE (LOWORD (RandomContext_Random (SysGenRNG)));
-		solarSys->MoonDesc[0].location.x =
-				COSINE (angle, solarSys->MoonDesc[0].radius);
-		solarSys->MoonDesc[0].location.y =
-				SINE (angle, solarSys->MoonDesc[0].radius);
-		ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
+		
+		if(SeedA != PrimeA){
+			solarSys->MoonDesc[0].data_index = (RandomContext_Random (SysGenRNG) % LAST_SMALL_ROCKY_WORLD);
+		} else {
+			solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS + MOON_DELTA;
+			angle = NORMALIZE_ANGLE (LOWORD (RandomContext_Random (SysGenRNG)));
+			solarSys->MoonDesc[0].location.x =
+					COSINE (angle, solarSys->MoonDesc[0].radius);
+			solarSys->MoonDesc[0].location.y =
+					SINE (angle, solarSys->MoonDesc[0].radius);
+			ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
+		}
 	}
 
 	return true;
@@ -193,12 +203,14 @@ GenerateSpathi_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 		solarSys->SysInfo.PlanetInfo.ScanSeed[BIOLOGICAL_SCAN] = rand_val;
 
-		solarSys->SysInfo.PlanetInfo.PlanetRadius = 120;
-		solarSys->SysInfo.PlanetInfo.SurfaceGravity =
-				CalcGravity (&solarSys->SysInfo.PlanetInfo);
-		solarSys->SysInfo.PlanetInfo.Weather = 0;
-		solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-		solarSys->SysInfo.PlanetInfo.SurfaceTemperature = 31;
+		if(SeedA == PrimeA){
+			solarSys->SysInfo.PlanetInfo.PlanetRadius = 120;
+			solarSys->SysInfo.PlanetInfo.SurfaceGravity =
+					CalcGravity (&solarSys->SysInfo.PlanetInfo);
+			solarSys->SysInfo.PlanetInfo.Weather = 0;
+			solarSys->SysInfo.PlanetInfo.Tectonics = 0;
+			solarSys->SysInfo.PlanetInfo.SurfaceTemperature = 31;
+		}
 
 		LoadPlanet (NULL);
 		return true;
