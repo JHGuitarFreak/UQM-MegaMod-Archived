@@ -60,7 +60,7 @@ GenerateChmmr_generatePlanets (SOLARSYS_STATE *solarSys)
 	solarSys->SunDesc[0].PlanetByte = 1;
 	solarSys->SunDesc[0].MoonByte = 0;
 
-	if(SeedA != PrimeA){
+	if(!PrimeSeed){
 		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
 		solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
 	}
@@ -71,7 +71,7 @@ GenerateChmmr_generatePlanets (SOLARSYS_STATE *solarSys)
 	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = SAPPHIRE_WORLD;
 	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
 
-	if(SeedA != PrimeA){
+	if(!PrimeSeed){
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = jewelArray[RandomContext_Random (SysGenRNG) % 2];
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (4 - 1) + 1);
 		solarSys->SunDesc[0].MoonByte = (RandomContext_Random (SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
@@ -95,7 +95,7 @@ GenerateChmmr_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 
 		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = HIERARCHY_STARBASE;
 
-		if(SeedA == PrimeA){
+		if(PrimeSeed){
 			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius = MIN_MOON_RADIUS;
 			rand_val = RandomContext_Random (SysGenRNG);
 			angle = NORMALIZE_ANGLE (LOWORD (rand_val));

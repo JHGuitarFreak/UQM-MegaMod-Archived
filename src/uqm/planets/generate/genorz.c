@@ -64,7 +64,7 @@ GenerateOrz_generatePlanets (SOLARSYS_STATE *solarSys)
 
 	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
 
-	if(SeedA != PrimeA){
+	if(!PrimeSeed){
 		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
 	}	
 
@@ -75,11 +75,11 @@ GenerateOrz_generatePlanets (SOLARSYS_STATE *solarSys)
 	{
 		solarSys->SunDesc[0].PlanetByte = 0;
 
-		if(SeedA != PrimeA){			
+		if(!PrimeSeed){			
 			solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
 		}
 
-		if(SeedA == PrimeA){
+		if(PrimeSeed){
 			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
 			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius = EARTH_RADIUS * 156L / 100;
 			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 0;
@@ -98,7 +98,7 @@ GenerateOrz_generatePlanets (SOLARSYS_STATE *solarSys)
 		solarSys->SunDesc[0].PlanetByte = 1;
 		solarSys->SunDesc[0].MoonByte = 2;
 
-		if(SeedA != PrimeA){
+		if(!PrimeSeed){
 			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = (RandomContext_Random (SysGenRNG) % (YEL_GAS_GIANT - BLU_GAS_GIANT) + BLU_GAS_GIANT);
 			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (4 - 3) + 3);
 		}

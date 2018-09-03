@@ -63,7 +63,7 @@ GenerateSupox_generatePlanets (SOLARSYS_STATE *solarSys)
 	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
 	solarSys->SunDesc[0].PlanetByte = 0;
 
-	if(SeedA != PrimeA){
+	if(!PrimeSeed){
 		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
 		solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
 	}
@@ -75,7 +75,7 @@ GenerateSupox_generatePlanets (SOLARSYS_STATE *solarSys)
 	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
 	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 2;
 
-	if(SeedA != PrimeA){
+	if(!PrimeSeed){
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = planetArray[RandomContext_Random (SysGenRNG) % 2];
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
 	} else {

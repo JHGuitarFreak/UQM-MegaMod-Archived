@@ -80,7 +80,7 @@ GenerateSpathi_generatePlanets (SOLARSYS_STATE *solarSys)
 	pMinPlanet->location.y = SINE (angle, pMinPlanet->radius);
 	pMinPlanet->data_index = WATER_WORLD;
 
-	if(SeedA != PrimeA)		
+	if(!PrimeSeed)		
 		pMinPlanet->data_index = planetArray[RandomContext_Random (SysGenRNG) % 2];
 
 	pMinPlanet->alternate_colormap = NULL;
@@ -109,7 +109,7 @@ GenerateSpathi_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 		solarSys->MoonDesc[0].data_index = PELLUCID_WORLD;
 		solarSys->MoonDesc[0].alternate_colormap = NULL;
 		
-		if(SeedA != PrimeA){
+		if(!PrimeSeed){
 			solarSys->MoonDesc[0].data_index = (RandomContext_Random (SysGenRNG) % LAST_SMALL_ROCKY_WORLD);
 		} else {
 			solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS + MOON_DELTA;
@@ -203,7 +203,7 @@ GenerateSpathi_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 		solarSys->SysInfo.PlanetInfo.ScanSeed[BIOLOGICAL_SCAN] = rand_val;
 
-		if(SeedA == PrimeA){
+		if(PrimeSeed){
 			solarSys->SysInfo.PlanetInfo.PlanetRadius = 120;
 			solarSys->SysInfo.PlanetInfo.SurfaceGravity =
 					CalcGravity (&solarSys->SysInfo.PlanetInfo);

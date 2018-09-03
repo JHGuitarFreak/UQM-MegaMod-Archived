@@ -137,7 +137,7 @@ GenerateSaMatra_generatePlanets (SOLARSYS_STATE *solarSys)
 	solarSys->SunDesc[0].PlanetByte = 4;
 	solarSys->SunDesc[0].MoonByte = 0;
 
-	if(SeedA != PrimeA){
+	if(!PrimeSeed){
 		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
 		solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
 	}
@@ -147,7 +147,7 @@ GenerateSaMatra_generatePlanets (SOLARSYS_STATE *solarSys)
 
 	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
 
-	if(SeedA != PrimeA){
+	if(!PrimeSeed){
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = (RandomContext_Random (SysGenRNG) % MAROON_WORLD);
 
 		if(solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index == RAINBOW_WORLD)
@@ -173,7 +173,7 @@ GenerateSaMatra_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 
 		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = SA_MATRA;
 
-		if(SeedA == PrimeA){
+		if(PrimeSeed){
 			solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS + (2 * MOON_DELTA);
 			rand_val = RandomContext_Random (SysGenRNG);
 			angle = NORMALIZE_ANGLE (LOWORD (rand_val));

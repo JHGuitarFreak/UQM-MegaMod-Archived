@@ -54,7 +54,7 @@ GenerateRainbowWorld_generatePlanets (SOLARSYS_STATE *solarSys)
 	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
 	solarSys->SunDesc[0].PlanetByte = 0;
 
-	if(SeedA != PrimeA){
+	if(!PrimeSeed){
 		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
 	}
 
@@ -77,7 +77,7 @@ GenerateRainbowWorld_generatePlanets (SOLARSYS_STATE *solarSys)
 			SINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
 	ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
 
-	if(SeedA != PrimeA){
+	if(!PrimeSeed){
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
 	}
 

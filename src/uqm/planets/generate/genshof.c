@@ -133,7 +133,7 @@ GenerateShofixti_generatePlanets (SOLARSYS_STATE *solarSys)
 
 	solarSys->SunDesc[0].NumPlanets = 6;
 
-	if(SeedA != PrimeA)
+	if(!PrimeSeed)
 		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 2) + 2);
 
 	for (i = 0; i < solarSys->SunDesc[0].NumPlanets; ++i)
