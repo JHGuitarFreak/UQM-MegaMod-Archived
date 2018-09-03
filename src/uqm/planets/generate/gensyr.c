@@ -47,11 +47,29 @@ const GenerateFunctions generateSyreenFunctions = {
 static bool
 GenerateSyreen_generatePlanets (SOLARSYS_STATE *solarSys)
 {
-	GenerateDefault_generatePlanets (solarSys);
+	int planetArray[] = { PRIMORDIAL_WORLD, WATER_WORLD, TELLURIC_WORLD };
 
-	solarSys->PlanetDesc[0].data_index = WATER_WORLD | PLANET_SHIELDED;
-	solarSys->PlanetDesc[0].alternate_colormap = NULL;
-	solarSys->PlanetDesc[0].NumPlanets = 1;
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+	solarSys->SunDesc[0].PlanetByte = 0;
+	solarSys->SunDesc[0].MoonByte = 0;
+
+	if(SeedA != PrimeA){
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+		solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
+	}
+
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);	
+
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = WATER_WORLD | PLANET_SHIELDED;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
+	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+
+	if(SeedA != PrimeA){
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = planetArray[RandomContext_Random (SysGenRNG) % 2] | PLANET_SHIELDED;
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (4 - 1) + 1);
+		solarSys->SunDesc[0].MoonByte = (RandomContext_Random (SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
+	}
 
 	return true;
 }
@@ -61,16 +79,19 @@ GenerateSyreen_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 {
 	GenerateDefault_generateMoons (solarSys, planet);
 
-	if (matchWorld (solarSys, planet, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, planet, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
-		solarSys->MoonDesc[0].data_index = HIERARCHY_STARBASE;
-		solarSys->MoonDesc[0].alternate_colormap = NULL;
-		solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS;
-		solarSys->MoonDesc[0].location.x =
-				COSINE (QUADRANT, solarSys->MoonDesc[0].radius);
-		solarSys->MoonDesc[0].location.y =
-				SINE (QUADRANT, solarSys->MoonDesc[0].radius);
-		ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = HIERARCHY_STARBASE;
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].alternate_colormap = NULL;
+
+		if(SeedA == PrimeA){
+			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius = MIN_MOON_RADIUS;
+			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.x =
+					COSINE (QUADRANT, solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius);
+			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.y =
+					SINE (QUADRANT, solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius);
+			ComputeSpeed(&solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte], TRUE, 1);
+		}
 	}
 
 	return true;
@@ -79,19 +100,22 @@ GenerateSyreen_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 static bool
 GenerateSyreen_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 {
-	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		/* Syreen home planet */
 		GenerateDefault_generateOrbital (solarSys, world);
 
-		solarSys->SysInfo.PlanetInfo.SurfaceTemperature = 19;
-		solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-		solarSys->SysInfo.PlanetInfo.Weather = 0;
-		solarSys->SysInfo.PlanetInfo.AtmoDensity = EARTH_ATMOSPHERE * 9 / 10;
+		if(SeedA == PrimeA){
+			solarSys->SysInfo.PlanetInfo.SurfaceTemperature = 19;
+			solarSys->SysInfo.PlanetInfo.Tectonics = 0;
+			solarSys->SysInfo.PlanetInfo.Weather = 0;
+			solarSys->SysInfo.PlanetInfo.AtmoDensity = EARTH_ATMOSPHERE * 9 / 10;
+		}
+
 		return true;
 	}
 
-	if (matchWorld (solarSys, world, 0, 0))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
 	{
 		/* Starbase */
 		InitCommunication (SYREEN_CONVERSATION);
