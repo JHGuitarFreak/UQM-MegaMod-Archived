@@ -54,13 +54,13 @@ GenerateWreck_generatePlanets (SOLARSYS_STATE *solarSys)
 {	
 	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
 
-	if (SeedA != PrimeA)
+	if (!PrimeSeed)
 		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 7) + 7);
 
 	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
 	GeneratePlanets (solarSys);
 
-	if(SeedA != PrimeA){
+	if(!PrimeSeed){
 		solarSys->PlanetDesc[6].data_index = (RandomContext_Random (SysGenRNG) % LAST_SMALL_ROCKY_WORLD);
 		solarSys->PlanetDesc[6].alternate_colormap = NULL;
 	}

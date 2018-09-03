@@ -51,6 +51,7 @@ struct RandomContext {
 #define SeedM 2147483647 // 0xFFFFFFFF div 2
 #define SeedQ (SeedM / SeedA) // Serosis - Default: 127773L - M div A
 #define SeedR (SeedM % SeedA) // Serosis - Default: 2836 - M mod A 
+#define PrimeSeed (SeedA == PrimeA ? true : false)
 
 RandomContext *RandomContext_New (void);
 void RandomContext_Delete (RandomContext *context);
