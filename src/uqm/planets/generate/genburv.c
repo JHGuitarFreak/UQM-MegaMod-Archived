@@ -107,15 +107,15 @@ GenerateBurvixese_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = SELENIC_WORLD;
 
 		if (PrimeSeed){
-		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius = MIN_MOON_RADIUS
-				+ (MAX_MOONS - 1) * MOON_DELTA;
-		rand_val = RandomContext_Random (SysGenRNG);
-		angle = NORMALIZE_ANGLE (LOWORD (rand_val));
-		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.x =
-				COSINE (angle, solarSys->MoonDesc[0].radius);
-		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.y =
-				SINE (angle, solarSys->MoonDesc[0].radius);
-		ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
+			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius = MIN_MOON_RADIUS
+					+ (MAX_MOONS - 1) * MOON_DELTA;
+			rand_val = RandomContext_Random (SysGenRNG);
+			angle = NORMALIZE_ANGLE (LOWORD (rand_val));
+			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.x =
+					COSINE (angle, solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius);
+			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.y =
+					SINE (angle, solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius);
+			ComputeSpeed(&solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte], TRUE, 1);
 		} else {			
 			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = 
 				(RandomContext_Random (SysGenRNG) % LAST_SMALL_ROCKY_WORLD);
