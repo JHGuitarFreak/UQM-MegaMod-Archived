@@ -25,6 +25,7 @@
 #include "libs/mathlib.h"
 
 
+static bool GenerateVault_generatePlanets (SOLARSYS_STATE *solarSys);
 static bool GenerateVault_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world);
 static COUNT GenerateVault_generateEnergy (const SOLARSYS_STATE *,
@@ -37,7 +38,7 @@ const GenerateFunctions generateVaultFunctions = {
 	/* .initNpcs         = */ GenerateDefault_initNpcs,
 	/* .reinitNpcs       = */ GenerateDefault_reinitNpcs,
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
-	/* .generatePlanets  = */ GenerateDefault_generatePlanets,
+	/* .generatePlanets  = */ GenerateVault_generatePlanets,
 	/* .generateMoons    = */ GenerateDefault_generateMoons,
 	/* .generateName     = */ GenerateDefault_generateName,
 	/* .generateOrbital  = */ GenerateVault_generateOrbital,
@@ -49,11 +50,36 @@ const GenerateFunctions generateVaultFunctions = {
 	/* .pickupLife       = */ GenerateDefault_pickupLife,
 };
 
+static bool
+GenerateVault_generatePlanets (SOLARSYS_STATE *solarSys)
+{
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+	solarSys->SunDesc[0].PlanetByte = 0;
+	solarSys->SunDesc[0].MoonByte = 0;
+
+	if(!PrimeSeed){
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+	}
+
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);
+
+	if(!PrimeSeed){
+		if(solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index == RAINBOW_WORLD)
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = RAINBOW_WORLD - 1;
+		else if(solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index == SHATTERED_WORLD)			
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = SHATTERED_WORLD + 1;
+
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+	}
+
+	return true;
+}
 
 static bool
 GenerateVault_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 {
-	if (matchWorld (solarSys, world, 0, 0))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
 	{
 		LoadStdLanderFont (&solarSys->SysInfo.PlanetInfo);
 		solarSys->PlanetSideFrame[1] =
@@ -82,7 +108,7 @@ static COUNT
 GenerateVault_generateEnergy (const SOLARSYS_STATE *solarSys,
 		const PLANET_DESC *world, COUNT whichNode, NODE_INFO *info)
 {
-	if (matchWorld (solarSys, world, 0, 0))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
 	{
 		return GenerateDefault_generateArtifact (solarSys, whichNode, info);
 	}
@@ -94,7 +120,7 @@ static bool
 GenerateVault_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 		COUNT whichNode)
 {
-	if (matchWorld (solarSys, world, 0, 0))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
 	{
 		assert (whichNode == 0);
 
