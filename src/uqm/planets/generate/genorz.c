@@ -66,13 +66,12 @@ GenerateOrz_generatePlanets (SOLARSYS_STATE *solarSys)
 
 	if(!PrimeSeed){
 		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
-	}	
+	}
 
 	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
 	GeneratePlanets (solarSys);
 
-	if (CurStarDescPtr->Index == ORZ_DEFINED)
-	{
+	if (CurStarDescPtr->Index == ORZ_DEFINED) {
 		solarSys->SunDesc[0].PlanetByte = 0;
 
 		if(!PrimeSeed){			
