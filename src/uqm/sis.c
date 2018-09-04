@@ -152,7 +152,7 @@ DrawSISTitle (UNICODE *pStr)
 	SetContextBackGroundColor (SIS_TITLE_BACKGROUND_COLOR);
 	ClearDrawable ();
 	
-	DrawBorder (3);
+	DrawBorder(3);
 
 	// Text color
 	SetContextForeGroundColor (SIS_TITLE_TEXT_COLOR);
@@ -409,6 +409,8 @@ DrawStatusMessage (const UNICODE *pStr)
 	SetContextBackGroundColor (STATUS_MESSAGE_BACKGROUND_COLOR);
 	ClearDrawable ();
 
+	DrawBorder(6);
+
 	if (!pStr)
 	{
 		if (curMsgMode == SMM_CREDITS)
@@ -454,8 +456,6 @@ DrawStatusMessage (const UNICODE *pStr)
 	} else {
 		SetContextForeGroundColor (STATUS_MESSAGE_TEXT_COLOR);
 	}
-
-	DrawBorder(6);
 
 	SetContextFont (TinyFont);
 	SetContextForeGroundColor (STATUS_MESSAGE_TEXT_COLOR);
