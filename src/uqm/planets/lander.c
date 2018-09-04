@@ -2206,8 +2206,6 @@ InitLander (BYTE LanderFlags)
 	r.extent.height = RADAR_HEIGHT;
 	SetContextForeGroundColor (BLACK_COLOR);
 	DrawFilledRectangle (&r);
-
-	DrawBorder(7);
 	
 	if (GLOBAL_SIS (NumLanders) || LanderFlags)
 	{
@@ -2264,8 +2262,9 @@ InitLander (BYTE LanderFlags)
 		if ((int)free_space < (int)(MAX_SCROUNGED << capacity_shift))
 		{
 			r.corner.x = 1;
+			r.corner.y = 1;
 			r.extent.width = RES_STAT_SCALE(4) + RESOLUTION_FACTOR; // JMS_GFX
-			r.extent.height = RES_STAT_SCALE(MAX_HOLD_BARS - ((free_space >> capacity_shift) * MAX_HOLD_BARS / MAX_SCROUNGED) + 2);
+			r.extent.height = RES_STAT_SCALE(MAX_HOLD_BARS - ((free_space >> capacity_shift) * MAX_HOLD_BARS / MAX_SCROUNGED) + 2) - 1;
 			SetContextForeGroundColor (BLACK_COLOR);
 			DrawFilledRectangle (&r);
 		}
