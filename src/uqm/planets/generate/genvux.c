@@ -67,59 +67,99 @@ static bool
 GenerateVux_generatePlanets (SOLARSYS_STATE *solarSys)
 {
 	COUNT angle;
+	int planetArray[] = { PRIMORDIAL_WORLD, WATER_WORLD, TELLURIC_WORLD };
 
-	GenerateDefault_generatePlanets (solarSys);
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+	solarSys->SunDesc[0].PlanetByte = 0;
+
+	if(!PrimeSeed){
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+	}
+	
+	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets (solarSys);
 
 	if (CurStarDescPtr->Index == MAIDENS_DEFINED)
 	{
-		GenerateDefault_generatePlanets (solarSys);
+		solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+
+		if(!PrimeSeed){
+			solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+		}
+	
+		FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+		GeneratePlanets (solarSys);
 				// XXX: this is the second time that this function is
 				// called. Is it safe to remove one, or does this change
 				// the RNG so that the outcome is different?
-		solarSys->PlanetDesc[0].data_index = REDUX_WORLD;
-		solarSys->PlanetDesc[0].alternate_colormap = NULL;
-		solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 212L / 100;
-		angle = ARCTAN (solarSys->PlanetDesc[0].location.x,
-				solarSys->PlanetDesc[0].location.y);
-		solarSys->PlanetDesc[0].location.x =
-				COSINE (angle, solarSys->PlanetDesc[0].radius);
-		solarSys->PlanetDesc[0].location.y =
-				SINE (angle, solarSys->PlanetDesc[0].radius);
-		ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = REDUX_WORLD;
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
+
+		if(PrimeSeed){
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius = EARTH_RADIUS * 212L / 100;
+			angle = ARCTAN (solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x,
+					solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y);
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x =
+					COSINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y =
+					SINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
+			ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
+		} else {
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = planetArray[RandomContext_Random (SysGenRNG) % 2];
+		}
 	}
 	else
 	{
 		if (CurStarDescPtr->Index == VUX_DEFINED)
 		{
-			solarSys->PlanetDesc[0].data_index = REDUX_WORLD;
-			solarSys->PlanetDesc[0].alternate_colormap = NULL;
-			solarSys->PlanetDesc[0].NumPlanets = 1;
-			solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 42L / 100;
-			angle = HALF_CIRCLE + OCTANT;
-			ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
+			if(!PrimeSeed)				
+				solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
+
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = REDUX_WORLD;
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+
+			if(PrimeSeed){
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius = EARTH_RADIUS * 42L / 100;
+				angle = HALF_CIRCLE + OCTANT;
+				ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
+			} else {
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = planetArray[RandomContext_Random (SysGenRNG) % 2];
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (4 - 1) + 1);
+			}
 		}
 		else /* if (CurStarDescPtr->Index == VUX_BEAST_DEFINED) */
 		{
-			memmove (&solarSys->PlanetDesc[1], &solarSys->PlanetDesc[0],
-					sizeof (solarSys->PlanetDesc[0])
-					* solarSys->SunDesc[0].NumPlanets);
-			++solarSys->SunDesc[0].NumPlanets;
+			if(PrimeSeed){
+				memmove (&solarSys->PlanetDesc[1], &solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte],
+						sizeof (solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte])
+						* solarSys->SunDesc[0].NumPlanets);
+				++solarSys->SunDesc[0].NumPlanets;
+			}
 
-			angle = HALF_CIRCLE - OCTANT;
-			solarSys->PlanetDesc[0].data_index = WATER_WORLD;
-			solarSys->PlanetDesc[0].alternate_colormap = NULL;
-			solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 110L / 100;
-			solarSys->PlanetDesc[0].NumPlanets = 0;
-			ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = WATER_WORLD;
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 0;
+
+			if(PrimeSeed){
+				angle = HALF_CIRCLE - OCTANT;
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius = EARTH_RADIUS * 110L / 100;
+				ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
+			} else {
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = planetArray[RandomContext_Random (SysGenRNG) % 2];
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
+			}
 		}
 
-		solarSys->PlanetDesc[0].location.x =
-				COSINE (angle, solarSys->PlanetDesc[0].radius);
-		solarSys->PlanetDesc[0].location.y =
-				SINE (angle, solarSys->PlanetDesc[0].radius);
-		solarSys->PlanetDesc[0].rand_seed = MAKE_DWORD (
-				solarSys->PlanetDesc[0].location.x,
-				solarSys->PlanetDesc[0].location.y);
+		if(PrimeSeed){
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x =
+					COSINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y =
+					SINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].rand_seed = MAKE_DWORD (
+					solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x,
+					solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y);
+		}
 	}
 	return true;
 }
@@ -127,7 +167,7 @@ GenerateVux_generatePlanets (SOLARSYS_STATE *solarSys)
 static bool
 GenerateVux_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 {
-	if ((matchWorld (solarSys, world, 0, MATCH_PLANET)
+	if ((matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET)
 			&& (CurStarDescPtr->Index == VUX_DEFINED
 			|| (CurStarDescPtr->Index == MAIDENS_DEFINED
 			&& !GET_GAME_STATE (ZEX_IS_DEAD))))
@@ -168,7 +208,7 @@ GenerateVux_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 		}
 	}
 
-	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		if (CurStarDescPtr->Index == MAIDENS_DEFINED)
 		{
@@ -205,7 +245,7 @@ GenerateVux_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 	GenerateDefault_generateOrbital (solarSys, world);
 
-	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld (solarSys, world, 0, MATCH_PLANET) && PrimeSeed)
 	{
 		solarSys->SysInfo.PlanetInfo.Weather = 2;
 		solarSys->SysInfo.PlanetInfo.Tectonics = 0;
@@ -219,7 +259,7 @@ GenerateVux_generateEnergy (const SOLARSYS_STATE *solarSys,
 		const PLANET_DESC *world, COUNT whichNode, NODE_INFO *info)
 {
 	if (CurStarDescPtr->Index == MAIDENS_DEFINED
-			&& matchWorld (solarSys, world, 0, MATCH_PLANET))
+			&& matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		// This check is redundant since the retrieval bit will keep the
 		// node from showing up again
@@ -238,7 +278,7 @@ GenerateVux_generateEnergy (const SOLARSYS_STATE *solarSys,
 	}
 
 	if (CurStarDescPtr->Index == VUX_DEFINED
-			&& matchWorld (solarSys, world, 0, MATCH_PLANET))
+			&& matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		return GenerateDefault_generateRuins (solarSys, whichNode, info);
 	}
@@ -251,7 +291,7 @@ GenerateVux_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 		COUNT whichNode)
 {
 	if (CurStarDescPtr->Index == MAIDENS_DEFINED
-			&& matchWorld (solarSys, world, 0, MATCH_PLANET))
+			&& matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		assert (!GET_GAME_STATE (SHOFIXTI_MAIDENS) && whichNode == 0);
 
@@ -265,7 +305,7 @@ GenerateVux_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 	}
 
 	if (CurStarDescPtr->Index == VUX_DEFINED
-			&& matchWorld (solarSys, world, 0, MATCH_PLANET))
+			&& matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		// Standard ruins report
 		GenerateDefault_landerReportCycle (solarSys);
@@ -281,7 +321,7 @@ GenerateVux_generateLife (const SOLARSYS_STATE *solarSys,
 		const PLANET_DESC *world, COUNT whichNode, NODE_INFO *info)
 {
 	if (CurStarDescPtr->Index == MAIDENS_DEFINED
-			&& matchWorld (solarSys, world, 0, MATCH_PLANET))
+			&& matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		static const SBYTE life[] =
 		{
@@ -294,7 +334,7 @@ GenerateVux_generateLife (const SOLARSYS_STATE *solarSys,
 	}
 
 	if (CurStarDescPtr->Index == VUX_BEAST_DEFINED
-			&& matchWorld (solarSys, world, 0, MATCH_PLANET))
+			&& matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		static const SBYTE life[] =
 		{
@@ -315,7 +355,7 @@ GenerateVux_pickupLife (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 		COUNT whichNode)
 {
 	if (CurStarDescPtr->Index == VUX_BEAST_DEFINED
-			&& matchWorld (solarSys, world, 0, MATCH_PLANET))
+			&& matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		if (whichNode == 0)
 		{	// Picked up Zex' Beauty
