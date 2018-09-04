@@ -76,15 +76,15 @@ GenerateIlwrath_generatePlanets (SOLARSYS_STATE *solarSys)
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = planetArray[RandomContext_Random (SysGenRNG) % 2];
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
 	} else { 
-		solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 204L / 100;
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius = EARTH_RADIUS * 204L / 100;
 		angle = ARCTAN (
-				solarSys->PlanetDesc[0].location.x,
-				solarSys->PlanetDesc[0].location.y);
-		solarSys->PlanetDesc[0].location.x =
-				COSINE (angle, solarSys->PlanetDesc[0].radius);
-		solarSys->PlanetDesc[0].location.y =
-				SINE (angle, solarSys->PlanetDesc[0].radius);
-		ComputeSpeed(&solarSys->PlanetDesc[0], FALSE, 1);
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x,
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x =
+				COSINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y =
+				SINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
+		ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
 	}
 
 	return true;
