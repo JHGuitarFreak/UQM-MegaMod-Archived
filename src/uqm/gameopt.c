@@ -1347,6 +1347,10 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 	{	// Restore previous screen
 		SetTransitionSource (&DlgRect);
 		BatchGraphics ();
+
+		if(optCustomBorder)
+			DeltaSISGauges (UNDEFINED_DELTA, UNDEFINED_DELTA, UNDEFINED_DELTA);
+
 		DrawStamp (&DlgStamp);
 		ScreenTransition (3, &DlgRect);
 		UnbatchGraphics ();
