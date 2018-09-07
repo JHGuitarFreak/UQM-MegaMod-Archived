@@ -1458,8 +1458,28 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	// JMS_GFX: 640x480
 	if (resolutionFactor == 2)
 	{
-		opts->screenResolution = OPTVAL_REAL_1280_960;
-		opts->loresBlowup = NO_BLOWUP;
+		switch (ScreenWidthActual){
+			case 640:
+				opts->screenResolution = OPTVAL_REAL_1280_960;
+				opts->loresBlowup = OPTVAL_SCALE_640_480;
+				break;
+			case 960:
+				opts->screenResolution = OPTVAL_REAL_1280_960;
+				opts->loresBlowup = OPTVAL_SCALE_960_720;
+				break;
+			case 1600:
+				opts->screenResolution = OPTVAL_REAL_1280_960;
+				opts->loresBlowup = OPTVAL_SCALE_1600_1200;
+				break;
+			case 1920:
+				opts->screenResolution = OPTVAL_REAL_1280_960;
+				opts->loresBlowup = OPTVAL_SCALE_1920_1440;
+				break;
+			case 1280:
+			default:
+				opts->screenResolution = OPTVAL_REAL_1280_960;
+				opts->loresBlowup = NO_BLOWUP;
+		}
 	}
 	// JMS_GFX: 320x240
 	else
@@ -1481,22 +1501,30 @@ GetGlobalOptions (GLOBALOPTS *opts)
 				if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE)
 				{
 					opts->screenResolution = OPTVAL_320_240;
-					opts->loresBlowup = OPTVAL_320_TO_640;
+					opts->loresBlowup = OPTVAL_SCALE_640_480;
 				}
 				else
 				{
 					opts->screenResolution = OPTVAL_320_240;
-					opts->loresBlowup = OPTVAL_320_TO_640;
+					opts->loresBlowup = OPTVAL_SCALE_640_480;
 					opts->driver = OPTVAL_ALWAYS_GL;
 				}
 				break;
 			case 960:
 				opts->screenResolution = OPTVAL_320_240;
-				opts->loresBlowup = OPTVAL_320_TO_960;
+				opts->loresBlowup = OPTVAL_SCALE_960_720;
 				break;
 			case 1280:
 				opts->screenResolution = OPTVAL_320_240;
-				opts->loresBlowup = OPTVAL_320_TO_1280;	
+				opts->loresBlowup = OPTVAL_SCALE_1280_960;	
+				break;
+			case 1600:
+				opts->screenResolution = OPTVAL_320_240;
+				opts->loresBlowup = OPTVAL_SCALE_1600_1200;	
+				break;
+			case 1920:
+				opts->screenResolution = OPTVAL_320_240;
+				opts->loresBlowup = OPTVAL_SCALE_1920_1440;	
 				break;
 			default:
 				opts->screenResolution = OPTVAL_320_240;
@@ -1613,7 +1641,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 			case NO_BLOWUP:
 				// JMS: Default value: Don't do anything.
 				break;
-			case OPTVAL_320_TO_640:
+			case OPTVAL_SCALE_640_480:
 				NewWidth = 640;
 				NewHeight = 480;
 #ifdef HAVE_OPENGL	       
@@ -1623,15 +1651,27 @@ SetGlobalOptions (GLOBALOPTS *opts)
 #endif
 				resolutionFactor = 0;
 				break;
-			case OPTVAL_320_TO_960:
+			case OPTVAL_SCALE_960_720:
 				NewWidth = 960;
 				NewHeight = 720;
 				NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
 				resolutionFactor = 0;
 				break;
-			case OPTVAL_320_TO_1280:
+			case OPTVAL_SCALE_1280_960:
 				NewWidth = 1280;
 				NewHeight = 960;
+				NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+				resolutionFactor = 0;
+				break;
+			case OPTVAL_SCALE_1600_1200:
+				NewWidth = 1600;
+				NewHeight = 1200;
+				NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+				resolutionFactor = 0;
+				break;
+			case OPTVAL_SCALE_1920_1440:
+				NewWidth = 1920;
+				NewHeight = 1440;
 				NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
 				resolutionFactor = 0;
 				break;
@@ -1640,7 +1680,65 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		}
 	}
 	else
-		opts->loresBlowup = NO_BLOWUP;
+	{	
+		switch (opts->loresBlowup) {
+			case NO_BLOWUP:
+				// JMS: Default value: Don't do anything.
+				break;
+			case OPTVAL_SCALE_640_480:
+				NewWidth = 640;
+				NewHeight = 480;
+				resolutionFactor = 2;
+#ifdef HAVE_OPENGL	       
+			NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+#else
+			NewDriver = TFB_GFXDRIVER_SDL_PURE;
+#endif
+				break;
+			case OPTVAL_SCALE_960_720:
+				NewWidth = 960;
+				NewHeight = 720;
+#ifdef HAVE_OPENGL	       
+			NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+#else
+			NewDriver = TFB_GFXDRIVER_SDL_PURE;
+#endif
+				resolutionFactor = 2;
+				break;
+			case OPTVAL_SCALE_1280_960:
+				NewWidth = 1280;
+				NewHeight = 960;
+#ifdef HAVE_OPENGL	       
+			NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+#else
+			NewDriver = TFB_GFXDRIVER_SDL_PURE;
+#endif
+				resolutionFactor = 2;
+				break;
+			case OPTVAL_SCALE_1600_1200:
+				NewWidth = 1600;
+				NewHeight = 1200;
+#ifdef HAVE_OPENGL	       
+			NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+#else
+			NewDriver = TFB_GFXDRIVER_SDL_PURE;
+#endif
+				resolutionFactor = 2;
+				break;
+			case OPTVAL_SCALE_1920_1440:
+				NewWidth = 1920;
+				NewHeight = 1440;
+#ifdef HAVE_OPENGL	       
+			NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
+#else
+			NewDriver = TFB_GFXDRIVER_SDL_PURE;
+#endif
+				resolutionFactor = 2;
+				break;
+			default:
+				break;
+		}
+	}
 
 	// Serosis: To force the game to reload content when changing music, video, and speech options
  	if ((opts->speech != (optSpeech ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || 
@@ -1802,10 +1900,37 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	} else {
 		NewGfxFlags &= ~TFB_GFXFLAGS_SCANLINES;
 	}
-	if (opts->fullscreen)
+	if (opts->fullscreen){
 		NewGfxFlags |= TFB_GFXFLAGS_FULLSCREEN;
-	else
+		// JMS: Force the usage of bilinear scaler in 1280x960 and 640x480 fullscreen.
+		if (resolutionFactor == 2) {
+			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
+			res_PutString ("config.scaler", "bilinear");
+		}
+	} else {
 		NewGfxFlags &= ~TFB_GFXFLAGS_FULLSCREEN;
+		// JMS: Force the usage of no scaler in 1280x960 and 640x480 windowed modes.
+		// When running in windowed mode, the image isn't stretched,
+		// thus using a scaler would yield no benefits.
+		// Not using a scaler should make the performance a little better.
+		if(resolutionFactor == 2){
+			switch(NewWidth){
+				case 640:
+				case 960:
+				case 1600:
+				case 1920:
+					NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
+					res_PutString ("config.scaler", "bilinear");
+					break;
+				case 1280:
+				default:
+					NewGfxFlags &= ~TFB_GFXFLAGS_SCALE_BILINEAR;
+					res_PutString ("config.scaler", "no");
+					break;
+
+			}
+		}
+	}
 
 	res_PutBoolean ("config.scanlines", opts->scanlines);
 	res_PutBoolean ("config.fullscreen", opts->fullscreen);

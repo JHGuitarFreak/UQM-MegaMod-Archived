@@ -51,10 +51,12 @@ typedef enum {
 
 typedef enum {
 	NO_BLOWUP,
-	OPTVAL_320_TO_640,
-	OPTVAL_320_TO_960,
-	OPTVAL_320_TO_1280,
-} OPT_LORESBLOWUPTYPE;
+	OPTVAL_SCALE_640_480,
+	OPTVAL_SCALE_960_720,
+	OPTVAL_SCALE_1280_960,
+	OPTVAL_SCALE_1600_1200,
+	OPTVAL_SCALE_1920_1440,
+} OPT_RESSCALER;
 
 typedef enum {
 	OPTVAL_PURE_IF_POSSIBLE,
@@ -92,7 +94,7 @@ typedef enum {
 typedef struct globalopts_struct {
 	OPT_SCALETYPE scaler;
 	OPT_RESTYPE screenResolution;
-	OPT_LORESBLOWUPTYPE loresBlowup;
+	OPT_RESSCALER loresBlowup;
 	OPT_DRIVERTYPE driver;
 	OPT_ADRIVERTYPE adriver;
 	OPT_AQUALITYTYPE aquality;
