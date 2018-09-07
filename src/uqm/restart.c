@@ -62,9 +62,9 @@ PacksInstalled(void){
 		case 0:
 			packsInstalled = TRUE;
 			break;
-		case 1:
+		/*case 1:
 			packsInstalled = (hires2xPackPresent ? TRUE : FALSE);
-			break;
+			break;*/
 		case 2:
 			packsInstalled = (hires4xPackPresent ? TRUE : FALSE);
 			break;
