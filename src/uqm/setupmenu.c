@@ -72,9 +72,9 @@ static void rebind_control (WIDGET_CONTROLENTRY *widget);
 static void clear_control (WIDGET_CONTROLENTRY *widget);
 
 #ifdef HAVE_OPENGL
-#define RES_OPTS 3
+#define RES_OPTS 2
 #else
-#define RES_OPTS 3
+#define RES_OPTS 2
 #endif
 
 #define MENU_COUNT          8
@@ -101,7 +101,7 @@ typedef int (*HANDLER)(WIDGET *, int);
 // Each number corresponds to a choice widget in order starting from choices[0]
 // The value determines how many columns the choice has.
 static int choice_widths[CHOICE_COUNT] = {
-	3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 
+	2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 
 	2, 2, 2, 2, 2, 3, 3, 2,	3, 3, 
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
@@ -1450,15 +1450,15 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
 
 	// JMS_GFX: 1280x960
-	if (resolutionFactor == 2)
+	/*if (resolutionFactor == 2)
 	{
 		opts->screenResolution = OPTVAL_REAL_1280_960;
 		opts->loresBlowup = NO_BLOWUP;	
-	}
+	}*/
 	// JMS_GFX: 640x480
-	else if (resolutionFactor == 1)
+	if (resolutionFactor == 2)
 	{
-		opts->screenResolution = OPTVAL_REAL_640_480;
+		opts->screenResolution = OPTVAL_REAL_1280_960;
 		opts->loresBlowup = NO_BLOWUP;
 	}
 	// JMS_GFX: 320x240
@@ -1531,7 +1531,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 #endif
 			resolutionFactor = 0;
 			break;
-		case OPTVAL_REAL_640_480:
+		/*case OPTVAL_REAL_640_480:
 			NewWidth = 640;	
 			NewHeight = 480;
 #ifdef HAVE_OPENGL	       
@@ -1540,7 +1540,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 			NewDriver = TFB_GFXDRIVER_SDL_PURE;
 #endif
 			resolutionFactor = 1;
-			break;
+			break;*/
 		case OPTVAL_REAL_1280_960:
 			NewWidth = 1280;
 			NewHeight = 960;
