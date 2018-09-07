@@ -37,7 +37,9 @@ WIDGET *widget_focus = NULL;
 		WIDGET_CURSOR_COLOR
 
 #define WIDGET_ENABLED_COLOR \
-		BUILD_COLOR (MAKE_RGB15 (0x00, 0xC8, 0x00), 0x00)
+		BUILD_COLOR (MAKE_RGB15 (0x00, 0x18, 0x00), 0x00)
+#define WIDGET_DISABLED_COLOR \
+		PCMENU_TOP_LEFT_BORDER_COLOR
 
 static Color win_bg_clr =
 		BUILD_COLOR (MAKE_RGB15_INIT (0x18, 0x18, 0x1F), 0x00);
@@ -176,7 +178,7 @@ Widget_DrawToolTips (int numlines, const char **tips)
 	RECT r;
 	FONT  oldfont = 0;
 	FRAME oldFontEffect = SetContextFontEffect (NULL);
-	Color oldtext = SetContextForeGroundColor (BUILD_COLOR (MAKE_RGB15 (0x00, 0x18, 0x00), 0x0E));
+	Color oldtext = SetContextForeGroundColor (WIDGET_ENABLED_COLOR);
 	TEXT t;
 	int i;
 
@@ -288,7 +290,7 @@ Widget_DrawChoice (WIDGET *_self, int x, int y)
 	
 	default_color = WIDGET_INACTIVE_SELECTED_COLOR;
 	enabled = WIDGET_ENABLED_COLOR;
-	disabled = DKGRAY_COLOR;
+	disabled = WIDGET_DISABLED_COLOR;
 	selected = WIDGET_ACTIVE_COLOR;
 
 	t.baseline.x = x + RES_SCALE(16);
