@@ -863,13 +863,13 @@ FreeSolarSys (void)
 static FRAME
 getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 {
-	if (pSolarSysState->WaitIntersect != (COUNT)~0
-			&& pSolarSysState->WaitIntersect != WaitPlanet)
-	{	// Serosis - New collisions are determined by the size of the planet image in HD
-		return (RESOLUTION_FACTOR == 0 ? DecFrameIndex (stars_in_space) : planet->image.frame);
-	}
-	else
-	{	// Existing collisions are cleared only once the ship does not
+	FRAME CollisionFrame = (RESOLUTION_FACTOR == 0 ? DecFrameIndex (stars_in_space) : planet->image.frame);
+
+	if (pSolarSysState->WaitIntersect != (COUNT)~0 && pSolarSysState->WaitIntersect != WaitPlanet) {	
+		// Serosis - New collisions are determined by the size of the planet image in HD
+		return CollisionFrame;
+	} else {	
+		// Existing collisions are cleared only once the ship does not
 		// intersect anymore with a full planet image
 		return planet->image.frame;
 	}
