@@ -395,7 +395,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion> 
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -471,7 +471,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\getopt\getopt.c" />
     <ClCompile Include="..\..\src\getopt\getopt1.c" />
-    <ClCompile Include="..\..\src\libs\network\wspiapiwrap.c" />
     <ClCompile Include="..\..\src\regex\regex.c" />
     <ClCompile Include="..\..\src\libs\callback\alarm.c" />
     <ClCompile Include="..\..\src\libs\callback\async.c" />

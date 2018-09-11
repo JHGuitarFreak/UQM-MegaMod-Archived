@@ -1494,9 +1494,6 @@
     <ClCompile Include="..\..\src\uqm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\libs\network\wspiapiwrap.c">
-      <Filter>Source Files\libs\network</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\getopt\getopt.h">
