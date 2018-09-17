@@ -569,7 +569,7 @@ Intro (void)
 					);
 
 			// JMS_GFX: Use separate graphics in hires instead of colormap transform.
-			if (RESOLUTION_FACTOR > 0)
+			if (RESOLUTION_FACTOR)
 			{
 				CommData.AlienFrameRes = CHMMR_RED_PMAP_ANIM;
 				CommData.AlienFrame = CaptureDrawable (

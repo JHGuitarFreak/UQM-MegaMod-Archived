@@ -81,7 +81,7 @@ BOOLEAN EndlessSCLoaded;
 BYTE Rando;
 // JMS_GFX
 BOOLEAN hires2xPackPresent;
-BOOLEAN hires4xPackPresent;
+BOOLEAN HDPackPresent;
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -130,51 +130,30 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 	/* Load base content. */
 	if (loadIndices (contentDir) == 0)
 		return FALSE; // Must have at least one index in content dir
-	
-	/* Load addons demanded by the current configuration. */
-	switch (resolutionFactor) {
-		case 1:
-			if(loadAddon ("mm-hires2x")){
-				hires2xPackPresent = TRUE;
-				log_add (log_Debug, "loading addon hires2x");
-				if(loadAddon("sol-textures-2x")){
-					solTexturesPresent = TRUE;
-					printf("Loading Sol Textures \n");
-					log_add (log_Debug, "loading sol-textures-2x");
-				}
-				loadAddon("alt-kohr-2x");
-				loadAddon("orange-peel-melnorme2x");
-				loadAddon("yellow-fried-2x");
-			}
-			break;
-		case 2:
-			if(loadAddon ("mm-hires4x")){
-				hires4xPackPresent = TRUE;
-				log_add (log_Debug, "loading addon hires4x");
-				if(loadAddon("sol-textures-4x")){
-					solTexturesPresent = TRUE;
-					printf("Loading Sol Textures \n");
-					log_add (log_Debug, "loading sol-textures-4x");
-				}
-				loadAddon("alt-kohr-4x");
-				loadAddon("orange-peel-melnorme4x");
-				loadAddon("yellow-fried-4x");
-			}
-			break;
-		case 0:
-		default:
-			if(loadAddon("EndlessSC-1x")){
-				EndlessSCLoaded = TRUE;
-				printf("Loading Endless SC \n");
-				log_add (log_Debug, "loading EndlessSC-1x");
-			}
-			if(loadAddon("sol-textures-1x")){
-				solTexturesPresent = TRUE;
-				printf("Loading Sol Textures \n");
-				log_add (log_Debug, "loading sol-textures-1x");
-			}
-			loadAddon("yellow-fried-1x");
-			break;
+
+	if (!resolutionFactor) {
+		if (loadAddon("EndlessSC-1x")) {
+			EndlessSCLoaded = TRUE;
+			printf("Loading Endless SC \n");
+			log_add(log_Debug, "loading EndlessSC-1x");
+		}
+		if (loadAddon("sol-textures-1x")) {
+			solTexturesPresent = TRUE;
+			printf("Loading Sol Textures \n");
+			log_add(log_Debug, "loading sol-textures-1x");
+		}
+		loadAddon("yellow-fried-1x");
+	} else if (loadAddon("mm-hires4x")) {
+		HDPackPresent = TRUE;
+		log_add(log_Debug, "loading addon hires4x");
+		if (loadAddon("sol-textures-4x")) {
+			solTexturesPresent = TRUE;
+			printf("Loading Sol Textures \n");
+			log_add(log_Debug, "loading sol-textures-4x");
+		}
+		loadAddon("alt-kohr-4x");
+		loadAddon("orange-peel-melnorme4x");
+		loadAddon("yellow-fried-4x");
 	}
 
 	usingSpeech = optSpeech;
@@ -292,7 +271,7 @@ InitKernel (void)
 		return FALSE;
 	
 	// JMS: Animated hyperspace suns.
-	if (hires4xPackPresent || hires2xPackPresent) { 
+	if (HDPackPresent || hires2xPackPresent) { 
 		hyperspacesuns = CaptureDrawable (LoadGraphic (HYPERSUNS_MASK_PMAP_ANIM));
 		if (hyperspacesuns == NULL)
 			return FALSE;

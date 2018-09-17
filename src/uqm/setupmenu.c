@@ -1449,87 +1449,72 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->customSeed = res_GetInteger ("config.customSeed");
 	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
 
-	// JMS_GFX: 1280x960
-	/*if (resolutionFactor == 2)
-	{
-		opts->screenResolution = OPTVAL_REAL_1280_960;
-		opts->loresBlowup = NO_BLOWUP;	
-	}*/
-	// JMS_GFX: 640x480
-	if (resolutionFactor == 2)
-	{
-		switch (ScreenWidthActual){
-			case 640:
-				opts->screenResolution = OPTVAL_REAL_1280_960;
+	// Serosis: 320x240
+	if (!resolutionFactor) {
+		switch (ScreenWidthActual) {
+		case 320:
+			if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE) {
+				opts->screenResolution = OPTVAL_320_240;
+			}
+			else {
+				opts->screenResolution = OPTVAL_320_240;
+				opts->driver = OPTVAL_ALWAYS_GL;
+			}
+			break;
+		case 640:
+			if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE) {
+				opts->screenResolution = OPTVAL_320_240;
 				opts->loresBlowup = OPTVAL_SCALE_640_480;
-				break;
-			case 960:
-				opts->screenResolution = OPTVAL_REAL_1280_960;
-				opts->loresBlowup = OPTVAL_SCALE_960_720;
-				break;
-			case 1600:
-				opts->screenResolution = OPTVAL_REAL_1280_960;
-				opts->loresBlowup = OPTVAL_SCALE_1600_1200;
-				break;
-			case 1920:
-				opts->screenResolution = OPTVAL_REAL_1280_960;
-				opts->loresBlowup = OPTVAL_SCALE_1920_1440;
-				break;
-			case 1280:
-			default:
-				opts->screenResolution = OPTVAL_REAL_1280_960;
-				opts->loresBlowup = NO_BLOWUP;
-		}
-	}
-	// JMS_GFX: 320x240
-	else
-	{
-		switch (ScreenWidthActual)
-		{
-			case 320:
-				if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE)
-				{
-					opts->screenResolution = OPTVAL_320_240;
-				}
-				else
-				{
-					opts->screenResolution = OPTVAL_320_240;
-					opts->driver = OPTVAL_ALWAYS_GL;
-				}
-				break;
-			case 640:
-				if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE)
-				{
-					opts->screenResolution = OPTVAL_320_240;
-					opts->loresBlowup = OPTVAL_SCALE_640_480;
-				}
-				else
-				{
-					opts->screenResolution = OPTVAL_320_240;
-					opts->loresBlowup = OPTVAL_SCALE_640_480;
-					opts->driver = OPTVAL_ALWAYS_GL;
-				}
-				break;
-			case 960:
+			}
+			else {
 				opts->screenResolution = OPTVAL_320_240;
-				opts->loresBlowup = OPTVAL_SCALE_960_720;
-				break;
-			case 1280:
-				opts->screenResolution = OPTVAL_320_240;
-				opts->loresBlowup = OPTVAL_SCALE_1280_960;	
-				break;
-			case 1600:
-				opts->screenResolution = OPTVAL_320_240;
-				opts->loresBlowup = OPTVAL_SCALE_1600_1200;	
-				break;
-			case 1920:
-				opts->screenResolution = OPTVAL_320_240;
-				opts->loresBlowup = OPTVAL_SCALE_1920_1440;	
-				break;
-			default:
-				opts->screenResolution = OPTVAL_320_240;
-				opts->loresBlowup = NO_BLOWUP;
-				break;
+				opts->loresBlowup = OPTVAL_SCALE_640_480;
+				opts->driver = OPTVAL_ALWAYS_GL;
+			}
+			break;
+		case 960:
+			opts->screenResolution = OPTVAL_320_240;
+			opts->loresBlowup = OPTVAL_SCALE_960_720;
+			break;
+		case 1280:
+			opts->screenResolution = OPTVAL_320_240;
+			opts->loresBlowup = OPTVAL_SCALE_1280_960;
+			break;
+		case 1600:
+			opts->screenResolution = OPTVAL_320_240;
+			opts->loresBlowup = OPTVAL_SCALE_1600_1200;
+			break;
+		case 1920:
+			opts->screenResolution = OPTVAL_320_240;
+			opts->loresBlowup = OPTVAL_SCALE_1920_1440;
+			break;
+		default:
+			opts->screenResolution = OPTVAL_320_240;
+			opts->loresBlowup = NO_BLOWUP;
+			break;
+		}		
+	} else { // Serosis: 1280x960 / HD
+		switch (ScreenWidthActual) {
+		case 640:
+			opts->screenResolution = OPTVAL_REAL_1280_960;
+			opts->loresBlowup = OPTVAL_SCALE_640_480;
+			break;
+		case 960:
+			opts->screenResolution = OPTVAL_REAL_1280_960;
+			opts->loresBlowup = OPTVAL_SCALE_960_720;
+			break;
+		case 1600:
+			opts->screenResolution = OPTVAL_REAL_1280_960;
+			opts->loresBlowup = OPTVAL_SCALE_1600_1200;
+			break;
+		case 1920:
+			opts->screenResolution = OPTVAL_REAL_1280_960;
+			opts->loresBlowup = OPTVAL_SCALE_1920_1440;
+			break;
+		case 1280:
+		default:
+			opts->screenResolution = OPTVAL_REAL_1280_960;
+			opts->loresBlowup = NO_BLOWUP;
 		}
 	}
 }
@@ -1559,16 +1544,6 @@ SetGlobalOptions (GLOBALOPTS *opts)
 #endif
 			resolutionFactor = 0;
 			break;
-		/*case OPTVAL_REAL_640_480:
-			NewWidth = 640;	
-			NewHeight = 480;
-#ifdef HAVE_OPENGL	       
-			NewDriver = TFB_GFXDRIVER_SDL_OPENGL;
-#else
-			NewDriver = TFB_GFXDRIVER_SDL_PURE;
-#endif
-			resolutionFactor = 1;
-			break;*/
 		case OPTVAL_REAL_1280_960:
 			NewWidth = 1280;
 			NewHeight = 960;
@@ -1895,7 +1870,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		opts->customSeed = optCustomSeed;
 	res_PutInteger ("config.customSeed", opts->customSeed);
 
-	if (opts->scanlines && RESOLUTION_FACTOR == 0) {
+	if (opts->scanlines && !resolutionFactor) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
 	} else {
 		NewGfxFlags &= ~TFB_GFXFLAGS_SCANLINES;
@@ -1903,17 +1878,15 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	if (opts->fullscreen){
 		NewGfxFlags |= TFB_GFXFLAGS_FULLSCREEN;
 		// JMS: Force the usage of bilinear scaler in 1280x960 and 640x480 fullscreen.
-		if (resolutionFactor == 2) {
+		if (resolutionFactor) {
 			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
 			res_PutString ("config.scaler", "bilinear");
 		}
 	} else {
 		NewGfxFlags &= ~TFB_GFXFLAGS_FULLSCREEN;
-		// JMS: Force the usage of no scaler in 1280x960 and 640x480 windowed modes.
-		// When running in windowed mode, the image isn't stretched,
-		// thus using a scaler would yield no benefits.
-		// Not using a scaler should make the performance a little better.
-		if(resolutionFactor == 2){
+		// Serosis: Force the usage of no filter in 1280x960 windowed mode.
+		// While forcing the usage of bilinear filter in scaled windowed modes.
+		if(resolutionFactor){
 			switch(NewWidth){
 				case 640:
 				case 960:
