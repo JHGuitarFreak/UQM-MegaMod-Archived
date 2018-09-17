@@ -11,4 +11,9 @@
     <LocalDebuggerWorkingDirectory>..\..\bin</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug NoAccel|Win32'">
+    <LocalDebuggerCommand>../../bin/$(TargetName)Debug$(TargetExt)</LocalDebuggerCommand>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>..\..\bin</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
 </Project>
