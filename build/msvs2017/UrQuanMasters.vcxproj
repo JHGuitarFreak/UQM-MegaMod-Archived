@@ -260,7 +260,7 @@
       <AdditionalIncludeDirectories>..\..\src;..\..\src\regex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
-      <Command>editbin /REBASE:BASE=0x400000 /DYNAMICBASE:NO "../../bin/$(TargetName)$(TargetExt)"</Command>
+      <Command>editbin /REBASE:BASE=0x400000 /DYNAMICBASE:NO "$(LocalDebuggerWorkingDirectory)$(TargetFileName)"</Command>
       <Message>Stripping debug info...</Message>
     </PostBuildEvent>
     <Midl>
@@ -280,7 +280,7 @@
       <SubSystem>Windows</SubSystem>
       <IgnoreSpecificDefaultLibraries>msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;zdll.lib;ws2_32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../bin/$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(LocalDebuggerWorkingDirectory)$(TargetFileName)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
