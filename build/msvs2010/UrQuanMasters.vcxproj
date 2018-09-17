@@ -64,6 +64,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v90</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -74,6 +75,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v90</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug NoAccel|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -117,9 +119,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug NoAccel|Win32'">
-    <OutDir>.\Debug_NoAccel\</OutDir>
-    <IntDir>.\Debug_NoAccel\</IntDir>
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\..\dev-lib\Windows\VS2008\include;C:\Program Files\Microsoft Platform SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\dev-lib\Windows\VS2008\lib;C:\Program Files\Microsoft Platform SDK\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug NoAccel|x64'">
     <OutDir>.\Debug_NoAccel\</OutDir>
@@ -128,8 +130,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\dev-lib\Windows\VS2008\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\dev-lib\Windows\VS2008\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\dev-lib\Windows\VS2008\include;C:\Program Files\Microsoft Platform SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\dev-lib\Windows\VS2008\lib;C:\Program Files\Microsoft Platform SDK\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -148,8 +150,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\dev-lib\Windows\VS2008\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\dev-lib\Windows\VS2008\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\dev-lib\Windows\VS2008\include;C:\Program Files\Microsoft Platform SDK\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\dev-lib\Windows\VS2008\lib;C:\Program Files\Microsoft Platform SDK\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -190,8 +192,8 @@
       <SubSystem>Console</SubSystem>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <OutputFile>../../uqmdebug.exe</OutputFile>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;SDL.lib;SDLmain.lib;SDL_image.lib;zdll.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>../../bin/$(TargetName)Debug$(TargetExt)</OutputFile>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;zdll.lib;ws2_32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug NoAccel|x64'">

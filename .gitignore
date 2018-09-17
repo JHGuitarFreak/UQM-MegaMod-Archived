@@ -271,3 +271,7 @@ log.txt
 *.lnk
 *.lib
 .DS_Store
+
+*.tlog
+
+Debug NoAccel/

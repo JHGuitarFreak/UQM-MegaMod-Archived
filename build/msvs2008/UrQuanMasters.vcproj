@@ -16,8 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug NoAccel|Win32"
-			OutputDirectory=".\Debug_NoAccel"
-			IntermediateDirectory=".\Debug_NoAccel"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="D:\Programming\UQM\VS2008\include;&quot;C:\Program Files\Microsoft Platform SDK\Include&quot;;..\..\src;..\..\src\regex"
+				AdditionalIncludeDirectories="..\..\dev-lib\Windows\VS2008\include;&quot;C:\Program Files\Microsoft Platform SDK\Include&quot;;..\..\src;..\..\src\regex"
 				PreprocessorDefinitions="DEBUG;_DEBUG;DEBUG_TRACK_SEM;DEBUG_DCQ_THREADS;WIN32;_CONSOLE;_VW=320;_VH=240;HAVE_OPENGL;GFXMODULE_SDL;THREADLIB_SDL;HAVE_OPENAL;HAVE_ZIP;HAVE_JOYSTICK;NETPLAY;ZLIB_DLL;USE_INTERNAL_MIKMOD;USE_INTERNAL_LUA"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -71,10 +71,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="SDL.lib SDLmain.lib SDL_image.lib zdll.lib ws2_32.lib user32.lib"
-				OutputFile="../../uqmdebug.exe"
+				OutputFile="../../bin/UrQuanMastersDebug.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="D:\Programming\UQM\VS2008\lib;&quot;C:\Program Files\Microsoft Platform SDK\Lib&quot;"
+				AdditionalLibraryDirectories="..\..\dev-lib\Windows\VS2008\lib;&quot;C:\Program Files\Microsoft Platform SDK\Lib&quot;"
 				IgnoreDefaultLibraryNames="msvcrt.lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug_NoAccel/uqmdebug.pdb"
@@ -109,8 +109,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -138,7 +138,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\src,..\..\src\regex"
+				AdditionalIncludeDirectories="..\..\src;..\..\src\regex;&quot;..\..\dev-lib\Windows\VS2008\include&quot;;&quot;C:\Program Files\Microsoft Platform SDK\Include&quot;"
 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE;_VW=320;_VH=240;HAVE_OPENGL;GFXMODULE_SDL;THREADLIB_SDL;HAVE_OPENAL;HAVE_ZIP;HAVE_JOYSTICK;NETPLAY;ZLIB_DLL;USE_INTERNAL_MIKMOD;USE_INTERNAL_LUA;USE_PLATFORM_ACCEL"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -164,10 +164,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib SDL.lib SDLmain.lib SDL_image.lib zdll.lib ws2_32.lib"
-				OutputFile="../../uqm.exe"
+				AdditionalDependencies="SDL.lib SDLmain.lib SDL_image.lib zdll.lib ws2_32.lib user32.lib"
+				OutputFile="../../bin/UrQuanMasters.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="&quot;..\..\dev-lib\Windows\VS2008\lib&quot;;&quot;C:\Program Files\Microsoft Platform SDK\Lib&quot;"
 				IgnoreDefaultLibraryNames="msvcrtd.lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -198,7 +199,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Stripping debug info..."
-				CommandLine="rebase -b 0x400000 -x . &quot;../../uqm.exe&quot;"
+				CommandLine="rebase -b 0x400000 -x . &quot;../../bin/UrQuanMasters.exe&quot;"
 			/>
 		</Configuration>
 		<Configuration
