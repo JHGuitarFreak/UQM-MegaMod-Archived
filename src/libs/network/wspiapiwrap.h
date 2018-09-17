@@ -23,7 +23,7 @@
 #	include <wspiapi.h>  //DC: replaced lower section with this part to (hopefully) compile.
 #endif
 
-#if (_MSC_VER <= 1500)
+#if (_MSC_VER <= 1500 || defined(__MINGW32__))
    // HACK. See wspiapiwrap.c
 #	define getaddrinfo WspiapiGetAddrInfo
 #	define getnameinfo WspiapiGetNameInfo
