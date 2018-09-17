@@ -177,7 +177,7 @@ typedef unsigned short mode_t;
 extern "C" {
 #endif
 int snprintf(char *str, size_t size, const char *format, ...);
-#if (_MSC_VER < 1600)
+#if (_MSC_VER < 1500)
 int vsnprintf(char *str, size_t size, const char *format, va_list args);
 #endif
 #if defined(__cplusplus)
