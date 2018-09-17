@@ -234,7 +234,7 @@ TFB_PlayVideo (VIDEO_REF vid, uint32 x, uint32 y)
 	sr = dr;
     // JMS_GFX: Added this if-clause around the following lines to make the
     // 3DO videos work also in 1280x960. They're still small though.
-    if (resolutionFactor < 2) {
+    if (!resolutionFactor) {
         sr.corner.x = -sr.corner.x;
         sr.corner.y = -sr.corner.y;
         if (!BoxIntersect (&clip_r, &sr, &sr))

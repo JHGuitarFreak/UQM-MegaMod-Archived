@@ -57,17 +57,11 @@ enum
 static BOOLEAN
 PacksInstalled(void){
 	BOOLEAN packsInstalled;
-	
-	switch (resolutionFactor){
-		case 0:
-			packsInstalled = TRUE;
-			break;
-		/*case 1:
-			packsInstalled = (hires2xPackPresent ? TRUE : FALSE);
-			break;*/
-		case 2:
-			packsInstalled = (hires4xPackPresent ? TRUE : FALSE);
-			break;
+
+	if (!resolutionFactor) {
+		packsInstalled = TRUE;
+	} else {
+		packsInstalled = (HDPackPresent ? TRUE : FALSE);
 	}
 
 	return packsInstalled;
@@ -90,33 +84,22 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 		DestroyFont (StarConFont);
 	}	
 
-	// DC: Load the different menus and fonts depending on the resolution factor	
-	switch (resolutionFactor){
-		case 1:
-			if (optRequiresRestart || !PacksInstalled()) {
-				TinyFont = LoadFont (TINY_FALLBACK_TO2X_FONT);
-				PlyrFont = LoadFont (PLYR_FALLBACK_TO2X_FONT);
-				StarConFont = LoadFont (SCON_FALLBACK_TO2X_FONT);
-			}
-			pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM2x));
-			break;
-		case 2:
-			if (optRequiresRestart || !PacksInstalled()) {
-				TinyFont = LoadFont (TINY_FALLBACK_TO4X_FONT);
-				PlyrFont = LoadFont (PLYR_FALLBACK_TO4X_FONT);
-				StarConFont = LoadFont (SCON_FALLBACK_TO4X_FONT);
-			}
-			pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM4x));
-			break;
-		case 0:
-		default:
-			if (optRequiresRestart || !PacksInstalled()) {
-				TinyFont = LoadFont (TINY_FALLBACK_TO1X_FONT);
-				PlyrFont = LoadFont (PLYR_FALLBACK_TO1X_FONT);
-				StarConFont = LoadFont (SCON_FALLBACK_TO1X_FONT);
-			}
-			pMS->CurFrame = CaptureDrawable (LoadGraphic (RESTART_PMAP_ANIM));
-			break;
+	// DC: Load the different menus and fonts depending on the resolution factor
+
+	if (!resolutionFactor) {
+		if (optRequiresRestart || !PacksInstalled()) {
+			TinyFont = LoadFont(TINY_FALLBACK_TO1X_FONT);
+			PlyrFont = LoadFont(PLYR_FALLBACK_TO1X_FONT);
+			StarConFont = LoadFont(SCON_FALLBACK_TO1X_FONT);
+		}
+		pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM));
+	} else {
+		if (optRequiresRestart || !PacksInstalled()) {
+			TinyFont = LoadFont(TINY_FALLBACK_TO4X_FONT);
+			PlyrFont = LoadFont(PLYR_FALLBACK_TO4X_FONT);
+			StarConFont = LoadFont(SCON_FALLBACK_TO4X_FONT);
+		}
+		pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM4x));
 	}
 
 	s.frame = pMS->CurFrame;
