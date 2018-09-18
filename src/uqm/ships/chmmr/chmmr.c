@@ -55,13 +55,7 @@
 #define DEFENSE_RANGE (UWORD)(64 << RESOLUTION_FACTOR)
 #define DEFENSE_WAIT 2
 
-// HD
-#define MAX_THRUST_2XRES 70
-#define THRUST_INCREMENT_2XRES 14
-#define MAX_THRUST_4XRES 140
-#define THRUST_INCREMENT_4XRES 28
-
-static RACE_DESC chmmr_desc1x =
+static RACE_DESC chmmr_desc =
 {
 	{ /* SHIP_INFO */
 		"avatar",
@@ -123,152 +117,6 @@ static RACE_DESC chmmr_desc1x =
 	{
 		0,
 		CLOSE_RANGE_WEAPON,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC chmmr_desc2x =
-{
-	{ /* SHIP_INFO */
-		"avatar",
-		FIRES_FORE | IMMEDIATE_WEAPON | SEEKING_SPECIAL | HEAVY_POINT_DEFENSE,
-		30, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		CHMMR_RACE_STRINGS,
-		CHMMR_ICON_MASK_PMAP_ANIM,
-		CHMMR_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL//, SHIP_IS_NOT_DAMAGED
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			CHMMR_BIG_MASK_PMAP_ANIM,
-			CHMMR_MED_MASK_PMAP_ANIM,
-			CHMMR_SML_MASK_PMAP_ANIM,
-		},
-		{
-			MUZZLE_BIG_MASK_PMAP_ANIM,
-			MUZZLE_MED_MASK_PMAP_ANIM,
-			MUZZLE_SML_MASK_PMAP_ANIM,
-		},
-		{
-			SATELLITE_BIG_MASK_PMAP_ANIM,
-			SATELLITE_MED_MASK_PMAP_ANIM,
-			SATELLITE_SML_MASK_PMAP_ANIM,
-		},
-		{
-			CHMMR_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		CHMMR_VICTORY_SONG,
-		CHMMR_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		CLOSE_RANGE_WEAPON_2XRES,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC chmmr_desc4x =
-{
-	{ /* SHIP_INFO */
-		"avatar",
-		FIRES_FORE | IMMEDIATE_WEAPON | SEEKING_SPECIAL | HEAVY_POINT_DEFENSE,
-		30, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		CHMMR_RACE_STRINGS,
-		CHMMR_ICON_MASK_PMAP_ANIM,
-		CHMMR_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL//, SHIP_IS_NOT_DAMAGED
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			CHMMR_BIG_MASK_PMAP_ANIM,
-			CHMMR_MED_MASK_PMAP_ANIM,
-			CHMMR_SML_MASK_PMAP_ANIM,
-		},
-		{
-			MUZZLE_BIG_MASK_PMAP_ANIM,
-			MUZZLE_MED_MASK_PMAP_ANIM,
-			MUZZLE_SML_MASK_PMAP_ANIM,
-		},
-		{
-			SATELLITE_BIG_MASK_PMAP_ANIM,
-			SATELLITE_MED_MASK_PMAP_ANIM,
-			SATELLITE_SML_MASK_PMAP_ANIM,
-		},
-		{
-			CHMMR_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		CHMMR_VICTORY_SONG,
-		CHMMR_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		CLOSE_RANGE_WEAPON_4XRES,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -517,14 +365,6 @@ chmmr_postprocess (ELEMENT *ElementPtr)
 					DISPLAY_TO_WORLD (8 + 9 + 11 + 14),
 					DISPLAY_TO_WORLD (8 + 9 + 11 + 14 + 18),
 				};
-				static const SIZE shadow_offs_2xres[] =
-				{
-					DISPLAY_TO_WORLD (16),
-					DISPLAY_TO_WORLD (16 + 18),
-					DISPLAY_TO_WORLD (16 + 18 + 22),
-					DISPLAY_TO_WORLD (16 + 18 + 22 + 28),
-					DISPLAY_TO_WORLD (16 + 18 + 22 + 28 + 36),
-				};
 				static const SIZE shadow_offs_4xres[] =
 				{
 					DISPLAY_TO_WORLD (32),
@@ -587,10 +427,8 @@ chmmr_postprocess (ELEMENT *ElementPtr)
 						COUNT shadow_magnitude; // JMS_GFX
 
 						// JMS_GFX
-						if (RESOLUTION_FACTOR == 0)
+						if (RESOLUTION_FACTOR != HD)
 							shadow_magnitude = shadow_offs[i];
-						else if (RESOLUTION_FACTOR == 1)
-							shadow_magnitude = shadow_offs_2xres[i];
 						else
 							shadow_magnitude = shadow_offs_4xres[i];
 
@@ -960,10 +798,13 @@ chmmr_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_chmmr (void)
 {
-	static RACE_DESC chmmr_desc;
-	RACE_DESC *RaceDescPtr;
-	
-	chmmr_desc = (RESOLUTION_FACTOR == 0 ? chmmr_desc1x : (RESOLUTION_FACTOR == 1 ? chmmr_desc2x : chmmr_desc4x));
+	RACE_DESC *RaceDescPtr;	
+
+	if (resolutionFactor == HD) {
+		chmmr_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		chmmr_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		chmmr_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES;
+	}
 
 	chmmr_desc.preprocess_func = chmmr_preprocess;
 	chmmr_desc.postprocess_func = chmmr_postprocess;
