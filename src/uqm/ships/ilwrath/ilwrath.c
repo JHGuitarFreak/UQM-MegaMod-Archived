@@ -52,13 +52,7 @@
 #define SPECIAL_ENERGY_COST 3
 #define SPECIAL_WAIT 13
 
-// HD
-#define MAX_THRUST_2XRES 50
-#define THRUST_INCREMENT_2XRES 10
-#define MAX_THRUST_4XRES 100
-#define THRUST_INCREMENT_4XRES 20
-
-static RACE_DESC ilwrath_desc1x =
+static RACE_DESC ilwrath_desc =
 {
 	{ /* SHIP_INFO */
 		"avenger",
@@ -120,152 +114,6 @@ static RACE_DESC ilwrath_desc1x =
 	{
 		0,
 		CLOSE_RANGE_WEAPON,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC ilwrath_desc2x =
-{
-	{ /* SHIP_INFO */
-		"avenger",
-		FIRES_FORE,
-		10, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		ILWRATH_RACE_STRINGS,
-		ILWRATH_ICON_MASK_PMAP_ANIM,
-		ILWRATH_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		1410 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			48, 1700,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			ILWRATH_BIG_MASK_PMAP_ANIM,
-			ILWRATH_MED_MASK_PMAP_ANIM,
-			ILWRATH_SML_MASK_PMAP_ANIM,
-		},
-		{
-			FIRE_BIG_MASK_PMAP_ANIM,
-			FIRE_MED_MASK_PMAP_ANIM,
-			FIRE_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			ILWRATH_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		ILWRATH_VICTORY_SONG,
-		ILWRATH_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		CLOSE_RANGE_WEAPON_2XRES,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC ilwrath_desc4x =
-{
-	{ /* SHIP_INFO */
-		"avenger",
-		FIRES_FORE,
-		10, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		ILWRATH_RACE_STRINGS,
-		ILWRATH_ICON_MASK_PMAP_ANIM,
-		ILWRATH_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		1410 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			48, 1700,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			ILWRATH_BIG_MASK_PMAP_ANIM,
-			ILWRATH_MED_MASK_PMAP_ANIM,
-			ILWRATH_SML_MASK_PMAP_ANIM,
-		},
-		{
-			FIRE_BIG_MASK_PMAP_ANIM,
-			FIRE_MED_MASK_PMAP_ANIM,
-			FIRE_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			ILWRATH_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		ILWRATH_VICTORY_SONG,
-		ILWRATH_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		CLOSE_RANGE_WEAPON_4XRES,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -548,11 +396,14 @@ ilwrath_preprocess (ELEMENT *ElementPtr)
 
 RACE_DESC*
 init_ilwrath (void)
-{	
-	static RACE_DESC ilwrath_desc;
+{
 	RACE_DESC *RaceDescPtr;
 
-	ilwrath_desc = (RESOLUTION_FACTOR != HD ? ilwrath_desc1x : ilwrath_desc4x);
+	if (resolutionFactor == HD) {
+		ilwrath_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		ilwrath_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		ilwrath_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES;
+	}
 
 	ilwrath_desc.preprocess_func = ilwrath_preprocess;
 	ilwrath_desc.init_weapon_func = initialize_flame;

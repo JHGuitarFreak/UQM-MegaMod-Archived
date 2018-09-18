@@ -57,14 +57,9 @@
 #define CMISSILE_OFFSET RES_SCALE(4)
 
 // HD
-#define MAX_THRUST_2XRES 72
-#define THRUST_INCREMENT_2XRES 12
-#define PUMPUP_SPEED_2XRES DISPLAY_TO_WORLD (90)
-#define MAX_THRUST_4XRES 144
-#define THRUST_INCREMENT_4XRES 24
 #define PUMPUP_SPEED_4XRES DISPLAY_TO_WORLD (180)
 
-static RACE_DESC melnorme_desc1x =
+static RACE_DESC melnorme_desc =
 {
 	{ /* SHIP_INFO */
 		"trader",
@@ -126,152 +121,6 @@ static RACE_DESC melnorme_desc1x =
 	{
 		0,
 		PUMPUP_SPEED * PUMPUP_LIFE,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC melnorme_desc2x =
-{
-	{ /* SHIP_INFO */
-		"trader",
-		FIRES_FORE,
-		18, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		MELNORME_RACE_STRINGS,
-		MELNORME_ICON_MASK_PMAP_ANIM,
-		MELNORME_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		INFINITE_RADIUS, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			MAX_X_UNIVERSE >> 1, MAX_Y_UNIVERSE >> 1,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			MELNORME_BIG_MASK_PMAP_ANIM,
-			MELNORME_MED_MASK_PMAP_ANIM,
-			MELNORME_SML_MASK_PMAP_ANIM,
-		},
-		{
-			PUMPUP_BIG_MASK_PMAP_ANIM,
-			PUMPUP_MED_MASK_PMAP_ANIM,
-			PUMPUP_SML_MASK_PMAP_ANIM,
-		},
-		{
-			CONFUSE_BIG_MASK_PMAP_ANIM,
-			CONFUSE_MED_MASK_PMAP_ANIM,
-			CONFUSE_SML_MASK_PMAP_ANIM,
-		},
-		{
-			MELNORME_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		MELNORME_VICTORY_SONG,
-		MELNORME_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		PUMPUP_SPEED_2XRES * PUMPUP_LIFE,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC melnorme_desc4x =
-{
-	{ /* SHIP_INFO */
-		"trader",
-		FIRES_FORE,
-		18, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		MELNORME_RACE_STRINGS,
-		MELNORME_ICON_MASK_PMAP_ANIM,
-		MELNORME_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		INFINITE_RADIUS, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			MAX_X_UNIVERSE >> 1, MAX_Y_UNIVERSE >> 1,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			MELNORME_BIG_MASK_PMAP_ANIM,
-			MELNORME_MED_MASK_PMAP_ANIM,
-			MELNORME_SML_MASK_PMAP_ANIM,
-		},
-		{
-			PUMPUP_BIG_MASK_PMAP_ANIM,
-			PUMPUP_MED_MASK_PMAP_ANIM,
-			PUMPUP_SML_MASK_PMAP_ANIM,
-		},
-		{
-			CONFUSE_BIG_MASK_PMAP_ANIM,
-			CONFUSE_MED_MASK_PMAP_ANIM,
-			CONFUSE_SML_MASK_PMAP_ANIM,
-		},
-		{
-			MELNORME_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		MELNORME_VICTORY_SONG,
-		MELNORME_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		PUMPUP_SPEED_4XRES * PUMPUP_LIFE,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -349,7 +198,14 @@ pump_up_postprocess (ELEMENT *ElementPtr)
 						StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2),
 						EPtr);
 			}
-			EPtr->thrust_wait = LEVEL_COUNTER;
+			if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) &&
+				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) ||
+				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
+			{
+				EPtr->thrust_wait = 5;
+			} else {
+				EPtr->thrust_wait = LEVEL_COUNTER;
+			}
 		}
 
 		EPtr->mass_points = EPtr->hit_points =
@@ -493,7 +349,14 @@ initialize_pump_up (ELEMENT *ShipPtr, HELEMENT PumpUpArray[])
 		LockElement (PumpUpArray[0], &PumpUpPtr);
 		PumpUpPtr->postprocess_func = pump_up_postprocess;
 		PumpUpPtr->collision_func = pump_up_collision;
-		PumpUpPtr->thrust_wait = LEVEL_COUNTER;
+		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) &&
+			(((PlayerControl[0] & COMPUTER_CONTROL) && StarShipPtr->playerNr == 1) ||
+			((PlayerControl[1] & COMPUTER_CONTROL) && StarShipPtr->playerNr == 0))))
+		{
+			PumpUpPtr->thrust_wait = 5;
+		} else {
+			PumpUpPtr->thrust_wait = LEVEL_COUNTER;
+		}
 		UnlockElement (PumpUpArray[0]);
 	}
 
@@ -807,10 +670,13 @@ melnorme_postprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_melnorme (void)
 {
-	static RACE_DESC melnorme_desc;
 	RACE_DESC *RaceDescPtr;
 
-	melnorme_desc = (RESOLUTION_FACTOR != HD ? melnorme_desc1x : melnorme_desc4x);
+	if (resolutionFactor == HD) {
+		melnorme_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		melnorme_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		melnorme_desc.cyborg_control.WeaponRange = PUMPUP_SPEED_4XRES * PUMPUP_LIFE;
+	}
 
 	melnorme_desc.postprocess_func = melnorme_postprocess;
 	melnorme_desc.init_weapon_func = initialize_pump_up;

@@ -53,13 +53,7 @@
 #define SPECIAL_WAIT 9
 #define LASER_RANGE (UWORD)RES_SCALE(100)
 
-// HD
-#define MAX_THRUST_2XRES /* DISPLAY_TO_WORLD (12) */ 48
-#define THRUST_INCREMENT_2XRES /* DISPLAY_TO_WORLD (4) */ 6
-#define MAX_THRUST_4XRES /* DISPLAY_TO_WORLD (24) */ 96
-#define THRUST_INCREMENT_4XRES /* DISPLAY_TO_WORLD (8) */ 12
-
-static RACE_DESC human_desc1x =
+static RACE_DESC human_desc =
 {
 	{ /* SHIP_INFO */
 		"cruiser",
@@ -121,152 +115,6 @@ static RACE_DESC human_desc1x =
 	{
 		0,
 		LONG_RANGE_WEAPON,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC human_desc2x =
-{
-	{ /* SHIP_INFO */
-		"cruiser",
-		FIRES_FORE | SEEKING_WEAPON | LIGHT_POINT_DEFENSE,
-		11, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		HUMAN_RACE_STRINGS,
-		HUMAN_ICON_MASK_PMAP_ANIM,
-		HUMAN_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			1752, 1450,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			HUMAN_BIG_MASK_PMAP_ANIM,
-			HUMAN_MED_MASK_PMAP_ANIM,
-			HUMAN_SML_MASK_PMAP_ANIM,
-		},
-		{
-			SATURN_BIG_MASK_PMAP_ANIM,
-			SATURN_MED_MASK_PMAP_ANIM,
-			SATURN_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			HUMAN_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		HUMAN_VICTORY_SONG,
-		HUMAN_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		LONG_RANGE_WEAPON_2XRES,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC human_desc4x =
-{
-	{ /* SHIP_INFO */
-		"cruiser",
-		FIRES_FORE | SEEKING_WEAPON | LIGHT_POINT_DEFENSE,
-		11, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		HUMAN_RACE_STRINGS,
-		HUMAN_ICON_MASK_PMAP_ANIM,
-		HUMAN_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			1752, 1450,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			HUMAN_BIG_MASK_PMAP_ANIM,
-			HUMAN_MED_MASK_PMAP_ANIM,
-			HUMAN_SML_MASK_PMAP_ANIM,
-		},
-		{
-			SATURN_BIG_MASK_PMAP_ANIM,
-			SATURN_MED_MASK_PMAP_ANIM,
-			SATURN_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			HUMAN_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		HUMAN_VICTORY_SONG,
-		HUMAN_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		LONG_RANGE_WEAPON_4XRES,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -499,10 +347,13 @@ human_postprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_human (void)
 {
-	static RACE_DESC human_desc;
 	RACE_DESC *RaceDescPtr;
 
-	human_desc = (RESOLUTION_FACTOR != HD ? human_desc1x : human_desc4x);
+	if (resolutionFactor == HD) {
+		human_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		human_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		human_desc.cyborg_control.WeaponRange = LONG_RANGE_WEAPON_4XRES;
+	}
 
 	human_desc.postprocess_func = human_postprocess;
 	human_desc.init_weapon_func = initialize_nuke;
