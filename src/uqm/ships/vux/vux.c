@@ -535,7 +535,7 @@ init_vux (void)
 	static RACE_DESC vux_desc;
 	RACE_DESC *RaceDescPtr;
 
-	vux_desc = (RESOLUTION_FACTOR == 0 ? vux_desc1x : (RESOLUTION_FACTOR == 1 ? vux_desc2x : vux_desc4x));
+	vux_desc = (RESOLUTION_FACTOR != HD ? vux_desc1x : vux_desc4x);
 
 	vux_desc.preprocess_func = vux_preprocess;
 	vux_desc.postprocess_func = vux_postprocess;

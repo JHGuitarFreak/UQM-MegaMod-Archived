@@ -77,7 +77,7 @@ ConfirmSaveLoad (STAMP *MsgStamp)
 	{
 		*MsgStamp = SaveContextFrame (&r);
 	}
-	if (RESOLUTION_FACTOR == 0) {
+	if (RESOLUTION_FACTOR != HD) {
 		DrawStarConBox (&r, 2,
 						BUILD_COLOR (MAKE_RGB15 (0x10, 0x10, 0x10), 0x19),
 						BUILD_COLOR (MAKE_RGB15 (0x08, 0x08, 0x08), 0x1F),
@@ -1041,7 +1041,7 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 		// the thinner lines/text would be hard to see.
 		SetContextForeGroundColor ((curSlot == selSlot) ?
 				(BUILD_COLOR (MAKE_RGB15 (0x1B, 0x00, 0x1B), 0x33)): 
-				( RESOLUTION_FACTOR == 0 ?
+				( RESOLUTION_FACTOR != HD ?
 				(BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x14), 0x01)) : (BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x19), 0x01))));
 		r.extent.width = 15 << RESOLUTION_FACTOR; // JMS_GFX
 		if (MAX_SAVED_GAMES > 99)

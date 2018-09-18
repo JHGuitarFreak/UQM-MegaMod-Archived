@@ -820,12 +820,11 @@ spawn_ion_trail (ELEMENT *ElementPtr, SIZE x_offset, SIZE y_offset)
 				// times, by setting life_span to thrust_wait.
 
 		// JMS_GFX
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			SetPrimType (&DisplayArray[IonElementPtr->PrimIndex], POINT_PRIM);
 			IonElementPtr->current.image.frame = DecFrameIndex (stars_in_space);
 			IonElementPtr->current.image.farray = &stars_in_space;
-		}
-		else {
+		} else {
 			SetPrimType (&DisplayArray[IonElementPtr->PrimIndex], STAMPFILL_PRIM);
 			IonElementPtr->current.image.frame = SetAbsFrameIndex (ion_trails[0], 0);
 			IonElementPtr->current.image.farray = ion_trails;
@@ -843,7 +842,7 @@ spawn_ion_trail (ELEMENT *ElementPtr, SIZE x_offset, SIZE y_offset)
 				(COORD)SINE (angle, r.extent.height) + y_offset;
 		IonElementPtr->death_func = cycle_ion_trail;
 
-		if (RESOLUTION_FACTOR > 0) {
+		if (RESOLUTION_FACTOR == HD) {
 			IonElementPtr->next.image.frame = IonElementPtr->current.image.frame;
 			IonElementPtr->next.image.farray = IonElementPtr->current.image.farray;
 		}

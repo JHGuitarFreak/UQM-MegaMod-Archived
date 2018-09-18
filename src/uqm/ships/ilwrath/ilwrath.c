@@ -552,7 +552,7 @@ init_ilwrath (void)
 	static RACE_DESC ilwrath_desc;
 	RACE_DESC *RaceDescPtr;
 
-	ilwrath_desc = (RESOLUTION_FACTOR == 0 ? ilwrath_desc1x : (RESOLUTION_FACTOR == 1 ? ilwrath_desc2x : ilwrath_desc4x));
+	ilwrath_desc = (RESOLUTION_FACTOR != HD ? ilwrath_desc1x : ilwrath_desc4x);
 
 	ilwrath_desc.preprocess_func = ilwrath_preprocess;
 	ilwrath_desc.init_weapon_func = initialize_flame;

@@ -389,7 +389,7 @@ DoPresentation (void *pIS)
 
 			SetContextFont (*pFont);
 		}		
-		else if (strcmp (Opcode, "FONT1X") == 0 && RESOLUTION_FACTOR == 0)
+		else if (strcmp (Opcode, "FONT1X") == 0 && RESOLUTION_FACTOR != HD)
 		{	/* set and/or load a font */
 			int index;
 			FONT *pFont;
@@ -413,31 +413,7 @@ DoPresentation (void *pIS)
 			}
 			SetContextFont (*pFont);
 		}
-		else if (strcmp (Opcode, "FONT2X") == 0 && RESOLUTION_FACTOR == 1)
-		{	/* set and/or load a font */
-			int index;
-			FONT *pFont;
-			
-			assert (sizeof (pPIS->Buffer) >= 256);
-			
-			pPIS->Buffer[0] = '\0';
-			if (1 > sscanf (pStr, "%d %255[^\n]", &index, pPIS->Buffer) ||
-				index < 0 || index >= MAX_FONTS)
-			{
-				log_add (log_Warning, "Bad FONT command '%s'", pStr);
-				continue;
-			}
-			pFont = &pPIS->Fonts[index];
-			
-			if (pPIS->Buffer[0])
-			{	/* asked to load a font */
-				if (*pFont)
-					DestroyFont (*pFont);
-				*pFont = LoadFontFile (pPIS->Buffer);
-			}
-			SetContextFont (*pFont);;
-		}
-		else if (strcmp (Opcode, "FONT4X") == 0 && RESOLUTION_FACTOR == 2)
+		else if (strcmp (Opcode, "FONT4X") == 0 && RESOLUTION_FACTOR == HD)
 		{	/* set and/or load a font */
 			int index;
 			FONT *pFont;
@@ -468,21 +444,14 @@ DoPresentation (void *pIS)
 				DestroyDrawable (ReleaseDrawable (pPIS->Frame));
 			pPIS->Frame = CaptureDrawable (LoadGraphicFile (pPIS->Buffer));
 		}
-		else if (strcmp (Opcode, "ANI1X") == 0 && RESOLUTION_FACTOR == 0)
+		else if (strcmp (Opcode, "ANI1X") == 0 && RESOLUTION_FACTOR != HD)
 		{	/* set ani */
 			utf8StringCopy (pPIS->Buffer, sizeof (pPIS->Buffer), pStr);
 			if (pPIS->Frame)
 				DestroyDrawable (ReleaseDrawable (pPIS->Frame));
 			pPIS->Frame = CaptureDrawable (LoadGraphicFile (pPIS->Buffer));
 		}
-		else if (strcmp (Opcode, "ANI2X") == 0 && RESOLUTION_FACTOR == 1)
-		{	/* set ani */
-			utf8StringCopy (pPIS->Buffer, sizeof (pPIS->Buffer), pStr);
-			if (pPIS->Frame)
-				DestroyDrawable (ReleaseDrawable (pPIS->Frame));
-			pPIS->Frame = CaptureDrawable (LoadGraphicFile (pPIS->Buffer));
-		}
-		else if (strcmp (Opcode, "ANI4X") == 0 && RESOLUTION_FACTOR == 2)
+		else if (strcmp (Opcode, "ANI4X") == 0 && RESOLUTION_FACTOR == HD)
 		{	/* set ani */
 			utf8StringCopy (pPIS->Buffer, sizeof (pPIS->Buffer), pStr);
 			if (pPIS->Frame)

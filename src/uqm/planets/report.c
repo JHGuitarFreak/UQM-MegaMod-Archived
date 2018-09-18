@@ -49,7 +49,7 @@ ClearReportArea (void)
 	COORD startx;
 
 	// JMS_GFX
-	if (RESOLUTION_FACTOR > 0) {
+	if (RESOLUTION_FACTOR == HD) {
 		emptycols = NUM_CELL_COLS + 1;
 		emptyrows = NUM_CELL_ROWS + 1;
 	} else {

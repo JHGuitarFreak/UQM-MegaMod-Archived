@@ -854,9 +854,7 @@ DoPickPlanetSide (MENU_STATE *pMS)
 			// Since I couldn't find that mysterious element, I had to do speed things up
 			// with a loop and this thing here.
 			// XXX: Actually, with the optimized release build the best solution now seems is to keep all at 1/40th, but keep the loop...
-			if (RESOLUTION_FACTOR == 0)
-				SleepThreadUntil (TimeIn + ONE_SECOND / 40);
-			else if (RESOLUTION_FACTOR == 1)
+			if (RESOLUTION_FACTOR != HD)
 				SleepThreadUntil (TimeIn + ONE_SECOND / 40);
 			else
 				SleepThreadUntil (TimeIn + ONE_SECOND / 40);
@@ -1372,7 +1370,7 @@ generateBioNode (SOLARSYS_STATE *system, ELEMENT *NodeElementPtr,
 		i = TFB_Random ();
 		j = (DWORD)TFB_Random ();
 		
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			NodeElementPtr->current.location.x = (LOBYTE (i) % (MAP_WIDTH - (8 << 1))) + 8;
 			NodeElementPtr->current.location.y = (HIBYTE (i) % (MAP_HEIGHT - (8 << 1))) + 8;
 		} else {

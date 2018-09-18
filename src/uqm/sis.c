@@ -1067,7 +1067,7 @@ DeltaSISGauges_crewDelta (SIZE crew_delta)
 		GetGaugeRect (&r, TRUE);
 		
 		t.baseline.x = STATUS_WIDTH >> 1;
-		t.baseline.y = r.corner.y + r.extent.height - (RESOLUTION_FACTOR == 1 ? 1 : 0); // JMS_GFX
+		t.baseline.y = r.corner.y + r.extent.height; // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.pStr = buf;
 		t.CharCount = (COUNT)~0;
@@ -1129,7 +1129,7 @@ DeltaSISGauges_fuelDelta (SIZE fuel_delta)
 		GetGaugeRect (&r, FALSE);
 		
 		t.baseline.x = STATUS_WIDTH >> 1;
-		t.baseline.y = r.corner.y + r.extent.height - (RESOLUTION_FACTOR == 1 ? 1 : 0); // JMS_GFX
+		t.baseline.y = r.corner.y + r.extent.height; // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.pStr = buf;
 		t.CharCount = (COUNT)~0;

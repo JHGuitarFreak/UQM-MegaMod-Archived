@@ -112,10 +112,10 @@ DrawLabelAsWindow (WIDGET_LABEL *label, RECT *windowRect)
 		int len = utf8StringCount (label->lines[i]);
 		if (len > win_w)
 		{
-			win_w = (RESOLUTION_FACTOR < 2 ? len : len * 2);
+			win_w = (RESOLUTION_FACTOR != HD ? len : len * 2);
 		}
 	}
-	extra = (RESOLUTION_FACTOR < 1 ? 6 : (label->line_count == 3 ? 12 : 6));
+	extra = (RESOLUTION_FACTOR != HD ? 6 : (label->line_count == 3 ? 12 : 6));
 	win_w = (win_w * extra) + 16;
 
 	BatchGraphics ();

@@ -549,7 +549,7 @@ intruder_preprocess (ELEMENT *ElementPtr)
 			{
 				--ElementPtr->thrust_wait;
 
-				if (RESOLUTION_FACTOR < 2) {
+				if (RESOLUTION_FACTOR != HD) {
 					s.origin.x = (16 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 					s.origin.y = (14 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 				} else {
@@ -569,7 +569,7 @@ intruder_preprocess (ELEMENT *ElementPtr)
 				UnlockElement (hElement);
 				hElement = 0;
 LeftShip:
-				if (RESOLUTION_FACTOR < 2) {
+				if (RESOLUTION_FACTOR != HD) {
 					s.origin.x = (16 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 					s.origin.y = (14 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 				} else {
@@ -608,7 +608,7 @@ LeftShip:
 					}
 
 					++ElementPtr->thrust_wait;
-					if (RESOLUTION_FACTOR < 2) {
+					if (RESOLUTION_FACTOR != HD) {
 						s.origin.x = (16 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 						s.origin.y = (14 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 					} else {
@@ -951,7 +951,7 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 				ElementPtr0->state_flags &= ~CREW_OBJECT;
 				SetPrimType (&(GLOBAL (DisplayArray))[ElementPtr0->PrimIndex], NO_PRIM);
 				ElementPtr0->preprocess_func = intruder_preprocess;
-				if (RESOLUTION_FACTOR < 2) {
+				if (RESOLUTION_FACTOR != HD) {
 					s.origin.x = (16 << RESOLUTION_FACTOR) + (ElementPtr0->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 					s.origin.y = (14 << RESOLUTION_FACTOR) + (ElementPtr0->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 				} else {
@@ -1235,7 +1235,7 @@ init_orz (void)
 	static RACE_DESC orz_desc;
 	RACE_DESC *RaceDescPtr;
 
-	orz_desc = (RESOLUTION_FACTOR == 0 ? orz_desc1x : (RESOLUTION_FACTOR == 1 ? orz_desc2x : orz_desc4x));
+	orz_desc = (RESOLUTION_FACTOR != HD ? orz_desc1x : orz_desc4x);
 
 	orz_desc.preprocess_func = orz_preprocess;
 	orz_desc.init_weapon_func = initialize_turret_missile;

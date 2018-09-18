@@ -653,7 +653,7 @@ init_mmrnmhrm (void)
 	static RACE_DESC new_mmrnmhrm_desc;
 	MMRNMHRM_DATA otherwing_desc;
 
-	mmrnmhrm_desc = (RESOLUTION_FACTOR == 0 ? mmrnmhrm_desc1x : (RESOLUTION_FACTOR == 1 ? mmrnmhrm_desc2x : mmrnmhrm_desc4x));
+	mmrnmhrm_desc = (RESOLUTION_FACTOR != HD ? mmrnmhrm_desc1x : mmrnmhrm_desc4x);
 
 	mmrnmhrm_desc.uninit_func = uninit_mmrnmhrm;
 	mmrnmhrm_desc.preprocess_func = mmrnmhrm_preprocess;

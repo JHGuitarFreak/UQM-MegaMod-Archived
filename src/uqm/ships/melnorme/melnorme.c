@@ -810,7 +810,7 @@ init_melnorme (void)
 	static RACE_DESC melnorme_desc;
 	RACE_DESC *RaceDescPtr;
 
-	melnorme_desc = (RESOLUTION_FACTOR == 0 ? melnorme_desc1x : (RESOLUTION_FACTOR == 1 ? melnorme_desc2x : melnorme_desc4x));
+	melnorme_desc = (RESOLUTION_FACTOR != HD ? melnorme_desc1x : melnorme_desc4x);
 
 	melnorme_desc.postprocess_func = melnorme_postprocess;
 	melnorme_desc.init_weapon_func = initialize_pump_up;

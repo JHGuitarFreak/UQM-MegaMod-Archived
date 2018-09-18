@@ -770,7 +770,7 @@ init_pkunk (void)
 	RACE_DESC *RaceDescPtr;
 	PKUNK_DATA empty_data;
 
-	pkunk_desc = (RESOLUTION_FACTOR == 0 ? pkunk_desc1x : (RESOLUTION_FACTOR == 1 ? pkunk_desc2x : pkunk_desc4x));
+	pkunk_desc = (RESOLUTION_FACTOR != HD ? pkunk_desc1x : pkunk_desc4x);
 
 	// The caller of this func will copy the struct
 	memset (&empty_data, 0, sizeof (empty_data));

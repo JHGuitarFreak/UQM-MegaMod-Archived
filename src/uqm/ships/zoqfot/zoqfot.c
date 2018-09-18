@@ -524,7 +524,7 @@ init_zoqfotpik (void)
 	static RACE_DESC zoqfotpik_desc;
 	RACE_DESC *RaceDescPtr;
 
-	zoqfotpik_desc = (RESOLUTION_FACTOR == 0 ? zoqfotpik_desc1x : (RESOLUTION_FACTOR == 1 ? zoqfotpik_desc2x : zoqfotpik_desc4x));
+	zoqfotpik_desc = (RESOLUTION_FACTOR != HD ? zoqfotpik_desc1x : zoqfotpik_desc4x);
 
 	zoqfotpik_desc.postprocess_func = zoqfotpik_postprocess;
 	zoqfotpik_desc.init_weapon_func = initialize_spit;

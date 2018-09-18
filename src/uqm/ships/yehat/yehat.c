@@ -514,7 +514,7 @@ init_yehat (void)
 	static RACE_DESC yehat_desc;
 	RACE_DESC *RaceDescPtr;
 
-	yehat_desc = (RESOLUTION_FACTOR == 0 ? yehat_desc1x : (RESOLUTION_FACTOR == 1 ? yehat_desc2x : yehat_desc4x));
+	yehat_desc = (RESOLUTION_FACTOR != HD ? yehat_desc1x : yehat_desc4x);
 
 	yehat_desc.preprocess_func = yehat_preprocess;
 	yehat_desc.postprocess_func = yehat_postprocess;

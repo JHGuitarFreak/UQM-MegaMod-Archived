@@ -575,7 +575,7 @@ init_umgah (void)
 	static RACE_DESC umgah_desc;
 	RACE_DESC *RaceDescPtr;
 
-	umgah_desc = (RESOLUTION_FACTOR == 0 ? umgah_desc1x : (RESOLUTION_FACTOR == 1 ? umgah_desc2x : umgah_desc4x));
+	umgah_desc = (RESOLUTION_FACTOR != HD ? umgah_desc1x : umgah_desc4x);
 
 	umgah_desc.uninit_func = uninit_umgah;
 	umgah_desc.preprocess_func = umgah_preprocess;

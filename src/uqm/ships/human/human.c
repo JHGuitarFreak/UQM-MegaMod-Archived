@@ -502,7 +502,7 @@ init_human (void)
 	static RACE_DESC human_desc;
 	RACE_DESC *RaceDescPtr;
 
-	human_desc = (RESOLUTION_FACTOR == 0 ? human_desc1x : (RESOLUTION_FACTOR == 1 ? human_desc2x : human_desc4x));
+	human_desc = (RESOLUTION_FACTOR != HD ? human_desc1x : human_desc4x);
 
 	human_desc.postprocess_func = human_postprocess;
 	human_desc.init_weapon_func = initialize_nuke;

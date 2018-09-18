@@ -471,7 +471,7 @@ init_druuge (void)
 	static RACE_DESC druuge_desc;
 	RACE_DESC *RaceDescPtr;
 
-	druuge_desc = (RESOLUTION_FACTOR == 0 ? druuge_desc1x : (RESOLUTION_FACTOR == 1 ? druuge_desc2x : druuge_desc4x));
+	druuge_desc = (RESOLUTION_FACTOR != HD ? druuge_desc1x : druuge_desc4x);
 
 	druuge_desc.preprocess_func = druuge_preprocess;
 	druuge_desc.postprocess_func = druuge_postprocess;

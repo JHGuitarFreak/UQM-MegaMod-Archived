@@ -265,14 +265,14 @@ InitGalaxy (void)
 			SetPrimColor (&DisplayArray[p],
 					BUILD_COLOR (MAKE_RGB15 (0x0B, 0x0B, 0x1F), 0x09));
 			// JMS_GFX: This was originally only "DisplayArray[p].Object.Stamp.frame = stars_in_space;"
-			if (RESOLUTION_FACTOR == 0 || (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
+			if (RESOLUTION_FACTOR != HD || (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
 				DisplayArray[p].Object.Stamp.frame = stars_in_space;
 			else
 				DisplayArray[p].Object.Stamp.frame = stars_in_quasispace;
 		}
 		else
 		{
-			if(RESOLUTION_FACTOR > 0){
+			if(RESOLUTION_FACTOR == HD){
 				// In HD the starpoints in HS and QS are images
 				SetPrimType (&DisplayArray[p], STAMP_PRIM);
 				if (LOBYTE (GLOBAL (CurrentActivity)) != IN_HYPERSPACE){
@@ -338,7 +338,7 @@ MoveGalaxy (VIEW_STATE view_state, SDWORD dx, SDWORD dy)
 		reduction = zoom_out;
 
 		// JMS_GFX
-		if (RESOLUTION_FACTOR == 0 || (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
+		if (RESOLUTION_FACTOR != HD || (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
 			tempframe = stars_in_space;
 		else
 			tempframe = stars_in_quasispace;
@@ -385,7 +385,7 @@ MoveGalaxy (VIEW_STATE view_state, SDWORD dx, SDWORD dy)
 					if (reduction > (1 << ZOOM_SHIFT))
 					{
 						// JMS_GFX: In hi-res modes, Closest stars are images when zoomed out.
-						if (RESOLUTION_FACTOR == 0)
+						if (RESOLUTION_FACTOR != HD)
 							star_object[0] = POINT_PRIM;
 						else
 						{
@@ -404,7 +404,7 @@ MoveGalaxy (VIEW_STATE view_state, SDWORD dx, SDWORD dy)
 				}
 
 				// Normal handling of stars in 320x240.
-				if (RESOLUTION_FACTOR == 0)
+				if (RESOLUTION_FACTOR != HD)
 				{
 					for (iss = 0, pprim = DisplayArray; iss < 2; ++iss)
 					{

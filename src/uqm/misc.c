@@ -90,7 +90,7 @@ spawn_rubble (ELEMENT *AsteroidElementPtr)
 		RubbleElementPtr->current.image.farray = asteroid;
 		
 		// JMS_GFX
-		if (RESOLUTION_FACTOR == 0)
+		if (RESOLUTION_FACTOR != HD)
 			RubbleElementPtr->current.image.frame = SetAbsFrameIndex (asteroid[0], ANGLE_TO_FACING (FULL_CIRCLE));
 		else
 			RubbleElementPtr->current.image.frame = SetAbsFrameIndex (asteroid[0], 29);
@@ -118,7 +118,7 @@ asteroid_preprocess (ELEMENT *ElementPtr)
 			++frame_index;
 		
 		// JMS_GFX
-		if (RESOLUTION_FACTOR == 0)
+		if (RESOLUTION_FACTOR != HD)
 			ElementPtr->next.image.frame = SetAbsFrameIndex (ElementPtr->current.image.frame, NORMALIZE_FACING (frame_index));
 		else
 			ElementPtr->next.image.frame = SetAbsFrameIndex (ElementPtr->current.image.frame, frame_index % 30);
@@ -360,7 +360,7 @@ AbandonShip (ELEMENT *ShipPtr, ELEMENT *TargetPtr,
 		CrewPtr->hit_points = 1;
 		CrewPtr->state_flags = APPEARING | FINITE_LIFE | CREW_OBJECT;
 		CrewPtr->life_span = CREW_LIFE;
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			SetPrimType (&DisplayArray[CrewPtr->PrimIndex], POINT_PRIM);
 			CrewPtr->current.image.frame = DecFrameIndex (stars_in_space);
 			CrewPtr->current.image.farray = &stars_in_space;

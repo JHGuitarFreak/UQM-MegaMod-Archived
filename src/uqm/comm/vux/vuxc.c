@@ -404,7 +404,7 @@ CombatIsInevitable (RESPONSE_REF R)
 
 		AlienTalkSegue (1);
 
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			XFormColorMap (GetColorMapAddress (
 					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
 					), ONE_SECOND / 4);
@@ -979,7 +979,7 @@ init_vux_comm (void)
 	static LOCDATA vux_desc;
  	LOCDATA *retval;
 	
-	vux_desc = (RESOLUTION_FACTOR == 0 ? vux_desc_1x : vux_desc_4x);
+	vux_desc = (RESOLUTION_FACTOR != HD ? vux_desc_1x : vux_desc_4x);
 
 	vux_desc.init_encounter_func = Intro;
 	vux_desc.post_encounter_func = post_vux_enc;

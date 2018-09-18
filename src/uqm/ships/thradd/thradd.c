@@ -546,7 +546,7 @@ init_thraddash (void)
 	static RACE_DESC thraddash_desc;
 	RACE_DESC *RaceDescPtr;
 
-	thraddash_desc = (RESOLUTION_FACTOR == 0 ? thraddash_desc1x : (RESOLUTION_FACTOR == 1 ? thraddash_desc2x : thraddash_desc4x));
+	thraddash_desc = (RESOLUTION_FACTOR != HD ? thraddash_desc1x : thraddash_desc4x);
 
 	thraddash_desc.preprocess_func = thraddash_preprocess;
 	thraddash_desc.init_weapon_func = initialize_horn;

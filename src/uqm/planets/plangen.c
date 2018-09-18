@@ -1746,7 +1746,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 
 
 
-	PlanetOrbitInit (Width, (inOrbit && RESOLUTION_FACTOR > 1 ? (Height + 1) : Height), inOrbit);
+	PlanetOrbitInit (Width, (inOrbit && RESOLUTION_FACTOR == HD ? (Height + 1) : Height), inOrbit);
 
 	PlanDataPtr = &PlanData[pPlanetDesc->data_index & ~PLANET_SHIELDED];
 

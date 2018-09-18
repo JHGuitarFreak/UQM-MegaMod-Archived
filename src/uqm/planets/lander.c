@@ -470,12 +470,9 @@ DeltaLanderCrew (SIZE crew_delta, COUNT which_disaster)
 				NotPositional (), NULL, GAME_SOUND_PRIORITY);
 	}
 
-	if (RESOLUTION_FACTOR == 0) {
+	if (RESOLUTION_FACTOR != HD) {
 		s.origin.x = ((11 + ((6 << RESOLUTION_FACTOR) * (crew_delta % NUM_CREW_COLS)))); // JMS_GFX
 		s.origin.y = (35 - (6 * (crew_delta / NUM_CREW_COLS))) << RESOLUTION_FACTOR; // JMS_GFX
-	} else if (RESOLUTION_FACTOR == 1) {
-		s.origin.x = ((23 + ((6 << RESOLUTION_FACTOR) * (crew_delta % NUM_CREW_COLS)))); // JMS_GFX
-		s.origin.y = 1 + ((35 - (6 * (crew_delta / NUM_CREW_COLS))) << RESOLUTION_FACTOR); // JMS_GFX
 	} else {
 		s.origin.x = 32 + ((9 * RESOLUTION_FACTOR) * (crew_delta % NUM_CREW_COLS)); // JMS_GFX
 		s.origin.y = (52 * RESOLUTION_FACTOR - (9 * RESOLUTION_FACTOR * (crew_delta / NUM_CREW_COLS))); // JMS_GFX
@@ -529,10 +526,6 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 	if (scan == MINERAL_SCAN && GET_GAME_STATE (IMPROVED_LANDER_CARGO))
 	{
 		start_count >>= 1;
-		
-		// JMS_GFX
-		if (RESOLUTION_FACTOR == 1)
-			start_count += rounding_error_startcount;
 	}
 
 	s.origin.x = 0;
@@ -543,13 +536,10 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 	OldContext = SetContext (RadarContext);	
 	
 	// JMS_GFX
-	if (scan == MINERAL_SCAN && GET_GAME_STATE (IMPROVED_LANDER_CARGO) && RESOLUTION_FACTOR > 0)
+	if (scan == MINERAL_SCAN && GET_GAME_STATE (IMPROVED_LANDER_CARGO) && RESOLUTION_FACTOR == HD)
 	{
 		NumRetrieved *= RES_STAT_SCALE(1);
 		NumRetrieved >>= 1;
-		
-		if (RESOLUTION_FACTOR == 1)
-			NumRetrieved += rounding_error_numretrieved;
 	}
 
 	while (NumRetrieved--)
@@ -864,7 +854,7 @@ CheckObjectCollision (COUNT index)
 							case EARTHQUAKE_DISASTER:
 							case LAVASPOT_DISASTER:
 								if (scan == LAVASPOT_DISASTER 
-									&& RESOLUTION_FACTOR == 2 
+									&& RESOLUTION_FACTOR == HD 
 									&& TFB_Random () % 100 < 9)
 									DeltaLanderCrew (-1, scan);
 								else if (TFB_Random () % 100 < 25)
@@ -1054,7 +1044,7 @@ AddLightning (void)
 		rand_val = TFB_Random ();
 		LightningElementPtr->life_span = 10 + (HIWORD (rand_val) % 10) + 1;
 
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			LightningElementPtr->next.location.x = (curLanderLoc.x
 				+ ((MAP_WIDTH << MAG_SHIFT) - ((SURFACE_WIDTH >> 1) - 6))
 				+ (LOBYTE (rand_val) % (SURFACE_WIDTH - 12))
@@ -1451,7 +1441,7 @@ AnimateLaunch (FRAME farray, BOOLEAN landing)
 	}
 
 	// This clears the last lander return / launch) anim frame from the planet window.
-	if (RESOLUTION_FACTOR == 0 || !landing)
+	if (RESOLUTION_FACTOR != HD || !landing)
 		RepairBackRect (&r, FALSE);
 }
 
@@ -1934,14 +1924,14 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 	delta = 0;
 	// JMS_GFX: At 4x resolution we run out of default offsets. -> Use larger offset value.
 	max_offsets = MAX_OFFSETS;
-	if (RESOLUTION_FACTOR == 2) 
+	if (RESOLUTION_FACTOR == HD) 
 		max_offsets = MAX_OFFSETS_4X;
 
 	for (index = 0; index < max_offsets && delta < DISTANCE_COVERED; ++index)
 	{
 		delta += index + 1;
 		// JMS_GFX
-		if (RESOLUTION_FACTOR == 2)
+		if (RESOLUTION_FACTOR == HD)
 			landingOfs4x[index] = -delta;
 		else
 			landingOfs[index] = -delta;
@@ -1968,7 +1958,7 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 	for (index = start; index != end; index += delta)
 	{
 		// JMS_GFX
-		if (RESOLUTION_FACTOR == 2)
+		if (RESOLUTION_FACTOR == HD)
 			ScrollPlanetSide (0, 0, landingOfs4x[index]);
 		else
 			ScrollPlanetSide (0, 0, landingOfs[index]);

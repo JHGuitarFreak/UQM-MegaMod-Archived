@@ -406,7 +406,7 @@ FriendlyExit (RESPONSE_REF R)
 		NPCPhrase (SEX_GOODBYE);
 
 		AlienTalkSegue (2);
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			XFormColorMap (GetColorMapAddress (
  				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
  				), ONE_SECOND / 2);
@@ -490,7 +490,7 @@ Foreplay (RESPONSE_REF R)
 		NPCPhrase (MORE_COMFORTABLE);
 		AlienTalkSegue (1);
 
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			XFormColorMap (GetColorMapAddress (
 					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
 					), ONE_SECOND);
@@ -1074,7 +1074,7 @@ init_syreen_comm (void)
 	static LOCDATA syreen_desc;
  	LOCDATA *retval;
 	
-	syreen_desc = (RESOLUTION_FACTOR == 0 ? syreen_desc_1x : syreen_desc_4x);
+	syreen_desc = (RESOLUTION_FACTOR != HD ? syreen_desc_1x : syreen_desc_4x);
 
 	syreen_desc.init_encounter_func = Intro;
 	syreen_desc.post_encounter_func = post_syreen_enc;
