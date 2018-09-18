@@ -428,19 +428,13 @@ ControlInputToBattleInput (const int *keyState)
 	if (keyState[KEY_RIGHT])
 		InputState |= BATTLE_RIGHT;
 	if (keyState[KEY_WEAPON]){
-		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-			(((PlayerControl[0] & COMPUTER_CONTROL) && PlayerControl[1] & HUMAN_CONTROL) || 
-			((PlayerControl[1] & COMPUTER_CONTROL) && PlayerControl[0] & HUMAN_CONTROL))))
-		{
+		if (antiCheatAlt()) {
 			resetEnergyBattle();
 		}
 		InputState |= BATTLE_WEAPON;
 	}
 	if (keyState[KEY_SPECIAL]){
-		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-			(((PlayerControl[0] & COMPUTER_CONTROL) && PlayerControl[1] & HUMAN_CONTROL) || 
-			((PlayerControl[1] & COMPUTER_CONTROL) && PlayerControl[0] & HUMAN_CONTROL))))
-		{
+		if (antiCheatAlt()) {
 			resetEnergyBattle();
 		}
 		InputState |= BATTLE_SPECIAL;

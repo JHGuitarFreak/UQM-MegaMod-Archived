@@ -107,8 +107,18 @@ antiCheat(ELEMENT *ElementPtr) {
 		&& (PlayerControl[0] & COMPUTER_CONTROL && ElementPtr->playerNr == 1)
 		|| (PlayerControl[1] & COMPUTER_CONTROL && ElementPtr->playerNr == 0)) {
 		return TRUE;
+	} else {
+		return FALSE;
 	}
-	else {
+}
+
+static inline BOOLEAN
+antiCheatAlt(void) {
+	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && optGodMode 
+		&& (PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & HUMAN_CONTROL)
+		|| (PlayerControl[1] & COMPUTER_CONTROL && PlayerControl[0] & HUMAN_CONTROL)) {
+		return TRUE;
+	} else {
 		return FALSE;
 	}
 }
