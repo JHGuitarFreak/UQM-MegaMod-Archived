@@ -270,6 +270,7 @@ src.orig
 log.txt
 *.lnk
 *.lib
+!dev-lib/[^.]*
 .DS_Store
 
 *.tlog
