@@ -522,7 +522,7 @@ init_mycon (void)
 	static RACE_DESC mycon_desc;
 	RACE_DESC *RaceDescPtr;
 
-	mycon_desc = (RESOLUTION_FACTOR == 0 ? mycon_desc1x : (RESOLUTION_FACTOR == 1 ? mycon_desc2x : mycon_desc4x));
+	mycon_desc = (RESOLUTION_FACTOR != HD ? mycon_desc1x : mycon_desc4x);
 
 	mycon_desc.postprocess_func = mycon_postprocess;
 	mycon_desc.init_weapon_func = initialize_plasma;

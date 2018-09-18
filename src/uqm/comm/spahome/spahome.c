@@ -755,7 +755,7 @@ AllianceOffer (RESPONSE_REF R)
 	if (PLAYER_SAID (R, misunderstanding))
 	{
 		NPCPhrase (JUST_MISUNDERSTANDING);
-		if (RESOLUTION_FACTOR == 0){
+		if (RESOLUTION_FACTOR != HD){
 			XFormColorMap (GetColorMapAddress (
 					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
 					), ONE_SECOND / 4);
@@ -944,7 +944,7 @@ SpathiCouncil (RESPONSE_REF R)
 	else if (PLAYER_SAID (R, good_password))
 	{
 		NPCPhrase (YES_GOOD_PASSWORD);
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			XFormColorMap (GetColorMapAddress (
 					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
 					), ONE_SECOND / 4);
@@ -1095,7 +1095,7 @@ Intro (void)
 {
 	BYTE Manner;
 
-	if (RESOLUTION_FACTOR > 0)
+	if (RESOLUTION_FACTOR == HD)
 		CommData.AlienFrame = SetAbsFrameIndex 
 			(CommData.AlienFrame, 59);
 
@@ -1114,7 +1114,7 @@ Intro (void)
 	}
 	else if (CheckAlliance (SPATHI_SHIP) == GOOD_GUY)
 	{
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			CommData.AlienColorMap =
  				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
 		} else {
@@ -1133,7 +1133,7 @@ Intro (void)
 	}
 	else if (GET_GAME_STATE (SPATHI_PARTY))
 	{
-		if (RESOLUTION_FACTOR == 0){
+		if (RESOLUTION_FACTOR != HD){
 			CommData.AlienColorMap =
  				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
 		} else {
@@ -1154,7 +1154,7 @@ Intro (void)
 	{
 		if (GET_GAME_STATE (LIED_ABOUT_CREATURES) < 2)
 		{
-			if (RESOLUTION_FACTOR == 0) {
+			if (RESOLUTION_FACTOR != HD) {
 				CommData.AlienColorMap =
  					SetAbsColorMapIndex (CommData.AlienColorMap, 1);
 			} else {
@@ -1181,7 +1181,7 @@ Intro (void)
 	}
 	else if (GET_GAME_STATE (KNOW_SPATHI_QUEST))
 	{
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			CommData.AlienColorMap =
  				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
 		} else {
@@ -1202,7 +1202,7 @@ Intro (void)
 			&& (GET_GAME_STATE (FOUND_PLUTO_SPATHI)
 			|| GET_GAME_STATE (SPATHI_HOME_VISITS) != 7))
 	{
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			CommData.AlienColorMap =
  				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
 		} else {
@@ -1255,7 +1255,7 @@ init_spahome_comm ()
 	static LOCDATA spahome_desc;
  	LOCDATA *retval;
 	
-	spahome_desc = (RESOLUTION_FACTOR == 0 ? spahome_desc_1x : spahome_desc_4x);
+	spahome_desc = (RESOLUTION_FACTOR != HD ? spahome_desc_1x : spahome_desc_4x);
 
 	spahome_desc.init_encounter_func = Intro;
 	spahome_desc.post_encounter_func = post_spahome_enc;
@@ -1273,7 +1273,7 @@ init_spahome_comm ()
 	spahome_desc.AlienAltSongRes = SPAHOME_MUSIC;
 	spahome_desc.AlienSongFlags |= LDASF_USE_ALTERNATE;
 
-	if (RESOLUTION_FACTOR > 0) {
+	if (RESOLUTION_FACTOR == HD) {
 		COUNT i;
 		COUNT limit = spahome_desc.NumAnimations;
 	

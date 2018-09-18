@@ -437,7 +437,7 @@ init_syreen (void)
 	static RACE_DESC syreen_desc;
 	RACE_DESC *RaceDescPtr;
 
-	syreen_desc = (RESOLUTION_FACTOR == 0 ? syreen_desc1x : (RESOLUTION_FACTOR == 1 ? syreen_desc2x : syreen_desc4x));
+	syreen_desc = (RESOLUTION_FACTOR != HD ? syreen_desc1x : syreen_desc4x);
 
 	syreen_desc.postprocess_func = syreen_postprocess;
 	syreen_desc.init_weapon_func = initialize_dagger;

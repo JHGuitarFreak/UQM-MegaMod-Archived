@@ -1914,7 +1914,7 @@ init_starbase_comm ()
 	static LOCDATA commander_desc;
 	LOCDATA *retval;
 
-	commander_desc = (RESOLUTION_FACTOR == 0 ? commander_desc_1x : commander_desc_4x);
+	commander_desc = (RESOLUTION_FACTOR != HD ? commander_desc_1x : commander_desc_4x);
 
 	commander_desc.init_encounter_func = Intro;
 	commander_desc.post_encounter_func = post_starbase_enc;

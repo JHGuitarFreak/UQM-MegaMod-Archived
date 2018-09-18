@@ -293,7 +293,7 @@ check_hyperspace_encounter (void)
 void
 FreeHyperData (void)
 {
-	if (RESOLUTION_FACTOR > 0) {
+	if (RESOLUTION_FACTOR == HD) {
 		DestroyDrawable (ReleaseDrawable (hyperholes[1]));
 		hyperholes[1] = 0;
 		DestroyDrawable (ReleaseDrawable (hyperholes[2]));
@@ -327,7 +327,7 @@ FreeHyperData (void)
 static void
 LoadHyperData (void)
 {
-	if (RESOLUTION_FACTOR > 0) {
+	if (RESOLUTION_FACTOR == HD) {
 		if (hyperholes[1] == 0) {
 			hyperholes[1] = CaptureDrawable (
 				LoadGraphic (HYPERHOLES_MASK_PMAP_ANIM));
@@ -373,7 +373,7 @@ LoadHyperspace (void)
 		hyperstars[0] = stars_in_space;
 		stars_in_space = F;
 
-		if (RESOLUTION_FACTOR > 0) {
+		if (RESOLUTION_FACTOR == HD) {
 			FQ = hyperstars[3];
 			hyperstars[3] = stars_in_quasispace;
 			stars_in_quasispace = FQ;
@@ -432,7 +432,7 @@ FreeHyperspace (void)
 		hyperstars[0] = stars_in_space;
 		stars_in_space = F;
 
-		if (RESOLUTION_FACTOR > 0) {
+		if (RESOLUTION_FACTOR == HD) {
 			FQ = hyperstars[3];
 			hyperstars[3] = stars_in_quasispace;
 			stars_in_quasispace = FQ;
@@ -927,7 +927,7 @@ AddAmbientElement (void)
 		dy = LOWORD (rand_val);
 		
 		// JMS_GFX
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			dx = (SIZE)(LOBYTE (dy) % SPACE_WIDTH) - (SPACE_WIDTH >> 1);
 			dy = (SIZE)(HIBYTE (dy) % SPACE_HEIGHT) - (SPACE_HEIGHT >> 1);
 			HyperSpaceElementPtr->current.image.farray = &stars_in_space;
@@ -947,7 +947,7 @@ AddAmbientElement (void)
 		if (HIWORD (rand_val) & 7)
 		{
 			HyperSpaceElementPtr->life_span = 14;
-			if (RESOLUTION_FACTOR == 0 || (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
+			if (RESOLUTION_FACTOR != HD || (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
 				HyperSpaceElementPtr->current.image.frame = stars_in_space;
 			else
 				HyperSpaceElementPtr->current.image.frame = stars_in_quasispace;
@@ -955,7 +955,7 @@ AddAmbientElement (void)
 		else
 		{
 			HyperSpaceElementPtr->life_span = 12;
-			if (RESOLUTION_FACTOR == 0 || (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
+			if (RESOLUTION_FACTOR != HD || (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1))
 				HyperSpaceElementPtr->current.image.frame = SetAbsFrameIndex (stars_in_space, 14);
 			else
 				HyperSpaceElementPtr->current.image.frame = SetAbsFrameIndex (stars_in_quasispace, 14);
@@ -996,7 +996,7 @@ encounter_transition (ELEMENT *ElementPtr)
 			else {
  				ElementPtr->death_func = NULL;
 				// BW: the bubble has reached full size so we start animation
-				if (RESOLUTION_FACTOR > 0) {
+				if (RESOLUTION_FACTOR == HD) {
 					ElementPtr->current.image.farray = &npcbubble;
 					ElementPtr->next.image.farray = &npcbubble;
 					ElementPtr->current.image.frame = SetAbsFrameIndex(npcbubble, 0);
@@ -1197,7 +1197,7 @@ AddEncounterElement (ENCOUNTER *EncounterPtr, POINT *puniverse)
 		}
 		else
 		{
-			if (RESOLUTION_FACTOR > 0) {
+			if (RESOLUTION_FACTOR == HD) {
 				ElementPtr->current.image.farray = &npcbubble;
 				ElementPtr->next.image.farray = &npcbubble;
 				ElementPtr->current.image.frame = SetAbsFrameIndex(npcbubble, 0);
@@ -1372,7 +1372,7 @@ ProcessEncounter (ENCOUNTER *EncounterPtr, POINT *puniverse,
 		EncounterPtr->loc_pt.y = LOGY_TO_UNIVERSE (EncounterPtr->log_y);
 
 		// BW: Animate the NPC bubble in hi-res modes.
-		if (RESOLUTION_FACTOR > 0)
+		if (RESOLUTION_FACTOR == HD)
 			ElementPtr->next.image.frame = IncFrameIndex (ElementPtr->current.image.frame);
 
 		encounter_radius = EncounterPtr->radius + (GRID_OFFSET >> 1);
@@ -1635,7 +1635,7 @@ SeedUniverse (void)
 				continue;
 
 			LockElement (hHyperSpaceElement, &HyperSpaceElementPtr);
-			if (RESOLUTION_FACTOR == 0
+			if (RESOLUTION_FACTOR != HD
 				|| (SD[i].Index < 22 && arilouSpaceSide <= 1)
 				|| (SD[i].Index < 4 && arilouSpaceSide > 1))
 			{
@@ -1695,7 +1695,7 @@ SeedUniverse (void)
 
 			star_type = SDPtr->Type;
 
-			if (RESOLUTION_FACTOR == 0) {
+			if (RESOLUTION_FACTOR != HD) {
 				hHyperSpaceElement = AllocHyperElement (&SDPtr->star_pt);
 				if (hHyperSpaceElement == 0)
 					continue;
@@ -1771,7 +1771,7 @@ SeedUniverse (void)
 					InsertElement (hHyperSpaceElement, GetHeadElement ());
 				
 					// JMS_GFX: Don't draw hole for arilou homeworld - it already has a nice planet gfx.
-					if ((GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1) && STAR_COLOR (star_type) == YELLOW_BODY && RESOLUTION_FACTOR == 0)
+					if ((GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1) && STAR_COLOR (star_type) == YELLOW_BODY && RESOLUTION_FACTOR != HD)
 						continue;
 				
 				}
@@ -1933,8 +1933,6 @@ DoHyperspaceMenu (MENU_STATE *pMS)
 			StarMap ();
 			return FALSE;
 		case NAVIGATION:
-			if(RESOLUTION_FACTOR == 1)				
-				DrawSubmenu (0);
 			return FALSE;
 	}
 

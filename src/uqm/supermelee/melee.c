@@ -888,7 +888,7 @@ DrawMeleeShipStrings (MELEE_STATE *pMS, MeleeShip NewStarShip)
 		ClearShipStatus (0, STATUS_WIDTH, TRUE);
 		
 		// JMS_GFX
-		if (RESOLUTION_FACTOR > 0)
+		if (RESOLUTION_FACTOR == HD)
 			OutlineShipStatus (0, STATUS_WIDTH, TRUE);
 		
 		SetContextFont (StarConFont);

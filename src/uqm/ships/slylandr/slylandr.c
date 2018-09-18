@@ -584,7 +584,7 @@ init_slylandro (void)
 	static RACE_DESC slylandro_desc;
 	RACE_DESC *RaceDescPtr;
 
-	slylandro_desc = (RESOLUTION_FACTOR == 0 ? slylandro_desc1x : (RESOLUTION_FACTOR == 1 ? slylandro_desc2x : slylandro_desc4x));
+	slylandro_desc = (RESOLUTION_FACTOR != HD ? slylandro_desc1x : slylandro_desc4x);
 
 	slylandro_desc.preprocess_func = slylandro_preprocess;
 	slylandro_desc.postprocess_func = slylandro_postprocess;

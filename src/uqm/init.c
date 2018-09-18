@@ -125,7 +125,7 @@ InitSpace (void)
 		if (stars_in_space == NULL)
 			return FALSE;
 
-		if(RESOLUTION_FACTOR > 0){
+		if(RESOLUTION_FACTOR == HD){
 			StarPoints = CaptureDrawable (LoadGraphic (STARPOINT_MASK_PMAP_ANIM));
 			if (StarPoints == NULL)
 				return FALSE;

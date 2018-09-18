@@ -327,4 +327,3 @@ init_arilou (void)
 
 	return (RaceDescPtr);
 }
-

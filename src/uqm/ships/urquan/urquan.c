@@ -708,7 +708,7 @@ init_urquan (void)
 	static RACE_DESC urquan_desc;
 	RACE_DESC *RaceDescPtr;
 
-	urquan_desc = (RESOLUTION_FACTOR == 0 ? urquan_desc1x : (RESOLUTION_FACTOR == 1 ? urquan_desc2x : urquan_desc4x));
+	urquan_desc = (RESOLUTION_FACTOR != HD ? urquan_desc1x : urquan_desc4x);
 
 	urquan_desc.postprocess_func = urquan_postprocess;
 	urquan_desc.init_weapon_func = initialize_fusion;

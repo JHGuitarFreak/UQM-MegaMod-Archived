@@ -623,7 +623,7 @@ init_shofixti (void)
 	// The caller of this func will copy the struct
 	static RACE_DESC new_shofixti_desc;
 
-	shofixti_desc = (RESOLUTION_FACTOR == 0 ? shofixti_desc1x : (RESOLUTION_FACTOR == 1 ? shofixti_desc2x : shofixti_desc4x));
+	shofixti_desc = (RESOLUTION_FACTOR != HD ? shofixti_desc1x : shofixti_desc4x);
 
 	shofixti_desc.postprocess_func = shofixti_postprocess;
 	shofixti_desc.init_weapon_func = initialize_standard_missile;

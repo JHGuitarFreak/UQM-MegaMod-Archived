@@ -551,12 +551,6 @@ DrawMenuStateStrings (BYTE beg_index, SWORD NewState)
 		}
 		r.extent.height = RADAR_HEIGHT + (11 << RESOLUTION_FACTOR); // JMS_GFX
 
-		// JMS_GFX: This is to fix the two-line high outfit module texts.
-		// They weren't completely erased in 640x480 when exiting module selection.
-		if (RESOLUTION_FACTOR == 1) {
-			r.corner.y -= 7;
-			r.extent.height += 7;
-		}
 		DrawPCMenu (beg_index, end_index, (BYTE)NewState, hilite, &r);
 		s.frame = 0;
 	}

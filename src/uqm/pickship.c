@@ -477,7 +477,7 @@ DrawArmadaPickShip (BOOLEAN draw_salvage_frame, RECT *pPickRect)
 					s.origin.x -= (1 << RESOLUTION_FACTOR); // JMS_GFX
 					
 					// JMS_GFX
-					if (RESOLUTION_FACTOR > 0)
+					if (RESOLUTION_FACTOR == HD)
 						s.origin.y -= (1 << RESOLUTION_FACTOR);
 
 					s.frame = SetAbsFrameIndex (StatusFrame, 3);

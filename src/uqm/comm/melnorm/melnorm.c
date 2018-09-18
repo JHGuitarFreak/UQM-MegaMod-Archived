@@ -1474,11 +1474,11 @@ NatureOfConversation (RESPONSE_REF R)
 			NPCPhrase (BUY_OR_SELL);
 			AlienTalkSegue (1);
 
-			if (RESOLUTION_FACTOR == 0) {
+			if (RESOLUTION_FACTOR != HD) {
 				XFormColorMap (GetColorMapAddress (
 					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
 					), ONE_SECOND / 2);
-			} else if (RESOLUTION_FACTOR > 0) {
+			} else {
 				CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
 				CommData.AlienAmbientArray[3].AnimFlags |= ANIM_DISABLED;
 				CommData.AlienAmbientArray[4].AnimFlags &= ~ANIM_DISABLED;
@@ -1556,11 +1556,11 @@ DoBluster (RESPONSE_REF R)
 		NPCPhrase (WERE_NOT_AFRAID);
 		AlienTalkSegue ((COUNT)~0);
 
-		if (RESOLUTION_FACTOR == 0) {
+		if (RESOLUTION_FACTOR != HD) {
 			XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
 				), ONE_SECOND / 2);
-		} else if (RESOLUTION_FACTOR > 0) {
+		} else {
 			CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
 			CommData.AlienAmbientArray[3].AnimFlags |= ANIM_DISABLED;
 			CommData.AlienAmbientArray[4].AnimFlags &= ~ANIM_DISABLED;
@@ -1757,14 +1757,11 @@ DoFirstMeeting (RESPONSE_REF R)
 		NPCPhrase (TEST_RESULTS);
 		AlienTalkSegue ((COUNT)~0);
 		
-		if (RESOLUTION_FACTOR == 0)
-		{
+		if (RESOLUTION_FACTOR != HD) {
 			XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
 				), ONE_SECOND / 2);
-		}
-		else if (RESOLUTION_FACTOR > 0)
-		{
+		} else {
 	
 			CommData.AlienAmbientArray[10].AnimFlags &= ~ANIM_DISABLED;
 			CommData.AlienAmbientArray[2].AnimFlags &= ~ANIM_DISABLED;
@@ -1785,14 +1782,11 @@ DoFirstMeeting (RESPONSE_REF R)
 		NPCPhrase (APOLOGY_ACCEPTED);
 		AlienTalkSegue ((COUNT)~0);
 		
-		if (RESOLUTION_FACTOR == 0)
-		{
+		if (RESOLUTION_FACTOR != HD) {
 			XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
 				), ONE_SECOND / 2);
-		}
-		else if (RESOLUTION_FACTOR > 0)
-		{
+		} else {
 			
 			CommData.AlienAmbientArray[10].AnimFlags &= ~ANIM_DISABLED;	
 			CommData.AlienAmbientArray[2].AnimFlags &= ~ANIM_DISABLED;
@@ -1843,14 +1837,11 @@ DoMelnormeMiffed (RESPONSE_REF R)
 
 		AlienTalkSegue ((COUNT)~0);
 		
-		if (RESOLUTION_FACTOR == 0)
-		{
+		if (RESOLUTION_FACTOR != HD) {
 			XFormColorMap (GetColorMapAddress (
  				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
  				), ONE_SECOND / 2);
-		}
-		else if (RESOLUTION_FACTOR > 0)
-		{
+		} else {
 			
 			CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
 			CommData.AlienAmbientArray[3].AnimFlags |= ANIM_DISABLED;
@@ -1934,14 +1925,11 @@ DoMelnormePissed (RESPONSE_REF R)
 
 		AlienTalkSegue ((COUNT)~0);
 		
-		if (RESOLUTION_FACTOR == 0)
-		{
+		if (RESOLUTION_FACTOR != HD) {
 			XFormColorMap (GetColorMapAddress (
  				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
  				), ONE_SECOND / 2);
-		}
-		else if (RESOLUTION_FACTOR > 0)
-		{
+		} else {
 			
 			CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
 			CommData.AlienAmbientArray[3].AnimFlags |= ANIM_DISABLED;
@@ -2008,14 +1996,11 @@ DoMelnormeHate (RESPONSE_REF R)
 
 	AlienTalkSegue ((COUNT)~0);
 	
-	if (RESOLUTION_FACTOR == 0)
-	{
+	if (RESOLUTION_FACTOR != HD) {
 		XFormColorMap (GetColorMapAddress (
  			SetAbsColorMapIndex (CommData.AlienColorMap, 2)
  			), ONE_SECOND / 2);
-	}
-	else if (RESOLUTION_FACTOR > 0)
-	{
+	} else {
 		
 		CommData.AlienAmbientArray[2].AnimFlags |= ANIM_DISABLED;
 		CommData.AlienAmbientArray[3].AnimFlags |= ANIM_DISABLED;
@@ -2087,7 +2072,7 @@ init_melnorme_comm (void)
 	static LOCDATA melnorme_desc;
  	LOCDATA *retval;
 
-	melnorme_desc = (RESOLUTION_FACTOR == 0 ? melnorme_desc_1x : melnorme_desc_4x);
+	melnorme_desc = (RESOLUTION_FACTOR != HD ? melnorme_desc_1x : melnorme_desc_4x);
 
 	melnorme_desc.init_encounter_func = Intro;
 	melnorme_desc.post_encounter_func = post_melnorme_enc;
@@ -2101,8 +2086,7 @@ init_melnorme_comm (void)
 	melnorme_desc.AlienTextBaseline.y = 0;
 	melnorme_desc.AlienTextWidth = SIS_TEXT_WIDTH - RES_SCALE(16);
 
-	if (RESOLUTION_FACTOR > 0)
-	{
+	if (RESOLUTION_FACTOR == HD) {
 		melnorme_desc.AlienAmbientArray[2].AnimFlags &= ~ANIM_DISABLED;
 		melnorme_desc.AlienAmbientArray[3].AnimFlags &= ~ANIM_DISABLED;
 		melnorme_desc.AlienAmbientArray[4].AnimFlags |= ANIM_DISABLED;

@@ -1091,7 +1091,7 @@ init_sis (void)
 	memset (&empty_data, 0, sizeof (empty_data));
 
 	/* copy initial ship settings to new_sis_desc */
-	new_sis_desc = (RESOLUTION_FACTOR == 0 ? sis_desc1x : (RESOLUTION_FACTOR == 1 ? sis_desc2x : sis_desc4x));
+	new_sis_desc = (RESOLUTION_FACTOR != HD ? sis_desc1x : sis_desc4x);
 	
 	new_sis_desc.uninit_func = uninit_sis;
 
@@ -1108,7 +1108,7 @@ init_sis (void)
 		new_sis_desc.ship_data.victory_ditty_rsc = NULL_RESOURCE;
 		new_sis_desc.ship_data.ship_sounds_rsc = NULL_RESOURCE;
 
-		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1 && (RESOLUTION_FACTOR > 0 || EndlessSCLoaded))
+		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1 && (RESOLUTION_FACTOR == HD || EndlessSCLoaded))
 			new_sis_desc.ship_data.ship_rsc[0] = SIS_QUASI_MASK_PMAP_ANIM;
 		else
 			new_sis_desc.ship_data.ship_rsc[0] = SIS_HYPER_MASK_PMAP_ANIM;

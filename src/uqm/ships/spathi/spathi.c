@@ -449,7 +449,7 @@ init_spathi (void)
 	static RACE_DESC spathi_desc;
 	RACE_DESC *RaceDescPtr;
 
-	spathi_desc = (RESOLUTION_FACTOR == 0 ? spathi_desc1x : (RESOLUTION_FACTOR == 1 ? spathi_desc2x : spathi_desc4x));
+	spathi_desc = (RESOLUTION_FACTOR != HD ? spathi_desc1x : spathi_desc4x);
 
 	spathi_desc.postprocess_func = spathi_postprocess;
 	spathi_desc.init_weapon_func = initialize_standard_missile;

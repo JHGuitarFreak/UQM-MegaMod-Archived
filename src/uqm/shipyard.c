@@ -311,7 +311,7 @@ ShowShipCrew (SHIP_FRAGMENT *StarShipPtr, const RECT *pRect)
 
 	r = *pRect;
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
-	t.baseline.y = r.corner.y + r.extent.height - 1 - (RESOLUTION_FACTOR == 1 ? 1 : 0); // JMS_GFX
+	t.baseline.y = r.corner.y + r.extent.height - 1; // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.pStr = buf;
 	t.CharCount = (COUNT)~0;
@@ -319,7 +319,7 @@ ShowShipCrew (SHIP_FRAGMENT *StarShipPtr, const RECT *pRect)
 	{
 		r.corner.y = t.baseline.y - (6 << RESOLUTION_FACTOR); //JMS_GFX
 		r.extent.width = SHIP_WIN_WIDTH;
-		r.extent.height = (6 << RESOLUTION_FACTOR) + (RESOLUTION_FACTOR == 1 ? 1 : 0); // JMS_GFX
+		r.extent.height = (6 << RESOLUTION_FACTOR); // JMS_GFX
 		SetContextForeGroundColor (BLACK_COLOR);
 		DrawFilledRectangle (&r);
 	}
@@ -793,7 +793,7 @@ DMS_HireFlagShipCrew (void)
 
 	// Draw a crew member.
 	// Crew dots/rectangles for 1x and 2x resolutions.
-	if (RESOLUTION_FACTOR < 2) {
+	if (RESOLUTION_FACTOR != HD) {
 		r.extent.width = 1 << RESOLUTION_FACTOR;
 		r.extent.height = r.extent.width;
 		DrawFilledRectangle (&r);
@@ -1377,7 +1377,7 @@ DrawBluePrint (MENU_STATE *pMS)
 			DrawShipPiece (ModuleFrame, which_piece, num_frames, TRUE);
 	}
 
-	if (RESOLUTION_FACTOR == 0)
+	if (RESOLUTION_FACTOR != HD)
 		SetContextForeGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x1F), 0x09));
 	for (num_frames = 0; num_frames < NUM_MODULE_SLOTS; ++num_frames)
@@ -1397,7 +1397,7 @@ DrawBluePrint (MENU_STATE *pMS)
 		{
 			RECT r;
 			// Crew dots/rectangles for 1x and 2x resolutions.
-			if (RESOLUTION_FACTOR < 2) {
+			if (RESOLUTION_FACTOR != HD) {
 				r.extent.width = 1 << RESOLUTION_FACTOR;
 				r.extent.height = r.extent.width;
 				

@@ -433,7 +433,7 @@ init_supox (void)
 	static RACE_DESC supox_desc;
 	RACE_DESC *RaceDescPtr;
 
-	supox_desc = (RESOLUTION_FACTOR == 0 ? supox_desc1x : (RESOLUTION_FACTOR == 1 ? supox_desc2x : supox_desc4x));
+	supox_desc = (RESOLUTION_FACTOR != HD ? supox_desc1x : supox_desc4x);
 
 	supox_desc.preprocess_func = supox_preprocess;
 	supox_desc.init_weapon_func = initialize_horn;

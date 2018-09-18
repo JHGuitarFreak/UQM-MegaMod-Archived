@@ -523,7 +523,7 @@ init_utwig (void)
 	static RACE_DESC utwig_desc;
 	RACE_DESC *RaceDescPtr;
 
-	utwig_desc = (RESOLUTION_FACTOR == 0 ? utwig_desc1x : (RESOLUTION_FACTOR == 1 ? utwig_desc2x : utwig_desc4x));
+	utwig_desc = (RESOLUTION_FACTOR != HD ? utwig_desc1x : utwig_desc4x);
 
 	utwig_desc.preprocess_func = utwig_preprocess;
 	utwig_desc.init_weapon_func = initialize_lance;
