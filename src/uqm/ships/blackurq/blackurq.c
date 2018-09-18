@@ -65,13 +65,7 @@
 #define GAS_ALT_DAMAGE 50
 #define NUM_GAS_CLOUDS 16
 
-// HD
-#define MAX_THRUST_2XRES 60			// JMS_GFX
-#define THRUST_INCREMENT_2XRES 12	// JMS_GFX
-#define MAX_THRUST_4XRES 120		// JMS_GFX
-#define THRUST_INCREMENT_4XRES 24	// JMS_GFX
-
-static RACE_DESC black_urquan_desc1x =
+static RACE_DESC black_urquan_desc =
 {
 	{ /* SHIP_INFO */
 		"marauder",
@@ -133,152 +127,6 @@ static RACE_DESC black_urquan_desc1x =
 	{
 		0,
 		CLOSE_RANGE_WEAPON,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC black_urquan_desc2x =
-{
-	{ /* SHIP_INFO */
-		"marauder",
-		FIRES_FORE,
-		30, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		KOHR_AH_RACE_STRINGS,
-		KOHR_AH_ICON_MASK_PMAP_ANIM,
-		KOHR_AH_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		2666 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			6000, 6250,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			KOHR_AH_BIG_MASK_PMAP_ANIM,
-			KOHR_AH_MED_MASK_PMAP_ANIM,
-			KOHR_AH_SML_MASK_PMAP_ANIM,
-		},
-		{
-			BUZZSAW_BIG_MASK_PMAP_ANIM,
-			BUZZSAW_MED_MASK_PMAP_ANIM,
-			BUZZSAW_SML_MASK_PMAP_ANIM,
-		},
-		{
-			GAS_BIG_MASK_PMAP_ANIM,
-			GAS_MED_MASK_PMAP_ANIM,
-			GAS_SML_MASK_PMAP_ANIM,
-		},
-		{
-			KOHR_AH_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		KOHR_AH_VICTORY_SONG,
-		KOHR_AH_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		CLOSE_RANGE_WEAPON_2XRES,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC black_urquan_desc4x =
-{
-	{ /* SHIP_INFO */
-		"marauder",
-		FIRES_FORE,
-		30, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		KOHR_AH_RACE_STRINGS,
-		KOHR_AH_ICON_MASK_PMAP_ANIM,
-		KOHR_AH_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		2666 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			6000, 6250,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			KOHR_AH_BIG_MASK_PMAP_ANIM,
-			KOHR_AH_MED_MASK_PMAP_ANIM,
-			KOHR_AH_SML_MASK_PMAP_ANIM,
-		},
-		{
-			BUZZSAW_BIG_MASK_PMAP_ANIM,
-			BUZZSAW_MED_MASK_PMAP_ANIM,
-			BUZZSAW_SML_MASK_PMAP_ANIM,
-		},
-		{
-			GAS_BIG_MASK_PMAP_ANIM,
-			GAS_MED_MASK_PMAP_ANIM,
-			GAS_SML_MASK_PMAP_ANIM,
-		},
-		{
-			KOHR_AH_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		KOHR_AH_VICTORY_SONG,
-		KOHR_AH_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		CLOSE_RANGE_WEAPON_4XRES,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -707,10 +555,13 @@ black_urquan_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_black_urquan (void)
 {
-	static RACE_DESC black_urquan_desc;
 	RACE_DESC *RaceDescPtr;
 
-	black_urquan_desc = (RESOLUTION_FACTOR == 0 ? black_urquan_desc1x : (RESOLUTION_FACTOR == 1 ? black_urquan_desc2x : black_urquan_desc4x));
+	if (resolutionFactor == HD) {
+		black_urquan_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		black_urquan_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		black_urquan_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES;
+	}
 
 	black_urquan_desc.preprocess_func = black_urquan_preprocess;
 	black_urquan_desc.postprocess_func = black_urquan_postprocess;

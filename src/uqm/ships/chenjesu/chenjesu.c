@@ -66,13 +66,7 @@
 #define DOGGY_HITS 3
 #define DOGGY_MASS 4
 
-// HD
-#define MAX_THRUST_2XRES /* DISPLAY_TO_WORLD (14) */ 54 // JMS_GFX
-#define THRUST_INCREMENT_2XRES /* DISPLAY_TO_WORLD (4) */ 6 // JMS_GFX
-#define MAX_THRUST_4XRES /* DISPLAY_TO_WORLD (28) */ 108 // JMS_GFX
-#define THRUST_INCREMENT_4XRES /* DISPLAY_TO_WORLD (8) */ 12 // JMS_GFX
-
-static RACE_DESC chenjesu_desc1x =
+static RACE_DESC chenjesu_desc =
 {
 	{ /* SHIP_INFO */
 		"broodhome",
@@ -134,152 +128,6 @@ static RACE_DESC chenjesu_desc1x =
 	{
 		0,
 		LONG_RANGE_WEAPON,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC chenjesu_desc2x =
-{
-	{ /* SHIP_INFO */
-		"broodhome",
-		FIRES_FORE | SEEKING_SPECIAL | SEEKING_WEAPON,
-		28, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		CHENJESU_RACE_STRINGS,
-		CHENJESU_ICON_MASK_PMAP_ANIM,
-		CHENJESU_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			CHENJESU_BIG_MASK_PMAP_ANIM,
-			CHENJESU_MED_MASK_PMAP_ANIM,
-			CHENJESU_SML_MASK_PMAP_ANIM,
-		},
-		{
-			SPARK_BIG_MASK_PMAP_ANIM,
-			SPARK_MED_MASK_PMAP_ANIM,
-			SPARK_SML_MASK_PMAP_ANIM,
-		},
-		{
-			DOGGY_BIG_MASK_PMAP_ANIM,
-			DOGGY_MED_MASK_PMAP_ANIM,
-			DOGGY_SML_MASK_PMAP_ANIM,
-		},
-		{
-			CHENJESU_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		CHENJESU_VICTORY_SONG,
-		CHENJESU_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		LONG_RANGE_WEAPON_2XRES,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC chenjesu_desc4x =
-{
-	{ /* SHIP_INFO */
-		"broodhome",
-		FIRES_FORE | SEEKING_SPECIAL | SEEKING_WEAPON,
-		28, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		CHENJESU_RACE_STRINGS,
-		CHENJESU_ICON_MASK_PMAP_ANIM,
-		CHENJESU_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			CHENJESU_BIG_MASK_PMAP_ANIM,
-			CHENJESU_MED_MASK_PMAP_ANIM,
-			CHENJESU_SML_MASK_PMAP_ANIM,
-		},
-		{
-			SPARK_BIG_MASK_PMAP_ANIM,
-			SPARK_MED_MASK_PMAP_ANIM,
-			SPARK_SML_MASK_PMAP_ANIM,
-		},
-		{
-			DOGGY_BIG_MASK_PMAP_ANIM,
-			DOGGY_MED_MASK_PMAP_ANIM,
-			DOGGY_SML_MASK_PMAP_ANIM,
-		},
-		{
-			CHENJESU_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		CHENJESU_VICTORY_SONG,
-		CHENJESU_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		LONG_RANGE_WEAPON_4XRES,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -449,7 +297,7 @@ doggy_preprocess (ELEMENT *ElementPtr)
 	}
 
 	// JMS_GFX: Doggy is animated in hi-res modes
-	if (RESOLUTION_FACTOR != 0)
+	if (RESOLUTION_FACTOR == HD)
 	{
 		if (ElementPtr->turn_wait > 0)
 			--ElementPtr->turn_wait;
@@ -482,7 +330,7 @@ doggy_death (ELEMENT *ElementPtr)
 	ElementPtr->state_flags &= ~DISAPPEARING;
 	ElementPtr->state_flags |= NONSOLID | FINITE_LIFE;
 	// JMS_GFX: Doggy's dying animation starts at different frame in hi-res modes.
-	if (RESOLUTION_FACTOR != 0){
+	if (RESOLUTION_FACTOR == HD){
 		ElementPtr->current.image.frame = SetRelFrameIndex (
 			ElementPtr->current.image.frame, 12);
 	}
@@ -635,7 +483,7 @@ chenjesu_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 					COUNT which_turn;
 					BOOLEAN crystal_would_miss = false;
 
-					if (RESOLUTION_FACTOR == 0 || lpEvalDesc != &ObjectsOfConcern[ENEMY_SHIP_INDEX])
+					if (RESOLUTION_FACTOR != HD || lpEvalDesc != &ObjectsOfConcern[ENEMY_SHIP_INDEX])
 					{
 						crystal_would_miss = ((which_turn = PlotIntercept (CrystalPtr,
 							ObjectsOfConcern[ENEMY_SHIP_INDEX].ObjectPtr,
@@ -670,7 +518,7 @@ chenjesu_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 						old_dist[ShipPtr->playerNr] = (DWORD)~0;
 						
 						// JMS: Let's try to stop Chenjesu's stupid over-rapid firing behavior in hires modes...
-						if (RESOLUTION_FACTOR > 0 
+						if (RESOLUTION_FACTOR == HD 
 							&& ObjectsOfConcern[ENEMY_SHIP_INDEX].which_turn > 16
 							&& ((ObjectsOfConcern[ENEMY_WEAPON_INDEX].ObjectPtr
 								 && ObjectsOfConcern[ENEMY_WEAPON_INDEX].which_turn > 8)
@@ -703,7 +551,7 @@ chenjesu_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 			else if (StarShipPtr->weapon_counter == 0
 					&& ship_weapons (ShipPtr, lpEvalDesc->ObjectPtr, FRAGMENT_RANGE / 2))
 			{
-				if (RESOLUTION_FACTOR > 0)
+				if (RESOLUTION_FACTOR == HD)
 				{
 					COUNT num_weapons;
 					ELEMENT Ship;
@@ -826,11 +674,14 @@ chenjesu_preprocess (ELEMENT *ElementPtr)
 
 RACE_DESC*
 init_chenjesu (void)
-{	
-	static RACE_DESC chenjesu_desc;
+{
 	RACE_DESC *RaceDescPtr;
-	
-	chenjesu_desc = (RESOLUTION_FACTOR == 0 ? chenjesu_desc1x : (RESOLUTION_FACTOR == 1 ? chenjesu_desc2x : chenjesu_desc4x));
+
+	if (resolutionFactor == HD) {
+		chenjesu_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		chenjesu_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		chenjesu_desc.cyborg_control.WeaponRange = LONG_RANGE_WEAPON_4XRES;
+	}
 
 	chenjesu_desc.preprocess_func = chenjesu_preprocess;
 	chenjesu_desc.postprocess_func = chenjesu_postprocess;
