@@ -198,9 +198,7 @@ pump_up_postprocess (ELEMENT *ElementPtr)
 						StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2),
 						EPtr);
 			}
-			if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) &&
-				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) ||
-				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
+			if (antiCheat(ElementPtr))
 			{
 				EPtr->thrust_wait = 5;
 			} else {
@@ -349,9 +347,7 @@ initialize_pump_up (ELEMENT *ShipPtr, HELEMENT PumpUpArray[])
 		LockElement (PumpUpArray[0], &PumpUpPtr);
 		PumpUpPtr->postprocess_func = pump_up_postprocess;
 		PumpUpPtr->collision_func = pump_up_collision;
-		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) &&
-			(((PlayerControl[0] & COMPUTER_CONTROL) && StarShipPtr->playerNr == 1) ||
-			((PlayerControl[1] & COMPUTER_CONTROL) && StarShipPtr->playerNr == 0))))
+		if (antiCheat(ShipPtr))
 		{
 			PumpUpPtr->thrust_wait = 5;
 		} else {
@@ -480,10 +476,7 @@ confusion_collision (ELEMENT *ElementPtr0, POINT *pPt0,
 				ConfusionPtr->hTarget = StarShipPtr->hShip;
 			}
 
-			if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr0->playerNr == 0) || 
-				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr0->playerNr == 1))))
-			{
+			if (antiCheat(ElementPtr1)) {
 				ConfusionPtr->life_span = 0;
 			} else {
 				ConfusionPtr->life_span = 400;

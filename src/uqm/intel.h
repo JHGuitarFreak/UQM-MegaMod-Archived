@@ -101,6 +101,19 @@ extern BOOLEAN ThrustShip (ELEMENT *ShipPtr, COUNT angle);
 #define AWESOME_RATING (BYTE)(1 << 6)
 
 
+static inline BOOLEAN
+antiCheat(ELEMENT *ElementPtr) {
+	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && optGodMode
+		&& (PlayerControl[0] & COMPUTER_CONTROL && ElementPtr->playerNr == 1)
+		|| (PlayerControl[1] & COMPUTER_CONTROL && ElementPtr->playerNr == 0)) {
+		return TRUE;
+	}
+	else {
+		return FALSE;
+	}
+}
+
+
 #if defined(__cplusplus)
 }
 #endif
