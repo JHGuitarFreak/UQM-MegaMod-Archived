@@ -698,10 +698,7 @@ spawn_satellites (ELEMENT *ElementPtr)
 	STARSHIP *StarShipPtr;
 	BYTE NumSatellites = NUM_SATELLITES;
 
-	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-		(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
-		((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
-	{
+	if (antiCheat(ElementPtr)) {
 		NumSatellites = NUM_SATELLITES + 2;
 	}
 
