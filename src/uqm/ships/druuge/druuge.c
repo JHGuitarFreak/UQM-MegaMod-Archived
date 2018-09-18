@@ -49,17 +49,10 @@
 #define SPECIAL_WAIT 30
 
 // HD
-#define MAX_THRUST_2XRES 40
-#define THRUST_INCREMENT_2XRES 4
-#define MISSILE_SPEED_2XRES DISPLAY_TO_WORLD (60)
-#define MISSILE_RANGE_2XRES (MISSILE_SPEED_2XRES * MISSILE_LIFE)
-
-#define MAX_THRUST_4XRES 80
-#define THRUST_INCREMENT_4XRES 8
 #define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
 #define MISSILE_RANGE_4XRES (MISSILE_SPEED_4XRES * MISSILE_LIFE)
 
-static RACE_DESC druuge_desc1x =
+static RACE_DESC druuge_desc =
 {
 	{ /* SHIP_INFO */
 		"mauler",
@@ -131,152 +124,6 @@ static RACE_DESC druuge_desc1x =
 	0, /* CodeRef */
 };
 
-// JMS_GFX
-static RACE_DESC druuge_desc2x =
-{
-	{ /* SHIP_INFO */
-		"mauler",
-		FIRES_FORE,
-		17, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		DRUUGE_RACE_STRINGS,
-		DRUUGE_ICON_MASK_PMAP_ANIM,
-		DRUUGE_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		1400 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			9500, 2792,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			DRUUGE_BIG_MASK_PMAP_ANIM,
-			DRUUGE_MED_MASK_PMAP_ANIM,
-			DRUUGE_SML_MASK_PMAP_ANIM,
-		},
-		{
-			DRUUGE_CANNON_BIG_MASK_PMAP_ANIM,
-			DRUUGE_CANNON_MED_MASK_PMAP_ANIM,
-			DRUUGE_CANNON_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			DRUUGE_CAPT_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		DRUUGE_VICTORY_SONG,
-		DRUUGE_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		MISSILE_RANGE_2XRES,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC druuge_desc4x =
-{
-	{ /* SHIP_INFO */
-		"mauler",
-		FIRES_FORE,
-		17, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		DRUUGE_RACE_STRINGS,
-		DRUUGE_ICON_MASK_PMAP_ANIM,
-		DRUUGE_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		1400 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			9500, 2792,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			DRUUGE_BIG_MASK_PMAP_ANIM,
-			DRUUGE_MED_MASK_PMAP_ANIM,
-			DRUUGE_SML_MASK_PMAP_ANIM,
-		},
-		{
-			DRUUGE_CANNON_BIG_MASK_PMAP_ANIM,
-			DRUUGE_CANNON_MED_MASK_PMAP_ANIM,
-			DRUUGE_CANNON_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			DRUUGE_CAPT_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		DRUUGE_VICTORY_SONG,
-		DRUUGE_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		MISSILE_RANGE_4XRES,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
 static void
 cannon_collision (ELEMENT *ElementPtr0, POINT *pPt0,
 		ELEMENT *ElementPtr1, POINT *pPt1)
@@ -330,7 +177,7 @@ initialize_cannon (ELEMENT *ShipPtr, HELEMENT CannonArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = DRUUGE_OFFSET;
-	MissileBlock.speed = MISSILE_SPEED;
+	MissileBlock.speed = RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_4XRES;
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -468,10 +315,13 @@ druuge_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_druuge (void)
 {
-	static RACE_DESC druuge_desc;
 	RACE_DESC *RaceDescPtr;
 
-	druuge_desc = (RESOLUTION_FACTOR != HD ? druuge_desc1x : druuge_desc4x);
+	if (resolutionFactor == HD) {
+		druuge_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		druuge_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		druuge_desc.cyborg_control.WeaponRange = MISSILE_RANGE_4XRES;
+	}
 
 	druuge_desc.preprocess_func = druuge_preprocess;
 	druuge_desc.postprocess_func = druuge_postprocess;
