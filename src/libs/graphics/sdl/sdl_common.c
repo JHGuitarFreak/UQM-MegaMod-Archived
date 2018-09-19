@@ -33,6 +33,7 @@
 #include "libs/log.h"
 #include "libs/memlib.h"
 #include "libs/vidlib.h"
+#include "../uqm/units.h"
 #include SDL_INCLUDE(SDL_thread.h)
 
 SDL_Surface *SDL_Video;
@@ -177,10 +178,8 @@ TFB_InitGraphics (int driver, int flags, int width, int height, unsigned int *re
 		}
 
 		// MB: Sanitising resolution factor:
-		if (fs_height <= 600 && *resFactor == 2) { // ie. probably netbook or otherwise
-			*resFactor = 1; // drop down to 640x480. netbook won't be able to handle anything higher and quality difference is minimal
- 		} else if (fs_height <= 300 && resFactor > 0) { // People who like pixels I guess
-			*resFactor = 0; // drop down to 320x240
+		if (fs_height <= 600 && *resFactor == HD) { // ie. probably netbook or otherwise
+			*resFactor = 0;
 		}
 		
 		log_add (log_Debug, "fs_height %u, fs_width %u, current_w %u", fs_height, fs_width, SDL_screen_info->current_w);

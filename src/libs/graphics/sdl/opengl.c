@@ -113,7 +113,7 @@ AttemptColorDepth (int flags, int width, int height, int bpp, unsigned int resFa
 		videomode_flags |= SDL_FULLSCREEN;
 	videomode_flags |= SDL_ANYFORMAT;
 
-	if (resFactor > 0 && flags & TFB_GFXFLAGS_FULLSCREEN)
+	if (resFactor == HD && flags & TFB_GFXFLAGS_FULLSCREEN)
 	{
 		height = fs_height;
 		width  = fs_width;
@@ -415,8 +415,8 @@ TFB_GL_DrawQuad (SDL_Rect *r, BYTE ResFactor)
 		glScissor (sx, sy, sw, sh);
 		glEnable (GL_SCISSOR_TEST);
 	}
-	tex1 = (ResFactor == 0 ? 512.0f : (ResFactor == 1 ? 1024.0f : 2048.0f));
-	tex2 = (ResFactor == 0 ? 256.0f : (ResFactor == 1 ? 512.0f : 1024.0f));
+	tex1 = (ResFactor != HD ? 512.0f : 2048.0f);
+	tex2 = (ResFactor != HD ? 256.0f : 1024.0f);
 	glBegin (GL_TRIANGLE_FAN);
 	glTexCoord2f (0, 0);
 	glVertex2i (x1, y1);

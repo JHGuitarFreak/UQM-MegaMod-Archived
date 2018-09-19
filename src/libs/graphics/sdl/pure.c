@@ -19,6 +19,7 @@
 #include "libs/graphics/bbox.h"
 #include "scalers.h"
 #include "libs/log.h"
+#include "../uqm/units.h"
 
 static SDL_Surface *fade_color_surface = NULL;
 static SDL_Surface *fade_temp = NULL;
@@ -121,7 +122,7 @@ TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int toggl
 		videomode_flags = SDL_SWSURFACE;
 		
 		// JMS_GFX: Resolution is calculated with the help of a Resolution factor.
-		if (resFactor == 0)
+		if (resFactor != HD)
 		{
 			// Check the sanity of resolution.
 			if (width != 640 || height != 480)
