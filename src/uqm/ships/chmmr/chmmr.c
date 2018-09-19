@@ -698,7 +698,7 @@ spawn_satellites (ELEMENT *ElementPtr)
 	STARSHIP *StarShipPtr;
 	BYTE NumSatellites = NUM_SATELLITES;
 
-	if (antiCheat(ElementPtr)) {
+	if (antiCheat(ElementPtr, FALSE)) {
 		NumSatellites = NUM_SATELLITES + 2;
 	}
 
