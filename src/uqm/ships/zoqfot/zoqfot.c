@@ -57,16 +57,10 @@
 #define TONGUE_OFFSET RES_SCALE(4)
 
 // HD
-#define MAX_THRUST_2XRES 80
-#define THRUST_INCREMENT_2XRES 20
-#define MISSILE_SPEED_2XRES DISPLAY_TO_WORLD (20)
-#define MISSILE_RANGE_2XRES (MISSILE_SPEED_2XRES * MISSILE_LIFE)
-#define MAX_THRUST_4XRES 160
-#define THRUST_INCREMENT_4XRES 40
 #define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (40)
 #define MISSILE_RANGE_4XRES (MISSILE_SPEED_4XRES * MISSILE_LIFE)
 
-static RACE_DESC zoqfotpik_desc1x =
+static RACE_DESC zoqfotpik_desc =
 {
 	{ /* SHIP_INFO */
 		"stinger",
@@ -128,152 +122,6 @@ static RACE_DESC zoqfotpik_desc1x =
 	{
 		0,
 		MISSILE_RANGE,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC zoqfotpik_desc2x =
-{
-	{ /* SHIP_INFO */
-		"stinger",
-		FIRES_FORE,
-		6, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		ZOQFOTPIK_RACE_STRINGS,
-		ZOQFOTPIK_ICON_MASK_PMAP_ANIM,
-		ZOQFOTPIK_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		320 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			3761, 5333,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			ZOQFOTPIK_BIG_MASK_PMAP_ANIM,
-			ZOQFOTPIK_MED_MASK_PMAP_ANIM,
-			ZOQFOTPIK_SML_MASK_PMAP_ANIM,
-		},
-		{
-			SPIT_BIG_MASK_PMAP_ANIM,
-			SPIT_MED_MASK_PMAP_ANIM,
-			SPIT_SML_MASK_PMAP_ANIM,
-		},
-		{
-			STINGER_BIG_MASK_PMAP_ANIM,
-			STINGER_MED_MASK_PMAP_ANIM,
-			STINGER_SML_MASK_PMAP_ANIM,
-		},
-		{
-			ZOQFOTPIK_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		ZOQFOTPIK_VICTORY_SONG,
-		ZOQFOTPIK_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		MISSILE_RANGE_2XRES,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC zoqfotpik_desc4x =
-{
-	{ /* SHIP_INFO */
-		"stinger",
-		FIRES_FORE,
-		6, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		ZOQFOTPIK_RACE_STRINGS,
-		ZOQFOTPIK_ICON_MASK_PMAP_ANIM,
-		ZOQFOTPIK_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		320 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			3761, 5333,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			ZOQFOTPIK_BIG_MASK_PMAP_ANIM,
-			ZOQFOTPIK_MED_MASK_PMAP_ANIM,
-			ZOQFOTPIK_SML_MASK_PMAP_ANIM,
-		},
-		{
-			SPIT_BIG_MASK_PMAP_ANIM,
-			SPIT_MED_MASK_PMAP_ANIM,
-			SPIT_SML_MASK_PMAP_ANIM,
-		},
-		{
-			STINGER_BIG_MASK_PMAP_ANIM,
-			STINGER_MED_MASK_PMAP_ANIM,
-			STINGER_SML_MASK_PMAP_ANIM,
-		},
-		{
-			ZOQFOTPIK_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		ZOQFOTPIK_VICTORY_SONG,
-		ZOQFOTPIK_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		MISSILE_RANGE_4XRES,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -521,10 +369,13 @@ zoqfotpik_postprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_zoqfotpik (void)
 {
-	static RACE_DESC zoqfotpik_desc;
 	RACE_DESC *RaceDescPtr;
 
-	zoqfotpik_desc = (RESOLUTION_FACTOR != HD ? zoqfotpik_desc1x : zoqfotpik_desc4x);
+	if (resolutionFactor == HD) {
+		zoqfotpik_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		zoqfotpik_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		zoqfotpik_desc.cyborg_control.WeaponRange = MISSILE_RANGE_4XRES;
+	}
 
 	zoqfotpik_desc.postprocess_func = zoqfotpik_postprocess;
 	zoqfotpik_desc.init_weapon_func = initialize_spit;
