@@ -198,8 +198,7 @@ pump_up_postprocess (ELEMENT *ElementPtr)
 						StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2),
 						EPtr);
 			}
-			if (antiCheat(ElementPtr, FALSE))
-			{
+			if (antiCheat(ElementPtr, FALSE)) {
 				EPtr->thrust_wait = 5;
 			} else {
 				EPtr->thrust_wait = LEVEL_COUNTER;
@@ -347,8 +346,7 @@ initialize_pump_up (ELEMENT *ShipPtr, HELEMENT PumpUpArray[])
 		LockElement (PumpUpArray[0], &PumpUpPtr);
 		PumpUpPtr->postprocess_func = pump_up_postprocess;
 		PumpUpPtr->collision_func = pump_up_collision;
-		if (antiCheat(ShipPtr, FALSE))
-		{
+		if (antiCheat(ShipPtr, FALSE)) {
 			PumpUpPtr->thrust_wait = 5;
 		} else {
 			PumpUpPtr->thrust_wait = LEVEL_COUNTER;
@@ -476,9 +474,7 @@ confusion_collision (ELEMENT *ElementPtr0, POINT *pPt0,
 				ConfusionPtr->hTarget = StarShipPtr->hShip;
 			}
 
-			if (antiCheat(ElementPtr1, FALSE)) {
-				ConfusionPtr->life_span = 0;
-			} else {
+			if (!antiCheat(ElementPtr1, FALSE)) {
 				ConfusionPtr->life_span = 400;
 			}
 			ConfusionPtr->turn_wait =

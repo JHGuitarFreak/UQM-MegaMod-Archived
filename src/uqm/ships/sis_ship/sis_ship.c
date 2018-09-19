@@ -94,15 +94,11 @@
 #define MAX_DEFENSE 8
 
 // HD
-#define MAX_THRUST_2XRES 20
-#define THRUST_INCREMENT_2XRES 8
-#define BLASTER_SPEED_2XRES DISPLAY_TO_WORLD (48)
-#define MAX_THRUST_4XRES 40
-#define THRUST_INCREMENT_4XRES 16
 #define BLASTER_SPEED_4XRES DISPLAY_TO_WORLD (96)
+#define BLASTER_SPEED_BOOL (RESOLUTION_FACTOR != HD ? BLASTER_SPEED : BLASTER_SPEED_4XRES)
 
 
-static RACE_DESC sis_desc1x =
+static RACE_DESC sis_desc =
 {
 	{ /* SHIP_INFO */
 		"flagship",
@@ -164,152 +160,6 @@ static RACE_DESC sis_desc1x =
 	{
 		0,
 		BLASTER_SPEED * BLASTER_LIFE,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC sis_desc2x =
-{
-	{ /* SHIP_INFO */
-		"flagship",
-		0,
-		16, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		NULL_RESOURCE,
-		SIS_ICON_MASK_PMAP_ANIM,
-		NULL_RESOURCE,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			SIS_BIG_MASK_PMAP_ANIM,
-			SIS_MED_MASK_PMAP_ANIM,
-			SIS_SML_MASK_PMAP_ANIM,
-		},
-		{
-			BLASTER_BIG_MASK_PMAP_ANIM,
-			BLASTER_MED_MASK_PMAP_ANIM,
-			BLASTER_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			SIS_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		SIS_VICTORY_SONG,
-		SIS_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		BLASTER_SPEED_2XRES * BLASTER_LIFE,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC sis_desc4x =
-{
-	{ /* SHIP_INFO */
-		"flagship",
-		0,
-		16, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		NULL_RESOURCE,
-		SIS_ICON_MASK_PMAP_ANIM,
-		NULL_RESOURCE,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			SIS_BIG_MASK_PMAP_ANIM,
-			SIS_MED_MASK_PMAP_ANIM,
-			SIS_SML_MASK_PMAP_ANIM,
-		},
-		{
-			BLASTER_BIG_MASK_PMAP_ANIM,
-			BLASTER_MED_MASK_PMAP_ANIM,
-			BLASTER_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			SIS_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		SIS_VICTORY_SONG,
-		SIS_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		BLASTER_SPEED_4XRES * BLASTER_LIFE,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -787,7 +637,7 @@ blaster_preprocess (ELEMENT *ElementPtr)
 		facing = NORMALIZE_FACING (ANGLE_TO_FACING (
 				GetVelocityTravelAngle (&ElementPtr->velocity)));
 		if (TrackShip (ElementPtr, &facing) > 0)
-			SetVelocityVector (&ElementPtr->velocity, RES_SCALE(BLASTER_SPEED), facing);
+			SetVelocityVector (&ElementPtr->velocity, BLASTER_SPEED_BOOL, facing);
 
 		ElementPtr->turn_wait = MAKE_BYTE (wait, wait);
 	}
@@ -934,7 +784,7 @@ InitWeaponSlots (RACE_DESC *RaceDescPtr, const BYTE *ModuleSlots)
 		
 		lpMB->flags = IGNORE_SIMILAR;
 		lpMB->blast_offs = BLASTER_OFFSET;
-		lpMB->speed = RES_SCALE(BLASTER_SPEED);
+		lpMB->speed = BLASTER_SPEED_BOOL;
 		lpMB->preprocess_func = blaster_preprocess;
 		lpMB->hit_points = BLASTER_HITS * which_gun;
 		lpMB->damage = BLASTER_DAMAGE * which_gun;
@@ -1090,8 +940,14 @@ init_sis (void)
 	SIS_DATA empty_data;
 	memset (&empty_data, 0, sizeof (empty_data));
 
+	if (resolutionFactor == HD) {
+		sis_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		sis_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		sis_desc.cyborg_control.WeaponRange = BLASTER_SPEED_4XRES * BLASTER_LIFE;
+	}
+
 	/* copy initial ship settings to new_sis_desc */
-	new_sis_desc = (RESOLUTION_FACTOR != HD ? sis_desc1x : sis_desc4x);
+	new_sis_desc = sis_desc;
 	
 	new_sis_desc.uninit_func = uninit_sis;
 

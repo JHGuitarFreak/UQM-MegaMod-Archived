@@ -446,10 +446,7 @@ LeftShip:
 				}
 				else if (randval < (0x0100 / 2 + 0x0100 / 16))
 				{
-					if (antiCheat(ElementPtr, TRUE))
-					{
-						// Marines do no damage to player while boarded
-					} else {
+					if (!antiCheat(ElementPtr, TRUE)) {
 						if (!DeltaCrew (ShipPtr, -1))
 							ShipPtr->life_span = 0;
 					}
@@ -779,12 +776,7 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 				ElementPtr0->hit_points = 0;
 				ElementPtr0->life_span = 0;
 			} else if ((ElementPtr0->state_flags & IGNORE_SIMILAR) && ElementPtr1->crew_level) {
-				if (antiCheat(ElementPtr1, FALSE))
-				{
-					if (!DeltaCrew (ElementPtr1, 0)){ // Marines won't damage player while boarding
-						ElementPtr1->life_span = 0;
-					}
-				} else {
+				if (!antiCheat(ElementPtr1, FALSE)) {
 					if (!DeltaCrew (ElementPtr1, -1)){
 						ElementPtr1->life_span = 0;
 					}					
