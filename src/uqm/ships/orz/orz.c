@@ -62,14 +62,9 @@
 #define TURRET_WAIT 3
 
 // HD
-#define MAX_THRUST_2XRES 70
-#define THRUST_INCREMENT_2XRES 10
-#define MISSILE_SPEED_2XRES DISPLAY_TO_WORLD (60)
-#define MAX_THRUST_4XRES 140
-#define THRUST_INCREMENT_4XRES 20
 #define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
 
-static RACE_DESC orz_desc1x =
+static RACE_DESC orz_desc =
 {
 	{ /* SHIP_INFO */
 		"nemesis",
@@ -131,152 +126,6 @@ static RACE_DESC orz_desc1x =
 	{
 		0,
 		MISSILE_SPEED * MISSILE_LIFE,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC orz_desc2x =
-{
-	{ /* SHIP_INFO */
-		"nemesis",
-		FIRES_FORE | SEEKING_SPECIAL,
-		23, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		ORZ_RACE_STRINGS,
-		ORZ_ICON_MASK_PMAP_ANIM,
-		ORZ_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		333 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			3608, 2637,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			ORZ_BIG_MASK_PMAP_ANIM,
-			ORZ_MED_MASK_PMAP_ANIM,
-			ORZ_SML_MASK_PMAP_ANIM,
-		},
-		{
-			HOWITZER_BIG_MASK_PMAP_ANIM,
-			HOWITZER_MED_MASK_PMAP_ANIM,
-			HOWITZER_SML_MASK_PMAP_ANIM,
-		},
-		{
-			TURRET_BIG_MASK_PMAP_ANIM,
-			TURRET_MED_MASK_PMAP_ANIM,
-			TURRET_SML_MASK_PMAP_ANIM,
-		},
-		{
-			ORZ_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		ORZ_VICTORY_SONG,
-		ORZ_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		MISSILE_SPEED_2XRES * MISSILE_LIFE,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC orz_desc4x =
-{
-	{ /* SHIP_INFO */
-		"nemesis",
-		FIRES_FORE | SEEKING_SPECIAL,
-		23, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		ORZ_RACE_STRINGS,
-		ORZ_ICON_MASK_PMAP_ANIM,
-		ORZ_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		333 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			3608, 2637,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			ORZ_BIG_MASK_PMAP_ANIM,
-			ORZ_MED_MASK_PMAP_ANIM,
-			ORZ_SML_MASK_PMAP_ANIM,
-		},
-		{
-			HOWITZER_BIG_MASK_PMAP_ANIM,
-			HOWITZER_MED_MASK_PMAP_ANIM,
-			HOWITZER_SML_MASK_PMAP_ANIM,
-		},
-		{
-			TURRET_BIG_MASK_PMAP_ANIM,
-			TURRET_MED_MASK_PMAP_ANIM,
-			TURRET_SML_MASK_PMAP_ANIM,
-		},
-		{
-			ORZ_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		ORZ_VICTORY_SONG,
-		ORZ_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		MISSILE_SPEED_4XRES * MISSILE_LIFE,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -597,9 +446,7 @@ LeftShip:
 				}
 				else if (randval < (0x0100 / 2 + 0x0100 / 16))
 				{
-					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
-						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
+					if (antiCheat(ElementPtr, TRUE))
 					{
 						// Marines do no damage to player while boarded
 					} else {
@@ -932,9 +779,7 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 				ElementPtr0->hit_points = 0;
 				ElementPtr0->life_span = 0;
 			} else if ((ElementPtr0->state_flags & IGNORE_SIMILAR) && ElementPtr1->crew_level) {
-				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-				(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
-				((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
+				if (antiCheat(ElementPtr1, FALSE))
 				{
 					if (!DeltaCrew (ElementPtr1, 0)){ // Marines won't damage player while boarding
 						ElementPtr1->life_span = 0;
@@ -1232,10 +1077,13 @@ orz_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_orz (void)
 {
-	static RACE_DESC orz_desc;
 	RACE_DESC *RaceDescPtr;
 
-	orz_desc = (RESOLUTION_FACTOR != HD ? orz_desc1x : orz_desc4x);
+	if (resolutionFactor == HD) {
+		orz_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		orz_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		orz_desc.cyborg_control.WeaponRange = MISSILE_SPEED_4XRES * MISSILE_LIFE;
+	}
 
 	orz_desc.preprocess_func = orz_preprocess;
 	orz_desc.init_weapon_func = initialize_turret_missile;

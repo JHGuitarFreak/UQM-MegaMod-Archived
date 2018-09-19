@@ -49,16 +49,7 @@
 #define SPECIAL_WAIT 0
 #define REGENERATION_AMOUNT 4
 
-// HD
-#define MAX_THRUST_2XRES /* DISPLAY_TO_WORLD (14) */ 54
-#define THRUST_INCREMENT_2XRES /* DISPLAY_TO_WORLD (4) */ 18
-#define MAX_THRUST_4XRES /* DISPLAY_TO_WORLD (28) */ 108
-#define THRUST_INCREMENT_4XRES /* DISPLAY_TO_WORLD (8) */ 36
-
-#define MAX_THRUST_HIRES /* DISPLAY_TO_WORLD (20) */ 108 // DC_GFX
-#define THRUST_INCREMENT_HIRES MAX_THRUST_HIRES // DC_GFX
-
-static RACE_DESC mycon_desc1x =
+static RACE_DESC mycon_desc =
 {
 	{ /* SHIP_INFO */
 		"podship",
@@ -120,152 +111,6 @@ static RACE_DESC mycon_desc1x =
 	{
 		0,
 		DISPLAY_TO_WORLD (800),
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC mycon_desc2x =
-{
-	{ /* SHIP_INFO */
-		"podship",
-		FIRES_FORE | SEEKING_WEAPON,
-		21, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		MYCON_RACE_STRINGS,
-		MYCON_ICON_MASK_PMAP_ANIM,
-		MYCON_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		1070 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			6392, 2200,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			MYCON_BIG_MASK_PMAP_ANIM,
-			MYCON_MED_MASK_PMAP_ANIM,
-			MYCON_SML_MASK_PMAP_ANIM,
-		},
-		{
-			PLASMA_BIG_MASK_PMAP_ANIM,
-			PLASMA_MED_MASK_PMAP_ANIM,
-			PLASMA_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			MYCON_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		MYCON_VICTORY_SONG,
-		MYCON_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		DISPLAY_TO_WORLD (1600),
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC mycon_desc4x =
-{
-	{ /* SHIP_INFO */
-		"podship",
-		FIRES_FORE | SEEKING_WEAPON,
-		21, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		MYCON_RACE_STRINGS,
-		MYCON_ICON_MASK_PMAP_ANIM,
-		MYCON_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		1070 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			6392, 2200,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			MYCON_BIG_MASK_PMAP_ANIM,
-			MYCON_MED_MASK_PMAP_ANIM,
-			MYCON_SML_MASK_PMAP_ANIM,
-		},
-		{
-			PLASMA_BIG_MASK_PMAP_ANIM,
-			PLASMA_MED_MASK_PMAP_ANIM,
-			PLASMA_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			MYCON_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		MYCON_VICTORY_SONG,
-		MYCON_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		DISPLAY_TO_WORLD (3200),
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -519,10 +364,13 @@ mycon_postprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_mycon (void)
 {
-	static RACE_DESC mycon_desc;
 	RACE_DESC *RaceDescPtr;
 
-	mycon_desc = (RESOLUTION_FACTOR != HD ? mycon_desc1x : mycon_desc4x);
+	if (resolutionFactor == HD) {
+		mycon_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		mycon_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		mycon_desc.cyborg_control.WeaponRange = DISPLAY_TO_WORLD(3200);
+	}
 
 	mycon_desc.postprocess_func = mycon_postprocess;
 	mycon_desc.init_weapon_func = initialize_plasma;

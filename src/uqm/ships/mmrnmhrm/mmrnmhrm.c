@@ -66,13 +66,7 @@
 #define SPECIAL_WAIT 0
 #define YWING_SPECIAL_WAIT 0
 
-// HD
-#define MAX_THRUST_2XRES 40
-#define THRUST_INCREMENT_2XRES 10
-#define MAX_THRUST_4XRES 80
-#define THRUST_INCREMENT_4XRES 20
-
-static RACE_DESC mmrnmhrm_desc1x =
+static RACE_DESC mmrnmhrm_desc =
 {
 	{ /* SHIP_INFO */
 		"xform",
@@ -134,152 +128,6 @@ static RACE_DESC mmrnmhrm_desc1x =
 	{
 		0,
 		CLOSE_RANGE_WEAPON,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC mmrnmhrm_desc2x =
-{
-	{ /* SHIP_INFO */
-		"xform",
-		FIRES_FORE | IMMEDIATE_WEAPON,
-		19, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		MMRNMHRM_RACE_STRINGS,
-		MMRNMHRM_ICON_MASK_PMAP_ANIM,
-		MMRNMHRM_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			MMRNMHRM_BIG_MASK_PMAP_ANIM,
-			MMRNMHRM_MED_MASK_PMAP_ANIM,
-			MMRNMHRM_SML_MASK_PMAP_ANIM,
-		},
-		{
-			TORP_BIG_MASK_PMAP_ANIM,
-			TORP_MED_MASK_PMAP_ANIM,
-			TORP_SML_MASK_PMAP_ANIM,
-		},
-		{
-			YWING_BIG_MASK_PMAP_ANIM,
-			YWING_MED_MASK_PMAP_ANIM,
-			YWING_SML_MASK_PMAP_ANIM,
-		},
-		{
-			MMRNMHRM_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		MMRNMHRM_VICTORY_SONG,
-		MMRNMHRM_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		CLOSE_RANGE_WEAPON_2XRES,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC mmrnmhrm_desc4x =
-{
-	{ /* SHIP_INFO */
-		"xform",
-		FIRES_FORE | IMMEDIATE_WEAPON,
-		19, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		MMRNMHRM_RACE_STRINGS,
-		MMRNMHRM_ICON_MASK_PMAP_ANIM,
-		MMRNMHRM_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			MMRNMHRM_BIG_MASK_PMAP_ANIM,
-			MMRNMHRM_MED_MASK_PMAP_ANIM,
-			MMRNMHRM_SML_MASK_PMAP_ANIM,
-		},
-		{
-			TORP_BIG_MASK_PMAP_ANIM,
-			TORP_MED_MASK_PMAP_ANIM,
-			TORP_SML_MASK_PMAP_ANIM,
-		},
-		{
-			YWING_BIG_MASK_PMAP_ANIM,
-			YWING_MED_MASK_PMAP_ANIM,
-			YWING_SML_MASK_PMAP_ANIM,
-		},
-		{
-			MMRNMHRM_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		MMRNMHRM_VICTORY_SONG,
-		MMRNMHRM_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		CLOSE_RANGE_WEAPON_4XRES,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -646,14 +494,17 @@ uninit_mmrnmhrm (RACE_DESC *pRaceDesc)
 RACE_DESC*
 init_mmrnmhrm (void)
 {
-	static RACE_DESC mmrnmhrm_desc;
 	RACE_DESC *RaceDescPtr;
 
 	// The caller of this func will copy the struct
 	static RACE_DESC new_mmrnmhrm_desc;
 	MMRNMHRM_DATA otherwing_desc;
 
-	mmrnmhrm_desc = (RESOLUTION_FACTOR != HD ? mmrnmhrm_desc1x : mmrnmhrm_desc4x);
+	if (resolutionFactor == HD) {
+		mmrnmhrm_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		mmrnmhrm_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		mmrnmhrm_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES;
+	}
 
 	mmrnmhrm_desc.uninit_func = uninit_mmrnmhrm;
 	mmrnmhrm_desc.preprocess_func = mmrnmhrm_preprocess;

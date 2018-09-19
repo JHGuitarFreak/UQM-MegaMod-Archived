@@ -102,10 +102,10 @@ extern BOOLEAN ThrustShip (ELEMENT *ShipPtr, COUNT angle);
 
 
 static inline BOOLEAN
-antiCheat(ELEMENT *ElementPtr) {
+antiCheat(ELEMENT *ElementPtr, BOOLEAN SwapBool) {
 	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && optGodMode
-		&& (PlayerControl[0] & COMPUTER_CONTROL && ElementPtr->playerNr == 1)
-		|| (PlayerControl[1] & COMPUTER_CONTROL && ElementPtr->playerNr == 0)) {
+		&& (PlayerControl[0] & COMPUTER_CONTROL && ElementPtr->playerNr == (SwapBool ? 0 : 1))
+		|| (PlayerControl[1] & COMPUTER_CONTROL && ElementPtr->playerNr == (SwapBool ? 1 : 0))) {
 		return TRUE;
 	} else {
 		return FALSE;
