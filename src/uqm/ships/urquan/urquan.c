@@ -418,12 +418,7 @@ spawn_fighters (ELEMENT *ElementPtr)
 		COUNT fighter_facing;
 		ELEMENT *FighterElementPtr;
 
-		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-			(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
-			((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
-		{
-			//DeltaCrew (ElementPtr, -1);
-		} else {
+		if (!antiCheat(ElementPtr, FALSE)) {
 			DeltaCrew (ElementPtr, -1);
 		}
 
