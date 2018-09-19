@@ -993,12 +993,7 @@ turret_postprocess (ELEMENT *ElementPtr)
 				UnlockElement (hSpaceMarine);
 				PutElement (hSpaceMarine);
 
-				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-					(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
-					((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
-				{
-					// Marines launched does not count towards crew
-				} else {
+				if (!antiCheat(ElementPtr, FALSE)) {
 					DeltaCrew (ShipPtr, -1);
 				}
 				ProcessSound (SetAbsSoundIndex (
