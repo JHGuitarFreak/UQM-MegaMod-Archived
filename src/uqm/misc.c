@@ -206,10 +206,7 @@ void
 do_damage (ELEMENT *ElementPtr, SIZE damage)
 {
 	// God Mode, borrowed from the UQM-HD debug invincibility code
-	if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-		(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1) || 
-		((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0))))
-	{
+	if (antiCheat(ElementPtr, FALSE)) {
 		damage = 0;
 	}
 	if (ElementPtr->state_flags & PLAYER_SHIP)
