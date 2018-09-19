@@ -26,7 +26,7 @@
 #include "libs/graphics/gfx_common.h"
 #include "uqm/lua/luacomm.h"
 
-static LOCDATA commander_desc_1x =
+static LOCDATA commander_desc =
 {
 	COMMANDER_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -721,10 +721,18 @@ post_commander_enc (void)
 LOCDATA*
 init_commander_comm ()
 {
-	static LOCDATA commander_desc;
 	LOCDATA *retval;
 
-	commander_desc = (RESOLUTION_FACTOR != HD ? commander_desc_1x : commander_desc_4x);
+	if (RESOLUTION_FACTOR == HD){
+		commander_desc.AlienAmbientArray[1].NumFrames = 27;
+		commander_desc.AlienAmbientArray[1].AnimFlags = CIRCULAR_ANIM;
+
+		commander_desc.AlienAmbientArray[2].StartIndex = 78;
+		commander_desc.AlienAmbientArray[2].NumFrames = 6;
+		commander_desc.AlienAmbientArray[2].AnimFlags = RANDOM_ANIM;
+		commander_desc.AlienAmbientArray[2].RandomFrameRate = ONE_SECOND / 5;
+		commander_desc.AlienAmbientArray[2].RandomRestartRate = ONE_SECOND / 4;
+	}
 
 	commander_desc.init_encounter_func = Intro;
 	commander_desc.post_encounter_func = post_commander_enc;
