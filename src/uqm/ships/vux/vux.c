@@ -162,16 +162,7 @@ limpet_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 	if (ElementPtr1->state_flags & PLAYER_SHIP) {
 		GetElementStarShip (ElementPtr1, &StarShipPtr);
 		RDPtr = StarShipPtr->RaceDescPtr;
-		if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-			(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 1) || 
-			((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr1->playerNr == 0))))
-		{
-			RDPtr->cyborg_control.ManeuverabilityIndex = 0;
-			GetElementStarShip (ElementPtr0, &StarShipPtr);
-			ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1); // LIMPET_AFFIXES
-			s.frame = SetAbsFrameIndex (StarShipPtr->RaceDescPtr->ship_data.weapon[0], (COUNT)TFB_Random ());
-			ModifySilhouette (ElementPtr1, &s, MODIFY_IMAGE);
-		} else {
+		if (!antiCheat(ElementPtr1, FALSE)) {
 			if (++RDPtr->characteristics.turn_wait == 0)
 				--RDPtr->characteristics.turn_wait;
 			if (++RDPtr->characteristics.thrust_wait == 0)
@@ -189,6 +180,9 @@ limpet_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 			ProcessSound (SetAbsSoundIndex (StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1); // LIMPET_AFFIXES
 			s.frame = SetAbsFrameIndex (StarShipPtr->RaceDescPtr->ship_data.weapon[0], (COUNT)TFB_Random ());
 			ModifySilhouette (ElementPtr1, &s, MODIFY_IMAGE);
+		}
+		else {
+			ProcessSound(SetAbsSoundIndex(StarShipPtr->RaceDescPtr->ship_data.ship_sounds, 2), ElementPtr1); // LIMPET_AFFIXES
 		}
 	}
 
