@@ -60,15 +60,10 @@
 #define STATIONARY_SPEED WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (RES_SCALE(4)))
 
 // HD
-#define MAX_THRUST_2XRES 56
-#define THRUST_INCREMENT_2XRES 14
-#define MISSILE_SPEED_2XRES DISPLAY_TO_WORLD (60)
-#define MAX_THRUST_4XRES 112
-#define THRUST_INCREMENT_4XRES 28
 #define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
 
 
-static RACE_DESC thraddash_desc1x =
+static RACE_DESC thraddash_desc =
 {
 	{ /* SHIP_INFO */
 		"torch",
@@ -130,152 +125,6 @@ static RACE_DESC thraddash_desc1x =
 	{
 		0,
 		(MISSILE_SPEED * MISSILE_LIFE) >> 1,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC thraddash_desc2x =
-{
-	{ /* SHIP_INFO */
-		"torch",
-		FIRES_FORE,
-		10, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		THRADDASH_RACE_STRINGS,
-		THRADDASH_ICON_MASK_PMAP_ANIM,
-		THRADDASH_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		833 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			2535, 8358,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			THRADDASH_BIG_MASK_PMAP_ANIM,
-			THRADDASH_MED_MASK_PMAP_ANIM,
-			THRADDASH_SML_MASK_PMAP_ANIM,
-		},
-		{
-			HORN_BIG_MASK_PMAP_ANIM,
-			HORN_MED_MASK_PMAP_ANIM,
-			HORN_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NAPALM_BIG_MASK_PMAP_ANIM,
-			NAPALM_MED_MASK_PMAP_ANIM,
-			NAPALM_SML_MASK_PMAP_ANIM,
-		},
-		{
-			THRADDASH_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		THRADDASH_VICTORY_SONG,
-		THRADDASH_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		(MISSILE_SPEED_2XRES * MISSILE_LIFE) >> 1,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC thraddash_desc4x =
-{
-	{ /* SHIP_INFO */
-		"torch",
-		FIRES_FORE,
-		10, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		THRADDASH_RACE_STRINGS,
-		THRADDASH_ICON_MASK_PMAP_ANIM,
-		THRADDASH_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		833 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			2535, 8358,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			THRADDASH_BIG_MASK_PMAP_ANIM,
-			THRADDASH_MED_MASK_PMAP_ANIM,
-			THRADDASH_SML_MASK_PMAP_ANIM,
-		},
-		{
-			HORN_BIG_MASK_PMAP_ANIM,
-			HORN_MED_MASK_PMAP_ANIM,
-			HORN_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NAPALM_BIG_MASK_PMAP_ANIM,
-			NAPALM_MED_MASK_PMAP_ANIM,
-			NAPALM_SML_MASK_PMAP_ANIM,
-		},
-		{
-			THRADDASH_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		THRADDASH_VICTORY_SONG,
-		THRADDASH_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		(MISSILE_SPEED_4XRES * MISSILE_LIFE) >> 1,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -429,7 +278,7 @@ initialize_horn (ELEMENT *ShipPtr, HELEMENT HornArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = THRADDASH_OFFSET;
-	MissileBlock.speed = RES_SCALE(MISSILE_SPEED);
+	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_4XRES);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -543,10 +392,13 @@ thraddash_preprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_thraddash (void)
 {
-	static RACE_DESC thraddash_desc;
 	RACE_DESC *RaceDescPtr;
 
-	thraddash_desc = (RESOLUTION_FACTOR != HD ? thraddash_desc1x : thraddash_desc4x);
+	if (resolutionFactor == HD) {
+		thraddash_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		thraddash_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		thraddash_desc.cyborg_control.WeaponRange = (MISSILE_SPEED_4XRES * MISSILE_LIFE) >> 1;
+	}
 
 	thraddash_desc.preprocess_func = thraddash_preprocess;
 	thraddash_desc.init_weapon_func = initialize_horn;

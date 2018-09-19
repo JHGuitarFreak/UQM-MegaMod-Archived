@@ -51,15 +51,9 @@
 #define MAX_ABANDONERS 8
 
 // HD
-#define MAX_THRUST_2XRES /* DISPLAY_TO_WORLD (8) */ 72
-#define THRUST_INCREMENT_2XRES /* DISPLAY_TO_WORLD (2) */ 18
-#define MISSILE_SPEED_2XRES DISPLAY_TO_WORLD (60)
-
-#define MAX_THRUST_4XRES /* DISPLAY_TO_WORLD (8) */ 144
-#define THRUST_INCREMENT_4XRES /* DISPLAY_TO_WORLD (2) */ 36
 #define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
 
-static RACE_DESC syreen_desc1x =
+static RACE_DESC syreen_desc =
 {
 	{ /* SHIP_INFO */
 		"penetrator",
@@ -131,153 +125,6 @@ static RACE_DESC syreen_desc1x =
 	0, /* CodeRef */
 };
 
-
-// JMS_GFX
-static RACE_DESC syreen_desc2x =
-{
-	{ /* SHIP_INFO */
-		"penetrator",
-		FIRES_FORE,
-		13, /* Super Melee cost */
-		MAX_CREW, SYREEN_MAX_CREW_SIZE,
-		MAX_ENERGY, MAX_ENERGY,
-		SYREEN_RACE_STRINGS,
-		SYREEN_ICON_MASK_PMAP_ANIM,
-		SYREEN_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			SYREEN_BIG_MASK_PMAP_ANIM,
-			SYREEN_MED_MASK_PMAP_ANIM,
-			SYREEN_SML_MASK_PMAP_ANIM,
-		},
-		{
-			DAGGER_BIG_MASK_PMAP_ANIM,
-			DAGGER_MED_MASK_PMAP_ANIM,
-			DAGGER_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			SYREEN_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		SYREEN_VICTORY_SONG,
-		SYREEN_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		(MISSILE_SPEED_2XRES * MISSILE_LIFE * 2 / 3),
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC syreen_desc4x =
-{
-	{ /* SHIP_INFO */
-		"penetrator",
-		FIRES_FORE,
-		13, /* Super Melee cost */
-		MAX_CREW, SYREEN_MAX_CREW_SIZE,
-		MAX_ENERGY, MAX_ENERGY,
-		SYREEN_RACE_STRINGS,
-		SYREEN_ICON_MASK_PMAP_ANIM,
-		SYREEN_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			SYREEN_BIG_MASK_PMAP_ANIM,
-			SYREEN_MED_MASK_PMAP_ANIM,
-			SYREEN_SML_MASK_PMAP_ANIM,
-		},
-		{
-			DAGGER_BIG_MASK_PMAP_ANIM,
-			DAGGER_MED_MASK_PMAP_ANIM,
-			DAGGER_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			SYREEN_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		SYREEN_VICTORY_SONG,
-		SYREEN_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		(MISSILE_SPEED_4XRES * MISSILE_LIFE * 2 / 3),
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
 static COUNT
 initialize_dagger (ELEMENT *ShipPtr, HELEMENT DaggerArray[])
 {
@@ -292,7 +139,7 @@ initialize_dagger (ELEMENT *ShipPtr, HELEMENT DaggerArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = SYREEN_OFFSET;
-	MissileBlock.speed = RES_SCALE(MISSILE_SPEED);
+	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_4XRES);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -363,14 +210,11 @@ spawn_crew (ELEMENT *ElementPtr)
 				{
 					COUNT crew_loss;
 
-					if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-						(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
-						((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
-					{
+					if (!antiCheat(ElementPtr, TRUE))
+						crew_loss = ((MAX_ABANDONERS * (ABANDONER_RANGE - square_root(d_squared))) / ABANDONER_RANGE) + 1;
+					else
 						crew_loss = 0;
-					} else {
-						crew_loss = ((MAX_ABANDONERS * (ABANDONER_RANGE - square_root (d_squared))) / ABANDONER_RANGE) + 1;
-					}
+
 					if (crew_loss >= ObjPtr->crew_level)
 						crew_loss = ObjPtr->crew_level - 1;
 
@@ -433,11 +277,13 @@ syreen_postprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_syreen (void)
 {
-	
-	static RACE_DESC syreen_desc;
 	RACE_DESC *RaceDescPtr;
 
-	syreen_desc = (RESOLUTION_FACTOR != HD ? syreen_desc1x : syreen_desc4x);
+	if (resolutionFactor == HD) {
+		syreen_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		syreen_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		syreen_desc.cyborg_control.WeaponRange = (MISSILE_SPEED_4XRES * MISSILE_LIFE * 2 / 3);
+	}
 
 	syreen_desc.postprocess_func = syreen_postprocess;
 	syreen_desc.init_weapon_func = initialize_dagger;
@@ -446,4 +292,3 @@ init_syreen (void)
 
 	return (RaceDescPtr);
 }
-

@@ -55,13 +55,7 @@
 #define TRANSITION_LIFE 1
 #define TRANSITION_SPEED DISPLAY_TO_WORLD (RES_SCALE(20))
 
-// HD
-#define MAX_THRUST_2XRES 128
-#define THRUST_INCREMENT_2XRES 32
-#define MAX_THRUST_4XRES 256
-#define THRUST_INCREMENT_4XRES 64
-
-static RACE_DESC pkunk_desc1x =
+static RACE_DESC pkunk_desc =
 {
 	{ /* SHIP_INFO */
 		"fury",
@@ -123,152 +117,6 @@ static RACE_DESC pkunk_desc1x =
 	{
 		0,
 		CLOSE_RANGE_WEAPON + 1,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC pkunk_desc2x =
-{
-	{ /* SHIP_INFO */
-		"fury",
-		FIRES_FORE | FIRES_LEFT | FIRES_RIGHT,
-		20, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		PKUNK_RACE_STRINGS,
-		PKUNK_ICON_MASK_PMAP_ANIM,
-		PKUNK_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		666 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			502, 401,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		0, /* SPECIAL_WAIT */
-		SHIP_MASS,
-	},
-	{
-		{
-			PKUNK_BIG_MASK_PMAP_ANIM,
-			PKUNK_MED_MASK_PMAP_ANIM,
-			PKUNK_SML_MASK_PMAP_ANIM,
-		},
-		{
-			BUG_BIG_MASK_PMAP_ANIM,
-			BUG_MED_MASK_PMAP_ANIM,
-			BUG_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			PKUNK_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		PKUNK_VICTORY_SONG,
-		PKUNK_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		CLOSE_RANGE_WEAPON_2XRES + 2,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC pkunk_desc4x =
-{
-	{ /* SHIP_INFO */
-		"fury",
-		FIRES_FORE | FIRES_LEFT | FIRES_RIGHT,
-		20, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		PKUNK_RACE_STRINGS,
-		PKUNK_ICON_MASK_PMAP_ANIM,
-		PKUNK_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		666 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			502, 401,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		0, /* SPECIAL_WAIT */
-		SHIP_MASS,
-	},
-	{
-		{
-			PKUNK_BIG_MASK_PMAP_ANIM,
-			PKUNK_MED_MASK_PMAP_ANIM,
-			PKUNK_SML_MASK_PMAP_ANIM,
-		},
-		{
-			BUG_BIG_MASK_PMAP_ANIM,
-			BUG_MED_MASK_PMAP_ANIM,
-			BUG_SML_MASK_PMAP_ANIM,
-		},
-		{
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			PKUNK_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		PKUNK_VICTORY_SONG,
-		PKUNK_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		CLOSE_RANGE_WEAPON_4XRES + 4,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -765,12 +613,15 @@ uninit_pkunk (RACE_DESC *pRaceDesc)
 RACE_DESC*
 init_pkunk (void)
 {
-	static RACE_DESC pkunk_desc;
 	static RACE_DESC new_pkunk_desc;
 	RACE_DESC *RaceDescPtr;
 	PKUNK_DATA empty_data;
 
-	pkunk_desc = (RESOLUTION_FACTOR != HD ? pkunk_desc1x : pkunk_desc4x);
+	if (resolutionFactor == HD) {
+		pkunk_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		pkunk_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		pkunk_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES + 4;
+	}
 
 	// The caller of this func will copy the struct
 	memset (&empty_data, 0, sizeof (empty_data));

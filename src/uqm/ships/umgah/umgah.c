@@ -48,13 +48,7 @@
 #define SPECIAL_WAIT 2
 #define JUMP_DIST DISPLAY_TO_WORLD (RES_SCALE(40))
 
-// HD
-#define MAX_THRUST_2XRES /* DISPLAY_TO_WORLD (5) */ 36
-#define THRUST_INCREMENT_2XRES /* DISPLAY_TO_WORLD (2) */ 12
-#define MAX_THRUST_4XRES /* DISPLAY_TO_WORLD (5) */ 72
-#define THRUST_INCREMENT_4XRES /* DISPLAY_TO_WORLD (2) */ 24
-
-static RACE_DESC umgah_desc1x =
+static RACE_DESC umgah_desc =
 {
 	{ /* SHIP_INFO */
 		"drone",
@@ -116,152 +110,6 @@ static RACE_DESC umgah_desc1x =
 	{
 		0,
 		(LONG_RANGE_WEAPON << 2),
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC umgah_desc2x =
-{
-	{ /* SHIP_INFO */
-		"drone",
-		FIRES_FORE | IMMEDIATE_WEAPON,
-		7, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		UMGAH_RACE_STRINGS,
-		UMGAH_ICON_MASK_PMAP_ANIM,
-		UMGAH_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		833 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			1798, 6000,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			UMGAH_BIG_MASK_PMAP_ANIM,
-			UMGAH_MED_MASK_PMAP_ANIM,
-			UMGAH_SML_MASK_PMAP_ANIM,
-		},
-		{
-			SPRITZ_MASK_PMAP_ANIM,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			CONE_BIG_MASK_ANIM,
-			CONE_MED_MASK_ANIM,
-			CONE_SML_MASK_ANIM,
-		},
-		{
-			UMGAH_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		UMGAH_VICTORY_SONG,
-		UMGAH_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		(LONG_RANGE_WEAPON_2XRES << 2),
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC umgah_desc4x =
-{
-	{ /* SHIP_INFO */
-		"drone",
-		FIRES_FORE | IMMEDIATE_WEAPON,
-		7, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		UMGAH_RACE_STRINGS,
-		UMGAH_ICON_MASK_PMAP_ANIM,
-		UMGAH_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		833 / SPHERE_RADIUS_INCREMENT * 2, /* Initial SoI radius */
-		{ /* Known location (center of SoI) */
-			1798, 6000,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			UMGAH_BIG_MASK_PMAP_ANIM,
-			UMGAH_MED_MASK_PMAP_ANIM,
-			UMGAH_SML_MASK_PMAP_ANIM,
-		},
-		{
-			SPRITZ_MASK_PMAP_ANIM,
-			NULL_RESOURCE,
-			NULL_RESOURCE,
-		},
-		{
-			CONE_BIG_MASK_ANIM,
-			CONE_MED_MASK_ANIM,
-			CONE_SML_MASK_ANIM,
-		},
-		{
-			UMGAH_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		UMGAH_VICTORY_SONG,
-		UMGAH_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		(LONG_RANGE_WEAPON_4XRES << 2),
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -572,10 +420,13 @@ uninit_umgah (RACE_DESC *pRaceDesc)
 RACE_DESC*
 init_umgah (void)
 {
-	static RACE_DESC umgah_desc;
 	RACE_DESC *RaceDescPtr;
 
-	umgah_desc = (RESOLUTION_FACTOR != HD ? umgah_desc1x : umgah_desc4x);
+	if (resolutionFactor == HD) {
+		umgah_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		umgah_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		umgah_desc.cyborg_control.WeaponRange = (LONG_RANGE_WEAPON_4XRES << 2);
+	}
 
 	umgah_desc.uninit_func = uninit_umgah;
 	umgah_desc.preprocess_func = umgah_preprocess;

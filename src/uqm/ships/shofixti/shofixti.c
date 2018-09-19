@@ -55,14 +55,9 @@
 #define NUM_LIMPETS 3
 
 // HD
-#define MAX_THRUST_2XRES 70
-#define THRUST_INCREMENT_2XRES 10
-#define MISSILE_SPEED_2XRES DISPLAY_TO_WORLD (48)
-#define MAX_THRUST_4XRES 140
-#define THRUST_INCREMENT_4XRES 20
 #define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (96)
 
-static RACE_DESC shofixti_desc1x =
+static RACE_DESC shofixti_desc =
 {
 	{ /* SHIP_INFO */
 		"scout",
@@ -124,152 +119,6 @@ static RACE_DESC shofixti_desc1x =
 	{
 		0,
 		MISSILE_SPEED * MISSILE_LIFE,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC shofixti_desc2x =
-{
-	{ /* SHIP_INFO */
-		"scout",
-		FIRES_FORE,
-		5, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		SHOFIXTI_RACE_STRINGS,
-		SHOFIXTI_ICON_MASK_PMAP_ANIM,
-		SHOFIXTI_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_2XRES,
-		THRUST_INCREMENT_2XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			SHOFIXTI_BIG_MASK_PMAP_ANIM,
-			SHOFIXTI_MED_MASK_PMAP_ANIM,
-			SHOFIXTI_SML_MASK_PMAP_ANIM,
-		},
-		{
-			DART_BIG_MASK_PMAP_ANIM,
-			DART_MED_MASK_PMAP_ANIM,
-			DART_SML_MASK_PMAP_ANIM,
-		},
-		{
-			DESTRUCT_BIG_MASK_ANIM,
-			DESTRUCT_MED_MASK_ANIM,
-			DESTRUCT_SML_MASK_ANIM,
-		},
-		{
-			SHOFIXTI_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		SHOFIXTI_VICTORY_SONG,
-		SHOFIXTI_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		MISSILE_SPEED_2XRES * MISSILE_LIFE,
-		NULL,
-	},
-	(UNINIT_FUNC *) NULL,
-	(PREPROCESS_FUNC *) NULL,
-	(POSTPROCESS_FUNC *) NULL,
-	(INIT_WEAPON_FUNC *) NULL,
-	0,
-	0, /* CodeRef */
-};
-
-// JMS_GFX
-static RACE_DESC shofixti_desc4x =
-{
-	{ /* SHIP_INFO */
-		"scout",
-		FIRES_FORE,
-		5, /* Super Melee cost */
-		MAX_CREW, MAX_CREW,
-		MAX_ENERGY, MAX_ENERGY,
-		SHOFIXTI_RACE_STRINGS,
-		SHOFIXTI_ICON_MASK_PMAP_ANIM,
-		SHOFIXTI_MICON_MASK_PMAP_ANIM,
-		NULL, NULL, NULL
-	},
-	{ /* FLEET_STUFF */
-		0, /* Initial sphere of influence radius */
-		{ /* Known location (center of SoI) */
-			0, 0,
-		},
-	},
-	{
-		MAX_THRUST_4XRES,
-		THRUST_INCREMENT_4XRES,
-		ENERGY_REGENERATION,
-		WEAPON_ENERGY_COST,
-		SPECIAL_ENERGY_COST,
-		ENERGY_WAIT,
-		TURN_WAIT,
-		THRUST_WAIT,
-		WEAPON_WAIT,
-		SPECIAL_WAIT,
-		SHIP_MASS,
-	},
-	{
-		{
-			SHOFIXTI_BIG_MASK_PMAP_ANIM,
-			SHOFIXTI_MED_MASK_PMAP_ANIM,
-			SHOFIXTI_SML_MASK_PMAP_ANIM,
-		},
-		{
-			DART_BIG_MASK_PMAP_ANIM,
-			DART_MED_MASK_PMAP_ANIM,
-			DART_SML_MASK_PMAP_ANIM,
-		},
-		{
-			DESTRUCT_BIG_MASK_ANIM,
-			DESTRUCT_MED_MASK_ANIM,
-			DESTRUCT_SML_MASK_ANIM,
-		},
-		{
-			SHOFIXTI_CAPTAIN_MASK_PMAP_ANIM,
-			NULL, NULL, NULL, NULL, NULL
-		},
-		SHOFIXTI_VICTORY_SONG,
-		SHOFIXTI_SHIP_SOUNDS,
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		{ NULL, NULL, NULL },
-		NULL, NULL
-	},
-	{
-		0,
-		MISSILE_SPEED_4XRES * MISSILE_LIFE,
 		NULL,
 	},
 	(UNINIT_FUNC *) NULL,
@@ -448,12 +297,7 @@ self_destruct_kill_objects (ELEMENT *ElementPtr)
 			// XXX: Why not simply call do_damage()?
 			if (ObjPtr->state_flags & PLAYER_SHIP)
 			{
-				if (!(PlayerControl[0] & COMPUTER_CONTROL && PlayerControl[1] & COMPUTER_CONTROL) && ((optGodMode) && 
-					(((PlayerControl[0] & COMPUTER_CONTROL) && ElementPtr->playerNr == 0) || 
-					((PlayerControl[1] & COMPUTER_CONTROL) && ElementPtr->playerNr == 1))))
-				{
-					// Glory device does no damage to player
-				} else {
+				if (!antiCheat(ElementPtr, TRUE)) {
 					if (!DeltaCrew (ObjPtr, -destruction))
 						ObjPtr->life_span = 0;
 				}
@@ -618,12 +462,15 @@ shofixti_postprocess (ELEMENT *ElementPtr)
 RACE_DESC*
 init_shofixti (void)
 {
-	static RACE_DESC shofixti_desc;
 	RACE_DESC *RaceDescPtr;
 	// The caller of this func will copy the struct
 	static RACE_DESC new_shofixti_desc;
 
-	shofixti_desc = (RESOLUTION_FACTOR != HD ? shofixti_desc1x : shofixti_desc4x);
+	if (resolutionFactor == HD) {
+		shofixti_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
+		shofixti_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
+		shofixti_desc.cyborg_control.WeaponRange = MISSILE_SPEED_4XRES * MISSILE_LIFE;
+	}
 
 	shofixti_desc.postprocess_func = shofixti_postprocess;
 	shofixti_desc.init_weapon_func = initialize_standard_missile;
