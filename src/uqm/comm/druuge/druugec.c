@@ -26,7 +26,7 @@
 		// for DeltaSISGauges()
 
 
-static LOCDATA druuge_desc_1x =
+static LOCDATA druuge_desc =
 {
 	DRUUGE_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -1033,10 +1033,7 @@ post_druuge_enc (void)
 LOCDATA*
 init_druuge_comm (void)
 {
-	static LOCDATA druuge_desc;
  	LOCDATA *retval;
-
-	druuge_desc = (RESOLUTION_FACTOR != HD ? druuge_desc_1x : druuge_desc_4x);
 
 	SlaveryCount = 0;
 	AttemptedSalvage = FALSE;
