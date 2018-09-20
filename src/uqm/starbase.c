@@ -179,7 +179,7 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 		OldColor = SetContextForeGroundColor (BLACK_COLOR);
 
 		r.corner = Side.origin;
-		r.corner.y += RES_CASE(0,0,8);
+		r.corner.y += RES_BOOL(0,8);
 		r.extent.width = ship_piece_offset_scaled;
 		r.extent.height = 1 << RESOLUTION_FACTOR;
 
@@ -201,7 +201,7 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 		if (RepairSlot == 2)
 		{
 			r.corner = Side.origin;
-			r.corner.y += RES_CASE(0,0,8);
+			r.corner.y += RES_BOOL(0,8);
 			DrawFilledRectangle (&r);
 			if (RESOLUTION_FACTOR == HD) {
 				r.corner.x += ship_piece_offset_scaled - r.extent.width;
@@ -235,7 +235,7 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 		if (which_slot < (NUM_MODULE_SLOTS - 1))
 		{
 			r.corner = Side.origin;
-			r.corner.y += RES_CASE(0,0,8);
+			r.corner.y += RES_BOOL(0,8);
 			r.corner.x += ship_piece_offset_scaled;
 			DrawFilledRectangle (&r);
 			if (RESOLUTION_FACTOR == HD) {

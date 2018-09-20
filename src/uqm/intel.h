@@ -40,16 +40,6 @@ extern "C" {
 #define SLOW_SHIP 25
 
 // JMS_GFX
-#define CLOSE_RANGE_WEAPON_2XRES DISPLAY_TO_WORLD (100)
-#define LONG_RANGE_WEAPON_2XRES DISPLAY_TO_WORLD (2000)
-
-// JMS_GFX: Multiplied by 2*2=4 because of the way the ManeuverabilityIndex
-// is calculated in InitCyborg () (cyborg.c).
-#define FAST_SHIP_2XRES 600
-#define MEDIUM_SHIP_2XRES 180
-#define SLOW_SHIP_2XRES 100
-
-// JMS_GFX
 #define CLOSE_RANGE_WEAPON_4XRES DISPLAY_TO_WORLD (200)
 #define LONG_RANGE_WEAPON_4XRES DISPLAY_TO_WORLD (4000)
 

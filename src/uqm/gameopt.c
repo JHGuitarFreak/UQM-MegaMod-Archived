@@ -210,7 +210,7 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 			r.corner.x = RES_CASE(2,3,5); // JMS_GFX
 			r.corner.y = RES_CASE(20,40,63); // JMS_GFX
 			r.extent.width = SHIP_NAME_WIDTH;
-			r.extent.height += RES_CASE(0,0,1); // JMS_GFX
+			r.extent.height += RES_BOOL(0,1); // JMS_GFX
 			lf.baseline.x = r.corner.x + (r.extent.width >> 1);
 			lf.baseline.y = r.corner.y + r.extent.height - RES_CASE(1,4,3); // JMS_GFX
 
@@ -838,7 +838,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		// Hack StatusContext so we can use standard SIS display funcs
 		GetContextClipRect (&OldRect);
 		r.corner.x = SIS_ORG_X + ((SIS_SCREEN_WIDTH - STATUS_WIDTH) >> 1) +
-				SAFE_X - (16 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + RES_CASE(0,0,6); // JMS_GFX
+				SAFE_X - (16 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + RES_BOOL(0,6); // JMS_GFX
 		r.corner.y = SIS_ORG_Y; // JMS_GFX
 		r.extent.width = STATUS_WIDTH + 2 * RESOLUTION_FACTOR; // JMS_GFX
 		r.extent.height = STATUS_HEIGHT;
