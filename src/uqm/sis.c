@@ -490,7 +490,7 @@ DrawCaptainsName (bool NewGame)
 
 	r.corner.x = RES_STAT_SCALE(3) - RES_CASE(0,2,5);		// JMS_GFX
 	r.corner.y = RES_CASE(10,20,32);						// JMS_GFX
-	r.extent.width = SHIP_NAME_WIDTH - RES_CASE(2,2,0);		// JMS_GFX
+	r.extent.width = SHIP_NAME_WIDTH - RES_BOOL(2,0);		// JMS_GFX
 	r.extent.height = SHIP_NAME_HEIGHT + RESOLUTION_FACTOR;	// JMS_GFX
 	DrawFilledRectangle (&r);
 
@@ -529,7 +529,7 @@ DrawFlagshipName (BOOLEAN InStatusArea, bool NewGame)
 		r.corner.x = RES_CASE(2,3,5);		// JMS_GFX
 		r.corner.y = RES_CASE(20,40,63);	// JMS_GFX
 		r.extent.width = SHIP_NAME_WIDTH;	// JMS_GFX
-		r.extent.height = SHIP_NAME_HEIGHT + RES_CASE(0,0,1);
+		r.extent.height = SHIP_NAME_HEIGHT + RES_BOOL(0,1);
 
 		t.pStr = GLOBAL_SIS (ShipName);
 	}
@@ -789,12 +789,12 @@ DrawLanders (void)
 	GetFrameRect (s.frame, &r);
 
 	i = GLOBAL_SIS (NumLanders);
-	r.corner.x = (STATUS_WIDTH >> 1) - r.corner.x + RES_CASE(0,0,16);
+	r.corner.x = (STATUS_WIDTH >> 1) - r.corner.x + RES_BOOL(0,16);
 	s.origin.x = r.corner.x - (((r.extent.width * i) + (2 * (i - 1))) >> 1) + RES_CASE(0,1,-16);
-	s.origin.y = RES_STAT_SCALE(29) + RES_CASE(0,0,2); // JMS_GFX
+	s.origin.y = RES_STAT_SCALE(29) + RES_BOOL(0,2); // JMS_GFX
 
 	width = r.extent.width + 2;
-	r.extent.width = (r.extent.width * MAX_LANDERS) + (2 * (MAX_LANDERS - 1)) + RES_CASE(2,2,-16); // JMS_GFX
+	r.extent.width = (r.extent.width * MAX_LANDERS) + (2 * (MAX_LANDERS - 1)) + RES_BOOL(2,-16); // JMS_GFX
 	r.corner.x -= r.extent.width >> 1;
 	r.corner.y += s.origin.y;
 	SetContextForeGroundColor (BLACK_COLOR);
@@ -880,7 +880,7 @@ void
 GetGaugeRect (RECT *pRect, BOOLEAN IsCrewRect)
 {
 	pRect->extent.width = RES_STAT_SCALE(24); // JMS_GFX
-	pRect->corner.x = (STATUS_WIDTH >> 1) - (pRect->extent.width >> 1) + RES_CASE(0,0,4);
+	pRect->corner.x = (STATUS_WIDTH >> 1) - (pRect->extent.width >> 1) + RES_BOOL(0,4);
 	pRect->extent.height = RES_STAT_SCALE(5); // JMS_GFX
 	pRect->corner.y = IsCrewRect ? RES_CASE(117,244,375) : RES_CASE(38,76,120); // JMS_GFX
 }
@@ -1430,7 +1430,7 @@ GetSBayCapacity (POINT *ppt)
 	}
 		
 	ppt->x = (19 << RESOLUTION_FACTOR) + (slotNr * ship_piece_offset_scaled) + RES_CASE(0,19,53); // JMS_GFX
-	ppt->y = ((34 - (rowNr * 2)) << RESOLUTION_FACTOR) - RES_CASE(0,0,9); // JMS_GFX
+	ppt->y = ((34 - (rowNr * 2)) << RESOLUTION_FACTOR) - RES_BOOL(0,9); // JMS_GFX
 
 	return GetStorageBayCapacity ();
 }

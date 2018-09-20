@@ -529,7 +529,7 @@ InitFlash:
 						pMS->flash_rect0.corner.x = DRIVE_TOP_X - 1 - RES_CASE(0,4,5);
 						pMS->flash_rect0.corner.y = DRIVE_TOP_Y - 1 + RES_CASE(0,69,146);
 						pMS->flash_rect0.extent.width = 8 << RESOLUTION_FACTOR; // JMS_GFX;
-						pMS->flash_rect0.extent.height = (6 << RESOLUTION_FACTOR) - RES_CASE(0,0,2); // JMS_GFX;
+						pMS->flash_rect0.extent.height = (6 << RESOLUTION_FACTOR) - RES_BOOL(0,2); // JMS_GFX;
 
 						break;
 					case TURNING_JETS:
@@ -537,14 +537,14 @@ InitFlash:
 						pMS->flash_rect0.corner.x = JET_TOP_X - 1 - RES_CASE(0,3,3);
 						pMS->flash_rect0.corner.y = JET_TOP_Y - 1 + RES_CASE(0,90,185);
 						pMS->flash_rect0.extent.width = 9 << RESOLUTION_FACTOR; // JMS_GFX;
-						pMS->flash_rect0.extent.height = (10 << RESOLUTION_FACTOR) + RES_CASE(0,0,4); // JMS_GFX;
+						pMS->flash_rect0.extent.height = (10 << RESOLUTION_FACTOR) + RES_BOOL(0,4); // JMS_GFX;
 
 						break;
 					default:
-						pMS->flash_rect0.corner.x = MODULE_TOP_X - 1 + RES_CASE(0,0,2);
+						pMS->flash_rect0.corner.x = MODULE_TOP_X - 1 + RES_BOOL(0,2);
 						pMS->flash_rect0.corner.y = MODULE_TOP_Y - 1;
 						pMS->flash_rect0.extent.width = SHIP_PIECE_OFFSET + 2 - RES_CASE(0,1,1);
-						pMS->flash_rect0.extent.height = (34 << RESOLUTION_FACTOR) + RES_CASE(0,0,9); // JMS_GFX;
+						pMS->flash_rect0.extent.height = (34 << RESOLUTION_FACTOR) + RES_BOOL(0,9); // JMS_GFX;
 						w += RES_CASE(0,1,1);
 						break;
 				}

@@ -79,8 +79,6 @@ BOOLEAN SyreenVoiceFix;
 BOOLEAN comingFromInit;
 BOOLEAN EndlessSCLoaded;
 BYTE Rando;
-// JMS_GFX
-BOOLEAN hires2xPackPresent;
 BOOLEAN HDPackPresent;
 
 uio_Repository *repository;
@@ -271,7 +269,7 @@ InitKernel (void)
 		return FALSE;
 	
 	// JMS: Animated hyperspace suns.
-	if (HDPackPresent || hires2xPackPresent) { 
+	if (HDPackPresent) { 
 		hyperspacesuns = CaptureDrawable (LoadGraphic (HYPERSUNS_MASK_PMAP_ANIM));
 		if (hyperspacesuns == NULL)
 			return FALSE;

@@ -66,9 +66,6 @@ static const COORD hangar_x_coords[HANGAR_SHIPS_ROW] =
 static const COORD hangar_x_coords_1x[HANGAR_SHIPS_ROW] = {
 	0, 38, 76, 131, 169, 207
 };
-static const COORD hangar_x_coords_2x[HANGAR_SHIPS_ROW] = {
-	2, 79, 157, 268, 346, 424
-};
 static const COORD hangar_x_coords_4x[HANGAR_SHIPS_ROW] = {
 	3, 171, 339, 578, 746, 914
 };
@@ -347,18 +344,7 @@ ShowCombatShip (MENU_STATE *pMS, COUNT which_window,
 		STAMP rtdoor_s;
 	} ship_win_info[MAX_BUILT_SHIPS], *pship_win_info;
 
-	switch (RESOLUTION_FACTOR) {
-		case 2:
-			hangar_x_coords = hangar_x_coords_4x;
-			break;
-		case 1:
-			hangar_x_coords = hangar_x_coords_2x;
-			break;
-		case 0:
-		default:
-			hangar_x_coords = hangar_x_coords_1x;
-			break;
-	}
+	hangar_x_coords = RES_BOOL(hangar_x_coords_1x, hangar_x_coords_4x);
 
 	num_ships = 1;
 	pship_win_info = &ship_win_info[0];
@@ -596,18 +582,7 @@ DMS_GetEscortShipRect (RECT *rOut, BYTE slotNr)
 	BYTE col = slotNr % HANGAR_SHIPS_ROW;
 	static const COORD *hangar_x_coords;
 
-	switch (RESOLUTION_FACTOR) {
-		case 2:
-			hangar_x_coords = hangar_x_coords_4x;
-			break;
-		case 1:
-			hangar_x_coords = hangar_x_coords_2x;
-			break;
-		case 0:
-		default:
-			hangar_x_coords = hangar_x_coords_1x;
-			break;
-	}
+	hangar_x_coords = RES_BOOL(hangar_x_coords_1x, hangar_x_coords_4x);
 
 	rOut->corner.x = hangar_x_coords[col];
 	rOut->corner.y = HANGAR_Y + (HANGAR_DY * row);
@@ -641,18 +616,7 @@ DMS_FlashEscortShipCrewCount (BYTE slotNr)
 	BYTE col = slotNr % HANGAR_SHIPS_ROW;
 	static const COORD *hangar_x_coords;
 
-	switch (RESOLUTION_FACTOR) {
-		case 2:
-			hangar_x_coords = hangar_x_coords_4x;
-			break;
-		case 1:
-			hangar_x_coords = hangar_x_coords_2x;
-			break;
-		case 0:
-		default:
-			hangar_x_coords = hangar_x_coords_1x;
-			break;
-	}
+	hangar_x_coords = RES_BOOL(hangar_x_coords_1x, hangar_x_coords_4x);
 
 	r.corner.x = hangar_x_coords[col];
 	r.corner.y = (HANGAR_Y + (HANGAR_DY * row)) + (SHIP_WIN_HEIGHT - (6 << RESOLUTION_FACTOR));
@@ -792,7 +756,7 @@ DMS_HireFlagShipCrew (void)
 	}
 
 	// Draw a crew member.
-	// Crew dots/rectangles for 1x and 2x resolutions.
+	// Crew dots/rectangles for 2x resolutions.
 	if (RESOLUTION_FACTOR != HD) {
 		r.extent.width = 1 << RESOLUTION_FACTOR;
 		r.extent.height = r.extent.width;
@@ -1496,7 +1460,7 @@ DrawBluePrint (MENU_STATE *pMS)
 			GetFTankCapacity (&r.corner);
 			//log_add(log_Debug, "volume on %u, hefueltankcapacity %u", volume, HEFUEL_TANK_CAPACITY);
 			r.corner.y -= volume == HEFUEL_TANK_CAPACITY ? RES_CASE(0,11,19) : RES_CASE(0,14,28); // JMS_GFX
-			r.corner.x += volume == HEFUEL_TANK_CAPACITY ? RES_CASE(0,0,2) : RES_CASE(0,0,1); // JMS_GFX
+			r.corner.x += volume == HEFUEL_TANK_CAPACITY ? RES_BOOL(0,2) : RES_BOOL(0,1); // JMS_GFX
 			DrawPoint (&r.corner);
 			r.corner.x += r.extent.width + 1;
 			DrawPoint (&r.corner);

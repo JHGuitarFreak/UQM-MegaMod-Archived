@@ -66,8 +66,7 @@ extern QUEUE race_q[];
 // Serosis
 extern BOOLEAN solTexturesPresent;
 extern BOOLEAN SyreenVoiceFix;
-extern BOOLEAN hires2xPackPresent; // JMS
-extern BOOLEAN HDPackPresent; // JMS
+extern BOOLEAN HDPackPresent;
 extern BOOLEAN comingFromInit;
 extern BOOLEAN EndlessSCLoaded;
 extern BYTE Rando;

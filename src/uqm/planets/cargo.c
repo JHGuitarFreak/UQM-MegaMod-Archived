@@ -142,7 +142,7 @@ DrawCargoDisplay (void)
 	COORD cy;
 	COUNT i;
 
-	r.corner.x = RES_CASE(2,2,3); // JMS_GFX
+	r.corner.x = RES_BOOL(2,3); // JMS_GFX
 	r.corner.y = RES_STAT_SCALE(20) - RES_CASE(0,1,0); // JMS_GFX
 	r.extent.width = FIELD_WIDTH + 1; // JMS_GFX
 	// XXX: Shouldn't the height be 1 less? This draws the bottom border

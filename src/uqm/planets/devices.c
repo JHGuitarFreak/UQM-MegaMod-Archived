@@ -112,7 +112,7 @@ DrawDevice (COUNT device, COUNT pos, bool selected)
 
 	r.extent.width = DEVICE_SEL_WIDTH;
 	r.extent.height = (TEXT_SPACING_Y * 2) + RES_CASE(0,4,0);
-	r.corner.x = DEVICE_SEL_ORG_X - RES_CASE(0,0,8);
+	r.corner.x = DEVICE_SEL_ORG_X - RES_BOOL(0,8);
 
 	// draw line background
 	r.corner.y = DEVICE_ORG_Y + pos * DEVICE_SPACING_Y + NAME_OFS_Y;
@@ -144,7 +144,7 @@ DrawDevicesDisplay (DEVICES_STATE *devState)
 	COORD cy;
 	COUNT i;
 
-	r.corner.x = RES_CASE(2,2,3); // JMS_GFX
+	r.corner.x = RES_BOOL(2,3); // JMS_GFX
 	r.corner.y = RES_STAT_SCALE(20) - RES_CASE(0,1,0); // JMS_GFX
 	r.extent.width = FIELD_WIDTH + 1; // JMS_GFX
 	// XXX: Shouldn't the height be 1 less? This draws the bottom border

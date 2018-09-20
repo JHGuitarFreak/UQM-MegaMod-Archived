@@ -30,13 +30,14 @@ extern int ScreenWidth;
 extern int ScreenHeight;
 
 		/* Most basic resolution units. */
+#define HD 2
 #define SCREEN_WIDTH ScreenWidth
 #define SCREEN_HEIGHT ScreenHeight
 #define RESOLUTION_FACTOR resolutionFactor														// JMS_GFX
 #define RES_CASE(a,b,c) (RESOLUTION_FACTOR == 0 ? (a) : (RESOLUTION_FACTOR == 1 ? (b) : (c)))	// JMS_GFX
 #define RES_STAT_SCALE(a) (RESOLUTION_FACTOR < 2 ? ((a) << RESOLUTION_FACTOR) : ((a) * 3))		// JMS_GFX
-#define RES_SCALE(a) ((a) << RESOLUTION_FACTOR)
-#define HD 2
+#define RES_SCALE(a) ((a) << RESOLUTION_FACTOR)													// Serosis
+#define RES_BOOL(a,b) (RESOLUTION_FACTOR != HD ? (a) : (b))										// Serosis
 
 		/* Margins. */
 #define SAFE_X 0
@@ -83,7 +84,7 @@ extern int ScreenHeight;
 #define STATUS_MESSAGE_HEIGHT  RES_CASE(7,14,24) // JMS_GFX
 
 #define SHIP_NAME_WIDTH        (STATUS_WIDTH - RES_CASE(4,6,9))// JMS_GFX
-#define SHIP_NAME_HEIGHT       (RES_STAT_SCALE(7) - RES_CASE(0,0,4)) // JMS_GFX
+#define SHIP_NAME_HEIGHT       (RES_STAT_SCALE(7) - RES_BOOL(0,4)) // JMS_GFX
 
 		/* A lot of other shit. */
 #define MAX_REDUCTION 3
