@@ -33,8 +33,8 @@
 #include <string.h>
 
 
-#define NUM_CELL_COLS (MAP_WIDTH / (6 << RESOLUTION_FACTOR) + RES_CASE(0,3,7) - (optWhichFonts == OPT_PC ? 0 : RES_BOOL(0,1))) // JMS_GFX 
-#define NUM_CELL_ROWS (MAP_HEIGHT / (6 << RESOLUTION_FACTOR) + RES_CASE(0,1,2)) // JMS_GFX
+#define NUM_CELL_COLS (MAP_WIDTH / (6 << RESOLUTION_FACTOR) + RES_BOOL(0, 7) - (optWhichFonts == OPT_PC ? 0 : RES_BOOL(0, 1))) // JMS_GFX 
+#define NUM_CELL_ROWS (MAP_HEIGHT / (6 << RESOLUTION_FACTOR) + RES_BOOL(0, 2)) // JMS_GFX
 #define MAX_CELL_COLS 40
 
 extern FRAME SpaceJunkFrame;

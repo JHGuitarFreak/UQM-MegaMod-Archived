@@ -41,7 +41,7 @@
 		BUILD_COLOR (MAKE_RGB15 (0x17, 0x18, 0x1D), 0x00)
 
 
-#define LOAD_MELEE_BOX_WIDTH (RES_CASE(34,65,131)) // JMS_GFX
+#define LOAD_MELEE_BOX_WIDTH (RES_BOOL(34, 131)) // JMS_GFX
 #define LOAD_MELEE_BOX_HEIGHT (34 << RESOLUTION_FACTOR) // JMS_GFX
 #define LOAD_MELEE_BOX_SPACE (1 << RESOLUTION_FACTOR) // JMS_GFX
 
@@ -177,7 +177,7 @@ DrawFileString (const MeleeTeam *team, const POINT *origin,
 		sprintf (buf, "%u", MeleeTeam_getValue (team));
 		Text.baseline = *origin;
 		Text.baseline.x += NUM_MELEE_COLUMNS *
-				(LOAD_MELEE_BOX_WIDTH + LOAD_MELEE_BOX_SPACE) - RES_CASE(1,-5,1);
+				(LOAD_MELEE_BOX_WIDTH + LOAD_MELEE_BOX_SPACE) - 1;
 		Text.align = ALIGN_RIGHT;
 		Text.pStr = buf;
 		Text.CharCount = (COUNT)~0;
@@ -191,7 +191,7 @@ DrawFileString (const MeleeTeam *team, const POINT *origin,
 		FleetShipIndex slotI;
 
 		s.origin.x = origin->x + (1 << RESOLUTION_FACTOR); // JMS_GFX
-		s.origin.y = origin->y + (RES_CASE(4,8,12)); // JMS_GFX
+		s.origin.y = origin->y + (RES_BOOL(4, 12)); // JMS_GFX
 		for (slotI = 0; slotI < MELEE_FLEET_SIZE; slotI++)
 		{
 			BYTE StarShip;
@@ -230,9 +230,9 @@ FillFileView (MELEE_STATE *pMS)
 	return true;
 }
 
-#define FILE_STRING_ORIGIN_X (RES_CASE(5,18,45)) // JMS_GFX
+#define FILE_STRING_ORIGIN_X (RES_BOOL(5, 45)) // JMS_GFX
 #define FILE_STRING_ORIGIN_Y  ((34 << RESOLUTION_FACTOR) + (RESOLUTION_FACTOR * 23)) // JMS_GFX
-#define ENTRY_HEIGHT (RES_CASE(32,64,132)) // JMS_GFX
+#define ENTRY_HEIGHT (RES_BOOL(32, 132)) // JMS_GFX
 
 static void
 SelectFileString (MELEE_STATE *pMS, bool hilite)

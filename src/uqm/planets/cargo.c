@@ -143,11 +143,11 @@ DrawCargoDisplay (void)
 	COUNT i;
 
 	r.corner.x = RES_BOOL(2,3); // JMS_GFX
-	r.corner.y = RES_STAT_SCALE(20) - RES_CASE(0,1,0); // JMS_GFX
+	r.corner.y = RES_STAT_SCALE(20); // JMS_GFX
 	r.extent.width = FIELD_WIDTH + 1; // JMS_GFX
 	// XXX: Shouldn't the height be 1 less? This draws the bottom border
 	//   1 pixel too low. Or if not, why do we need another box anyway?
-	r.extent.height = RES_STAT_SCALE(129) - r.corner.y + RES_CASE(0,6,19); // JMS_GFX
+	r.extent.height = RES_STAT_SCALE(129) - r.corner.y + RES_BOOL(0, 19); // JMS_GFX
 	DrawStarConBox (&r, 1,
 			SHADOWBOX_MEDIUM_COLOR, SHADOWBOX_DARK_COLOR,
 			TRUE, CARGO_BACK_COLOR);
@@ -173,9 +173,9 @@ DrawCargoDisplay (void)
 
 	r.corner.x = ELEMENT_COL_0;
 	r.extent = GetFrameBounds (s.frame);
-	r.extent.width -= RES_CASE(0,5,7); // JMS_GFX
-	r.extent.height -= RES_CASE(0,5,8); // JMS_GFX
-	s.origin.x = r.corner.x + (r.extent.width >> 1) - RES_CASE(0,1,4); // JMS_GFX
+	r.extent.width -= RES_BOOL(0, 7); // JMS_GFX
+	r.extent.height -= RES_BOOL(0, 8); // JMS_GFX
+	s.origin.x = r.corner.x + (r.extent.width >> 1) - RES_BOOL(0, 4); // JMS_GFX
 
 	cy = ELEMENT_ORG_Y;
 
@@ -202,7 +202,7 @@ DrawCargoDisplay (void)
 		DrawFilledRectangle (&r);
 
 		// draw an element icon
-		s.origin.y = r.corner.y + (r.extent.height >> 1) - RES_CASE(0,1,5);
+		s.origin.y = r.corner.y + (r.extent.height >> 1) - RES_BOOL(0, 5);
 		DrawStamp (&s);
 		s.frame = SetRelFrameIndex (s.frame, 5);
 
@@ -225,7 +225,7 @@ DrawCargoDisplay (void)
 	// draw the line over the Bio amount
 	r.corner.x = RES_STAT_SCALE(4); // JMS_GFX
 	r.corner.y = BIO_ORG_Y - RES_STAT_SCALE(2); // JMS_GFX
-	r.extent.width = FIELD_WIDTH - RES_CASE(3,10,17); // JMS_GFX
+	r.extent.width = FIELD_WIDTH - RES_BOOL(3, 17); // JMS_GFX
 	r.extent.height = 1;
 	SetContextForeGroundColor (CARGO_SELECTED_BACK_COLOR);
 	DrawFilledRectangle (&r);

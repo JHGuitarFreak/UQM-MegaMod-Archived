@@ -126,7 +126,7 @@ DrawLabelAsWindow (WIDGET_LABEL *label, RECT *windowRect)
 	DrawShadowedBox (&r, win_bg_clr, win_dark_clr, win_medium_clr);
 
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
-	t.baseline.y = r.corner.y + RES_CASE(14,22,38); // JMS_GFX
+	t.baseline.y = r.corner.y + RES_BOOL(14, 38); // JMS_GFX
 	for (i = 0; i < label->line_count; i++)
 	{
 		t.pStr = label->lines[i];

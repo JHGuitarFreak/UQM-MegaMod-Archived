@@ -33,11 +33,10 @@ extern int ScreenHeight;
 #define HD 2
 #define SCREEN_WIDTH ScreenWidth
 #define SCREEN_HEIGHT ScreenHeight
-#define RESOLUTION_FACTOR resolutionFactor														// JMS_GFX
-#define RES_CASE(a,b,c) (RESOLUTION_FACTOR == 0 ? (a) : (RESOLUTION_FACTOR == 1 ? (b) : (c)))	// JMS_GFX
-#define RES_STAT_SCALE(a) (RESOLUTION_FACTOR < 2 ? ((a) << RESOLUTION_FACTOR) : ((a) * 3))		// JMS_GFX
-#define RES_SCALE(a) ((a) << RESOLUTION_FACTOR)													// Serosis
-#define RES_BOOL(a,b) (RESOLUTION_FACTOR != HD ? (a) : (b))										// Serosis
+#define RESOLUTION_FACTOR resolutionFactor								// JMS_GFX
+#define RES_STAT_SCALE(a) (RESOLUTION_FACTOR != HD ? (a) : ((a) * 3))	// JMS_GFX
+#define RES_SCALE(a) ((a) << RESOLUTION_FACTOR)							// Serosis
+#define RES_BOOL(a,b) (RESOLUTION_FACTOR != HD ? (a) : (b))				// Serosis
 
 		/* Margins. */
 #define SAFE_X 0
@@ -60,7 +59,7 @@ extern int ScreenHeight;
 /* Height of the space "window" (the left part of the screen) */
 #define SIS_SCREEN_WIDTH (SPACE_WIDTH - 2 * SIS_ORG_X) // DC: Gray area on the right. just a spacer box
 /* Width of the usable part of the space "window" */
-#define SIS_SCREEN_HEIGHT (SPACE_HEIGHT - RES_CASE(3,6,6) - RES_STAT_SCALE(10)) // JMS_GFX
+#define SIS_SCREEN_HEIGHT (SPACE_HEIGHT - RES_BOOL(3, 6) - RES_STAT_SCALE(10)) // JMS_GFX
 /* Height of the usable part of the space "window": 3, 6, 6 for the grey bottom border and 10, 20, 30 for the title */
 #define RES_SIS_SCALE(a) ((SIZE)(a) * SIS_SCREEN_WIDTH / 242) // JMS_GFX
 
@@ -73,17 +72,17 @@ extern int ScreenHeight;
 		/* Blue boxes which display messages and the green date box. */
 #define SIS_TITLE_BOX_WIDTH    (57 << RESOLUTION_FACTOR)						// JMS_GFX
 #define SIS_TITLE_WIDTH        (SIS_TITLE_BOX_WIDTH - (2 << RESOLUTION_FACTOR)) // JMS_GFX
-#define SIS_TITLE_HEIGHT       RES_CASE(8,19,29)								// JMS_GFX
+#define SIS_TITLE_HEIGHT       RES_BOOL(8, 29)								// JMS_GFX
 #define SIS_SPACER_BOX_WIDTH   (12 << RESOLUTION_FACTOR)						// JMS_GFX
 
 #define SIS_MESSAGE_BOX_WIDTH  (SIS_SCREEN_WIDTH - SIS_TITLE_BOX_WIDTH - SIS_SPACER_BOX_WIDTH)
 #define SIS_MESSAGE_WIDTH      (SIS_MESSAGE_BOX_WIDTH - 2)
 #define SIS_MESSAGE_HEIGHT     SIS_TITLE_HEIGHT
 
-#define STATUS_MESSAGE_WIDTH   (STATUS_WIDTH - RES_CASE(4,6,7))	 // JMS_GFX
-#define STATUS_MESSAGE_HEIGHT  RES_CASE(7,14,24) // JMS_GFX
+#define STATUS_MESSAGE_WIDTH   (STATUS_WIDTH - RES_BOOL(4, 7))	 // JMS_GFX
+#define STATUS_MESSAGE_HEIGHT  RES_BOOL(7, 24) // JMS_GFX
 
-#define SHIP_NAME_WIDTH        (STATUS_WIDTH - RES_CASE(4,6,9))// JMS_GFX
+#define SHIP_NAME_WIDTH        (STATUS_WIDTH - RES_BOOL(4, 9))// JMS_GFX
 #define SHIP_NAME_HEIGHT       (RES_STAT_SCALE(7) - RES_BOOL(0,4)) // JMS_GFX
 
 		/* A lot of other shit. */

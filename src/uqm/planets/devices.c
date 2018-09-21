@@ -58,9 +58,9 @@
 #define DEVICE_COL_1       RES_STAT_SCALE(40) // JMS_GFX
 
 #define DEVICE_SEL_ORG_X  (DEVICE_COL_0 + DEVICE_ICON_WIDTH)
-#define DEVICE_SEL_WIDTH  (FIELD_WIDTH + RES_CASE(2,0,6) - DEVICE_SEL_ORG_X) // JMS_GFX
+#define DEVICE_SEL_WIDTH  (FIELD_WIDTH + RES_BOOL(2, 6) - DEVICE_SEL_ORG_X) // JMS_GFX
 
-#define ICON_OFS_Y         RES_CASE(1,4,11) // JMS_GFX
+#define ICON_OFS_Y         RES_BOOL(1, 11) // JMS_GFX
 #define NAME_OFS_Y         RES_STAT_SCALE(2) // JMS_GFX
 #define TEXT_BASELINE      RES_STAT_SCALE(6) // JMS_GFX
 #define TEXT_SPACING_Y     RES_STAT_SCALE(7) // JMS_GFX
@@ -111,7 +111,7 @@ DrawDevice (COUNT device, COUNT pos, bool selected)
 	t.baseline.x = DEVICE_COL_1;
 
 	r.extent.width = DEVICE_SEL_WIDTH;
-	r.extent.height = (TEXT_SPACING_Y * 2) + RES_CASE(0,4,0);
+	r.extent.height = TEXT_SPACING_Y * 2;
 	r.corner.x = DEVICE_SEL_ORG_X - RES_BOOL(0,8);
 
 	// draw line background
@@ -145,11 +145,11 @@ DrawDevicesDisplay (DEVICES_STATE *devState)
 	COUNT i;
 
 	r.corner.x = RES_BOOL(2,3); // JMS_GFX
-	r.corner.y = RES_STAT_SCALE(20) - RES_CASE(0,1,0); // JMS_GFX
+	r.corner.y = RES_STAT_SCALE(20); // JMS_GFX
 	r.extent.width = FIELD_WIDTH + 1; // JMS_GFX
 	// XXX: Shouldn't the height be 1 less? This draws the bottom border
 	//   1 pixel too low. Or if not, why do we need another box anyway?
-	r.extent.height = RES_STAT_SCALE(129) - r.corner.y + RES_CASE(0,6,19); // JMS_GFX
+	r.extent.height = RES_STAT_SCALE(129) - r.corner.y + RES_BOOL(0, 19); // JMS_GFX
 	DrawStarConBox (&r, 1,
 			SHADOWBOX_MEDIUM_COLOR, SHADOWBOX_DARK_COLOR,
 			TRUE, DEVICES_BACK_COLOR);

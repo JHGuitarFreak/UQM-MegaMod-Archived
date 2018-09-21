@@ -137,7 +137,7 @@ DrawBattleCrewAmount (SHIP_INFO *ShipInfoPtr, COORD y_offs)
 	TEXT t;
 	UNICODE buf[40];
 
-	t.baseline.x = BATTLE_CREW_X + RES_STAT_SCALE(2) - RES_CASE(0,1,2); // JMS_GFX
+	t.baseline.x = BATTLE_CREW_X + RES_STAT_SCALE(2) - RES_BOOL(0, 2); // JMS_GFX
 	if (optWhichMenu == OPT_PC)
 			t.baseline.x -= RES_STAT_SCALE(8); // JMS_GFX
 	t.baseline.y = BATTLE_CREW_Y + y_offs;
@@ -148,7 +148,7 @@ DrawBattleCrewAmount (SHIP_INFO *ShipInfoPtr, COORD y_offs)
 	r.corner.x = t.baseline.x;
 	r.corner.y = t.baseline.y - (5 << RESOLUTION_FACTOR); // JMS_GFX
 	r.extent.width = 6 * MAX_CREW_DIGITS + (6 << RESOLUTION_FACTOR) + RESOLUTION_FACTOR; // JMS_GFX
-	r.extent.height = (5 << RESOLUTION_FACTOR) + RES_CASE(0,2,3); // JMS_GFX
+	r.extent.height = (5 << RESOLUTION_FACTOR) + RES_BOOL(0, 3); // JMS_GFX
 
 	sprintf (buf, "%u", ShipInfoPtr->crew_level);
 	SetContextFont (StarConFont);
@@ -273,11 +273,11 @@ DrawCaptainsWindow (STARSHIP *StarShipPtr)
 		TEXT t;
 
 		t.baseline.x = STATUS_WIDTH >> 1;
-		t.baseline.y = y + RES_CASE(6,-22,-44); // JMS_GFX
+		t.baseline.y = y + RES_BOOL(6, -44); // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.pStr = GLOBAL_SIS (CommanderName);
 		t.CharCount = (COUNT)~0;
-		SetContextForeGroundColor (RES_CASE(BUILD_COLOR (MAKE_RGB15 (0x00, 0x14, 0x00), 0x02), BLACK_COLOR, BLACK_COLOR));
+		SetContextForeGroundColor (RES_BOOL(BUILD_COLOR (MAKE_RGB15 (0x00, 0x14, 0x00), 0x02), BLACK_COLOR));
 		SetContextFont (TinyFont);
 		font_DrawText (&t);
 	}

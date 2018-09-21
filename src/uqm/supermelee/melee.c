@@ -117,7 +117,7 @@ enum
 #define RACE_INFO_HEIGHT ((STATUS_HEIGHT - (3 << RESOLUTION_FACTOR)) - RACE_INFO_ORIGIN_Y) // JMS_GFX
 
 #define MELEE_STATUS_X_OFFS ((1 << RESOLUTION_FACTOR)) // JMS_GFX
-#define MELEE_STATUS_Y_OFFS (RES_SCALE(201) + RES_CASE(0,20,40)) // JMS_GFX
+#define MELEE_STATUS_Y_OFFS (RES_SCALE(201) + RES_BOOL(0, 40)) // JMS_GFX
 #define MELEE_STATUS_WIDTH  (NUM_MELEE_COLUMNS * \
 		(MELEE_BOX_WIDTH + MELEE_BOX_SPACE))
 #define MELEE_STATUS_HEIGHT (38 << RESOLUTION_FACTOR) // JMS_GFX
@@ -434,7 +434,7 @@ GetTeamStringRect (COUNT side, RECT *r)
 			+ ((MELEE_BOX_HEIGHT + MELEE_BOX_SPACE) * NUM_MELEE_ROWS + 2));
 	r->extent.width = NUM_MELEE_COLUMNS * (MELEE_BOX_WIDTH + MELEE_BOX_SPACE)
 			- (29 << RESOLUTION_FACTOR);
-	r->extent.height = RES_CASE(13,16,32);
+	r->extent.height = RES_BOOL(13, 32);
 }
 
 static void
@@ -445,7 +445,7 @@ GetFleetValueRect (COUNT side, RECT *r)
 	r->corner.y = (side + 1) * (MELEE_Y_OFFS
 			+ ((MELEE_BOX_HEIGHT + MELEE_BOX_SPACE) * NUM_MELEE_ROWS + 2));
 	r->extent.width = 29 << RESOLUTION_FACTOR;
-	r->extent.height = RES_CASE(13,16,32);
+	r->extent.height = RES_BOOL(13, 32);
 }
 
 static void
@@ -875,8 +875,8 @@ DrawMeleeShipStrings (MELEE_STATE *pMS, MeleeShip NewStarShip)
 	GetContextClipRect (&OldRect);
 	r = OldRect;
 	r.corner.x += ((SAFE_X << 1) - (32 << RESOLUTION_FACTOR)) + MENU_X_OFFS - RES_BOOL(0,3);
-	r.corner.y += (76 << RESOLUTION_FACTOR) + RES_CASE(0,2,6);
-	r.extent.height = SHIP_INFO_HEIGHT + RES_CASE(3,6,3);
+	r.corner.y += (76 << RESOLUTION_FACTOR) + RES_BOOL(0, 6);
+	r.extent.height = SHIP_INFO_HEIGHT + 3;
 	SetContextClipRect (&r);
 	BatchGraphics ();
 

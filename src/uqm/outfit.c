@@ -35,7 +35,7 @@
 #include "libs/graphics/gfx_common.h"
 
 // How manyeth .png in the module.ani file is the first lander shield.
-#define SHIELD_LOCATION_IN_MODULE_ANI (RES_CASE(5,9,9))
+#define SHIELD_LOCATION_IN_MODULE_ANI (RES_BOOL(5, 9))
 
 enum
 {
@@ -125,7 +125,7 @@ RedistributeFuel (void)
 		// If we're less than the fuel level, draw fuel.
 		if (GLOBAL_SIS (FuelOnBoard) < FuelVolume)
 		{
-			r.extent.width = (3 << RESOLUTION_FACTOR) + RES_CASE(0,2,6); // JMS_GFX
+			r.extent.width = (3 << RESOLUTION_FACTOR) + RES_BOOL(0, 6); // JMS_GFX
 			DrawPoint (&r.corner);
 			r.corner.x += r.extent.width + 1;
 			DrawPoint (&r.corner);
@@ -147,9 +147,9 @@ RedistributeFuel (void)
 	GLOBAL_SIS (FuelOnBoard) = FuelVolume;
 }
 
-#define LANDER_X ((24 << RESOLUTION_FACTOR) + RES_CASE(0,2,0)) // JMS_GFX
+#define LANDER_X (24 << RESOLUTION_FACTOR) // JMS_GFX
 #define LANDER_Y (67 << RESOLUTION_FACTOR) // JMS_GFX
-#define LANDER_WIDTH ((15 << RESOLUTION_FACTOR) - RES_CASE(0,2,0)) // JMS_GFX
+#define LANDER_WIDTH (15 << RESOLUTION_FACTOR) // JMS_GFX
 
 static void
 DisplayLanders (MENU_STATE *pMS)
@@ -502,7 +502,7 @@ DoInstallModule (MENU_STATE *pMS)
 				if (NewState != PLANET_LANDER && NewState != FUSION_THRUSTER 
 					&& NewState != TURNING_JETS && NewState != EMPTY_SLOT + 0
 					 && NewState != EMPTY_SLOT + 1 && NewState != EMPTY_SLOT + 3)
-					w += RES_CASE(0,1,1);
+					w += RES_BOOL(0, 1);
 
 				w *= (NewItem - pMS->delta_item);
 				pMS->flash_rect0.corner.x += w;
@@ -517,8 +517,8 @@ InitFlash:
 				{
 					case PLANET_LANDER:
 					case EMPTY_SLOT + 3:
-						pMS->flash_rect0.corner.x = LANDER_X - 1 + RES_CASE(0,50,114); // JMS_GFX
-						pMS->flash_rect0.corner.y = LANDER_Y - 1 + RES_CASE(0,24,65); // JMS_GFX
+						pMS->flash_rect0.corner.x = LANDER_X - 1 + RES_BOOL(0, 114); // JMS_GFX
+						pMS->flash_rect0.corner.y = LANDER_Y - 1 + RES_BOOL(0, 65); // JMS_GFX
 						pMS->flash_rect0.extent.width = (11 + 2) << RESOLUTION_FACTOR; // JMS_GFX
 						pMS->flash_rect0.extent.height = (13 + 2) << RESOLUTION_FACTOR; // JMS_GFX;
 
@@ -526,16 +526,16 @@ InitFlash:
 						break;
 					case FUSION_THRUSTER:
 					case EMPTY_SLOT + 0:
-						pMS->flash_rect0.corner.x = DRIVE_TOP_X - 1 - RES_CASE(0,4,5);
-						pMS->flash_rect0.corner.y = DRIVE_TOP_Y - 1 + RES_CASE(0,69,146);
+						pMS->flash_rect0.corner.x = DRIVE_TOP_X - 1 - RES_BOOL(0, 5);
+						pMS->flash_rect0.corner.y = DRIVE_TOP_Y - 1 + RES_BOOL(0, 146);
 						pMS->flash_rect0.extent.width = 8 << RESOLUTION_FACTOR; // JMS_GFX;
 						pMS->flash_rect0.extent.height = (6 << RESOLUTION_FACTOR) - RES_BOOL(0,2); // JMS_GFX;
 
 						break;
 					case TURNING_JETS:
 					case EMPTY_SLOT + 1:
-						pMS->flash_rect0.corner.x = JET_TOP_X - 1 - RES_CASE(0,3,3);
-						pMS->flash_rect0.corner.y = JET_TOP_Y - 1 + RES_CASE(0,90,185);
+						pMS->flash_rect0.corner.x = JET_TOP_X - 1 - RES_BOOL(0, 3);
+						pMS->flash_rect0.corner.y = JET_TOP_Y - 1 + RES_BOOL(0, 185);
 						pMS->flash_rect0.extent.width = 9 << RESOLUTION_FACTOR; // JMS_GFX;
 						pMS->flash_rect0.extent.height = (10 << RESOLUTION_FACTOR) + RES_BOOL(0,4); // JMS_GFX;
 
@@ -543,9 +543,9 @@ InitFlash:
 					default:
 						pMS->flash_rect0.corner.x = MODULE_TOP_X - 1 + RES_BOOL(0,2);
 						pMS->flash_rect0.corner.y = MODULE_TOP_Y - 1;
-						pMS->flash_rect0.extent.width = SHIP_PIECE_OFFSET + 2 - RES_CASE(0,1,1);
+						pMS->flash_rect0.extent.width = SHIP_PIECE_OFFSET + 2 - RES_BOOL(0, 1);
 						pMS->flash_rect0.extent.height = (34 << RESOLUTION_FACTOR) + RES_BOOL(0,9); // JMS_GFX;
-						w += RES_CASE(0,1,1);
+						w += RES_BOOL(0, 1);
 						break;
 				}
 
