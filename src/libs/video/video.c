@@ -21,6 +21,7 @@
 #include "vidplayer.h"
 #include "libs/memlib.h"
 #include "libs/sndlib.h"
+#include "uqm/units.h"
 
 
 #define NULL_VIDEO_REF	(0)
@@ -109,6 +110,10 @@ VidPlayEx (VIDEO_REF vid, MUSIC_REF AudRef, MUSIC_REF SpeechRef,
 	if (!vid)
 		return NO_FMV;
 
+	int scale = 1;
+	if (RESOLUTION_FACTOR == HD)
+		scale = 4;
+
 	if (AudRef)
 	{
 		if (vid->hAudio)
@@ -128,8 +133,8 @@ VidPlayEx (VIDEO_REF vid, MUSIC_REF AudRef, MUSIC_REF SpeechRef,
 	_cur_video = NULL_VIDEO_REF;
 
 	// play video in the center of the screen
-	if (TFB_PlayVideo (vid, (ScreenWidth - vid->w) / 2,
-			(ScreenHeight - vid->h) / 2))
+	if (TFB_PlayVideo (vid, (ScreenWidth - (vid->w*scale)) / 2,
+			(ScreenHeight - (vid->h*scale)) / 2))
 	{
 		_cur_video = vid;
 		ret = SOFTWARE_FMV;
