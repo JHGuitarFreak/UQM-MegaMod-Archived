@@ -467,90 +467,85 @@ dukv_RenderFrame (THIS_PTR)
 	uint32 h, x, y;
 	uint32* dec = dukv->decbuf;
 	uint32 bufInc = 0;
-
 	int scale = 1;
-	if (RESOLUTION_FACTOR == HD)
-		scale = 4;
 
-	h = (dukv->decoder.h / 2)*scale;
+	if (RESOLUTION_FACTOR == HD)
+		scale <<= RESOLUTION_FACTOR;
+
+	h = (dukv->decoder.h / 2) * scale;
 
 	// separate bpp versions for speed
-	switch (fmt->BytesPerPixel)
-	{
-	case 2:
-	{
-		for (y = 0; y < h; ++y)
-		{
-			uint16 *dst0, *dst1;
+	switch (fmt->BytesPerPixel) {
+		case 2:
+			for (y = 0; y < h; ++y) {
+				uint16 *dst0, *dst1;
 
-			dst0 = (uint16*) This->callbacks.GetCanvasLine (This, y * 2);
-			dst1 = (uint16*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
+				dst0 = (uint16*) This->callbacks.GetCanvasLine (This, y * 2);
+				dst1 = (uint16*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
 
-			if (RESOLUTION_FACTOR == HD && y % scale != 0)
-				dec -= dukv->decoder.w;
+				if (RESOLUTION_FACTOR == HD && y % scale != 0)
+					dec -= dukv->decoder.w;
 
-			for (x = 0; x < dukv->decoder.w*scale; ++x, ++bufInc, ++dst0, ++dst1)
-			{
-				if (bufInc % scale == 0)
-					dec++;
-				uint32 pair = *dec;
-				*dst0 = dukv_PixelConv ((uint16)(pair >> 16), fmt);
-				*dst1 = dukv_PixelConv ((uint16)(pair & 0xffff), fmt);
-			} 
-		}
-		break;
-	}
-	case 3:
-	{
-		for (y = 0; y < h; ++y)
-		{
-			uint8 *dst0, *dst1;
+				for (x = 0; x < dukv->decoder.w*scale; ++x, ++bufInc, ++dst0, ++dst1) {
+					uint32 pair;
 
-			dst0 = (uint8*) This->callbacks.GetCanvasLine (This, y * 2);
-			dst1 = (uint8*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
+					if (bufInc % scale == 0)
+						dec++;
 
-			if (RESOLUTION_FACTOR == HD && y % scale != 0)
-				dec -= dukv->decoder.w;
-
-			for (x = 0; x < dukv->decoder.w*scale;
-					++x, ++bufInc, dst0 += 3, dst1 += 3)
-			{
-				if (bufInc % scale == 0)
-					dec++;
-				uint32 pair = *dec;
-				*(uint32*)dst0 =
-						dukv_PixelConv ((uint16)(pair >> 16), fmt);
-				*(uint32*)dst1 =
-						dukv_PixelConv ((uint16)(pair & 0xffff), fmt);
+					pair = *dec;
+					*dst0 = dukv_PixelConv ((uint16)(pair >> 16), fmt);
+					*dst1 = dukv_PixelConv ((uint16)(pair & 0xffff), fmt);
+				} 
 			}
-		}
-		break;
-	}
-	case 4:
-	{
-		for (y = 0; y < h; ++y)
-		{
-			uint32 *dst0, *dst1;
+			break;
+		case 3:
+			for (y = 0; y < h; ++y) {
+				uint8 *dst0, *dst1;
 
-			dst0 = (uint32*) This->callbacks.GetCanvasLine (This, y * 2);
-			dst1 = (uint32*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
+				dst0 = (uint8*) This->callbacks.GetCanvasLine (This, y * 2);
+				dst1 = (uint8*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
 
-			if (RESOLUTION_FACTOR == HD && y % scale != 0)
-				dec -= dukv->decoder.w;
+				if (RESOLUTION_FACTOR == HD && y % scale != 0)
+					dec -= dukv->decoder.w;
 
-			for (x = 0; x < dukv->decoder.w*scale; ++x, ++bufInc, ++dst0, ++dst1)
-			{
-				if (bufInc % scale == 0)
-					dec++;
-				uint32 pair = *dec;
-				*dst0 = dukv_PixelConv ((uint16)(pair >> 16), fmt);
-				*dst1 = dukv_PixelConv ((uint16)(pair & 0xffff), fmt);
+				for (x = 0; x < dukv->decoder.w*scale; ++x, ++bufInc, dst0 += 3, dst1 += 3) {
+					uint32 pair;
+
+					if (bufInc % scale == 0)
+						dec++;
+
+					pair = *dec;
+					*(uint32*)dst0 =
+							dukv_PixelConv ((uint16)(pair >> 16), fmt);
+					*(uint32*)dst1 =
+							dukv_PixelConv ((uint16)(pair & 0xffff), fmt);
+				}
 			}
-		}
-		break;
-	}
-	default:
-		;
+			break;
+		case 4:
+			for (y = 0; y < h; ++y) {
+				uint32 *dst0, *dst1;
+
+				dst0 = (uint32*) This->callbacks.GetCanvasLine (This, y * 2);
+				dst1 = (uint32*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
+
+				if (RESOLUTION_FACTOR == HD && y % scale != 0)
+					dec -= dukv->decoder.w;
+
+				for (x = 0; x < dukv->decoder.w*scale; ++x, ++bufInc, ++dst0, ++dst1) {
+					uint32 pair;
+
+					if (bufInc % scale == 0)
+						dec++;
+
+					pair = *dec;
+					*dst0 = dukv_PixelConv ((uint16)(pair >> 16), fmt);
+					*dst1 = dukv_PixelConv ((uint16)(pair & 0xffff), fmt);
+				}
+			}
+			break;
+		default:
+			;
 	}
 }
 
