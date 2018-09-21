@@ -904,7 +904,7 @@ UpdateCursorLocation (int sx, int sy, const POINT *newpt)
 #define CURSOR_INFO_BUFSIZE 256
 // JMS: How close to a star the cursor has to be to 'snap' into it.
 // Don't make this larger than 1 for lo-res(1x). Otherwise the cursor gets stuck on stars.
-#define CURSOR_SNAP_AREA (RES_CASE(0,1,2)) // MB: Fixed cursor snap area so that trying to autopilot to sol no longer selects sirius all the damn time unless you zoom in.
+#define CURSOR_SNAP_AREA (RES_BOOL(0, 2)) // MB: Fixed cursor snap area so that trying to autopilot to sol no longer selects sirius all the damn time unless you zoom in.
 
 static void
 UpdateCursorInfo (UNICODE *prevbuf)

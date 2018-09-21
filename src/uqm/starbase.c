@@ -48,7 +48,7 @@ DrawBaseStateStrings (STARBASE_STATE OldState, STARBASE_STATE NewState)
 {
 	TEXT t;
 	RECT r;
-	COUNT text_base_y = 106 + 28 - RES_CASE (0,2,0);
+	COUNT text_base_y = 106 + 28;
 	COUNT text_spacing_y = 23 - 4;
 	//STRING locString;
 
@@ -187,16 +187,16 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 
 		r.corner.y += ((23 - 1) << RESOLUTION_FACTOR); // JMS_GFX
 		if (RESOLUTION_FACTOR == HD)
-			r.extent.height += RES_CASE(0,15,30); 
+			r.extent.height += RES_BOOL(0, 30);
 		
 		if (which_slot == 0 && RESOLUTION_FACTOR !=0)
-			r.corner.x += RES_CASE(0,2,4); // JMS_GFX
+			r.corner.x += RES_BOOL(0, 4); // JMS_GFX
 		else if (which_slot == NUM_MODULE_SLOTS - 1 && RESOLUTION_FACTOR !=0)
-			r.extent.width -= RES_CASE(0,4,9); // JMS_GFX
+			r.extent.width -= RES_BOOL(0, 9); // JMS_GFX
 		DrawFilledRectangle (&r);
 		
-		r.extent.width = RES_CASE(1,5,12);
-		r.extent.height = (8 << RESOLUTION_FACTOR) + RES_CASE(0,13,30); // JMS_GFX
+		r.extent.width = RES_BOOL(1, 12);
+		r.extent.height = (8 << RESOLUTION_FACTOR) + RES_BOOL(0, 30); // JMS_GFX
 
 		if (RepairSlot == 2)
 		{
@@ -206,10 +206,10 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 			if (RESOLUTION_FACTOR == HD) {
 				r.corner.x += ship_piece_offset_scaled - r.extent.width;
 				if (which_slot == NUM_MODULE_SLOTS - 1 && RESOLUTION_FACTOR !=0) {
-					r.extent.height -= RES_CASE(0,8,16); // JMS_GFX
-					r.extent.width += RES_CASE(0,2,4); // JMS_GFX
+					r.extent.height -= RES_BOOL(0, 16); // JMS_GFX
+					r.extent.width += RES_BOOL(0, 4); // JMS_GFX
 					DrawFilledRectangle (&r);
-					r.extent.width -= RES_CASE(0,2,4); // JMS_GFX
+					r.extent.width -= RES_BOOL(0, 4); // JMS_GFX
 				} else
 					DrawFilledRectangle (&r);
 				
@@ -220,12 +220,12 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 			if (RESOLUTION_FACTOR == HD) {
 				r.corner.x += ship_piece_offset_scaled - r.extent.width;
 				if (which_slot == NUM_MODULE_SLOTS - 1 && RESOLUTION_FACTOR !=0) {
-					r.corner.y += RES_CASE(0,16,32);
-					r.extent.height -= RES_CASE(0,17,36); // JMS_GFX
-					r.extent.width += RES_CASE(0,1,3); // JMS_GFX
+					r.corner.y += RES_BOOL(0, 32);
+					r.extent.height -= RES_BOOL(0, 36); // JMS_GFX
+					r.extent.width += RES_BOOL(0, 3); // JMS_GFX
 					DrawFilledRectangle (&r);
-					r.extent.width -= RES_CASE(0,1,3); // JMS_GFX
-					r.extent.height += RES_CASE(0,17,36); // JMS_GFX
+					r.extent.width -= RES_BOOL(0, 3); // JMS_GFX
+					r.extent.height += RES_BOOL(0, 36); // JMS_GFX
 				} else
 					DrawFilledRectangle (&r);
 				
@@ -269,11 +269,11 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 			r.extent.width = ship_piece_offset_scaled;
 			r.extent.height = (1 << RESOLUTION_FACTOR) + RESOLUTION_FACTOR;
 			DrawFilledRectangle (&r);
-			r.corner.y += ((32 - 1) << RESOLUTION_FACTOR) + RES_CASE(0,3,16);  // JMS_GFX
+			r.corner.y += ((32 - 1) << RESOLUTION_FACTOR) + RES_BOOL(0, 16);  // JMS_GFX
 			DrawFilledRectangle (&r);
 
 			r.extent.width = (1 << RESOLUTION_FACTOR) + RESOLUTION_FACTOR;
-			r.extent.height = (12 << RESOLUTION_FACTOR) + RES_CASE(0,1,17); // JMS_GFX
+			r.extent.height = (12 << RESOLUTION_FACTOR) + RES_BOOL(0, 17); // JMS_GFX
 			if (RepairSlot == 2)
 			{
 				r.corner = Top.origin;

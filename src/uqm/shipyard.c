@@ -55,10 +55,10 @@ static const COORD hangar_x_coords[HANGAR_SHIPS_ROW] =
 #	define HANGAR_SHIPS_ROW  6
 
 // The Y position of the upper line of hangar bay doors.
-# define HANGAR_Y          ((88 << RESOLUTION_FACTOR) - RES_CASE(0,3,2)) // JMS_GFX
+# define HANGAR_Y          ((88 << RESOLUTION_FACTOR) - RES_BOOL(0, 2)) // JMS_GFX
 
 // The Y position of the lower line of hangar bay doors.
-# define HANGAR_DY         ((84 << RESOLUTION_FACTOR) + RES_CASE(0,1,2)) // JMS_GFX
+# define HANGAR_DY         ((84 << RESOLUTION_FACTOR) + RES_BOOL(0, 2)) // JMS_GFX
 
 
 // The X positions of the hangar bay doors for each resolution mode.
@@ -210,9 +210,9 @@ DrawRaceStrings (MENU_STATE *pMS, BYTE NewRaceItem)
 	s.origin.x = RADAR_X - r.corner.x;
 	s.origin.y = RADAR_Y - r.corner.y;
 	r.corner.x = s.origin.x - 1;
-	r.corner.y = s.origin.y - RES_CASE(11,24,33); // JMS_GFX
+	r.corner.y = s.origin.y - RES_BOOL(11, 33); // JMS_GFX
 	r.extent.width = RADAR_WIDTH + 2;
-	r.extent.height = RES_CASE(11,24,33); // JMS_GFX
+	r.extent.height = RES_BOOL(11, 33); // JMS_GFX
 	BatchGraphics ();
 	ClearSISRect (CLEAR_SIS_RADAR);
 	SetContextForeGroundColor (
@@ -268,15 +268,15 @@ DrawRaceStrings (MENU_STATE *pMS, BYTE NewRaceItem)
 }
 
 // Width of an escort ship window.
-#define SHIP_WIN_WIDTH RES_CASE(34, 72, 156) // JMS_GFX
+#define SHIP_WIN_WIDTH RES_BOOL(34, 156) // JMS_GFX
 
 // Height of an escort ship window.
-#define SHIP_WIN_HEIGHT (SHIP_WIN_WIDTH + RES_CASE(6,6,11)) // JMS_GFX
+#define SHIP_WIN_HEIGHT (SHIP_WIN_WIDTH + RES_BOOL(6, 11)) // JMS_GFX
 
 // For how many animation frames' time the escort ship bay doors
 // are slid left and right when opening them. If this number is not large
 // enough, part of the doors are left visible upon opening.
-#define SHIP_WIN_FRAMES ((SHIP_WIN_WIDTH >> 1) + RES_CASE(1,1,2))
+#define SHIP_WIN_FRAMES ((SHIP_WIN_WIDTH >> 1) + RES_BOOL(1, 2))
 
 // Print the crew count of an escort ship on top of its (already drawn)
 // image, either as '30' (full), '28/30' (partially full), or 'SCRAP'
@@ -571,7 +571,7 @@ DMS_FlashFlagShip (void)
 	r.corner.x = 0;
 	r.corner.y = 0;
 	r.extent.width = SIS_SCREEN_WIDTH;
-	r.extent.height = RES_CASE(61, 122, 295); // JMS_GFX
+	r.extent.height = RES_BOOL(61, 295); // JMS_GFX
 	SetFlashRect (&r);
 }
 
@@ -1459,7 +1459,7 @@ DrawBluePrint (MENU_STATE *pMS)
 				
 			GetFTankCapacity (&r.corner);
 			//log_add(log_Debug, "volume on %u, hefueltankcapacity %u", volume, HEFUEL_TANK_CAPACITY);
-			r.corner.y -= volume == HEFUEL_TANK_CAPACITY ? RES_CASE(0,11,19) : RES_CASE(0,14,28); // JMS_GFX
+			r.corner.y -= volume == HEFUEL_TANK_CAPACITY ? RES_BOOL(0, 19) : RES_BOOL(0, 28); // JMS_GFX
 			r.corner.x += volume == HEFUEL_TANK_CAPACITY ? RES_BOOL(0,2) : RES_BOOL(0,1); // JMS_GFX
 			DrawPoint (&r.corner);
 			r.corner.x += r.extent.width + 1;

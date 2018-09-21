@@ -118,7 +118,7 @@ DrawSISFrame (void)
 		
 		// Bottom corners of the SIS gauges
 		r.corner.x = SAFE_X + SPACE_WIDTH;
-		r.corner.y = SAFE_Y + RES_CASE(139, 282, 434); // JMS_GFX
+		r.corner.y = SAFE_Y + RES_BOOL(139, 434); // JMS_GFX
 		DrawPoint (&r.corner);
 		
 		r.corner.x = SCREEN_WIDTH - 1; // JMS_GFX
@@ -155,7 +155,7 @@ DrawSISFrame (void)
 		r.corner.x = SCREEN_WIDTH - 1;
 		r.corner.y = 0;
 		r.extent.width = 1;
-		r.extent.height = SAFE_Y + RES_CASE(139, 282, 434); // JMS_GFX
+		r.extent.height = SAFE_Y + RES_BOOL(139, 434); // JMS_GFX
 		DrawFilledRectangle (&r);
 		
 		// Horizontal line at the bottom of the screen, menu window side
@@ -167,7 +167,7 @@ DrawSISFrame (void)
 		
 		// Vertical line at the right side of the menu window, lower part
 		r.corner.x = SCREEN_WIDTH - 1;
-		r.corner.y = SAFE_Y + RES_CASE(140, 283, 435);
+		r.corner.y = SAFE_Y + RES_BOOL(140, 435);
 		r.extent.width = 1;
 		r.extent.height = (SCREEN_HEIGHT - 1) - r.corner.y;
 		DrawFilledRectangle (&r);
@@ -211,19 +211,19 @@ DrawSISFrame (void)
 		r.corner.x = SAFE_X + SPACE_WIDTH;
 		r.corner.y = 0;
 		r.extent.width = 1;
-		r.extent.height = SAFE_Y + RES_CASE(139, 282, 434); // JMS_GFX 
+		r.extent.height = SAFE_Y + RES_BOOL(139, 434); // JMS_GFX 
 		DrawFilledRectangle (&r);
 
 		// Horizontal line of the separator below the SIS gauges 
 		r.corner.x = SAFE_X + SPACE_WIDTH + 1;
-		r.corner.y = SAFE_Y + RES_CASE(139, 282, 434); // JMS_GFX
+		r.corner.y = SAFE_Y + RES_BOOL(139, 434); // JMS_GFX
 		r.extent.width = STATUS_WIDTH - 2;
 		r.extent.height = 1;
 		DrawFilledRectangle (&r);
 
 		// Dark verticle line accent for the bottom left of the right panel
 		r.corner.x = SAFE_X + SPACE_WIDTH;
-		r.corner.y = SAFE_Y + RES_CASE(140, 283, 435); // JMS_GFX
+		r.corner.y = SAFE_Y + RES_BOOL(140, 435); // JMS_GFX
 		r.extent.width = 1;
 		r.extent.height = SCREEN_HEIGHT - r.corner.y;
 		DrawFilledRectangle (&r);

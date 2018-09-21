@@ -26,8 +26,8 @@
 
 #ifdef COMM_INTERNAL
 
-#define SLIDER_Y ((107 << RESOLUTION_FACTOR) + RES_CASE(0,6,46)) // JMS_GFX
-#define SLIDER_HEIGHT RES_CASE(15, 15, 30) // JMS_GFX
+#define SLIDER_Y ((107 << RESOLUTION_FACTOR) + RES_BOOL(0, 46)) // JMS_GFX
+#define SLIDER_HEIGHT RES_BOOL(15, 30) // JMS_GFX
 
 #include "uqm/commanim.h"
 

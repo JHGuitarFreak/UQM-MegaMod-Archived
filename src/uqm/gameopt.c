@@ -194,12 +194,12 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 		if (nameCaptain)
 		{	// Naming the captain
 			Font = TinyFont;
-			r.corner.x = RES_STAT_SCALE(3) - RES_CASE(0,3,5); // JMS_GFX
-			r.corner.y = RES_CASE(10,20,32); // JMS_GFX
-			r.extent.width = SHIP_NAME_WIDTH - RES_CASE(2,1,0);		// JMS_GFX
+			r.corner.x = RES_STAT_SCALE(3) - RES_BOOL(0, 5); // JMS_GFX
+			r.corner.y = RES_BOOL(10, 32); // JMS_GFX
+			r.extent.width = SHIP_NAME_WIDTH - RES_BOOL(2, 0);		// JMS_GFX
 			r.extent.height += RESOLUTION_FACTOR; // JMS_GFX
-			lf.baseline.x = (STATUS_WIDTH >> 1) - RES_CASE(1,0,-1);
-			lf.baseline.y = r.corner.y + r.extent.height - RES_CASE(1,4,3);
+			lf.baseline.x = (STATUS_WIDTH >> 1) - RES_BOOL(1, -1);
+			lf.baseline.y = r.corner.y + r.extent.height - RES_BOOL(1, 3);
 
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x1F), 0x09);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x0A, 0x1F, 0x1F), 0x0B);
@@ -207,12 +207,12 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 		else
 		{	// Naming the flagship
 			Font = StarConFont;
-			r.corner.x = RES_CASE(2,3,5); // JMS_GFX
-			r.corner.y = RES_CASE(20,40,63); // JMS_GFX
+			r.corner.x = RES_BOOL(2, 5); // JMS_GFX
+			r.corner.y = RES_BOOL(20, 63); // JMS_GFX
 			r.extent.width = SHIP_NAME_WIDTH;
 			r.extent.height += RES_BOOL(0,1); // JMS_GFX
 			lf.baseline.x = r.corner.x + (r.extent.width >> 1);
-			lf.baseline.y = r.corner.y + r.extent.height - RES_CASE(1,4,3); // JMS_GFX
+			lf.baseline.y = r.corner.y + r.extent.height - RES_BOOL(1, 3); // JMS_GFX
 
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0F, 0x00, 0x00), 0x2D);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x1F, 0x0A, 0x00), 0x7D);
@@ -435,7 +435,7 @@ DrawSaveNameString (UNICODE *Str, COUNT CursorPos, COUNT state, COUNT gameIndex)
 
 	Font = TinyFont;
 	lf.baseline.x = r.corner.x + (3 << RESOLUTION_FACTOR); // JMS_GFX
-	lf.baseline.y = r.corner.y + RES_CASE(8,14,29); // JMS_GFX
+	lf.baseline.y = r.corner.y + RES_BOOL(8, 29); // JMS_GFX
 
 	BackGround = BUILD_COLOR (MAKE_RGB15 (0x1B, 0x00, 0x1B), 0x33);
 	ForeGround = BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x14), 0x01);
@@ -865,7 +865,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		{
 			COUNT j;
 
-			s.origin.x = (140 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + RES_CASE(0,10,110); // JMS_GFX
+			s.origin.x = (140 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + RES_BOOL(0, 110); // JMS_GFX
 			for (j = 0; j < 4; ++j)
 			{
 				COUNT devIndex = (i * 4) + j;
@@ -881,7 +881,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		}
 
 		SetContextFont (StarConFont);
-		t.baseline.x = (173 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + RES_CASE(0,15,110); // JMS_GFX
+		t.baseline.x = (173 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + RES_BOOL(0, 110); // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.CharCount = (COUNT)~0;
 		t.pStr = buf;
@@ -904,7 +904,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 			SetContext (RadarContext);
 			// Hack RadarContext so we can use standard Lander display funcs
 			GetContextClipRect (&OldRect);
-			r.corner.x = SIS_ORG_X + RES_CASE(10,20,70) + SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS; // JMS_GFX
+			r.corner.x = SIS_ORG_X + RES_BOOL(10, 70) + SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS; // JMS_GFX
 			r.corner.y = SIS_ORG_Y + (84 << RESOLUTION_FACTOR); // JMS_GFX
 			r.extent = OldRect.extent;
 			SetContextClipRect (&r);
@@ -929,7 +929,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 
 		// print the location
 		t.baseline.x = 6 << RESOLUTION_FACTOR; // JMS_GFX
-		t.baseline.y = ((139 + 6) << RESOLUTION_FACTOR) + RES_CASE(0,3,0); // JMS_GFX;
+		t.baseline.y = (139 + 6) << RESOLUTION_FACTOR; // JMS_GFX;
 		t.align = ALIGN_LEFT;
 		t.pStr = buf;
 		starPt.x = LOGX_TO_UNIVERSE (pSD->SS.log_x);
@@ -1051,8 +1051,8 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 		r.corner.y = (160 + (i * 13)) << RESOLUTION_FACTOR; // JMS_GFX
 		DrawRectangle (&r);
 
-		t.baseline.x = r.corner.x + RES_CASE(3,8,18); // JMS_GFX
-		t.baseline.y = r.corner.y + RES_CASE(8,14,29); // JMS_GFX
+		t.baseline.x = r.corner.x + RES_BOOL(3, 18); // JMS_GFX
+		t.baseline.y = r.corner.y + RES_BOOL(8, 29); // JMS_GFX
 		snprintf (buf, sizeof buf, (MAX_SAVED_GAMES > 99) ? "%03u" : "%02u",
 				curSlot);
 		font_DrawText (&t);

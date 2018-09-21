@@ -2335,7 +2335,7 @@ CreateStarBackGround (void)
 #define NUM_BRT_PIECES 8
 	for (i = 0; i < NUM_BRT_PIECES; ++i)
 	{
-#define NUM_BRT_DRAWN (optNebulae && NebulaePercentY < numNebulae ? RES_CASE(30, 90, 270) : RES_CASE(30, 120, 480))
+#define NUM_BRT_DRAWN (optNebulae && NebulaePercentY < numNebulae ? RES_BOOL(30, 270) : RES_BOOL(30, 480))
 		for (j = 0; j < NUM_BRT_DRAWN; ++j)
 		{
 			rand_val = RandomContext_Random (SysGenRNG);

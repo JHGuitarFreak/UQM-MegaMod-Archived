@@ -29,10 +29,10 @@ DrawCrewFuelString (COORD y, SIZE state)
 {
 	STAMP Stamp;
 
-	Stamp.origin.y = y + GAUGE_YOFFS + STARCON_TEXT_HEIGHT - RES_CASE(0,6,12);
+	Stamp.origin.y = y + GAUGE_YOFFS + STARCON_TEXT_HEIGHT - RES_BOOL(0, 12);
 	if (state == 0)
 	{
-		Stamp.origin.x = CREW_XOFFS + (STAT_WIDTH >> 1) + RES_STAT_SCALE(6) - RES_CASE(0,8,8); // JMS_GFX
+		Stamp.origin.x = CREW_XOFFS + (STAT_WIDTH >> 1) + RES_STAT_SCALE(6) - RES_BOOL(0, 8); // JMS_GFX
 		if (optWhichMenu == OPT_PC)
 			Stamp.frame = SetAbsFrameIndex (StatusFrame, 4);
 		else
@@ -40,7 +40,7 @@ DrawCrewFuelString (COORD y, SIZE state)
 		DrawStamp (&Stamp);
 	}
 
-	Stamp.origin.x = ENERGY_XOFFS + (STAT_WIDTH >> 1) - RES_STAT_SCALE(5) + RES_CASE(0,10,10); // JMS_GFX
+	Stamp.origin.x = ENERGY_XOFFS + (STAT_WIDTH >> 1) - RES_STAT_SCALE(5) + RES_BOOL(0, 10); // JMS_GFX
 	if (optWhichMenu == OPT_PC)
 		Stamp.frame = SetAbsFrameIndex (StatusFrame, 5);
 	else
@@ -90,7 +90,7 @@ ClearShipStatus (COORD y, COORD w, BOOLEAN inMeleeMenu)
 	r.corner.x = 2;
 	r.corner.y = 3 + y;
 	r.extent.width = w - 4;
-	r.extent.height = SHIP_INFO_HEIGHT - (inMeleeMenu ? RES_CASE(3,1,6) : 3); // JMS_GFX
+	r.extent.height = SHIP_INFO_HEIGHT - (inMeleeMenu ? RES_BOOL(3, 6) : 3); // JMS_GFX
 	DrawFilledRectangle (&r);
 }
 
@@ -110,7 +110,7 @@ OutlineShipStatus (COORD y, COORD w, BOOLEAN inMeleeMenu)
 	--r.extent.width;
 	DrawFilledRectangle (&r);
 	r.extent.width = 1;
-	r.extent.height = SHIP_INFO_HEIGHT - RES_CASE((1), (inMeleeMenu ? -1 : 2), (inMeleeMenu ? 3 : 0));
+	r.extent.height = SHIP_INFO_HEIGHT - RES_BOOL((1), (inMeleeMenu ? 3 : 0));
 	DrawFilledRectangle (&r);
 	++r.corner.x;
 	DrawFilledRectangle (&r);
@@ -125,7 +125,7 @@ OutlineShipStatus (COORD y, COORD w, BOOLEAN inMeleeMenu)
 	DrawFilledRectangle (&r);
 
 	r.corner.x = 1;
-	r.corner.y = SHIP_INFO_HEIGHT + RES_CASE(2,3,-2);
+	r.corner.y = SHIP_INFO_HEIGHT + RES_BOOL(2, -2);
 	r.extent.width = w - 2;
 	r.extent.height = 1;
 	if (inMeleeMenu)
@@ -294,7 +294,7 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 			Text.align = ALIGN_CENTER;
 
 			Text.baseline.x = STATUS_WIDTH >> 1;
-			Text.baseline.y = y + GAUGE_YOFFS + RES_CASE(3,3,7);
+			Text.baseline.y = y + GAUGE_YOFFS + RES_BOOL(3, 7);
 
 			SetContextForeGroundColor (BLACK_COLOR);
 			font_DrawText (&Text);

@@ -57,7 +57,7 @@
 #define OSCILLOSCOPE_RATE   (ONE_SECOND / 32)
 
 // JMS_GFX
-#define RESPONSE_EXTRA_Y (RES_CASE(0,12,22))
+#define RESPONSE_EXTRA_Y (RES_BOOL(0, 22))
 
 // Maximum comm animation frame rate (actual execution rate)
 // A gfx frame is not always produced during an execution frame,
