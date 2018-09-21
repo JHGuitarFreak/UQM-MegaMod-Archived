@@ -254,7 +254,7 @@ TFB_PlayVideo (VIDEO_REF vid, uint32 x, uint32 y)
 	vid->decoder->callbacks = vp_DecoderCBs;
 	vid->decoder->data = vid;
 	
-	vid->frame = TFB_DrawImage_CreateForScreen (RES_SCALE(vid->w), RES_SCALE(vid->h), FALSE);
+	vid->frame = TFB_DrawImage_CreateForScreen (vid->w, vid->h, FALSE);
 	vid->cur_frame = -1;
 	vid->want_frame = -1;
 
