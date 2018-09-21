@@ -150,7 +150,7 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 {
 	RECT r;
 	COORD y = 0; // default, for Melee menu
-	COORD width = STATUS_WIDTH; // BW: ShipStatus has less space in 2x and 4x MeleeMenu
+	COORD width = STATUS_WIDTH; // BW: ShipStatus has less space in HD MeleeMenu
 	STAMP Stamp;
 	CONTEXT OldContext;
 	RECT oldClipRect;

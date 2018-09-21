@@ -1644,12 +1644,12 @@ SeedUniverse (void)
 					hyperstars[1 + (GET_GAME_STATE (ARILOU_SPACE_SIDE) >> 1)],
 					SD[i].Index);
 			} else if (arilouSpaceSide > 1) {
-				// QS. The QS portal has done its growing animation: in 2x and 4x res switch to the full-size anim.
+				// QS. The QS portal has done its growing animation: in HD switch to the full-size anim.
 				HyperSpaceElementPtr->current.image.frame =
 					SetAbsFrameIndex (quasiportal, frameCounter % NUM_HOLES_FRAMES);
 				HyperSpaceElementPtr->current.image.farray = &hyperholes[2];
 			} else {
-				// HS. The QS portal has done its growing animation: in 2x and 4x res switch to the full-size anim.
+				// HS. The QS portal has done its growing animation: in HD switch to the full-size anim.
 				HyperSpaceElementPtr->current.image.frame =
 					SetAbsFrameIndex (quasiportal, frameCounter % NUM_QUASIPORTAL_IN_HS_FRAMES);
 				HyperSpaceElementPtr->current.image.farray = &quasiportal;
