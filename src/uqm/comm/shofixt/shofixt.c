@@ -40,7 +40,7 @@ static LOCDATA shofixti_desc_orig =
 	VALIGN_TOP, /* AlienTextValign */
 	SHOFIXTI_COLOR_MAP, /* AlienColorMap */
 	SHOFIXTI_MUSIC, /* AlienSong */
-	NULL_RESOURCE, /* AlienAl
+	NULL_RESOURCE, /* AlienAltSong */
 	0, /* AlienSongFlags */
 	SHOFIXTI_CONVERSATION_PHRASES, /* PlayerPhrases */
 	11, /* NumAnimations */
