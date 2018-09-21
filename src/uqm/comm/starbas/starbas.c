@@ -35,7 +35,7 @@ static void TellMission (RESPONSE_REF R);
 static void SellMinerals (RESPONSE_REF R);
 
 
-static LOCDATA commander_desc_1x =
+static LOCDATA commander_desc_orig =
 {
 	COMMANDER_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -160,7 +160,7 @@ static LOCDATA commander_desc_1x =
 	NULL,
 };
 
-static LOCDATA commander_desc_4x =
+static LOCDATA commander_desc_hd =
 {
 	COMMANDER_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -1914,7 +1914,7 @@ init_starbase_comm ()
 	static LOCDATA commander_desc;
 	LOCDATA *retval;
 
-	commander_desc = (RESOLUTION_FACTOR != HD ? commander_desc_1x : commander_desc_4x);
+	commander_desc = (RESOLUTION_FACTOR != HD ? commander_desc_orig : commander_desc_hd);
 
 	commander_desc.init_encounter_func = Intro;
 	commander_desc.post_encounter_func = post_starbase_enc;

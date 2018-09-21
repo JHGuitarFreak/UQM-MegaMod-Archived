@@ -25,7 +25,7 @@
 #include "uqm/gameev.h"
 
 
-static LOCDATA spahome_desc_1x =
+static LOCDATA spahome_desc_orig =
 {
 	SPATHI_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -185,7 +185,7 @@ static LOCDATA spahome_desc_1x =
 	NULL,
 };
 
-static LOCDATA spahome_desc_4x =
+static LOCDATA spahome_desc_hd =
 {
 	SPATHI_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -1255,7 +1255,7 @@ init_spahome_comm ()
 	static LOCDATA spahome_desc;
  	LOCDATA *retval;
 	
-	spahome_desc = (RESOLUTION_FACTOR != HD ? spahome_desc_1x : spahome_desc_4x);
+	spahome_desc = (RESOLUTION_FACTOR != HD ? spahome_desc_orig : spahome_desc_hd);
 
 	spahome_desc.init_encounter_func = Intro;
 	spahome_desc.post_encounter_func = post_spahome_enc;

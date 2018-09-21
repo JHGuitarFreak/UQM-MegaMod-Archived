@@ -35,7 +35,7 @@
 
 static const NUMBER_SPEECH_DESC melnorme_numbers_english;
 
-static LOCDATA melnorme_desc_1x =
+static LOCDATA melnorme_desc_orig =
 {
 	MELNORME_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -112,7 +112,7 @@ static LOCDATA melnorme_desc_1x =
 	NULL,
 };
 
-static LOCDATA melnorme_desc_4x =
+static LOCDATA melnorme_desc_hd =
 {
 	MELNORME_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -2072,7 +2072,7 @@ init_melnorme_comm (void)
 	static LOCDATA melnorme_desc;
  	LOCDATA *retval;
 
-	melnorme_desc = (RESOLUTION_FACTOR != HD ? melnorme_desc_1x : melnorme_desc_4x);
+	melnorme_desc = (RESOLUTION_FACTOR != HD ? melnorme_desc_orig : melnorme_desc_hd);
 
 	melnorme_desc.init_encounter_func = Intro;
 	melnorme_desc.post_encounter_func = post_melnorme_enc;

@@ -377,7 +377,7 @@ DoModifyRoster (MENU_STATE *pMS)
 		if (NewState != pMS->CurState)
 		{
 			// Draw the previous escort in unselected state.
-			// JMS_GFX: In 4x and 2x modes we draw the rectangle of screen
+			// JMS_GFX: In HD mode we draw the rectangle of screen
 			// we captured earlier.
 			if (RESOLUTION_FACTOR == HD)
 				DrawStamp (&savedShipFrame);
@@ -387,7 +387,7 @@ DoModifyRoster (MENU_STATE *pMS)
 			selectSupportShip (rosterState, NewState);
 			pMS->CurState = NewState;
 
-			// JMS_GFX: In 2x and 4x modes we now have to capture the
+			// JMS_GFX: In HD mode we now have to capture the
 			// location of this new rectangle.
 			if (RESOLUTION_FACTOR == HD)
 				flashSupportShip (rosterState, TRUE);
@@ -463,11 +463,11 @@ RosterMenu (void)
 	SetContext (StatusContext);
 	
 	// Draw the last escort in unselected state.
-	// JMS_GFX: In 4x and 2x modes we draw the rectangle of screen
+	// JMS_GFX: In HD mode we draw the rectangle of screen
 	// we captured earlier.
 	if (RESOLUTION_FACTOR == HD)
 		DrawStamp (&savedShipFrame);
-	else // In 1x mode we just draw the icon.
+	else // In Original mode we just draw the icon.
 		drawSupportShip (&RosterState, FALSE, FALSE);
 
 	DrawStatusMessage (NULL);

@@ -23,7 +23,7 @@
 #include "uqm/build.h"
 
 
-static LOCDATA yehat_desc_1x =
+static LOCDATA yehat_desc_orig =
 {
 	YEHAT_REBEL_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -190,7 +190,7 @@ static LOCDATA yehat_desc_1x =
 	NULL,
 };
 
-static LOCDATA yehat_desc_4x =
+static LOCDATA yehat_desc_hd =
 {
 	YEHAT_REBEL_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -580,7 +580,7 @@ init_rebel_yehat_comm (void)
 	static LOCDATA yehat_desc;
 	LOCDATA *retval;
 
-	yehat_desc = (RESOLUTION_FACTOR != HD ? yehat_desc_1x : yehat_desc_4x);
+	yehat_desc = (RESOLUTION_FACTOR != HD ? yehat_desc_orig : yehat_desc_hd);
 
 	yehat_desc.init_encounter_func = Intro;
 	yehat_desc.post_encounter_func = post_yehat_enc;

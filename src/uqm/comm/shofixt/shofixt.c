@@ -24,7 +24,7 @@
 #include "uqm/gameev.h"
 
 
-static LOCDATA shofixti_desc_1x =
+static LOCDATA shofixti_desc_orig =
 {
 	SHOFIXTI_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -40,7 +40,7 @@ static LOCDATA shofixti_desc_1x =
 	VALIGN_TOP, /* AlienTextValign */
 	SHOFIXTI_COLOR_MAP, /* AlienColorMap */
 	SHOFIXTI_MUSIC, /* AlienSong */
-	NULL_RESOURCE, /* AlienAltSong */
+	NULL_RESOURCE, /* AlienAl
 	0, /* AlienSongFlags */
 	SHOFIXTI_CONVERSATION_PHRASES, /* PlayerPhrases */
 	11, /* NumAnimations */
@@ -158,7 +158,7 @@ static LOCDATA shofixti_desc_1x =
 	NULL,
 };
 
-static LOCDATA shofixti_desc_4x =
+static LOCDATA shofixti_desc_hd =
 {
 	SHOFIXTI_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -744,7 +744,7 @@ init_shofixti_comm (void)
 	static LOCDATA shofixti_desc;
  	LOCDATA *retval;
 	
-	shofixti_desc = (RESOLUTION_FACTOR != HD ? shofixti_desc_1x : shofixti_desc_4x);
+	shofixti_desc = (RESOLUTION_FACTOR != HD ? shofixti_desc_orig : shofixti_desc_hd);
 
 	shofixti_desc.init_encounter_func = Intro;
 	shofixti_desc.post_encounter_func = post_shofixti_enc;

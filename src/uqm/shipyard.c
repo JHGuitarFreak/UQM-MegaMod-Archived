@@ -756,7 +756,7 @@ DMS_HireFlagShipCrew (void)
 	}
 
 	// Draw a crew member.
-	// Crew dots/rectangles for 2x resolutions.
+	// Crew dots/rectangles for Original and HD graphics.
 	if (RESOLUTION_FACTOR != HD) {
 		r.extent.width = 1 << RESOLUTION_FACTOR;
 		r.extent.height = r.extent.width;
@@ -1360,7 +1360,7 @@ DrawBluePrint (MENU_STATE *pMS)
 		while (num_frames--)
 		{
 			RECT r;
-			// Crew dots/rectangles for 1x and 2x resolutions.
+			// Crew dots/rectangles for Original and HD graphics.
 			if (RESOLUTION_FACTOR != HD) {
 				r.extent.width = 1 << RESOLUTION_FACTOR;
 				r.extent.height = r.extent.width;
