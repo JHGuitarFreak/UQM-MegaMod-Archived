@@ -467,18 +467,16 @@ dukv_RenderFrame (THIS_PTR)
 	uint32 h, x, y;
 	uint32* dec = dukv->decbuf;
 	uint32 bufInc = 0;
-	int scale = 1;
+	int scale = RES_BOOL(1, 4);
 
-	if (RESOLUTION_FACTOR == HD)
-		scale <<= RESOLUTION_FACTOR;
-
-	h = (dukv->decoder.h / 2) * scale;
+	h = RES_SCALE(dukv->decoder.h / 2);
 
 	// separate bpp versions for speed
 	switch (fmt->BytesPerPixel) {
 		case 2:
 			for (y = 0; y < h; ++y) {
 				uint16 *dst0, *dst1;
+				uint32 pair;
 
 				dst0 = (uint16*) This->callbacks.GetCanvasLine (This, y * 2);
 				dst1 = (uint16*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
@@ -486,9 +484,7 @@ dukv_RenderFrame (THIS_PTR)
 				if (RESOLUTION_FACTOR == HD && y % scale != 0)
 					dec -= dukv->decoder.w;
 
-				for (x = 0; x < dukv->decoder.w*scale; ++x, ++bufInc, ++dst0, ++dst1) {
-					uint32 pair;
-
+				for (x = 0; x < RES_SCALE(dukv->decoder.w); ++x, ++bufInc, ++dst0, ++dst1) {
 					if (bufInc % scale == 0)
 						dec++;
 
@@ -501,6 +497,7 @@ dukv_RenderFrame (THIS_PTR)
 		case 3:
 			for (y = 0; y < h; ++y) {
 				uint8 *dst0, *dst1;
+				uint32 pair;
 
 				dst0 = (uint8*) This->callbacks.GetCanvasLine (This, y * 2);
 				dst1 = (uint8*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
@@ -508,9 +505,7 @@ dukv_RenderFrame (THIS_PTR)
 				if (RESOLUTION_FACTOR == HD && y % scale != 0)
 					dec -= dukv->decoder.w;
 
-				for (x = 0; x < dukv->decoder.w*scale; ++x, ++bufInc, dst0 += 3, dst1 += 3) {
-					uint32 pair;
-
+				for (x = 0; x < RES_SCALE(dukv->decoder.w); ++x, ++bufInc, dst0 += 3, dst1 += 3) {
 					if (bufInc % scale == 0)
 						dec++;
 
@@ -524,7 +519,7 @@ dukv_RenderFrame (THIS_PTR)
 			break;
 		case 4:
 			for (y = 0; y < h; ++y) {
-				uint32 *dst0, *dst1;
+				uint32 *dst0, *dst1, pair;
 
 				dst0 = (uint32*) This->callbacks.GetCanvasLine (This, y * 2);
 				dst1 = (uint32*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
@@ -532,9 +527,7 @@ dukv_RenderFrame (THIS_PTR)
 				if (RESOLUTION_FACTOR == HD && y % scale != 0)
 					dec -= dukv->decoder.w;
 
-				for (x = 0; x < dukv->decoder.w*scale; ++x, ++bufInc, ++dst0, ++dst1) {
-					uint32 pair;
-
+				for (x = 0; x < RES_SCALE(dukv->decoder.w); ++x, ++bufInc, ++dst0, ++dst1) {
 					if (bufInc % scale == 0)
 						dec++;
 
