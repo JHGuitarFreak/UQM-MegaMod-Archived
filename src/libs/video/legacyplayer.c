@@ -18,6 +18,7 @@
 #include "video.h"
 #include "vidplayer.h"
 #include "libs/memlib.h"
+#include "../uqm/units.h"
 
 
 LEGACY_VIDEO_REF
@@ -39,6 +40,10 @@ PlayLegacyVideo (LEGACY_VIDEO vid)
 	loopframe = vid->loop;
 
 	ref->vidref = LoadVideoFile (name);
+
+	ref->vidref->w = (ref->vidref->w << RESOLUTION_FACTOR) - RES_BOOL(0, 4);
+	ref->vidref->h <<= RESOLUTION_FACTOR;
+
 	if (!ref->vidref)
 		return NULL;
 	if (audname)
