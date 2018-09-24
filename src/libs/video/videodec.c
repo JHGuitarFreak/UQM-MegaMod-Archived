@@ -20,6 +20,7 @@
 #include "dukvid.h"
 #include "libs/log.h"
 #include "libs/memlib.h"
+#include "../uqm/units.h"
 
 #define MAX_REG_DECODERS 31
 
@@ -272,6 +273,9 @@ VideoDecoder_Load (uio_DirHandle *dir, const char *filename)
 		VideoDecoder_Free (decoder);
 		return NULL;
 	}
+
+	decoder->w = RES_SCALE(decoder->w);
+	decoder->h = RES_SCALE(decoder->h) - RES_BOOL(0, 7);
 
 	return decoder;
 }
