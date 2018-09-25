@@ -57,7 +57,7 @@
 #define CMISSILE_OFFSET RES_SCALE(4)
 
 // HD
-#define PUMPUP_SPEED_4XRES DISPLAY_TO_WORLD (180)
+#define PUMPUP_SPEED_HD DISPLAY_TO_WORLD (180)
 
 static RACE_DESC melnorme_desc =
 {
@@ -664,7 +664,7 @@ init_melnorme (void)
 	if (resolutionFactor == HD) {
 		melnorme_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		melnorme_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		melnorme_desc.cyborg_control.WeaponRange = PUMPUP_SPEED_4XRES * PUMPUP_LIFE;
+		melnorme_desc.cyborg_control.WeaponRange = PUMPUP_SPEED_HD * PUMPUP_LIFE;
 	}
 
 	melnorme_desc.postprocess_func = melnorme_postprocess;

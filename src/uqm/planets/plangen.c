@@ -852,9 +852,9 @@ MakeCrater (RECT *pRect, SBYTE *DepthArray, SIZE rim_delta, SIZE
 {
 	COORD x, y, lf_x, rt_x;
 	SIZE A, B;
-	SDWORD Asquared, TwoAsquared, Bsquared, TwoBsquared;	// JMS_GFX: Was 'long' - type changed to conform to UQM's own types
+	SDWORD Asquared, TwoAsquared, Bsquared, TwoBsquared;// JMS_GFX: Was 'long' - type changed to conform to UQM's own types
 	SDWORD d, dx, dy;									// JMS_GFX: Was 'long' - type changed to conform to UQM's own types
-	DWORD TopIndex, BotIndex, rim_pixels; // JMS_GFX: Was COUNT - type changed because of overflow at 4x
+	DWORD TopIndex, BotIndex, rim_pixels;				// JMS_GFX: Was COUNT - type changed because of overflow in HD
  
 
 	A = pRect->extent.width >> 1;
@@ -1881,9 +1881,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 
 						crater_r.extent.height = crater_r.extent.width;
 						crater_r.corner.x = HIBYTE (loword) % (ORIGINAL_MAP_WIDTH - crater_r.extent.width);
-						// crater_r.corner.x = loword % (MAP_WIDTH - crater_r.extent.width); // JMS_GFX: changed the previous line to this. BYTE was too small for 4x resolution
 						crater_r.corner.y = LOBYTE (loword) % (ORIGINAL_MAP_HEIGHT - crater_r.extent.height);
-						// crater_r.corner.y = hiword % (MAP_HEIGHT - crater_r.extent.height); // JMS_GFX: The same
 
 						// BW: ... then scale them up
 						crater_r.extent.width = crater_r.extent.width * Height / ORIGINAL_MAP_HEIGHT;

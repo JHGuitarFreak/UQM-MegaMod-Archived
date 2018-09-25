@@ -94,8 +94,8 @@
 #define MAX_DEFENSE 8
 
 // HD
-#define BLASTER_SPEED_4XRES DISPLAY_TO_WORLD (96)
-#define BLASTER_SPEED_BOOL (RESOLUTION_FACTOR != HD ? BLASTER_SPEED : BLASTER_SPEED_4XRES)
+#define BLASTER_SPEED_HD DISPLAY_TO_WORLD (96)
+#define BLASTER_SPEED_BOOL RES_BOOL(BLASTER_SPEED, BLASTER_SPEED_HD)
 
 
 static RACE_DESC sis_desc =
@@ -943,7 +943,7 @@ init_sis (void)
 	if (resolutionFactor == HD) {
 		sis_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		sis_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		sis_desc.cyborg_control.WeaponRange = BLASTER_SPEED_4XRES * BLASTER_LIFE;
+		sis_desc.cyborg_control.WeaponRange = BLASTER_SPEED_HD * BLASTER_LIFE;
 	}
 
 	/* copy initial ship settings to new_sis_desc */

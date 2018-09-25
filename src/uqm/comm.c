@@ -66,7 +66,7 @@
 // precision which is ultimately wasted on the human eye anyway.
 // The highest known stable animation rate is 40fps, so that's what we use.
 //
-// JMS: Changed this back to 120 fps since hires4x seems to like it... 
+// JMS: Changed this back to 120 fps since HD seems to like it... 
 #define COMM_ANIM_RATE   (ONE_SECOND / 120)
 
 static CONTEXT AnimContext;

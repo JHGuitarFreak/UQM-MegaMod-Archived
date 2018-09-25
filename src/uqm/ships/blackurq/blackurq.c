@@ -560,7 +560,7 @@ init_black_urquan (void)
 	if (resolutionFactor == HD) {
 		black_urquan_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		black_urquan_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		black_urquan_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES;
+		black_urquan_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD;
 	}
 
 	black_urquan_desc.preprocess_func = black_urquan_preprocess;

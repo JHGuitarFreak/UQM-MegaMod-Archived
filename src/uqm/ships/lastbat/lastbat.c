@@ -773,7 +773,7 @@ samatra_preprocess (ELEMENT *ElementPtr)
 	}
 	else
 	{
-		POINT offs1x[] =
+		POINT offs_orig[] =
 		{
 			{-127-9,  -53+18},
 			{ -38-9,  -88+18},
@@ -785,7 +785,7 @@ samatra_preprocess (ELEMENT *ElementPtr)
 			{-136-9,   29+18},
 		};
 		
-		POINT offs4x[] =
+		POINT offs_hd[] =
 		{
 			{-305, -234}, // Top left generator
 			{-414, -96 }, // The one below the top left generator
@@ -799,7 +799,7 @@ samatra_preprocess (ELEMENT *ElementPtr)
 		
 		POINT *offs;
 
-		offs = (RESOLUTION_FACTOR != HD ? offs1x : offs4x);
+		offs = RES_BOOL(offs_orig, offs_hd);
 
 		for (StarShipPtr->RaceDescPtr->num_generators = 0;
 				StarShipPtr->RaceDescPtr->num_generators < MAX_GENERATORS;

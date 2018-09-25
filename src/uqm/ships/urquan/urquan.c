@@ -60,7 +60,7 @@
 #define FIGHTER_LASER_RANGE DISPLAY_TO_WORLD (RES_SCALE(40) + FIGHTER_OFFSET)
 
 // HD
-#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (80)
+#define MISSILE_SPEED_HD DISPLAY_TO_WORLD (80)
 
 static RACE_DESC urquan_desc =
 {
@@ -148,7 +148,7 @@ initialize_fusion (ELEMENT *ShipPtr, HELEMENT FusionArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = URQUAN_OFFSET;
-	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_4XRES);
+	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_HD);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -554,7 +554,7 @@ init_urquan (void)
 	if (resolutionFactor == HD) {
 		urquan_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		urquan_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		urquan_desc.cyborg_control.WeaponRange = MISSILE_SPEED_4XRES * MISSILE_LIFE;
+		urquan_desc.cyborg_control.WeaponRange = MISSILE_SPEED_HD * MISSILE_LIFE;
 	}
 
 	urquan_desc.postprocess_func = urquan_postprocess;

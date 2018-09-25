@@ -62,7 +62,7 @@
 #define TURRET_WAIT 3
 
 // HD
-#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
+#define MISSILE_SPEED_HD DISPLAY_TO_WORLD (120)
 
 static RACE_DESC orz_desc =
 {
@@ -1069,7 +1069,7 @@ init_orz (void)
 	if (resolutionFactor == HD) {
 		orz_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		orz_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		orz_desc.cyborg_control.WeaponRange = MISSILE_SPEED_4XRES * MISSILE_LIFE;
+		orz_desc.cyborg_control.WeaponRange = MISSILE_SPEED_HD * MISSILE_LIFE;
 	}
 
 	orz_desc.preprocess_func = orz_preprocess;

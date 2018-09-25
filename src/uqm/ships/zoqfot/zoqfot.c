@@ -57,8 +57,8 @@
 #define TONGUE_OFFSET RES_SCALE(4)
 
 // HD
-#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (40)
-#define MISSILE_RANGE_4XRES (MISSILE_SPEED_4XRES * MISSILE_LIFE)
+#define MISSILE_SPEED_HD DISPLAY_TO_WORLD (40)
+#define MISSILE_RANGE_HD (MISSILE_SPEED_HD * MISSILE_LIFE)
 
 static RACE_DESC zoqfotpik_desc =
 {
@@ -374,7 +374,7 @@ init_zoqfotpik (void)
 	if (resolutionFactor == HD) {
 		zoqfotpik_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		zoqfotpik_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		zoqfotpik_desc.cyborg_control.WeaponRange = MISSILE_RANGE_4XRES;
+		zoqfotpik_desc.cyborg_control.WeaponRange = MISSILE_RANGE_HD;
 	}
 
 	zoqfotpik_desc.postprocess_func = zoqfotpik_postprocess;

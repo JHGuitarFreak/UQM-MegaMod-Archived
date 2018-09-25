@@ -25,7 +25,7 @@
 #include "uqm/setup.h"
 
 
-static LOCDATA syreen_desc_1x =
+static LOCDATA syreen_desc_orig =
 {
 	SYREEN_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -192,7 +192,7 @@ static LOCDATA syreen_desc_1x =
 	NULL,
 };
 
-static LOCDATA syreen_desc_4x =
+static LOCDATA syreen_desc_hd =
 {
 	SYREEN_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -1074,7 +1074,7 @@ init_syreen_comm (void)
 	static LOCDATA syreen_desc;
  	LOCDATA *retval;
 	
-	syreen_desc = (RESOLUTION_FACTOR != HD ? syreen_desc_1x : syreen_desc_4x);
+	syreen_desc = RES_BOOL(syreen_desc_orig, syreen_desc_hd);
 
 	syreen_desc.init_encounter_func = Intro;
 	syreen_desc.post_encounter_func = post_syreen_enc;

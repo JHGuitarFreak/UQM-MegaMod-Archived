@@ -425,7 +425,7 @@ init_umgah (void)
 	if (resolutionFactor == HD) {
 		umgah_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		umgah_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		umgah_desc.cyborg_control.WeaponRange = (LONG_RANGE_WEAPON_4XRES << 2);
+		umgah_desc.cyborg_control.WeaponRange = (LONG_RANGE_WEAPON_HD << 2);
 	}
 
 	umgah_desc.uninit_func = uninit_umgah;

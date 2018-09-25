@@ -83,7 +83,7 @@ SplashScreen (void (* DoProcessing)(DWORD TimeOut))
 		s.frame = CaptureDrawable (LoadGraphic (TITLE_ANIM));
 	} else {
 		printf("Loading HD Splashscreen\n");
-		s.frame = CaptureDrawable (LoadGraphic (TITLE_4X));
+		s.frame = CaptureDrawable (LoadGraphic (TITLE_HD));
 	}
 
 	DrawStamp (&s);

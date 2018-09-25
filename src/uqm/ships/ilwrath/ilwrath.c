@@ -402,7 +402,7 @@ init_ilwrath (void)
 	if (resolutionFactor == HD) {
 		ilwrath_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		ilwrath_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		ilwrath_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES;
+		ilwrath_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD;
 	}
 
 	ilwrath_desc.preprocess_func = ilwrath_preprocess;
