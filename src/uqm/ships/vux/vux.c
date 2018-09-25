@@ -379,7 +379,7 @@ init_vux (void)
 	if (resolutionFactor == HD) {
 		vux_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		vux_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		vux_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES;
+		vux_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD;
 	}
 
 	vux_desc.preprocess_func = vux_preprocess;

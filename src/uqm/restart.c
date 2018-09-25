@@ -88,18 +88,18 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 
 	if (!resolutionFactor) {
 		if (optRequiresRestart || !PacksInstalled()) {
-			TinyFont = LoadFont(TINY_FALLBACK_TO1X_FONT);
-			PlyrFont = LoadFont(PLYR_FALLBACK_TO1X_FONT);
-			StarConFont = LoadFont(SCON_FALLBACK_TO1X_FONT);
+			TinyFont = LoadFont(TINY_FALLBACK_TO_ORIG_FONT);
+			PlyrFont = LoadFont(PLYR_FALLBACK_TO_ORIG_FONT);
+			StarConFont = LoadFont(SCON_FALLBACK_TO_ORIG_FONT);
 		}
 		pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM));
 	} else {
 		if (optRequiresRestart || !PacksInstalled()) {
-			TinyFont = LoadFont(TINY_FALLBACK_TO4X_FONT);
-			PlyrFont = LoadFont(PLYR_FALLBACK_TO4X_FONT);
-			StarConFont = LoadFont(SCON_FALLBACK_TO4X_FONT);
+			TinyFont = LoadFont(TINY_FALLBACK_TO_HD_FONT);
+			PlyrFont = LoadFont(PLYR_FALLBACK_TO_HD_FONT);
+			StarConFont = LoadFont(SCON_FALLBACK_TO_HD_FONT);
 		}
-		pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM4x));
+		pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM_HD));
 	}
 
 	s.frame = pMS->CurFrame;

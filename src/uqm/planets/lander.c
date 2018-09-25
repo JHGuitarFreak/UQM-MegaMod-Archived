@@ -1909,7 +1909,7 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 {
 // We cannot solve a quadratic equation in a macro, so use a sensible max
 #define MAX_OFFSETS  20
-#define MAX_OFFSETS_4X 400 // JMS_GFX
+#define MAX_OFFSETS_HD 400 // JMS_GFX
 // 10 << RESOLUTION_FACTOR to clear the lander off of the screen
 #define DISTANCE_COVERED  (SURFACE_HEIGHT / 2 + (10 << RESOLUTION_FACTOR))
 	int landingOfs[MAX_OFFSETS];
@@ -1918,21 +1918,21 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 	int delta;
 	int index;
 	int max_offsets; // JMS_GFX
-	int landingOfs4x[MAX_OFFSETS_4X]; // JMS_GFX
+	int landingOfsHD[MAX_OFFSETS_HD]; // JMS_GFX
 
 	// Produce smooth acceleration deltas from a simple 1..x progression
 	delta = 0;
-	// JMS_GFX: At 4x resolution we run out of default offsets. -> Use larger offset value.
+	// JMS_GFX: In HD graphics we run out of default offsets. -> Use larger offset value.
 	max_offsets = MAX_OFFSETS;
 	if (RESOLUTION_FACTOR == HD) 
-		max_offsets = MAX_OFFSETS_4X;
+		max_offsets = MAX_OFFSETS_HD;
 
 	for (index = 0; index < max_offsets && delta < DISTANCE_COVERED; ++index)
 	{
 		delta += index + 1;
 		// JMS_GFX
 		if (RESOLUTION_FACTOR == HD)
-			landingOfs4x[index] = -delta;
+			landingOfsHD[index] = -delta;
 		else
 			landingOfs[index] = -delta;
 	}
@@ -1959,7 +1959,7 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 	{
 		// JMS_GFX
 		if (RESOLUTION_FACTOR == HD)
-			ScrollPlanetSide (0, 0, landingOfs4x[index]);
+			ScrollPlanetSide (0, 0, landingOfsHD[index]);
 		else
 			ScrollPlanetSide (0, 0, landingOfs[index]);
 

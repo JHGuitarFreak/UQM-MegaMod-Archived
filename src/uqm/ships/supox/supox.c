@@ -50,7 +50,7 @@
 		/* Unused except to initialize supox_desc.special_wait */
 
 // HD
-#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
+#define MISSILE_SPEED_HD DISPLAY_TO_WORLD (120)
 
 static RACE_DESC supox_desc =
 {
@@ -203,7 +203,7 @@ initialize_horn (ELEMENT *ShipPtr, HELEMENT HornArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = SUPOX_OFFSET;
-	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_4XRES);
+	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_HD);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -284,7 +284,7 @@ init_supox (void)
 	if (resolutionFactor == HD) {
 		supox_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		supox_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		supox_desc.cyborg_control.WeaponRange = (MISSILE_SPEED_4XRES * MISSILE_LIFE) >> 1;
+		supox_desc.cyborg_control.WeaponRange = (MISSILE_SPEED_HD * MISSILE_LIFE) >> 1;
 	}
 
 	supox_desc.preprocess_func = supox_preprocess;

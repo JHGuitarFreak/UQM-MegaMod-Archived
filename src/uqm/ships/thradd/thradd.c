@@ -60,7 +60,7 @@
 #define STATIONARY_SPEED WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (RES_SCALE(4)))
 
 // HD
-#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
+#define MISSILE_SPEED_HD DISPLAY_TO_WORLD (120)
 
 
 static RACE_DESC thraddash_desc =
@@ -278,7 +278,7 @@ initialize_horn (ELEMENT *ShipPtr, HELEMENT HornArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = THRADDASH_OFFSET;
-	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_4XRES);
+	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_HD);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -397,7 +397,7 @@ init_thraddash (void)
 	if (resolutionFactor == HD) {
 		thraddash_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		thraddash_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		thraddash_desc.cyborg_control.WeaponRange = (MISSILE_SPEED_4XRES * MISSILE_LIFE) >> 1;
+		thraddash_desc.cyborg_control.WeaponRange = (MISSILE_SPEED_HD * MISSILE_LIFE) >> 1;
 	}
 
 	thraddash_desc.preprocess_func = thraddash_preprocess;

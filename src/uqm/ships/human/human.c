@@ -352,7 +352,7 @@ init_human (void)
 	if (resolutionFactor == HD) {
 		human_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		human_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		human_desc.cyborg_control.WeaponRange = LONG_RANGE_WEAPON_4XRES;
+		human_desc.cyborg_control.WeaponRange = LONG_RANGE_WEAPON_HD;
 	}
 
 	human_desc.postprocess_func = human_postprocess;

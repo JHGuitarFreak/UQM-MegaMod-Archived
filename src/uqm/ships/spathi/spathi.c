@@ -55,8 +55,8 @@
 #define TRACK_WAIT 1
 
 // HD
-#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
-#define MISSILE_RANGE_4XRES (MISSILE_SPEED_4XRES * MISSILE_LIFE)
+#define MISSILE_SPEED_HD DISPLAY_TO_WORLD (120)
+#define MISSILE_RANGE_HD (MISSILE_SPEED_HD * MISSILE_LIFE)
 
 static RACE_DESC spathi_desc =
 {
@@ -263,7 +263,7 @@ initialize_standard_missile (ELEMENT *ShipPtr, HELEMENT MissileArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = SPATHI_FORWARD_OFFSET;
-	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_4XRES);
+	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_HD);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -299,7 +299,7 @@ init_spathi (void)
 	if (resolutionFactor == HD) {
 		spathi_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		spathi_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		spathi_desc.cyborg_control.WeaponRange = MISSILE_RANGE_4XRES;
+		spathi_desc.cyborg_control.WeaponRange = MISSILE_RANGE_HD;
 	}
 
 	spathi_desc.postprocess_func = spathi_postprocess;

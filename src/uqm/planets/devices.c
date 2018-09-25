@@ -40,7 +40,7 @@
 #include "libs/strlib.h"
 #include "../../options.h"
 #include "libs/graphics/gfx_common.h"
-                // for scaling down devices in 4x
+                // for scaling down devices in HD
 
 
 // If DEBUG_DEVICES is defined, the device list shown in the game will

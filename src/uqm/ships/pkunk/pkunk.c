@@ -620,7 +620,7 @@ init_pkunk (void)
 	if (resolutionFactor == HD) {
 		pkunk_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		pkunk_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		pkunk_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES + 4;
+		pkunk_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD + 4;
 	}
 
 	// The caller of this func will copy the struct

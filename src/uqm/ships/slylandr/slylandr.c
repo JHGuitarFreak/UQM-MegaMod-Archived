@@ -434,7 +434,7 @@ init_slylandro (void)
 	if (resolutionFactor == HD) {
 		slylandro_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		slylandro_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		slylandro_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES << 1;
+		slylandro_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD << 1;
 	}
 
 	slylandro_desc.preprocess_func = slylandro_preprocess;

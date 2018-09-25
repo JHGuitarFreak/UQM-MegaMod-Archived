@@ -365,7 +365,7 @@ chmmr_postprocess (ELEMENT *ElementPtr)
 					DISPLAY_TO_WORLD (8 + 9 + 11 + 14),
 					DISPLAY_TO_WORLD (8 + 9 + 11 + 14 + 18),
 				};
-				static const SIZE shadow_offs_4xres[] =
+				static const SIZE shadow_offs_hd[] =
 				{
 					DISPLAY_TO_WORLD (32),
 					DISPLAY_TO_WORLD (32 + 36),
@@ -427,10 +427,7 @@ chmmr_postprocess (ELEMENT *ElementPtr)
 						COUNT shadow_magnitude; // JMS_GFX
 
 						// JMS_GFX
-						if (RESOLUTION_FACTOR != HD)
-							shadow_magnitude = shadow_offs[i];
-						else
-							shadow_magnitude = shadow_offs_4xres[i];
+						shadow_magnitude = RES_BOOL(shadow_offs[i], shadow_offs_hd[i]);
 
 						LockElement (hShadow, &ShadowElementPtr);
 						ShadowElementPtr->playerNr = ShipElementPtr->playerNr;
@@ -800,7 +797,7 @@ init_chmmr (void)
 	if (resolutionFactor == HD) {
 		chmmr_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		chmmr_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		chmmr_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_4XRES;
+		chmmr_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD;
 	}
 
 	chmmr_desc.preprocess_func = chmmr_preprocess;

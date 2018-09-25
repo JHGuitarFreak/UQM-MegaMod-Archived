@@ -49,8 +49,8 @@
 #define SPECIAL_WAIT 30
 
 // HD
-#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (120)
-#define MISSILE_RANGE_4XRES (MISSILE_SPEED_4XRES * MISSILE_LIFE)
+#define MISSILE_SPEED_HD DISPLAY_TO_WORLD (120)
+#define MISSILE_RANGE_HD (MISSILE_SPEED_HD * MISSILE_LIFE)
 
 static RACE_DESC druuge_desc =
 {
@@ -177,7 +177,7 @@ initialize_cannon (ELEMENT *ShipPtr, HELEMENT CannonArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = DRUUGE_OFFSET;
-	MissileBlock.speed = RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_4XRES;
+	MissileBlock.speed = RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_HD;
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -320,7 +320,7 @@ init_druuge (void)
 	if (resolutionFactor == HD) {
 		druuge_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		druuge_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		druuge_desc.cyborg_control.WeaponRange = MISSILE_RANGE_4XRES;
+		druuge_desc.cyborg_control.WeaponRange = MISSILE_RANGE_HD;
 	}
 
 	druuge_desc.preprocess_func = druuge_preprocess;

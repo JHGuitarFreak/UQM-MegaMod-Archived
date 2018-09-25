@@ -63,10 +63,10 @@ static const COORD hangar_x_coords[HANGAR_SHIPS_ROW] =
 
 // The X positions of the hangar bay doors for each resolution mode.
 // Calculated from the right edge of the left grey border bar on the screen.
-static const COORD hangar_x_coords_1x[HANGAR_SHIPS_ROW] = {
+static const COORD hangar_x_coords_orig[HANGAR_SHIPS_ROW] = {
 	0, 38, 76, 131, 169, 207
 };
-static const COORD hangar_x_coords_4x[HANGAR_SHIPS_ROW] = {
+static const COORD hangar_x_coords_hd[HANGAR_SHIPS_ROW] = {
 	3, 171, 339, 578, 746, 914
 };
 #endif // USE_3DO_HANGAR
@@ -344,7 +344,7 @@ ShowCombatShip (MENU_STATE *pMS, COUNT which_window,
 		STAMP rtdoor_s;
 	} ship_win_info[MAX_BUILT_SHIPS], *pship_win_info;
 
-	hangar_x_coords = RES_BOOL(hangar_x_coords_1x, hangar_x_coords_4x);
+	hangar_x_coords = RES_BOOL(hangar_x_coords_orig, hangar_x_coords_hd);
 
 	num_ships = 1;
 	pship_win_info = &ship_win_info[0];
@@ -582,7 +582,7 @@ DMS_GetEscortShipRect (RECT *rOut, BYTE slotNr)
 	BYTE col = slotNr % HANGAR_SHIPS_ROW;
 	static const COORD *hangar_x_coords;
 
-	hangar_x_coords = RES_BOOL(hangar_x_coords_1x, hangar_x_coords_4x);
+	hangar_x_coords = RES_BOOL(hangar_x_coords_orig, hangar_x_coords_hd);
 
 	rOut->corner.x = hangar_x_coords[col];
 	rOut->corner.y = HANGAR_Y + (HANGAR_DY * row);
@@ -616,7 +616,7 @@ DMS_FlashEscortShipCrewCount (BYTE slotNr)
 	BYTE col = slotNr % HANGAR_SHIPS_ROW;
 	static const COORD *hangar_x_coords;
 
-	hangar_x_coords = RES_BOOL(hangar_x_coords_1x, hangar_x_coords_4x);
+	hangar_x_coords = RES_BOOL(hangar_x_coords_orig, hangar_x_coords_hd);
 
 	r.corner.x = hangar_x_coords[col];
 	r.corner.y = (HANGAR_Y + (HANGAR_DY * row)) + (SHIP_WIN_HEIGHT - (6 << RESOLUTION_FACTOR));

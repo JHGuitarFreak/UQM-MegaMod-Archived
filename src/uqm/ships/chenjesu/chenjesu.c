@@ -680,7 +680,7 @@ init_chenjesu (void)
 	if (resolutionFactor == HD) {
 		chenjesu_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		chenjesu_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		chenjesu_desc.cyborg_control.WeaponRange = LONG_RANGE_WEAPON_4XRES;
+		chenjesu_desc.cyborg_control.WeaponRange = LONG_RANGE_WEAPON_HD;
 	}
 
 	chenjesu_desc.preprocess_func = chenjesu_preprocess;

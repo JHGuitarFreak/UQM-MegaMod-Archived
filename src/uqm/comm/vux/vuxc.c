@@ -20,7 +20,7 @@
 #include "resinst.h"
 #include "strings.h"
 
-static LOCDATA vux_desc_1x =
+static LOCDATA vux_desc_orig =
 {
 	VUX_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -201,7 +201,7 @@ static LOCDATA vux_desc_1x =
 	NULL,
 };
 
-static LOCDATA vux_desc_4x =
+static LOCDATA vux_desc_hd =
 {
 	VUX_CONVERSATION, /* AlienConv */
 	NULL, /* init_encounter_func */
@@ -979,7 +979,7 @@ init_vux_comm (void)
 	static LOCDATA vux_desc;
  	LOCDATA *retval;
 	
-	vux_desc = (RESOLUTION_FACTOR != HD ? vux_desc_1x : vux_desc_4x);
+	vux_desc = RES_BOOL(vux_desc_orig, vux_desc_hd);
 
 	vux_desc.init_encounter_func = Intro;
 	vux_desc.post_encounter_func = post_vux_enc;

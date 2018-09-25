@@ -55,7 +55,7 @@
 #define NUM_LIMPETS 3
 
 // HD
-#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (96)
+#define MISSILE_SPEED_HD DISPLAY_TO_WORLD (96)
 
 static RACE_DESC shofixti_desc =
 {
@@ -469,7 +469,7 @@ init_shofixti (void)
 	if (resolutionFactor == HD) {
 		shofixti_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		shofixti_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		shofixti_desc.cyborg_control.WeaponRange = MISSILE_SPEED_4XRES * MISSILE_LIFE;
+		shofixti_desc.cyborg_control.WeaponRange = MISSILE_SPEED_HD * MISSILE_LIFE;
 	}
 
 	shofixti_desc.postprocess_func = shofixti_postprocess;

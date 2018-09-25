@@ -50,7 +50,7 @@
 #define SHIELD_LIFE 10
 
 // HD
-#define MISSILE_SPEED_4XRES DISPLAY_TO_WORLD (80)
+#define MISSILE_SPEED_HD DISPLAY_TO_WORLD (80)
 
 static RACE_DESC yehat_desc =
 {
@@ -137,7 +137,7 @@ initialize_standard_missiles (ELEMENT *ShipPtr, HELEMENT MissileArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = YEHAT_OFFSET;
-	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_4XRES);
+	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_HD);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -365,7 +365,7 @@ init_yehat (void)
 	if (resolutionFactor == HD) {
 		yehat_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		yehat_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
-		yehat_desc.cyborg_control.WeaponRange = MISSILE_SPEED_4XRES * MISSILE_LIFE / 3;
+		yehat_desc.cyborg_control.WeaponRange = MISSILE_SPEED_HD * MISSILE_LIFE / 3;
 	}
 
 	yehat_desc.preprocess_func = yehat_preprocess;

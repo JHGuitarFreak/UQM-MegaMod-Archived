@@ -45,7 +45,7 @@ extern int ScreenHeight;
 /* Top and bottom screen margin to be left unused */
 #define SIS_ORG_X (7 + SAFE_X)								// JMS_GFX
 //#define SIS_ORG_X (7 * RESOLUTION_FACTOR + SAFE_X)	// JMS_GFX
-#define SIS_ORG_Y RES_STAT_SCALE(10)						// DC: top status window. Manually entered in for 4x mode.
+#define SIS_ORG_Y RES_STAT_SCALE(10)						// DC: top status window. Manually entered in for HD mode.
 //#define SIS_ORG_Y (10 * RESOLUTION_FACTOR + SAFE_Y)	// JMS_GFX
 
 /* Status bar & play area sizes. */
