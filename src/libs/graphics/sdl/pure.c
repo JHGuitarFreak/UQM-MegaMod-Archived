@@ -19,7 +19,7 @@
 #include "libs/graphics/bbox.h"
 #include "scalers.h"
 #include "libs/log.h"
-#include "../uqm/units.h"
+#include "../../../uqm/units.h"
 
 static SDL_Surface *fade_color_surface = NULL;
 static SDL_Surface *fade_temp = NULL;

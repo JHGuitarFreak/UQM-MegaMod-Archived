@@ -33,7 +33,7 @@
 #include "libs/log.h"
 #include "libs/memlib.h"
 #include "libs/vidlib.h"
-#include "../uqm/units.h"
+#include "../../../uqm/units.h"
 #include SDL_INCLUDE(SDL_thread.h)
 
 SDL_Surface *SDL_Video;
