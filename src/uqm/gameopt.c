@@ -33,6 +33,7 @@
 #include "sounds.h"
 #include "util.h"
 #include "libs/graphics/gfx_common.h"
+#include "libs/log/uqmlog.h"
 
 #include <ctype.h>
 
@@ -1425,6 +1426,12 @@ GameOptions (void)
 		{	// Selected LOAD from main menu, and canceled
 			GLOBAL (CurrentActivity) |= CHECK_ABORT;
 		}
+
+#ifdef DEBUG
+		printf("Loaded Seed: %d\n", SeedA);
+#endif
+		log_add(log_Info, "Loaded Seed: %d\n", SeedA);
+
 		return FALSE;
 	}
 

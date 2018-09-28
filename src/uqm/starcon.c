@@ -235,6 +235,11 @@ while (--ac > 0)
 
 	SplashScreen (BackgroundInitKernel);
 
+#ifdef DEBUG
+	printf("Set Seed: %d\n", optCustomSeed);
+#endif
+	log_add(log_Info, "Set Seed: %d\n", optCustomSeed);
+
 //	OpenJournal ();
 	while (StartGame ())
 	{
@@ -269,8 +274,6 @@ while (--ac > 0)
 				(*saveDebugHook) ();
 				continue;
 			}
-
-			printf("Seed A: %d\n", SeedA);
 
 			SetStatusMessageMode (SMM_DEFAULT);
 
