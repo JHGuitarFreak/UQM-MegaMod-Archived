@@ -379,6 +379,21 @@ main (int argc, char *argv[])
 			NETPLAY_MIN_UQM_VERSION_PATCH);
 #endif
 
+	// Serosis - Compiler info to help with future debugging.
+#ifdef _MSC_VER
+		printf("MSC_VER: %d\n", _MSC_VER);
+		printf("MSC_FULL_VER: %d\n", _MSC_FULL_VER);
+		printf("MSC_BUILD: %d\n\n", _MSC_BUILD);
+		log_add(log_Info, "MSC_VER: %d", _MSC_VER);
+		log_add(log_Info, "MSC_FULL_VER: %d", _MSC_FULL_VER);
+		log_add(log_Info, "MSC_BUILD: %d\n", _MSC_BUILD);
+#endif // _MSC_VER
+
+#ifdef __GNUC__
+		printf("GCC_VERSION: %d.%d.%d\n\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
+		log_add(log_Info, "GCC_VERSION: %d.%d.%d\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
+#endif // __GNUC__
+
 	if (errBuffer[0] != '\0')
 	{	// Have some saved error to log
 		log_add (log_Error, "%s", errBuffer);
