@@ -30,7 +30,7 @@
 #define LIBS_MATH_RANDOM_H_
 
 #include "../../options.h"
-#include "../uqm/setup.h"
+#include "../../uqm/setup.h"
 
 /* ----------------------------GLOBALS/EXTERNS---------------------------- */
 
