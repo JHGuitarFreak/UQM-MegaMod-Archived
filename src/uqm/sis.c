@@ -183,7 +183,8 @@ DrawSISMessage (const UNICODE *pStr)
 	DrawSISMessageEx (pStr, -1, -1, DSME_NONE);
 }
 
-// See sis.h for the allowed flags.
+// See sis.h for the allowed flags. This is the field at the top of the screen, on the
+// left hand side.
 BOOLEAN
 DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 {
@@ -311,6 +312,8 @@ DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 			cur_r.extent.height = r.extent.height;
 			SetContextForeGroundColor (SIS_MESSAGE_CURSOR_COLOR);
 			DrawFilledRectangle (&cur_r);
+
+			DrawBorder(2);
 		}
 
 		SetContextForeGroundColor (SIS_MESSAGE_TEXT_COLOR);
