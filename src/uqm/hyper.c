@@ -560,7 +560,9 @@ InterplanetaryTransition (ELEMENT *ElementPtr)
 
 			// JMS: This QS portal's HS coordinates are revealed on QS map
 			// the next time the player visits QS.
-			SET_QS_PORTAL_KNOWN(index);
+			if (PrimeSeed) {
+				SET_QS_PORTAL_KNOWN(index);
+			}
 
 			SET_GAME_STATE (ARILOU_SPACE_SIDE, 0);
 		}
