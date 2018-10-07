@@ -54,6 +54,7 @@ struct RandomContext {
 #define PrimeSeed (SeedA == PrimeA ? true : false)
 
 RandomContext *RandomContext_New (void);
+RandomContext *RandomContext_Set(DWORD Context);
 void RandomContext_Delete (RandomContext *context);
 RandomContext *RandomContext_Copy (const RandomContext *source);
 DWORD RandomContext_Random (RandomContext *context);
