@@ -164,6 +164,7 @@ struct planet_desc
 	Color temp_color;
 	COUNT NextIndex;
 	STAMP image;
+	STAMP intersect;
 
 	PLANET_DESC *pPrevDesc;
 			// The Sun or planet that this world is orbiting around.
