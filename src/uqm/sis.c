@@ -263,7 +263,7 @@ DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 		BYTE char_deltas[128];
 		BYTE *pchar_deltas;
 
-		t.baseline.x = RES_STAT_SCALE(3); // JMS_GFX
+		t.baseline.x = SIS_MESSAGE_WIDTH >> 1; // JMS_GFX
 		t.align = ALIGN_LEFT;
 
 		TextRect (&t, &text_r, char_deltas);
@@ -278,6 +278,7 @@ DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 		}
 
 		ClearDrawable ();
+		DrawBorder(2);
 
 		if (CurPos >= 0 && CurPos <= t.CharCount)
 		{	// calc and draw the cursor
@@ -312,8 +313,6 @@ DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 			cur_r.extent.height = r.extent.height;
 			SetContextForeGroundColor (SIS_MESSAGE_CURSOR_COLOR);
 			DrawFilledRectangle (&cur_r);
-
-			DrawBorder(2);
 		}
 
 		SetContextForeGroundColor (SIS_MESSAGE_TEXT_COLOR);
