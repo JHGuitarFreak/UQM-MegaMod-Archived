@@ -91,6 +91,7 @@ SOLARSYS_STATE *pSolarSysState;
 FRAME SISIPFrame;
 FRAME SunFrame;
 FRAME OrbitalFrame;
+FRAME OrbitalFrameIntersect;
 FRAME SpaceJunkFrame;
 COLORMAP OrbitalCMap;
 COLORMAP SunCMap;
@@ -365,8 +366,12 @@ FreeIPData (void)
 	SunCMap = 0;
 	DestroyColorMap (ReleaseColorMap (OrbitalCMap));
 	OrbitalCMap = 0;
-	DestroyDrawable (ReleaseDrawable (OrbitalFrame));
+	DestroyDrawable(ReleaseDrawable(OrbitalFrame));
 	OrbitalFrame = 0;
+	if (RESOLUTION_FACTOR == HD && HDPackPresent) {
+		DestroyDrawable(ReleaseDrawable(OrbitalFrameIntersect));
+		OrbitalFrameIntersect = 0;
+	}
 	DestroyDrawable (ReleaseDrawable (SpaceJunkFrame));
 	SpaceJunkFrame = 0;
 	if((LastActivity != IN_INTERPLANETARY && LOBYTE (NextActivity) != IN_INTERPLANETARY) && !optBubbleWarp){
@@ -404,7 +409,9 @@ LoadIPData (void)
 		SISIPFrame = CaptureDrawable (LoadGraphic (SISIP_MASK_PMAP_ANIM));
 
 		OrbitalCMap = CaptureColorMap (LoadColorMap (ORBPLAN_COLOR_MAP));
-		OrbitalFrame = CaptureDrawable (LoadGraphic (ORBPLAN_MASK_PMAP_ANIM));
+		OrbitalFrame = CaptureDrawable(LoadGraphic(ORBPLAN_MASK_PMAP_ANIM));
+		if(RESOLUTION_FACTOR == HD && HDPackPresent)
+			OrbitalFrameIntersect = CaptureDrawable(LoadGraphic(ORBPLAN_INTERSECT_MASK_PMAP_ANIM));
 		SunCMap = CaptureColorMap (LoadColorMap (IPSUN_COLOR_MAP));
  
 		SpaceMusic = LoadMusic (IP_MUSIC);
@@ -863,9 +870,9 @@ FreeSolarSys (void)
 static FRAME
 getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 {
-	FRAME CollisionFrame = (RESOLUTION_FACTOR != HD ? DecFrameIndex (stars_in_space) : planet->image.frame);
+	FRAME CollisionFrame = (RESOLUTION_FACTOR != HD ? DecFrameIndex (stars_in_space) : planet->intersect.frame);
 
-	if (pSolarSysState->WaitIntersect != (COUNT)~0 && pSolarSysState->WaitIntersect != WaitPlanet) {	
+	if (pSolarSysState->WaitIntersect != (COUNT)~0 && pSolarSysState->WaitIntersect != WaitPlanet) {
 		// Serosis - New collisions are determined by the size of the planet image in HD
 		return CollisionFrame;
 	} else {	
@@ -1115,6 +1122,10 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 		planet->image.frame =	SetAbsFrameIndex (OrbitalFrame,
 				(Size << FACING_SHIFT) + NORMALIZE_FACING (
 				ANGLE_TO_FACING (angle)));
+
+		if (RESOLUTION_FACTOR == HD && HDPackPresent) {
+			planet->intersect.frame = SetAbsFrameIndex(OrbitalFrameIntersect, Size);
+		}
 	}
 	else if (planet->data_index == HIERARCHY_STARBASE)
 	{
