@@ -34,6 +34,14 @@ RandomContext_New (void)
 	return result;
 }
 
+RandomContext *
+RandomContext_Set(DWORD Context)
+{
+	RandomContext *result = (RandomContext *) HMalloc (sizeof (RandomContext));
+	result->seed = Context;
+	return result;
+}
+
 void
 RandomContext_Delete (RandomContext *context)
 {
