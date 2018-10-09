@@ -88,6 +88,7 @@ LockIpGroup (const QUEUE *pq, HIPGROUP h)
 #define FreeIpGroup(pq, h)    FreeLink (pq, h)
 
 extern HIPGROUP BuildGroup (QUEUE *pDstQueue, BYTE race_id);
+extern RESOURCE spaceMusicSwitch(int SpeciesID);
 
 #if defined(__cplusplus)
 }

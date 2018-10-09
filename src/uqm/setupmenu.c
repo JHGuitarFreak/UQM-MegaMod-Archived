@@ -78,7 +78,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          8
-#define CHOICE_COUNT       47
+#define CHOICE_COUNT       48
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       10
 #define LABEL_COUNT         4
@@ -106,7 +106,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
 	2, 2, 2, 2, 3, 2, 2, 2, 2, 3,
-	2, 2, 2 };
+	2, 2, 2, 2 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -164,6 +164,7 @@ static WIDGET *audio_widgets[] = {
 	(WIDGET *)(&choices[21]),	// Precursor's Remixes
 	(WIDGET *)(&choices[22]),	// Speech
 	(WIDGET *)(&choices[34]),	// JMS: Main Menu Music
+	(WIDGET *)(&choices[47]),	// Serosis: Space Music
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -473,6 +474,7 @@ SetDefaults (void)
 	choices[44].selected = opts.addDevices;
 	choices[45].selected = opts.scalePlanets;
 	choices[46].selected = opts.customBorder;
+	choices[47].selected = opts.spaceMusic;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -534,6 +536,7 @@ PropagateResults (void)
 	opts.addDevices = choices[44].selected;
 	opts.scalePlanets = choices[45].selected;
 	opts.customBorder = choices[46].selected;
+	opts.spaceMusic = choices[47].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1447,6 +1450,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->scalePlanets = optScalePlanets ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->customBorder = optCustomBorder ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->customSeed = res_GetInteger ("config.customSeed");
+	opts->spaceMusic = optSpaceMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
 
 	// Serosis: 320x240
@@ -1869,6 +1873,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	else 
 		opts->customSeed = optCustomSeed;
 	res_PutInteger ("config.customSeed", opts->customSeed);
+
+	// Serosis: Play localized music for different races when within their borders
+	res_PutBoolean("config.spaceMusic", opts->spaceMusic == OPTVAL_ENABLED);
+	optSpaceMusic = opts->spaceMusic == OPTVAL_ENABLED;
 
 	if (opts->scanlines && !resolutionFactor) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;

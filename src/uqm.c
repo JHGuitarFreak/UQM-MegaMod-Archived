@@ -160,6 +160,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, scalePlanets);
 	DECL_CONFIG_OPTION(bool, customBorder);
 	DECL_CONFIG_OPTION(int, customSeed);
+	DECL_CONFIG_OPTION(bool, spaceMusic);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -322,6 +323,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  scalePlanets,		true),
 		INIT_CONFIG_OPTION(  customBorder,		true),
 		INIT_CONFIG_OPTION(  customSeed,		PrimeA),
+		INIT_CONFIG_OPTION(  spaceMusic,		true),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -503,6 +505,7 @@ main (int argc, char *argv[])
 	optCustomSeed = options.customSeed.value;
 	optRequiresReload = FALSE; // Serosis
 	optRequiresRestart = FALSE; // JMS_GFX
+	optSpaceMusic = options.spaceMusic.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -894,6 +897,7 @@ enum
 	SCALEPLAN_OPT,
 	CUSTBORD_OPT,
 	EXSEED_OPT,
+	SPACEMUSIC_OPT,
 	MELEE_OPT,
 	LOADGAME_OPT,
 #ifdef NETPLAY
@@ -965,6 +969,7 @@ static struct option longOptions[] =
 	{"scaledevices", 0, NULL, SCALEPLAN_OPT},
 	{"customborder", 0, NULL, CUSTBORD_OPT},
 	{"customseed", 1, NULL, EXSEED_OPT},
+	{"spacemusic", 1, NULL, SPACEMUSIC_OPT},
 	{"melee", 0, NULL, MELEE_OPT},
 	{"loadgame", 0, NULL, LOADGAME_OPT},
 #ifdef NETPLAY
@@ -1322,6 +1327,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				}
 				break;
 			}
+			case SPACEMUSIC_OPT:
+				optCustomBorder = TRUE;
+				break;
 			case MELEE_OPT:
 				optSuperMelee = TRUE;
 				break;
@@ -1593,8 +1601,11 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->scalePlanets));
 	log_add (log_User, "  --melee : Takes you straight to Super Melee after the splash screen.");
 	log_add (log_User, "  --loadgame : Takes you straight to the Load Game sceen after the splash screen.");
-	log_add (log_User, "  --customborder : Enables the custom border frame.");	
-	log_add (log_User, "  --customseed=# : Allows you to customize the internal seed used to generate the solar systems in-game.");
+	log_add (log_User, "  --customborder : Enables the custom border frame.    (default: %s)",
+		boolOptString(&defaults->customBorder));
+	log_add(log_User, "  --customseed=# : Allows you to customize the internal seed used to generate the solar systems in-game.");
+	log_add(log_User, "  --spacemusic : Enables localized music for races when you are in their sphere of influence    (default: %s)",
+		boolOptString(&defaults->spaceMusic));
 	log_setOutput (old);
 }
 

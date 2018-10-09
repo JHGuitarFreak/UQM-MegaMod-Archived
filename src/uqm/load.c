@@ -871,5 +871,10 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 			&& LOBYTE (NextActivity) == IN_INTERPLANETARY)
 		NextActivity |= START_INTERPLANETARY;
 
+	if (optSpaceMusic) {
+		findRaceSOI();
+		playSpaceMusic(TRUE);
+	}
+
 	return TRUE;
 }

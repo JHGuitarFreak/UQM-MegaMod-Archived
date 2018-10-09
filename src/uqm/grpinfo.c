@@ -27,6 +27,7 @@
 
 #include "libs/mathlib.h"
 #include "libs/log.h"
+#include "imusicre.h"
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -216,6 +217,10 @@ BuildGroups (void)
 	COUNT BestPercent = 0;
 	POINT universe;
 	HFLEETINFO hFleet, hNextFleet;
+	BYTE loop = 0;
+	BYTE speciesID[4] = { 0 };
+	BYTE HomeWorldID = 0;
+
 	BYTE HomeWorld[] =
 	{
 		0,                /* ARILOU_SHIP */
@@ -311,6 +316,9 @@ BuildGroups (void)
 			{
 				DWORD rand_val;
 
+				++loop;
+				speciesID[loop] = FleetPtr->SpeciesID;
+
 				// EncounterPercent is only used in practice for the Slylandro
 				// Probes, for the rest of races the chance of encounter is
 				// calced directly below from the distance to the Homeworld
@@ -319,6 +327,7 @@ BuildGroups (void)
 					i = 70 - (COUNT)((DWORD)square_root (d_squared)
 							* 60L / encounter_radius);
 				}
+
 
 				rand_val = TFB_Random ();
 				if ((int)(LOWORD (rand_val) % 100) < (int)i
@@ -339,6 +348,32 @@ BuildGroups (void)
 
 FoundHome:
 		UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
+		HomeWorldID = FleetPtr->SpeciesID;
+
+		//printf("HomeWorld ID: %d\n", HomeWorldID);
+	}
+
+	//printf("Array Print: %d\n", speciesID[1]);
+	//printf("Array Print: %d\n", speciesID[2]);
+	//printf("Array Print: %d\n", speciesID[3]);
+
+	if (speciesID[1] < SLYLANDRO_ID)
+		spaceMusicBySOI = speciesID[1];
+	if (speciesID[1] == 0 && speciesID[2] == 0 && speciesID[3] == 0)
+		spaceMusicBySOI = HomeWorldID;
+	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] == 0 && speciesID[3] == 0) {
+		if(HomeWorldID == UMGAH_ID)
+			spaceMusicBySOI = HomeWorldID;
+		else
+			spaceMusicBySOI = speciesID[1];
+	}
+	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] > 0 && speciesID[3] == 0)
+		spaceMusicBySOI = speciesID[2];
+	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] > 0 && speciesID[3] > 0) {
+		if (GET_GAME_STATE(KOHR_AH_FRENZY) && speciesID[2] == UR_QUAN_ID)
+			spaceMusicBySOI = KOHR_AH_ID;
+		else
+			spaceMusicBySOI = speciesID[2];
 	}
 
 	if (BestPercent)
@@ -374,6 +409,77 @@ FoundHome:
 	}
 
 	GetGroupInfo (GROUPS_RANDOM, GROUP_INIT_IP);
+}
+
+void
+findRaceSOI(void) {
+	BYTE Index;
+	POINT universe;
+	HFLEETINFO hFleet, hNextFleet;
+	BYTE loop = 0;
+	BYTE speciesID[5] = { 0 };
+
+	BYTE EncounterPercent[] =
+	{
+		RACE_INTERPLANETARY_PERCENT
+	};
+
+	EncounterPercent[SLYLANDRO_SHIP] *= GET_GAME_STATE(SLYLANDRO_MULTIPLIER);
+	Index = GET_GAME_STATE(UTWIG_SUPOX_MISSION);
+
+	universe = CurStarDescPtr->star_pt;
+
+	for (hFleet = GetHeadLink(&GLOBAL(avail_race_q)), Index = 0;
+		hFleet; hFleet = hNextFleet, ++Index)
+	{
+		COUNT i, encounter_radius;
+		FLEET_INFO *FleetPtr;
+
+		FleetPtr = LockFleetInfo(&GLOBAL(avail_race_q), hFleet);
+		hNextFleet = _GetSuccLink(FleetPtr);
+
+		if (((encounter_radius = FleetPtr->actual_strength)
+			&& (i = EncounterPercent[Index])))
+		{
+			SIZE dx, dy;
+			DWORD d_squared;
+
+			if (encounter_radius == INFINITE_RADIUS)
+				encounter_radius = (MAX_X_UNIVERSE + 1) << 1;
+			else
+				encounter_radius =
+				(encounter_radius * SPHERE_RADIUS_INCREMENT) >> 1;
+			dx = universe.x - FleetPtr->loc.x;
+			if (dx < 0)
+				dx = -dx;
+			dy = universe.y - FleetPtr->loc.y;
+			if (dy < 0)
+				dy = -dy;
+			if ((COUNT)dx < encounter_radius
+				&& (COUNT)dy < encounter_radius
+				&& (d_squared = (DWORD)dx * dx + (DWORD)dy * dy) <
+				(DWORD)encounter_radius * encounter_radius)
+			{
+				++loop;
+				speciesID[loop] = FleetPtr->SpeciesID;
+			}
+		}
+	}
+
+	if (speciesID[1] < SLYLANDRO_ID)
+		spaceMusicBySOI = speciesID[1];
+	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] == 0 && speciesID[3] == 0)
+		spaceMusicBySOI = speciesID[1];
+	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] > 0 && speciesID[3] == 0)
+		spaceMusicBySOI = speciesID[2];
+	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] > 0 && speciesID[3] > 0) {
+		if (GET_GAME_STATE(KOHR_AH_FRENZY) && speciesID[2] == UR_QUAN_ID)
+			spaceMusicBySOI = KOHR_AH_ID;
+		else
+			spaceMusicBySOI = speciesID[2];
+	}
+
+
 }
 
 static void
@@ -862,3 +968,36 @@ PutGroupInfo (DWORD offset, BYTE which_group)
 	return (offset);
 }
 
+RESOURCE spaceMusicSwitch(int SpeciesID) {
+	switch (SpeciesID) {
+		case ORZ_ID:
+			return ORZ_SPACE_MUSIC;
+		case PKUNK_ID:
+			return PKUNK_SPACE_MUSIC;
+		case SPATHI_ID:
+			return SPATHI_SPACE_MUSIC;
+		case SUPOX_ID:
+			return SUPOX_SPACE_MUSIC;
+		case THRADDASH_ID:
+			return THRADDASH_SPACE_MUSIC;
+		case UTWIG_ID:
+			return UTWIG_SPACE_MUSIC;
+		case VUX_ID:
+			return VUX_SPACE_MUSIC;
+		case YEHAT_ID:
+			return YEHAT_SPACE_MUSIC;
+		case DRUUGE_ID:
+			return DRUUGE_SPACE_MUSIC;
+		case ILWRATH_ID:
+			return ILWRATH_SPACE_MUSIC;
+		case MYCON_ID:
+			return MYCON_SPACE_MUSIC;
+		case UMGAH_ID:
+			return UMGAH_SPACE_MUSIC;
+		case UR_QUAN_ID:
+		case KOHR_AH_ID:
+			return URQUAN_SPACE_MUSIC;
+		default:
+			return IP_MUSIC;
+	}
+}
