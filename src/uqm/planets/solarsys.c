@@ -374,7 +374,8 @@ FreeIPData (void)
 	}
 	DestroyDrawable (ReleaseDrawable (SpaceJunkFrame));
 	SpaceJunkFrame = 0;
-	if((LastActivity != IN_INTERPLANETARY && LOBYTE (NextActivity) != IN_INTERPLANETARY) && !optBubbleWarp){
+	if(((LastActivity != IN_INTERPLANETARY && LOBYTE (NextActivity) != IN_INTERPLANETARY) && !optBubbleWarp) ||
+		(optBubbleWarp && optSpaceMusic)){
 		 DestroyMusic (SpaceMusic);
 		 SpaceMusic = 0;
 	}
@@ -1923,7 +1924,7 @@ DrawOuterSystem (void)
 	IP_frame(); // MB: To fix planet texture and sun corona 'pop-in'
 }
 
-static void
+void
 ResetSolarSys (void)
 {
 	// Originally there was a flash_task test here, however, I found no cases
@@ -1944,16 +1945,29 @@ ResetSolarSys (void)
 	//   for when the ship collides with more than one planet at
 	//   the same time. While quite rare, it's still possible.
 	CheckIntersect (TRUE);
-	
 	pSolarSysState->InIpFlight = TRUE;
+
+	playSpaceMusic(FALSE);
+}
+
+void playSpaceMusic(BOOLEAN ComingFromLoad) {
+
+	if (optSpaceMusic) {
+		if (ComingFromLoad) {
+			DestroyMusic(SpaceMusic);
+			SpaceMusic = 0;
+		}
+
+		SpaceMusic = LoadMusic(spaceMusicSwitch(spaceMusicBySOI)); // SOI MUSIC TEST
+	}
 
 	// Do not start playing the music if we entered the solarsys only
 	// to load a game (load invoked from Main menu)
 	// XXX: This is quite hacky
-	if (!PLRPlaying ((MUSIC_REF)~0) &&
-			(LastActivity != CHECK_LOAD || NextActivity))
+	if (!PLRPlaying((MUSIC_REF)~0) &&
+		(LastActivity != CHECK_LOAD || NextActivity))
 	{
-		PlayMusic (SpaceMusic, TRUE, 1);
+		PlayMusic(SpaceMusic, TRUE, 1);
 	}
 }
 

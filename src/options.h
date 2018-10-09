@@ -82,6 +82,8 @@ extern BOOLEAN optCustomBorder;
 extern int optCustomSeed;
 extern int savedSeed;
 extern int newGameSeed;
+extern int spaceMusicBySOI;
+extern BOOLEAN optSpaceMusic;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

@@ -92,6 +92,8 @@ BOOLEAN optCustomBorder;
 int optCustomSeed;
 int savedSeed;
 int newGameSeed;
+int spaceMusicBySOI;
+BOOLEAN optSpaceMusic;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;
