@@ -79,12 +79,13 @@ GenerateSol_initNpcs (SOLARSYS_STATE *solarSys)
 		GLOBAL (BattleGroupRef) = PutGroupInfo (GROUPS_ADD_NEW, 1);
 		ReinitQueue (&GLOBAL (npc_built_ship_q));
 		SET_GAME_STATE (URQUAN_PROBE_GRPOFFS, GLOBAL (BattleGroupRef));
-
-		findRaceSOI();
 	}
 
 	if (!init_probe ())
 		GenerateDefault_initNpcs (solarSys);
+
+	if (optSpaceMusic)
+		findRaceSOI();
 
 	return true;
 }
