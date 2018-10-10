@@ -56,7 +56,8 @@ GenerateDefault_initNpcs (SOLARSYS_STATE *solarSys)
 		BuildGroups ();
 	}
 
-	findRaceSOI();
+	if(optSpaceMusic)
+		findRaceSOI();
 
 	(void) solarSys;
 	return true;

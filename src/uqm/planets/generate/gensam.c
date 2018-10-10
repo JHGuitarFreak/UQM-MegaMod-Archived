@@ -68,7 +68,8 @@ GenerateSaMatra_initNpcs (SOLARSYS_STATE *solarSys)
 				// wipe out the group
 	}
 
-	findRaceSOI();
+	if (optSpaceMusic)
+		findRaceSOI();
 
 	(void) solarSys;
 	return true;
