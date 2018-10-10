@@ -56,6 +56,8 @@ GenerateDefault_initNpcs (SOLARSYS_STATE *solarSys)
 		BuildGroups ();
 	}
 
+	findRaceSOI();
+
 	(void) solarSys;
 	return true;
 }

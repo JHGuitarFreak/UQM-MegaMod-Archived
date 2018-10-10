@@ -217,10 +217,6 @@ BuildGroups (void)
 	COUNT BestPercent = 0;
 	POINT universe;
 	HFLEETINFO hFleet, hNextFleet;
-	BYTE loop = 0;
-	BYTE speciesID[4] = { 0 };
-	BYTE HomeWorldID = 0;
-
 	BYTE HomeWorld[] =
 	{
 		0,                /* ARILOU_SHIP */
@@ -316,9 +312,6 @@ BuildGroups (void)
 			{
 				DWORD rand_val;
 
-				++loop;
-				speciesID[loop] = FleetPtr->SpeciesID;
-
 				// EncounterPercent is only used in practice for the Slylandro
 				// Probes, for the rest of races the chance of encounter is
 				// calced directly below from the distance to the Homeworld
@@ -348,32 +341,6 @@ BuildGroups (void)
 
 FoundHome:
 		UnlockFleetInfo (&GLOBAL (avail_race_q), hFleet);
-		HomeWorldID = FleetPtr->SpeciesID;
-
-		//printf("HomeWorld ID: %d\n", HomeWorldID);
-	}
-
-	//printf("Array Print: %d\n", speciesID[1]);
-	//printf("Array Print: %d\n", speciesID[2]);
-	//printf("Array Print: %d\n", speciesID[3]);
-
-	if (speciesID[1] < SLYLANDRO_ID)
-		spaceMusicBySOI = speciesID[1];
-	if (speciesID[1] == 0 && speciesID[2] == 0 && speciesID[3] == 0)
-		spaceMusicBySOI = HomeWorldID;
-	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] == 0 && speciesID[3] == 0) {
-		if(HomeWorldID == UMGAH_ID)
-			spaceMusicBySOI = HomeWorldID;
-		else
-			spaceMusicBySOI = speciesID[1];
-	}
-	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] > 0 && speciesID[3] == 0)
-		spaceMusicBySOI = speciesID[2];
-	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] > 0 && speciesID[3] > 0) {
-		if (GET_GAME_STATE(KOHR_AH_FRENZY) && speciesID[2] == UR_QUAN_ID)
-			spaceMusicBySOI = KOHR_AH_ID;
-		else
-			spaceMusicBySOI = speciesID[2];
 	}
 
 	if (BestPercent)
@@ -465,6 +432,10 @@ findRaceSOI(void) {
 			}
 		}
 	}
+
+	printf("Array Print: %d\n", speciesID[1]);
+	printf("Array Print: %d\n", speciesID[2]);
+	printf("Array Print: %d\n", speciesID[3]);
 
 	if (speciesID[1] < SLYLANDRO_ID)
 		spaceMusicBySOI = speciesID[1];

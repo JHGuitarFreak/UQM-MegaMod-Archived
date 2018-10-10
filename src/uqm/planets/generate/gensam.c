@@ -68,6 +68,8 @@ GenerateSaMatra_initNpcs (SOLARSYS_STATE *solarSys)
 				// wipe out the group
 	}
 
+	findRaceSOI();
+
 	(void) solarSys;
 	return true;
 }

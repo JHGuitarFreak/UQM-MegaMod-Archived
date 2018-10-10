@@ -59,6 +59,8 @@ GenerateZoqFotPik_initNpcs (SOLARSYS_STATE *solarSys)
 	if (GET_GAME_STATE (ZOQFOT_DISTRESS) != 1)
 		GenerateDefault_initNpcs (solarSys);
 
+	findRaceSOI();
+
 	return true;
 }
 
