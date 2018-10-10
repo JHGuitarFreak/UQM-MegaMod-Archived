@@ -323,7 +323,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  scalePlanets,		true),
 		INIT_CONFIG_OPTION(  customBorder,		true),
 		INIT_CONFIG_OPTION(  customSeed,		PrimeA),
-		INIT_CONFIG_OPTION(  spaceMusic,		true),
+		INIT_CONFIG_OPTION(  spaceMusic,		false),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
