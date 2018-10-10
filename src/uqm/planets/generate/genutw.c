@@ -66,6 +66,8 @@ GenerateUtwig_initNpcs (SOLARSYS_STATE *solarSys)
 	{
 		ReinitQueue (&GLOBAL (ip_group_q));
 		assert (CountLinks (&GLOBAL (npc_built_ship_q)) == 0);
+
+		findRaceSOI();
 	}
 	else
 	{
