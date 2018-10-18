@@ -836,6 +836,7 @@ getUserConfigOptions (struct options_struct *options)
 	if (res_IsInteger ("config.customSeed") && !options->customSeed.set) {
 		options->customSeed.value = res_GetInteger ("config.customSeed");
 	}
+	getBoolConfigValue(&options->spaceMusic, "config.spaceMusic");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
