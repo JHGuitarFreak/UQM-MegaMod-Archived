@@ -1886,7 +1886,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	if (opts->fullscreen){
 		NewGfxFlags |= TFB_GFXFLAGS_FULLSCREEN;
 		// JMS: Force the usage of bilinear scaler in 1280x960 and 640x480 fullscreen.
-		if (resolutionFactor) {
+		if (resolutionFactor == HD) {
 			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
 			res_PutString ("config.scaler", "bilinear");
 		}
@@ -1894,7 +1894,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		NewGfxFlags &= ~TFB_GFXFLAGS_FULLSCREEN;
 		// Serosis: Force the usage of no filter in 1280x960 windowed mode.
 		// While forcing the usage of bilinear filter in scaled windowed modes.
-		if(resolutionFactor){
+		if(resolutionFactor == HD){
 			switch(NewWidth){
 				case 640:
 				case 960:
