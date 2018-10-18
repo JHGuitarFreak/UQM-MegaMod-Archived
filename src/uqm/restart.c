@@ -86,7 +86,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 
 	// DC: Load the different menus and fonts depending on the resolution factor
 
-	if (!resolutionFactor) {
+	if (resolutionFactor != HD) {
 		if (optRequiresRestart || !PacksInstalled()) {
 			TinyFont = LoadFont(TINY_FALLBACK_TO_ORIG_FONT);
 			PlyrFont = LoadFont(PLYR_FALLBACK_TO_ORIG_FONT);
