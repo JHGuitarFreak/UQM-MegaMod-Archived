@@ -380,7 +380,7 @@ FoundHome:
 
 void
 findRaceSOI(void) {
-	BYTE Index;
+	BYTE Index, ramp_factor;
 	POINT universe;
 	HFLEETINFO hFleet, hNextFleet;
 	BYTE loop = 0;
@@ -391,7 +391,11 @@ findRaceSOI(void) {
 		RACE_INTERPLANETARY_PERCENT
 	};
 
-	EncounterPercent[SLYLANDRO_SHIP] *= GET_GAME_STATE(SLYLANDRO_MULTIPLIER);
+	spaceMusicBySOI = 0;
+
+	ramp_factor = GET_GAME_STATE(SLYLANDRO_MULTIPLIER);
+
+	EncounterPercent[SLYLANDRO_SHIP] *= ramp_factor;
 	Index = GET_GAME_STATE(UTWIG_SUPOX_MISSION);
 
 	universe = CurStarDescPtr->star_pt;
@@ -433,24 +437,21 @@ findRaceSOI(void) {
 		}
 	}
 
-	printf("Array Print: %d\n", speciesID[1]);
-	printf("Array Print: %d\n", speciesID[2]);
-	printf("Array Print: %d\n", speciesID[3]);
-
-	if (speciesID[1] < SLYLANDRO_ID)
-		spaceMusicBySOI = speciesID[1];
-	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] == 0 && speciesID[3] == 0)
-		spaceMusicBySOI = speciesID[1];
-	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] > 0 && speciesID[3] == 0)
-		spaceMusicBySOI = speciesID[2];
-	if (speciesID[1] == SLYLANDRO_ID && speciesID[2] > 0 && speciesID[3] > 0) {
-		if (GET_GAME_STATE(KOHR_AH_FRENZY) && speciesID[2] == UR_QUAN_ID)
-			spaceMusicBySOI = KOHR_AH_ID;
-		else
-			spaceMusicBySOI = speciesID[2];
+	if (ramp_factor > 0 && speciesID[1] == SLYLANDRO_ID) {
+		speciesID[1] = speciesID[2];
+		speciesID[2] = speciesID[3];
+		speciesID[3] = 0;
 	}
 
+	if (speciesID[1] == 0)
+		spaceMusicBySOI = NO_ID;
+	if (speciesID[1] > 0 && speciesID[2] == 0)
+		spaceMusicBySOI = speciesID[1];
+	if (speciesID[1] > 0 && speciesID[2] > 0)
+		spaceMusicBySOI = speciesID[1];
 
+	if (GET_GAME_STATE(KOHR_AH_FRENZY))
+		spaceMusicBySOI = SA_MATRA_ID;
 }
 
 static void
@@ -968,6 +969,8 @@ RESOURCE spaceMusicSwitch(int SpeciesID) {
 		case UR_QUAN_ID:
 		case KOHR_AH_ID:
 			return URQUAN_SPACE_MUSIC;
+		case SA_MATRA_ID:
+			return KOHRAH_SPACE_MUSIC;
 		default:
 			return IP_MUSIC;
 	}

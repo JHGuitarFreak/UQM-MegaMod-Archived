@@ -135,6 +135,8 @@ extern void SetCommIntroMode (CommIntroMode, TimeCount howLong);
 
 extern void EnableTalkingAnim (BOOLEAN enable);
 
+extern BOOLEAN IsProbe;
+
 #if defined(__cplusplus)
 }
 #endif
