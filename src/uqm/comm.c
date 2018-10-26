@@ -79,6 +79,8 @@ static BOOLEAN TalkingFinished;
 static CommIntroMode curIntroMode = CIM_DEFAULT;
 static TimeCount fadeTime;
 
+BOOLEAN IsProbe;
+
 typedef struct response_entry
 {
 	RESPONSE_REF response_ref;
@@ -1471,6 +1473,8 @@ InitCommunication (CONVERSATION which_comm)
 {
 	COUNT status;
 	LOCDATA *LocDataPtr;
+
+	IsProbe = FALSE;
 	
 	if(optBubbleWarp)
 		StopMusic(); // Stops the IP music upon contact with alien while Bubble Warp is active
@@ -1510,6 +1514,7 @@ InitCommunication (CONVERSATION which_comm)
 	{
 		status = URQUAN_DRONE_SHIP;
 		which_comm = URQUAN_CONVERSATION;
+		IsProbe = TRUE;
 	}
 	else
 	{

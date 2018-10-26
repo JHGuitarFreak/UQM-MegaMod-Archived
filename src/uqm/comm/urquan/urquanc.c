@@ -538,6 +538,16 @@ init_urquan_comm (void)
 	urquan_desc.AlienTextWidth = SIS_TEXT_WIDTH - 16;
 
 	GrpOffs = GET_GAME_STATE (URQUAN_PROBE_GRPOFFS);
+	
+	if (IsProbe == TRUE){
+		// use alternate "Probe" track if available
+		urquan_desc.AlienAltSongRes = URQUAN_PROBE_MUSIC;
+		urquan_desc.AlienSongFlags |= LDASF_USE_ALTERNATE;
+	} else {
+		// regular track -- let's make sure
+		urquan_desc.AlienSongFlags &= ~LDASF_USE_ALTERNATE;
+	}
+
 	if (GET_GAME_STATE (PLAYER_HYPNOTIZED)
 			|| LOBYTE (GLOBAL (CurrentActivity)) == WON_LAST_BATTLE
 			|| (LOBYTE (GLOBAL (CurrentActivity)) == IN_INTERPLANETARY
