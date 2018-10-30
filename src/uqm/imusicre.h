@@ -35,3 +35,5 @@
 #define UTWIG_SPACE_MUSIC "space.utwig.music"
 #define VUX_SPACE_MUSIC "space.vux.music"
 #define YEHAT_SPACE_MUSIC "space.yehat.music"
+#define ARILOU_SPACE_MUSIC "space.arilou.music"
+#define ZOQFOTPIK_SPACE_MUSIC "space.zoqfotpik.music"
