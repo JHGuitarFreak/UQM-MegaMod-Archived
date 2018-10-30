@@ -217,37 +217,9 @@ BuildGroups (void)
 	COUNT BestPercent = 0;
 	POINT universe;
 	HFLEETINFO hFleet, hNextFleet;
-	BYTE HomeWorld[] =
-	{
-		0,                /* ARILOU_SHIP */
-		0,                /* CHMMR_SHIP */
-		0,                /* HUMAN_SHIP */
-		ORZ_DEFINED,      /* ORZ_SHIP */
-		PKUNK_DEFINED,    /* PKUNK_SHIP */
-		0,                /* SHOFIXTI_SHIP */
-		SPATHI_DEFINED,   /* SPATHI_SHIP */
-		SUPOX_DEFINED,    /* SUPOX_SHIP */
-		THRADD_DEFINED,   /* THRADDASH_SHIP */
-		UTWIG_DEFINED,    /* UTWIG_SHIP */
-		VUX_DEFINED,      /* VUX_SHIP */
-		YEHAT_DEFINED,    /* YEHAT_SHIP */
-		0,                /* MELNORME_SHIP */
-		DRUUGE_DEFINED,   /* DRUUGE_SHIP */
-		ILWRATH_DEFINED,  /* ILWRATH_SHIP */
-		MYCON_DEFINED,    /* MYCON_SHIP */
-		0,                /* SLYLANDRO_SHIP */
-		UMGAH_DEFINED,    /* UMGAH_SHIP */
-		0,                /* URQUAN_SHIP */
-		ZOQFOT_DEFINED,   /* ZOQFOTPIK_SHIP */
 
-		0,                /* SYREEN_SHIP */
-		0,                /* BLACK_URQUAN_SHIP */
-		0,                /* YEHAT_REBEL_SHIP */
-	};
-	BYTE EncounterPercent[] =
-	{
-		RACE_INTERPLANETARY_PERCENT
-	};
+	BYTE HomeWorld[] = { HOMEWORLD_LOC };
+	BYTE EncounterPercent[] = { RACE_INTERPLANETARY_PERCENT };
 
 	EncounterPercent[SLYLANDRO_SHIP] *= GET_GAME_STATE (SLYLANDRO_MULTIPLIER);
 	Index = GET_GAME_STATE (UTWIG_SUPOX_MISSION);
@@ -380,23 +352,13 @@ FoundHome:
 
 void
 findRaceSOI(void) {
-	BYTE Index, ramp_factor;
 	POINT universe;
 	HFLEETINFO hFleet, hNextFleet;
-	BYTE loop = 0;
-	BYTE speciesID[5] = { 0 };
+	BYTE Index, HomeworldID, loop = HomeworldID = Index = 0;
+	BYTE speciesID[4] = { 0 };
 
-	BYTE EncounterPercent[] =
-	{
-		RACE_INTERPLANETARY_PERCENT
-	};
-
-	spaceMusicBySOI = 0;
-
-	ramp_factor = GET_GAME_STATE(SLYLANDRO_MULTIPLIER);
-
-	EncounterPercent[SLYLANDRO_SHIP] *= ramp_factor;
-	Index = GET_GAME_STATE(UTWIG_SUPOX_MISSION);
+	BYTE EncounterPercent[] = { RACE_MUSIC_BOOL };
+	BYTE HomeWorld[] = { HOMEWORLD_LOC };
 
 	universe = CurStarDescPtr->star_pt;
 
@@ -414,43 +376,54 @@ findRaceSOI(void) {
 		{
 			SIZE dx, dy;
 			DWORD d_squared;
+			BYTE race_enc = HomeWorld[Index];
+
+			if (race_enc && CurStarDescPtr->Index == race_enc) 
+			{	
+				// Finds the race homeworld
+				hNextFleet = 0;
+				HomeworldID = FleetPtr->SpeciesID;
+				break;
+			}
 
 			if (encounter_radius == INFINITE_RADIUS)
 				encounter_radius = (MAX_X_UNIVERSE + 1) << 1;
 			else
-				encounter_radius =
-				(encounter_radius * SPHERE_RADIUS_INCREMENT) >> 1;
+				encounter_radius = (encounter_radius * SPHERE_RADIUS_INCREMENT) >> 1;
+
 			dx = universe.x - FleetPtr->loc.x;
 			if (dx < 0)
 				dx = -dx;
+
 			dy = universe.y - FleetPtr->loc.y;
 			if (dy < 0)
 				dy = -dy;
-			if ((COUNT)dx < encounter_radius
+
+			if ((COUNT)dx < encounter_radius 
 				&& (COUNT)dy < encounter_radius
-				&& (d_squared = (DWORD)dx * dx + (DWORD)dy * dy) <
-				(DWORD)encounter_radius * encounter_radius)
-			{
-				++loop;
-				speciesID[loop] = FleetPtr->SpeciesID;
+				&& (d_squared = (DWORD)dx * dx + (DWORD)dy * dy) 
+				< (DWORD)encounter_radius * encounter_radius) 
+			{	
+				// Finds the race SOI
+				speciesID[++loop] = FleetPtr->SpeciesID;
 			}
 		}
 	}
 
-	if (ramp_factor > 0 && speciesID[1] == SLYLANDRO_ID) {
-		speciesID[1] = speciesID[2];
-		speciesID[2] = speciesID[3];
-		speciesID[3] = 0;
+	if (HomeworldID == 0 && LOBYTE(GLOBAL(CurrentActivity)) == IN_INTERPLANETARY) {
+		if (speciesID[1] == 0)
+			spaceMusicBySOI = NO_ID;
+		if (speciesID[1] > 0 && speciesID[2] == 0)
+			spaceMusicBySOI = speciesID[1];
+		if (speciesID[1] > 0 && speciesID[2] > 0)
+			spaceMusicBySOI = speciesID[1];
+		if (speciesID[1] > 0 && speciesID[2] > 0 && speciesID[3] > 0)
+			spaceMusicBySOI = speciesID[2];
+	} else {
+		spaceMusicBySOI = HomeworldID; 
 	}
 
-	if (speciesID[1] == 0)
-		spaceMusicBySOI = NO_ID;
-	if (speciesID[1] > 0 && speciesID[2] == 0)
-		spaceMusicBySOI = speciesID[1];
-	if (speciesID[1] > 0 && speciesID[2] > 0)
-		spaceMusicBySOI = speciesID[1];
-
-	if (GET_GAME_STATE(KOHR_AH_FRENZY))
+	if (GET_GAME_STATE(KOHR_AH_FRENZY) && LOBYTE(GLOBAL(CurrentActivity)) == IN_INTERPLANETARY)
 		spaceMusicBySOI = SA_MATRA_ID;
 }
 
@@ -942,36 +915,40 @@ PutGroupInfo (DWORD offset, BYTE which_group)
 
 RESOURCE spaceMusicSwitch(int SpeciesID) {
 	switch (SpeciesID) {
-		case ORZ_ID:
-			return ORZ_SPACE_MUSIC;
-		case PKUNK_ID:
-			return PKUNK_SPACE_MUSIC;
-		case SPATHI_ID:
-			return SPATHI_SPACE_MUSIC;
-		case SUPOX_ID:
-			return SUPOX_SPACE_MUSIC;
-		case THRADDASH_ID:
-			return THRADDASH_SPACE_MUSIC;
-		case UTWIG_ID:
-			return UTWIG_SPACE_MUSIC;
-		case VUX_ID:
-			return VUX_SPACE_MUSIC;
-		case YEHAT_ID:
-			return YEHAT_SPACE_MUSIC;
-		case DRUUGE_ID:
-			return DRUUGE_SPACE_MUSIC;
-		case ILWRATH_ID:
-			return ILWRATH_SPACE_MUSIC;
-		case MYCON_ID:
-			return MYCON_SPACE_MUSIC;
-		case UMGAH_ID:
-			return UMGAH_SPACE_MUSIC;
-		case UR_QUAN_ID:
-		case KOHR_AH_ID:
-			return URQUAN_SPACE_MUSIC;
-		case SA_MATRA_ID:
-			return KOHRAH_SPACE_MUSIC;
-		default:
-			return IP_MUSIC;
+	case ARILOU_ID:
+		return ARILOU_SPACE_MUSIC;
+	case ORZ_ID:
+		return ORZ_SPACE_MUSIC;
+	case PKUNK_ID:
+		return PKUNK_SPACE_MUSIC;
+	case SPATHI_ID:
+		return SPATHI_SPACE_MUSIC;
+	case SUPOX_ID:
+		return SUPOX_SPACE_MUSIC;
+	case THRADDASH_ID:
+		return THRADDASH_SPACE_MUSIC;
+	case UTWIG_ID:
+		return UTWIG_SPACE_MUSIC;
+	case VUX_ID:
+		return VUX_SPACE_MUSIC;
+	case YEHAT_ID:
+		return YEHAT_SPACE_MUSIC;
+	case DRUUGE_ID:
+		return DRUUGE_SPACE_MUSIC;
+	case ILWRATH_ID:
+		return ILWRATH_SPACE_MUSIC;
+	case MYCON_ID:
+		return MYCON_SPACE_MUSIC;
+	case UMGAH_ID:
+		return UMGAH_SPACE_MUSIC;
+	case UR_QUAN_ID:
+	case KOHR_AH_ID:
+		return URQUAN_SPACE_MUSIC;
+	case ZOQFOTPIK_ID:
+		return ZOQFOTPIK_SPACE_MUSIC;
+	case SA_MATRA_ID:
+		return KOHRAH_SPACE_MUSIC;
+	default:
+		return IP_MUSIC;
 	}
 }

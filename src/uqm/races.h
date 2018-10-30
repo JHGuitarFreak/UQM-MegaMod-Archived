@@ -621,6 +621,57 @@ typedef enum
 		40,  /* YEHAT_REBEL_SHIP */ \
 		 0,  /* URQUAN_DRONE_SHIP */
 
+#define RACE_MUSIC_BOOL \
+		1,  /* ARILOU_SHIP */ \
+		0,  /* CHMMR_SHIP */ \
+		0,  /* HUMAN_SHIP */ \
+		1,  /* ORZ_SHIP */ \
+		1,  /* PKUNK_SHIP */ \
+		0,  /* SHOFIXTI_SHIP */ \
+		1,  /* SPATHI_SHIP */ \
+		1,  /* SUPOX_SHIP */ \
+		1,  /* THRADDASH_SHIP */ \
+		1,  /* UTWIG_SHIP */ \
+		1,  /* VUX_SHIP */ \
+		1,  /* YEHAT_SHIP */ \
+		0,  /* MELNORME_SHIP */ \
+		1,  /* DRUUGE_SHIP */ \
+		1,  /* ILWRATH_SHIP */ \
+		1,  /* MYCON_SHIP */ \
+		0,  /* SLYLANDRO_SHIP */ \
+		1,  /* UMGAH_SHIP */ \
+		1,  /* URQUAN_SHIP */ \
+		1,  /* ZOQFOTPIK_SHIP */ \
+		0,  /* SYREEN_SHIP */ \
+		1,  /* BLACK_URQUAN_SHIP */ \
+		1,  /* YEHAT_REBEL_SHIP */ \
+		0,  /* URQUAN_DRONE_SHIP */
+
+#define HOMEWORLD_LOC \
+		0,					/* ARILOU_SHIP */ \
+		0,					/* CHMMR_SHIP */ \
+		0,					/* HUMAN_SHIP */ \
+		ORZ_DEFINED,		/* ORZ_SHIP */ \
+		PKUNK_DEFINED,		/* PKUNK_SHIP */ \
+		0,					/* SHOFIXTI_SHIP */ \
+		SPATHI_DEFINED,		/* SPATHI_SHIP */ \
+		SUPOX_DEFINED,		/* SUPOX_SHIP */ \
+		THRADD_DEFINED,		/* THRADDASH_SHIP */ \
+		UTWIG_DEFINED,		/* UTWIG_SHIP */ \
+		VUX_DEFINED,		/* VUX_SHIP */ \
+		YEHAT_DEFINED,		/* YEHAT_SHIP */ \
+		0,					/* MELNORME_SHIP */ \
+		DRUUGE_DEFINED,		/* DRUUGE_SHIP */ \
+		ILWRATH_DEFINED,	/* ILWRATH_SHIP */ \
+		MYCON_DEFINED,		/* MYCON_SHIP */ \
+		0,					/* SLYLANDRO_SHIP */ \
+		UMGAH_DEFINED,		/* UMGAH_SHIP */ \
+		0,					/* URQUAN_SHIP */ \
+		ZOQFOT_DEFINED,		/* ZOQFOTPIK_SHIP */ \
+		0,					/* SYREEN_SHIP */ \
+		0,					/* BLACK_URQUAN_SHIP */ \
+		0,					/* YEHAT_REBEL_SHIP */ \
+
 // How many ships will an encounter consist of.
 // The first number specifies the minimum, the second the maximum.
 // The chance is 50% for each ship past the minimum to be present.
