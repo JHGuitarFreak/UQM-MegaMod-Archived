@@ -1924,6 +1924,69 @@ DrawOuterSystem (void)
 	IP_frame(); // MB: To fix planet texture and sun corona 'pop-in'
 }
 
+RESOURCE
+spaceMusicSwitch(int SpeciesID) {
+	switch (SpeciesID) {
+	case ARILOU_ID:
+		return ARILOU_SPACE_MUSIC;
+	case ORZ_ID:
+		return ORZ_SPACE_MUSIC;
+	case PKUNK_ID:
+		return PKUNK_SPACE_MUSIC;
+	case SPATHI_ID:
+		return SPATHI_SPACE_MUSIC;
+	case SUPOX_ID:
+		return SUPOX_SPACE_MUSIC;
+	case THRADDASH_ID:
+		return THRADDASH_SPACE_MUSIC;
+	case UTWIG_ID:
+		return UTWIG_SPACE_MUSIC;
+	case VUX_ID:
+		return VUX_SPACE_MUSIC;
+	case YEHAT_ID:
+		return YEHAT_SPACE_MUSIC;
+	case DRUUGE_ID:
+		return DRUUGE_SPACE_MUSIC;
+	case ILWRATH_ID:
+		return ILWRATH_SPACE_MUSIC;
+	case MYCON_ID:
+		return MYCON_SPACE_MUSIC;
+	case UMGAH_ID:
+		return UMGAH_SPACE_MUSIC;
+	case UR_QUAN_ID:
+	case KOHR_AH_ID:
+		return URQUAN_SPACE_MUSIC;
+	case ZOQFOTPIK_ID:
+		return ZOQFOTPIK_SPACE_MUSIC;
+	case SA_MATRA_ID:
+		return KOHRAH_SPACE_MUSIC;
+	default:
+		return IP_MUSIC;
+	}
+}
+
+void
+playSpaceMusic(BOOLEAN ComingFromLoad) {
+
+	if (optSpaceMusic) {
+		if (ComingFromLoad) {
+			DestroyMusic(SpaceMusic);
+			SpaceMusic = 0;
+		}
+
+		SpaceMusic = LoadMusic(spaceMusicSwitch(spaceMusicBySOI)); // SOI MUSIC TEST
+	}
+
+	// Do not start playing the music if we entered the solarsys only
+	// to load a game (load invoked from Main menu)
+	// XXX: This is quite hacky
+	if (!PLRPlaying((MUSIC_REF)~0) &&
+		(LastActivity != CHECK_LOAD || NextActivity))
+	{
+		PlayMusic(SpaceMusic, TRUE, 1);
+	}
+}
+
 void
 ResetSolarSys (void)
 {
@@ -1948,27 +2011,6 @@ ResetSolarSys (void)
 	pSolarSysState->InIpFlight = TRUE;
 
 	playSpaceMusic(FALSE);
-}
-
-void playSpaceMusic(BOOLEAN ComingFromLoad) {
-
-	if (optSpaceMusic) {
-		if (ComingFromLoad) {
-			DestroyMusic(SpaceMusic);
-			SpaceMusic = 0;
-		}
-
-		SpaceMusic = LoadMusic(spaceMusicSwitch(spaceMusicBySOI)); // SOI MUSIC TEST
-	}
-
-	// Do not start playing the music if we entered the solarsys only
-	// to load a game (load invoked from Main menu)
-	// XXX: This is quite hacky
-	if (!PLRPlaying((MUSIC_REF)~0) &&
-		(LastActivity != CHECK_LOAD || NextActivity))
-	{
-		PlayMusic(SpaceMusic, TRUE, 1);
-	}
 }
 
 static void
