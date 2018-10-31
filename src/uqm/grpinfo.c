@@ -27,7 +27,6 @@
 
 #include "libs/mathlib.h"
 #include "libs/log.h"
-#include "imusicre.h"
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -911,44 +910,4 @@ PutGroupInfo (DWORD offset, BYTE which_group)
 	CloseStateFile (fp);
 
 	return (offset);
-}
-
-RESOURCE spaceMusicSwitch(int SpeciesID) {
-	switch (SpeciesID) {
-	case ARILOU_ID:
-		return ARILOU_SPACE_MUSIC;
-	case ORZ_ID:
-		return ORZ_SPACE_MUSIC;
-	case PKUNK_ID:
-		return PKUNK_SPACE_MUSIC;
-	case SPATHI_ID:
-		return SPATHI_SPACE_MUSIC;
-	case SUPOX_ID:
-		return SUPOX_SPACE_MUSIC;
-	case THRADDASH_ID:
-		return THRADDASH_SPACE_MUSIC;
-	case UTWIG_ID:
-		return UTWIG_SPACE_MUSIC;
-	case VUX_ID:
-		return VUX_SPACE_MUSIC;
-	case YEHAT_ID:
-		return YEHAT_SPACE_MUSIC;
-	case DRUUGE_ID:
-		return DRUUGE_SPACE_MUSIC;
-	case ILWRATH_ID:
-		return ILWRATH_SPACE_MUSIC;
-	case MYCON_ID:
-		return MYCON_SPACE_MUSIC;
-	case UMGAH_ID:
-		return UMGAH_SPACE_MUSIC;
-	case UR_QUAN_ID:
-	case KOHR_AH_ID:
-		return URQUAN_SPACE_MUSIC;
-	case ZOQFOTPIK_ID:
-		return ZOQFOTPIK_SPACE_MUSIC;
-	case SA_MATRA_ID:
-		return KOHRAH_SPACE_MUSIC;
-	default:
-		return IP_MUSIC;
-	}
 }
