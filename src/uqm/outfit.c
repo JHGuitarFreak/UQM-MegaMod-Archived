@@ -569,8 +569,9 @@ static void
 ChangeFuelQuantity (void)
 {
 	int incr = 0; // Fuel increment in fuel points (not units).
+	int maxFit = GetFuelTankCapacity() - GLOBAL_SIS(FuelOnBoard);
 	
-	if      (PulsedInputState.menu[KEY_MENU_UP])
+	if (PulsedInputState.menu[KEY_MENU_UP])
 		incr = FUEL_TANK_SCALE;  // +1 Unit
 	else if (PulsedInputState.menu[KEY_MENU_DOWN])
 		incr = -FUEL_TANK_SCALE; // -1 Unit
@@ -578,14 +579,17 @@ ChangeFuelQuantity (void)
 		incr = (FUEL_TANK_SCALE * 10); // +1 Bar
 	else if (PulsedInputState.menu[KEY_MENU_PAGE_DOWN])
 		incr = -(FUEL_TANK_SCALE * 10); // -1 Bar
+	else if (PulsedInputState.menu[KEY_MENU_RIGHT])
+		incr = maxFit; // Fill to max
+	else if (PulsedInputState.menu[KEY_MENU_LEFT])
+		incr = -GLOBAL_SIS(FuelOnBoard); // Empty tanks
 	else
 		return;
 
 	// Clamp incr to what we can afford/hold/have.
 	{
-		const int maxFit = GetFuelTankCapacity () - GLOBAL_SIS (FuelOnBoard);
-		const int maxAfford = GLOBAL_SIS (ResUnits) / GLOBAL (FuelCost);
-		const int minFit = - (int) GLOBAL_SIS (FuelOnBoard);
+		const int maxAfford = GLOBAL_SIS(ResUnits) / GLOBAL(FuelCost);
+		const int minFit = -(int)GLOBAL_SIS(FuelOnBoard);
 
 		if (incr > maxFit)
 			incr = maxFit; // All we can hold.
@@ -799,6 +803,7 @@ ExitOutfit:
 		{
 			case OUTFIT_DOFUEL:
 				SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN |
+						MENU_SOUND_LEFT	  | MENU_SOUND_RIGHT, 
 						MENU_SOUND_PAGEUP | MENU_SOUND_PAGEDOWN,
 						MENU_SOUND_SELECT | MENU_SOUND_CANCEL);
 				break;
