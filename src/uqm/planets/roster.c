@@ -282,15 +282,14 @@ DoModifyRoster (MENU_STATE *pMS)
 		if (!rosterState->modifyingCrew)
 		{
 			SetFlashRect (NULL);
-			SetMenuSounds (MENU_SOUND_ARROWS | MENU_SOUND_PAGEUP |
-				MENU_SOUND_PAGEDOWN, MENU_SOUND_SELECT);
+			SetMenuSounds (MENU_SOUND_ARROWS | MENU_SOUND_PAGE, MENU_SOUND_SELECT);
 		}
 		else
 		{
 			drawModifiedSupportShip (rosterState);
 			flashSupportShipCrew ();
-			SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN | MENU_SOUND_PAGEUP |
-				MENU_SOUND_PAGEDOWN, MENU_SOUND_SELECT | MENU_SOUND_CANCEL);
+			SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN | MENU_SOUND_PAGE, 
+				MENU_SOUND_ACTION);
 		}
 	}
 	else if (rosterState->modifyingCrew)
