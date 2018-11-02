@@ -932,57 +932,76 @@ DMS_DismissEscortShipCrew (SHIP_FRAGMENT *StarShipPtr)
 // 'dy' is -1 if the 'up' button was pressed, or '1' if the down button was
 // pressed.
 static void
-DMS_ModifyCrew (MENU_STATE *pMS, HSHIPFRAG hStarShip, SBYTE dy, SBYTE dx, SBYTE DoLoop)
+DMS_ModifyCrew (MENU_STATE *pMS, HSHIPFRAG hStarShip, SBYTE dy)
 {
 	SIZE crew_delta = 0;
-	int loop;
 	SHIP_FRAGMENT *StarShipPtr = NULL;
+	BYTE loop;
+	BYTE DoLoop = 1;
+	RECT r;
+
+	if (dy == -10 || dy == 10)
+		DoLoop = 10;
+
+	if (dy == -50 || dy == 50)
+		PlayMenuSound(MENU_SOUND_INVOKED);
 
 	if (hStarShip)
 		StarShipPtr = LockShipFrag (&GLOBAL (built_ship_q), hStarShip);
 
-	for (loop = 0; loop < (DoLoop ? 10 : 1); loop++) {
-		if (hStarShip == 0)
-		{
-			// Add/Dismiss crew for the flagship.
-			if (dy < 0 || dx > 0) {
+	if (hStarShip == 0) {
+		if (dy == -50)
+			DoLoop = GetCPodCapacity(&r.corner) - GetCrewCount();
+		else if (dy == 50)
+			DoLoop = GetCrewCount();
+
+		// Add/Dismiss crew for the flagship.
+		for (loop = 0; loop < DoLoop; loop++) {
+			if (dy < 0) {
 				// Add crew for the flagship.
 				crew_delta += DMS_HireFlagShipCrew ();
 			} else {
 				// Dismiss crew from the flagship.
 				crew_delta -= DMS_DismissFlagShipCrew ();
 			}
+		}
 
-			if (crew_delta != 0)
-				DMS_FlashFlagShipCrewCount ();
-		} else {
-			// Add/Dismiss crew for an escort ship.
-			if (dy < 0 || dx > 0) {
+		if (crew_delta != 0)
+			DMS_FlashFlagShipCrewCount ();
+	} else {
+		if (dy == -50)
+			DoLoop = StarShipPtr->max_crew - StarShipPtr->crew_level;
+		else if (dy == 50)
+			DoLoop = StarShipPtr->crew_level;
+
+		// Add/Dismiss crew for an escort ship.
+		for (loop = 0; loop < DoLoop; loop++) {
+			if (dy < 0) {
 				// Add crew for an escort ship.
 				crew_delta = DMS_HireEscortShipCrew (StarShipPtr);
 			} else {
 				// Dismiss crew from an escort ship.
 				crew_delta = DMS_DismissEscortShipCrew (StarShipPtr);
 			}
-		
-			if (crew_delta != 0)
-				DMS_FlashEscortShipCrewCount (StarShipPtr->index);
 		}
 
-		if (crew_delta == 0)
-			PlayMenuSound (MENU_SOUND_FAILURE);
-
-		if (hStarShip)
-		{
-			UnlockShipFrag (&GLOBAL (built_ship_q), hStarShip);
-		
-			// Clear out the bought ship index so that flash rects work
-			// correctly.
-			pMS->delta_item &= MODIFY_CREW_FLAG;
-		}
-
-		CrewTransaction (crew_delta);
+		if (crew_delta != 0)
+			DMS_FlashEscortShipCrewCount (StarShipPtr->index);
 	}
+
+	if (crew_delta == 0)
+		PlayMenuSound (MENU_SOUND_FAILURE);
+
+	if (hStarShip)
+	{
+		UnlockShipFrag (&GLOBAL (built_ship_q), hStarShip);
+
+		// Clear out the bought ship index so that flash rects work
+		// correctly.
+		pMS->delta_item &= MODIFY_CREW_FLAG;
+	}
+
+	CrewTransaction (crew_delta);
 }
 
 // Helper function for DoModifyShips(), called when the player presses the
@@ -1142,7 +1161,7 @@ DMS_MoveCursor (BYTE curState, SBYTE dx, SBYTE dy)
 // called when we are in crew editing mode.
 static void
 DMS_EditCrewMode (MENU_STATE *pMS, HSHIPFRAG hStarShip,
-		BOOLEAN select, BOOLEAN cancel, SBYTE dy, SBYTE dx, SBYTE DoLoop)
+		BOOLEAN select, BOOLEAN cancel, SBYTE dy)
 {
 	if (select || cancel)
 	{
@@ -1166,11 +1185,11 @@ DMS_EditCrewMode (MENU_STATE *pMS, HSHIPFRAG hStarShip,
 		pMS->delta_item &= ~MODIFY_CREW_FLAG;
 		DMS_SetMode (pMS, DMS_Mode_navigate);
 	}
-	else if (dy || DoLoop)
+	else if (dy)
 	{
 		// Hire or dismiss crew for the flagship or an escort
 		// ship.
-		DMS_ModifyCrew (pMS, hStarShip, dy, dx, DoLoop);
+		DMS_ModifyCrew (pMS, hStarShip, dy);
 	}
 }
 
@@ -1258,7 +1277,6 @@ DoModifyShips (MENU_STATE *pMS)
 		BOOLEAN cancel = (PulsedInputState.menu[KEY_MENU_CANCEL] != 0);
 		SBYTE dx = 0;
 		SBYTE dy = 0;
-		SBYTE DoLoop = 0;
 
 		if (PulsedInputState.menu[KEY_MENU_RIGHT])
 			dx = 1;
@@ -1268,10 +1286,14 @@ DoModifyShips (MENU_STATE *pMS)
 			dy = -1;
 		if (PulsedInputState.menu[KEY_MENU_DOWN])
 			dy = 1;
-		if (PulsedInputState.menu[KEY_MENU_PAGE_UP]) 
-			DoLoop = dx = 1;
-		if (PulsedInputState.menu[KEY_MENU_PAGE_DOWN]) 
-			DoLoop = dx = -1;
+		if (PulsedInputState.menu[KEY_MENU_PAGE_UP])
+			dy = -10;
+		if (PulsedInputState.menu[KEY_MENU_PAGE_DOWN])
+			dy = 10;
+		if (PulsedInputState.menu[KEY_MENU_HOME])
+			dy = -50;
+		if (PulsedInputState.menu[KEY_MENU_END])
+			dy = 50;
 
 
 		if (!(pMS->delta_item & MODIFY_CREW_FLAG))
@@ -1293,7 +1315,7 @@ DoModifyShips (MENU_STATE *pMS)
 			else
 			{
 				// Crew editing mode.
-				DMS_EditCrewMode (pMS, hStarShip, select, cancel, dy, dx, DoLoop);
+				DMS_EditCrewMode (pMS, hStarShip, select, cancel, dy);
 			}
 		}
 
