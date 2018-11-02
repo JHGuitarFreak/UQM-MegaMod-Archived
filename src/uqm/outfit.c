@@ -570,6 +570,7 @@ ChangeFuelQuantity (void)
 {
 	int incr = 0; // Fuel increment in fuel points (not units).
 	int maxFit = GetFuelTankCapacity() - GLOBAL_SIS(FuelOnBoard);
+	int minFit = -(int)GLOBAL_SIS(FuelOnBoard);
 	
 	if (PulsedInputState.menu[KEY_MENU_UP])
 		incr = FUEL_TANK_SCALE;  // +1 Unit
@@ -579,12 +580,15 @@ ChangeFuelQuantity (void)
 		incr = (FUEL_TANK_SCALE * 10); // +1 Bar
 	else if (PulsedInputState.menu[KEY_MENU_PAGE_DOWN])
 		incr = -(FUEL_TANK_SCALE * 10); // -1 Bar
-	else if (PulsedInputState.menu[KEY_MENU_RIGHT])
+	else if (PulsedInputState.menu[KEY_MENU_HOME])
 		incr = maxFit; // Fill to max
-	else if (PulsedInputState.menu[KEY_MENU_LEFT])
-		incr = -GLOBAL_SIS(FuelOnBoard); // Empty tanks
+	else if (PulsedInputState.menu[KEY_MENU_END])
+		incr = minFit; // Empty tanks
 	else
 		return;
+
+	if(PulsedInputState.menu[KEY_MENU_HOME] || PulsedInputState.menu[KEY_MENU_END])
+		PlayMenuSound(MENU_SOUND_INVOKED);
 
 	// Clamp incr to what we can afford/hold/have.
 	{
