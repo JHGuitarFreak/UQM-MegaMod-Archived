@@ -802,10 +802,7 @@ ExitOutfit:
 		switch (pMS->CurState)
 		{
 			case OUTFIT_DOFUEL:
-				SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN |
-						MENU_SOUND_LEFT	  | MENU_SOUND_RIGHT, 
-						MENU_SOUND_PAGEUP | MENU_SOUND_PAGEDOWN,
-						MENU_SOUND_SELECT | MENU_SOUND_CANCEL);
+				SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_PAGE | MENU_SOUND_ACTION);
 				break;
 			default:
 				SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);

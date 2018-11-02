@@ -662,8 +662,7 @@ DMS_SetMode (MENU_STATE *pMS, DMS_Mode mode)
 			SetFlashRect (SFR_MENU_ANY);
 			break;
 		case DMS_Mode_editCrew:
-			SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN | MENU_SOUND_PAGEUP | MENU_SOUND_PAGEDOWN,
-					MENU_SOUND_SELECT | MENU_SOUND_CANCEL);
+			SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_PAGE | MENU_SOUND_ACTION);
 			if (HINIBBLE (pMS->CurState))
 			{
 				// Enter crew editing mode for the flagship.

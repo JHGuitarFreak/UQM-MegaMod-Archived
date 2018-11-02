@@ -683,7 +683,7 @@ DevicesMenu (void)
 
 	DrawDevices (&DevicesState, (COUNT)~0, MenuState.CurState);
 
-	SetMenuSounds (MENU_SOUND_ARROWS | MENU_SOUND_PAGEUP | MENU_SOUND_PAGEDOWN,
+	SetMenuSounds (MENU_SOUND_ARROWS | MENU_SOUND_PAGE,
 			MENU_SOUND_SELECT);
 
 	MenuState.InputFunc = DoManipulateDevices;

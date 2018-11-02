@@ -1307,7 +1307,7 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 		UnbatchGraphics ();
 	}
 
-	SetMenuSounds (MENU_SOUND_ARROWS | MENU_SOUND_PAGEUP | MENU_SOUND_PAGEDOWN,
+	SetMenuSounds (MENU_SOUND_ARROWS | MENU_SOUND_PAGE,
 			0);
 	MenuState.InputFunc = DoPickGame;
 
