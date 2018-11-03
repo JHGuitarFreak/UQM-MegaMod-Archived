@@ -871,25 +871,20 @@ FreeSolarSys (void)
 static FRAME
 getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 {
-	FRAME CollisionFrame; 
-	
-	if (RESOLUTION_FACTOR != HD)
-		CollisionFrame = DecFrameIndex(stars_in_space);
-	else {
-		switch (planet->data_index) {
-			case HIERARCHY_STARBASE:
-			case SA_MATRA:
-				CollisionFrame = planet->image.frame;
-				break;
-			default:
-				CollisionFrame = planet->intersect.frame;
-				break;
-		}
-	}
-
 	if (pSolarSysState->WaitIntersect != (COUNT)~0 && pSolarSysState->WaitIntersect != WaitPlanet) {
-		// Serosis - New collisions are determined by the size of the planet image in HD
-		return CollisionFrame;
+		if (RESOLUTION_FACTOR != HD)
+			return DecFrameIndex(stars_in_space);
+		else {
+			switch (planet->data_index) {
+				case HIERARCHY_STARBASE:
+				case SA_MATRA:
+					return planet->image.frame;
+					break;
+				default:
+					return planet->intersect.frame;
+					break;
+			}
+		}
 	} else {	
 		// Existing collisions are cleared only once the ship does not
 		// intersect anymore with a full planet image
