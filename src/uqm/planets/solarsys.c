@@ -871,7 +871,21 @@ FreeSolarSys (void)
 static FRAME
 getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 {
-	FRAME CollisionFrame = (RESOLUTION_FACTOR != HD ? DecFrameIndex (stars_in_space) : planet->intersect.frame);
+	FRAME CollisionFrame; 
+	
+	if (RESOLUTION_FACTOR != HD)
+		CollisionFrame = DecFrameIndex(stars_in_space);
+	else {
+		switch (planet->data_index) {
+			case HIERARCHY_STARBASE:
+			case SA_MATRA:
+				CollisionFrame = planet->image.frame;
+				break;
+			default:
+				CollisionFrame = planet->intersect.frame;
+				break;
+		}
+	}
 
 	if (pSolarSysState->WaitIntersect != (COUNT)~0 && pSolarSysState->WaitIntersect != WaitPlanet) {
 		// Serosis - New collisions are determined by the size of the planet image in HD
