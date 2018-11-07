@@ -874,8 +874,8 @@ DrawMeleeShipStrings (MELEE_STATE *pMS, MeleeShip NewStarShip)
 	OldContext = SetContext (StatusContext);
 	GetContextClipRect (&OldRect);
 	r = OldRect;
-	r.corner.x += ((SAFE_X << 1) - (32 << RESOLUTION_FACTOR)) + MENU_X_OFFS - RES_BOOL(0,3);
-	r.corner.y += (76 << RESOLUTION_FACTOR) + RES_BOOL(0, 6);
+	r.corner.x += ((SAFE_X << 1) - (32 << RESOLUTION_FACTOR)) + MENU_X_OFFS - RES_BOOL(0, 28);
+	r.corner.y += (76 << RESOLUTION_FACTOR) + RES_BOOL(0, 8);
 	r.extent.height = SHIP_INFO_HEIGHT + 3;
 	SetContextClipRect (&r);
 	BatchGraphics ();
