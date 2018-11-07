@@ -80,6 +80,7 @@ BOOLEAN comingFromInit;
 BOOLEAN EndlessSCLoaded;
 BYTE Rando;
 BOOLEAN HDPackPresent;
+BOOLEAN VolPackPresent;
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -168,11 +169,16 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 		}
 	}
 
-	if (opt3doMusic) {
+	if (opt3doMusic && loadAddon("volasaurus-remix-pack")) {
+		VolPackPresent = TRUE;
+		printf("Volasaurus Remix Pack Loaded.\n\n");
+	}
+
+	if (opt3doMusic && !VolPackPresent) {
 		loadAddon ("3domusic");
 	}
 
-	if (optRemixMusic) {
+	if (optRemixMusic && !VolPackPresent) {
 		loadAddon ("remix");
 	}
 
