@@ -230,9 +230,9 @@ FillFileView (MELEE_STATE *pMS)
 	return true;
 }
 
-#define FILE_STRING_ORIGIN_X (RES_BOOL(5, 45)) // JMS_GFX
-#define FILE_STRING_ORIGIN_Y  ((34 << RESOLUTION_FACTOR) + (RESOLUTION_FACTOR * 23)) // JMS_GFX
-#define ENTRY_HEIGHT (RES_BOOL(32, 132)) // JMS_GFX
+#define FILE_STRING_ORIGIN_X RES_SCALE(5) // JMS_GFX
+#define FILE_STRING_ORIGIN_Y  RES_SCALE(34) // JMS_GFX
+#define ENTRY_HEIGHT RES_SCALE(32) // JMS_GFX
 
 static void
 SelectFileString (MELEE_STATE *pMS, bool hilite)
