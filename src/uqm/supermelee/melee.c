@@ -1858,11 +1858,16 @@ DoMelee (MELEE_STATE *pMS)
 			DestroyMusic (pMS->hMusic);
 			pMS->hMusic = 0;
 		}
+
 		pMS->hMusic = LoadMusic (MELEE_MUSIC);
+
 		pMS->Initialized = TRUE;
 		
 		pMS->MeleeOption = START_MELEE;
-		PlayMusic (pMS->hMusic, TRUE, 1);
+
+		if (optMainMenuMusic)
+			PlayMusic (pMS->hMusic, TRUE, 1);
+
 		InitMelee (pMS);
 
 		FadeScreen (FadeAllToColor, ONE_SECOND / 2);
