@@ -125,13 +125,16 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	font_DrawText (&t);
 
 	// Put the main menu music credit in the bottom left corner.
-	memset(&buf[0], 0, sizeof(buf));
-	t.baseline.x = RES_SCALE(2);
-	t.baseline.y = SCREEN_HEIGHT - RES_SCALE(2);
-	t.align = ALIGN_LEFT;
-	Credit = (Rando == 0 ? "Saibuster" : (Rando == 1 ? "Rush AX" : "Mark Vera"));
-	sprintf (buf, "Main Menu Music by %s", Credit);
-	font_DrawText (&t);
+	if (optMainMenuMusic) {
+		memset(&buf[0], 0, sizeof(buf));
+		t.baseline.x = RES_SCALE(2);
+		t.baseline.y = SCREEN_HEIGHT - RES_SCALE(2);
+		t.align = ALIGN_LEFT;
+		Credit = (Rando == 0 ? "Saibuster" : (Rando == 1 ? "Rush AX" : "Mark Vera"));
+		sprintf(buf, "Main Menu Music by %s", Credit);
+		font_DrawText(&t);
+	}
+
 
 	UnbatchGraphics ();
 }
