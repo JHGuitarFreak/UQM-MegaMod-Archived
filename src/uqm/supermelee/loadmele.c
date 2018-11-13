@@ -41,9 +41,9 @@
 		BUILD_COLOR (MAKE_RGB15 (0x17, 0x18, 0x1D), 0x00)
 
 
-#define LOAD_MELEE_BOX_WIDTH (RES_BOOL(34, 131)) // JMS_GFX
-#define LOAD_MELEE_BOX_HEIGHT (34 << RESOLUTION_FACTOR) // JMS_GFX
-#define LOAD_MELEE_BOX_SPACE (1 << RESOLUTION_FACTOR) // JMS_GFX
+#define LOAD_MELEE_BOX_WIDTH RES_SCALE(34) // JMS_GFX
+#define LOAD_MELEE_BOX_HEIGHT RES_SCALE(34) // JMS_GFX
+#define LOAD_MELEE_BOX_SPACE RES_SCALE(1) // JMS_GFX
 
 
 static void DrawFileStrings (MELEE_STATE *pMS);
@@ -191,7 +191,7 @@ DrawFileString (const MeleeTeam *team, const POINT *origin,
 		FleetShipIndex slotI;
 
 		s.origin.x = origin->x + (1 << RESOLUTION_FACTOR); // JMS_GFX
-		s.origin.y = origin->y + (RES_BOOL(4, 12)); // JMS_GFX
+		s.origin.y = origin->y + RES_STAT_SCALE(4); // JMS_GFX
 		for (slotI = 0; slotI < MELEE_FLEET_SIZE; slotI++)
 		{
 			BYTE StarShip;
@@ -201,7 +201,7 @@ DrawFileString (const MeleeTeam *team, const POINT *origin,
 			{
 				s.frame = GetShipIconsFromIndex (StarShip);
 				DrawStamp (&s);
-				s.origin.x += 17 << RESOLUTION_FACTOR; // JMS_GFX
+				s.origin.x += RES_SCALE(17); // JMS_GFX
 			}
 		}
 	}

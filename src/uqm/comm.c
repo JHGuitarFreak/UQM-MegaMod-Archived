@@ -56,9 +56,6 @@
 // XXX: was 32 picked experimentally?
 #define OSCILLOSCOPE_RATE   (ONE_SECOND / 32)
 
-// JMS_GFX
-#define RESPONSE_EXTRA_Y (RES_BOOL(0, 22))
-
 // Maximum comm animation frame rate (actual execution rate)
 // A gfx frame is not always produced during an execution frame,
 // and several animations are combined into one gfx frame.
@@ -539,7 +536,7 @@ RefreshResponses (ENCOUNTER_STATE *pES)
 	for (response = pES->top_response; response < pES->num_responses;
 			++response)
 	{
-		extra_y = (response == pES->top_response ? 0 : RESPONSE_EXTRA_Y); // JMS_GFX
+		extra_y = (response == pES->top_response ? 0 : IF_HD(22)); // JMS_GFX
 		
 		pES->response_list[response].response_text.baseline.x = TEXT_X_OFFS + (8 << RESOLUTION_FACTOR); // JMS_GFX
 		pES->response_list[response].response_text.baseline.y = y + leading + extra_y; // JMS_GFX

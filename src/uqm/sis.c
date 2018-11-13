@@ -132,7 +132,7 @@ DrawSISTitle (UNICODE *pStr)
 	RECT r;
 
 	t.baseline.x = SIS_TITLE_WIDTH >> 1;
-	t.baseline.y = SIS_TITLE_HEIGHT - RES_BOOL(2, 8); // JMS_GFX
+	t.baseline.y = SIS_TITLE_HEIGHT - RES_SCALE(2); // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.pStr = pStr;
 	t.CharCount = (COUNT)~0;
@@ -237,7 +237,7 @@ DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 	if (!(flags & DSME_MYCOLOR))
 		SetContextForeGroundColor (SIS_MESSAGE_TEXT_COLOR);
 
-	t.baseline.y = SIS_MESSAGE_HEIGHT - RES_BOOL(2, 8); // JMS_GFX
+	t.baseline.y = SIS_MESSAGE_HEIGHT - RES_SCALE(2); // JMS_GFX
 	t.pStr = pStr;
 	t.CharCount = (COUNT)~0;
 	SetContextFont (TinyFont);
@@ -381,8 +381,8 @@ DateToString (char *buf, size_t bufLen,
 void
 GetStatusMessageRect (RECT *r)
 {
-	r->corner.x = RES_STAT_SCALE(2) - RES_BOOL(0, 2); // JMS_GFX
-	r->corner.y = RES_STAT_SCALE(130) + RES_BOOL(0, 18); // JMS_GFX
+	r->corner.x = RES_STAT_SCALE(2) - IF_HD(2); // JMS_GFX
+	r->corner.y = RES_STAT_SCALE(130) + IF_HD(18); // JMS_GFX
 	r->extent.width = STATUS_MESSAGE_WIDTH;
 	r->extent.height = STATUS_MESSAGE_HEIGHT;
 }
@@ -490,7 +490,7 @@ DrawCaptainsName (bool NewGame)
 	OldFont = SetContextFont (TinyFont);
 	OldColor = SetContextForeGroundColor (CAPTAIN_NAME_BACKGROUND_COLOR);
 
-	r.corner.x = RES_STAT_SCALE(3) - RES_BOOL(0, 5);		// JMS_GFX
+	r.corner.x = RES_STAT_SCALE(3) - IF_HD(5);		// JMS_GFX
 	r.corner.y = RES_BOOL(10, 32);						// JMS_GFX
 	r.extent.width = SHIP_NAME_WIDTH - RES_BOOL(2,0);		// JMS_GFX
 	r.extent.height = SHIP_NAME_HEIGHT + RESOLUTION_FACTOR;	// JMS_GFX
@@ -531,7 +531,7 @@ DrawFlagshipName (BOOLEAN InStatusArea, bool NewGame)
 		r.corner.x = RES_BOOL(2, 5);		// JMS_GFX
 		r.corner.y = RES_BOOL(20, 63);	// JMS_GFX
 		r.extent.width = SHIP_NAME_WIDTH;	// JMS_GFX
-		r.extent.height = SHIP_NAME_HEIGHT + RES_BOOL(0,1);
+		r.extent.height = SHIP_NAME_HEIGHT + IF_HD(1);
 
 		t.pStr = GLOBAL_SIS (ShipName);
 	}
@@ -543,7 +543,7 @@ DrawFlagshipName (BOOLEAN InStatusArea, bool NewGame)
 		r.corner.x = 0;
 		r.corner.y = 1;
 		r.extent.width = SIS_SCREEN_WIDTH; // JMS_GFX
-		r.extent.height = SHIP_NAME_HEIGHT + RES_BOOL(0, 6);// JMS_GFX
+		r.extent.height = SHIP_NAME_HEIGHT + IF_HD(6);// JMS_GFX
 
 		t.pStr = buf;
 		snprintf (buf, sizeof buf, "%s %s",
@@ -575,7 +575,7 @@ DrawFlagshipName (BOOLEAN InStatusArea, bool NewGame)
 
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
 	t.baseline.y = r.corner.y + (SHIP_NAME_HEIGHT -
-					(InStatusArea ? RES_BOOL(1, 2) : RES_BOOL(0, -8))); // JMS_GFX
+					(InStatusArea ? RES_BOOL(1, 2) : IF_HD(-8))); // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.CharCount = (COUNT)~0;
 	if (optWhichFonts == OPT_PC)
@@ -655,9 +655,9 @@ DrawFlagshipStats (void)
 
 	/* we need room to play.  full screen width, 4 lines tall */
 	r.corner.x = 0;
-	r.corner.y = SIS_SCREEN_HEIGHT - (4 * leading) - RES_BOOL(0, 60); // JMS_GFX
+	r.corner.y = SIS_SCREEN_HEIGHT - (4 * leading) - IF_HD(60); // JMS_GFX
 	r.extent.width = SIS_SCREEN_WIDTH;
-	r.extent.height = (4 * leading) + RES_BOOL(0, 60);// JMS_GFX
+	r.extent.height = (4 * leading) + IF_HD(60);// JMS_GFX
 
 	OldColor = SetContextForeGroundColor (BLACK_COLOR);
 	DrawFilledRectangle (&r);
@@ -707,7 +707,7 @@ DrawFlagshipStats (void)
 			"%-7.7s", describeWeapon (GLOBAL_SIS (ModuleSlots[0])));
 	font_DrawText (&t);
 
-	t.baseline.x = r.extent.width - 25 - RES_BOOL(0, 60); // JMS_GFX
+	t.baseline.x = r.extent.width - 25 - IF_HD(60); // JMS_GFX
 	t.baseline.y = r.corner.y + leading + 3;
 	t.align = ALIGN_RIGHT;
 
@@ -791,9 +791,9 @@ DrawLanders (void)
 	GetFrameRect (s.frame, &r);
 
 	i = GLOBAL_SIS (NumLanders);
-	r.corner.x = (STATUS_WIDTH >> 1) - r.corner.x + RES_BOOL(0,16);
-	s.origin.x = r.corner.x - (((r.extent.width * i) + (2 * (i - 1))) >> 1) + RES_BOOL(0, -16);
-	s.origin.y = RES_STAT_SCALE(29) + RES_BOOL(0,2); // JMS_GFX
+	r.corner.x = (STATUS_WIDTH >> 1) - r.corner.x + IF_HD(16);
+	s.origin.x = r.corner.x - (((r.extent.width * i) + (2 * (i - 1))) >> 1) + IF_HD(-16);
+	s.origin.y = RES_STAT_SCALE(29) + IF_HD(2); // JMS_GFX
 
 	width = r.extent.width + 2;
 	r.extent.width = (r.extent.width * MAX_LANDERS) + (2 * (MAX_LANDERS - 1)) + RES_BOOL(2,-16); // JMS_GFX
@@ -822,11 +822,11 @@ DrawStorageBays (BOOLEAN Refresh)
 
 	r.extent.width  = RES_STAT_SCALE(2); // JMS_GFX
 	r.extent.height = RES_STAT_SCALE(4); // JMS_GFX
-	r.corner.y		= RES_STAT_SCALE(123) + RES_BOOL(0, 23); // JMS_GFX
+	r.corner.y		= RES_STAT_SCALE(123) + IF_HD(23); // JMS_GFX
 	if (Refresh)
 	{
 		r.extent.width = NUM_MODULE_SLOTS * (r.extent.width + 1);
-		r.corner.x = (STATUS_WIDTH >> 1) - (r.extent.width >> 1) + RES_BOOL(0, 2);
+		r.corner.x = (STATUS_WIDTH >> 1) - (r.extent.width >> 1) + IF_HD(2);
 
 		SetContextForeGroundColor (BLACK_COLOR);
 		DrawFilledRectangle (&r);
@@ -838,7 +838,7 @@ DrawStorageBays (BOOLEAN Refresh)
 	{
 		COUNT j;
 
-		r.corner.x = (STATUS_WIDTH >> 1) - ((i * (r.extent.width + RES_STAT_SCALE(1))) >> 1) + RES_BOOL(0, 2);
+		r.corner.x = (STATUS_WIDTH >> 1) - ((i * (r.extent.width + RES_STAT_SCALE(1))) >> 1) + IF_HD(2);
 		SetContextForeGroundColor (STORAGE_BAY_FULL_COLOR);
 		for (j = GLOBAL_SIS (TotalElementMass);
 				j >= STORAGE_BAY_CAPACITY; j -= STORAGE_BAY_CAPACITY)
@@ -857,7 +857,7 @@ DrawStorageBays (BOOLEAN Refresh)
 			r.extent.height = RES_STAT_SCALE(4) - r.extent.height;
 			if (r.extent.height)
 			{
-				r.corner.y = RES_STAT_SCALE(123) + RES_BOOL(0, 23);
+				r.corner.y = RES_STAT_SCALE(123) + IF_HD(23);
 				SetContextForeGroundColor (STORAGE_BAY_EMPTY_COLOR);
 				DrawFilledRectangle (&r);
 			}
@@ -882,7 +882,7 @@ void
 GetGaugeRect (RECT *pRect, BOOLEAN IsCrewRect)
 {
 	pRect->extent.width = RES_STAT_SCALE(24); // JMS_GFX
-	pRect->corner.x = (STATUS_WIDTH >> 1) - (pRect->extent.width >> 1) + RES_BOOL(0,4);
+	pRect->corner.x = (STATUS_WIDTH >> 1) - (pRect->extent.width >> 1) + IF_HD(4);
 	pRect->extent.height = RES_STAT_SCALE(5); // JMS_GFX
 	pRect->corner.y = IsCrewRect ? RES_BOOL(117, 375) : RES_BOOL(38, 120); // JMS_GFX
 }
@@ -905,7 +905,7 @@ DrawPC_SIS (void)
 	r.corner.y -= RES_STAT_SCALE(6); // JMS_GFX
 	r.corner.x -= RES_STAT_SCALE(1); // JMS_GFX
 	r.extent.width += RES_STAT_SCALE(2);
-	r.extent.height += RES_BOOL(0, 2);
+	r.extent.height += IF_HD(2);
 	DrawFilledRectangle (&r);
 
 	SetContextFontEffect (SetAbsFrameIndex (FontGradFrame, 1));
@@ -913,8 +913,8 @@ DrawPC_SIS (void)
 	font_DrawText (&t);
 
 	// Black rectangle behind "CREW" text and crew amount.
-	r.corner.y += RES_STAT_SCALE(79) + RES_BOOL(0, 19); // JMS_GFX
-	t.baseline.y += RES_STAT_SCALE(79) + RES_BOOL(0, 18); // JMS_GFX
+	r.corner.y += RES_STAT_SCALE(79) + IF_HD(19); // JMS_GFX
+	t.baseline.y += RES_STAT_SCALE(79) + IF_HD(18); // JMS_GFX
 	DrawFilledRectangle (&r);
 
 	SetContextFontEffect (SetAbsFrameIndex (FontGradFrame, 2));
@@ -934,7 +934,7 @@ DrawPC_SIS (void)
 
 	// Text "CAPTAIN".
 	SetContextForeGroundColor (PC_CAPTAIN_STRING_TEXT_COLOR);
-	t.baseline.y = r.corner.y + RES_BOOL(6, 18); // JMS_GFX
+	t.baseline.y = r.corner.y + RES_STAT_SCALE(6); // JMS_GFX
 	t.pStr = GAME_STRING (STATUS_STRING_BASE + 5); // "CAPTAIN"
 	font_DrawText (&t);
 }
@@ -1028,7 +1028,7 @@ DrawSupportShips (void)
 		hNextShip = _GetSuccLink (StarShipPtr);
 
 		s.origin.x = RES_STAT_SCALE(pship_pos->x) 
-			+ ((pship_pos - ship_pos) % 2 ? RES_BOOL(0, 5) : RES_BOOL(0, -2)); // JMS_GFX
+			+ ((pship_pos - ship_pos) % 2 ? IF_HD(5) : IF_HD(-2)); // JMS_GFX
 		s.origin.y = RES_STAT_SCALE(pship_pos->y); // JMS_GFX
 		s.frame = SetAbsFrameIndex (StarShipPtr->icons, 2);
 		DrawStamp (&s);
@@ -1310,7 +1310,7 @@ COUNT
 GetCPodCapacity (POINT *ppt)
 {
 	COUNT crewCount, slotNr, seatNr, rowNr, colNr;
-	COUNT ship_piece_offset_scaled = SHIP_PIECE_OFFSET + RES_BOOL(0, 1);  // JMS_GFX
+	COUNT ship_piece_offset_scaled = SHIP_PIECE_OFFSET + IF_HD(1);  // JMS_GFX
 				
 	static const Color crewRows[] = PC_CREW_COLOR_TABLE;
 
@@ -1330,8 +1330,8 @@ GetCPodCapacity (POINT *ppt)
 		SetContextForeGroundColor (THREEDO_CREW_COLOR);
 		
 	ppt->x = (27 << RESOLUTION_FACTOR) + (slotNr * ship_piece_offset_scaled) -
-				((colNr * 2) << RESOLUTION_FACTOR) + RES_BOOL(0, 53); // JMS_GFX
-	ppt->y = ((34 - (rowNr * 2)) << RESOLUTION_FACTOR) + RES_BOOL(0, 20); // JMS_GFX
+				((colNr * 2) << RESOLUTION_FACTOR) + IF_HD(53); // JMS_GFX
+	ppt->y = ((34 - (rowNr * 2)) << RESOLUTION_FACTOR) + IF_HD(20); // JMS_GFX
 
 	return GetCrewPodCapacity ();
 }
@@ -1409,7 +1409,7 @@ COUNT
 GetSBayCapacity (POINT *ppt)
 {
 	COUNT massCount, slotNr, cellNr, rowNr, colNr;
-	COUNT ship_piece_offset_scaled = SHIP_PIECE_OFFSET + RES_BOOL(0, 1);  // JMS_GFX
+	COUNT ship_piece_offset_scaled = SHIP_PIECE_OFFSET + IF_HD(1);  // JMS_GFX
 				
 	static const Color colorBars[] = STORAGE_BAY_COLOR_TABLE;
 
@@ -1431,8 +1431,8 @@ GetSBayCapacity (POINT *ppt)
 		SetContextForeGroundColor (colorBars[rowNr]);
 	}
 		
-	ppt->x = (19 << RESOLUTION_FACTOR) + (slotNr * ship_piece_offset_scaled) + RES_BOOL(0, 53); // JMS_GFX
-	ppt->y = ((34 - (rowNr * 2)) << RESOLUTION_FACTOR) - RES_BOOL(0,9); // JMS_GFX
+	ppt->x = (19 << RESOLUTION_FACTOR) + (slotNr * ship_piece_offset_scaled) + IF_HD(53); // JMS_GFX
+	ppt->y = ((34 - (rowNr * 2)) << RESOLUTION_FACTOR) - IF_HD(9); // JMS_GFX
 
 	return GetStorageBayCapacity ();
 }
@@ -1517,7 +1517,7 @@ GetFTankCapacity (POINT *ppt)
 	DWORD capacity, rowNr, fuelAmount, compartmentNr, volume, volumehelper;
 	COUNT slotNr;
 	BYTE moduleType;
-	COUNT ship_piece_offset_scaled = SHIP_PIECE_OFFSET + RES_BOOL(0, 1);  // JMS_GFX
+	COUNT ship_piece_offset_scaled = SHIP_PIECE_OFFSET + IF_HD(1);  // JMS_GFX
 	
 	static const Color fuelColors[] = FUEL_COLOR_TABLE;
 		
@@ -1547,11 +1547,11 @@ GetFTankCapacity (POINT *ppt)
 	rowNr = ((volumehelper - compartmentNr) * MAX_FUEL_BARS / HEFUEL_TANK_CAPACITY);
 	ppt->x = (21 << RESOLUTION_FACTOR) + (slotNr * ship_piece_offset_scaled);
 	if (volume == FUEL_TANK_CAPACITY) {
-		ppt->x += RES_BOOL(0, 54); // JMS_GFX
-		ppt->y = (27 << RESOLUTION_FACTOR) - rowNr + RES_BOOL(0, 27); // JMS_GFX
+		ppt->x += IF_HD(54); // JMS_GFX
+		ppt->y = (27 << RESOLUTION_FACTOR) - rowNr + IF_HD(27); // JMS_GFX
 	} else {
-		ppt->x += RES_BOOL(0, 53); // JMS_GFX
-		ppt->y = (30 << RESOLUTION_FACTOR) - rowNr + RES_BOOL(0, 43); // JMS_GFX
+		ppt->x += IF_HD(53); // JMS_GFX
+		ppt->y = (30 << RESOLUTION_FACTOR) - rowNr + IF_HD(43); // JMS_GFX
 	}
 	
 	rowNr = ((volume - compartmentNr) * 10 * MAX_FUEL_BARS / HEFUEL_TANK_CAPACITY) /

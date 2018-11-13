@@ -55,10 +55,10 @@ static const COORD hangar_x_coords[HANGAR_SHIPS_ROW] =
 #	define HANGAR_SHIPS_ROW  6
 
 // The Y position of the upper line of hangar bay doors.
-# define HANGAR_Y          ((88 << RESOLUTION_FACTOR) - RES_BOOL(0, 2)) // JMS_GFX
+# define HANGAR_Y	(RES_SCALE(88) - IF_HD(2)) // JMS_GFX
 
 // The Y position of the lower line of hangar bay doors.
-# define HANGAR_DY         ((84 << RESOLUTION_FACTOR) + RES_BOOL(0, 2)) // JMS_GFX
+# define HANGAR_DY	(RES_SCALE(84) + IF_HD(2)) // JMS_GFX
 
 
 // The X positions of the hangar bay doors for each resolution mode.
@@ -210,9 +210,9 @@ DrawRaceStrings (MENU_STATE *pMS, BYTE NewRaceItem)
 	s.origin.x = RADAR_X - r.corner.x;
 	s.origin.y = RADAR_Y - r.corner.y;
 	r.corner.x = s.origin.x - 1;
-	r.corner.y = s.origin.y - RES_BOOL(11, 33); // JMS_GFX
+	r.corner.y = s.origin.y - RES_STAT_SCALE(11); // JMS_GFX
 	r.extent.width = RADAR_WIDTH + 2;
-	r.extent.height = RES_BOOL(11, 33); // JMS_GFX
+	r.extent.height = RES_STAT_SCALE(11); // JMS_GFX
 	BatchGraphics ();
 	ClearSISRect (CLEAR_SIS_RADAR);
 	SetContextForeGroundColor (
@@ -458,7 +458,7 @@ ShowCombatShip (MENU_STATE *pMS, COUNT which_window,
 
 		for (j = 0; (j < (int)SHIP_WIN_FRAMES) && !AllDoorsFinished; j++)
 		{
-			SleepThreadUntil (TimeIn + ONE_SECOND / 24);
+			SleepThreadUntil (TimeIn + ONE_SECOND / RES_SCALE(24));
 			TimeIn = GetTimeCounter ();
 			if (AnyButtonPress (FALSE))
 			{
@@ -1480,8 +1480,8 @@ DrawBluePrint (MENU_STATE *pMS)
 				
 			GetFTankCapacity (&r.corner);
 			//log_add(log_Debug, "volume on %u, hefueltankcapacity %u", volume, HEFUEL_TANK_CAPACITY);
-			r.corner.y -= volume == HEFUEL_TANK_CAPACITY ? RES_BOOL(0, 19) : RES_BOOL(0, 28); // JMS_GFX
-			r.corner.x += volume == HEFUEL_TANK_CAPACITY ? RES_BOOL(0,2) : RES_BOOL(0,1); // JMS_GFX
+			r.corner.y -= volume == HEFUEL_TANK_CAPACITY ? IF_HD(19) : IF_HD(28); // JMS_GFX
+			r.corner.x += volume == HEFUEL_TANK_CAPACITY ? IF_HD(2) : IF_HD(1); // JMS_GFX
 			DrawPoint (&r.corner);
 			r.corner.x += r.extent.width + 1;
 			DrawPoint (&r.corner);

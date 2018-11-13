@@ -37,6 +37,7 @@ extern int ScreenHeight;
 #define RES_STAT_SCALE(a) (RESOLUTION_FACTOR != HD ? (a) : ((a) * 3))	// JMS_GFX
 #define RES_SCALE(a) ((a) << RESOLUTION_FACTOR)							// Serosis
 #define RES_BOOL(a,b) (RESOLUTION_FACTOR != HD ? (a) : (b))				// Serosis
+#define IF_HD(a) (RES_BOOL(0, (a)))										// Serosis
 
 		/* Margins. */
 #define SAFE_X 0
@@ -83,7 +84,7 @@ extern int ScreenHeight;
 #define STATUS_MESSAGE_HEIGHT  RES_BOOL(7, 24) // JMS_GFX
 
 #define SHIP_NAME_WIDTH        (STATUS_WIDTH - RES_BOOL(4, 9))// JMS_GFX
-#define SHIP_NAME_HEIGHT       (RES_STAT_SCALE(7) - RES_BOOL(0,4)) // JMS_GFX
+#define SHIP_NAME_HEIGHT       (RES_STAT_SCALE(7) - IF_HD(4)) // JMS_GFX
 
 		/* A lot of other shit. */
 #define MAX_REDUCTION 3

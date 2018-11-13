@@ -195,12 +195,12 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 		if (nameCaptain)
 		{	// Naming the captain
 			Font = TinyFont;
-			r.corner.x = RES_STAT_SCALE(3) - RES_BOOL(0, 5); // JMS_GFX
+			r.corner.x = RES_STAT_SCALE(3) - IF_HD(5); // JMS_GFX
 			r.corner.y = RES_BOOL(10, 32); // JMS_GFX
 			r.extent.width = SHIP_NAME_WIDTH - RES_BOOL(2, 0);		// JMS_GFX
 			r.extent.height += RESOLUTION_FACTOR; // JMS_GFX
 			lf.baseline.x = (STATUS_WIDTH >> 1) - RES_BOOL(1, -1);
-			lf.baseline.y = r.corner.y + r.extent.height - RES_BOOL(1, 3);
+			lf.baseline.y = r.corner.y + r.extent.height - RES_STAT_SCALE(1);
 
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x1F), 0x09);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x0A, 0x1F, 0x1F), 0x0B);
@@ -211,9 +211,9 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 			r.corner.x = RES_BOOL(2, 5); // JMS_GFX
 			r.corner.y = RES_BOOL(20, 63); // JMS_GFX
 			r.extent.width = SHIP_NAME_WIDTH;
-			r.extent.height += RES_BOOL(0,1); // JMS_GFX
+			r.extent.height += IF_HD(1); // JMS_GFX
 			lf.baseline.x = r.corner.x + (r.extent.width >> 1);
-			lf.baseline.y = r.corner.y + r.extent.height - RES_BOOL(1, 3); // JMS_GFX
+			lf.baseline.y = r.corner.y + r.extent.height - RES_STAT_SCALE(3); // JMS_GFX
 
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0F, 0x00, 0x00), 0x2D);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x1F, 0x0A, 0x00), 0x7D);
@@ -839,7 +839,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		// Hack StatusContext so we can use standard SIS display funcs
 		GetContextClipRect (&OldRect);
 		r.corner.x = SIS_ORG_X + ((SIS_SCREEN_WIDTH - STATUS_WIDTH) >> 1) +
-				SAFE_X - (16 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + RES_BOOL(0,6); // JMS_GFX
+				SAFE_X - (16 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + IF_HD(6); // JMS_GFX
 		r.corner.y = SIS_ORG_Y; // JMS_GFX
 		r.extent.width = STATUS_WIDTH + 2 * RESOLUTION_FACTOR; // JMS_GFX
 		r.extent.height = STATUS_HEIGHT;
@@ -866,7 +866,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		{
 			COUNT j;
 
-			s.origin.x = (140 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + RES_BOOL(0, 110); // JMS_GFX
+			s.origin.x = (140 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + IF_HD(110); // JMS_GFX
 			for (j = 0; j < 4; ++j)
 			{
 				COUNT devIndex = (i * 4) + j;
@@ -882,7 +882,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		}
 
 		SetContextFont (StarConFont);
-		t.baseline.x = (173 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + RES_BOOL(0, 110); // JMS_GFX
+		t.baseline.x = (173 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + IF_HD(110); // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.CharCount = (COUNT)~0;
 		t.pStr = buf;

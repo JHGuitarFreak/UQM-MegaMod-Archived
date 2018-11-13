@@ -33,8 +33,8 @@
 #include <string.h>
 
 
-#define NUM_CELL_COLS (MAP_WIDTH / (6 << RESOLUTION_FACTOR) + RES_BOOL(0, 7) - (optWhichFonts == OPT_PC ? 0 : RES_BOOL(0, 1))) // JMS_GFX 
-#define NUM_CELL_ROWS (MAP_HEIGHT / (6 << RESOLUTION_FACTOR) + RES_BOOL(0, 2)) // JMS_GFX
+#define NUM_CELL_COLS (MAP_WIDTH / (6 << RESOLUTION_FACTOR) + IF_HD(7) - (optWhichFonts == OPT_PC ? 0 : IF_HD(1))) // JMS_GFX 
+#define NUM_CELL_ROWS (MAP_HEIGHT / (6 << RESOLUTION_FACTOR) + IF_HD(2)) // JMS_GFX
 #define MAX_CELL_COLS 40
 
 extern FRAME SpaceJunkFrame;
@@ -70,8 +70,8 @@ ClearReportArea (void)
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x00, 0x07, 0x00), 0x57));
 	
-	startx = 1 + (r.extent.width >> 1) - 1 - (4 * RESOLUTION_FACTOR) + RES_BOOL(0,8);  // JMS_GFX
-	s.origin.y = 1 + RES_BOOL(0,9);
+	startx = 1 + (r.extent.width >> 1) - 1 - (4 * RESOLUTION_FACTOR) + IF_HD(8);  // JMS_GFX
+	s.origin.y = 1 + IF_HD(9);
 	for (y = 0; y < emptyrows; ++y)
 	{
 		s.origin.x = startx;
