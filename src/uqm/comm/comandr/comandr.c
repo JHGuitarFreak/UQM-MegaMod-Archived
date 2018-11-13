@@ -25,6 +25,8 @@
 		// for DeltaSISGauges(), DrawLanders()
 #include "libs/graphics/gfx_common.h"
 #include "uqm/lua/luacomm.h"
+#include "uqm/settings.h"
+#include "uqm/nameref.h"
 
 static LOCDATA commander_desc =
 {
@@ -568,6 +570,12 @@ GiveRadios (RESPONSE_REF R)
 		XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
 				), ONE_SECOND / 2);
+
+		if ((CommData.AlienSongFlags & LDASF_USE_ALTERNATE) && CommData.AlienAltSongRes) {
+			StopMusic();
+			CommData.AlienSong = LoadMusic(CommData.AlienSongRes);
+			PlayMusic(CommData.AlienSong, TRUE, 1);
+		}
 
 		AlienTalkSegue ((COUNT)~0);
 
