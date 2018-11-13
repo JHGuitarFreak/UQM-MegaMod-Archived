@@ -477,7 +477,7 @@ dukv_RenderFrame (THIS_PTR)
 			for (y = 0; y < h; ++y) {
 				uint16 *dst0, *dst1;
 
-				dst0 = (uint16*) This->callbacks.GetCanvasLine (This, y * 2 + RES_BOOL(0, 1));
+				dst0 = (uint16*) This->callbacks.GetCanvasLine (This, y * 2 + IF_HD(1));
 				dst1 = (uint16*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
 
 				if (RESOLUTION_FACTOR == HD && y % scale != 0)
@@ -498,7 +498,7 @@ dukv_RenderFrame (THIS_PTR)
 			for (y = 0; y < h; ++y) {
 				uint8 *dst0, *dst1;
 
-				dst0 = (uint8*) This->callbacks.GetCanvasLine (This, y * 2 + RES_BOOL(0, 1));
+				dst0 = (uint8*) This->callbacks.GetCanvasLine (This, y * 2 + IF_HD(1));
 				dst1 = (uint8*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
 
 				if (RESOLUTION_FACTOR == HD && y % scale != 0)
@@ -520,7 +520,7 @@ dukv_RenderFrame (THIS_PTR)
 			for (y = 0; y < h; ++y) {
 				uint32 *dst0, *dst1;
 
-				dst0 = (uint32*) This->callbacks.GetCanvasLine (This, y * 2 + RES_BOOL(0, 0));
+				dst0 = (uint32*) This->callbacks.GetCanvasLine (This, y * 2 + IF_HD(0));
 				dst1 = (uint32*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
 
 				if (RESOLUTION_FACTOR == HD && y % scale != 0)
