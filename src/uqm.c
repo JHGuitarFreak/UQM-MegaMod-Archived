@@ -1329,7 +1329,7 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				break;
 			}
 			case SPACEMUSIC_OPT:
-				optCustomBorder = TRUE;
+				optSpaceMusic = TRUE;
 				break;
 			case MELEE_OPT:
 				optSuperMelee = TRUE;

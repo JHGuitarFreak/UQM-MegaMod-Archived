@@ -94,6 +94,7 @@ int savedSeed;
 int newGameSeed;
 int spaceMusicBySOI;
 BOOLEAN optSpaceMusic;
+BOOLEAN optVolasMusic;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;
