@@ -170,8 +170,8 @@ static WIDGET *music_widgets[] = {
 	(WIDGET *)(&choices[9]),	// 3DO Remixes
 	(WIDGET *)(&choices[21]),	// Precursor's Remixes
 	(WIDGET *)(&choices[48]),	// Serosis: Volasaurus' Remix Pack
-	(WIDGET *)(&choices[34]),	// JMS: Main Menu Music
 	(WIDGET *)(&choices[47]),	// Serosis: Volasaurus' Space Music
+	(WIDGET *)(&choices[34]),	// JMS: Main Menu Music
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -1758,8 +1758,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		}
 		if((opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
 			(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
-			(opts->volasRemix != (optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED))){
+			(opts->volasRemix != (optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)))
+		{
 			printf("Music Option Changed\n");
+			optRequiresRestart = TRUE;
 		}		
  		optRequiresReload = TRUE;
 	}
@@ -1767,7 +1769,8 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// MB: To force the game to restart when changing resolution options (otherwise they will not be changed)
 	if(oldResFactor != resolutionFactor ||
 		audioDriver != opts->adriver ||
-		audioQuality != opts->aquality)
+		audioQuality != opts->aquality ||
+		(opts->stereo != (optStereoSFX ? OPTVAL_ENABLED : OPTVAL_DISABLED)))
  		optRequiresRestart = TRUE;
 
 	res_PutInteger ("config.reswidth", NewWidth);

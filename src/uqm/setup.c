@@ -149,8 +149,6 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 			printf("Loading Sol Textures \n");
 			log_add(log_Debug, "loading sol-textures-4x");
 		}
-		loadAddon("alt-kohr-4x");
-		loadAddon("orange-peel-melnorme4x");
 		loadAddon("yellow-fried-4x");
 	}
 
@@ -187,9 +185,10 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 	if(ReloadPackages)
 		optRequiresReload = FALSE;
 
+	/* Now load the rest of the addons, in order. */
+	prepareAddons(optAddons);
+
 	if(!ReloadPackages){
-		/* Now load the rest of the addons, in order. */
-		prepareAddons (optAddons);
 
 		{
 			COLORMAP ColorMapTab;

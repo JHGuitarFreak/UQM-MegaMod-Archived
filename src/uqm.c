@@ -161,6 +161,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, customBorder);
 	DECL_CONFIG_OPTION(int, customSeed);
 	DECL_CONFIG_OPTION(bool, spaceMusic);
+	DECL_CONFIG_OPTION(bool, volasRemix);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -324,6 +325,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  customBorder,		true),
 		INIT_CONFIG_OPTION(  customSeed,		PrimeA),
 		INIT_CONFIG_OPTION(  spaceMusic,		false),
+		INIT_CONFIG_OPTION(	 volasMusic,		false),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -506,6 +508,7 @@ main (int argc, char *argv[])
 	optRequiresReload = FALSE; // Serosis
 	optRequiresRestart = FALSE; // JMS_GFX
 	optSpaceMusic = options.spaceMusic.value;
+	optVolasMusic = options.volasRemix.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -837,6 +840,7 @@ getUserConfigOptions (struct options_struct *options)
 		options->customSeed.value = res_GetInteger ("config.customSeed");
 	}
 	getBoolConfigValue(&options->spaceMusic, "config.spaceMusic");
+	getBoolConfigValue(&options->volasRemix, "config.volasRemix");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
