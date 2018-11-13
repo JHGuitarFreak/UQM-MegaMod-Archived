@@ -66,6 +66,7 @@ static int do_cheats (WIDGET *self, int event);
 static int do_keyconfig (WIDGET *self, int event);
 static int do_advanced (WIDGET *self, int event);
 static int do_editkeys (WIDGET *self, int event);
+static int do_music(WIDGET *self, int event); // Serosis
 static void change_template (WIDGET_CHOICE *self, int oldval);
 static void rename_template (WIDGET_TEXTENTRY *self);
 static void rebind_control (WIDGET_CONTROLENTRY *widget);
@@ -77,10 +78,10 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #define RES_OPTS 2
 #endif
 
-#define MENU_COUNT          8
-#define CHOICE_COUNT       48
+#define MENU_COUNT          9
+#define CHOICE_COUNT       49
 #define SLIDER_COUNT        4
-#define BUTTON_COUNT       10
+#define BUTTON_COUNT       11
 #define LABEL_COUNT         4
 #define TEXTENTRY_COUNT     1
 #define CONTROLENTRY_COUNT  7
@@ -106,12 +107,12 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2, 
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
 	2, 2, 2, 2, 3, 2, 2, 2, 2, 3,
-	2, 2, 2, 2 };
+	2, 2, 2, 2, 2 };
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
 	do_audio, do_cheats, do_keyconfig, do_advanced, do_editkeys, 
-	do_keyconfig };
+	do_keyconfig, do_music };
 
 /* These refer to uninitialized widgets, but that's OK; we'll fill
  * them in before we touch them */
@@ -119,6 +120,7 @@ static WIDGET *main_widgets[] = {
 	(WIDGET *)(&buttons[2]),	// Graphics
 	(WIDGET *)(&buttons[3]),	// PC/3DO Compat Options
 	(WIDGET *)(&buttons[4]),	// Sound
+	(WIDGET *)(&buttons[10]),	// Music
 	(WIDGET *)(&buttons[5]),	// Cheats
 	(WIDGET *)(&buttons[6]),	// Controls
 	(WIDGET *)(&buttons[7]),	// Advanced
@@ -145,6 +147,7 @@ static WIDGET *engine_widgets[] = {
 	(WIDGET *)(&choices[5]),	// Font Style
 	(WIDGET *)(&choices[6]),	// Scan Style
 	(WIDGET *)(&choices[7]),	// Scroll Style
+	(WIDGET *)(&choices[22]),	// Speech
 	(WIDGET *)(&choices[8]),	// Subtitles
 	(WIDGET *)(&choices[13]),	// Melee Zoom
 	(WIDGET *)(&choices[11]),	// Cutscenes
@@ -157,14 +160,18 @@ static WIDGET *audio_widgets[] = {
 	(WIDGET *)(&sliders[0]),	// Music Volume
 	(WIDGET *)(&sliders[1]),	// SFX Volume
 	(WIDGET *)(&sliders[2]),	// Speech Volume
-	(WIDGET *)(&choices[14]),	// Positional Audio	
+	(WIDGET *)(&choices[14]),	// Positional Audio
 	(WIDGET *)(&choices[15]),	// Sound Driver
 	(WIDGET *)(&choices[16]),	// Sound Quality
+	(WIDGET *)(&buttons[1]),
+	NULL };
+
+static WIDGET *music_widgets[] = {
 	(WIDGET *)(&choices[9]),	// 3DO Remixes
 	(WIDGET *)(&choices[21]),	// Precursor's Remixes
-	(WIDGET *)(&choices[22]),	// Speech
+	(WIDGET *)(&choices[48]),	// Serosis: Volasaurus' Remix Pack
 	(WIDGET *)(&choices[34]),	// JMS: Main Menu Music
-	(WIDGET *)(&choices[47]),	// Serosis: Space Music
+	(WIDGET *)(&choices[47]),	// Serosis: Volasaurus' Space Music
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -233,6 +240,7 @@ menu_defs[] =
 	{keyconfig_widgets, 5},
 	{advanced_widgets, 6},
 	{editkeys_widgets, 7},
+	{music_widgets, 8},
 	{NULL, 0}
 };
 
@@ -344,6 +352,19 @@ do_advanced (WIDGET *self, int event)
 	if (event == WIDGET_EVENT_SELECT)
 	{
 		next = (WIDGET *)(&menus[6]);
+		(*next->receiveFocus) (next, WIDGET_EVENT_DOWN);
+		return TRUE;
+	}
+	(void)self;
+	return FALSE;
+}
+
+static int
+do_music(WIDGET *self, int event)
+{
+	if (event == WIDGET_EVENT_SELECT)
+	{
+		next = (WIDGET *)(&menus[8]);
 		(*next->receiveFocus) (next, WIDGET_EVENT_DOWN);
 		return TRUE;
 	}
@@ -475,6 +496,7 @@ SetDefaults (void)
 	choices[45].selected = opts.scalePlanets;
 	choices[46].selected = opts.customBorder;
 	choices[47].selected = opts.spaceMusic;
+	choices[48].selected = opts.volasRemix;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -537,6 +559,7 @@ PropagateResults (void)
 	opts.scalePlanets = choices[45].selected;
 	opts.customBorder = choices[46].selected;
 	opts.spaceMusic = choices[47].selected;
+	opts.volasRemix = choices[48].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1452,6 +1475,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->customSeed = res_GetInteger ("config.customSeed");
 	opts->spaceMusic = optSpaceMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
+	opts->volasRemix = optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 
 	// Serosis: 320x240
 	if (!resolutionFactor) {
@@ -1720,10 +1744,11 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	}
 
 	// Serosis: To force the game to reload content when changing music, video, and speech options
- 	if ((opts->speech != (optSpeech ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || 
-		(opts->intro != (optWhichIntro == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC) || 
-		(opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || 
-		(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)))
+ 	if ((opts->speech != (optSpeech ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
+		(opts->intro != (optWhichIntro == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC) ||
+		(opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
+		(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
+		(opts->volasRemix != (optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)))
 	{
 		if(opts->speech != (optSpeech ? OPTVAL_ENABLED : OPTVAL_DISABLED)){
 			printf("Voice Option Changed\n");
@@ -1731,8 +1756,9 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		if(opts->intro != (optWhichIntro == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC){
 			printf("Video/Slide Option Changed\n");
 		}
-		if((opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) || 
-			(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED))){
+		if((opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
+			(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
+			(opts->volasRemix != (optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED))){
 			printf("Music Option Changed\n");
 		}		
  		optRequiresReload = TRUE;
@@ -1877,6 +1903,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Play localized music for different races when within their borders
 	res_PutBoolean("config.spaceMusic", opts->spaceMusic == OPTVAL_ENABLED);
 	optSpaceMusic = opts->spaceMusic == OPTVAL_ENABLED;
+
+	// Serosis: Enable Volasaurus' music remixes
+	res_PutBoolean("config.volasRemix", opts->volasRemix == OPTVAL_ENABLED);
+	optVolasMusic = (opts->volasRemix == OPTVAL_ENABLED);
 
 	if (opts->scanlines && !resolutionFactor) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
