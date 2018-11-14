@@ -99,6 +99,8 @@ OutlineShipStatus (COORD y, COORD w, BOOLEAN inMeleeMenu)
 {
 	RECT r;
 
+	// Ship status border
+
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x08, 0x08, 0x08), 0x1F));
 	r.corner.x = 0;
