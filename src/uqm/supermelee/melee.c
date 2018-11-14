@@ -433,19 +433,19 @@ GetTeamStringRect (COUNT side, RECT *r)
 	r->corner.y = (side + 1) * (MELEE_Y_OFFS
 			+ ((MELEE_BOX_HEIGHT + MELEE_BOX_SPACE) * NUM_MELEE_ROWS + 2));
 	r->extent.width = NUM_MELEE_COLUMNS * (MELEE_BOX_WIDTH + MELEE_BOX_SPACE)
-			- (29 << RESOLUTION_FACTOR);
-	r->extent.height = RES_BOOL(13, 32);
+			- RES_SCALE(29);
+	r->extent.height = RES_SCALE(13);
 }
 
 static void
 GetFleetValueRect (COUNT side, RECT *r)
 {
 	r->corner.x = MELEE_X_OFFS
-			+ NUM_MELEE_COLUMNS * (MELEE_BOX_WIDTH + MELEE_BOX_SPACE) - (30 << RESOLUTION_FACTOR);
+			+ NUM_MELEE_COLUMNS * (MELEE_BOX_WIDTH + MELEE_BOX_SPACE) - RES_SCALE(30);
 	r->corner.y = (side + 1) * (MELEE_Y_OFFS
 			+ ((MELEE_BOX_HEIGHT + MELEE_BOX_SPACE) * NUM_MELEE_ROWS + 2));
-	r->extent.width = 29 << RESOLUTION_FACTOR;
-	r->extent.height = RES_BOOL(13, 32);
+	r->extent.width = RES_SCALE(9);
+	r->extent.height = RES_SCALE(13);
 }
 
 static void
