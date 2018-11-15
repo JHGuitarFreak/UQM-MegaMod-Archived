@@ -27,6 +27,8 @@
 #include "encount.h"
 		// for EncounterGroup, EncounterRace
 #include "libs/mathlib.h"
+#include "nameref.h"
+#include "ships/slylandr/resinst.h"
 
 
 void
@@ -453,19 +455,22 @@ CheckGetAway:
 			}
 		}
 		
-		//BW : make IP ships face the direction they're going into
-		suggestedFrame = SetAbsFrameIndex(ElementPtr->next.image.farray[0], 1 + NORMALIZE_FACING (ANGLE_TO_FACING (ARCTAN (delta_x, delta_y))));
-		
-		// JMS: Direction memory prevents jittering of battle group icons when they are orbiting a planet (and not chasing the player ship).		
-		if (isOrbiting)
-		{
-			// This works because ships always orbit planets clockwise.
-			if (GroupPtr->lastDirection < NORMALIZE_FACING (ANGLE_TO_FACING (ARCTAN (delta_x, delta_y)))
-				|| GroupPtr->lastDirection == 15)
-				ElementPtr->next.image.frame = suggestedFrame;
+		if (GroupPtr->race_id != SLYLANDRO_SHIP) {
+			//BW : make IP ships face the direction they're going into
+			suggestedFrame = SetAbsFrameIndex(EPtr->next.image.farray[0], 1 + NORMALIZE_FACING(ANGLE_TO_FACING(ARCTAN(delta_x, delta_y))));
+
+			// JMS: Direction memory prevents jittering of battle group icons when they are orbiting a planet (and not chasing the player ship).		
+			if (isOrbiting) {
+				// This works because ships always orbit planets clockwise.
+				if (GroupPtr->lastDirection < NORMALIZE_FACING(ANGLE_TO_FACING(ARCTAN(delta_x, delta_y)))
+					|| GroupPtr->lastDirection == 15)
+					EPtr->next.image.frame = suggestedFrame;
+			} else
+				EPtr->next.image.frame = suggestedFrame;
+		} else {
+			EPtr->next.image.frame = IncFrameIndex(EPtr->next.image.frame);
 		}
-		else
-			ElementPtr->next.image.frame = suggestedFrame;
+
 		
 		GroupPtr->lastDirection = NORMALIZE_FACING (ANGLE_TO_FACING (ARCTAN (delta_x, delta_y)));
 	}
@@ -595,6 +600,9 @@ spawn_ip_group (IP_GROUP *GroupPtr)
 		IPSHIPElementPtr->hit_points = 1;
 		IPSHIPElementPtr->state_flags =
 				CHANGING | FINITE_LIFE | IGNORE_VELOCITY;
+
+		if(GroupPtr->race_id == SLYLANDRO_SHIP)
+			GroupPtr->melee_icon = CaptureDrawable(LoadGraphic(SLYLANDRO_SML_MASK_PMAP_ANIM));
 
 		SetPrimType (&DisplayArray[IPSHIPElementPtr->PrimIndex], STAMP_PRIM);
 		// XXX: Hack: farray points to FRAME[3] and given FRAME
