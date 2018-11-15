@@ -444,7 +444,7 @@ GetFleetValueRect (COUNT side, RECT *r)
 			+ NUM_MELEE_COLUMNS * (MELEE_BOX_WIDTH + MELEE_BOX_SPACE) - RES_SCALE(30);
 	r->corner.y = (side + 1) * (MELEE_Y_OFFS
 			+ ((MELEE_BOX_HEIGHT + MELEE_BOX_SPACE) * NUM_MELEE_ROWS + 2));
-	r->extent.width = RES_SCALE(9);
+	r->extent.width = RES_SCALE(29);
 	r->extent.height = RES_SCALE(13);
 }
 
