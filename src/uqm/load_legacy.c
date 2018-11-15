@@ -1459,7 +1459,7 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp, BOOLEAN try_vanilla)
 		{
 			// Serosis: A bit of maths to fix the discrepency between Vanilla and HD
 			// Hyperspace coordinates.
-			float xPercent = 0.16, yPercent= -16.66;
+			float xPercent = 0.16f, yPercent = -16.66f;
 			temp_log_x = (float)temp_log_x + ((xPercent / 100) * (float)temp_log_x);
 			temp_log_y = (float)temp_log_y + ((yPercent / 100) * (float)temp_log_y);
 		}
