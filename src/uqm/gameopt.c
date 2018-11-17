@@ -200,7 +200,7 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 			r.extent.width = SHIP_NAME_WIDTH - RES_BOOL(2, 0);		// JMS_GFX
 			r.extent.height += RESOLUTION_FACTOR; // JMS_GFX
 			lf.baseline.x = (STATUS_WIDTH >> 1) - RES_BOOL(1, -1);
-			lf.baseline.y = r.corner.y + r.extent.height - RES_STAT_SCALE(1);
+			lf.baseline.y = r.corner.y + r.extent.height - RES_BOOL(1, 3);
 
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x1F), 0x09);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x0A, 0x1F, 0x1F), 0x0B);
@@ -213,7 +213,7 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 			r.extent.width = SHIP_NAME_WIDTH;
 			r.extent.height += IF_HD(1); // JMS_GFX
 			lf.baseline.x = r.corner.x + (r.extent.width >> 1);
-			lf.baseline.y = r.corner.y + r.extent.height - RES_STAT_SCALE(3); // JMS_GFX
+			lf.baseline.y = r.corner.y + r.extent.height - RES_BOOL(1, 3); // JMS_GFX
 
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0F, 0x00, 0x00), 0x2D);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x1F, 0x0A, 0x00), 0x7D);
