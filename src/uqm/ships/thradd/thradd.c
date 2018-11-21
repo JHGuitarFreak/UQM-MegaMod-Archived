@@ -394,7 +394,7 @@ init_thraddash (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		thraddash_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		thraddash_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		thraddash_desc.cyborg_control.WeaponRange = (MISSILE_SPEED_HD * MISSILE_LIFE) >> 1;

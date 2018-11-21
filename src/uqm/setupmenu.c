@@ -1478,7 +1478,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->volasRemix = optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 
 	// Serosis: 320x240
-	if (!resolutionFactor) {
+	if (RESOLUTION_FACTOR != HD) {
 		switch (ScreenWidthActual) {
 		case 320:
 			if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE) {
@@ -1911,7 +1911,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutBoolean("config.volasRemix", opts->volasRemix == OPTVAL_ENABLED);
 	optVolasMusic = (opts->volasRemix == OPTVAL_ENABLED);
 
-	if (opts->scanlines && !resolutionFactor) {
+	if (opts->scanlines && RESOLUTION_FACTOR != HD) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
 	} else {
 		NewGfxFlags &= ~TFB_GFXFLAGS_SCANLINES;
@@ -1919,7 +1919,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	if (opts->fullscreen){
 		NewGfxFlags |= TFB_GFXFLAGS_FULLSCREEN;
 		// JMS: Force the usage of bilinear scaler in 1280x960 and 640x480 fullscreen.
-		if (resolutionFactor == HD) {
+		if (RESOLUTION_FACTOR == HD) {
 			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
 			res_PutString ("config.scaler", "bilinear");
 		}
@@ -1927,7 +1927,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		NewGfxFlags &= ~TFB_GFXFLAGS_FULLSCREEN;
 		// Serosis: Force the usage of no filter in 1280x960 windowed mode.
 		// While forcing the usage of bilinear filter in scaled windowed modes.
-		if(resolutionFactor == HD){
+		if(RESOLUTION_FACTOR == HD){
 			switch(NewWidth){
 				case 640:
 				case 960:

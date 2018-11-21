@@ -422,16 +422,16 @@ DrawSaveNameString (UNICODE *Str, COUNT CursorPos, COUNT state, COUNT gameIndex)
 	snprintf (fullStr, sizeof fullStr, "%s%s", dateStr, Str);
 
 	SetContextForeGroundColor (BUILD_COLOR (MAKE_RGB15 (0x1B, 0x00, 0x1B), 0x33));
-	r.extent.width = 15 << RESOLUTION_FACTOR; // JMS_GFX
+	r.extent.width = RES_SCALE(15); // JMS_GFX
 	if (MAX_SAVED_GAMES > 99)
 		r.extent.width += RES_SCALE(5); // JMS_GFX
-	r.extent.height = 11 << RESOLUTION_FACTOR; // JMS_GFX
+	r.extent.height = RES_SCALE(11); // JMS_GFX
 	r.corner.x = RES_SCALE(8); // JMS_GFX
-	r.corner.y = (160 + ((gameIndex % SAVES_PER_PAGE) * 13)) << RESOLUTION_FACTOR; // JMS_GFX
+	r.corner.y = RES_SCALE(160 + ((gameIndex % SAVES_PER_PAGE) * 13)); // JMS_GFX
 	DrawRectangle (&r);
 
 	r.extent.width = RES_SCALE(204); // JMS_GFX
-	r.corner.x = (30) << RESOLUTION_FACTOR; // JMS_GFX
+	r.corner.x = RES_SCALE(30); // JMS_GFX
 	DrawRectangle (&r);
 
 	Font = TinyFont;
@@ -787,7 +787,7 @@ DrawSavegameCargo (SIS_STATE *sisState)
 
 	// draw Bio icon
 	s.origin.x = RES_SCALE(24) + SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS; // JMS_GFX
-	s.origin.y = 68 << RESOLUTION_FACTOR; // JMS_GFX
+	s.origin.y = RES_SCALE(68); // JMS_GFX
 	s.frame = SetAbsFrameIndex (s.frame, 68);
 	DrawStamp (&s);
 	// print Bio amount
@@ -866,7 +866,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		{
 			COUNT j;
 
-			s.origin.x = (140 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + IF_HD(110); // JMS_GFX
+			s.origin.x = RES_SCALE(140) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + IF_HD(110); // JMS_GFX
 			for (j = 0; j < 4; ++j)
 			{
 				COUNT devIndex = (i * 4) + j;
@@ -882,7 +882,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		}
 
 		SetContextFont (StarConFont);
-		t.baseline.x = (173 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + IF_HD(110); // JMS_GFX
+		t.baseline.x = RES_SCALE(173) + SUMMARY_X_OFFS + SUMMARY_SIDE_OFFS + IF_HD(110); // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.CharCount = (COUNT)~0;
 		t.pStr = buf;
@@ -906,7 +906,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 			// Hack RadarContext so we can use standard Lander display funcs
 			GetContextClipRect (&OldRect);
 			r.corner.x = SIS_ORG_X + RES_BOOL(10, 70) + SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS; // JMS_GFX
-			r.corner.y = SIS_ORG_Y + (84 << RESOLUTION_FACTOR); // JMS_GFX
+			r.corner.y = SIS_ORG_Y + RES_SCALE(84); // JMS_GFX
 			r.extent = OldRect.extent;
 			SetContextClipRect (&r);
 			// draw the lander with upgrades
@@ -915,13 +915,13 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 			SetContext (SpaceContext);
 
 			snprintf (buf, sizeof buf, "%u", pSD->SS.ResUnits);
-			t.baseline.y = 102 << RESOLUTION_FACTOR; // JMS_GFX
+			t.baseline.y = RES_SCALE(102); // JMS_GFX
 			SetContextForeGroundColor (
 					BUILD_COLOR (MAKE_RGB15 (0x10, 0x00, 0x10), 0x01));
 			font_DrawText (&t);
 			t.CharCount = (COUNT)~0;
 		}
-		t.baseline.y = 126 << RESOLUTION_FACTOR; // JMS_GFX
+		t.baseline.y = RES_SCALE(126); // JMS_GFX
 		snprintf (buf, sizeof buf, "%u",
 				MAKE_WORD (pSD->MCreditLo, pSD->MCreditHi));
 		SetContextForeGroundColor (
@@ -930,7 +930,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 
 		// print the location
 		t.baseline.x = RES_SCALE(6); // JMS_GFX
-		t.baseline.y = (139 + 6) << RESOLUTION_FACTOR; // JMS_GFX;
+		t.baseline.y = RES_SCALE(139 + 6); // JMS_GFX;
 		t.align = ALIGN_LEFT;
 		t.pStr = buf;
 		starPt.x = LOGX_TO_UNIVERSE (pSD->SS.log_x);
@@ -1020,8 +1020,8 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 	SetContextFont (TinyFont);
 
 	// Erase the selection menu
-	r.extent.width = 240 << RESOLUTION_FACTOR; // JMS_GFX
-	r.extent.height = 65 << RESOLUTION_FACTOR; // JMS_GFX
+	r.extent.width = RES_SCALE(240); // JMS_GFX
+	r.extent.height = RES_SCALE(65); // JMS_GFX
 	r.corner.x = RES_SCALE(1); // JMS_GFX
 	r.corner.y = RES_SCALE(160); // JMS_GFX
 	SetContextForeGroundColor (BLACK_COLOR);
@@ -1044,12 +1044,12 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 				(BUILD_COLOR (MAKE_RGB15 (0x1B, 0x00, 0x1B), 0x33)): 
 				( RESOLUTION_FACTOR != HD ?
 				(BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x14), 0x01)) : (BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x19), 0x01))));
-		r.extent.width = 15 << RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.width = RES_SCALE(15); // JMS_GFX
 		if (MAX_SAVED_GAMES > 99)
 			r.extent.width += RES_SCALE(5); // JMS_GFX
-		r.extent.height = 11 << RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.height = RES_SCALE(11); // JMS_GFX
 		r.corner.x = RES_SCALE(8); // JMS_GFX
-		r.corner.y = (160 + (i * 13)) << RESOLUTION_FACTOR; // JMS_GFX
+		r.corner.y = RES_SCALE(160 + (i * 13)); // JMS_GFX
 		DrawRectangle (&r);
 
 		t.baseline.x = r.corner.x + RES_BOOL(3, 18); // JMS_GFX

@@ -45,12 +45,12 @@
 #define NUM_PICKMELEE_ROWS 2
 #define NUM_PICKMELEE_COLUMNS 7
 
-#define PICK_X_OFFS (57 << RESOLUTION_FACTOR) // JMS_GFX
+#define PICK_X_OFFS RES_SCALE(57) // JMS_GFX
 #define PICK_Y_OFFS RES_SCALE(24) // JMS_GFX
-#define PICK_SIDE_OFFS (100 << RESOLUTION_FACTOR) // JMS_GFX
+#define PICK_SIDE_OFFS RES_SCALE(100) // JMS_GFX
 
 #define NAME_AREA_HEIGHT RES_SCALE(7) // JMS_GFX
-#define MELEE_WIDTH (149 << RESOLUTION_FACTOR) // JMS_GFX
+#define MELEE_WIDTH RES_SCALE(149) // JMS_GFX
 #define MELEE_HEIGHT (RES_SCALE(48) + NAME_AREA_HEIGHT)
 
 #define PICKSHIP_TEAM_NAME_TEXT_COLOR \
@@ -453,10 +453,10 @@ UpdatePickMeleeFleetValue (FRAME frame, COUNT which_player)
 	GetFrameRect (frame, &r);
 	r.extent.width -= RES_SCALE(4);
 	t.baseline.x = r.extent.width;
-	r.corner.x = r.extent.width - ((6 * 3) << RESOLUTION_FACTOR); // JMS_GFX
+	r.corner.x = r.extent.width - RES_SCALE(6 * 3); // JMS_GFX
 	r.corner.y = RES_SCALE(2); // JMS_GFX
-	r.extent.width = ((6 * 3) << RESOLUTION_FACTOR); // JMS_GFX
-	r.extent.height = ((7 - 2) << RESOLUTION_FACTOR) + (RESOLUTION_FACTOR); // JMS_GFX
+	r.extent.width = RES_SCALE(6 * 3); // JMS_GFX
+	r.extent.height = RES_SCALE(7 - 2) + RESOLUTION_FACTOR; // JMS_GFX
 	SetContextForeGroundColor (PICK_BG_COLOR);
 	DrawFilledRectangle (&r);
 
@@ -535,13 +535,13 @@ FillPickMeleeFrame (MeleeSetup *setup)
 
 		r.corner.x += RES_SCALE(2);
 		r.corner.y += RES_SCALE(2);
-		r.extent.width -= ( (2 * 2) + ((ICON_WIDTH >> RESOLUTION_FACTOR) + 2) + 1) << RESOLUTION_FACTOR; // JMS_GFX
-		r.extent.height -= ((2 * 2) << RESOLUTION_FACTOR) + NAME_AREA_HEIGHT; // JMS_GFX
+		r.extent.width -= RES_SCALE((2 * 2) + (RES_DESCALE(ICON_WIDTH) + 2) + 1); // JMS_GFX
+		r.extent.height -= RES_SCALE(2 * 2) + NAME_AREA_HEIGHT; // JMS_GFX
 		SetContextForeGroundColor (PICK_BG_COLOR);
 		DrawFilledRectangle (&r);
 
 		r.corner.x += RES_SCALE(2); // JMS_GFX
-		r.extent.width += (((ICON_WIDTH >> RESOLUTION_FACTOR) + 2) - (2 * 2)) << RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.width += RES_SCALE((RES_DESCALE(ICON_WIDTH) + 2) - (2 * 2)); // JMS_GFX
 		r.corner.y += r.extent.height;
 		r.extent.height = NAME_AREA_HEIGHT;
 		DrawFilledRectangle (&r);

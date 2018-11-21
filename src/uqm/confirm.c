@@ -32,8 +32,8 @@
 #include <stdlib.h>
 
 
-#define CONFIRM_WIN_WIDTH (80 << RESOLUTION_FACTOR) // JMS_GFX
-#define CONFIRM_WIN_HEIGHT (22 << RESOLUTION_FACTOR) // JMS_GFX
+#define CONFIRM_WIN_WIDTH RES_SCALE(80) // JMS_GFX
+#define CONFIRM_WIN_HEIGHT RES_SCALE(22) // JMS_GFX
 
 static void
 DrawConfirmationWindow (BOOLEAN answer)

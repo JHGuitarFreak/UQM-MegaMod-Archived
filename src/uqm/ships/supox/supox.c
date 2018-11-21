@@ -281,7 +281,7 @@ init_supox (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		supox_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		supox_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		supox_desc.cyborg_control.WeaponRange = (MISSILE_SPEED_HD * MISSILE_LIFE) >> 1;

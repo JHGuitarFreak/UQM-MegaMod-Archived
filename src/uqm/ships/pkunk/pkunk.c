@@ -617,7 +617,7 @@ init_pkunk (void)
 	RACE_DESC *RaceDescPtr;
 	PKUNK_DATA empty_data;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		pkunk_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		pkunk_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		pkunk_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD + 4;

@@ -148,8 +148,8 @@ RedistributeFuel (void)
 }
 
 #define LANDER_X RES_SCALE(24) // JMS_GFX
-#define LANDER_Y (67 << RESOLUTION_FACTOR) // JMS_GFX
-#define LANDER_WIDTH (15 << RESOLUTION_FACTOR) // JMS_GFX
+#define LANDER_Y RES_SCALE(67) // JMS_GFX
+#define LANDER_WIDTH RES_SCALE(15) // JMS_GFX
 
 static void
 DisplayLanders (MENU_STATE *pMS)
@@ -519,8 +519,8 @@ InitFlash:
 					case EMPTY_SLOT + 3:
 						pMS->flash_rect0.corner.x = LANDER_X - 1 + IF_HD(114); // JMS_GFX
 						pMS->flash_rect0.corner.y = LANDER_Y - 1 + IF_HD(65); // JMS_GFX
-						pMS->flash_rect0.extent.width = (11 + 2) << RESOLUTION_FACTOR; // JMS_GFX
-						pMS->flash_rect0.extent.height = (13 + 2) << RESOLUTION_FACTOR; // JMS_GFX;
+						pMS->flash_rect0.extent.width = RES_SCALE(11 + 2); // JMS_GFX
+						pMS->flash_rect0.extent.height = RES_SCALE(13 + 2); // JMS_GFX;
 
 						w = LANDER_WIDTH;
 						break;

@@ -943,8 +943,8 @@ SaveEncounters (uio_Stream *fh)
 		}
 
 		// Save the stuff after the BRIEF_SHIP_INFO array
-		write_32  (fh, ((EncounterPtr->log_x) >> RESOLUTION_FACTOR));
-		write_32  (fh, ((EncounterPtr->log_y) >> RESOLUTION_FACTOR));
+		write_32  (fh, RES_DESCALE(EncounterPtr->log_x));
+		write_32  (fh, RES_DESCALE(EncounterPtr->log_y));
 
 		UnlockEncounter (hEncounter);
 		hEncounter = hNextEncounter;
@@ -1021,8 +1021,8 @@ SaveGameState (const GAME_STATE *GSPtr, uio_Stream *fh)
 	write_16  (fh, GSPtr->ip_location.x);
 	write_16  (fh, GSPtr->ip_location.y);
 	/* STAMP ShipStamp */
-	write_16  (fh, (GSPtr->ShipStamp.origin.x >> RESOLUTION_FACTOR));
-	write_16  (fh, (GSPtr->ShipStamp.origin.y >> RESOLUTION_FACTOR));
+	write_16  (fh, RES_DESCALE(GSPtr->ShipStamp.origin.x));
+	write_16  (fh, RES_DESCALE(GSPtr->ShipStamp.origin.y));
 	write_16  (fh, GSPtr->ShipFacing);
 	write_8   (fh, GSPtr->ip_planet);
 	write_8   (fh, GSPtr->in_orbit);
@@ -1061,8 +1061,8 @@ SaveGameState (const GAME_STATE *GSPtr, uio_Stream *fh)
 static void
 SaveSisState (const SIS_STATE *SSPtr, void *fp)
 {
-	write_32  (fp, ((SSPtr->log_x) >> RESOLUTION_FACTOR));
-	write_32  (fp, ((SSPtr->log_y) >> RESOLUTION_FACTOR));
+	write_32  (fp, RES_DESCALE(SSPtr->log_x));
+	write_32  (fp, RES_DESCALE(SSPtr->log_y));
 	write_32  (fp, SSPtr->ResUnits);
 	write_32  (fp, SSPtr->FuelOnBoard);
 	write_16  (fp, SSPtr->CrewEnlisted);

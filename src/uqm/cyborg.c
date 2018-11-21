@@ -642,7 +642,7 @@ Pursue (ELEMENT *ShipPtr, EVALUATE_DESC *EvalDescPtr)
 							  &StarShipPtr->RaceDescPtr->cyborg_control
 							  ) >= RESOLUTION_COMPENSATED(FAST_SHIP) // JMS_GFX
 			 && WEAPON_RANGE (&StarShipPtr->RaceDescPtr->cyborg_control)
-			 > (CLOSE_RANGE_WEAPON << RESOLUTION_FACTOR)) // JMS_GFX
+			 > RES_SCALE(CLOSE_RANGE_WEAPON)) // JMS_GFX
 			|| (EvalDescPtr->which_turn >= 24
 				&& (StarShipPtr->RaceDescPtr->characteristics.max_thrust * 2 / 3 <
 					EnemyStarShipPtr->RaceDescPtr->characteristics.max_thrust
@@ -886,7 +886,7 @@ Entice (ELEMENT *ShipPtr, EVALUATE_DESC *EvalDescPtr)
 					 )
 				{
 					/* need to be close for a kill */
-					if (WRange < (LONG_RANGE_WEAPON << RESOLUTION_FACTOR)
+					if (WRange < RES_SCALE(LONG_RANGE_WEAPON)
 						&& EvalDescPtr->which_turn <= 32)
 					{
 						/* catch him on the back side */
@@ -907,13 +907,13 @@ Entice (ELEMENT *ShipPtr, EVALUATE_DESC *EvalDescPtr)
 		if
 			(
 #ifdef NOTYET
-			 WRange < (LONG_RANGE_WEAPON << RESOLUTION_FACTOR)
+			 WRange < RES_SCALE(LONG_RANGE_WEAPON)
 			 &&
 #endif /* NOTYET */
 			 /* not at full speed */
 			 !(StarShipPtr->cur_status_flags
 			   & (SHIP_AT_MAX_SPEED | SHIP_BEYOND_MAX_SPEED))
-			 && (PlotIntercept (ShipPtr, OtherObjPtr, 40, (CLOSE_RANGE_WEAPON << RESOLUTION_FACTOR) << 1) // JMS_GFX
+			 && (PlotIntercept (ShipPtr, OtherObjPtr, 40, RES_SCALE(CLOSE_RANGE_WEAPON) << 1) // JMS_GFX
 #ifdef NOTYET
 				 ||
 				 (
@@ -988,7 +988,7 @@ Entice (ELEMENT *ShipPtr, EVALUATE_DESC *EvalDescPtr)
 									 - ARCTAN (ship_delta_x, ship_delta_y)
 									 + (OCTANT + 2)) <= ((OCTANT + 2) << 1)
 					/* or not on collision course */
-					|| !PlotIntercept (ShipPtr, OtherObjPtr, 30, (CLOSE_RANGE_WEAPON << RESOLUTION_FACTOR) << 1))) // JMS_GFX
+					|| !PlotIntercept (ShipPtr, OtherObjPtr, 30, RES_SCALE(CLOSE_RANGE_WEAPON) << 1))) // JMS_GFX
 				maneuver_state &= ~THRUST;
 			/* veer off */
 			else if (cone_of_fire == 1
@@ -1168,7 +1168,7 @@ tactical_intelligence (ComputerInputContext *context, STARSHIP *StarShipPtr)
 				
 				//log_add(log_Debug,"SQR:%d (dx:%d), (dy:%d), norm:%d rezzed:%d", square_root ((long)dx * dx + (long)dy * dy), dx, dy, (WORLD_TO_TURN (square_root ((long)dx * dx + (long)dy * dy))), ed.which_turn);
 				
-				if ((ed.which_turn >> RESOLUTION_FACTOR) > ObjectsOfConcern[ENEMY_SHIP_INDEX].which_turn)
+				if (RES_DESCALE(ed.which_turn) > ObjectsOfConcern[ENEMY_SHIP_INDEX].which_turn)
 				{
 					UnlockElement (hElement);
 					continue;
@@ -1188,9 +1188,9 @@ tactical_intelligence (ComputerInputContext *context, STARSHIP *StarShipPtr)
 				
 				if (ShipMoved
 					|| ed.ObjectPtr->mass_points > MAX_SHIP_MASS
-					|| (WEAPON_RANGE (&RDPtr->cyborg_control) < (LONG_RANGE_WEAPON << RESOLUTION_FACTOR)
-						&& (WEAPON_RANGE (&RDPtr->cyborg_control) <= (CLOSE_RANGE_WEAPON << RESOLUTION_FACTOR)
-							|| (WEAPON_RANGE (&EnemyRDPtr->cyborg_control) >= (LONG_RANGE_WEAPON << RESOLUTION_FACTOR)
+					|| (WEAPON_RANGE (&RDPtr->cyborg_control) < RES_SCALE(LONG_RANGE_WEAPON)
+						&& (WEAPON_RANGE (&RDPtr->cyborg_control) <= RES_SCALE(CLOSE_RANGE_WEAPON)
+							|| (WEAPON_RANGE (&EnemyRDPtr->cyborg_control) >= RES_SCALE(LONG_RANGE_WEAPON)
 								&& (EnemyStarShipPtr->RaceDescPtr->ship_info.ship_flags & SEEKING_WEAPON))
 							|| (
 #ifdef OLD
@@ -1220,7 +1220,7 @@ tactical_intelligence (ComputerInputContext *context, STARSHIP *StarShipPtr)
 			{
 				if (!(ed.ObjectPtr->state_flags & FINITE_LIFE))
 				{
-					ed.which_turn = (WORLD_TO_TURN (square_root ((long)dx * dx + (long)dy * dy))) >> RESOLUTION_FACTOR; // JMS_GFX
+					ed.which_turn = RES_DESCALE(WORLD_TO_TURN (square_root ((long)dx * dx + (long)dy * dy))); // JMS_GFX
 					
 					if (ed.which_turn < ObjectsOfConcern[FIRST_EMPTY_INDEX].which_turn)
 					{
@@ -1254,7 +1254,7 @@ tactical_intelligence (ComputerInputContext *context, STARSHIP *StarShipPtr)
 						ed.which_turn = 0;
 					else
 					{
-						ed.which_turn = (WORLD_TO_TURN (square_root ((long)dx * dx + (long)dy * dy))) >> RESOLUTION_FACTOR; // JMS_GFX;
+						ed.which_turn = RES_DESCALE(WORLD_TO_TURN (square_root ((long)dx * dx + (long)dy * dy))); // JMS_GFX;
 						
 						ed.MoveState = ENTICE;
 						
@@ -1296,7 +1296,7 @@ tactical_intelligence (ComputerInputContext *context, STARSHIP *StarShipPtr)
 						 || ed.ObjectPtr->preprocess_func == crew_preprocess)
 					 && ObjectsOfConcern[CREW_OBJECT_INDEX].which_turn > 1)
 			{
-				ed.which_turn = (WORLD_TO_TURN (square_root ((long)dx * dx + (long)dy * dy))) >> RESOLUTION_FACTOR; // JMS_GFX
+				ed.which_turn = RES_DESCALE(WORLD_TO_TURN (square_root ((long)dx * dx + (long)dy * dy))); // JMS_GFX
 				
 				if (ed.which_turn == 0)
 					ed.which_turn = 1;

@@ -234,10 +234,10 @@ umgah_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 		else
 			this_turn = (BYTE)lpEvalDesc->which_turn;
 
-		EnoughJuice = (BOOLEAN)((WORLD_TO_TURN (
+		EnoughJuice = (BOOLEAN)((WORLD_TO_TURN (RES_DESCALE(
 				JUMP_DIST * StarShipPtr->RaceDescPtr->ship_info.energy_level
 				/ SPECIAL_ENERGY_COST
-				) >> RESOLUTION_FACTOR) > this_turn); // JMS_GFX
+				))) > this_turn); // JMS_GFX
 		delta_x = lpEvalDesc->ObjectPtr->next.location.x -
 				ShipPtr->next.location.x;
 		delta_y = lpEvalDesc->ObjectPtr->next.location.y -
@@ -422,7 +422,7 @@ init_umgah (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		umgah_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		umgah_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		umgah_desc.cyborg_control.WeaponRange = (LONG_RANGE_WEAPON_HD << 2);

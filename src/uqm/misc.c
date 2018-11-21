@@ -266,7 +266,7 @@ crew_preprocess (ELEMENT *ElementPtr)
 
 	if (hTarget)
 	{
-#define CREW_DELTA (SCALED_ONE << RESOLUTION_FACTOR)
+#define CREW_DELTA RES_SCALE(SCALED_ONE)
 		SIZE delta;
 		ELEMENT *ShipPtr;
 
@@ -338,7 +338,7 @@ AbandonShip (ELEMENT *ShipPtr, ELEMENT *TargetPtr,
 		dx = dy = 0;
 	else
 	{
-#define MORE_THAN_ENOUGH (100 << RESOLUTION_FACTOR) // JMS_GFX
+#define MORE_THAN_ENOUGH RES_SCALE(100) // JMS_GFX
 		direction += HALF_CIRCLE;
 		dx = COSINE (direction, MORE_THAN_ENOUGH);
 		dy = SINE (direction, MORE_THAN_ENOUGH);
