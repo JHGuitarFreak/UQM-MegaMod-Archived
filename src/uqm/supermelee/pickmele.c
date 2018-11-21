@@ -425,7 +425,7 @@ CrossOutShip (FRAME frame, COUNT shipNr)
 	SetContextFGFrame (frame);
 
 	s.origin.x = RES_SCALE(3) + ((ICON_WIDTH + RES_SCALE(2)) * col); // JMS_GFX
-	s.origin.y = (9 << RESOLUTION_FACTOR) + ((ICON_HEIGHT + RES_SCALE(2)) * row); // JMS_GFX
+	s.origin.y = RES_SCALE(9) + ((ICON_HEIGHT + RES_SCALE(2)) * row); // JMS_GFX
 	s.frame = SetAbsFrameIndex (StatusFrame, 3);
 			// Cross for through the ship image.
 	DrawStamp (&s);
@@ -637,7 +637,7 @@ DrawPickMeleeFrame (COUNT which_player)
 	oldContext = SetContext (SpaceContext);
 	s.frame = SetAbsFrameIndex (PickMeleeFrame, which_player);
 	s.origin.x = PICK_X_OFFS - RES_SCALE(3); // JMS_GFX
-	s.origin.y = PICK_Y_OFFS - (9 << RESOLUTION_FACTOR) + ((1 - which_player) * PICK_SIDE_OFFS);
+	s.origin.y = PICK_Y_OFFS - RES_SCALE(9) + ((1 - which_player) * PICK_SIDE_OFFS);
 	DrawStamp (&s);
 			// Draw the selection box to screen.
 	

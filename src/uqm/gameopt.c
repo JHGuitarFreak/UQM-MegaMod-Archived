@@ -861,7 +861,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 
 		SetContext (SpaceContext);
 		// draw devices
-		s.origin.y = 13 << RESOLUTION_FACTOR; // JMS_GFX
+		s.origin.y = RES_SCALE(13); // JMS_GFX
 		for (i = 0; i < 4; ++i)
 		{
 			COUNT j;

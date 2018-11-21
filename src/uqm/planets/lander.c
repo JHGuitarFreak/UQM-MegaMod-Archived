@@ -411,7 +411,7 @@ object_animation (ELEMENT *ElementPtr)
 						speed = WORLD_TO_VELOCITY (2 * 1) * 9 / 10;
 						break;
 				}
-				speed = speed << RESOLUTION_FACTOR; // JMS_GFX
+				speed = RES_SCALE(speed); // JMS_GFX
 
 				SetVelocityComponents (&ElementPtr->velocity,
 						COSINE (angle, speed), SINE (angle, speed));

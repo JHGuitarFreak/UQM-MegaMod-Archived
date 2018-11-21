@@ -583,7 +583,7 @@ FeedbackPlayerPhrase (UNICODE *pStr)
 		TEXT ct;
 
 		ct.baseline.x = SIS_SCREEN_WIDTH >> 1;
-		ct.baseline.y = SLIDER_Y + SLIDER_HEIGHT + (13 << RESOLUTION_FACTOR); // JMS_GFX
+		ct.baseline.y = SLIDER_Y + SLIDER_HEIGHT + RES_SCALE(13); // JMS_GFX
 		ct.align = ALIGN_CENTER;
 		ct.CharCount = (COUNT)~0;
 
