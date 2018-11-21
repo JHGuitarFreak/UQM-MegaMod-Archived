@@ -755,7 +755,7 @@ DrawSavegameCargo (SIS_STATE *sisState)
 	// setup element icons
 	s.frame = SetAbsFrameIndex (MiscDataFrame,
 			(NUM_SCANDOT_TRANSITIONS << 1) + 3);
-	s.origin.x = SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS + (10 << RESOLUTION_FACTOR); // JMS_GFX
+	s.origin.x = SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS + RES_SCALE(10); // JMS_GFX
 	s.origin.y = ELEMENT_ORG_Y;
 	// setup element amounts
 	t.baseline.x = SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS + ELEMENT_SPACING_X;

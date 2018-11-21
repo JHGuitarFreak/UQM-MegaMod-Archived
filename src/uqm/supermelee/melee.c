@@ -98,7 +98,7 @@ enum
 
 // Start of JMS_GFX
 // Top Melee Menu
-#define MELEE_X_OFFS (2 << RESOLUTION_FACTOR) // JMS_GFX
+#define MELEE_X_OFFS RES_SCALE(2) // JMS_GFX
 #define MELEE_Y_OFFS (RES_SCALE(21) + (RESOLUTION_FACTOR * 21)) // JMS_GFX
 #define MELEE_BOX_WIDTH (34 << RESOLUTION_FACTOR) // JMS_GFX
 #define MELEE_BOX_HEIGHT (34 << RESOLUTION_FACTOR) // JMS_GFX
@@ -517,7 +517,7 @@ DrawTeamString (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState,
 		BYTE *pchar_deltas;
 
 		TextRect (&lfText, &text_r, char_deltas);
-		if ((text_r.extent.width + (2 << RESOLUTION_FACTOR)) >= r.extent.width)
+		if ((text_r.extent.width + RES_SCALE(2)) >= r.extent.width)
 		{	// the text does not fit the input box size and so
 			// will not fit when displayed later
 			UnbatchGraphics ();
@@ -543,7 +543,7 @@ DrawTeamString (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState,
 			}
 			else if (pMS->CurIndex + 1 == lfText.CharCount)
 			{	// extra pixel for last char margin
-				text_r.extent.width = (SIZE)*pchar_deltas + (2 << RESOLUTION_FACTOR);
+				text_r.extent.width = (SIZE)*pchar_deltas + RES_SCALE(2);
 			}
 			else
 			{	// normal mid-line char
@@ -557,7 +557,7 @@ DrawTeamString (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState,
 		// position cursor within input field rect
 		++text_r.corner.x;
 		++text_r.corner.y;
-		text_r.extent.height -= 2 << RESOLUTION_FACTOR;
+		text_r.extent.height -= RES_SCALE(2);
 		SetContextForeGroundColor (TEAM_NAME_EDIT_CURS_COLOR);
 		DrawFilledRectangle (&text_r);
 
@@ -1640,7 +1640,7 @@ DoConnectingDialog (MELEE_STATE *pMS)
 			t.pStr = GAME_STRING (NETMELEE_STRING_BASE + 2);
 					/* "Awaiting outgoing connection */
 		}
-		t.baseline.y = r.corner.y + (10 << RESOLUTION_FACTOR);
+		t.baseline.y = r.corner.y + RES_SCALE(10);
 		t.baseline.x = SCREEN_WIDTH >> 1;
 		t.align = ALIGN_CENTER;
 		t.CharCount = ~0;

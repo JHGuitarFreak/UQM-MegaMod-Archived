@@ -1116,7 +1116,7 @@ ScanPlanet (COUNT scanType)
 
 		SetContext (PlanetContext);
 		r.corner.x = 0;
-		r.corner.y = t.baseline.y - (10 << RESOLUTION_FACTOR); // JMS_GFX
+		r.corner.y = t.baseline.y - RES_SCALE(10); // JMS_GFX
 		r.extent.width = SIS_SCREEN_WIDTH;
 		r.extent.height = t.baseline.y - r.corner.y + (1 << RESOLUTION_FACTOR); // JMS_GFX
 		// XXX: I do not know why we are repairing it here, as there

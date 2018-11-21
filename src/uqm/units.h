@@ -66,7 +66,7 @@ extern int ScreenHeight;
 
 		/* Blue boxes which display messages and the green date box. */
 #define SIS_TITLE_BOX_WIDTH    (57 << RESOLUTION_FACTOR)						// JMS_GFX
-#define SIS_TITLE_WIDTH        (SIS_TITLE_BOX_WIDTH - (2 << RESOLUTION_FACTOR)) // JMS_GFX
+#define SIS_TITLE_WIDTH        (SIS_TITLE_BOX_WIDTH - RES_SCALE(2)) // JMS_GFX
 #define SIS_TITLE_HEIGHT       RES_BOOL(8, 29)								// JMS_GFX
 #define SIS_SPACER_BOX_WIDTH   (12 << RESOLUTION_FACTOR)						// JMS_GFX
 
