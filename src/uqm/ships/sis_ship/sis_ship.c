@@ -283,7 +283,7 @@ sis_hyper_preprocess (ELEMENT *ElementPtr)
 			dx = -dx;
 		if ((dy = (SIZE)udy) < 0)
 			dy = -dy;
-		if (dx <= (1 << RESOLUTION_FACTOR) && dy <= (1 << RESOLUTION_FACTOR))
+		if (dx <= RES_SCALE(1) && dy <= RES_SCALE(1))
 			goto LeaveAutoPilot;
 
 		facing = NORMALIZE_FACING (ANGLE_TO_FACING (ARCTAN (udx, udy)));

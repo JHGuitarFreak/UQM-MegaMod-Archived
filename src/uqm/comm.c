@@ -532,7 +532,7 @@ RefreshResponses (ENCOUNTER_STATE *pES)
 	BatchGraphics ();
 
 	DrawSISComWindow ();
-	y = SLIDER_Y + SLIDER_HEIGHT + (1 << RESOLUTION_FACTOR); // JMS_GFX
+	y = SLIDER_Y + SLIDER_HEIGHT + RES_SCALE(1); // JMS_GFX
 	for (response = pES->top_response; response < pES->num_responses;
 			++response)
 	{
@@ -592,7 +592,7 @@ FeedbackPlayerPhrase (UNICODE *pStr)
 		SetContextForeGroundColor (COMM_RESPONSE_INTRO_TEXT_COLOR);
 		font_DrawText (&ct);
 
-		ct.baseline.y += (16 << RESOLUTION_FACTOR); // JMS_GFX
+		ct.baseline.y += RES_SCALE(16); // JMS_GFX
 		SetContextForeGroundColor (COMM_FEEDBACK_TEXT_COLOR);
 		ct.pStr = pStr;
 		add_text (-4, &ct);

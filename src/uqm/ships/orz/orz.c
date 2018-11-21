@@ -399,8 +399,8 @@ intruder_preprocess (ELEMENT *ElementPtr)
 				--ElementPtr->thrust_wait;
 
 				if (RESOLUTION_FACTOR != HD) {
-					s.origin.x = (16 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
-					s.origin.y = (14 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
+					s.origin.x = RES_SCALE(16) + (ElementPtr->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
+					s.origin.y = RES_SCALE(14) + (ElementPtr->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 				} else {
 					s.origin.x = (16 - (RESOLUTION_FACTOR * 3 / 2) + (ElementPtr->turn_wait & 3) * (9 + RESOLUTION_FACTOR * 3 / 2)) << RESOLUTION_FACTOR; // JMS_GFX
 					s.origin.y = (14 + (ElementPtr->turn_wait >> 2) * (11 + RESOLUTION_FACTOR)) << RESOLUTION_FACTOR; // JMS_GFX
@@ -419,8 +419,8 @@ intruder_preprocess (ELEMENT *ElementPtr)
 				hElement = 0;
 LeftShip:
 				if (RESOLUTION_FACTOR != HD) {
-					s.origin.x = (16 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
-					s.origin.y = (14 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
+					s.origin.x = RES_SCALE(16) + (ElementPtr->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
+					s.origin.y = RES_SCALE(14) + (ElementPtr->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 				} else {
 					s.origin.x = (16 - (RESOLUTION_FACTOR * 3 / 2) + (ElementPtr->turn_wait & 3) * (9 + RESOLUTION_FACTOR * 3 / 2)) << RESOLUTION_FACTOR; // JMS_GFX
 					s.origin.y = (14 + (ElementPtr->turn_wait >> 2) * (11 + RESOLUTION_FACTOR)) << RESOLUTION_FACTOR; // JMS_GFX
@@ -453,8 +453,8 @@ LeftShip:
 
 					++ElementPtr->thrust_wait;
 					if (RESOLUTION_FACTOR != HD) {
-						s.origin.x = (16 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
-						s.origin.y = (14 << RESOLUTION_FACTOR) + (ElementPtr->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
+						s.origin.x = RES_SCALE(16) + (ElementPtr->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
+						s.origin.y = RES_SCALE(14) + (ElementPtr->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 					} else {
 						s.origin.x = (16 - (RESOLUTION_FACTOR * 3 / 2) + (ElementPtr->turn_wait & 3) * (9 + RESOLUTION_FACTOR * 3 / 2)) << RESOLUTION_FACTOR; // JMS_GFX
 						s.origin.y = (14 + (ElementPtr->turn_wait >> 2) * (11 + RESOLUTION_FACTOR)) << RESOLUTION_FACTOR; // JMS_GFX
@@ -789,8 +789,8 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 				SetPrimType (&(GLOBAL (DisplayArray))[ElementPtr0->PrimIndex], NO_PRIM);
 				ElementPtr0->preprocess_func = intruder_preprocess;
 				if (RESOLUTION_FACTOR != HD) {
-					s.origin.x = (16 << RESOLUTION_FACTOR) + (ElementPtr0->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
-					s.origin.y = (14 << RESOLUTION_FACTOR) + (ElementPtr0->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
+					s.origin.x = RES_SCALE(16) + (ElementPtr0->turn_wait & 3) * ((9 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
+					s.origin.y = RES_SCALE(14) + (ElementPtr0->turn_wait >> 2) * ((11 + RESOLUTION_FACTOR * 6) << RESOLUTION_FACTOR);
 				} else {
 					s.origin.x = (16 - (RESOLUTION_FACTOR * 3 / 2) + (ElementPtr0->turn_wait & 3) * (9 + RESOLUTION_FACTOR * 3 / 2)) << RESOLUTION_FACTOR; // JMS_GFX
 					s.origin.y = (14 + (ElementPtr0->turn_wait >> 2) * (11 + RESOLUTION_FACTOR)) << RESOLUTION_FACTOR; // JMS_GFX

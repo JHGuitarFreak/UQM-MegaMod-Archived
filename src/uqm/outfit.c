@@ -135,7 +135,7 @@ RedistributeFuel (void)
 		}
 		else // Otherwise, draw an empty bar.
 		{
-			r.extent.width = 5 << RESOLUTION_FACTOR; // JMS_GFX
+			r.extent.width = RES_SCALE(5); // JMS_GFX
 			SetContextForeGroundColor (
 					BUILD_COLOR (MAKE_RGB15 (0x0B, 0x00, 0x00), 0x2E));
 		}
@@ -529,7 +529,7 @@ InitFlash:
 						pMS->flash_rect0.corner.x = DRIVE_TOP_X - 1 - IF_HD(5);
 						pMS->flash_rect0.corner.y = DRIVE_TOP_Y - 1 + IF_HD(146);
 						pMS->flash_rect0.extent.width = RES_SCALE(8); // JMS_GFX;
-						pMS->flash_rect0.extent.height = (6 << RESOLUTION_FACTOR) - IF_HD(2); // JMS_GFX;
+						pMS->flash_rect0.extent.height = RES_SCALE(6) - IF_HD(2); // JMS_GFX;
 
 						break;
 					case TURNING_JETS:

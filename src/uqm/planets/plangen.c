@@ -487,7 +487,7 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 // this routine, but a filter can be applied if desired too.
 
 // HALO rim size
-#define SHIELD_HALO          (6 << RESOLUTION_FACTOR) // JMS_GFX
+#define SHIELD_HALO          RES_SCALE(6) // JMS_GFX
 #define SHIELD_RADIUS        (RADIUS + SHIELD_HALO)
 #define SHIELD_HALO_GLOW     (SHIELD_GLOW_COMP + SHIELD_REFLECT_COMP)
 #define SHIELD_HALO_GLOW_MIN (SHIELD_HALO_GLOW >> 2)

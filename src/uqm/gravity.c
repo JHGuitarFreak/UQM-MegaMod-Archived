@@ -104,7 +104,7 @@ CalculateGravity (ELEMENT *ElementPtr)
 							* GRAVITY_THRESHOLD) / dist_squared)) == 0)
 						magnitude = 1;
 
-#define MAX_MAGNITUDE (6 << RESOLUTION_FACTOR) // JMS_GFX: Because of the ifdef NEVER this is actually never run. Well, changed it for consistency
+#define MAX_MAGNITUDE RES_SCALE(6) // JMS_GFX: Because of the ifdef NEVER this is actually never run. Well, changed it for consistency
 					else if (magnitude > MAX_MAGNITUDE)
 						magnitude = MAX_MAGNITUDE;
 					log_add (log_Debug, "magnitude = %u", magnitude);

@@ -285,7 +285,7 @@ ModifySilhouette (ELEMENT *ElementPtr, STAMP *modify_stamp,
 				&ShipIntersect, MAX_TIME_VALUE));
 
 		ObjectIntersect.IntersectStamp.origin.x += STATUS_WIDTH >> 1;
-		ObjectIntersect.IntersectStamp.origin.y += (31 << RESOLUTION_FACTOR); // JMS_GFX
+		ObjectIntersect.IntersectStamp.origin.y += RES_SCALE(31); // JMS_GFX
 	}
 
 	ObjectIntersect.IntersectStamp.origin.y +=

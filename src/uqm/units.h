@@ -68,7 +68,7 @@ extern int ScreenHeight;
 #define SIS_TITLE_BOX_WIDTH    (57 << RESOLUTION_FACTOR)						// JMS_GFX
 #define SIS_TITLE_WIDTH        (SIS_TITLE_BOX_WIDTH - RES_SCALE(2)) // JMS_GFX
 #define SIS_TITLE_HEIGHT       RES_BOOL(8, 29)								// JMS_GFX
-#define SIS_SPACER_BOX_WIDTH   (12 << RESOLUTION_FACTOR)						// JMS_GFX
+#define SIS_SPACER_BOX_WIDTH   RES_SCALE(12)						// JMS_GFX
 
 #define SIS_MESSAGE_BOX_WIDTH  (SIS_SCREEN_WIDTH - SIS_TITLE_BOX_WIDTH - SIS_SPACER_BOX_WIDTH)
 #define SIS_MESSAGE_WIDTH      (SIS_MESSAGE_BOX_WIDTH - 2)
@@ -132,8 +132,8 @@ UNIVERSE_TO_LOGY (MAX_Y_UNIVERSE + 1) : UNIVERSE_TO_LOGY (-1)) - 1L)
 //   on the screen resolution when it should not.
 //   Using the new math will break old savegames.
 #ifdef NORMALIZED_HYPERSPACE_SPEED
-#define LOG_UNITS_X      ((SDWORD)(UNIVERSE_UNITS_X * (16 << RESOLUTION_FACTOR))) // JMS_GFX
-#define LOG_UNITS_Y      ((SDWORD)(UNIVERSE_UNITS_Y * (16 << RESOLUTION_FACTOR))) // JMS_GFX
+#define LOG_UNITS_X      ((SDWORD)(UNIVERSE_UNITS_X * RES_SCALE(16))) // JMS_GFX
+#define LOG_UNITS_Y      ((SDWORD)(UNIVERSE_UNITS_Y * RES_SCALE(16))) // JMS_GFX
 #define UNIVERSE_UNITS_X (((MAX_X_UNIVERSE + 1) >> 4))
 #define UNIVERSE_UNITS_Y (((MAX_Y_UNIVERSE + 1) >> 4))
 #else
