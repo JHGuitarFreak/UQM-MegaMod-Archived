@@ -152,7 +152,7 @@ GetPlanetTitle (UNICODE *buf, COUNT bufsize)
 static void
 PrintCoarseScanPC (void)
 {
-#define SCAN_LEADING_PC (14 << RESOLUTION_FACTOR) // JMS_GFX
+#define SCAN_LEADING_PC RES_SCALE(14) // JMS_GFX
 	SDWORD val;
 	TEXT t;
 	RECT r;
@@ -182,7 +182,7 @@ PrintCoarseScanPC (void)
 
 	SetContextFont (TinyFont);
 
-#define LEFT_SIDE_BASELINE_X_PC (5 << RESOLUTION_FACTOR) // JMS_GFX
+#define LEFT_SIDE_BASELINE_X_PC RES_SCALE(5) // JMS_GFX
 #define RIGHT_SIDE_BASELINE_X_PC (SIS_SCREEN_WIDTH - (75 << RESOLUTION_FACTOR)) // JMS_GFX
 #define SCAN_BASELINE_Y_PC RES_SCALE(40) // JMS_GFX
 
@@ -820,7 +820,7 @@ DoPickPlanetSide (MENU_STATE *pMS)
 		//j = (1 << (RESOLUTION_FACTOR + 1)) - 1;
 		
 		// JMS_GFX: 1 for 320x240, 2 for 640x480, 4 for 1280x960
-		j = 1 << RESOLUTION_FACTOR;
+		j = RES_SCALE(1);
 		
 		// JMS_GFX: This makes the scan cursor faster in hi-res modes.
 		// (Originally there was no loop, just the contents.)
@@ -1108,7 +1108,7 @@ ScanPlanet (COUNT scanType)
 		TimeCount TimeOut;
 
 		t.baseline.x = SIS_SCREEN_WIDTH >> 1;
-		t.baseline.y = SIS_SCREEN_HEIGHT - MAP_HEIGHT - (7 << RESOLUTION_FACTOR); // JMS_GFX
+		t.baseline.y = SIS_SCREEN_HEIGHT - MAP_HEIGHT - RES_SCALE(7); // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.CharCount = (COUNT)~0;
 
@@ -1118,7 +1118,7 @@ ScanPlanet (COUNT scanType)
 		r.corner.x = 0;
 		r.corner.y = t.baseline.y - RES_SCALE(10); // JMS_GFX
 		r.extent.width = SIS_SCREEN_WIDTH;
-		r.extent.height = t.baseline.y - r.corner.y + (1 << RESOLUTION_FACTOR); // JMS_GFX
+		r.extent.height = t.baseline.y - r.corner.y + RES_SCALE(1); // JMS_GFX
 		// XXX: I do not know why we are repairing it here, as there
 		//   should not be anything drawn over the stars at the moment
 		RepairBackRect (&r, FALSE);

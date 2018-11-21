@@ -40,8 +40,8 @@
 extern FRAME PlayFrame;
 
 #define MAX_SAVED_GAMES 100
-#define SUMMARY_X_OFFS (14 << RESOLUTION_FACTOR) // JMS_GFX
-#define SUMMARY_SIDE_OFFS (7 << RESOLUTION_FACTOR) // JMS_GFX
+#define SUMMARY_X_OFFS RES_SCALE(14) // JMS_GFX
+#define SUMMARY_SIDE_OFFS RES_SCALE(7) // JMS_GFX
 #define SAVES_PER_PAGE 5
 
 #define MAX_NAME_SIZE  SIS_NAME_SIZE
@@ -70,8 +70,8 @@ ConfirmSaveLoad (STAMP *MsgStamp)
 		t.pStr = GAME_STRING (SAVEGAME_STRING_BASE + 1);
 				// "Loading . . ."
 	TextRect (&t, &r, NULL);
-	r.corner.x -= 4 << RESOLUTION_FACTOR; // JMS_GFX
-	r.corner.y -= 4 << RESOLUTION_FACTOR; // JMS_GFX
+	r.corner.x -= RES_SCALE(4); // JMS_GFX
+	r.corner.y -= RES_SCALE(4); // JMS_GFX
 	r.extent.width += RES_SCALE(8); // JMS_GFX
 	r.extent.height += RES_SCALE(8); // JMS_GFX
 	if (MsgStamp)
@@ -344,8 +344,8 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 		}
 		
 		TextRect (&t, &r, NULL);
-		r.corner.x -= 4 << RESOLUTION_FACTOR; // JMS_GFX
-		r.corner.y -= 4 << RESOLUTION_FACTOR; // JMS_GFX
+		r.corner.x -= RES_SCALE(4); // JMS_GFX
+		r.corner.y -= RES_SCALE(4); // JMS_GFX
 		r.extent.width += RES_SCALE(8); // JMS_GFX
 		r.extent.height += RES_SCALE(8); // JMS_GFX
 		
@@ -424,7 +424,7 @@ DrawSaveNameString (UNICODE *Str, COUNT CursorPos, COUNT state, COUNT gameIndex)
 	SetContextForeGroundColor (BUILD_COLOR (MAKE_RGB15 (0x1B, 0x00, 0x1B), 0x33));
 	r.extent.width = 15 << RESOLUTION_FACTOR; // JMS_GFX
 	if (MAX_SAVED_GAMES > 99)
-		r.extent.width += 5 << RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.width += RES_SCALE(5); // JMS_GFX
 	r.extent.height = 11 << RESOLUTION_FACTOR; // JMS_GFX
 	r.corner.x = RES_SCALE(8); // JMS_GFX
 	r.corner.y = (160 + ((gameIndex % SAVES_PER_PAGE) * 13)) << RESOLUTION_FACTOR; // JMS_GFX
@@ -744,8 +744,8 @@ DrawSavegameCargo (SIS_STATE *sisState)
 		BUILD_COLOR (MAKE_RGB15_INIT (0x14, 0x00, 0x14), 0x05),
 		BUILD_COLOR (MAKE_RGB15_INIT (0x0F, 0x00, 0x19), 0x00),
 	};
-#define ELEMENT_ORG_Y      (17 << RESOLUTION_FACTOR) // JMS_GFX
-#define ELEMENT_SPACING_Y  (12 << RESOLUTION_FACTOR) // JMS_GFX
+#define ELEMENT_ORG_Y      RES_SCALE(17) // JMS_GFX
+#define ELEMENT_SPACING_Y  RES_SCALE(12) // JMS_GFX
 #define ELEMENT_SPACING_X  RES_SCALE(36) // JMS_GFX
 
 	SetContext (SpaceContext);
@@ -889,7 +889,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		if (pSD->Flags & AFTER_BOMB_INSTALLED)
 		{
 			// draw the bomb and the escape pod
-			s.origin.x = SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS + (6 << RESOLUTION_FACTOR); // JMS_GFX
+			s.origin.x = SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS + RES_SCALE(6); // JMS_GFX
 			s.origin.y = 0;
 			s.frame = SetRelFrameIndex (pickState->SummaryFrame, 0);
 			DrawStamp (&s);
@@ -929,7 +929,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		font_DrawText (&t);
 
 		// print the location
-		t.baseline.x = 6 << RESOLUTION_FACTOR; // JMS_GFX
+		t.baseline.x = RES_SCALE(6); // JMS_GFX
 		t.baseline.y = (139 + 6) << RESOLUTION_FACTOR; // JMS_GFX;
 		t.align = ALIGN_LEFT;
 		t.pStr = buf;
@@ -1022,7 +1022,7 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 	// Erase the selection menu
 	r.extent.width = 240 << RESOLUTION_FACTOR; // JMS_GFX
 	r.extent.height = 65 << RESOLUTION_FACTOR; // JMS_GFX
-	r.corner.x = 1 << RESOLUTION_FACTOR; // JMS_GFX
+	r.corner.x = RES_SCALE(1); // JMS_GFX
 	r.corner.y = RES_SCALE(160); // JMS_GFX
 	SetContextForeGroundColor (BLACK_COLOR);
 	DrawFilledRectangle (&r);
@@ -1046,7 +1046,7 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 				(BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x14), 0x01)) : (BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x19), 0x01))));
 		r.extent.width = 15 << RESOLUTION_FACTOR; // JMS_GFX
 		if (MAX_SAVED_GAMES > 99)
-			r.extent.width += 5 << RESOLUTION_FACTOR; // JMS_GFX
+			r.extent.width += RES_SCALE(5); // JMS_GFX
 		r.extent.height = 11 << RESOLUTION_FACTOR; // JMS_GFX
 		r.corner.x = RES_SCALE(8); // JMS_GFX
 		r.corner.y = (160 + (i * 13)) << RESOLUTION_FACTOR; // JMS_GFX

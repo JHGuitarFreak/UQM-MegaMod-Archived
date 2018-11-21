@@ -105,8 +105,8 @@ signaledStopTalkingAnim (void)
 
 #endif
 
-#define TEXT_X_OFFS (1 << RESOLUTION_FACTOR) // JMS_GFX
-#define TEXT_Y_OFFS (1 << RESOLUTION_FACTOR) // JMS_GFX
+#define TEXT_X_OFFS RES_SCALE(1) // JMS_GFX
+#define TEXT_Y_OFFS RES_SCALE(1) // JMS_GFX
 #define SIS_TEXT_WIDTH (SIS_SCREEN_WIDTH - (TEXT_X_OFFS << 1))
 
 extern void init_communication (void);

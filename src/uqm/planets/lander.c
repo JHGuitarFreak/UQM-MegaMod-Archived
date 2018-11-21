@@ -290,8 +290,8 @@ object_animation (ELEMENT *ElementPtr)
 					angle = FACING_TO_ANGLE (ElementPtr->facing);
 					LockElement (hLavaElement, &LavaElementPtr);
 					LavaElementPtr->next.location = ElementPtr->next.location;
-					LavaElementPtr->next.location.x += COSINE (angle, 4 << RESOLUTION_FACTOR); // JMS_GFX
-					LavaElementPtr->next.location.y += SINE (angle, 4 << RESOLUTION_FACTOR); // JMS_GFX
+					LavaElementPtr->next.location.x += COSINE (angle, RES_SCALE(4)); // JMS_GFX
+					LavaElementPtr->next.location.y += SINE (angle, RES_SCALE(4)); // JMS_GFX
 					if (LavaElementPtr->next.location.y < 0)
 						LavaElementPtr->next.location.y = 0;
 					else if (LavaElementPtr->next.location.y >= (MAP_HEIGHT << MAG_SHIFT))
@@ -471,7 +471,7 @@ DeltaLanderCrew (SIZE crew_delta, COUNT which_disaster)
 	}
 
 	if (RESOLUTION_FACTOR != HD) {
-		s.origin.x = ((11 + ((6 << RESOLUTION_FACTOR) * (crew_delta % NUM_CREW_COLS)))); // JMS_GFX
+		s.origin.x = ((11 + (RES_SCALE(6) * (crew_delta % NUM_CREW_COLS)))); // JMS_GFX
 		s.origin.y = (35 - (6 * (crew_delta / NUM_CREW_COLS))) << RESOLUTION_FACTOR; // JMS_GFX
 	} else {
 		s.origin.x = 32 + ((9 * RESOLUTION_FACTOR) * (crew_delta % NUM_CREW_COLS)); // JMS_GFX
@@ -1056,11 +1056,11 @@ AddLightning (void)
 		} else {
 			LightningElementPtr->next.location.x = (curLanderLoc.x
 				+ ((MAP_WIDTH << MAG_SHIFT) - ((SURFACE_WIDTH >> 1) - 6))
-				+ (rand_val % (SURFACE_WIDTH - (12 << RESOLUTION_FACTOR)))
+				+ (rand_val % (SURFACE_WIDTH - RES_SCALE(12)))
 				) % (MAP_WIDTH << MAG_SHIFT);
 			LightningElementPtr->next.location.y = (curLanderLoc.y
 				+ ((MAP_HEIGHT << MAG_SHIFT) - ((SURFACE_HEIGHT >> 1) - 6))
-				+ (rand_val % (SURFACE_HEIGHT - (12 << RESOLUTION_FACTOR)))
+				+ (rand_val % (SURFACE_HEIGHT - RES_SCALE(12)))
 				) % (MAP_HEIGHT << MAG_SHIFT);
 		}
 
@@ -1370,10 +1370,10 @@ ScrollPlanetSide (SIZE dx, SIZE dy, int landingOffset)
 			pPSD->MineralText[0].baseline.y -= dy;
 			font_DrawText (&pPSD->MineralText[0]);
 			pPSD->MineralText[1].baseline.x = pPSD->MineralText[0].baseline.x;
-			pPSD->MineralText[1].baseline.y = pPSD->MineralText[0].baseline.y + (7 << RESOLUTION_FACTOR); // JMS_GFX
+			pPSD->MineralText[1].baseline.y = pPSD->MineralText[0].baseline.y + RES_SCALE(7); // JMS_GFX
 			font_DrawText (&pPSD->MineralText[1]);
 			pPSD->MineralText[2].baseline.x = pPSD->MineralText[1].baseline.x;
-			pPSD->MineralText[2].baseline.y = pPSD->MineralText[1].baseline.y + (7 << RESOLUTION_FACTOR); // JMS_GFX
+			pPSD->MineralText[2].baseline.y = pPSD->MineralText[1].baseline.y + RES_SCALE(7); // JMS_GFX
 			font_DrawText (&pPSD->MineralText[2]);
 		}
 	}
@@ -1516,7 +1516,7 @@ static void
 InitPlanetSide (POINT pt)
 {
 	// Adjust landing location by a random jitter.
-#define RANDOM_MISS (64 << RESOLUTION_FACTOR) // JMS_GFX
+#define RANDOM_MISS RES_SCALE(64) // JMS_GFX
 	if(!optGodMode){
 		pt.x -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
 		pt.y -= RANDOM_MISS - TFB_Random () % (RANDOM_MISS << 1);
@@ -1910,7 +1910,7 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 // We cannot solve a quadratic equation in a macro, so use a sensible max
 #define MAX_OFFSETS  20
 #define MAX_OFFSETS_HD 400 // JMS_GFX
-// 10 << RESOLUTION_FACTOR to clear the lander off of the screen
+// RES_SCALE(10) to clear the lander off of the screen
 #define DISTANCE_COVERED  (SURFACE_HEIGHT / 2 + RES_SCALE(10))
 	int landingOfs[MAX_OFFSETS];
 	int start;

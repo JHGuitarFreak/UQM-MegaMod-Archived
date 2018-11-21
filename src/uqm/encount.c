@@ -291,7 +291,7 @@ InitEncounter (void)
 
 //    t.baseline.x = SIS_SCREEN_WIDTH >> 1;
 	t.baseline.x = (SIS_SCREEN_WIDTH >> 1) + 1;
-	t.baseline.y = 10 << RESOLUTION_FACTOR; // JMS_GFX
+	t.baseline.y = RES_SCALE(10); // JMS_GFX
 	t.align = ALIGN_CENTER;
 
 	SetContextFont (MicroFont);
@@ -303,7 +303,7 @@ InitEncounter (void)
 				// "ENCOUNTER IN"
 		t.CharCount = (COUNT)~0;
 		font_DrawText (&t);
-		t.baseline.y += 12 << RESOLUTION_FACTOR; // JMS_GFX
+		t.baseline.y += RES_SCALE(12); // JMS_GFX
 		t.pStr = GAME_STRING (ENCOUNTER_STRING_BASE + 1);
 				// "DEEP SPACE"
 		t.CharCount = (COUNT)~0;
@@ -317,12 +317,12 @@ InitEncounter (void)
 				// "ENCOUNTER AT"
 		t.CharCount = (COUNT)~0;
 		font_DrawText (&t);
-		t.baseline.y += 12 << RESOLUTION_FACTOR; // JMS_GFX
+		t.baseline.y += RES_SCALE(12); // JMS_GFX
 		GetClusterName (CurStarDescPtr, buf);
 		t.pStr = buf;
 		t.CharCount = (COUNT)~0;
 		font_DrawText (&t);
-		t.baseline.y += 12 << RESOLUTION_FACTOR; // JMS_GFX
+		t.baseline.y += RES_SCALE(12); // JMS_GFX
 		t.pStr = GLOBAL_SIS (PlanetName);
 		t.CharCount = (COUNT)~0;
 		font_DrawText (&t);
@@ -615,7 +615,7 @@ UninitEncounter (void)
 								DrawStatusMessage (NULL);
 								
 								ship_s.origin.x = scavenge_r.corner.x + (32 << RESOLUTION_FACTOR); // JMS_GFX
-								ship_s.origin.y = scavenge_r.corner.y + (56 << RESOLUTION_FACTOR); // JMS_GFX
+								ship_s.origin.y = scavenge_r.corner.y + RES_SCALE(56); // JMS_GFX
 								ship_s.frame = IncFrameIndex (FragPtr->icons);
 								DrawStamp (&ship_s);
 								SetContextForeGroundColor (
@@ -648,7 +648,7 @@ UninitEncounter (void)
 								t.pStr = buf;
 								t.CharCount = (COUNT)~0;
 								font_DrawText (&t);
-								t.baseline.y += 6 << RESOLUTION_FACTOR; // JMS_GFX
+								t.baseline.y += RES_SCALE(6); // JMS_GFX
 								t.pStr = GAME_STRING (
 										ENCOUNTER_STRING_BASE + 3);
 										// "BATTLE GROUP"
@@ -665,7 +665,7 @@ UninitEncounter (void)
 									// These values are inferred from DrawFadeText.
 									// However, they're not the same (100 and 45) because the text there is centered,
 									// but these rect coords are for the upper-left corner, not center.
-									save_r.corner.x = scavenge_r.corner.x + (70 << RESOLUTION_FACTOR); // JMS_GFX
+									save_r.corner.x = scavenge_r.corner.x + RES_SCALE(70); // JMS_GFX
 									save_r.corner.y = scavenge_r.corner.y + (RES_SCALE(35)); // JMS_GFX
 									
 									// These are wild-assed guesses.
@@ -701,7 +701,7 @@ UninitEncounter (void)
 							RecycleAmount += j;
 							sprintf (buf, "%u", RecycleAmount);
 							t.baseline.x = r.corner.x + r.extent.width - 1 - 5 * RESOLUTION_FACTOR; // JMS_GFX;
-							t.baseline.y = r.corner.y + (14 << RESOLUTION_FACTOR); // JMS_GFX
+							t.baseline.y = r.corner.y + RES_SCALE(14); // JMS_GFX
 							t.align = ALIGN_RIGHT;
 							t.pStr = buf;
 							t.CharCount = (COUNT)~0;
@@ -711,7 +711,7 @@ UninitEncounter (void)
 							DeltaSISGauges (0, 0, j);
 
 							if ((VictoryState++ - 1) % MAX_DEAD_DISPLAYED)
-								ship_s.origin.x += (17 << RESOLUTION_FACTOR); // JMS_GFX
+								ship_s.origin.x += RES_SCALE(17); // JMS_GFX
 							else
 							{
 								SetContextForeGroundColor (BLACK_COLOR);
@@ -721,7 +721,7 @@ UninitEncounter (void)
 								DrawFilledRectangle (&r);
 
 								ship_s.origin.x = r.corner.x + RES_SCALE(2); // JMS_GFX
-								ship_s.origin.y = scavenge_r.corner.y + (12 << RESOLUTION_FACTOR); // JMS_GFX
+								ship_s.origin.y = scavenge_r.corner.y + RES_SCALE(12); // JMS_GFX
 							}
 
 							if (Sleepy)
@@ -790,7 +790,7 @@ UninitEncounter (void)
 					sprintf (buf, "%u %s", RecycleAmount,
 							GAME_STRING (STATUS_STRING_BASE + 1)); // "RU"
 					t.baseline.x = r.corner.x + (r.extent.width >> 1);
-					t.baseline.y = r.corner.y + (14 << RESOLUTION_FACTOR); // JMS_GFX
+					t.baseline.y = r.corner.y + RES_SCALE(14); // JMS_GFX
 					t.align = ALIGN_CENTER;
 					t.pStr = buf;
 					t.CharCount = (COUNT)~0;

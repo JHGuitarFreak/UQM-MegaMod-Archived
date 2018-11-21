@@ -80,8 +80,8 @@ drawSupportShip (ROSTER_STATE *rosterState, bool filled, bool saveFrame)
 	if (saveFrame) {
 		savedShipFrame_r.corner.x = s.origin.x;
 		savedShipFrame_r.corner.y = s.origin.y;
-		savedShipFrame_r.extent.width  = 16 << RESOLUTION_FACTOR;
-		savedShipFrame_r.extent.height = 16 << RESOLUTION_FACTOR; 
+		savedShipFrame_r.extent.width  = RES_SCALE(16);
+		savedShipFrame_r.extent.height = RES_SCALE(16); 
 	
 		savedShipFrame = SaveContextFrame (&savedShipFrame_r);
 		

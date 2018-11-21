@@ -102,7 +102,7 @@ enum
 #define MELEE_Y_OFFS (RES_SCALE(21) + (RESOLUTION_FACTOR * 21)) // JMS_GFX
 #define MELEE_BOX_WIDTH (34 << RESOLUTION_FACTOR) // JMS_GFX
 #define MELEE_BOX_HEIGHT (34 << RESOLUTION_FACTOR) // JMS_GFX
-#define MELEE_BOX_SPACE (1 << RESOLUTION_FACTOR) // JMS_GFX
+#define MELEE_BOX_SPACE RES_SCALE(1) // JMS_GFX
 
 #define MENU_X_OFFS (29 << RESOLUTION_FACTOR) // JMS_GFX
 
@@ -111,12 +111,12 @@ enum
 #define INFO_WIDTH (58 << RESOLUTION_FACTOR) // JMS_GFX
 #define TEAM_INFO_ORIGIN_Y RES_SCALE(3) // JMS_GFX
 #define TEAM_INFO_HEIGHT (SHIP_INFO_HEIGHT + (75 << RESOLUTION_FACTOR)) // JMS_GFX
-#define MODE_INFO_ORIGIN_Y (TEAM_INFO_HEIGHT + (6 << RESOLUTION_FACTOR)) // JMS_GFX
+#define MODE_INFO_ORIGIN_Y (TEAM_INFO_HEIGHT + RES_SCALE(6)) // JMS_GFX
 #define MODE_INFO_HEIGHT ((STATUS_HEIGHT - RES_SCALE(3)) - MODE_INFO_ORIGIN_Y) // JMS_GFX
-#define RACE_INFO_ORIGIN_Y (SHIP_INFO_HEIGHT + (6 << RESOLUTION_FACTOR)) // JMS_GFX
+#define RACE_INFO_ORIGIN_Y (SHIP_INFO_HEIGHT + RES_SCALE(6)) // JMS_GFX
 #define RACE_INFO_HEIGHT ((STATUS_HEIGHT - RES_SCALE(3)) - RACE_INFO_ORIGIN_Y) // JMS_GFX
 
-#define MELEE_STATUS_X_OFFS ((1 << RESOLUTION_FACTOR)) // JMS_GFX
+#define MELEE_STATUS_X_OFFS (RES_SCALE(1)) // JMS_GFX
 #define MELEE_STATUS_Y_OFFS (RES_SCALE(201) + IF_HD(40)) // JMS_GFX
 #define MELEE_STATUS_WIDTH  (NUM_MELEE_COLUMNS * \
 		(MELEE_BOX_WIDTH + MELEE_BOX_SPACE))
@@ -498,7 +498,7 @@ DrawTeamString (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState,
 	lfText.pStr = (teamName != NULL) ? teamName :
 			MeleeSetup_getTeamName (pMS->meleeSetup, side);
 	lfText.baseline.y = r.corner.y + r.extent.height - 3;
-	lfText.baseline.x = r.corner.x + (1 << RESOLUTION_FACTOR);
+	lfText.baseline.x = r.corner.x + RES_SCALE(1);
 	lfText.align = ALIGN_LEFT;
 	lfText.CharCount = strlen (lfText.pStr);
 
@@ -539,7 +539,7 @@ DrawTeamString (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState,
 		{	// Use block cursor for keyboardless systems
 			if (pMS->CurIndex == lfText.CharCount)
 			{	// cursor at end-line -- use insertion point
-				text_r.extent.width = (1 << RESOLUTION_FACTOR);
+				text_r.extent.width = RES_SCALE(1);
 			}
 			else if (pMS->CurIndex + 1 == lfText.CharCount)
 			{	// extra pixel for last char margin
@@ -547,12 +547,12 @@ DrawTeamString (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState,
 			}
 			else
 			{	// normal mid-line char
-				text_r.extent.width = (SIZE)*pchar_deltas + (1 << RESOLUTION_FACTOR);
+				text_r.extent.width = (SIZE)*pchar_deltas + RES_SCALE(1);
 			}
 		}
 		else
 		{	// Insertion point cursor
-			text_r.extent.width = 1 << RESOLUTION_FACTOR;
+			text_r.extent.width = RES_SCALE(1);
 		}
 		// position cursor within input field rect
 		++text_r.corner.x;
@@ -1648,7 +1648,7 @@ DoConnectingDialog (MELEE_STATE *pMS)
 
 		t.pStr = GAME_STRING (NETMELEE_STRING_BASE + 18);
 				/* "Press SPACE to cancel" */
-		t.baseline.y += 16 << RESOLUTION_FACTOR;
+		t.baseline.y += RES_SCALE(16);
 		font_DrawText (&t);
 
 		// Restore original graphics

@@ -1641,15 +1641,6 @@ DoMoveCursor (MENU_STATE *pMS)
 		if (PulsedInputState.menu[KEY_MENU_UP])      sy = RES_SCALE(-1);
 		if (PulsedInputState.menu[KEY_MENU_DOWN])    sy = RES_SCALE(1);
 
-		/*if (moveRepeats > 20)
-		{
-			sx *= 1 << RESOLUTION_FACTOR;
-			sy *= 1 << RESOLUTION_FACTOR;
-		}*/
-		// BW: we need to go through this because 4x only checks for
-		// input every ONE_SECOND/40 or so, thus reducing
-		// MIN_ACCEL_STEP is of no use. In practice it's similar.
-
 		if (sx != 0 || sy != 0)
 		{
 			UpdateCursorLocation (sx, sy, NULL);

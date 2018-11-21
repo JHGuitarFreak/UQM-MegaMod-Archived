@@ -33,8 +33,8 @@
 #include <string.h>
 
 
-#define NUM_CELL_COLS (MAP_WIDTH / (6 << RESOLUTION_FACTOR) + IF_HD(7) - (optWhichFonts == OPT_PC ? 0 : IF_HD(1))) // JMS_GFX 
-#define NUM_CELL_ROWS (MAP_HEIGHT / (6 << RESOLUTION_FACTOR) + IF_HD(2)) // JMS_GFX
+#define NUM_CELL_COLS (MAP_WIDTH / RES_SCALE(6) + IF_HD(7) - (optWhichFonts == OPT_PC ? 0 : IF_HD(1))) // JMS_GFX 
+#define NUM_CELL_ROWS (MAP_HEIGHT / RES_SCALE(6) + IF_HD(2)) // JMS_GFX
 #define MAX_CELL_COLS 40
 
 extern FRAME SpaceJunkFrame;
@@ -226,7 +226,7 @@ MakeReport (SOUND ReadOutSounds, UNICODE *pStr, COUNT StrLen)
 
 InitPageCell:
 			ButtonState = 1;
-			t.baseline.y = r.extent.height + (1 << RESOLUTION_FACTOR) + 3 * RESOLUTION_FACTOR; // JMS_GFX
+			t.baseline.y = r.extent.height + RES_SCALE(1) + 3 * RESOLUTION_FACTOR; // JMS_GFX
 			row_cells = 0;
 			if (StrLen)
 			{

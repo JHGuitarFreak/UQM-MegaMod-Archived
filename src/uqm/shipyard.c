@@ -314,9 +314,9 @@ ShowShipCrew (SHIP_FRAGMENT *StarShipPtr, const RECT *pRect)
 	t.CharCount = (COUNT)~0;
 	if (r.corner.y)
 	{
-		r.corner.y = t.baseline.y - (6 << RESOLUTION_FACTOR); //JMS_GFX
+		r.corner.y = t.baseline.y - RES_SCALE(6); //JMS_GFX
 		r.extent.width = SHIP_WIN_WIDTH;
-		r.extent.height = (6 << RESOLUTION_FACTOR); // JMS_GFX
+		r.extent.height = RES_SCALE(6); // JMS_GFX
 		SetContextForeGroundColor (BLACK_COLOR);
 		DrawFilledRectangle (&r);
 	}
@@ -619,9 +619,9 @@ DMS_FlashEscortShipCrewCount (BYTE slotNr)
 	hangar_x_coords = RES_BOOL(hangar_x_coords_orig, hangar_x_coords_hd);
 
 	r.corner.x = hangar_x_coords[col];
-	r.corner.y = (HANGAR_Y + (HANGAR_DY * row)) + (SHIP_WIN_HEIGHT - (6 << RESOLUTION_FACTOR));
+	r.corner.y = (HANGAR_Y + (HANGAR_DY * row)) + (SHIP_WIN_HEIGHT - RES_SCALE(6));
 	r.extent.width = SHIP_WIN_WIDTH;
-	r.extent.height = 5 << RESOLUTION_FACTOR; // JMS_GFX
+	r.extent.height = RES_SCALE(5); // JMS_GFX
 
 	SetContext (SpaceContext);
 	SetFlashRect (&r);
@@ -757,19 +757,19 @@ DMS_HireFlagShipCrew (void)
 	// Draw a crew member.
 	// Crew dots/rectangles for Original and HD graphics.
 	if (RESOLUTION_FACTOR != HD) {
-		r.extent.width = 1 << RESOLUTION_FACTOR;
+		r.extent.width = RES_SCALE(1);
 		r.extent.height = r.extent.width;
 		DrawFilledRectangle (&r);
 	} else {
 		r.corner.x += 1;
-		r.extent.width = (1 << RESOLUTION_FACTOR) - 2;
-		r.extent.height = 1 << RESOLUTION_FACTOR;
+		r.extent.width = RES_SCALE(1) - 2;
+		r.extent.height = RES_SCALE(1);
 		DrawFilledRectangle (&r);
 									
 		r.corner.x -= 1;
 		r.corner.y += 1;
-		r.extent.width = 1 << RESOLUTION_FACTOR;
-		r.extent.height = (1 << RESOLUTION_FACTOR) - 2;
+		r.extent.width = RES_SCALE(1);
+		r.extent.height = RES_SCALE(1) - 2;
 		DrawFilledRectangle (&r);
 									
 		r.corner.y -= 1;
@@ -813,7 +813,7 @@ DMS_DismissFlagShipCrew (void)
 
 	// Remove the pixel representing the crew member.
 	GetCPodCapacity (&r.corner);
-	r.extent.width = 1 << RESOLUTION_FACTOR;
+	r.extent.width = RES_SCALE(1);
 	r.extent.height = r.extent.width;
 	SetContextForeGroundColor (BLACK_COLOR);
 	DrawFilledRectangle (&r);
@@ -1383,7 +1383,7 @@ DrawBluePrint (MENU_STATE *pMS)
 			RECT r;
 			// Crew dots/rectangles for Original and HD graphics.
 			if (RESOLUTION_FACTOR != HD) {
-				r.extent.width = 1 << RESOLUTION_FACTOR;
+				r.extent.width = RES_SCALE(1);
 				r.extent.height = r.extent.width;
 				
 				GetCPodCapacity (&r.corner);
@@ -1392,14 +1392,14 @@ DrawBluePrint (MENU_STATE *pMS)
 				GetCPodCapacity (&r.corner);
 				
 				r.corner.x += 1;
-				r.extent.width = (1 << RESOLUTION_FACTOR) - 2;
-				r.extent.height = 1 << RESOLUTION_FACTOR;
+				r.extent.width = RES_SCALE(1) - 2;
+				r.extent.height = RES_SCALE(1);
 				DrawFilledRectangle (&r);
 				
 				r.corner.x -= 1;
 				r.corner.y += 1;
-				r.extent.width = 1 << RESOLUTION_FACTOR;
-				r.extent.height = (1 << RESOLUTION_FACTOR) - 2;
+				r.extent.width = RES_SCALE(1);
+				r.extent.height = RES_SCALE(1) - 2;
 				DrawFilledRectangle (&r);
 				
 				r.corner.y -= 1;
@@ -1415,7 +1415,7 @@ DrawBluePrint (MENU_STATE *pMS)
 		GLOBAL_SIS (TotalElementMass) = 0;
 
 		r.extent.width = 9 << RESOLUTION_FACTOR; // JMS_GFX
-		r.extent.height = 1 << RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.height = RES_SCALE(1); // JMS_GFX
 		while (num_frames)
 		{
 			COUNT m;

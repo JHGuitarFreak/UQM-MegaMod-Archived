@@ -185,7 +185,7 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 	ClearShipStatus (y, width, inMeleeMenu);
 
 	Stamp.origin.x = (STATUS_WIDTH >> 1);
-	Stamp.origin.y = (31 << RESOLUTION_FACTOR) + y;
+	Stamp.origin.y = RES_SCALE(31) + y;
 	Stamp.frame = IncFrameIndex (SIPtr->icons);
 	DrawStamp (&Stamp);
 	

@@ -49,7 +49,7 @@
 #define PICK_Y_OFFS RES_SCALE(24) // JMS_GFX
 #define PICK_SIDE_OFFS (100 << RESOLUTION_FACTOR) // JMS_GFX
 
-#define NAME_AREA_HEIGHT (7 << RESOLUTION_FACTOR) // JMS_GFX
+#define NAME_AREA_HEIGHT RES_SCALE(7) // JMS_GFX
 #define MELEE_WIDTH (149 << RESOLUTION_FACTOR) // JMS_GFX
 #define MELEE_HEIGHT (RES_SCALE(48) + NAME_AREA_HEIGHT)
 
@@ -462,7 +462,7 @@ UpdatePickMeleeFleetValue (FRAME frame, COUNT which_player)
 
 	// Draw the new value text.
 	sprintf (buf, "%d", value);
-	t.baseline.y = 7 << RESOLUTION_FACTOR;
+	t.baseline.y = RES_SCALE(7);
 	t.align = ALIGN_RIGHT;
 	t.pStr = buf;
 	t.CharCount = (COUNT)~0;
@@ -556,8 +556,8 @@ FillPickMeleeFrame (MeleeSetup *setup)
 
 		// Total team value of the starting team:
 		sprintf (buf, "%u", MeleeSetup_getFleetValue (setup, sideI));
-		t.baseline.x = 4 << RESOLUTION_FACTOR;
-		t.baseline.y = 7 << RESOLUTION_FACTOR;
+		t.baseline.x = RES_SCALE(4);
+		t.baseline.y = RES_SCALE(7);
 		t.align = ALIGN_LEFT;
 		t.pStr = buf;
 		t.CharCount = (COUNT)~0;

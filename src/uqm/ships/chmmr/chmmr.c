@@ -49,10 +49,10 @@
 
 // Satellites
 #define NUM_SATELLITES 3
-#define SATELLITE_OFFSET DISPLAY_TO_WORLD (64 << RESOLUTION_FACTOR)
+#define SATELLITE_OFFSET DISPLAY_TO_WORLD (RES_SCALE(64))
 #define SATELLITE_HITPOINTS 10
 #define SATELLITE_MASS 10
-#define DEFENSE_RANGE (UWORD)(64 << RESOLUTION_FACTOR)
+#define DEFENSE_RANGE (UWORD)RES_SCALE(64)
 #define DEFENSE_WAIT 2
 
 static RACE_DESC chmmr_desc =
@@ -394,7 +394,7 @@ chmmr_postprocess (ELEMENT *ElementPtr)
 						+ DISPLAY_TO_WORLD (CHMMR_OFFSET << RESOLUTION_FACTOR))) // JMS_GFX
 						- ShipElementPtr->next.location.y;
 				angle = ARCTAN (dx, dy);
-				magnitude = WORLD_TO_VELOCITY (12 << RESOLUTION_FACTOR) / ShipElementPtr->mass_points; // JMS_GFX
+				magnitude = WORLD_TO_VELOCITY (RES_SCALE(12)) / ShipElementPtr->mass_points; // JMS_GFX
 				DeltaVelocityComponents (&ShipElementPtr->velocity,
 						COSINE (angle, magnitude), SINE (angle, magnitude));
 
@@ -531,7 +531,7 @@ spawn_point_defense (ELEMENT *ElementPtr)
 
 	GetElementStarShip (ElementPtr, &StarShipPtr);
 	hBestObject = 0;
-	best_dist = DEFENSE_RANGE + (1 << RESOLUTION_FACTOR);
+	best_dist = DEFENSE_RANGE + RES_SCALE(1);
 	weakest = 255;
 	LockElement (StarShipPtr->hShip, &ShipPtr);
 	LockElement (ElementPtr->hTarget, &SattPtr);
