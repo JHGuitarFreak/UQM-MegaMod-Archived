@@ -685,12 +685,12 @@ UninitEncounter (void)
 								DrawFadeText (str1, str2, TRUE, &scavenge_r);
 							}
 
-							r.corner.y = scavenge_r.corner.y + (9 << RESOLUTION_FACTOR); // JMS_GFX
+							r.corner.y = scavenge_r.corner.y + RES_SCALE(9); // JMS_GFX
 							r.extent.height = 22 << RESOLUTION_FACTOR; // JMS_GFX
 
 							SetContextForeGroundColor (BLACK_COLOR);
 
-							r.extent.width = 34 << RESOLUTION_FACTOR; // JMS_GFX
+							r.extent.width = RES_SCALE(34); // JMS_GFX
 							r.corner.x = scavenge_r.corner.x +
 									scavenge_r.extent.width
 									- (RES_SCALE(10) + r.extent.width); // JMS_GFX

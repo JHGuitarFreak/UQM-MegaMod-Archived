@@ -1431,8 +1431,8 @@ GetSBayCapacity (POINT *ppt)
 		SetContextForeGroundColor (colorBars[rowNr]);
 	}
 		
-	ppt->x = (19 << RESOLUTION_FACTOR) + (slotNr * ship_piece_offset_scaled) + IF_HD(53); // JMS_GFX
-	ppt->y = ((34 - (rowNr * 2)) << RESOLUTION_FACTOR) - IF_HD(9); // JMS_GFX
+	ppt->x = RES_SCALE(19) + (slotNr * ship_piece_offset_scaled) + IF_HD(53); // JMS_GFX
+	ppt->y = RES_SCALE(34 - (rowNr * 2)) - IF_HD(9); // JMS_GFX
 
 	return GetStorageBayCapacity ();
 }

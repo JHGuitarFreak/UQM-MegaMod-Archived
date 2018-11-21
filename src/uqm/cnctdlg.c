@@ -29,8 +29,8 @@
 #include "libs/graphics/widgets.h"
 #include "supermelee/netplay/netoptions.h"
 
-#define MCD_WIDTH (260 << RESOLUTION_FACTOR) // JMS_GFX
-#define MCD_HEIGHT (110 << RESOLUTION_FACTOR) // JMS_GFX
+#define MCD_WIDTH RES_SCALE(260) // JMS_GFX
+#define MCD_HEIGHT RES_SCALE(110) // JMS_GFX
 
 #define MENU_FRAME_RATE (ONE_SECOND / 20)
 

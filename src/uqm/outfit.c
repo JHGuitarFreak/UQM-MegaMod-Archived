@@ -536,7 +536,7 @@ InitFlash:
 					case EMPTY_SLOT + 1:
 						pMS->flash_rect0.corner.x = JET_TOP_X - 1 - IF_HD(3);
 						pMS->flash_rect0.corner.y = JET_TOP_Y - 1 + IF_HD(185);
-						pMS->flash_rect0.extent.width = 9 << RESOLUTION_FACTOR; // JMS_GFX;
+						pMS->flash_rect0.extent.width = RES_SCALE(9); // JMS_GFX;
 						pMS->flash_rect0.extent.height = RES_SCALE(10) + IF_HD(4); // JMS_GFX;
 
 						break;
@@ -544,7 +544,7 @@ InitFlash:
 						pMS->flash_rect0.corner.x = MODULE_TOP_X - 1 + IF_HD(2);
 						pMS->flash_rect0.corner.y = MODULE_TOP_Y - 1;
 						pMS->flash_rect0.extent.width = SHIP_PIECE_OFFSET + 2 - IF_HD(1);
-						pMS->flash_rect0.extent.height = (34 << RESOLUTION_FACTOR) + IF_HD(9); // JMS_GFX;
+						pMS->flash_rect0.extent.height = RES_SCALE(34) + IF_HD(9); // JMS_GFX;
 						w += IF_HD(1);
 						break;
 				}

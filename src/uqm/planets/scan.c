@@ -172,7 +172,7 @@ PrintCoarseScanPC (void)
 
 	t.align = ALIGN_CENTER;
 	t.baseline.x = SIS_SCREEN_WIDTH >> 1;
-	t.baseline.y = (13 << RESOLUTION_FACTOR) + 4*RESOLUTION_FACTOR; // JMS_GFX
+	t.baseline.y = RES_SCALE(13) + 4 * RESOLUTION_FACTOR; // JMS_GFX
 	t.pStr = buf;
 	t.CharCount = (COUNT)~0;
 
@@ -183,7 +183,7 @@ PrintCoarseScanPC (void)
 	SetContextFont (TinyFont);
 
 #define LEFT_SIDE_BASELINE_X_PC RES_SCALE(5) // JMS_GFX
-#define RIGHT_SIDE_BASELINE_X_PC (SIS_SCREEN_WIDTH - (75 << RESOLUTION_FACTOR)) // JMS_GFX
+#define RIGHT_SIDE_BASELINE_X_PC (SIS_SCREEN_WIDTH - RES_SCALE(75)) // JMS_GFX
 #define SCAN_BASELINE_Y_PC RES_SCALE(40) // JMS_GFX
 
 	t.baseline.y = SCAN_BASELINE_Y_PC;
@@ -363,7 +363,7 @@ PrintCoarseScanPC (void)
 static void
 PrintCoarseScan3DO (void)
 {
-#define SCAN_LEADING (19 << RESOLUTION_FACTOR) // JMS_GFX
+#define SCAN_LEADING RES_SCALE(19) // JMS_GFX
 	SDWORD val;
 	TEXT t;
 	STAMP s;
@@ -383,7 +383,7 @@ PrintCoarseScan3DO (void)
 
 	t.align = ALIGN_CENTER;
 	t.baseline.x = SIS_SCREEN_WIDTH >> 1;
-	t.baseline.y = (13 << RESOLUTION_FACTOR); // JMS_GFX
+	t.baseline.y = RES_SCALE(13); // JMS_GFX
 	t.pStr = buf;
 	t.CharCount = (COUNT)~0;
 

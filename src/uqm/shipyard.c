@@ -1414,7 +1414,7 @@ DrawBluePrint (MENU_STATE *pMS)
 		num_frames = GLOBAL_SIS (TotalElementMass);
 		GLOBAL_SIS (TotalElementMass) = 0;
 
-		r.extent.width = 9 << RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.width = RES_SCALE(9); // JMS_GFX
 		r.extent.height = RES_SCALE(1); // JMS_GFX
 		while (num_frames)
 		{
