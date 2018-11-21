@@ -185,21 +185,21 @@ Widget_DrawToolTips (int numlines, const char **tips)
 	if (cur_font)
 		oldfont = SetContextFont (cur_font);
 
-	r.corner.x = 2 << RESOLUTION_FACTOR; // JMS_GFX
-	r.corner.y = 2 << RESOLUTION_FACTOR; // JMS_GFX
-	r.extent.width = ScreenWidth - (4 << RESOLUTION_FACTOR); // JMS_GFX
-	r.extent.height = ScreenHeight + (2 << RESOLUTION_FACTOR); // JMS_GFX
+	r.corner.x = RES_SCALE(2); // JMS_GFX
+	r.corner.y = RES_SCALE(2); // JMS_GFX
+	r.extent.width = ScreenWidth - RES_SCALE(4); // JMS_GFX
+	r.extent.height = ScreenHeight + RES_SCALE(2); // JMS_GFX
 
 	t.align = ALIGN_CENTER;
 	t.CharCount = ~0;
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
-	t.baseline.y = r.corner.y + (r.extent.height - (8 << RESOLUTION_FACTOR) - (8 << RESOLUTION_FACTOR) * numlines); // JMS_GFX
+	t.baseline.y = r.corner.y + (r.extent.height - RES_SCALE(8) - RES_SCALE(8) * numlines); // JMS_GFX
 
 	for (i = 0; i < numlines; i++)
 	{
 		t.pStr = tips[i];
 		font_DrawText(&t);
-		t.baseline.y += (8 << RESOLUTION_FACTOR); // JMS_GFX
+		t.baseline.y += RES_SCALE(8); // JMS_GFX
 	}
 
 	SetContextFontEffect (oldFontEffect);
@@ -238,7 +238,7 @@ Widget_DrawMenuScreen (WIDGET *_self, int x, int y)
 	
 	oldtext = SetContextForeGroundColor (title);
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
-	t.baseline.y = r.corner.y + (8 << RESOLUTION_FACTOR); // JMS_GFX
+	t.baseline.y = r.corner.y + RES_SCALE(8); // JMS_GFX
 	t.pStr = self->title;
 	t.align = ALIGN_CENTER;
 	t.CharCount = ~0;
@@ -262,7 +262,7 @@ Widget_DrawMenuScreen (WIDGET *_self, int x, int y)
 	{
 		WIDGET *c = self->child[widget_index];
 		(*c->draw)(c, 0, widget_y);
-		widget_y += (*c->height)(c) + (8 << RESOLUTION_FACTOR); // JMS_GFX
+		widget_y += (*c->height)(c) + RES_SCALE(8); // JMS_GFX
 	}
 	
 	SetContextFontEffect (oldFontEffect);
@@ -692,7 +692,7 @@ Widget_DrawControlEntry (WIDGET *_self, int x, int y)
 int
 Widget_HeightChoice (WIDGET *_self)
 {
-	return ((((WIDGET_CHOICE *)_self)->numopts + 2) / 3) * (8 << RESOLUTION_FACTOR); // JMS_GFX;
+	return ((((WIDGET_CHOICE *)_self)->numopts + 2) / 3) * RES_SCALE(8); // JMS_GFX;
 }
 
 int
@@ -706,14 +706,14 @@ int
 Widget_HeightOneLine (WIDGET *_self)
 {
 	(void)_self;
-	return (8 << RESOLUTION_FACTOR); // JMS_GFX
+	return RES_SCALE(8); // JMS_GFX
 }
 
 int
 Widget_HeightLabel (WIDGET *_self)
 {
 	WIDGET_LABEL *self = (WIDGET_LABEL *)_self;
-	return self->line_count * (8 << RESOLUTION_FACTOR);
+	return self->line_count * RES_SCALE(8);
 }
 
 int

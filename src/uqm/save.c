@@ -1221,8 +1221,8 @@ SaveProblemMessage (STAMP *MsgStamp)
 			- r.corner.y;
 	r.corner.x += t.baseline.x - (4 << RESOLUTION_FACTOR);
 	r.corner.y += t.baseline.y - (4 << RESOLUTION_FACTOR);
-	r.extent.width += (8 << RESOLUTION_FACTOR);
-	r.extent.height += (8 << RESOLUTION_FACTOR);
+	r.extent.width += RES_SCALE(8);
+	r.extent.height += RES_SCALE(8);
 
 	*MsgStamp = SaveContextFrame (&r);
 

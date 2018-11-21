@@ -53,7 +53,7 @@ DrawConfirmationWindow (BOOLEAN answer)
 			SHADOWBOX_DARK_COLOR, SHADOWBOX_MEDIUM_COLOR);
 
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
-	t.baseline.y = r.corner.y + (8 << RESOLUTION_FACTOR); // JMS_GFX
+	t.baseline.y = r.corner.y + RES_SCALE(8); // JMS_GFX
 	t.pStr = GAME_STRING (QUITMENU_STRING_BASE); // "Really Quit?"
 	t.align = ALIGN_CENTER;
 	t.CharCount = (COUNT)~0;

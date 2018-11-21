@@ -1247,7 +1247,7 @@ tactical_intelligence (ComputerInputContext *context, STARSHIP *StarShipPtr)
 						EnemyRDPtr->ship_data.special))
 				{
 					if ((!(ed.ObjectPtr->state_flags & (FINITE_LIFE | CREW_OBJECT))
-						 && RDPtr->characteristics.max_thrust > DISPLAY_TO_WORLD (8 << RESOLUTION_FACTOR)) // JMS_GFX
+						 && RDPtr->characteristics.max_thrust > DISPLAY_TO_WORLD (RES_SCALE(8))) // JMS_GFX
 						|| NORMALIZE_ANGLE (GetVelocityTravelAngle (
 							&ed.ObjectPtr->velocity
 							) - ARCTAN (-dx, -dy) + QUADRANT) > HALF_CIRCLE)

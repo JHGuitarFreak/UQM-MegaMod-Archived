@@ -200,13 +200,13 @@ add_text (int status, TEXT *pTextIn)
 	}
 	else if (GetContextFontLeading (&leading), status <= -4)
 	{
-		text_width = (SIZE) (SIS_SCREEN_WIDTH - (8 << RESOLUTION_FACTOR) - (TEXT_X_OFFS << 2)); // JMS_GFX
+		text_width = (SIZE) (SIS_SCREEN_WIDTH - RES_SCALE(8) - (TEXT_X_OFFS << 2)); // JMS_GFX
 
 		pText = pTextIn;
 	}
 	else
 	{
-		text_width = (SIZE) (SIS_SCREEN_WIDTH - (8 << RESOLUTION_FACTOR) - (TEXT_X_OFFS << 2)); // JMS_GFX
+		text_width = (SIZE) (SIS_SCREEN_WIDTH - RES_SCALE(8) - (TEXT_X_OFFS << 2)); // JMS_GFX
 
 		switch (status)
 		{
@@ -227,7 +227,7 @@ add_text (int status, TEXT *pTextIn)
 
 		maxchars = pTextIn->CharCount;
 		locText = *pTextIn;
-		locText.baseline.x -= (8 << RESOLUTION_FACTOR) - 4 * RESOLUTION_FACTOR; // JMS_GFX
+		locText.baseline.x -= RES_SCALE(8) - 4 * RESOLUTION_FACTOR; // JMS_GFX
 		locText.CharCount = (COUNT)~0;
 		locText.pStr = STR_BULLET;
 		font_DrawText (&locText);
@@ -538,7 +538,7 @@ RefreshResponses (ENCOUNTER_STATE *pES)
 	{
 		extra_y = (response == pES->top_response ? 0 : IF_HD(22)); // JMS_GFX
 		
-		pES->response_list[response].response_text.baseline.x = TEXT_X_OFFS + (8 << RESOLUTION_FACTOR); // JMS_GFX
+		pES->response_list[response].response_text.baseline.x = TEXT_X_OFFS + RES_SCALE(8); // JMS_GFX
 		pES->response_list[response].response_text.baseline.y = y + leading + extra_y; // JMS_GFX
 		pES->response_list[response].response_text.align = ALIGN_LEFT;
 		if (response == pES->cur_response)
@@ -919,7 +919,7 @@ static void remove_char_from_string(UNICODE* str, const UNICODE c) {
 static BOOLEAN
 DoConvSummary (SUMMARY_STATE *pSS)
 {
-#define DELTA_Y_SUMMARY (8 << RESOLUTION_FACTOR) // JMS_GFX
+#define DELTA_Y_SUMMARY RES_SCALE(8) // JMS_GFX
 	//#define MAX_SUMM_ROWS ((SIS_SCREEN_HEIGHT - SLIDER_Y - SLIDER_HEIGHT) / DELTA_Y_SUMMARY
 #define MAX_SUMM_ROWS (SLIDER_Y	/ DELTA_Y_SUMMARY) - 1 // JMS_GFX
 

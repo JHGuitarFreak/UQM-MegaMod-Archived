@@ -455,7 +455,7 @@ DrawSaveNameString (UNICODE *Str, COUNT CursorPos, COUNT state, COUNT gameIndex)
 		DrawFilledRectangle (&r);
 
 		t.baseline.x = r.corner.x + (3 << RESOLUTION_FACTOR);
-		t.baseline.y = r.corner.y + (8 << RESOLUTION_FACTOR); // JMS_GFX
+		t.baseline.y = r.corner.y + RES_SCALE(8); // JMS_GFX
 		t.align = ALIGN_LEFT;
 		t.pStr = Str;
 		t.CharCount = (COUNT)~0;

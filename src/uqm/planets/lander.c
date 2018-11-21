@@ -1685,7 +1685,7 @@ DoPlanetSide (LanderInputState *pMS)
 		angle = FACING_TO_ANGLE (GetFrameIndex (LanderFrame[0]));
 		landerSpeedNumer = GET_GAME_STATE (IMPROVED_LANDER_SPEED) ?
 			WORLD_TO_VELOCITY (2 * (16 << RESOLUTION_FACTOR)) :
-			WORLD_TO_VELOCITY (2 * (8 << RESOLUTION_FACTOR));
+			WORLD_TO_VELOCITY (2 * RES_SCALE(8));
 
 #ifdef FAST_FAST
 landerSpeedNumer = WORLD_TO_VELOCITY (48 << RESOLUTION_FACTOR); // JMS

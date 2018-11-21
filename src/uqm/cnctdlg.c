@@ -80,12 +80,12 @@ MCD_DrawMenuScreen (WIDGET *_self, int x, int y)
 
 	WIDGET_MENU_SCREEN *self = (WIDGET_MENU_SCREEN *)_self;
 	
-	widget_y = y + (8 << RESOLUTION_FACTOR); // JMS_GFX
+	widget_y = y + RES_SCALE(8); // JMS_GFX
 	for (widget_index = 0; widget_index < self->num_children; widget_index++)
 	{
 		WIDGET *c = self->child[widget_index];
 		(*c->draw)(c, x, widget_y);
-		widget_y += (*c->height)(c) + (8 << RESOLUTION_FACTOR); // JMS_GFX
+		widget_y += (*c->height)(c) + RES_SCALE(8); // JMS_GFX
 	}
 }
 
