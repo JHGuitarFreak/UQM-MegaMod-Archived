@@ -398,6 +398,8 @@ main (int argc, char *argv[])
 		log_add(log_Info, "GCC_VERSION: %d.%d.%d\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
 #endif // __GNUC__
 
+		printf("Buid Time: %s %s\n\n", __DATE__, __TIME__);
+
 	if (errBuffer[0] != '\0')
 	{	// Have some saved error to log
 		log_add (log_Error, "%s", errBuffer);
