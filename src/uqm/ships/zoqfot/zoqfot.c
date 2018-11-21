@@ -176,7 +176,7 @@ initialize_spit (ELEMENT *ShipPtr, HELEMENT SpitArray[])
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = ZOQFOTPIK_OFFSET;
 	MissileBlock.speed = DISPLAY_TO_WORLD (
-			(GetFrameCount (StarShipPtr->RaceDescPtr->ship_data.weapon[0])) << RESOLUTION_FACTOR) << 1;
+			RES_SCALE(GetFrameCount (StarShipPtr->RaceDescPtr->ship_data.weapon[0]))) << 1;
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -371,7 +371,7 @@ init_zoqfotpik (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		zoqfotpik_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		zoqfotpik_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		zoqfotpik_desc.cyborg_control.WeaponRange = MISSILE_RANGE_HD;

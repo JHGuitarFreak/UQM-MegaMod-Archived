@@ -104,7 +104,7 @@ enum
 #define MELEE_BOX_HEIGHT RES_SCALE(34) // JMS_GFX
 #define MELEE_BOX_SPACE RES_SCALE(1) // JMS_GFX
 
-#define MENU_X_OFFS (29 << RESOLUTION_FACTOR) // JMS_GFX
+#define MENU_X_OFFS RES_SCALE(29) // JMS_GFX
 
 
 #define INFO_ORIGIN_X RES_SCALE(4) // JMS_GFX
@@ -898,7 +898,7 @@ DrawMeleeShipStrings (MELEE_STATE *pMS, MeleeShip NewStarShip)
 		SetContextForeGroundColor (BLACK_COLOR);
 		DrawRectangle (&r);
 		t.baseline.x = STATUS_WIDTH >> 1;
-		t.baseline.y = 32 << RESOLUTION_FACTOR; 
+		t.baseline.y = RES_SCALE(32);
 		t.align = ALIGN_CENTER;
 		if (pMS->row < NUM_MELEE_ROWS)
 		{

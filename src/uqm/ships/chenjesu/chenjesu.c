@@ -677,7 +677,7 @@ init_chenjesu (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		chenjesu_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		chenjesu_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		chenjesu_desc.cyborg_control.WeaponRange = LONG_RANGE_WEAPON_HD;

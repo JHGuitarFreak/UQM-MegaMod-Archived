@@ -296,7 +296,7 @@ init_spathi (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		spathi_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		spathi_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		spathi_desc.cyborg_control.WeaponRange = MISSILE_RANGE_HD;

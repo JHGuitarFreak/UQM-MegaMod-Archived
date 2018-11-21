@@ -45,7 +45,7 @@
 // Harvester
 #define SPECIAL_ENERGY_COST 0
 #define SPECIAL_WAIT 20
-#define HARVEST_RANGE ((208 * 3 / 8) << RESOLUTION_FACTOR)
+#define HARVEST_RANGE RES_SCALE(208 * 3 / 8)
 		/* Was originally (SPACE_HEIGHT * 3 / 8) */
 
 static RACE_DESC slylandro_desc =
@@ -431,7 +431,7 @@ init_slylandro (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		slylandro_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		slylandro_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		slylandro_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD << 1;

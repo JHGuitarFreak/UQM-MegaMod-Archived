@@ -370,7 +370,7 @@ init_utwig (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		utwig_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		utwig_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		utwig_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD;

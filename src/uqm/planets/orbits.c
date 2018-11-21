@@ -623,8 +623,8 @@ RelocatePlanet:
 		pPD->location.y = SINE (pPD->angle, pPD->radius);
 		if (GeneratingMoons) {
 		pPD->rand_seed = MAKE_DWORD (
-		     COSINE (pPD->angle, pPD->radius >> RESOLUTION_FACTOR),
-		     SINE (pPD->angle, pPD->radius >> RESOLUTION_FACTOR));
+		     COSINE (pPD->angle, RES_DESCALE(pPD->radius)),
+		     SINE (pPD->angle, RES_DESCALE(pPD->radius)));
 		} else {
 			pPD->rand_seed = MAKE_DWORD (pPD->location.x, pPD->location.y);
 		}

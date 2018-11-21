@@ -366,7 +366,7 @@ init_mycon (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		mycon_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		mycon_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		mycon_desc.cyborg_control.WeaponRange = DISPLAY_TO_WORLD(3200);

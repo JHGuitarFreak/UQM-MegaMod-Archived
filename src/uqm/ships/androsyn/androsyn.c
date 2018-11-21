@@ -301,7 +301,7 @@ androsynth_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 			if (lpEvalDesc->which_turn <= 16
 					&& (StarShipPtr->special_counter > 0
 					|| StarShipPtr->RaceDescPtr->ship_info.energy_level < MAX_ENERGY / 3
-					|| ((WEAPON_RANGE (&pEnemyStarShip->RaceDescPtr->cyborg_control) <= (CLOSE_RANGE_WEAPON << RESOLUTION_FACTOR)
+					|| ((WEAPON_RANGE (&pEnemyStarShip->RaceDescPtr->cyborg_control) <= RES_SCALE(CLOSE_RANGE_WEAPON)
 					&& lpEvalDesc->ObjectPtr->crew_level > BLAZER_DAMAGE)
 					|| (lpEvalDesc->ObjectPtr->crew_level > (BLAZER_DAMAGE * 3)
 					&& MANEUVERABILITY (&pEnemyStarShip->RaceDescPtr->cyborg_control) > RESOLUTION_COMPENSATED(SLOW_SHIP)))))
@@ -320,7 +320,7 @@ androsynth_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 					&& (WEAPON_RANGE (&pEnemyStarShip->RaceDescPtr->cyborg_control) >=
 					WEAPON_RANGE (&StarShipPtr->RaceDescPtr->cyborg_control) << 1
 					|| (lpEvalDesc->which_turn < 16
-					&& (WEAPON_RANGE (&pEnemyStarShip->RaceDescPtr->cyborg_control) > (CLOSE_RANGE_WEAPON << RESOLUTION_FACTOR)
+					&& (WEAPON_RANGE (&pEnemyStarShip->RaceDescPtr->cyborg_control) > RES_SCALE(CLOSE_RANGE_WEAPON)
 					|| lpEvalDesc->ObjectPtr->crew_level <= BLAZER_DAMAGE)
 					&& (lpEvalDesc->ObjectPtr->crew_level <= (BLAZER_DAMAGE * 3)
 					|| MANEUVERABILITY (&pEnemyStarShip->RaceDescPtr->cyborg_control) <=
@@ -516,7 +516,7 @@ init_androsynth (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		androsynth_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		androsynth_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		androsynth_desc.cyborg_control.WeaponRange = LONG_RANGE_WEAPON_HD >> 2;

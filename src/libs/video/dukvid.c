@@ -524,7 +524,7 @@ dukv_RenderFrame (THIS_PTR)
 				dst1 = (uint32*) This->callbacks.GetCanvasLine (This, y * 2 + 1);
 
 				if (RESOLUTION_FACTOR == HD && y % scale != 0)
-					dec -= dukv->decoder.w >> RESOLUTION_FACTOR;
+					dec -= RES_DESCALE(dukv->decoder.w);
 
 				for (x = 0; x < dukv->decoder.w; ++x, RES_BOOL(++dec, ++bufInc), ++dst0, ++dst1) {
 					if (bufInc % scale == 0 && RESOLUTION_FACTOR == HD)

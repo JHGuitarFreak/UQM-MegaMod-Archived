@@ -41,7 +41,7 @@
 #define NUKE_OFFSET RES_SCALE(8)
 #define MIN_MISSILE_SPEED DISPLAY_TO_WORLD (RES_SCALE(10))
 #define MAX_MISSILE_SPEED DISPLAY_TO_WORLD (RES_SCALE(20))
-#define MISSILE_SPEED ((MAX_THRUST << RESOLUTION_FACTOR) >= MIN_MISSILE_SPEED ? (MAX_THRUST << RESOLUTION_FACTOR) : MIN_MISSILE_SPEED)
+#define MISSILE_SPEED (RES_SCALE(MAX_THRUST) >= MIN_MISSILE_SPEED ? RES_SCALE(MAX_THRUST) : MIN_MISSILE_SPEED)
 #define THRUST_SCALE DISPLAY_TO_WORLD (RES_SCALE(1))
 #define MISSILE_LIFE 60
 #define MISSILE_HITS 1
@@ -349,7 +349,7 @@ init_human (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		human_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		human_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		human_desc.cyborg_control.WeaponRange = LONG_RANGE_WEAPON_HD;

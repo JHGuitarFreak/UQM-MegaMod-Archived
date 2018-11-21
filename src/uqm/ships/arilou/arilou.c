@@ -314,7 +314,7 @@ init_arilou (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		arilou_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		arilou_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		arilou_desc.cyborg_control.WeaponRange = LASER_RANGE_HD >> 1;

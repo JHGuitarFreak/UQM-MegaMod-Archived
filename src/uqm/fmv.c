@@ -78,11 +78,11 @@ SplashScreen (void (* DoProcessing)(DWORD TimeOut))
 	s.origin.x = s.origin.y = 0;
 
 	//DC: Title Splashscreen.
-	if (!resolutionFactor) {
-		printf("Loading Splashscreen\n");
+	if (RESOLUTION_FACTOR != HD) {
+		printf("Loading Splashscreen\n\n");
 		s.frame = CaptureDrawable (LoadGraphic (TITLE_ANIM));
 	} else {
-		printf("Loading HD Splashscreen\n");
+		printf("Loading HD Splashscreen\n\n");
 		s.frame = CaptureDrawable (LoadGraphic (TITLE_HD));
 	}
 

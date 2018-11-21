@@ -940,7 +940,7 @@ init_sis (void)
 	SIS_DATA empty_data;
 	memset (&empty_data, 0, sizeof (empty_data));
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		sis_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		sis_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		sis_desc.cyborg_control.WeaponRange = BLASTER_SPEED_HD * BLASTER_LIFE;

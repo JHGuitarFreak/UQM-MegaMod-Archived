@@ -33,9 +33,9 @@
 
 // Rates in pixel lines per second
 #define CREDITS_BASE_RATE   RES_SCALE(9) // JMS_GFX - MB: tamed
-#define CREDITS_MAX_RATE    (130 << RESOLUTION_FACTOR) // JMS_GFX - MB: tamed
+#define CREDITS_MAX_RATE    RES_SCALE(130) // JMS_GFX - MB: tamed
 // Maximum frame rate
-#define CREDITS_FRAME_RATE  (RES_SCALE(36)) // JMS_GFX
+#define CREDITS_FRAME_RATE  RES_SCALE(36) // JMS_GFX
 
 #define CREDITS_TIMEOUT   (ONE_SECOND * 5)
 

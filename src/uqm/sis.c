@@ -923,7 +923,7 @@ DrawPC_SIS (void)
 	SetContextFontEffect (NULL);
 
 	// Background of text "CAPTAIN".
-	r.corner.x = (2 + 1) << RESOLUTION_FACTOR; // JMS_GFX;
+	r.corner.x = RES_SCALE(2 + 1); // JMS_GFX;
 	r.corner.y = RES_STAT_SCALE(3); // JMS_GFX
 	r.extent.width = RES_STAT_SCALE(58); // JMS_GFX
 	r.extent.height = RES_STAT_SCALE(7); // JMS_GFX
@@ -1330,8 +1330,8 @@ GetCPodCapacity (POINT *ppt)
 		SetContextForeGroundColor (THREEDO_CREW_COLOR);
 		
 	ppt->x = RES_SCALE(27) + (slotNr * ship_piece_offset_scaled) -
-				((colNr * 2) << RESOLUTION_FACTOR) + IF_HD(53); // JMS_GFX
-	ppt->y = ((34 - (rowNr * 2)) << RESOLUTION_FACTOR) + IF_HD(20); // JMS_GFX
+				RES_SCALE(colNr * 2) + IF_HD(53); // JMS_GFX
+	ppt->y = RES_SCALE(34 - (rowNr * 2)) + IF_HD(20); // JMS_GFX
 
 	return GetCrewPodCapacity ();
 }

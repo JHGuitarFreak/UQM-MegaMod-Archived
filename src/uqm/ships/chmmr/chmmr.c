@@ -165,8 +165,8 @@ laser_death (ELEMENT *ElementPtr)
 				- ShipPtr->current.location.y;
 		if (((BYTE)TFB_Random () & 0x07)
 				&& (dist = (long)dx * dx + (long)dy * dy) >=
-				(long)DISPLAY_TO_WORLD ((CHMMR_OFFSET + 10) << RESOLUTION_FACTOR) // JMS_GFX
-				* DISPLAY_TO_WORLD ((CHMMR_OFFSET + 10) << RESOLUTION_FACTOR) // JMS_GFX
+				(long)DISPLAY_TO_WORLD (RES_SCALE(CHMMR_OFFSET + 10)) // JMS_GFX
+				* DISPLAY_TO_WORLD (RES_SCALE(CHMMR_OFFSET + 10)) // JMS_GFX
 				&& (hIonSpots = AllocElement ()))
 		{
 			COUNT angle, magnitude;
@@ -182,8 +182,8 @@ laser_death (ELEMENT *ElementPtr)
 			angle = ARCTAN (dx, dy);
 			magnitude = ((COUNT)TFB_Random ()
 					% ((square_root (dist) + 1)
-					- DISPLAY_TO_WORLD ((CHMMR_OFFSET + 10) << RESOLUTION_FACTOR))) // JMS_GFX
-					+ DISPLAY_TO_WORLD ((CHMMR_OFFSET + 10) << RESOLUTION_FACTOR); // JMS_GFX
+					- DISPLAY_TO_WORLD (RES_SCALE(CHMMR_OFFSET + 10)))) // JMS_GFX
+					+ DISPLAY_TO_WORLD (RES_SCALE(CHMMR_OFFSET + 10)); // JMS_GFX
 			IonSpotsPtr->current.location.x =
 					ShipPtr->current.location.x
 					+ COSINE (angle, magnitude);
@@ -236,8 +236,8 @@ initialize_megawatt_laser (ELEMENT *ShipPtr, HELEMENT LaserArray[])
 			+ DISPLAY_TO_WORLD (r.corner.x);
 	LaserBlock.cy = DISPLAY_ALIGN (ShipPtr->next.location.y)
 			+ DISPLAY_TO_WORLD (r.corner.y);
-	LaserBlock.ex = COSINE (FACING_TO_ANGLE (LaserBlock.face), (LASER_RANGE << RESOLUTION_FACTOR)); // JMS_GFX
-	LaserBlock.ey = SINE (FACING_TO_ANGLE (LaserBlock.face), (LASER_RANGE << RESOLUTION_FACTOR)); // JMS_GFX
+	LaserBlock.ex = COSINE (FACING_TO_ANGLE (LaserBlock.face), RES_SCALE(LASER_RANGE)); // JMS_GFX
+	LaserBlock.ey = SINE (FACING_TO_ANGLE (LaserBlock.face), RES_SCALE(LASER_RANGE)); // JMS_GFX
 	LaserBlock.sender = ShipPtr->playerNr;
 	LaserBlock.flags = IGNORE_SIMILAR;
 	LaserBlock.pixoffs = 0;
@@ -386,12 +386,12 @@ chmmr_postprocess (ELEMENT *ElementPtr)
 				// calculate tractor beam effect
 				angle = FACING_TO_ANGLE (StarShipPtr->ShipFacing);
 				dx = (ElementPtr->next.location.x
-						+ COSINE (angle, ((LASER_RANGE << RESOLUTION_FACTOR) / 3) // JMS_GFX
-						+ DISPLAY_TO_WORLD (CHMMR_OFFSET << RESOLUTION_FACTOR))) // JMS_GFX
+						+ COSINE (angle, (RES_SCALE(LASER_RANGE) / 3) // JMS_GFX
+						+ DISPLAY_TO_WORLD (RES_SCALE(CHMMR_OFFSET)))) // JMS_GFX
 						- ShipElementPtr->next.location.x;
 				dy = (ElementPtr->next.location.y
-						+ SINE (angle, ((LASER_RANGE << RESOLUTION_FACTOR) / 3) // JMS_GFX
-						+ DISPLAY_TO_WORLD (CHMMR_OFFSET << RESOLUTION_FACTOR))) // JMS_GFX
+						+ SINE (angle, (RES_SCALE(LASER_RANGE) / 3) // JMS_GFX
+						+ DISPLAY_TO_WORLD (RES_SCALE(CHMMR_OFFSET)))) // JMS_GFX
 						- ShipElementPtr->next.location.y;
 				angle = ARCTAN (dx, dy);
 				magnitude = WORLD_TO_VELOCITY (RES_SCALE(12)) / ShipElementPtr->mass_points; // JMS_GFX
@@ -794,7 +794,7 @@ init_chmmr (void)
 {
 	RACE_DESC *RaceDescPtr;	
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		chmmr_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		chmmr_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		chmmr_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD;

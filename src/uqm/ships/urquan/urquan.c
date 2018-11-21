@@ -551,7 +551,7 @@ init_urquan (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (resolutionFactor == HD) {
+	if (RESOLUTION_FACTOR == HD) {
 		urquan_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		urquan_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		urquan_desc.cyborg_control.WeaponRange = MISSILE_SPEED_HD * MISSILE_LIFE;

@@ -58,7 +58,7 @@ static BOOLEAN
 PacksInstalled(void){
 	BOOLEAN packsInstalled;
 
-	if (!resolutionFactor) {
+	if (RESOLUTION_FACTOR != HD) {
 		packsInstalled = TRUE;
 	} else {
 		packsInstalled = (HDPackPresent ? TRUE : FALSE);
@@ -86,7 +86,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 
 	// DC: Load the different menus and fonts depending on the resolution factor
 
-	if (resolutionFactor != HD) {
+	if (RESOLUTION_FACTOR != HD) {
 		if (optRequiresRestart || !PacksInstalled()) {
 			TinyFont = LoadFont(TINY_FALLBACK_TO_ORIG_FONT);
 			PlyrFont = LoadFont(PLYR_FALLBACK_TO_ORIG_FONT);
@@ -282,7 +282,7 @@ DoRestart (MENU_STATE *pMS)
 				DrawRestartMenuGraphic (pMS);
 				ScreenTransition (3, NULL);
 				// JMS_GFX: This prevents drawing an annoying wrong-sized "Setup" frame when changing resolution. 
-				if (oldresfactor < resolutionFactor)
+				if (oldresfactor < RESOLUTION_FACTOR)
 					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, TRUE);
 				
 				DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);

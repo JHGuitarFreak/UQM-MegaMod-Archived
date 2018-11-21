@@ -36,6 +36,7 @@ extern int ScreenHeight;
 #define RESOLUTION_FACTOR resolutionFactor								// JMS_GFX
 #define RES_STAT_SCALE(a) (RESOLUTION_FACTOR != HD ? (a) : ((a) * 3))	// JMS_GFX
 #define RES_SCALE(a) ((a) << RESOLUTION_FACTOR)							// Serosis
+#define RES_DESCALE(a) ((a) >> RESOLUTION_FACTOR)							// Serosis
 #define RES_BOOL(a,b) (RESOLUTION_FACTOR != HD ? (a) : (b))				// Serosis
 #define IF_HD(a) (RES_BOOL(0, (a)))										// Serosis
 
@@ -65,9 +66,9 @@ extern int ScreenHeight;
 #define RADAR_Y (SIS_ORG_Y + SIS_SCREEN_HEIGHT - RADAR_HEIGHT)		// JMS_GFX
 
 		/* Blue boxes which display messages and the green date box. */
-#define SIS_TITLE_BOX_WIDTH    (57 << RESOLUTION_FACTOR)						// JMS_GFX
+#define SIS_TITLE_BOX_WIDTH    RES_SCALE(57)						// JMS_GFX
 #define SIS_TITLE_WIDTH        (SIS_TITLE_BOX_WIDTH - RES_SCALE(2)) // JMS_GFX
-#define SIS_TITLE_HEIGHT       RES_BOOL(8, 29)								// JMS_GFX
+#define SIS_TITLE_HEIGHT       RES_BOOL(8, 29)						// JMS_GFX
 #define SIS_SPACER_BOX_WIDTH   RES_SCALE(12)						// JMS_GFX
 
 #define SIS_MESSAGE_BOX_WIDTH  (SIS_SCREEN_WIDTH - SIS_TITLE_BOX_WIDTH - SIS_SPACER_BOX_WIDTH)
