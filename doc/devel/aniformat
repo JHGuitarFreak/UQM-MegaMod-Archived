@@ -25,7 +25,7 @@ colormap_index
 	     meaningless for truecolor images
 
 hotspot_x, hotspot_y
-	can both be positive of negative (or 0)
+	can both be positive or negative (or 0)
 	the position of the image on the screen will be
 		(draw_x - hotspot_x, draw_y - hotspot_y)
 	so a positive hotspot *usually* defines the logical center of
