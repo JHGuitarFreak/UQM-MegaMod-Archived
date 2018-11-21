@@ -220,8 +220,8 @@ ExitConversation (RESPONSE_REF R)
 
 			/* XXX : this should be unhardcoded eventually */
 			/* transport to Earth itself */
-			GLOBAL (ShipStamp.origin.x) = EARTH_INNER_X - SAFE_X;
-			GLOBAL (ShipStamp.origin.y) = EARTH_INNER_Y - SAFE_Y;
+			GLOBAL (ShipStamp.origin.x) = EARTH_INNER_X;
+			GLOBAL (ShipStamp.origin.y) = EARTH_INNER_Y;
 		}
 
 		/* install Chmmr-supplied modules */

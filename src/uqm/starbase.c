@@ -56,12 +56,12 @@ DrawBaseStateStrings (STARBASE_STATE OldState, STARBASE_STATE NewState)
 	SetContextFont (StarConFont);
 	SetContextForeGroundColor (BLACK_COLOR);
 
-	t.baseline.x = (73 - 4 + SAFE_X) << RESOLUTION_FACTOR; // JMS_GFX
+	t.baseline.x = RES_SCALE(73 - 4); // JMS_GFX
 	t.align = ALIGN_CENTER;
 
 	if (OldState == (STARBASE_STATE)~0)
 	{
-		t.baseline.y = (text_base_y  << RESOLUTION_FACTOR) + (SAFE_Y + 4); // JMS_GFX;
+		t.baseline.y = RES_SCALE(text_base_y) + 4; // JMS_GFX;
 		for (OldState = TALK_COMMANDER; OldState < DEPART_BASE; ++OldState)
 		{
 			if (OldState != NewState)
@@ -70,11 +70,11 @@ DrawBaseStateStrings (STARBASE_STATE OldState, STARBASE_STATE NewState)
 				t.CharCount = (COUNT)~0;
 				font_DrawText (&t);
 			}
-			t.baseline.y += text_spacing_y << RESOLUTION_FACTOR; // JMS_GFX
+			t.baseline.y += RES_SCALE(text_spacing_y); // JMS_GFX
 		}
 	}
 
-	t.baseline.y = ((text_base_y + (text_spacing_y * OldState)) << RESOLUTION_FACTOR) + (SAFE_Y + 4); // JMS_GFX
+	t.baseline.y = RES_SCALE(text_base_y + (text_spacing_y * OldState)) + 4; // JMS_GFX
 	t.pStr = GAME_STRING (STARBASE_STRING_BASE + 1 + OldState);
 	// BW: erase previously selected string before redrawing it
 	TextRect(&t, &r, NULL);
@@ -87,7 +87,7 @@ DrawBaseStateStrings (STARBASE_STATE OldState, STARBASE_STATE NewState)
 
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x1F, 0x1F, 0x0A), 0x0E));
-	t.baseline.y = ((text_base_y + (text_spacing_y * NewState)) << RESOLUTION_FACTOR) + (SAFE_Y + 4); // JMS_GFX
+	t.baseline.y = RES_SCALE(text_base_y + (text_spacing_y * NewState)) + 4; // JMS_GFX
 	t.pStr = GAME_STRING (STARBASE_STRING_BASE + 1 + NewState);
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
@@ -181,11 +181,11 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 		r.corner = Side.origin;
 		r.corner.y += IF_HD(8);
 		r.extent.width = ship_piece_offset_scaled;
-		r.extent.height = 1 << RESOLUTION_FACTOR;
+		r.extent.height = RES_SCALE(1);
 
 		DrawFilledRectangle (&r);
 
-		r.corner.y += ((23 - 1) << RESOLUTION_FACTOR); // JMS_GFX
+		r.corner.y += RES_SCALE(23 - 1); // JMS_GFX
 		if (RESOLUTION_FACTOR == HD)
 			r.extent.height += IF_HD(30);
 		
@@ -196,7 +196,7 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 		DrawFilledRectangle (&r);
 		
 		r.extent.width = RES_BOOL(1, 12);
-		r.extent.height = (8 << RESOLUTION_FACTOR) + IF_HD(30); // JMS_GFX
+		r.extent.height = RES_SCALE(8) + IF_HD(30); // JMS_GFX
 
 		if (RepairSlot == 2)
 		{
@@ -215,7 +215,7 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 				
 				r.corner.x -= ship_piece_offset_scaled - r.extent.width;
 			}
-			r.corner.y += 15 << RESOLUTION_FACTOR; // JMS_GFX
+			r.corner.y += RES_SCALE(15); // JMS_GFX
 			DrawFilledRectangle (&r);
 			if (RESOLUTION_FACTOR == HD) {
 				r.corner.x += ship_piece_offset_scaled - r.extent.width;
@@ -243,7 +243,7 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 				DrawFilledRectangle (&r);
 				r.corner.x -= ship_piece_offset_scaled - r.extent.width;
 			}
-			r.corner.y += 15 << RESOLUTION_FACTOR; // JMS_GFX
+			r.corner.y += RES_SCALE(15); // JMS_GFX
 			DrawFilledRectangle (&r);
 		}
 	}
@@ -267,13 +267,13 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 		{
 			r.corner = Top.origin;
 			r.extent.width = ship_piece_offset_scaled;
-			r.extent.height = (1 << RESOLUTION_FACTOR) + RESOLUTION_FACTOR;
+			r.extent.height = RES_SCALE(1) + RESOLUTION_FACTOR;
 			DrawFilledRectangle (&r);
-			r.corner.y += ((32 - 1) << RESOLUTION_FACTOR) + IF_HD(16);  // JMS_GFX
+			r.corner.y += RES_SCALE(32 - 1) + IF_HD(16);  // JMS_GFX
 			DrawFilledRectangle (&r);
 
-			r.extent.width = (1 << RESOLUTION_FACTOR) + RESOLUTION_FACTOR;
-			r.extent.height = (12 << RESOLUTION_FACTOR) + IF_HD(17); // JMS_GFX
+			r.extent.width = RES_SCALE(1) + RESOLUTION_FACTOR;
+			r.extent.height = RES_SCALE(12) + IF_HD(17); // JMS_GFX
 			if (RepairSlot == 2)
 			{
 				r.corner = Top.origin;
@@ -283,7 +283,7 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 					DrawFilledRectangle (&r);
 					r.corner.x -= ship_piece_offset_scaled - r.extent.width;
 				}
-				r.corner.y += 20 << RESOLUTION_FACTOR; // JMS_GFX
+				r.corner.y += RES_SCALE(20); // JMS_GFX
  				DrawFilledRectangle (&r);
 				if (RESOLUTION_FACTOR == HD) {
 					r.corner.x += ship_piece_offset_scaled - r.extent.width;
@@ -297,7 +297,7 @@ DrawShipPiece (FRAME ModuleFrame, COUNT which_piece, COUNT which_slot,
 				r.corner = Top.origin;
 				r.corner.x += ship_piece_offset_scaled;
 				DrawFilledRectangle (&r);
-				r.corner.y += 20 << RESOLUTION_FACTOR; // JMS_GFX
+				r.corner.y += RES_SCALE(20); // JMS_GFX
 				DrawFilledRectangle (&r);
 			}
 		}
@@ -385,8 +385,8 @@ rotateStarbase (MENU_STATE *pMS, FRAME AniFrame)
 	if (AniFrame)
 	{	// Setup the animation
 		pMS->flash_frame0 = AniFrame;
-		pMS->flash_rect0.corner.x = SAFE_X;
-		pMS->flash_rect0.corner.y = SAFE_Y + 4;
+		pMS->flash_rect0.corner.x = 0;
+		pMS->flash_rect0.corner.y = 4;
 	}
 	
 	if (Now >= NextTime || AniFrame)

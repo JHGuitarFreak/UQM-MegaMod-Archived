@@ -219,8 +219,8 @@ InitContexts (void)
 
 	SetContext (StatusContext);
 	SetContextFGFrame (Screen);
-	r.corner.x = SPACE_WIDTH + SAFE_X;
-	r.corner.y = SAFE_Y;
+	r.corner.x = SPACE_WIDTH;
+	r.corner.y = 0;
 	r.extent.width = STATUS_WIDTH;
 	r.extent.height = STATUS_HEIGHT;
 	SetContextClipRect (&r);
