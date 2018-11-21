@@ -392,13 +392,13 @@ PrintCoarseScan3DO (void)
 	font_DrawText (&t);
 
 	s.origin.x = s.origin.y = 0;
-	s.origin.x = ((16 - SAFE_X) << RESOLUTION_FACTOR); // JMS_GFX
+	s.origin.x = RES_SCALE(16); // JMS_GFX
 	s.frame = SetAbsFrameIndex (SpaceJunkFrame, 20);
 	DrawStamp (&s);
 
-#define LEFT_SIDE_BASELINE_X ((27 + (16 - SAFE_X)) << RESOLUTION_FACTOR) // JMS_GFX
+#define LEFT_SIDE_BASELINE_X RES_SCALE(27 + 16) // JMS_GFX
 #define RIGHT_SIDE_BASELINE_X (SIS_SCREEN_WIDTH - LEFT_SIDE_BASELINE_X)
-#define SCAN_BASELINE_Y (25 << RESOLUTION_FACTOR) // JMS_GFX
+#define SCAN_BASELINE_Y RES_SCALE(25) // JMS_GFX
 
 	t.baseline.x = LEFT_SIDE_BASELINE_X;
 	t.baseline.y = SCAN_BASELINE_Y;

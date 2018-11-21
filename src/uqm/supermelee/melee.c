@@ -378,8 +378,8 @@ RepairMeleeFrame (const RECT *pRect)
 	RECT OldRect;
 	POINT oldOrigin;
 
-	r.corner.x = pRect->corner.x + SAFE_X;
-	r.corner.y = pRect->corner.y + SAFE_Y;
+	r.corner.x = pRect->corner.x;
+	r.corner.y = pRect->corner.y;
 	r.extent = pRect->extent;
 	if (r.corner.y & 1)
 	{
@@ -391,8 +391,7 @@ RepairMeleeFrame (const RECT *pRect)
 	GetContextClipRect (&OldRect);
 	SetContextClipRect (&r);
 	// Offset the origin so that we draw the correct gfx in the cliprect
-	oldOrigin = SetContextOrigin (MAKE_POINT (-r.corner.x + SAFE_X,
-			-r.corner.y + SAFE_Y));
+	oldOrigin = SetContextOrigin (MAKE_POINT (-r.corner.x, -r.corner.y));
 	BatchGraphics ();
 
 	DrawMeleeIcon (0);   /* Entire melee screen */
@@ -853,10 +852,10 @@ InitMelee (MELEE_STATE *pMS)
 	SetContextClipRect (NULL);
 	SetContextBackGroundColor (BLACK_COLOR);
 	ClearDrawable ();
-	r.corner.x = SAFE_X;
-	r.corner.y = SAFE_Y;
-	r.extent.width = SCREEN_WIDTH - (SAFE_X * 2);
-	r.extent.height = SCREEN_HEIGHT - (SAFE_Y * 2);
+	r.corner.x = 0;
+	r.corner.y = 0;
+	r.extent.width = SCREEN_WIDTH;
+	r.extent.height = SCREEN_HEIGHT;
 	SetContextClipRect (&r);
 
 	r.corner.x = r.corner.y = 0;
@@ -874,8 +873,8 @@ DrawMeleeShipStrings (MELEE_STATE *pMS, MeleeShip NewStarShip)
 	OldContext = SetContext (StatusContext);
 	GetContextClipRect (&OldRect);
 	r = OldRect;
-	r.corner.x += ((SAFE_X << 1) - (32 << RESOLUTION_FACTOR)) + MENU_X_OFFS - IF_HD(28);
-	r.corner.y += (76 << RESOLUTION_FACTOR) + IF_HD(8);
+	r.corner.x += RES_SCALE(32) + MENU_X_OFFS - IF_HD(28);
+	r.corner.y += RES_SCALE(76) + IF_HD(8);
 	r.extent.height = SHIP_INFO_HEIGHT + 3;
 	SetContextClipRect (&r);
 	BatchGraphics ();

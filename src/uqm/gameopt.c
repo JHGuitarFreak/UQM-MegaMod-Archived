@@ -430,8 +430,8 @@ DrawSaveNameString (UNICODE *Str, COUNT CursorPos, COUNT state, COUNT gameIndex)
 	r.corner.y = (160 + ((gameIndex % SAVES_PER_PAGE) * 13)) << RESOLUTION_FACTOR; // JMS_GFX
 	DrawRectangle (&r);
 
-	r.extent.width = (204 - SAFE_X) << RESOLUTION_FACTOR; // JMS_GFX
-	r.corner.x = (30 + SAFE_X) << RESOLUTION_FACTOR; // JMS_GFX
+	r.extent.width = RES_SCALE(204); // JMS_GFX
+	r.corner.x = (30) << RESOLUTION_FACTOR; // JMS_GFX
 	DrawRectangle (&r);
 
 	Font = TinyFont;
@@ -556,9 +556,9 @@ NameSaveGame (COUNT gameIndex, UNICODE *buf)
 	tes.CbParam = gIndex;
 	tes.ChangeCallback = OnSaveNameChange;
 	tes.FrameCallback = 0;
-	r.extent.width = (RES_SCALE(204) - SAFE_X);
+	r.extent.width = RES_SCALE(204);
 	r.extent.height = RES_SCALE(11);
-	r.corner.x = (RES_SCALE(30) + SAFE_X);
+	r.corner.x = RES_SCALE(30);
 	r.corner.y = (RES_SCALE(160) + ((gameIndex % SAVES_PER_PAGE) * RES_SCALE(13)));
 	SetFlashRect (&r);
 
@@ -838,8 +838,8 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		OldContext = SetContext (StatusContext);
 		// Hack StatusContext so we can use standard SIS display funcs
 		GetContextClipRect (&OldRect);
-		r.corner.x = SIS_ORG_X + ((SIS_SCREEN_WIDTH - STATUS_WIDTH) >> 1) +
-				SAFE_X - (16 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS + IF_HD(6); // JMS_GFX
+		r.corner.x = SIS_ORG_X + ((SIS_SCREEN_WIDTH - STATUS_WIDTH) >> 1) 
+					- RES_SCALE(16) + SUMMARY_X_OFFS + IF_HD(6); // JMS_GFX
 		r.corner.y = SIS_ORG_Y; // JMS_GFX
 		r.extent.width = STATUS_WIDTH + 2 * RESOLUTION_FACTOR; // JMS_GFX
 		r.extent.height = STATUS_HEIGHT;
@@ -1058,8 +1058,8 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 				curSlot);
 		font_DrawText (&t);
 
-		r.extent.width = (204 - SAFE_X) << RESOLUTION_FACTOR; // JMS_GFX
-		r.corner.x = (30 + SAFE_X) << RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.width = RES_SCALE(204); // JMS_GFX
+		r.corner.x = RES_SCALE(30); // JMS_GFX
 		DrawRectangle (&r);
 
 		t.baseline.x = r.corner.x + (3 << RESOLUTION_FACTOR); // JMS_GFX

@@ -211,7 +211,7 @@ DrawOrbitalDisplay (DRAW_ORBITAL_MODE Mode)
 
 		SetContext (GetScanContext (NULL));
 		s.frame = CaptureDrawable (LoadGraphic (ORBENTER_PMAP_ANIM));
-		s.origin.x = -SAFE_X;
+		s.origin.x = 0;
 		s.origin.y = 0;
 		DrawStamp (&s);
 		DestroyDrawable (ReleaseDrawable (s.frame));

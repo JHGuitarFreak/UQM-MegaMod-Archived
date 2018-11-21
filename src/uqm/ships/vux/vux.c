@@ -58,7 +58,7 @@
 #define MAXY_ENTRY_DIST DISPLAY_TO_WORLD ((LASER_BASE + VUX_OFFSET + WARP_OFFSET) << 1)
 		/* Originally, the warp distance was:
 		 * DISPLAY_TO_WORLD (SPACE_HEIGHT << 1)
-		 * where SPACE_HEIGHT = SCREEN_HEIGHT - (SAFE_Y * 2)
+		 * where SPACE_HEIGHT = SCREEN_HEIGHT
 		 * But in reality this should be relative to the laser-range. */
 
 static RACE_DESC vux_desc =

@@ -40,23 +40,17 @@ extern int ScreenHeight;
 #define IF_HD(a) (RES_BOOL(0, (a)))										// Serosis
 
 		/* Margins. */
-#define SAFE_X 0
-/* Left and right screen margin to be left unused */
-#define SAFE_Y 0
-/* Top and bottom screen margin to be left unused */
-#define SIS_ORG_X (7 + SAFE_X)								// JMS_GFX
-//#define SIS_ORG_X (7 * RESOLUTION_FACTOR + SAFE_X)	// JMS_GFX
-#define SIS_ORG_Y RES_STAT_SCALE(10)						// DC: top status window. Manually entered in for HD mode.
-//#define SIS_ORG_Y (10 * RESOLUTION_FACTOR + SAFE_Y)	// JMS_GFX
+#define SIS_ORG_X (7)								// JMS_GFX
+#define SIS_ORG_Y RES_STAT_SCALE(10)				// DC: top status window. Manually entered in for HD mode.
 
 /* Status bar & play area sizes. */
 #define STATUS_WIDTH RES_STAT_SCALE(64)
 /* Width of the status "window" (the right part of the screen) */
-#define STATUS_HEIGHT (SCREEN_HEIGHT - (SAFE_Y * 2))
+#define STATUS_HEIGHT (SCREEN_HEIGHT - 2)
 /* Height of the status "window" (the right part of the screen) */
-#define SPACE_WIDTH (SCREEN_WIDTH - STATUS_WIDTH - (SAFE_X * 2))
+#define SPACE_WIDTH (SCREEN_WIDTH - STATUS_WIDTH)
 /* Width of the space "window" (the left part of the screen) */
-#define SPACE_HEIGHT (SCREEN_HEIGHT - (SAFE_Y * 2))
+#define SPACE_HEIGHT (SCREEN_HEIGHT - 2)
 /* Height of the space "window" (the left part of the screen) */
 #define SIS_SCREEN_WIDTH (SPACE_WIDTH - 2 * SIS_ORG_X) // DC: Gray area on the right. just a spacer box
 /* Width of the usable part of the space "window" */
@@ -65,7 +59,7 @@ extern int ScreenHeight;
 #define RES_SIS_SCALE(a) ((SIZE)(a) * SIS_SCREEN_WIDTH / 242) // JMS_GFX
 
 		/* Radar. */
-#define RADAR_X (RES_STAT_SCALE(4) + (SCREEN_WIDTH - STATUS_WIDTH - SAFE_X))	// JMS_GFX
+#define RADAR_X (RES_STAT_SCALE(4) + (SCREEN_WIDTH - STATUS_WIDTH))	// JMS_GFX
 #define RADAR_WIDTH (STATUS_WIDTH - RES_STAT_SCALE(8))							// JMS_GFX
 #define RADAR_HEIGHT RES_STAT_SCALE(53)											// JMS_GFX
 #define RADAR_Y (SIS_ORG_Y + SIS_SCREEN_HEIGHT - RADAR_HEIGHT)		// JMS_GFX
