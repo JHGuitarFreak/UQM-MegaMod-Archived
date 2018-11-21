@@ -1436,7 +1436,7 @@ DrawBluePrint (MENU_STATE *pMS)
 		FuelVolume = GLOBAL_SIS (FuelOnBoard) - FUEL_RESERVE;
 		GLOBAL_SIS (FuelOnBoard) = FUEL_RESERVE;
 
-		r.extent.width = (3 << RESOLUTION_FACTOR) + RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.width = RES_SCALE(3) + RESOLUTION_FACTOR; // JMS_GFX
 		r.extent.height = 1; // JMS_GFX
 		while (FuelVolume)
 		{

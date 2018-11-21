@@ -46,12 +46,12 @@
 #define NUM_PICKMELEE_COLUMNS 7
 
 #define PICK_X_OFFS (57 << RESOLUTION_FACTOR) // JMS_GFX
-#define PICK_Y_OFFS (24 << RESOLUTION_FACTOR) // JMS_GFX
+#define PICK_Y_OFFS RES_SCALE(24) // JMS_GFX
 #define PICK_SIDE_OFFS (100 << RESOLUTION_FACTOR) // JMS_GFX
 
 #define NAME_AREA_HEIGHT (7 << RESOLUTION_FACTOR) // JMS_GFX
 #define MELEE_WIDTH (149 << RESOLUTION_FACTOR) // JMS_GFX
-#define MELEE_HEIGHT ((48 << RESOLUTION_FACTOR) + NAME_AREA_HEIGHT)
+#define MELEE_HEIGHT (RES_SCALE(48) + NAME_AREA_HEIGHT)
 
 #define PICKSHIP_TEAM_NAME_TEXT_COLOR \
 		BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x1F), 0x09)
@@ -424,7 +424,7 @@ CrossOutShip (FRAME frame, COUNT shipNr)
 	
 	SetContextFGFrame (frame);
 
-	s.origin.x = (3 << RESOLUTION_FACTOR) + ((ICON_WIDTH + RES_SCALE(2)) * col); // JMS_GFX
+	s.origin.x = RES_SCALE(3) + ((ICON_WIDTH + RES_SCALE(2)) * col); // JMS_GFX
 	s.origin.y = (9 << RESOLUTION_FACTOR) + ((ICON_HEIGHT + RES_SCALE(2)) * row); // JMS_GFX
 	s.frame = SetAbsFrameIndex (StatusFrame, 3);
 			// Cross for through the ship image.
@@ -451,7 +451,7 @@ UpdatePickMeleeFleetValue (FRAME frame, COUNT which_player)
 
 	// Erase the old value text.
 	GetFrameRect (frame, &r);
-	r.extent.width -= (4 << RESOLUTION_FACTOR);
+	r.extent.width -= RES_SCALE(4);
 	t.baseline.x = r.extent.width;
 	r.corner.x = r.extent.width - ((6 * 3) << RESOLUTION_FACTOR); // JMS_GFX
 	r.corner.y = RES_SCALE(2); // JMS_GFX
@@ -531,7 +531,7 @@ FillPickMeleeFrame (MeleeSetup *setup)
 
 		GetFrameRect (s.frame, &r);
 		t.baseline.x = r.extent.width >> 1;
-		t.baseline.y = r.extent.height - NAME_AREA_HEIGHT + (4 << RESOLUTION_FACTOR);
+		t.baseline.y = r.extent.height - NAME_AREA_HEIGHT + RES_SCALE(4);
 
 		r.corner.x += RES_SCALE(2);
 		r.corner.y += RES_SCALE(2);
@@ -593,7 +593,7 @@ FillPickMeleeFrame (MeleeSetup *setup)
 				// Draw the icon.
 				row = PickMelee_GetShipRow (index);
 				col = PickMelee_GetShipColumn (index);
-				s.origin.x = (4 << RESOLUTION_FACTOR) + ((ICON_WIDTH + RES_SCALE(2)) * col); // JMS_GFX
+				s.origin.x = RES_SCALE(4) + ((ICON_WIDTH + RES_SCALE(2)) * col); // JMS_GFX
 				s.origin.y = RES_SCALE(10) + ((ICON_HEIGHT + RES_SCALE(2)) * row);
 				s.frame = MasterPtr->ShipInfo.icons;
 				DrawStamp (&s);
@@ -636,7 +636,7 @@ DrawPickMeleeFrame (COUNT which_player)
 
 	oldContext = SetContext (SpaceContext);
 	s.frame = SetAbsFrameIndex (PickMeleeFrame, which_player);
-	s.origin.x = PICK_X_OFFS - (3 << RESOLUTION_FACTOR); // JMS_GFX
+	s.origin.x = PICK_X_OFFS - RES_SCALE(3); // JMS_GFX
 	s.origin.y = PICK_Y_OFFS - (9 << RESOLUTION_FACTOR) + ((1 - which_player) * PICK_SIDE_OFFS);
 	DrawStamp (&s);
 			// Draw the selection box to screen.

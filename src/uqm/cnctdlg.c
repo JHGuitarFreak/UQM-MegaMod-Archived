@@ -102,7 +102,7 @@ MCD_DrawButton (WIDGET *_self, int x, int y)
 	selected = MENU_HIGHLIGHT_COLOR;
 	inactive = MENU_TEXT_COLOR;
 
-	t.baseline.x = 160 << RESOLUTION_FACTOR; // JMS_GFX
+	t.baseline.x = RES_SCALE(160); // JMS_GFX
 	t.baseline.y = y;
 	t.align = ALIGN_CENTER;
 	t.CharCount = ~0;
@@ -212,7 +212,7 @@ MCD_DrawTextEntry (WIDGET *_self, int x, int y)
 
 	if (!(self->state & WTE_EDITING))
 	{	// normal or selected state
-		t.baseline.x = 160 << RESOLUTION_FACTOR; // JMS_GFX
+		t.baseline.x = RES_SCALE(160); // JMS_GFX
 		t.align = ALIGN_CENTER;
 
 		if (widget_focus == _self)
@@ -234,7 +234,7 @@ MCD_DrawTextEntry (WIDGET *_self, int x, int y)
 		RECT r;
 		SIZE leading;
 
-		t.baseline.x = x + (90 << RESOLUTION_FACTOR); // JMS_GFX
+		t.baseline.x = x + (RES_SCALE(90)); // JMS_GFX
 		t.align = ALIGN_LEFT;
 
 		// calc background box dimensions

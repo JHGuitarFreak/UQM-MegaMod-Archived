@@ -232,8 +232,8 @@ CalcReduction (SDWORD dx, SDWORD dy)
 		if (next_reduction < zoom_out
 				&& zoom_out <= MAX_VIS_REDUCTION)
 		{
-#define HYSTERESIS_X DISPLAY_TO_WORLD(24 << RESOLUTION_FACTOR) // JMS_GFX
-#define HYSTERESIS_Y DISPLAY_TO_WORLD(20 << RESOLUTION_FACTOR) // JMS_GFX
+#define HYSTERESIS_X DISPLAY_TO_WORLD(RES_SCALE(24)) // JMS_GFX
+#define HYSTERESIS_Y DISPLAY_TO_WORLD(RES_SCALE(20)) // JMS_GFX
 		if (((sdx + HYSTERESIS_X)
 				<< (MAX_VIS_REDUCTION - next_reduction)) > TRANSITION_WIDTH
 				|| ((sdy + HYSTERESIS_Y)

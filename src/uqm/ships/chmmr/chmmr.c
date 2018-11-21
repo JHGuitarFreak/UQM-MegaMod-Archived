@@ -500,7 +500,7 @@ satellite_preprocess (ELEMENT *ElementPtr)
 		dx = WRAP_DELTA_X (dx);
 		dy = WRAP_DELTA_Y (dy);
 		if ((long)dx * dx + (long)dy * dy
-				<= DISPLAY_TO_WORLD (20L << RESOLUTION_FACTOR) * DISPLAY_TO_WORLD (20L << RESOLUTION_FACTOR))
+				<= DISPLAY_TO_WORLD (RES_SCALE(20L)) * DISPLAY_TO_WORLD (RES_SCALE(20L)))
 			SetVelocityComponents (&ElementPtr->velocity,
 					WORLD_TO_VELOCITY (dx),
 					WORLD_TO_VELOCITY (dy));
@@ -510,8 +510,8 @@ satellite_preprocess (ELEMENT *ElementPtr)
 
 			angle = ARCTAN (dx, dy);
 			SetVelocityComponents (&ElementPtr->velocity,
-					COSINE (angle, WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (20 << RESOLUTION_FACTOR))),
-					SINE (angle, WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (20 << RESOLUTION_FACTOR))));
+					COSINE (angle, WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (RES_SCALE(20)))),
+					SINE (angle, WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (RES_SCALE(20)))));
 		}
 
 		UnlockElement (StarShipPtr->hShip);

@@ -195,7 +195,7 @@ DrawCaptainsWindow (STARSHIP *StarShipPtr)
 	r.corner.x = CAPTAIN_XOFFS - RES_STAT_SCALE(4); // JMS_GFX
 	r.corner.y = y_offs + SHIP_INFO_HEIGHT;
 	r.extent.width = STATUS_WIDTH - 2;
-	r.extent.height = SHIP_STATUS_HEIGHT - CAPTAIN_YOFFS + (4 << RESOLUTION_FACTOR); // JMS_GFX
+	r.extent.height = SHIP_STATUS_HEIGHT - CAPTAIN_YOFFS + RES_SCALE(4); // JMS_GFX
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x0A), 0x08));
 	DrawFilledRectangle (&r);

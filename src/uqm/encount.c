@@ -666,11 +666,11 @@ UninitEncounter (void)
 									// However, they're not the same (100 and 45) because the text there is centered,
 									// but these rect coords are for the upper-left corner, not center.
 									save_r.corner.x = scavenge_r.corner.x + (70 << RESOLUTION_FACTOR); // JMS_GFX
-									save_r.corner.y = scavenge_r.corner.y + (35 << RESOLUTION_FACTOR); // JMS_GFX
+									save_r.corner.y = scavenge_r.corner.y + (RES_SCALE(35)); // JMS_GFX
 									
 									// These are wild-assed guesses.
-									save_r.extent.width  = 60 << RESOLUTION_FACTOR;
-									save_r.extent.height = 30 << RESOLUTION_FACTOR; 
+									save_r.extent.width  = RES_SCALE(60);
+									save_r.extent.height = RES_SCALE(30); 
 									
 									// Now that we have the size and placement of the rectangle, let's store it.
 									saveMetallicFrame = SaveContextFrame (&save_r);

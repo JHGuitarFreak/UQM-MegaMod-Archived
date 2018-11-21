@@ -40,9 +40,9 @@
 //#define ICON_HEIGHT (16 << RESOLUTION_FACTOR) // JMS_GFX
 
 #define FLAGSHIP_X_OFFS (65 << RESOLUTION_FACTOR) // JMS_GFX
-#define FLAGSHIP_Y_OFFS (4 << RESOLUTION_FACTOR) // JMS_GFX
+#define FLAGSHIP_Y_OFFS RES_SCALE(4) // JMS_GFX
 #define FLAGSHIP_WIDTH (22 << RESOLUTION_FACTOR) // JMS_GFX
-#define FLAGSHIP_HEIGHT (48 << RESOLUTION_FACTOR) // JMS_GFX
+#define FLAGSHIP_HEIGHT RES_SCALE(48) // JMS_GFX
 
 static BOOLEAN
 DoPickBattleShip (MENU_STATE *pMS)
@@ -129,14 +129,14 @@ ChangeSelection:
 			{
 				new_col = pMS->first_item.x;
 				pMS->flash_rect0.corner.x = (5 << RESOLUTION_FACTOR) + pMS->flash_rect1.corner.x - 2
-						+ ((ICON_WIDTH + (4 << RESOLUTION_FACTOR)) * new_col); // JMS_GFX
+						+ ((ICON_WIDTH + RES_SCALE(4)) * new_col); // JMS_GFX
 				if (new_col > (NUM_PICK_SHIP_COLUMNS >> 1))
 				{
 					--new_col;
 					pMS->flash_rect0.corner.x += FLAGSHIP_WIDTH - ICON_WIDTH;
 				}
 				pMS->flash_rect0.corner.y = (16 << RESOLUTION_FACTOR) + pMS->flash_rect1.corner.y - 2
-					+ ((ICON_HEIGHT + (4 << RESOLUTION_FACTOR)) * pMS->first_item.y); // JMS_GFX
+					+ ((ICON_HEIGHT + RES_SCALE(4)) * pMS->first_item.y); // JMS_GFX
 				pMS->flash_rect0.extent.width = ICON_WIDTH + 4;
 				pMS->flash_rect0.extent.height = ICON_HEIGHT + 4;
 
@@ -168,7 +168,7 @@ ChangeSelection:
 			SetContextForeGroundColor (BLACK_COLOR);
 			r.corner.x = pMS->flash_rect1.corner.x + (6 << RESOLUTION_FACTOR) - 2*RESOLUTION_FACTOR; // JMS_GFX
 			r.corner.y = pMS->flash_rect1.corner.y + (5 << RESOLUTION_FACTOR) - 2*RESOLUTION_FACTOR; // JMS_GFX
-			r.extent.width = ((ICON_WIDTH + (4 << RESOLUTION_FACTOR)) * 3) - (4 << RESOLUTION_FACTOR) + 2*RESOLUTION_FACTOR;  // JMS_GFX
+			r.extent.width = ((ICON_WIDTH + RES_SCALE(4)) * 3) - RES_SCALE(4) + 2*RESOLUTION_FACTOR;  // JMS_GFX
 			r.extent.height = 7 << RESOLUTION_FACTOR; // JMS_GFX
 			DrawFilledRectangle (&r);
 
@@ -215,7 +215,7 @@ ChangeSelection:
 			}
 
 			r.extent.width -= 2*RESOLUTION_FACTOR; // JMS_GFX
-			r.corner.x += (ICON_WIDTH + (4 << RESOLUTION_FACTOR))
+			r.corner.x += (ICON_WIDTH + RES_SCALE(4))
 				* ((NUM_PICK_SHIP_COLUMNS >> 1) + 1)
 					+ FLAGSHIP_WIDTH - ICON_WIDTH; // JMS_GFX
 			DrawFilledRectangle (&r);
@@ -456,13 +456,13 @@ DrawArmadaPickShip (BOOLEAN draw_salvage_frame, RECT *pPickRect)
 			ship_index = StarShipPtr->index;
 
 			s.origin.x = pick_r.corner.x
-					+ ((5 << RESOLUTION_FACTOR) + ((ICON_WIDTH + (4 << RESOLUTION_FACTOR))
+					+ ((5 << RESOLUTION_FACTOR) + ((ICON_WIDTH + RES_SCALE(4))
 				       * (ship_index % NUM_PICK_SHIP_COLUMNS))); // JMS_GFX
 			if ((ship_index % NUM_PICK_SHIP_COLUMNS) >=
 					(NUM_PICK_SHIP_COLUMNS >> 1))
-				s.origin.x += FLAGSHIP_WIDTH + (4 << RESOLUTION_FACTOR); // JMS_GFX
+				s.origin.x += FLAGSHIP_WIDTH + RES_SCALE(4); // JMS_GFX
 			s.origin.y = pick_r.corner.y
-					+ ((16 << RESOLUTION_FACTOR) + ((ICON_HEIGHT + (4 << RESOLUTION_FACTOR))
+					+ ((16 << RESOLUTION_FACTOR) + ((ICON_HEIGHT + RES_SCALE(4))
 					* (ship_index / NUM_PICK_SHIP_COLUMNS))); // JMS_GFX
 			s.frame = StarShipPtr->icons;
 			r.corner = s.origin;

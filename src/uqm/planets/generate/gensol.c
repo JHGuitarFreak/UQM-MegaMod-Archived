@@ -649,7 +649,7 @@ GenerateSol_generateEnergy (const SOLARSYS_STATE *solarSys,
 
 		if (info)
 		{
-			info->loc_pt.x = 20 << RESOLUTION_FACTOR;
+			info->loc_pt.x = RES_SCALE(20);
 			info->loc_pt.y = MAP_HEIGHT - RES_SCALE(8);
 		}
 

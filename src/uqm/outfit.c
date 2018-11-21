@@ -125,7 +125,7 @@ RedistributeFuel (void)
 		// If we're less than the fuel level, draw fuel.
 		if (GLOBAL_SIS (FuelOnBoard) < FuelVolume)
 		{
-			r.extent.width = (3 << RESOLUTION_FACTOR) + IF_HD(6); // JMS_GFX
+			r.extent.width = RES_SCALE(3) + IF_HD(6); // JMS_GFX
 			DrawPoint (&r.corner);
 			r.corner.x += r.extent.width + 1;
 			DrawPoint (&r.corner);
@@ -147,7 +147,7 @@ RedistributeFuel (void)
 	GLOBAL_SIS (FuelOnBoard) = FuelVolume;
 }
 
-#define LANDER_X (24 << RESOLUTION_FACTOR) // JMS_GFX
+#define LANDER_X RES_SCALE(24) // JMS_GFX
 #define LANDER_Y (67 << RESOLUTION_FACTOR) // JMS_GFX
 #define LANDER_WIDTH (15 << RESOLUTION_FACTOR) // JMS_GFX
 
@@ -528,7 +528,7 @@ InitFlash:
 					case EMPTY_SLOT + 0:
 						pMS->flash_rect0.corner.x = DRIVE_TOP_X - 1 - IF_HD(5);
 						pMS->flash_rect0.corner.y = DRIVE_TOP_Y - 1 + IF_HD(146);
-						pMS->flash_rect0.extent.width = 8 << RESOLUTION_FACTOR; // JMS_GFX;
+						pMS->flash_rect0.extent.width = RES_SCALE(8); // JMS_GFX;
 						pMS->flash_rect0.extent.height = (6 << RESOLUTION_FACTOR) - IF_HD(2); // JMS_GFX;
 
 						break;

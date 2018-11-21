@@ -1614,8 +1614,8 @@ LanderFire (SIZE facing)
 	angle = FACING_TO_ANGLE (facing);
 	SetVelocityComponents (
 		&WeaponElementPtr->velocity,
-		COSINE (angle, WORLD_TO_VELOCITY ((2 * 3) << RESOLUTION_FACTOR)) + wdx,
-		SINE (angle, WORLD_TO_VELOCITY ((2 * 3) << RESOLUTION_FACTOR)) + wdy); // JMS_GFX
+		COSINE (angle, WORLD_TO_VELOCITY (RES_SCALE(2 * 3))) + wdx,
+		SINE (angle, WORLD_TO_VELOCITY (RES_SCALE(2 * 3))) + wdy); // JMS_GFX
 
 	UnlockElement (hWeaponElement);
 
@@ -1684,11 +1684,11 @@ DoPlanetSide (LanderInputState *pMS)
 
 		angle = FACING_TO_ANGLE (GetFrameIndex (LanderFrame[0]));
 		landerSpeedNumer = GET_GAME_STATE (IMPROVED_LANDER_SPEED) ?
-			WORLD_TO_VELOCITY (2 * (16 << RESOLUTION_FACTOR)) :
+			WORLD_TO_VELOCITY (2 * RES_SCALE(16)) :
 			WORLD_TO_VELOCITY (2 * RES_SCALE(8));
 
 #ifdef FAST_FAST
-landerSpeedNumer = WORLD_TO_VELOCITY (48 << RESOLUTION_FACTOR); // JMS
+landerSpeedNumer = WORLD_TO_VELOCITY (RES_SCALE(48)); // JMS
 #endif
 
 		SetVelocityComponents (&GLOBAL (velocity),
@@ -1751,11 +1751,11 @@ landerSpeedNumer = WORLD_TO_VELOCITY (48 << RESOLUTION_FACTOR); // JMS
 
 				angle = FACING_TO_ANGLE (index);
 				landerSpeedNumer = GET_GAME_STATE (IMPROVED_LANDER_SPEED) ?
-					WORLD_TO_VELOCITY ((2 * 16) << RESOLUTION_FACTOR) :
-					WORLD_TO_VELOCITY ((2 * 8) << RESOLUTION_FACTOR);
+					WORLD_TO_VELOCITY (RES_SCALE(2 * 16)) :
+					WORLD_TO_VELOCITY (RES_SCALE(2 * 8));
 
 #ifdef FAST_FAST
-landerSpeedNumer = WORLD_TO_VELOCITY (48 << RESOLUTION_FACTOR);
+landerSpeedNumer = WORLD_TO_VELOCITY (RES_SCALE(48));
 #endif
 
 				SetVelocityComponents (&GLOBAL (velocity),

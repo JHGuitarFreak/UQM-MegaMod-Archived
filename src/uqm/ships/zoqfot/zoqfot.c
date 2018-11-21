@@ -149,7 +149,7 @@ spit_preprocess (ELEMENT *ElementPtr)
 			angle = angle + (((COUNT)TFB_Random () % 3) - 1);
 
 		speed = WORLD_TO_VELOCITY (DISPLAY_TO_WORLD (
-				(GetFrameCount (ElementPtr->next.image.frame) << RESOLUTION_FACTOR )- index) << 1);
+				RES_SCALE(GetFrameCount (ElementPtr->next.image.frame)) - index) << 1);
 		SetVelocityComponents (&ElementPtr->velocity,
 				(SIZE)COSINE (angle, speed),
 				(SIZE)SINE (angle, speed));

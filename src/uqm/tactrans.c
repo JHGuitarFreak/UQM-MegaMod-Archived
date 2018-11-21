@@ -919,7 +919,7 @@ ship_transition (ELEMENT *ElementPtr)
 		}
 		else if ((hShipImage = AllocElement ()))
 		{
-#define TRANSITION_SPEED DISPLAY_TO_WORLD ((40 << RESOLUTION_FACTOR)) // JMS_GFX
+#define TRANSITION_SPEED DISPLAY_TO_WORLD ((RES_SCALE(40))) // JMS_GFX
 #define TRANSITION_LIFE 1
 			COUNT angle;
 
