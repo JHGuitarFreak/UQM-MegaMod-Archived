@@ -148,11 +148,11 @@ static void
 PickMelee_ChangedSelection (GETMELEE_STATE *gms, COUNT playerI)
 {
 	RECT r;
-	r.corner.x = PICK_X_OFFS + ((ICON_WIDTH + (2 << RESOLUTION_FACTOR)) * gms->player[playerI].col); // JMS_GFX
-	r.corner.y = PICK_Y_OFFS + ((ICON_HEIGHT + (2 << RESOLUTION_FACTOR)) * gms->player[playerI].row) // JMS_GFX
+	r.corner.x = PICK_X_OFFS + ((ICON_WIDTH + RES_SCALE(2)) * gms->player[playerI].col); // JMS_GFX
+	r.corner.y = PICK_Y_OFFS + ((ICON_HEIGHT + RES_SCALE(2)) * gms->player[playerI].row) // JMS_GFX
 			+ ((1 - playerI) * PICK_SIDE_OFFS);
-	r.extent.width = (ICON_WIDTH + (2 << RESOLUTION_FACTOR));
-	r.extent.height = (ICON_HEIGHT + (2 << RESOLUTION_FACTOR));
+	r.extent.width = (ICON_WIDTH + RES_SCALE(2));
+	r.extent.height = (ICON_HEIGHT + RES_SCALE(2));
 	Flash_setRect (gms->player[playerI].flashContext, &r);
 }
 
@@ -424,8 +424,8 @@ CrossOutShip (FRAME frame, COUNT shipNr)
 	
 	SetContextFGFrame (frame);
 
-	s.origin.x = (3 << RESOLUTION_FACTOR) + ((ICON_WIDTH + (2 << RESOLUTION_FACTOR)) * col); // JMS_GFX
-	s.origin.y = (9 << RESOLUTION_FACTOR) + ((ICON_HEIGHT + (2 << RESOLUTION_FACTOR)) * row); // JMS_GFX
+	s.origin.x = (3 << RESOLUTION_FACTOR) + ((ICON_WIDTH + RES_SCALE(2)) * col); // JMS_GFX
+	s.origin.y = (9 << RESOLUTION_FACTOR) + ((ICON_HEIGHT + RES_SCALE(2)) * row); // JMS_GFX
 	s.frame = SetAbsFrameIndex (StatusFrame, 3);
 			// Cross for through the ship image.
 	DrawStamp (&s);
@@ -454,7 +454,7 @@ UpdatePickMeleeFleetValue (FRAME frame, COUNT which_player)
 	r.extent.width -= (4 << RESOLUTION_FACTOR);
 	t.baseline.x = r.extent.width;
 	r.corner.x = r.extent.width - ((6 * 3) << RESOLUTION_FACTOR); // JMS_GFX
-	r.corner.y = 2 << RESOLUTION_FACTOR; // JMS_GFX
+	r.corner.y = RES_SCALE(2); // JMS_GFX
 	r.extent.width = ((6 * 3) << RESOLUTION_FACTOR); // JMS_GFX
 	r.extent.height = ((7 - 2) << RESOLUTION_FACTOR) + (RESOLUTION_FACTOR); // JMS_GFX
 	SetContextForeGroundColor (PICK_BG_COLOR);
@@ -533,14 +533,14 @@ FillPickMeleeFrame (MeleeSetup *setup)
 		t.baseline.x = r.extent.width >> 1;
 		t.baseline.y = r.extent.height - NAME_AREA_HEIGHT + (4 << RESOLUTION_FACTOR);
 
-		r.corner.x += 2 << RESOLUTION_FACTOR;
-		r.corner.y += 2 << RESOLUTION_FACTOR;
+		r.corner.x += RES_SCALE(2);
+		r.corner.y += RES_SCALE(2);
 		r.extent.width -= ( (2 * 2) + ((ICON_WIDTH >> RESOLUTION_FACTOR) + 2) + 1) << RESOLUTION_FACTOR; // JMS_GFX
 		r.extent.height -= ((2 * 2) << RESOLUTION_FACTOR) + NAME_AREA_HEIGHT; // JMS_GFX
 		SetContextForeGroundColor (PICK_BG_COLOR);
 		DrawFilledRectangle (&r);
 
-		r.corner.x += 2 << RESOLUTION_FACTOR; // JMS_GFX
+		r.corner.x += RES_SCALE(2); // JMS_GFX
 		r.extent.width += (((ICON_WIDTH >> RESOLUTION_FACTOR) + 2) - (2 * 2)) << RESOLUTION_FACTOR; // JMS_GFX
 		r.corner.y += r.extent.height;
 		r.extent.height = NAME_AREA_HEIGHT;
@@ -593,8 +593,8 @@ FillPickMeleeFrame (MeleeSetup *setup)
 				// Draw the icon.
 				row = PickMelee_GetShipRow (index);
 				col = PickMelee_GetShipColumn (index);
-				s.origin.x = (4 << RESOLUTION_FACTOR) + ((ICON_WIDTH + (2 << RESOLUTION_FACTOR)) * col); // JMS_GFX
-				s.origin.y = (10 << RESOLUTION_FACTOR) + ((ICON_HEIGHT + (2 << RESOLUTION_FACTOR)) * row);
+				s.origin.x = (4 << RESOLUTION_FACTOR) + ((ICON_WIDTH + RES_SCALE(2)) * col); // JMS_GFX
+				s.origin.y = RES_SCALE(10) + ((ICON_HEIGHT + RES_SCALE(2)) * row);
 				s.frame = MasterPtr->ShipInfo.icons;
 				DrawStamp (&s);
 

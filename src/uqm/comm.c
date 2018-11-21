@@ -958,7 +958,7 @@ DoConvSummary (SUMMARY_STATE *pSS)
 		r.corner.x = 0;
 		r.corner.y = 0;
 		r.extent.width = SIS_SCREEN_WIDTH;
-		r.extent.height = SLIDER_Y; //SIS_SCREEN_HEIGHT - SLIDER_Y - SLIDER_HEIGHT + (2 << RESOLUTION_FACTOR) + 16 * RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.height = SLIDER_Y; //SIS_SCREEN_HEIGHT - SLIDER_Y - SLIDER_HEIGHT + RES_SCALE(2) + 16 * RESOLUTION_FACTOR; // JMS_GFX
 
 		SetContext (AnimContext);
 		SetContextForeGroundColor (COMM_HISTORY_BACKGROUND_COLOR);
@@ -967,7 +967,7 @@ DoConvSummary (SUMMARY_STATE *pSS)
 		SetContextForeGroundColor (COMM_HISTORY_TEXT_COLOR);
 
 		r.extent.width -= 2 + 2;
-		t.baseline.x = 2 << RESOLUTION_FACTOR; // JMS_GFX
+		t.baseline.x = RES_SCALE(2); // JMS_GFX
 		t.align = ALIGN_LEFT;
 		t.baseline.y = DELTA_Y_SUMMARY;
 		SetContextFont (TinyFont);

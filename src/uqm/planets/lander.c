@@ -753,8 +753,8 @@ shotCreature (ELEMENT *ElementPtr, BYTE value,
 				LanderControl->IntersectStamp.frame) -
 				ANGLE_TO_FACING (FULL_CIRCLE));
 		DeltaVelocityComponents (&ElementPtr->velocity,
-				COSINE (angle, WORLD_TO_VELOCITY (1 << RESOLUTION_FACTOR)),
-				SINE (angle, WORLD_TO_VELOCITY (1 << RESOLUTION_FACTOR))); // JMS_GFX
+				COSINE (angle, WORLD_TO_VELOCITY (RES_SCALE(1))),
+				SINE (angle, WORLD_TO_VELOCITY (RES_SCALE(1)))); // JMS_GFX
 		ElementPtr->thrust_wait = 0;
 		ElementPtr->mass_points |= CREATURE_AWARE;
 	}
@@ -1898,7 +1898,7 @@ IdlePlanetSide (LanderInputState *inputState, TimeCount howLong)
 	while (GetTimeCounter () < TimeOut)
 	{
 		// 10 to clear the lander off of the screen
-		ScrollPlanetSide (0, 0, -(SURFACE_HEIGHT / 2 + (10 << RESOLUTION_FACTOR))); // JMS_GFX
+		ScrollPlanetSide (0, 0, -(SURFACE_HEIGHT / 2 + RES_SCALE(10))); // JMS_GFX
 		SleepThreadUntil (inputState->NextTime);
 		inputState->NextTime += PLANET_SIDE_RATE;
 	}
@@ -1911,7 +1911,7 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 #define MAX_OFFSETS  20
 #define MAX_OFFSETS_HD 400 // JMS_GFX
 // 10 << RESOLUTION_FACTOR to clear the lander off of the screen
-#define DISTANCE_COVERED  (SURFACE_HEIGHT / 2 + (10 << RESOLUTION_FACTOR))
+#define DISTANCE_COVERED  (SURFACE_HEIGHT / 2 + RES_SCALE(10))
 	int landingOfs[MAX_OFFSETS];
 	int start;
 	int end;

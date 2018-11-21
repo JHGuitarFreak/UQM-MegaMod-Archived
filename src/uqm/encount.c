@@ -693,7 +693,7 @@ UninitEncounter (void)
 							r.extent.width = 34 << RESOLUTION_FACTOR; // JMS_GFX
 							r.corner.x = scavenge_r.corner.x +
 									scavenge_r.extent.width
-									- ((10 << RESOLUTION_FACTOR) + r.extent.width); // JMS_GFX
+									- (RES_SCALE(10) + r.extent.width); // JMS_GFX
 							DrawFilledRectangle (&r);
 
 							/* collect bounty ResUnits */
@@ -716,11 +716,11 @@ UninitEncounter (void)
 							{
 								SetContextForeGroundColor (BLACK_COLOR);
 
-								r.corner.x = scavenge_r.corner.x + (10 << RESOLUTION_FACTOR); // JMS_GFX
+								r.corner.x = scavenge_r.corner.x + RES_SCALE(10); // JMS_GFX
 								r.extent.width = (104 << RESOLUTION_FACTOR); // JMS_GFX
 								DrawFilledRectangle (&r);
 
-								ship_s.origin.x = r.corner.x + (2 << RESOLUTION_FACTOR); // JMS_GFX
+								ship_s.origin.x = r.corner.x + RES_SCALE(2); // JMS_GFX
 								ship_s.origin.y = scavenge_r.corner.y + (12 << RESOLUTION_FACTOR); // JMS_GFX
 							}
 
@@ -784,7 +784,7 @@ UninitEncounter (void)
 				if (!CurrentInputState.key[PlayerControls[0]][KEY_ESCAPE])
 				{
 					SetContextForeGroundColor (BLACK_COLOR);
-					r.corner.x = scavenge_r.corner.x + (10 << RESOLUTION_FACTOR); // JMS_GFX
+					r.corner.x = scavenge_r.corner.x + RES_SCALE(10); // JMS_GFX
 					r.extent.width = 132 << RESOLUTION_FACTOR; // JMS_GFX
 					DrawFilledRectangle (&r);
 					sprintf (buf, "%u %s", RecycleAmount,

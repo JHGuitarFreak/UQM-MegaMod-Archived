@@ -58,7 +58,7 @@ DrawConfirmationWindow (BOOLEAN answer)
 	t.align = ALIGN_CENTER;
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
-	t.baseline.y += (10 << RESOLUTION_FACTOR); // JMS_GFX
+	t.baseline.y += RES_SCALE(10); // JMS_GFX
 	t.baseline.x = r.corner.x + (r.extent.width >> 2);
 	t.pStr = GAME_STRING (QUITMENU_STRING_BASE + 1); // "Yes"
 	SetContextForeGroundColor (answer ? MENU_HIGHLIGHT_COLOR : MENU_TEXT_COLOR);

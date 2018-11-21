@@ -537,7 +537,7 @@ InitFlash:
 						pMS->flash_rect0.corner.x = JET_TOP_X - 1 - IF_HD(3);
 						pMS->flash_rect0.corner.y = JET_TOP_Y - 1 + IF_HD(185);
 						pMS->flash_rect0.extent.width = 9 << RESOLUTION_FACTOR; // JMS_GFX;
-						pMS->flash_rect0.extent.height = (10 << RESOLUTION_FACTOR) + IF_HD(4); // JMS_GFX;
+						pMS->flash_rect0.extent.height = RES_SCALE(10) + IF_HD(4); // JMS_GFX;
 
 						break;
 					default:
