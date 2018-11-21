@@ -1491,9 +1491,9 @@ static BOOLEAN
 DoMoveCursor (MENU_STATE *pMS)
 {
 // MB: correcting previously-unusable acceleration values
-#define MIN_ACCEL_DELAY (ONE_SECOND / 50)
-#define MAX_ACCEL_DELAY (ONE_SECOND / 13)
-#define STEP_ACCEL_DELAY (ONE_SECOND / 180)
+#define MIN_ACCEL_DELAY (ONE_SECOND / 60)
+#define MAX_ACCEL_DELAY (ONE_SECOND / 8)
+#define STEP_ACCEL_DELAY (ONE_SECOND / 120)
 	static UNICODE last_buf[CURSOR_INFO_BUFSIZE];
 	DWORD TimeIn = GetTimeCounter ();
 	static COUNT moveRepeats;
@@ -1636,16 +1636,16 @@ DoMoveCursor (MENU_STATE *pMS)
 		ZoomStarMap (ZoomIn - ZoomOut);
 
 		sx = sy = 0;
-		if (PulsedInputState.menu[KEY_MENU_LEFT])    sx =   -1;
-		if (PulsedInputState.menu[KEY_MENU_RIGHT])   sx =    1;
-		if (PulsedInputState.menu[KEY_MENU_UP])      sy =   -1;
-		if (PulsedInputState.menu[KEY_MENU_DOWN])    sy =    1;
+		if (PulsedInputState.menu[KEY_MENU_LEFT])    sx = RES_SCALE(-1);
+		if (PulsedInputState.menu[KEY_MENU_RIGHT])   sx = RES_SCALE(1);
+		if (PulsedInputState.menu[KEY_MENU_UP])      sy = RES_SCALE(-1);
+		if (PulsedInputState.menu[KEY_MENU_DOWN])    sy = RES_SCALE(1);
 
-		if (moveRepeats > 20)
+		/*if (moveRepeats > 20)
 		{
 			sx *= 1 << RESOLUTION_FACTOR;
 			sy *= 1 << RESOLUTION_FACTOR;
-		}
+		}*/
 		// BW: we need to go through this because 4x only checks for
 		// input every ONE_SECOND/40 or so, thus reducing
 		// MIN_ACCEL_STEP is of no use. In practice it's similar.

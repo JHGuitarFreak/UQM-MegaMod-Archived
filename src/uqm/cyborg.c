@@ -354,7 +354,7 @@ ship_weapons (ELEMENT *ShipPtr, ELEMENT *OtherPtr, COUNT margin_of_error)
 	STARSHIP *StarShipPtr;
 	
 	if (OBJECT_CLOAKED (OtherPtr))
-		margin_of_error += DISPLAY_TO_WORLD (40 << RESOLUTION_FACTOR); // JMS_GFX
+		margin_of_error += DISPLAY_TO_WORLD (RES_SCALE(40)); // JMS_GFX
 	
 	Ship = *ShipPtr;
 	GetNextVelocityComponentsSdword (&Ship.velocity, &delta_x, &delta_y, 1);
@@ -447,9 +447,9 @@ ship_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 	if (StarShipPtr->control & AWESOME_RATING)
 		margin_of_error = 0;
 	else if (StarShipPtr->control & GOOD_RATING)
-		margin_of_error = DISPLAY_TO_WORLD (20 << RESOLUTION_FACTOR); // JMS_GFX
+		margin_of_error = DISPLAY_TO_WORLD (RES_SCALE(20)); // JMS_GFX
 	else /* if (StarShipPtr->control & STANDARD_RATING) */
-		margin_of_error = DISPLAY_TO_WORLD (40 << RESOLUTION_FACTOR); // JMS_GFX
+		margin_of_error = DISPLAY_TO_WORLD (RES_SCALE(40)); // JMS_GFX
 	
 	ObjectsOfConcern += ConcernCounter;
 	
@@ -1131,14 +1131,14 @@ tactical_intelligence (ComputerInputContext *context, STARSHIP *StarShipPtr)
 				
 				if (!ShipMoved && (ed.which_turn =
 								   PlotIntercept (ed.ObjectPtr, &Ship, maneuver_turn,
-												  DISPLAY_TO_WORLD ((30 << RESOLUTION_FACTOR) + (ship_bounds * 3 /* << 2 */))))) // JMS_GFX
+												  DISPLAY_TO_WORLD (RES_SCALE(30) + (ship_bounds * 3 /* << 2 */))))) // JMS_GFX
 				{
 					if (ed.which_turn > 1
 						|| PlotIntercept (ed.ObjectPtr, &Ship, 1,
-										  DISPLAY_TO_WORLD ((35 << RESOLUTION_FACTOR) + ship_bounds)) // JMS_GFX
+										  DISPLAY_TO_WORLD (RES_SCALE(35) + ship_bounds)) // JMS_GFX
 						|| PlotIntercept (ed.ObjectPtr, &Ship,
 										  maneuver_turn << 1,
-										  DISPLAY_TO_WORLD ((40 << RESOLUTION_FACTOR) + ship_bounds)) > 1) // JMS_GFX
+										  DISPLAY_TO_WORLD (RES_SCALE(40) + ship_bounds)) > 1) // JMS_GFX
 					{
 						ed.facing = ARCTAN (-dx, -dy);
 						if (UltraManeuverable)
@@ -1273,7 +1273,7 @@ tactical_intelligence (ComputerInputContext *context, STARSHIP *StarShipPtr)
 					ed.which_turn =
 					PlotIntercept (ed.ObjectPtr,
 						&Ship, ed.ObjectPtr->life_span,
-						DISPLAY_TO_WORLD (40 << RESOLUTION_FACTOR)); // JMS_GFX
+						DISPLAY_TO_WORLD (RES_SCALE(40))); // JMS_GFX
 					ed.MoveState = AVOID;
 				}
 				

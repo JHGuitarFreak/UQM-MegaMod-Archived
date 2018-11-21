@@ -60,7 +60,7 @@ ConfirmSaveLoad (STAMP *MsgStamp)
 	GetContextClipRect (&clip_r);
 
 	t.baseline.x = clip_r.extent.width >> 1;
-	t.baseline.y = (clip_r.extent.height >> 1) + (3 << RESOLUTION_FACTOR); // JMS_GFX
+	t.baseline.y = (clip_r.extent.height >> 1) + RES_SCALE(3); // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.CharCount = (COUNT)~0;
 	if (MsgStamp)
@@ -72,8 +72,8 @@ ConfirmSaveLoad (STAMP *MsgStamp)
 	TextRect (&t, &r, NULL);
 	r.corner.x -= 4 << RESOLUTION_FACTOR; // JMS_GFX
 	r.corner.y -= 4 << RESOLUTION_FACTOR; // JMS_GFX
-	r.extent.width += 8 << RESOLUTION_FACTOR; // JMS_GFX
-	r.extent.height += 8 << RESOLUTION_FACTOR; // JMS_GFX
+	r.extent.width += RES_SCALE(8); // JMS_GFX
+	r.extent.height += RES_SCALE(8); // JMS_GFX
 	if (MsgStamp)
 	{
 		*MsgStamp = SaveContextFrame (&r);
@@ -327,7 +327,7 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 		GetContextClipRect (&clip_r);
 		
 		t.baseline.x = clip_r.extent.width >> 1;
-		t.baseline.y = (clip_r.extent.height >> 1) + (3 << RESOLUTION_FACTOR); // JMS_GFX
+		t.baseline.y = (clip_r.extent.height >> 1) + RES_SCALE(3); // JMS_GFX
 		t.align = ALIGN_CENTER;
 		t.CharCount = (COUNT)~0;
 		
@@ -346,8 +346,8 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 		TextRect (&t, &r, NULL);
 		r.corner.x -= 4 << RESOLUTION_FACTOR; // JMS_GFX
 		r.corner.y -= 4 << RESOLUTION_FACTOR; // JMS_GFX
-		r.extent.width += 8 << RESOLUTION_FACTOR; // JMS_GFX
-		r.extent.height += 8 << RESOLUTION_FACTOR; // JMS_GFX
+		r.extent.width += RES_SCALE(8); // JMS_GFX
+		r.extent.height += RES_SCALE(8); // JMS_GFX
 		
 		DrawStarConBox (&r, 2,
 						BUILD_COLOR (MAKE_RGB15 (0x10, 0x10, 0x10), 0x19),
@@ -426,7 +426,7 @@ DrawSaveNameString (UNICODE *Str, COUNT CursorPos, COUNT state, COUNT gameIndex)
 	if (MAX_SAVED_GAMES > 99)
 		r.extent.width += 5 << RESOLUTION_FACTOR; // JMS_GFX
 	r.extent.height = 11 << RESOLUTION_FACTOR; // JMS_GFX
-	r.corner.x = 8 << RESOLUTION_FACTOR; // JMS_GFX
+	r.corner.x = RES_SCALE(8); // JMS_GFX
 	r.corner.y = (160 + ((gameIndex % SAVES_PER_PAGE) * 13)) << RESOLUTION_FACTOR; // JMS_GFX
 	DrawRectangle (&r);
 
@@ -435,7 +435,7 @@ DrawSaveNameString (UNICODE *Str, COUNT CursorPos, COUNT state, COUNT gameIndex)
 	DrawRectangle (&r);
 
 	Font = TinyFont;
-	lf.baseline.x = r.corner.x + (3 << RESOLUTION_FACTOR); // JMS_GFX
+	lf.baseline.x = r.corner.x + RES_SCALE(3); // JMS_GFX
 	lf.baseline.y = r.corner.y + RES_BOOL(8, 29); // JMS_GFX
 
 	BackGround = BUILD_COLOR (MAKE_RGB15 (0x1B, 0x00, 0x1B), 0x33);
@@ -454,7 +454,7 @@ DrawSaveNameString (UNICODE *Str, COUNT CursorPos, COUNT state, COUNT gameIndex)
 		SetContextForeGroundColor (BLACK_COLOR);
 		DrawFilledRectangle (&r);
 
-		t.baseline.x = r.corner.x + (3 << RESOLUTION_FACTOR);
+		t.baseline.x = r.corner.x + RES_SCALE(3);
 		t.baseline.y = r.corner.y + RES_SCALE(8); // JMS_GFX
 		t.align = ALIGN_LEFT;
 		t.pStr = Str;
@@ -746,7 +746,7 @@ DrawSavegameCargo (SIS_STATE *sisState)
 	};
 #define ELEMENT_ORG_Y      (17 << RESOLUTION_FACTOR) // JMS_GFX
 #define ELEMENT_SPACING_Y  (12 << RESOLUTION_FACTOR) // JMS_GFX
-#define ELEMENT_SPACING_X  (36 << RESOLUTION_FACTOR) // JMS_GFX
+#define ELEMENT_SPACING_X  RES_SCALE(36) // JMS_GFX
 
 	SetContext (SpaceContext);
 	BatchGraphics ();
@@ -759,7 +759,7 @@ DrawSavegameCargo (SIS_STATE *sisState)
 	s.origin.y = ELEMENT_ORG_Y;
 	// setup element amounts
 	t.baseline.x = SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS + ELEMENT_SPACING_X;
-	t.baseline.y = ELEMENT_ORG_Y + (3 << RESOLUTION_FACTOR); // JMS_GFX
+	t.baseline.y = ELEMENT_ORG_Y + RES_SCALE(3); // JMS_GFX
 	t.align = ALIGN_RIGHT;
 	t.pStr = buf;
 
@@ -771,7 +771,7 @@ DrawSavegameCargo (SIS_STATE *sisState)
 			s.origin.x += ELEMENT_SPACING_X;
 			s.origin.y = ELEMENT_ORG_Y;
 			t.baseline.x += ELEMENT_SPACING_X;
-			t.baseline.y = ELEMENT_ORG_Y + (3 << RESOLUTION_FACTOR); // JMS_GFX
+			t.baseline.y = ELEMENT_ORG_Y + RES_SCALE(3); // JMS_GFX
 		}
 		// draw element icon
 		DrawStamp (&s);
@@ -786,13 +786,13 @@ DrawSavegameCargo (SIS_STATE *sisState)
 	}
 
 	// draw Bio icon
-	s.origin.x = (24 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS; // JMS_GFX
+	s.origin.x = RES_SCALE(24) + SUMMARY_X_OFFS - SUMMARY_SIDE_OFFS; // JMS_GFX
 	s.origin.y = 68 << RESOLUTION_FACTOR; // JMS_GFX
 	s.frame = SetAbsFrameIndex (s.frame, 68);
 	DrawStamp (&s);
 	// print Bio amount
-	t.baseline.x = (50 << RESOLUTION_FACTOR) + SUMMARY_X_OFFS; // JMS_GFX
-	t.baseline.y = s.origin.y + (3 << RESOLUTION_FACTOR); // JMS_GFX
+	t.baseline.x = RES_SCALE(50) + SUMMARY_X_OFFS; // JMS_GFX
+	t.baseline.y = s.origin.y + RES_SCALE(3); // JMS_GFX
 	SetContextForeGroundColor (cargo_color[i]);
 	snprintf (buf, sizeof buf, "%u", sisState->TotalBioMass);
 	t.CharCount = (COUNT)~0;
@@ -876,9 +876,9 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 							+ pSD->DeviceList[devIndex]);
 					DrawStamp (&s);
 				}
-				s.origin.x += 18 << RESOLUTION_FACTOR; // JMS_GFX
+				s.origin.x += RES_SCALE(18); // JMS_GFX
 			}
-			s.origin.y += 18 << RESOLUTION_FACTOR; // JMS_GFX
+			s.origin.y += RES_SCALE(18); // JMS_GFX
 		}
 
 		SetContextFont (StarConFont);
@@ -975,7 +975,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		t.CharCount = (COUNT)~0;
 		font_DrawText (&t);
 		t.align = ALIGN_CENTER;
-		t.baseline.x = SIS_SCREEN_WIDTH - SIS_TITLE_BOX_WIDTH - (4 << RESOLUTION_FACTOR) + (SIS_TITLE_WIDTH >> 1); // JMS_GFX
+		t.baseline.x = SIS_SCREEN_WIDTH - SIS_TITLE_BOX_WIDTH - RES_SCALE(4) + (SIS_TITLE_WIDTH >> 1); // JMS_GFX
 		switch (pSD->Activity)
 		{
 			case IN_STARBASE:
@@ -1023,7 +1023,7 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 	r.extent.width = 240 << RESOLUTION_FACTOR; // JMS_GFX
 	r.extent.height = 65 << RESOLUTION_FACTOR; // JMS_GFX
 	r.corner.x = 1 << RESOLUTION_FACTOR; // JMS_GFX
-	r.corner.y = 160 << RESOLUTION_FACTOR; // JMS_GFX
+	r.corner.y = RES_SCALE(160); // JMS_GFX
 	SetContextForeGroundColor (BLACK_COLOR);
 	DrawFilledRectangle (&r);
 
@@ -1048,7 +1048,7 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 		if (MAX_SAVED_GAMES > 99)
 			r.extent.width += 5 << RESOLUTION_FACTOR; // JMS_GFX
 		r.extent.height = 11 << RESOLUTION_FACTOR; // JMS_GFX
-		r.corner.x = 8 << RESOLUTION_FACTOR; // JMS_GFX
+		r.corner.x = RES_SCALE(8); // JMS_GFX
 		r.corner.y = (160 + (i * 13)) << RESOLUTION_FACTOR; // JMS_GFX
 		DrawRectangle (&r);
 
@@ -1062,7 +1062,7 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 		r.corner.x = RES_SCALE(30); // JMS_GFX
 		DrawRectangle (&r);
 
-		t.baseline.x = r.corner.x + (3 << RESOLUTION_FACTOR); // JMS_GFX
+		t.baseline.x = r.corner.x + RES_SCALE(3); // JMS_GFX
 		if (desc->year_index == 0)
 		{
 			utf8StringCopy (buf, sizeof buf,

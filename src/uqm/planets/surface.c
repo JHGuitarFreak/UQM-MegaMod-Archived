@@ -245,8 +245,8 @@ GenerateRandomLocation (POINT *loc)
 	loc->x = x;
 	loc->y = y;
 	
-	loc->x += 8 << RESOLUTION_FACTOR; // JMS_GFX
-	loc->y += 8 << RESOLUTION_FACTOR; // JMS_GFX
+	loc->x += RES_SCALE(8); // JMS_GFX
+	loc->y += RES_SCALE(8); // JMS_GFX
 	
 	// JMS_GFX: Compensate for 1280x960's different aspect ratio
 	if (RESOLUTION_FACTOR == HD)

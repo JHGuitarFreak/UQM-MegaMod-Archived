@@ -1219,8 +1219,8 @@ SaveProblemMessage (STAMP *MsgStamp)
 			- r.corner.x;
 	t.baseline.y = ((SIS_SCREEN_HEIGHT >> 1) - (r.extent.height >> 1))
 			- r.corner.y;
-	r.corner.x += t.baseline.x - (4 << RESOLUTION_FACTOR);
-	r.corner.y += t.baseline.y - (4 << RESOLUTION_FACTOR);
+	r.corner.x += t.baseline.x - RES_SCALE(4);
+	r.corner.y += t.baseline.y - RES_SCALE(4);
 	r.extent.width += RES_SCALE(8);
 	r.extent.height += RES_SCALE(8);
 
