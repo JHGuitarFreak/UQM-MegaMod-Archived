@@ -116,7 +116,7 @@ enum
 #define RACE_INFO_ORIGIN_Y (SHIP_INFO_HEIGHT + RES_SCALE(6)) // JMS_GFX
 #define RACE_INFO_HEIGHT ((STATUS_HEIGHT - RES_SCALE(3)) - RACE_INFO_ORIGIN_Y) // JMS_GFX
 
-#define MELEE_STATUS_X_OFFS (RES_SCALE(1)) // JMS_GFX
+#define MELEE_STATUS_X_OFFS RES_SCALE(1) // JMS_GFX
 #define MELEE_STATUS_Y_OFFS (RES_SCALE(201) + IF_HD(40)) // JMS_GFX
 #define MELEE_STATUS_WIDTH  (NUM_MELEE_COLUMNS * \
 		(MELEE_BOX_WIDTH + MELEE_BOX_SPACE))
@@ -873,7 +873,7 @@ DrawMeleeShipStrings (MELEE_STATE *pMS, MeleeShip NewStarShip)
 	OldContext = SetContext (StatusContext);
 	GetContextClipRect (&OldRect);
 	r = OldRect;
-	r.corner.x += RES_SCALE(32) + MENU_X_OFFS - IF_HD(28);
+	r.corner.x += RES_SCALE(-32) + MENU_X_OFFS - IF_HD(28);
 	r.corner.y += RES_SCALE(76) + IF_HD(8);
 	r.extent.height = SHIP_INFO_HEIGHT + 3;
 	SetContextClipRect (&r);
