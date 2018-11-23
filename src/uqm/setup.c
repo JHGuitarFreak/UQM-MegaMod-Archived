@@ -80,6 +80,7 @@ BOOLEAN comingFromInit;
 BOOLEAN EndlessSCLoaded;
 BYTE Rando;
 BOOLEAN HDPackPresent;
+FONT MeleeFont;
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;
@@ -296,8 +297,12 @@ InitKernel (void)
 	if (GameStrings == 0)
 		return FALSE;
 
-	MicroFont = LoadFont (MICRO_FONT);
+	MicroFont = LoadFont(MICRO_FONT);
 	if (MicroFont == NULL)
+		return FALSE;
+
+	MeleeFont = LoadFont(PT13AA_FONT);
+	if (MeleeFont == NULL)
 		return FALSE;
 
 	MenuSounds = CaptureSound (LoadSound (MENU_SOUNDS));

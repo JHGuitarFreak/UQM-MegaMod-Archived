@@ -463,7 +463,7 @@ DrawFleetValue (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState)
 		return;
 	}
 	
-	SetContextFont (MicroFont);
+	SetContextFont (MeleeFont);
 
 	fleetValue = MeleeSetup_getFleetValue (pMS->meleeSetup, side);
 	sprintf (buf, "%u", fleetValue);
@@ -493,7 +493,7 @@ DrawTeamString (MELEE_STATE *pMS, COUNT side, COUNT HiLiteState,
 		return TRUE;
 	}
 		
-	SetContextFont (MicroFont);
+	SetContextFont (MeleeFont);
 
 	lfText.pStr = (teamName != NULL) ? teamName :
 			MeleeSetup_getTeamName (pMS->meleeSetup, side);
