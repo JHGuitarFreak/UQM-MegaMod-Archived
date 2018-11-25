@@ -134,7 +134,7 @@ MakeReport (SOUND ReadOutSounds, UNICODE *pStr, COUNT StrLen)
 		}
 		t.baseline.x = 1 + (r.extent.width >> 1) 
 			+ (col_cells * (r.extent.width + 1)) 
-			- 1 - 3 * RESOLUTION_FACTOR; // JMS_GFX
+			- 1 - IF_HD(8); // JMS_GFX
 		do
 		{
 			COUNT word_chars;
@@ -216,7 +216,7 @@ MakeReport (SOUND ReadOutSounds, UNICODE *pStr, COUNT StrLen)
 
 InitPageCell:
 			ButtonState = 1;
-			t.baseline.y = r.extent.height + RES_SCALE(1) + IF_HD(13); // JMS_GFX
+			t.baseline.y = r.extent.height + 1 + IF_HD(12); // JMS_GFX
 			row_cells = 0;
 			if (StrLen)
 			{
@@ -276,5 +276,3 @@ DoDiscoveryReport (SOUND ReadOutSounds)
 
 	WaitForNoInput (WAIT_INFINITE, TRUE);
 }
-
-
