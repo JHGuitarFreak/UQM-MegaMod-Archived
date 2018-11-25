@@ -33,7 +33,7 @@
 #include <string.h>
 
 
-#define NUM_CELL_COLS (MAP_WIDTH / RES_SCALE(6) + IF_HD(7) - (optWhichFonts == OPT_PC ? 0 : IF_HD(1))) // JMS_GFX 
+#define NUM_CELL_COLS (MAP_WIDTH / RES_SCALE(6) + IF_HD(7) - IF_HD(1)) // JMS_GFX 
 #define NUM_CELL_ROWS (MAP_HEIGHT / RES_SCALE(6) + IF_HD(2)) // JMS_GFX
 #define MAX_CELL_COLS 40
 
@@ -70,8 +70,8 @@ ClearReportArea (void)
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x00, 0x07, 0x00), 0x57));
 	
-	startx = 1 + (r.extent.width >> 1) - 1 - (4 * RESOLUTION_FACTOR) + IF_HD(8);  // JMS_GFX
-	s.origin.y = 1 + IF_HD(9);
+	startx = 1 + (r.extent.width >> 1) - 1 - (4 * RESOLUTION_FACTOR) + (optWhichFonts == OPT_PC ? IF_HD(8) : IF_HD(-1));  // JMS_GFX
+	s.origin.y = 1 + (optWhichFonts == OPT_PC ? IF_HD(9) : 0);
 	for (y = 0; y < emptyrows; ++y)
 	{
 		s.origin.x = startx;
