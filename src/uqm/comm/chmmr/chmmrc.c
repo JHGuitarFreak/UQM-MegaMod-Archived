@@ -653,8 +653,7 @@ init_chmmr_comm (void)
 		// use alternate "Process" track if available
 		chmmr_desc.AlienAltSongRes = CHMMR_PROCESS_MUSIC;
 		chmmr_desc.AlienSongFlags |= LDASF_USE_ALTERNATE;
-	}
-	else {
+	} else {
 		// regular track -- let's make sure
 		chmmr_desc.AlienSongFlags &= ~LDASF_USE_ALTERNATE;
 	}

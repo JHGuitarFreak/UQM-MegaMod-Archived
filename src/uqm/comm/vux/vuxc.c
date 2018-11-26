@@ -981,6 +981,15 @@ init_vux_comm (void)
 	
 	vux_desc = RES_BOOL(vux_desc_orig, vux_desc_hd);
 
+	if(GET_GAME_STATE(GLOBAL_FLAGS_AND_DATA) & (1 << 6)){
+		// use alternate "ZEX" track if available
+		vux_desc.AlienAltSongRes = VUX_ZEX_MUSIC;
+		vux_desc.AlienSongFlags |= LDASF_USE_ALTERNATE;
+	} else {
+		// regular track -- let's make sure
+		vux_desc.AlienSongFlags &= ~LDASF_USE_ALTERNATE;
+	}
+
 	vux_desc.init_encounter_func = Intro;
 	vux_desc.post_encounter_func = post_vux_enc;
 	vux_desc.uninit_encounter_func = uninit_vux;
