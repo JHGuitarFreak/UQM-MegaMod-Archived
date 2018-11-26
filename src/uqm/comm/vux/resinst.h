@@ -6,5 +6,6 @@
 #define VUX_CONVERSATION_PHRASES "comm.vux.dialogue"
 #define VUX_FONT "comm.vux.font"
 #define VUX_MUSIC "comm.vux.music"
+#define VUX_ZEX_MUSIC "comm.vux.zex.music"
 #define VUX_PMAP_ANIM "comm.vux.graphics"
 #define VUX_SCRIPT "comm.vux.script"
