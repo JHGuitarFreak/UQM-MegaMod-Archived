@@ -224,7 +224,7 @@ Widget_DrawMenuScreen (WIDGET *_self, int x, int y)
 	if (cur_font)
 		oldfont = SetContextFont (cur_font);
 	
-	r.corner.x = RES_SCALE(2) + 2 * RESOLUTION_FACTOR; // JMS_GFX
+	r.corner.x = RES_SCALE(2) + IF_HD(4); // JMS_GFX
 	r.corner.y = RES_SCALE(2); // JMS_GFX
 	r.extent.width = ScreenWidth - RES_SCALE(4); // JMS_GFX
 	r.extent.height = ScreenHeight - RES_SCALE(4); // JMS_GFX
