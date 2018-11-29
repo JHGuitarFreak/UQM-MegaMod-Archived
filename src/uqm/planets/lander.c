@@ -504,8 +504,10 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 		rounding_error_startcount = (start_count % 2);
 		rounding_error_numretrieved = (pPSD->ElementLevel % 2);
 
-		if (GET_GAME_STATE (IMPROVED_LANDER_CARGO))
-			NumRetrieved = (pPSD->ElementLevel >> 1) - (start_count >> 1);
+		if (GET_GAME_STATE(IMPROVED_LANDER_CARGO)) {
+			start_count >>= 1;
+			NumRetrieved = (pPSD->ElementLevel >> 1) - start_count;
+		}
 
 		s.frame = SetAbsFrameIndex (LanderFrame[0], 43);
 	}
@@ -517,11 +519,6 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 	NumRetrieved = (NumRetrieved * MAX_HOLD_BARS / MAX_SCROUNGED) + tmpholdint;
 
 	start_count *= RES_STAT_SCALE(1); // JMS_GFX
-	
-	if (scan == MINERAL_SCAN && GET_GAME_STATE (IMPROVED_LANDER_CARGO))
-	{
-		start_count >>= 1;
-	}
 
 	s.origin.x = 0;
 	s.origin.y = -(int)start_count;
