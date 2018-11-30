@@ -454,8 +454,7 @@ DeltaLanderCrew (SIZE crew_delta, COUNT which_disaster)
 			if (!optGodMode) {
 				shieldHit = 0; 
 				--crew_left; 
-			}
-			else 
+			} else 
 				shieldHit = 1; 
 		}
 
