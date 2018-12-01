@@ -469,8 +469,8 @@ DeltaLanderCrew (SIZE crew_delta, COUNT which_disaster)
 				NotPositional (), NULL, GAME_SOUND_PRIORITY);
 	}
 
-	s.origin.x = (11 + RES_STAT_SCALE(7)) + (RES_STAT_SCALE(6) * (crew_delta % NUM_CREW_COLS));
-	s.origin.y = (35 + RES_STAT_SCALE(23)) - (RES_STAT_SCALE(6) * (crew_delta / NUM_CREW_COLS));
+	s.origin.x = RES_STAT_SCALE(11) + (RES_STAT_SCALE(6) * (crew_delta % NUM_CREW_COLS));
+	s.origin.y = RES_STAT_SCALE(35) - (RES_STAT_SCALE(6) * (crew_delta / NUM_CREW_COLS));
 
 	OldContext = SetContext (RadarContext);
 	DrawStamp (&s);
@@ -2244,7 +2244,7 @@ InitLander (BYTE LanderFlags)
 		{
 			r.corner.x = 1;
 			r.corner.y = 1;
-			r.extent.width = RES_STAT_SCALE(4) + RESOLUTION_FACTOR; // JMS_GFX
+			r.extent.width = RES_STAT_SCALE(4); // JMS_GFX
 			r.extent.height = RES_STAT_SCALE(MAX_HOLD_BARS - ((free_space >> capacity_shift) * MAX_HOLD_BARS / MAX_SCROUNGED) + 2) - 1;
 			SetContextForeGroundColor (BLACK_COLOR);
 			DrawFilledRectangle (&r);

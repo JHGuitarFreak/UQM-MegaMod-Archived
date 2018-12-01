@@ -55,10 +55,10 @@ static const COORD hangar_x_coords[HANGAR_SHIPS_ROW] =
 #	define HANGAR_SHIPS_ROW  6
 
 // The Y position of the upper line of hangar bay doors.
-# define HANGAR_Y	(RES_SCALE(88) - IF_HD(2)) // JMS_GFX
+# define HANGAR_Y	RES_SCALE(88) // JMS_GFX
 
 // The Y position of the lower line of hangar bay doors.
-# define HANGAR_DY	(RES_SCALE(84) + IF_HD(2)) // JMS_GFX
+# define HANGAR_DY	RES_SCALE(84) // JMS_GFX
 
 
 // The X positions of the hangar bay doors for each resolution mode.
@@ -67,7 +67,7 @@ static const COORD hangar_x_coords_orig[HANGAR_SHIPS_ROW] = {
 	0, 38, 76, 131, 169, 207
 };
 static const COORD hangar_x_coords_hd[HANGAR_SHIPS_ROW] = {
-	3, 171, 339, 578, 746, 914
+	55, 207, 359, 579, 731, 883
 };
 #endif // USE_3DO_HANGAR
 
@@ -268,15 +268,15 @@ DrawRaceStrings (MENU_STATE *pMS, BYTE NewRaceItem)
 }
 
 // Width of an escort ship window.
-#define SHIP_WIN_WIDTH RES_BOOL(34, 156) // JMS_GFX
+#define SHIP_WIN_WIDTH RES_SCALE(34) // JMS_GFX
 
 // Height of an escort ship window.
-#define SHIP_WIN_HEIGHT (SHIP_WIN_WIDTH + RES_BOOL(6, 11)) // JMS_GFX
+#define SHIP_WIN_HEIGHT (SHIP_WIN_WIDTH + RES_SCALE(6)) // JMS_GFX
 
 // For how many animation frames' time the escort ship bay doors
 // are slid left and right when opening them. If this number is not large
 // enough, part of the doors are left visible upon opening.
-#define SHIP_WIN_FRAMES ((SHIP_WIN_WIDTH >> 1) + RES_BOOL(1, 2))
+#define SHIP_WIN_FRAMES ((SHIP_WIN_WIDTH >> 1) + 1)
 
 // Print the crew count of an escort ship on top of its (already drawn)
 // image, either as '30' (full), '28/30' (partially full), or 'SCRAP'
