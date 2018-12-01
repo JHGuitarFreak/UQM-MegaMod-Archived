@@ -50,10 +50,11 @@ DrawBaseStateStrings (STARBASE_STATE OldState, STARBASE_STATE NewState)
 	RECT r;
 	COUNT text_base_y = 106 + 28;
 	COUNT text_spacing_y = 23 - 4;
+	COUNT HD_Y = 32;
 	//STRING locString;
 
 	SetContext (ScreenContext);
-	SetContextFont (StarConFont);
+	SetContextFont (RES_BOOL(StarConFont, MeleeFont));
 	SetContextForeGroundColor (BLACK_COLOR);
 
 	t.baseline.x = RES_SCALE(73 - 4); // JMS_GFX
@@ -61,7 +62,7 @@ DrawBaseStateStrings (STARBASE_STATE OldState, STARBASE_STATE NewState)
 
 	if (OldState == (STARBASE_STATE)~0)
 	{
-		t.baseline.y = RES_SCALE(text_base_y) + 4; // JMS_GFX;
+		t.baseline.y = RES_SCALE(text_base_y + 4) + IF_HD(HD_Y); // JMS_GFX;
 		for (OldState = TALK_COMMANDER; OldState < DEPART_BASE; ++OldState)
 		{
 			if (OldState != NewState)
@@ -74,20 +75,21 @@ DrawBaseStateStrings (STARBASE_STATE OldState, STARBASE_STATE NewState)
 		}
 	}
 
-	t.baseline.y = RES_SCALE(text_base_y + (text_spacing_y * OldState)) + 4; // JMS_GFX
+	t.baseline.y = RES_SCALE(text_base_y + (text_spacing_y * OldState) + 4) + IF_HD(HD_Y); // JMS_GFX
 	t.pStr = GAME_STRING (STARBASE_STRING_BASE + 1 + OldState);
 	// BW: erase previously selected string before redrawing it
 	TextRect(&t, &r, NULL);
 	SetContextForeGroundColor (
 			   BUILD_COLOR_RGBA (0x88, 0x88, 0x88, 0xff));
-	DrawFilledRectangle (&r);
+	if(RESOLUTION_FACTOR != HD)
+		DrawFilledRectangle (&r);
 	SetContextForeGroundColor (BLACK_COLOR);
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
 
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x1F, 0x1F, 0x0A), 0x0E));
-	t.baseline.y = RES_SCALE(text_base_y + (text_spacing_y * NewState)) + 4; // JMS_GFX
+	t.baseline.y = RES_SCALE(text_base_y + (text_spacing_y * NewState) + 4) + IF_HD(HD_Y); // JMS_GFX
 	t.pStr = GAME_STRING (STARBASE_STRING_BASE + 1 + NewState);
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
