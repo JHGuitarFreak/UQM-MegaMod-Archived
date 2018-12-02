@@ -109,6 +109,7 @@
 #define ORBENTER_PMAP_ANIM "graphics.orbitenter"
 #define ORBIT_VIEW_ANIM "graphics.orbview"
 #define ORBPLAN_MASK_PMAP_ANIM "graphics.planets"
+#define ORBPLAN_UNSCALED_MASK_PMAP_ANIM "graphics.planets.unscaled"
 #define ORBPLAN_INTERSECT_MASK_PMAP_ANIM "graphics.planets.intersect"
 #define OUTFIT_PMAP_ANIM "graphics.outfit"
 #define PLANET00_BIG_MASK_PMAP_ANIM "planet.oolite.large"
