@@ -876,19 +876,12 @@ static FRAME
 getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 {
 	if (pSolarSysState->WaitIntersect != (COUNT)~0 && pSolarSysState->WaitIntersect != WaitPlanet) {
-		if (RESOLUTION_FACTOR != HD || (!optScalePlanets))
+		if (RESOLUTION_FACTOR != HD || !optScalePlanets)
 			return DecFrameIndex(stars_in_space);
-		else {
-			switch (planet->data_index) {
-				case HIERARCHY_STARBASE:
-				case SA_MATRA:
-					return planet->image.frame;
-					break;
-				default:
-					return planet->intersect.frame;
-					break;
-			}
-		}
+		else if (planet->data_index >= SA_MATRA)
+			return planet->image.frame;
+		else
+			return planet->intersect.frame;
 	} else {	
 		// Existing collisions are cleared only once the ship does not
 		// intersect anymore with a full planet image
