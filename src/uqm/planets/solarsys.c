@@ -91,6 +91,7 @@ SOLARSYS_STATE *pSolarSysState;
 FRAME SISIPFrame;
 FRAME SunFrame;
 FRAME OrbitalFrame;
+FRAME OrbitalFrameUnscaled;
 FRAME OrbitalFrameIntersect;
 FRAME SpaceJunkFrame;
 COLORMAP OrbitalCMap;
@@ -368,6 +369,8 @@ FreeIPData (void)
 	OrbitalCMap = 0;
 	DestroyDrawable(ReleaseDrawable(OrbitalFrame));
 	OrbitalFrame = 0;
+	DestroyDrawable(ReleaseDrawable(OrbitalFrameUnscaled));
+	OrbitalFrameUnscaled = 0;
 	if (RESOLUTION_FACTOR == HD && HDPackPresent) {
 		DestroyDrawable(ReleaseDrawable(OrbitalFrameIntersect));
 		OrbitalFrameIntersect = 0;
@@ -411,6 +414,7 @@ LoadIPData (void)
 
 		OrbitalCMap = CaptureColorMap (LoadColorMap (ORBPLAN_COLOR_MAP));
 		OrbitalFrame = CaptureDrawable(LoadGraphic(ORBPLAN_MASK_PMAP_ANIM));
+		OrbitalFrameUnscaled = CaptureDrawable(LoadGraphic(ORBPLAN_UNSCALED_MASK_PMAP_ANIM));
 		if(RESOLUTION_FACTOR == HD && HDPackPresent)
 			OrbitalFrameIntersect = CaptureDrawable(LoadGraphic(ORBPLAN_INTERSECT_MASK_PMAP_ANIM));
 		SunCMap = CaptureColorMap (LoadColorMap (IPSUN_COLOR_MAP));
@@ -872,7 +876,7 @@ static FRAME
 getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 {
 	if (pSolarSysState->WaitIntersect != (COUNT)~0 && pSolarSysState->WaitIntersect != WaitPlanet) {
-		if (RESOLUTION_FACTOR != HD)
+		if (RESOLUTION_FACTOR != HD || (!optScalePlanets))
 			return DecFrameIndex(stars_in_space);
 		else {
 			switch (planet->data_index) {
@@ -1043,6 +1047,7 @@ static void
 ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 {
 	COUNT index;
+	FRAME OrbitFrame;
 	
 	if (optOrbitingPlanets)
 	{
@@ -1129,9 +1134,15 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 				break;
 			}
 		}
-		planet->image.frame =	SetAbsFrameIndex (OrbitalFrame,
-				(Size << FACING_SHIFT) + NORMALIZE_FACING (
-				ANGLE_TO_FACING (angle)));
+
+		if (RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets)
+			OrbitFrame = OrbitalFrameUnscaled;
+		else
+			OrbitFrame = OrbitalFrame;
+
+		planet->image.frame = SetAbsFrameIndex(OrbitFrame,
+			(Size << FACING_SHIFT) + NORMALIZE_FACING(
+				ANGLE_TO_FACING(angle)));
 
 		if (RESOLUTION_FACTOR == HD && HDPackPresent) {
 			planet->intersect.frame = SetAbsFrameIndex(OrbitalFrameIntersect, Size);
@@ -1139,11 +1150,17 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 	}
 	else if (planet->data_index == HIERARCHY_STARBASE)
 	{
-		planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, 16);
+		if (RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets)
+			planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, 22);
+		else
+			planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, 16);
 	}
 	else if (planet->data_index == SA_MATRA)
 	{
-		planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, 19);
+		if (RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets)
+			planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, 23);
+		else
+			planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, 19);
 	}
 }
 
@@ -1698,7 +1715,10 @@ DrawInnerPlanets (PLANET_DESC *planet)
 		if (i < NUMBER_OF_PLANET_TYPES
 			&& (planet->data_index & PLANET_SHIELDED))
 		{	// Shielded world looks "shielded" in inner view
-			s.frame = SetAbsFrameIndex (SpaceJunkFrame, 17);
+			if(RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets)
+				s.frame = SetAbsFrameIndex (SpaceJunkFrame, 24);
+			else
+				s.frame = SetAbsFrameIndex(SpaceJunkFrame, 17);
 		}
 		DrawStamp (&s);
 

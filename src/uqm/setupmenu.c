@@ -1542,7 +1542,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 		case 1280:
 		default:
 			opts->screenResolution = OPTVAL_REAL_1280_960;
-			opts->loresBlowup = NO_BLOWUP;
+			opts->loresBlowup = OPTVAL_SCALE_1280_960;
 		}
 	}
 }
@@ -1685,9 +1685,6 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	else
 	{	
 		switch (opts->loresBlowup) {
-			case NO_BLOWUP:
-				// JMS: Default value: Don't do anything.
-				break;
 			case OPTVAL_SCALE_640_480:
 				NewWidth = 640;
 				NewHeight = 480;
@@ -1708,6 +1705,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 #endif
 				resolutionFactor = 2;
 				break;
+			case NO_BLOWUP:
 			case OPTVAL_SCALE_1280_960:
 				NewWidth = 1280;
 				NewHeight = 960;
