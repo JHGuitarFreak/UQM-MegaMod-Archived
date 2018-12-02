@@ -1029,7 +1029,7 @@ DrawSupportShips (void)
 
 		s.origin.x = RES_STAT_SCALE(pship_pos->x) 
 			+ ((pship_pos - ship_pos) % 2 ? IF_HD(5) : IF_HD(-2)); // JMS_GFX
-		s.origin.y = RES_STAT_SCALE(pship_pos->y); // JMS_GFX
+		s.origin.y = RES_STAT_SCALE(pship_pos->y) + IF_HD(10); // JMS_GFX
 		s.frame = SetAbsFrameIndex (StarShipPtr->icons, 2);
 		DrawStamp (&s);
 
