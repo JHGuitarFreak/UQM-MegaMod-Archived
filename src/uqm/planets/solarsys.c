@@ -1047,7 +1047,6 @@ static void
 ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 {
 	COUNT index;
-	FRAME OrbitFrame;
 	
 	if (optOrbitingPlanets)
 	{
@@ -1134,13 +1133,7 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 				break;
 			}
 		}
-
-		if (RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets)
-			OrbitFrame = OrbitalFrameUnscaled;
-		else
-			OrbitFrame = OrbitalFrame;
-
-		planet->image.frame = SetAbsFrameIndex(OrbitFrame,
+		planet->image.frame = SetAbsFrameIndex(UNSCALED_PLANETS(OrbitalFrameUnscaled, OrbitalFrame),
 			(Size << FACING_SHIFT) + NORMALIZE_FACING(
 				ANGLE_TO_FACING(angle)));
 
@@ -1150,17 +1143,11 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 	}
 	else if (planet->data_index == HIERARCHY_STARBASE)
 	{
-		if (RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets)
-			planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, 22);
-		else
-			planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, 16);
+		planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, UNSCALED_PLANETS(22, 16));
 	}
 	else if (planet->data_index == SA_MATRA)
 	{
-		if (RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets)
-			planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, 23);
-		else
-			planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, 19);
+		planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, UNSCALED_PLANETS(23, 19));
 	}
 }
 
@@ -1715,10 +1702,7 @@ DrawInnerPlanets (PLANET_DESC *planet)
 		if (i < NUMBER_OF_PLANET_TYPES
 			&& (planet->data_index & PLANET_SHIELDED))
 		{	// Shielded world looks "shielded" in inner view
-			if(RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets)
-				s.frame = SetAbsFrameIndex (SpaceJunkFrame, 24);
-			else
-				s.frame = SetAbsFrameIndex(SpaceJunkFrame, 17);
+			s.frame = SetAbsFrameIndex (SpaceJunkFrame, UNSCALED_PLANETS(24, 17));
 		}
 		DrawStamp (&s);
 

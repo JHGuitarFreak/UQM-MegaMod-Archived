@@ -39,6 +39,7 @@ extern int ScreenHeight;
 #define RES_DESCALE(a) ((a) >> RESOLUTION_FACTOR)							// Serosis
 #define RES_BOOL(a,b) (RESOLUTION_FACTOR != HD ? (a) : (b))				// Serosis
 #define IF_HD(a) (RES_BOOL(0, (a)))										// Serosis
+#define UNSCALED_PLANETS(a,b) ((RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets) ? (a) : (b))
 
 		/* Margins. */
 #define SIS_ORG_X (7)								// JMS_GFX
