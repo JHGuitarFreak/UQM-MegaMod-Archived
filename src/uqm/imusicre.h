@@ -3,6 +3,7 @@
    instead and regenerate. */
 
 #define BATTLE_MUSIC "music.battle"
+#define BATTLE_MUSIC_SAMATRA "music.battle.samatra"
 #define CREDITS_MUSIC "music.credits"
 #define HYPERSPACE_MUSIC "music.hyperspace"
 #define IP_MUSIC "music.space"

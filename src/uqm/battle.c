@@ -240,8 +240,12 @@ BattleSong (BOOLEAN DoPlay)
 			BattleRef = LoadMusic (HYPERSPACE_MUSIC);
 		else if (inQuasiSpace ())
 			BattleRef = LoadMusic (QUASISPACE_MUSIC);
-		else
-			BattleRef = LoadMusic (BATTLE_MUSIC);
+		else {
+			if(LOBYTE(GLOBAL(CurrentActivity)) == IN_LAST_BATTLE && !optRemixMusic)
+				BattleRef = LoadMusic(BATTLE_MUSIC_SAMATRA);
+			else
+				BattleRef = LoadMusic(BATTLE_MUSIC);
+		}
 	}
 
 	if (DoPlay)
