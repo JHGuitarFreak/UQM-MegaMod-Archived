@@ -22,7 +22,7 @@
 #include "status.h"
 #include "setup.h"
 #include "libs/gfxlib.h"
-
+#include "menustat.h"
 
 void
 DrawCrewFuelString (COORD y, SIZE state)
@@ -319,6 +319,11 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 		SIPtr->crew_level = 0;
 		SIPtr->energy_level = 0;
 		DeltaStatistics (SIPtr, y, crew_delta, energy_delta);
+	}
+
+	if (RESOLUTION_FACTOR == HD && !inMeleeMenu) {
+		DrawBorder(17);
+		DrawBorder(18);
 	}
 
 	UnbatchGraphics ();
