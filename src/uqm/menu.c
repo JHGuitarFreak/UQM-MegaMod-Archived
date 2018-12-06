@@ -627,17 +627,18 @@ DrawBorder (BYTE Visible)
 {
 	STAMP s;
 	CONTEXT OldContext;
-	
-	OldContext = SetContext (ScreenContext);
+
+	if (LOBYTE(GLOBAL(CurrentActivity)) > IN_ENCOUNTER)
+		OldContext = SetContext (ScreenContext);
 
 	s.origin.x = 0;
 	s.origin.y = 0;
 
 	s.frame = SetAbsFrameIndex (BorderFrame, Visible);
 
-	if (optCustomBorder)
+	if (optCustomBorder || LOBYTE(GLOBAL(CurrentActivity)) <= IN_ENCOUNTER)
 		DrawStamp (&s);
 	
-	SetContext (OldContext);
+	if (LOBYTE(GLOBAL(CurrentActivity)) > IN_ENCOUNTER)
+		SetContext (OldContext);
 }
-

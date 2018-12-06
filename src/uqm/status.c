@@ -25,6 +25,7 @@
 #include "options.h"
 #include "init.h"
 		// for NUM_PLAYERS
+#include "menustat.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -287,6 +288,11 @@ DrawCaptainsWindow (STARSHIP *StarShipPtr)
 		// All crew doesn't fit in the graphics; print a number.
 		// Always print a number for the SIS in the full game.
 		DrawBattleCrewAmount (&RDPtr->ship_info, y_offs);
+	}
+
+	if (RESOLUTION_FACTOR == HD) {
+		DrawBorder(19);
+		DrawBorder(20);
 	}
 
 	UnbatchGraphics ();

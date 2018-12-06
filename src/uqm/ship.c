@@ -190,9 +190,6 @@ ship_preprocess (ELEMENT *ElementPtr)
 			OldContext = SetContext (StatusContext);
 			DrawCaptainsWindow (StarShipPtr);
 
-			if(RESOLUTION_FACTOR == HD)
-				DrawMeleeIcon(39);
-
 			SetContext (OldContext);
 			if (RDPtr->preprocess_func)
 				(*RDPtr->preprocess_func) (ElementPtr);
