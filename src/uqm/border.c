@@ -228,7 +228,7 @@ DrawSISFrame (void)
 		r.extent.height = SCREEN_HEIGHT - r.corner.y;
 		DrawFilledRectangle (&r);
 
-		DrawBorder(0);
+		DrawBorder(0, FALSE);
 	}
 
 	InitSISContexts ();

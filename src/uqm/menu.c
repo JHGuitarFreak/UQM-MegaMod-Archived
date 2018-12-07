@@ -95,7 +95,7 @@ DrawPCMenu (BYTE beg_index, BYTE end_index, BYTE NewState, BYTE hilite, RECT *r)
 		r->corner.y += (r->extent.height - num_items * PC_MENU_HEIGHT) / 2;
 	r->extent.height = num_items * PC_MENU_HEIGHT + 4;
 	DrawPCMenuFrame (r);	
-	DrawBorder(15);
+	DrawBorder(15, FALSE);
 	OldFont = SetContextFont (StarConFont);
 	t.align = ALIGN_LEFT;
 	t.baseline.x = r->corner.x + 2;
@@ -565,7 +565,7 @@ DrawMenuStateStrings (BYTE beg_index, SWORD NewState)
 		else
 			r.extent.height = RES_SCALE(11);
 		DrawFilledRectangle (&r);
-		DrawBorder(7);
+		DrawBorder(7, FALSE);
 	}
 	if (s.frame)
 	{
@@ -623,12 +623,12 @@ DrawSubmenu (BYTE Visible)
 }
 
 void
-DrawBorder (BYTE Visible)
+DrawBorder (BYTE Visible, BOOLEAN InBattle)
 {
 	STAMP s;
 	CONTEXT OldContext;
 
-	if (LOBYTE(GLOBAL(CurrentActivity)) > IN_ENCOUNTER)
+	if (!InBattle)
 		OldContext = SetContext (ScreenContext);
 
 	s.origin.x = 0;
@@ -636,9 +636,9 @@ DrawBorder (BYTE Visible)
 
 	s.frame = SetAbsFrameIndex (BorderFrame, Visible);
 
-	if (optCustomBorder || LOBYTE(GLOBAL(CurrentActivity)) <= IN_ENCOUNTER)
+	if (optCustomBorder || InBattle)
 		DrawStamp (&s);
 	
-	if (LOBYTE(GLOBAL(CurrentActivity)) > IN_ENCOUNTER)
+	if (!InBattle)
 		SetContext (OldContext);
 }

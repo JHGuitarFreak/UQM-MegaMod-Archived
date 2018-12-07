@@ -168,7 +168,7 @@ DrawPlanetSurfaceBorder (void)
 	r.extent.height = 1;
 	DrawFilledRectangle (&r);
 
-	DrawBorder(9);
+	DrawBorder(9, FALSE);
 	
 	UnbatchGraphics ();
 
