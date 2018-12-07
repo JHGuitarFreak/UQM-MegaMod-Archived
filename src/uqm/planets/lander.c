@@ -500,9 +500,6 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 		start_count = pPSD->ElementLevel;
 		pPSD->ElementLevel += NumRetrieved;
 
-		rounding_error_startcount = (start_count % 2);
-		rounding_error_numretrieved = (pPSD->ElementLevel % 2);
-
 		if (GET_GAME_STATE(IMPROVED_LANDER_CARGO)) {
 			start_count >>= 1;
 			NumRetrieved = (pPSD->ElementLevel >> 1) - start_count;
@@ -516,6 +513,13 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 			MAX_HOLD_BARS / MAX_SCROUNGED));
 	start_count = start_count * MAX_HOLD_BARS / MAX_SCROUNGED;
 	NumRetrieved = (NumRetrieved * MAX_HOLD_BARS / MAX_SCROUNGED) + tmpholdint;
+	
+	// JMS_GFX
+	if (scan == MINERAL_SCAN && GET_GAME_STATE (IMPROVED_LANDER_CARGO) && RESOLUTION_FACTOR == HD)
+	{
+		NumRetrieved *= RES_STAT_SCALE(1);
+		NumRetrieved >>= 1;
+	}
 
 	start_count *= RES_STAT_SCALE(1); // JMS_GFX
 
@@ -524,14 +528,7 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 	if (!(start_count & 1))
 		s.frame = IncFrameIndex (s.frame);
 
-	OldContext = SetContext (RadarContext);	
-	
-	// JMS_GFX
-	if (scan == MINERAL_SCAN && GET_GAME_STATE (IMPROVED_LANDER_CARGO) && RESOLUTION_FACTOR == HD)
-	{
-		NumRetrieved *= RES_STAT_SCALE(1);
-		NumRetrieved >>= 1;
-	}
+	OldContext = SetContext (RadarContext);
 
 	while (NumRetrieved--)
 	{
@@ -2242,10 +2239,9 @@ InitLander (BYTE LanderFlags)
 		free_space = GetStorageBayCapacity () - GLOBAL_SIS (TotalElementMass);
 		if ((int)free_space < (int)(MAX_SCROUNGED << capacity_shift))
 		{
-			r.corner.x = 1;
-			r.corner.y = 1;
-			r.extent.width = RES_STAT_SCALE(4); // JMS_GFX
-			r.extent.height = RES_STAT_SCALE(MAX_HOLD_BARS - ((free_space >> capacity_shift) * MAX_HOLD_BARS / MAX_SCROUNGED) + 2) - 1;
+			r.corner.x = RES_STAT_SCALE(1);
+			r.extent.width = RES_STAT_SCALE(4);
+			r.extent.height = RES_STAT_SCALE(MAX_HOLD_BARS - ((free_space >> capacity_shift) * MAX_HOLD_BARS / MAX_SCROUNGED) + 2);
 			SetContextForeGroundColor (BLACK_COLOR);
 			DrawFilledRectangle (&r);
 		}
