@@ -433,7 +433,7 @@ DrawArmadaPickShip (BOOLEAN draw_salvage_frame, RECT *pPickRect)
 	DrawStamp (&s);
 
 	t.baseline.x = pick_r.corner.x + (pick_r.extent.width >> 1);
-	t.baseline.y = pick_r.corner.y + pick_r.extent.height - RES_SCALE(5) - 2 * RESOLUTION_FACTOR; // JMS_GFX
+	t.baseline.y = pick_r.corner.y + pick_r.extent.height - RES_SCALE(5); // JMS_GFX
 	t.align = ALIGN_CENTER;
 	t.pStr = GLOBAL_SIS (ShipName);
 	t.CharCount = (COUNT)~0;
@@ -474,12 +474,7 @@ DrawArmadaPickShip (BOOLEAN draw_salvage_frame, RECT *pPickRect)
 				if (StarShipPtr->SpeciesID == NO_ID)
 				{
 					/* Dead ship - mark with an X. */
-					s.origin.x -= RES_SCALE(1); // JMS_GFX
-					
-					// JMS_GFX
-					if (RESOLUTION_FACTOR == HD)
-						s.origin.y -= RES_SCALE(1);
-
+					s.origin.x -= RES_BOOL(1, 0);
 					s.frame = SetAbsFrameIndex (StatusFrame, 3);
 					DrawStamp (&s);
 				}
