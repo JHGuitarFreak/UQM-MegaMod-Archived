@@ -73,7 +73,7 @@ RepairSISBorder (void)
 	r.extent.height = 1;
 	DrawFilledRectangle (&r);
 
-	DrawBorder(8);
+	DrawBorder(8, FALSE);
 
 	UnbatchGraphics ();
 
@@ -152,7 +152,7 @@ DrawSISTitle (UNICODE *pStr)
 	SetContextBackGroundColor (SIS_TITLE_BACKGROUND_COLOR);
 	ClearDrawable ();
 	
-	DrawBorder(3);
+	DrawBorder(3, FALSE);
 
 	// Text color
 	SetContextForeGroundColor (SIS_TITLE_TEXT_COLOR);
@@ -249,7 +249,7 @@ DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 	{	// normal state
 		ClearDrawable ();
 
-		DrawBorder(2);
+		DrawBorder(2, FALSE);
 		t.baseline.x = SIS_MESSAGE_WIDTH >> 1;
 		t.align = ALIGN_CENTER;
 		font_DrawText (&t);
@@ -278,7 +278,7 @@ DrawSISMessageEx (const UNICODE *pStr, SIZE CurPos, SIZE ExPos, COUNT flags)
 		}
 
 		ClearDrawable ();
-		DrawBorder(2);
+		DrawBorder(2, FALSE);
 
 		if (CurPos >= 0 && CurPos <= t.CharCount)
 		{	// calc and draw the cursor
@@ -411,7 +411,7 @@ DrawStatusMessage (const UNICODE *pStr)
 	SetContextBackGroundColor (STATUS_MESSAGE_BACKGROUND_COLOR);
 	ClearDrawable ();
 
-	DrawBorder(6);
+	DrawBorder(6, FALSE);
 
 	if (!pStr)
 	{
@@ -497,7 +497,7 @@ DrawCaptainsName (bool NewGame)
 	DrawFilledRectangle (&r);
 
 	if(!NewGame)
-		DrawBorder(5);
+		DrawBorder(5, FALSE);
 
 	t.baseline.x = (STATUS_WIDTH >> 1) - RES_BOOL(1, -1);
 	t.baseline.y = r.corner.y + RES_BOOL(6, 16); // JMS_GFX
@@ -571,7 +571,7 @@ DrawFlagshipName (BOOLEAN InStatusArea, bool NewGame)
 	DrawFilledRectangle (&r);
 
 	if(!NewGame)
-		DrawBorder(10);
+		DrawBorder(10, FALSE);
 
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
 	t.baseline.y = r.corner.y + (SHIP_NAME_HEIGHT -
@@ -930,7 +930,7 @@ DrawPC_SIS (void)
 	SetContextForeGroundColor (PC_CAPTAIN_STRING_BACKGROUND_COLOR);
 	DrawFilledRectangle (&r);
 
-	DrawBorder(4);
+	DrawBorder(4, FALSE);
 
 	// Text "CAPTAIN".
 	SetContextForeGroundColor (PC_CAPTAIN_STRING_TEXT_COLOR);
@@ -1203,7 +1203,7 @@ DeltaSISGauges (SIZE crew_delta, SIZE fuel_delta, int resunit_delta)
 		s.frame = FlagStatFrame;
 		DrawStamp (&s);
 
-		DrawBorder(1);
+		DrawBorder(1, FALSE);
 
 		if (optWhichFonts == OPT_PC)
 			DrawPC_SIS();

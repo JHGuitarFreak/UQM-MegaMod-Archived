@@ -322,8 +322,8 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 	}
 
 	if (RESOLUTION_FACTOR == HD && !inMeleeMenu) {
-		DrawBorder(17);
-		DrawBorder(18);
+		DrawBorder(17, TRUE);
+		DrawBorder(18, TRUE);
 	}
 
 	UnbatchGraphics ();
