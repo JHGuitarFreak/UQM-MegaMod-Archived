@@ -474,7 +474,8 @@ DrawArmadaPickShip (BOOLEAN draw_salvage_frame, RECT *pPickRect)
 				if (StarShipPtr->SpeciesID == NO_ID)
 				{
 					/* Dead ship - mark with an X. */
-					s.origin.x -= RES_BOOL(1, 0);
+					s.origin.x -= RES_SCALE(1);
+					s.origin.y -= IF_HD(4);
 					s.frame = SetAbsFrameIndex (StatusFrame, 3);
 					DrawStamp (&s);
 				}
