@@ -25,11 +25,11 @@
 #include "menustat.h"
 
 void
-DrawCrewFuelString (COORD y, SIZE state)
+DrawCrewFuelString (COORD y, SIZE state, BOOLEAN InMeleeMenu)
 {
 	STAMP Stamp;
 
-	Stamp.origin.y = y + GAUGE_YOFFS + STARCON_TEXT_HEIGHT - IF_HD(12);
+	Stamp.origin.y = y + GAUGE_YOFFS + STARCON_TEXT_HEIGHT - (InMeleeMenu ? IF_HD(12): IF_HD(-5));
 	if (state == 0)
 	{
 		Stamp.origin.x = CREW_XOFFS + (STAT_WIDTH >> 1) + RES_STAT_SCALE(6) - IF_HD(8); // JMS_GFX
@@ -67,13 +67,13 @@ DrawShipNameString (UNICODE *pStr, COUNT CharCount, COORD y)
 	Text.CharCount = CharCount;
 	Text.align = ALIGN_CENTER;
 
-	Text.baseline.y = STARCON_TEXT_HEIGHT + y + RES_SCALE(3) - 6 * RESOLUTION_FACTOR; // JMS_GFX
+	Text.baseline.y = STARCON_TEXT_HEIGHT + RES_SCALE(3) + y;
 	Text.baseline.x = STATUS_WIDTH >> 1;
 
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x10, 0x10, 0x10), 0x19));
 	font_DrawText (&Text);
-	--Text.baseline.y;
+	Text.baseline.y -= RES_STAT_SCALE(1);
 	SetContextForeGroundColor (BLACK_COLOR);
 	font_DrawText (&Text);
 
@@ -112,7 +112,7 @@ OutlineShipStatus (COORD y, COORD w, BOOLEAN inMeleeMenu)
 	--r.extent.width;
 	DrawFilledRectangle (&r);
 	r.extent.width = 1;
-	r.extent.height = SHIP_INFO_HEIGHT - RES_BOOL((1), (inMeleeMenu ? 3 : 0));
+	r.extent.height = SHIP_INFO_HEIGHT - RES_BOOL((2), (inMeleeMenu ? 3 : 0));
 	DrawFilledRectangle (&r);
 	++r.corner.x;
 	DrawFilledRectangle (&r);
@@ -266,7 +266,7 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 		// This includes Melee menu.
 		STRING locString;
 
-		DrawCrewFuelString (y, 0);
+		DrawCrewFuelString (y, 0, inMeleeMenu);
 
 		locString = SetAbsStringTableIndex (SIPtr->race_strings, 1);
 		DrawShipNameString (
@@ -296,7 +296,7 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 			Text.align = ALIGN_CENTER;
 
 			Text.baseline.x = STATUS_WIDTH >> 1;
-			Text.baseline.y = y + GAUGE_YOFFS + RES_BOOL(3, 7);
+			Text.baseline.y = y + GAUGE_YOFFS + 3 - IF_HD(4);
 
 			SetContextForeGroundColor (BLACK_COLOR);
 			font_DrawText (&Text);
@@ -306,7 +306,7 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 	}
 	else if (StarShipPtr->playerNr == RPG_PLAYER_NUM)
 	{	// This is SIS
-		DrawCrewFuelString (y, 0);
+		DrawCrewFuelString (y, 0, inMeleeMenu);
 		DrawShipNameString (GLOBAL_SIS (ShipName), (COUNT)~0, y);
 	}
 

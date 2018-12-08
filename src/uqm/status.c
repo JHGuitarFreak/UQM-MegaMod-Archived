@@ -138,7 +138,7 @@ DrawBattleCrewAmount (SHIP_INFO *ShipInfoPtr, COORD y_offs)
 	TEXT t;
 	UNICODE buf[40];
 
-	t.baseline.x = BATTLE_CREW_X + RES_STAT_SCALE(2) - IF_HD(2); // JMS_GFX
+	t.baseline.x = BATTLE_CREW_X + RES_STAT_SCALE(2); // JMS_GFX
 	if (optWhichMenu == OPT_PC)
 			t.baseline.x -= RES_STAT_SCALE(8); // JMS_GFX
 	t.baseline.y = BATTLE_CREW_Y + y_offs;
@@ -148,8 +148,8 @@ DrawBattleCrewAmount (SHIP_INFO *ShipInfoPtr, COORD y_offs)
 
 	r.corner.x = t.baseline.x;
 	r.corner.y = t.baseline.y - RES_SCALE(5); // JMS_GFX
-	r.extent.width = 6 * MAX_CREW_DIGITS + RES_SCALE(6) + RESOLUTION_FACTOR; // JMS_GFX
-	r.extent.height = RES_SCALE(5) + IF_HD(3); // JMS_GFX
+	r.extent.width = 6 * MAX_CREW_DIGITS + RES_SCALE(6); // JMS_GFX
+	r.extent.height = RES_SCALE(5); // JMS_GFX
 
 	sprintf (buf, "%u", ShipInfoPtr->crew_level);
 	SetContextFont (StarConFont);
@@ -579,9 +579,9 @@ PostProcessStatus (ELEMENT *ShipPtr)
 			if (old_status_flags & LOW_ON_ENERGY)
 			{
 				if (!(cur_status_flags & LOW_ON_ENERGY))
-					DrawCrewFuelString (y, 1);
+					DrawCrewFuelString (y, 1, FALSE);
 				else
-					DrawCrewFuelString (y, -1);
+					DrawCrewFuelString (y, -1, FALSE);
 			}
 
 			old_status_flags &= (LEFT | RIGHT | THRUST | WEAPON | SPECIAL);
