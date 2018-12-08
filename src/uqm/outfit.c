@@ -568,9 +568,9 @@ InitFlash:
 static void
 ChangeFuelQuantity (void)
 {
-	int incr = 0; // Fuel increment in fuel points (not units).
-	int maxFit = GetFuelTankCapacity() - GLOBAL_SIS(FuelOnBoard);
-	int minFit = -(int)GLOBAL_SIS(FuelOnBoard);
+	SDWORD incr = 0; // Fuel increment in fuel points (not units).
+	const SDWORD maxFit = GetFuelTankCapacity() - (SDWORD)GLOBAL_SIS(FuelOnBoard);
+	const SDWORD minFit = -(SDWORD)GLOBAL_SIS(FuelOnBoard);
 	
 	if (PulsedInputState.menu[KEY_MENU_UP])
 		incr = FUEL_TANK_SCALE;  // +1 Unit
@@ -583,17 +583,18 @@ ChangeFuelQuantity (void)
 	else if (PulsedInputState.menu[KEY_MENU_HOME])
 		incr = maxFit; // Fill to max
 	else if (PulsedInputState.menu[KEY_MENU_END])
-		incr = minFit; // Empty tanks
+		incr = minFit; // -1 Bar
 	else
 		return;
+
+
 
 	if(PulsedInputState.menu[KEY_MENU_HOME] || PulsedInputState.menu[KEY_MENU_END])
 		PlayMenuSound(MENU_SOUND_INVOKED);
 
 	// Clamp incr to what we can afford/hold/have.
 	{
-		const int maxAfford = GLOBAL_SIS(ResUnits) / GLOBAL(FuelCost);
-		const int minFit = -(int)GLOBAL_SIS(FuelOnBoard);
+		const SDWORD maxAfford = GLOBAL_SIS(ResUnits) / GLOBAL(FuelCost);
 
 		if (incr > maxFit)
 			incr = maxFit; // All we can hold.
