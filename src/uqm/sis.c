@@ -1083,7 +1083,7 @@ DeltaSISGauges_crewDelta (SIZE crew_delta)
 }
 
 static void
-DeltaSISGauges_fuelDelta (SIZE fuel_delta)
+DeltaSISGauges_fuelDelta (SDWORD fuel_delta)
 {
 	COUNT old_coarse_fuel;
 	COUNT new_coarse_fuel;
@@ -1174,7 +1174,7 @@ DeltaSISGauges_resunitDelta (SIZE resunit_delta)
 }
 
 void
-DeltaSISGauges (SIZE crew_delta, SIZE fuel_delta, int resunit_delta)
+DeltaSISGauges (SIZE crew_delta, SDWORD fuel_delta, int resunit_delta)
 {
 	CONTEXT OldContext;
 	Color OldColor;

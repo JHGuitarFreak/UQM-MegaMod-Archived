@@ -219,7 +219,7 @@ extern void GetGaugeRect (RECT *pRect, BOOLEAN IsCrewRect);
 extern void DrawFlagshipStats (void);
 void DrawAutoPilotMessage (BOOLEAN Reset);
 
-extern void DeltaSISGauges (SIZE crew_delta, SIZE fuel_delta, int
+extern void DeltaSISGauges (SIZE crew_delta, SDWORD fuel_delta, int
 		resunit_delta);
 
 extern COUNT GetCrewCount (void);
