@@ -173,9 +173,7 @@ DrawCargoDisplay (void)
 
 	r.corner.x = ELEMENT_COL_0;
 	r.extent = GetFrameBounds (s.frame);
-	//r.extent.width -= IF_HD(7); // JMS_GFX
-	//r.extent.height -= IF_HD(8); // JMS_GFX
-	s.origin.x = r.corner.x + (r.extent.width >> 1); // -IF_HD(4); // JMS_GFX
+	s.origin.x = r.corner.x + (r.extent.width >> 1);
 
 	cy = ELEMENT_ORG_Y;
 
@@ -202,7 +200,7 @@ DrawCargoDisplay (void)
 		DrawFilledRectangle (&r);
 
 		// draw an element icon
-		s.origin.y = r.corner.y + (r.extent.height >> 1); // -IF_HD(5);
+		s.origin.y = r.corner.y + (r.extent.height >> 1);
 		DrawStamp (&s);
 		s.frame = SetRelFrameIndex (s.frame, 5);
 

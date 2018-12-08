@@ -513,13 +513,6 @@ FillLanderHold (PLANETSIDE_DESC *pPSD, COUNT scan, COUNT NumRetrieved)
 			MAX_HOLD_BARS / MAX_SCROUNGED));
 	start_count = start_count * MAX_HOLD_BARS / MAX_SCROUNGED;
 	NumRetrieved = (NumRetrieved * MAX_HOLD_BARS / MAX_SCROUNGED) + tmpholdint;
-	
-	// JMS_GFX
-	if (scan == MINERAL_SCAN && GET_GAME_STATE (IMPROVED_LANDER_CARGO) && RESOLUTION_FACTOR == HD)
-	{
-		NumRetrieved *= RES_STAT_SCALE(1);
-		NumRetrieved >>= 1;
-	}
 
 	start_count *= RES_STAT_SCALE(1); // JMS_GFX
 
