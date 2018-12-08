@@ -936,8 +936,8 @@ DMS_ModifyCrew (MENU_STATE *pMS, HSHIPFRAG hStarShip, SBYTE dy)
 {
 	SIZE crew_delta = 0;
 	SHIP_FRAGMENT *StarShipPtr = NULL;
-	BYTE loop;
-	BYTE DoLoop = 1;
+	COUNT loop;
+	COUNT DoLoop = 1;
 	RECT r;
 
 	if (dy == -10 || dy == 10)
