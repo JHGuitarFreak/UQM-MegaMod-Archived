@@ -1117,9 +1117,9 @@ DeltaSISGauges_fuelDelta (SIZE fuel_delta)
 	if (new_coarse_fuel != old_coarse_fuel)
 	{
 		TEXT t;
-		// buf from [60] to [4]: The max fuel anyone can ever get is 1610
+		// buf from [60] to [5]: The max fuel anyone can ever get is 1610
 		// I.E. only 4 characters, we don't need that much extra padding.
-		UNICODE buf[4];
+		UNICODE buf[5];
 		RECT r;
 
 		if(!optInfiniteFuel)
