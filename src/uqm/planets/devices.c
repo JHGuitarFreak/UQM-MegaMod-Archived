@@ -144,12 +144,12 @@ DrawDevicesDisplay (DEVICES_STATE *devState)
 	COORD cy;
 	COUNT i;
 
-	r.corner.x = RES_BOOL(2,3); // JMS_GFX
-	r.corner.y = RES_STAT_SCALE(20); // JMS_GFX
-	r.extent.width = FIELD_WIDTH + 1; // JMS_GFX
+	r.corner.x = 2; 
+	r.corner.y = RES_STAT_SCALE(20);
+	r.extent.width = FIELD_WIDTH + 1;
 	// XXX: Shouldn't the height be 1 less? This draws the bottom border
 	//   1 pixel too low. Or if not, why do we need another box anyway?
-	r.extent.height = RES_STAT_SCALE(129) - r.corner.y + IF_HD(19); // JMS_GFX
+	r.extent.height = (RES_STAT_SCALE(129) - r.corner.y) + IF_HD(19);
 	DrawStarConBox (&r, 1,
 			SHADOWBOX_MEDIUM_COLOR, SHADOWBOX_DARK_COLOR,
 			TRUE, DEVICES_BACK_COLOR);
@@ -158,8 +158,8 @@ DrawDevicesDisplay (DEVICES_STATE *devState)
 
 	// print the "DEVICES" title
 	SetContextFont (StarConFont);
-	t.baseline.x = (STATUS_WIDTH >> 1) - RES_STAT_SCALE(1); // JMS_GFX
-	t.baseline.y = r.corner.y + RES_STAT_SCALE(7); // JMS_GFX
+	t.baseline.x = (STATUS_WIDTH >> 1) - RES_STAT_SCALE(1);
+	t.baseline.y = r.corner.y + RES_STAT_SCALE(7);
 	t.align = ALIGN_CENTER;
 	t.pStr = GAME_STRING (DEVICE_STRING_BASE);
 	t.CharCount = (COUNT)~0;
