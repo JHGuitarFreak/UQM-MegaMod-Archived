@@ -77,6 +77,7 @@ static CommIntroMode curIntroMode = CIM_DEFAULT;
 static TimeCount fadeTime;
 
 BOOLEAN IsProbe;
+BOOLEAN IsAltSong;
 
 typedef struct response_entry
 {
@@ -1327,6 +1328,8 @@ HailAlien (void)
 	MUSIC_REF SongRef = 0;
 	Color TextBack;
 
+	IsAltSong = FALSE;
+
 	pCurInputState = &ES;
 	memset (pCurInputState, 0, sizeof (*pCurInputState));
 
@@ -1344,10 +1347,11 @@ HailAlien (void)
 	if ((CommData.AlienSongFlags & LDASF_USE_ALTERNATE)
 			&& CommData.AlienAltSongRes)
 		SongRef = LoadMusic (CommData.AlienAltSongRes);
-	if (SongRef)
+	if (SongRef) {
 		CommData.AlienSong = SongRef;
-	else
-		CommData.AlienSong = LoadMusic (CommData.AlienSongRes);
+		IsAltSong = TRUE;
+	} else
+		CommData.AlienSong = LoadMusic(CommData.AlienSongRes);
 
 	CommData.ConversationPhrases = CaptureStringTable (
 			LoadStringTable (CommData.ConversationPhrasesRes));

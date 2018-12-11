@@ -571,7 +571,7 @@ GiveRadios (RESPONSE_REF R)
 				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
 				), ONE_SECOND / 2);
 
-		if ((CommData.AlienSongFlags & LDASF_USE_ALTERNATE) && CommData.AlienAltSongRes) {
+		if (IsAltSong) {
 			StopMusic();
 			CommData.AlienSong = LoadMusic(CommData.AlienSongRes);
 			PlayMusic(CommData.AlienSong, TRUE, 1);
