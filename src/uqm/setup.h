@@ -70,6 +70,7 @@ extern BOOLEAN SyreenVoiceFix;
 extern BOOLEAN HDPackPresent;
 extern BOOLEAN comingFromInit;
 extern BOOLEAN EndlessSCLoaded;
+extern BOOLEAN VolasPackPresent;
 extern BYTE Rando;
 
 extern ACTIVITY LastActivity;

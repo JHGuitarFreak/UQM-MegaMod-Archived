@@ -80,6 +80,7 @@ BOOLEAN comingFromInit;
 BOOLEAN EndlessSCLoaded;
 BYTE Rando;
 BOOLEAN HDPackPresent;
+BOOLEAN VolasPackPresent;
 FONT MeleeFont;
 
 uio_Repository *repository;
@@ -176,7 +177,8 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 	}
 
 	if (optVolasMusic) {
-		loadAddon("volasaurus-remix-pack");
+		if (loadAddon("volasaurus-remix-pack"))
+			VolasPackPresent = TRUE;
 	}
 
 	if (optWhichIntro == OPT_3DO) {

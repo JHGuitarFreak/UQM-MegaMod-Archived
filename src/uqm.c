@@ -153,7 +153,6 @@ struct options_struct
 	DECL_CONFIG_OPTION(int, optDateFormat);
 	// Serosis
 	DECL_CONFIG_OPTION(bool, infiniteFuel);
-	DECL_CONFIG_OPTION(bool, thraddStory);
 	DECL_CONFIG_OPTION(bool, partialPickup);
 	DECL_CONFIG_OPTION(bool, submenu);
 	DECL_CONFIG_OPTION(bool, addDevices);
@@ -317,7 +316,6 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  optDateFormat,		0),
 		//Serosis
 		INIT_CONFIG_OPTION(  infiniteFuel,		false),
-		INIT_CONFIG_OPTION(  thraddStory,		false),
 		INIT_CONFIG_OPTION(  partialPickup,		false),
 		INIT_CONFIG_OPTION(  submenu,			true),
 		INIT_CONFIG_OPTION(  addDevices,		false),
@@ -500,7 +498,6 @@ main (int argc, char *argv[])
 	optDateFormat = options.optDateFormat.value;
 	// Serosis	
 	optInfiniteFuel = options.infiniteFuel.value;
-	optThraddStory = options.thraddStory.value;
 	optPartialPickup = options.partialPickup.value;
 	optSubmenu = options.submenu.value;
 	optAddDevices = options.addDevices.value;
@@ -832,7 +829,6 @@ getUserConfigOptions (struct options_struct *options)
 	}
 	// Serosis	
 	getBoolConfigValue (&options->infiniteFuel, "cheat.infiniteFuel");
-	getBoolConfigValue (&options->thraddStory, "config.thraddStory");
 	getBoolConfigValue (&options->partialPickup, "config.partialPickup");
 	getBoolConfigValue (&options->submenu, "config.submenu");
 	getBoolConfigValue (&options->addDevices, "cheat.addDevices");
@@ -897,7 +893,6 @@ enum
 	TEXTPLAN_OPT,
 	DATE_OPT,
 	INFFUEL_OPT,
-	THRADD_OPT,
 	PICKUP_OPT,
 	SUBMENU_OPT,
 	DEVICES_OPT,
@@ -969,7 +964,6 @@ static struct option longOptions[] =
 	{"texturedplanets", 0, NULL, TEXTPLAN_OPT},
 	{"dateformat", 1, NULL, DATE_OPT},
 	{"infinitefuel", 0, NULL, INFFUEL_OPT},
-	{"thraddstory", 0, NULL, THRADD_OPT},
 	{"partialpickup", 0, NULL, PICKUP_OPT},
 	{"submenu", 0, NULL, SUBMENU_OPT},
 	{"adddevices", 0, NULL, DEVICES_OPT},
@@ -1302,9 +1296,6 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case INFFUEL_OPT:
 				setBoolOption (&options->infiniteFuel, true);
 				break;
-			case THRADD_OPT:
-				setBoolOption (&options->thraddStory, true);
-				break;
 			case PICKUP_OPT:
 				setBoolOption (&options->partialPickup, true);
 				break;
@@ -1594,8 +1585,6 @@ usage (FILE *out, const struct options_struct *defaults)
 			boolOptString (&defaults->texturedPlanets));
 	log_add (log_User, "  --infinitefuel : Infinite fuel in the main game    (default: %s)",
 			boolOptString (&defaults->infiniteFuel));
-	log_add (log_User, "  --thraddstory : Enables/Disables the Alt Thraddash Storyline    (default: %s)",
-			boolOptString (&defaults->thraddStory));
 	log_add (log_User, "  --partialpickup : Enables/Disables partial mineral pickup    (default: %s)",
 			boolOptString (&defaults->partialPickup));
 	log_add (log_User, "  --submenu : Enables/Disables mineral and star map keys submenu    (default: %s)",
