@@ -48,13 +48,13 @@
 #include <ctype.h>
 
 #define MAX_RESPONSES 8
-#define BACKGROUND_VOL (usingSpeech ? (NORMAL_VOLUME / 2) : NORMAL_VOLUME)
+#define BACKGROUND_VOL (usingSpeech && !VolasPackPresent ? (NORMAL_VOLUME / 2) : NORMAL_VOLUME)
 #define FOREGROUND_VOL NORMAL_VOLUME
 
 // Oscilloscope frame rate
 // Should be <= COMM_ANIM_RATE
 // XXX: was 32 picked experimentally?
-#define OSCILLOSCOPE_RATE   (ONE_SECOND / 32)
+#define OSCILLOSCOPE_RATE   (ONE_SECOND / RES_STAT_SCALE(32))
 
 // Maximum comm animation frame rate (actual execution rate)
 // A gfx frame is not always produced during an execution frame,
@@ -64,7 +64,7 @@
 // The highest known stable animation rate is 40fps, so that's what we use.
 //
 // JMS: Changed this back to 120 fps since HD seems to like it... 
-#define COMM_ANIM_RATE   (ONE_SECOND / 120)
+#define COMM_ANIM_RATE   (ONE_SECOND / RES_STAT_SCALE(40))
 
 static CONTEXT AnimContext;
 
@@ -889,7 +889,7 @@ AlienTalkSegue (COUNT wait_track)
 	}
 	
 	TalkingFinished = TalkSegue (wait_track);
-	if (TalkingFinished)
+	if (TalkingFinished && !VolasPackPresent)
 		FadeMusic (FOREGROUND_VOL, ONE_SECOND);
 }
 

@@ -81,7 +81,6 @@ int optDateFormat;
 // Serosis
 BOOLEAN optInfiniteFuel;
 DWORD loadFuel;
-BOOLEAN optThraddStory;
 BOOLEAN optPartialPickup;
 BOOLEAN optSubmenu;
 BOOLEAN optAddDevices;

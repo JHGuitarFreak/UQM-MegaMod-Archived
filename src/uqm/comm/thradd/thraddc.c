@@ -701,7 +701,7 @@ Intro (void)
 		return;
 	}
 
-	if (GET_GAME_STATE (AQUA_HELIX) && (ThraddPtr->allied_state != GOOD_GUY || !optThraddStory))
+	if (GET_GAME_STATE (AQUA_HELIX))
 	{
 		NumVisits = GET_GAME_STATE (HELIX_VISITS);
 		switch (NumVisits++)

@@ -79,7 +79,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          9
-#define CHOICE_COUNT       49
+#define CHOICE_COUNT       48
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       11
 #define LABEL_COUNT         4
@@ -102,12 +102,12 @@ typedef int (*HANDLER)(WIDGET *, int);
 // Each number corresponds to a choice widget in order starting from choices[0]
 // The value determines how many columns the choice has.
 static int choice_widths[CHOICE_COUNT] = {
-	2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 
-	2, 2, 2, 2, 2, 3, 3, 2,	3, 3, 
-	3, 2, 2, 2, 
-	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2, 3, 2, 2, 2, 2, 3,
-	2, 2, 2, 2, 2 };
+	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 0-9
+	2, 2, 2, 2, 2, 3, 3, 2,	3, 3,	// 10-19
+	3, 2, 2, 2,						// 20-23
+	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 24-33
+	2, 2, 2, 2, 3, 2, 2, 2, 3,		// 34-42
+	2, 2, 2, 2, 2 };				// 43-47
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -129,7 +129,7 @@ static WIDGET *main_widgets[] = {
 
 static WIDGET *graphics_widgets[] = {
 	(WIDGET *)(&choices[0]),	// Resolution
-	(WIDGET *)(&choices[43]),	// Scale GFX
+	(WIDGET *)(&choices[42]),	// Scale GFX
 #ifdef HAVE_OPENGL
 	(WIDGET *)(&choices[1]),	// Use Framebuffer
 #endif
@@ -169,8 +169,8 @@ static WIDGET *audio_widgets[] = {
 static WIDGET *music_widgets[] = {
 	(WIDGET *)(&choices[9]),	// 3DO Remixes
 	(WIDGET *)(&choices[21]),	// Precursor's Remixes
-	(WIDGET *)(&choices[48]),	// Serosis: Volasaurus' Remix Pack
-	(WIDGET *)(&choices[47]),	// Serosis: Volasaurus' Space Music
+	(WIDGET *)(&choices[47]),	// Serosis: Volasaurus' Remix Pack
+	(WIDGET *)(&choices[46]),	// Serosis: Volasaurus' Space Music
 	(WIDGET *)(&choices[34]),	// JMS: Main Menu Music
 	(WIDGET *)(&buttons[1]),
 	NULL };
@@ -186,7 +186,7 @@ static WIDGET *cheat_widgets[] = {
 	(WIDGET *)(&choices[30]),	// Unlock Upgrades
 	(WIDGET *)(&choices[31]),	// Infinite RU
 	(WIDGET *)(&choices[39]),	// Infinite Fuel
-	(WIDGET *)(&choices[44]),	// Add Devices
+	(WIDGET *)(&choices[43]),	// Add Devices
 	(WIDGET *)(&buttons[1]),	// Exit to Menu
 	NULL };
 	
@@ -202,12 +202,11 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[35]),	// JMS: IP nebulae on/off
 	(WIDGET *)(&choices[36]),	// JMS: orbitingPlanets on/off
 	(WIDGET *)(&choices[37]),	// JMS: texturedPlanets on/off
-	(WIDGET *)(&choices[45]),	// Serosis: Scaled Planets
+	(WIDGET *)(&choices[44]),	// Serosis: Scaled Planets
 	(WIDGET *)(&choices[38]),	// Nic: Switch date formats
-	(WIDGET *)(&choices[40]),	// Serosis: Thraddash Story switch
-	(WIDGET *)(&choices[41]),	// Serosis: Partial Pickup switch
-	(WIDGET *)(&choices[42]),	// Serosis: Submenu switch
-	(WIDGET *)(&choices[46]),	// Serosis: Custom Border switch
+	(WIDGET *)(&choices[40]),	// Serosis: Partial Pickup switch
+	(WIDGET *)(&choices[41]),	// Serosis: Submenu switch
+	(WIDGET *)(&choices[45]),	// Serosis: Custom Border switch
 	(WIDGET *)(&buttons[1]),	
 	NULL };
 
@@ -488,15 +487,14 @@ SetDefaults (void)
 	choices[38].selected = opts.dateType;
 	 // Serosis
 	choices[39].selected = opts.infiniteFuel;
-	choices[40].selected = opts.thraddStory;
-	choices[41].selected = opts.partialPickup;
-	choices[42].selected = opts.submenu;
-	choices[43].selected = opts.loresBlowup; // JMS
-	choices[44].selected = opts.addDevices;
-	choices[45].selected = opts.scalePlanets;
-	choices[46].selected = opts.customBorder;
-	choices[47].selected = opts.spaceMusic;
-	choices[48].selected = opts.volasRemix;
+	choices[40].selected = opts.partialPickup;
+	choices[41].selected = opts.submenu;
+	choices[42].selected = opts.loresBlowup; // JMS
+	choices[43].selected = opts.addDevices;
+	choices[44].selected = opts.scalePlanets;
+	choices[45].selected = opts.customBorder;
+	choices[46].selected = opts.spaceMusic;
+	choices[47].selected = opts.volasRemix;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -551,15 +549,14 @@ PropagateResults (void)
 	opts.dateType = choices[38].selected;
 	// Serosis
 	opts.infiniteFuel = choices[39].selected;
-	opts.thraddStory = choices[40].selected;
-	opts.partialPickup = choices[41].selected;
-	opts.submenu = choices[42].selected;
-	opts.loresBlowup = choices[43].selected; // JMS
-	opts.addDevices = choices[44].selected;
-	opts.scalePlanets = choices[45].selected;
-	opts.customBorder = choices[46].selected;
-	opts.spaceMusic = choices[47].selected;
-	opts.volasRemix = choices[48].selected;
+	opts.partialPickup = choices[40].selected;
+	opts.submenu = choices[41].selected;
+	opts.loresBlowup = choices[42].selected; // JMS
+	opts.addDevices = choices[43].selected;
+	opts.scalePlanets = choices[44].selected;
+	opts.customBorder = choices[45].selected;
+	opts.spaceMusic = choices[46].selected;
+	opts.volasRemix = choices[47].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1466,7 +1463,6 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->dateType = res_GetInteger ("config.dateFormat");
 	// Serosis
 	opts->infiniteFuel = optInfiniteFuel ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->thraddStory = optThraddStory ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->partialPickup = optPartialPickup ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->submenu = optSubmenu ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->addDevices = optAddDevices ? OPTVAL_ENABLED : OPTVAL_DISABLED;
@@ -1868,10 +1864,6 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Infinite Fuel
 	res_PutBoolean ("cheat.infiniteFuel", opts->infiniteFuel == OPTVAL_ENABLED);
 	optInfiniteFuel = opts->infiniteFuel == OPTVAL_ENABLED;
-	
-	// Serosis: Optionalized the alt Thraddash story
-	res_PutBoolean ("config.thraddStory", opts->thraddStory == OPTVAL_ENABLED);
-	optThraddStory = opts->thraddStory == OPTVAL_ENABLED;
 	
 	// Serosis: Partial mineral pickup when enabled.
 	res_PutBoolean ("config.partialPickup", opts->partialPickup == OPTVAL_ENABLED);
