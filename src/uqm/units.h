@@ -48,11 +48,11 @@ extern int ScreenHeight;
 /* Status bar & play area sizes. */
 #define STATUS_WIDTH RES_STAT_SCALE(64)
 /* Width of the status "window" (the right part of the screen) */
-#define STATUS_HEIGHT (SCREEN_HEIGHT - 2)
+#define STATUS_HEIGHT SCREEN_HEIGHT
 /* Height of the status "window" (the right part of the screen) */
 #define SPACE_WIDTH (SCREEN_WIDTH - STATUS_WIDTH)
 /* Width of the space "window" (the left part of the screen) */
-#define SPACE_HEIGHT (SCREEN_HEIGHT - 2)
+#define SPACE_HEIGHT SCREEN_HEIGHT
 /* Height of the space "window" (the left part of the screen) */
 #define SIS_SCREEN_WIDTH (SPACE_WIDTH - 2 * SIS_ORG_X) // DC: Gray area on the right. just a spacer box
 /* Width of the usable part of the space "window" */
