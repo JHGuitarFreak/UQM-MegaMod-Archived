@@ -2,13 +2,14 @@ Changes in 0.8.0.82
 
 New Stuff:
 -Massive graphics overhaul
--Race specific ambient space music when inside a race's sphere of influence (Off by default)
+-Race specific ambient space music when inside a race's sphere of influence (Composed by Volasaurus)
 -Quasiportal exits now randomized with the custom seed system
 -Quasiportals stay "unknown" when custom seeds are enabled
 -Increment Fuel/Crew by min/max using the End/Home keys
 -Addon support for Volasaurus' Remix Pack
 -Added alternate music support for Zex, Ur-Quan Probe, Chmmr Pre/Post Process, Sa-Matra battle, 
 -Tumbling Slylandro Probe animation in solar system view
+-Added ability to scale non-textured planets
 
 Bugfixes:
 -Draw custom border over star search box 
