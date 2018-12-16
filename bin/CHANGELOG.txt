@@ -21,3 +21,5 @@ Bugfixes:
 
 Removed stuff:
 -Removed the alternate Thraddash storyline
+-Autoload support for the alt-Kohr-Ah Ship design
+-Autoload support for the Orange Peel Melnorme
