@@ -913,8 +913,8 @@ DrawPC_SIS (void)
 	font_DrawText (&t);
 
 	// Black rectangle behind "CREW" text and crew amount.
-	r.corner.y += RES_STAT_SCALE(79) + IF_HD(19); // JMS_GFX
-	t.baseline.y += RES_STAT_SCALE(79) + IF_HD(18); // JMS_GFX
+	r.corner.y += RES_STAT_SCALE(79) + IF_HD(20); // JMS_GFX
+	t.baseline.y += RES_STAT_SCALE(79) + IF_HD(19); // JMS_GFX
 	DrawFilledRectangle (&r);
 
 	SetContextFontEffect (SetAbsFrameIndex (FontGradFrame, 2));
