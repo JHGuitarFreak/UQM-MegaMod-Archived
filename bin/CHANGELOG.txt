@@ -18,6 +18,7 @@ Bugfixes:
 -Head Start cheat properly fixed so one only has to go to the Starbase (you better hope to god no Slylandro spawn in)
 -Fixed mineral cargo fill-up in HD
 -Realign the cargo and device display for HD
+-Fix graphical bug in the custom border UI when choosing 3DO fonts
 
 Removed stuff:
 -Removed the alternate Thraddash storyline
