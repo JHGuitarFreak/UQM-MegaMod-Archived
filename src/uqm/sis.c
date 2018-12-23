@@ -73,7 +73,7 @@ RepairSISBorder (void)
 	r.extent.height = 1;
 	DrawFilledRectangle (&r);
 
-	DrawBorder(8, FALSE);
+	DrawBorder(9, FALSE);
 
 	UnbatchGraphics ();
 
@@ -411,7 +411,7 @@ DrawStatusMessage (const UNICODE *pStr)
 	SetContextBackGroundColor (STATUS_MESSAGE_BACKGROUND_COLOR);
 	ClearDrawable ();
 
-	DrawBorder(6, FALSE);
+	DrawBorder(7, FALSE);
 
 	if (!pStr)
 	{
@@ -497,7 +497,7 @@ DrawCaptainsName (bool NewGame)
 	DrawFilledRectangle (&r);
 
 	if(!NewGame)
-		DrawBorder(5, FALSE);
+		DrawBorder(6, FALSE);
 
 	t.baseline.x = (STATUS_WIDTH >> 1) - RES_BOOL(1, -1);
 	t.baseline.y = r.corner.y + RES_BOOL(6, 16); // JMS_GFX
@@ -571,7 +571,7 @@ DrawFlagshipName (BOOLEAN InStatusArea, bool NewGame)
 	DrawFilledRectangle (&r);
 
 	if(!NewGame)
-		DrawBorder(10, FALSE);
+		DrawBorder(11, FALSE);
 
 	t.baseline.x = r.corner.x + (r.extent.width >> 1);
 	t.baseline.y = r.corner.y + (SHIP_NAME_HEIGHT -
@@ -1224,6 +1224,8 @@ DeltaSISGauges (SIZE crew_delta, SDWORD fuel_delta, int resunit_delta)
 
 	if (crew_delta == UNDEFINED_DELTA)
 	{
+		if(optWhichFonts == OPT_3DO)
+			DrawBorder(5, FALSE);
 		DrawFlagshipName (TRUE, FALSE);
 		DrawCaptainsName (FALSE);
 		DrawLanders ();

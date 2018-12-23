@@ -95,7 +95,7 @@ DrawPCMenu (BYTE beg_index, BYTE end_index, BYTE NewState, BYTE hilite, RECT *r)
 		r->corner.y += (r->extent.height - num_items * PC_MENU_HEIGHT) / 2;
 	r->extent.height = num_items * PC_MENU_HEIGHT + 4;
 	DrawPCMenuFrame (r);	
-	DrawBorder(15, FALSE);
+	DrawBorder(16, FALSE);
 	OldFont = SetContextFont (StarConFont);
 	t.align = ALIGN_LEFT;
 	t.baseline.x = r->corner.x + 2;
@@ -565,7 +565,7 @@ DrawMenuStateStrings (BYTE beg_index, SWORD NewState)
 		else
 			r.extent.height = RES_SCALE(11);
 		DrawFilledRectangle (&r);
-		DrawBorder(7, FALSE);
+		DrawBorder(8, FALSE);
 	}
 	if (s.frame)
 	{

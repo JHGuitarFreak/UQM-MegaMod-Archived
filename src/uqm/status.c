@@ -291,8 +291,8 @@ DrawCaptainsWindow (STARSHIP *StarShipPtr)
 	}
 
 	if (RESOLUTION_FACTOR == HD) {
-		DrawBorder(19, TRUE);
 		DrawBorder(20, TRUE);
+		DrawBorder(21, TRUE);
 	}
 
 	UnbatchGraphics ();

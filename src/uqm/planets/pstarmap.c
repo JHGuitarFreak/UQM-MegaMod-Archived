@@ -1946,8 +1946,8 @@ StarMap (void)
 	if(optSubmenu){
 		if(optCustomBorder){
 			if(optWhichMenu != OPT_PC)
-				DrawBorder(16, FALSE);
-			DrawBorder(14, FALSE);
+				DrawBorder(17, FALSE);
+			DrawBorder(15, FALSE);
 		} else
 			DrawSubmenu (2);
 	}
@@ -1977,7 +1977,7 @@ StarMap (void)
 	
 	if (optSubmenu){
 		if(optCustomBorder)
-			DrawBorder(12, FALSE);
+			DrawBorder(13, FALSE);
 		else
 			DrawSubmenu (0);
 	}

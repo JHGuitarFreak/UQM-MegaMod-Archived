@@ -66,7 +66,7 @@ DrawModuleStrings (MENU_STATE *pMS, BYTE NewModule)
 	SetContextForeGroundColor (
 			BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x0A), 0x08));
 	DrawFilledRectangle (&r);
-	DrawBorder(7, FALSE);
+	DrawBorder(8, FALSE);
 	if (NewModule >= EMPTY_SLOT)
 	{
 		r.corner = s.origin;
