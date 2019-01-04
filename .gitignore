@@ -277,3 +277,7 @@ log.txt
 Debug NoAccel/
 
 bin/UrQuanMastersDebug\.exp
+
+build/msvs2008/UrQuanMasters\.vcproj\.DESKTOP-TCJIFU9\.seros\.user
+
+bin/UrQuanMasters\.exp

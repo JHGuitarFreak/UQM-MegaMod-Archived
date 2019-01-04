@@ -19,7 +19,7 @@
 #ifndef LIBS_NETWORK_WSPIAPIWRAP_H_
 #define LIBS_NETWORK_WSPIAPIWRAP_H_
 
-#if (_MSC_VER >= 1600)
+#if (_MSC_VER >= 1500)
 #	include <wspiapi.h>  //DC: replaced lower section with this part to (hopefully) compile.
 #endif
 
