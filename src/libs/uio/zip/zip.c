@@ -1365,6 +1365,9 @@ zip_fillDirStructureProcessExtraFields(uio_FileBlock *fileBlock,
 				gPFileData->uid = (uid_t) makeUInt16(buf[10], buf[11]);
 				gPFileData->gid = (uid_t) makeUInt16(buf[12], buf[13]);
 				break;
+			case 0x7875:  // 'Unix string UID/GID'
+				// Just skip it
+				break;
 			}
 			default:
 #ifdef DEBUG

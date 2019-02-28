@@ -41,7 +41,8 @@ resyncUTF8(const unsigned char **ptr) {
 // function.
 UniChar
 getCharFromString(const unsigned char **ptr) {
-	UniChar result;
+	const unsigned char *origPtr = *ptr;
+	UniChar result, errData;
 
 	if (**ptr < 0x80) {
 		// 0xxxxxxx, regular ASCII
@@ -121,7 +122,14 @@ getCharFromString(const unsigned char **ptr) {
 	}
 	
 err:
-	log_add(log_Warning, "Warning: Invalid UTF8 sequence.");
+	errData = origPtr[0] * 0x1000000;
+	if (origPtr[0] && origPtr[1])
+		errData &= origPtr[1] * 0x10000;
+	if (origPtr[0] && origPtr[1] && origPtr[2])
+		errData &= origPtr[2] * 0x100;
+	if (origPtr[0] && origPtr[1] && origPtr[2] && origPtr[3])
+		errData &= origPtr[3];
+	log_add(log_Warning, "Warning: Invalid UTF8 sequence: result 0x%x last byte 0x%02x str 0x%08x %s", result, (unsigned)(**ptr), errData, origPtr);
 	
 	// Resynchronise (skip everything starting with 0x10xxxxxx):
 	resyncUTF8(ptr);
