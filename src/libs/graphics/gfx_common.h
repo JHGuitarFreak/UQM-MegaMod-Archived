@@ -112,4 +112,11 @@ extern int ScreenHeightActual;
 extern int ScreenColorDepth;
 extern int GraphicsDriver;
 
+void TFB_SetOnScreenKeyboard_Hidden(void);
+void TFB_SetOnScreenKeyboard_HiddenPermanently(void);
+void TFB_SetOnScreenKeyboard_Menu(void);
+void TFB_SetOnScreenKeyboard_Starmap(void);
+void TFB_SetOnScreenKeyboard_Melee(void);
+void TFB_SetOnScreenKeyboard_TwoPlayersMelee(void);
+
 #endif

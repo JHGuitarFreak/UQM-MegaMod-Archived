@@ -46,6 +46,7 @@ typedef struct vcontrol_keypool {
 typedef struct vcontrol_joystick_axis {
 	keybinding *neg, *pos;
 	int polarity;
+	int value;
 } axis_type;
 
 typedef struct vcontrol_joystick_hat {
@@ -66,7 +67,7 @@ static joystick *joysticks;
 
 #endif /* HAVE_JOYSTICK */
 
-static unsigned int joycount;
+static unsigned int joycount = 0;
 static unsigned int num_sdl_keys = 0;
 static keybinding **bindings = NULL;
 
@@ -141,6 +142,7 @@ create_joystick (int index)
 		for (j = 0; j < axes; j++)
 		{
 			x->axes[j].neg = x->axes[j].pos = NULL;
+			x->axes[j].polarity = x->axes[j].value = 0;
 		}
 		for (j = 0; j < hats; j++)
 		{
@@ -820,6 +822,7 @@ VControl_ProcessJoyAxis (int port, int axis, int value)
 	int t;
 	if (!joysticks[port].stick)
 		return;
+	joysticks[port].axes[axis].value = value;
 	t = joysticks[port].threshold;
 	if (value > t)
 	{
@@ -832,6 +835,12 @@ VControl_ProcessJoyAxis (int port, int axis, int value)
 			joysticks[port].axes[axis].polarity = 1;
 			activate (joysticks[port].axes[axis].pos);
 		}
+#ifdef __ANDROID__
+		if (port == 2) {
+		// Gamepad used - hide on-screen keys
+			TFB_SetOnScreenKeyboard_HiddenPermanently();
+		}
+#endif
 	}
 	else if (value < -t)
 	{
@@ -894,6 +903,23 @@ VControl_ProcessJoyHat (int port, int which, Uint8 value)
 	(void) which;
 	(void) value;
 #endif /* HAVE_JOYSTICK */
+}
+
+int
+VControl_GetJoyAxis(int port, int axis) {
+#ifdef HAVE_JOYSTICK
+	if (joycount <= port)
+		return 0;
+	if (!joysticks[port].stick || joysticks[port].numaxes <= axis)
+		return 0;
+	return joysticks[port].axes[axis].value;
+#else
+	return 0;
+#endif /* HAVE_JOYSTICK */
+}
+
+int VControl_GetJoysticksAmount() {
+	return joycount;
 }
 
 void
