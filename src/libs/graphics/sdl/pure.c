@@ -105,6 +105,7 @@ TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int toggl
 {
 	int i, videomode_flags;
 	SDL_PixelFormat conv_fmt;
+	int BPP = 32;
 	
 	GraphicsDriver = driver;
 
@@ -146,6 +147,14 @@ TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int toggl
 		}
 	}
 
+#ifdef ANDROID
+	 videomode_flags = SDL_SWSURFACE;
+	//ScreenWidthActual = 1280;
+	//ScreenHeightActual = 960;
+	graphics_backend = &pure_unscaled_backend;
+	BPP = 24;
+#endif
+
 	videomode_flags |= SDL_ANYFORMAT;
 	if (flags & TFB_GFXFLAGS_FULLSCREEN)
 		videomode_flags |= SDL_FULLSCREEN;
@@ -153,7 +162,7 @@ TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int toggl
 	/* We'll ask for a 32bpp frame, but it doesn't really matter, because we've set
 	   SDL_ANYFORMAT */
 	SDL_Video = SDL_SetVideoMode (ScreenWidthActual, ScreenHeightActual, 
-		32, videomode_flags);
+		BPP, videomode_flags);
 
 	if (SDL_Video == NULL)
 	{

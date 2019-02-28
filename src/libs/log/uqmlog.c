@@ -23,6 +23,9 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <errno.h>
+#ifdef ANDROID
+#include <android/log.h>
+#endif
 #include "libs/threadlib.h"
 
 #ifndef MAX_LOG_ENTRY_SIZE
@@ -182,19 +185,19 @@ log_setOutput (FILE *out)
 }
 
 void
-log_addV (log_Level level, const char *fmt, va_list list)
-{
+log_addV (log_Level level, const char *fmt, va_list list) {
 	log_Entry full_msg;
 	vsnprintf (full_msg, sizeof (full_msg) - 1, fmt, list);
 	full_msg[sizeof (full_msg) - 1] = '\0';
 	
-	if ((int)level <= maxStreamLevel)
-	{
+	if ((int)level <= maxStreamLevel) {
 		fprintf (streamOut, "%s\n", full_msg);
+#ifdef ANDROID
+		__android_log_print(ANDROID_LOG_INFO, "Ur-Quan Masters", "%s", full_msg);
+#endif
 	}
 
-	if ((int)level <= maxLevel)
-	{
+	if ((int)level <= maxLevel) {
 		int slot;
 
 		queueNonThreaded ();
@@ -218,19 +221,19 @@ log_add (log_Level level, const char *fmt, ...)
 // uses single-instance static storage with entry into the
 // queue delayed until the next threaded 'add' or 'exit'
 void
-log_add_nothreadV (log_Level level, const char *fmt, va_list list)
-{
+log_add_nothreadV (log_Level level, const char *fmt, va_list list) {
 	log_Entry full_msg;
 	vsnprintf (full_msg, sizeof (full_msg) - 1, fmt, list);
 	full_msg[sizeof (full_msg) - 1] = '\0';
 	
-	if ((int)level <= maxStreamLevel)
-	{
+	if ((int)level <= maxStreamLevel) {
 		fprintf (streamOut, "%s\n", full_msg);
+#ifdef ANDROID
+		__android_log_print(ANDROID_LOG_INFO, "Ur-Quan Masters", "%s", full_msg);
+#endif
 	}
 
-	if ((int)level <= maxLevel)
-	{
+	if ((int)level <= maxLevel) {
 		memcpy (msgNoThread, full_msg, sizeof (msgNoThread));
 		noThreadReady = true;
 	}

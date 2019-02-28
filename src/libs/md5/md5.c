@@ -21,7 +21,11 @@
 
 /* Written by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.  */
 
+#ifdef ANDROID
+#include "config.h"
+#else
 #include <config.h>
+#endif
 
 #include "md5.h"
 
