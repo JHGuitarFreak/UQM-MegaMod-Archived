@@ -65,6 +65,20 @@ BOOLEAN restartGame;
 			// Including this is actually necessary on OSX.
 #endif
 
+#if defined (__ANDROID__)
+#	include <SDL_android.h>
+static void AndroidAppPutToBackgroundCallback(void)
+{
+	SDL_ANDROID_PauseAudioPlayback();
+	GameActive = FALSE;
+}
+static void SDLCALL AndroidAppRestoredCallback(void)
+{
+	SDL_ANDROID_ResumeAudioPlayback();
+	GameActive = TRUE;
+}
+#endif
+
 struct bool_option
 {
 	bool value;
@@ -161,6 +175,8 @@ struct options_struct
 	DECL_CONFIG_OPTION(int, customSeed);
 	DECL_CONFIG_OPTION(bool, spaceMusic);
 	DECL_CONFIG_OPTION(bool, volasRemix);
+	// For Android
+	DECL_CONFIG_OPTION(bool, directionalJoystick);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -311,7 +327,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  mainMenuMusic,     true ),
 		INIT_CONFIG_OPTION(  nebulae,			true ),
 		INIT_CONFIG_OPTION(  orbitingPlanets,	false),
-		INIT_CONFIG_OPTION(  texturedPlanets,	false),
+		INIT_CONFIG_OPTION(  texturedPlanets,	true),
 		// Nic
 		INIT_CONFIG_OPTION(  optDateFormat,		0),
 		//Serosis
@@ -322,8 +338,10 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  scalePlanets,		true),
 		INIT_CONFIG_OPTION(  customBorder,		true),
 		INIT_CONFIG_OPTION(  customSeed,		PrimeA),
-		INIT_CONFIG_OPTION(  spaceMusic,		false),
+		INIT_CONFIG_OPTION(  spaceMusic,		true),
 		INIT_CONFIG_OPTION(	 volasMusic,		false),
+		// For Android
+		INIT_CONFIG_OPTION(	 directionalJoystick, true),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -417,6 +435,14 @@ main (int argc, char *argv[])
 		return optionsResult;
 	}
 
+	#if defined (ANDROID)
+	SDL_ANDROID_SetApplicationPutToBackgroundCallback (AndroidAppPutToBackgroundCallback, AndroidAppRestoredCallback);
+	if( !fileExists("config/save") ) {
+		// Copy savegames from UQM non-HD, I'm too lazy to do that properly.
+		system("SAVEDIR=`pwd`/config/save ; mkdir -p $SAVEDIR ; cd ../../../../app-data/com.sourceforge.sc2/config/save || exit 1 ; for f in * ; do cat $f > $SAVEDIR/$f ; done");
+	}
+#endif
+
 	TFB_PreInit ();
 	mem_init ();
 	InitThreadSystem ();
@@ -508,6 +534,8 @@ main (int argc, char *argv[])
 	optRequiresRestart = FALSE; // JMS_GFX
 	optSpaceMusic = options.spaceMusic.value;
 	optVolasMusic = options.volasRemix.value;
+	// For Android
+	optDirectionalJoystick = options.directionalJoystick.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -837,8 +865,10 @@ getUserConfigOptions (struct options_struct *options)
 	if (res_IsInteger ("config.customSeed") && !options->customSeed.set) {
 		options->customSeed.value = res_GetInteger ("config.customSeed");
 	}
-	getBoolConfigValue(&options->spaceMusic, "config.spaceMusic");
-	getBoolConfigValue(&options->volasRemix, "config.volasRemix");
+	getBoolConfigValue (&options->spaceMusic, "config.spaceMusic");
+	getBoolConfigValue (&options->volasRemix, "config.volasRemix");
+	// For Android
+	getBoolConfigValue (&options->directionalJoystick, "config.directionaljoystick");
 	
 	if (res_IsInteger ("config.player1control"))
 	{

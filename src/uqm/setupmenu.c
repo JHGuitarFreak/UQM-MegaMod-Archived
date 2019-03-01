@@ -495,6 +495,8 @@ SetDefaults (void)
 	choices[45].selected = opts.customBorder;
 	choices[46].selected = opts.spaceMusic;
 	choices[47].selected = opts.volasRemix;
+	// For Android
+	choices[48].selected = opts.directionalJoystick;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -557,6 +559,8 @@ PropagateResults (void)
 	opts.customBorder = choices[45].selected;
 	opts.spaceMusic = choices[46].selected;
 	opts.volasRemix = choices[47].selected;
+	// For Android
+	opts.directionalJoystick = choices[48].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1472,6 +1476,8 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->spaceMusic = optSpaceMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
 	opts->volasRemix = optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	// For Android
+	opts->directionalJoystick = optDirectionalJoystick ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 
 	// Serosis: 320x240
 	if (RESOLUTION_FACTOR != HD) {
@@ -1900,6 +1906,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Enable Volasaurus' music remixes
 	res_PutBoolean("config.volasRemix", opts->volasRemix == OPTVAL_ENABLED);
 	optVolasMusic = (opts->volasRemix == OPTVAL_ENABLED);
+
+	// Serosis: Enable Android Directional Joystick
+	res_PutBoolean("config.directionalJoystick", opts->directionalJoystick == OPTVAL_ENABLED);
+	optDirectionalJoystick = (opts->directionalJoystick == OPTVAL_ENABLED);
 
 	if (opts->scanlines && RESOLUTION_FACTOR != HD) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
