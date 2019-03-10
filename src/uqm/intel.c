@@ -72,5 +72,3 @@ computer_intelligence (ComputerInputContext *context, STARSHIP *StarShipPtr)
 	}
 	return InputState;
 }
-
-

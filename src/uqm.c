@@ -435,7 +435,7 @@ main (int argc, char *argv[])
 		return optionsResult;
 	}
 
-	#if defined (ANDROID)
+#if defined (ANDROID)
 	SDL_ANDROID_SetApplicationPutToBackgroundCallback (AndroidAppPutToBackgroundCallback, AndroidAppRestoredCallback);
 	if( !fileExists("config/save") ) {
 		// Copy savegames from UQM non-HD, I'm too lazy to do that properly.
