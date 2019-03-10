@@ -1561,17 +1561,19 @@ DoMoveCursor (MENU_STATE *pMS)
 			if (GLOBAL_SIS (FuelOnBoard) >= FuelRequired() || optInfiniteFuel){
 				GLOBAL (autopilot) = cursorLoc;
 				PlayMenuSound (MENU_SOUND_BUBBLEWARP);
-				if (inHQSpace ()) {
-					// Move to the new location immediately.
-					doInstantMove ();
-				} else if (LOBYTE (GLOBAL (CurrentActivity)) == IN_INTERPLANETARY) {
+
+				if (!optInfiniteFuel)
+					DeltaSISGauges(0, -FuelRequired(), 0);
+
+				if (LOBYTE (GLOBAL (CurrentActivity)) == IN_INTERPLANETARY) {
 					// We're in a solar system; exit it.
 					GLOBAL (CurrentActivity) |= END_INTERPLANETARY;			
 					// Set a hook to move to the new location:
 					debugHook = doInstantMove;
+				} else {
+					// Move to the new location immediately.
+					doInstantMove();
 				}
-				if(!optInfiniteFuel)
-					DeltaSISGauges (0, -FuelRequired(), 0);
 				
 				return FALSE;
 			} else { 
