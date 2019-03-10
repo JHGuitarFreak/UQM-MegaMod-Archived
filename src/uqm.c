@@ -174,7 +174,8 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, customBorder);
 	DECL_CONFIG_OPTION(int, customSeed);
 	DECL_CONFIG_OPTION(bool, spaceMusic);
-	DECL_CONFIG_OPTION(bool, volasRemix);
+	DECL_CONFIG_OPTION(bool, volasMusic);
+	DECL_CONFIG_OPTION(bool, wholeFuel);
 	// For Android
 	DECL_CONFIG_OPTION(bool, directionalJoystick);
 
@@ -340,8 +341,9 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  customSeed,		PrimeA),
 		INIT_CONFIG_OPTION(  spaceMusic,		true),
 		INIT_CONFIG_OPTION(	 volasMusic,		false),
+		INIT_CONFIG_OPTION(	 wholeFuel,			false),
 		// For Android
-		INIT_CONFIG_OPTION(	 directionalJoystick, true),
+		INIT_CONFIG_OPTION(	 directionalJoystick, false),
 	};
 	struct options_struct defaults = options;
 	int optionsResult;
@@ -533,7 +535,8 @@ main (int argc, char *argv[])
 	optRequiresReload = FALSE; // Serosis
 	optRequiresRestart = FALSE; // JMS_GFX
 	optSpaceMusic = options.spaceMusic.value;
-	optVolasMusic = options.volasRemix.value;
+	optVolasMusic = options.volasMusic.value;
+	optWholeFuel = options.wholeFuel.value;
 	// For Android
 	optDirectionalJoystick = options.directionalJoystick.value;
 
@@ -866,7 +869,8 @@ getUserConfigOptions (struct options_struct *options)
 		options->customSeed.value = res_GetInteger ("config.customSeed");
 	}
 	getBoolConfigValue (&options->spaceMusic, "config.spaceMusic");
-	getBoolConfigValue (&options->volasRemix, "config.volasRemix");
+	getBoolConfigValue(&options->volasMusic, "config.volasMusic");
+	getBoolConfigValue(&options->wholeFuel, "config.wholeFuel");
 	// For Android
 	getBoolConfigValue (&options->directionalJoystick, "config.directionaljoystick");
 	

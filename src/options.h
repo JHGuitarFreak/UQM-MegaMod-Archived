@@ -84,6 +84,7 @@ extern int newGameSeed;
 extern int spaceMusicBySOI;
 extern BOOLEAN optSpaceMusic;
 extern BOOLEAN optVolasMusic;
+extern BOOLEAN optWholeFuel;
 // For Android
 extern BOOLEAN optDirectionalJoystick;
 
