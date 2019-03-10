@@ -79,7 +79,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          9
-#define CHOICE_COUNT       48
+#define CHOICE_COUNT       50
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       11
 #define LABEL_COUNT         4
@@ -107,7 +107,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2,						// 20-23
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 24-33
 	2, 2, 2, 2, 3, 2, 2, 2, 3,		// 34-42
-	2, 2, 2, 2, 2 };				// 43-47
+	2, 2, 2, 2, 2, 2, 2 };			// 43-49
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -199,14 +199,18 @@ static WIDGET *keyconfig_widgets[] = {
 	NULL };
 
 static WIDGET *advanced_widgets[] = {
-	(WIDGET *)(&choices[35]),	// JMS: IP nebulae on/off
-	(WIDGET *)(&choices[36]),	// JMS: orbitingPlanets on/off
-	(WIDGET *)(&choices[37]),	// JMS: texturedPlanets on/off
+	// JMS
+	(WIDGET *)(&choices[35]),	// IP nebulae on/off
+	(WIDGET *)(&choices[36]),	// orbitingPlanets on/off
+	(WIDGET *)(&choices[37]),	// texturedPlanets on/off
 	(WIDGET *)(&choices[44]),	// Serosis: Scaled Planets
 	(WIDGET *)(&choices[38]),	// Nic: Switch date formats
-	(WIDGET *)(&choices[40]),	// Serosis: Partial Pickup switch
-	(WIDGET *)(&choices[41]),	// Serosis: Submenu switch
-	(WIDGET *)(&choices[45]),	// Serosis: Custom Border switch
+	// Serosis
+	(WIDGET *)(&choices[40]),	// Partial Pickup switch
+	(WIDGET *)(&choices[41]),	// Submenu switch
+	(WIDGET *)(&choices[45]),	// Custom Border switch
+	(WIDGET *)(&choices[48]),	// Whole Fuel Value switch
+	(WIDGET *)(&choices[49]),	// Android Directional Joystick toggle
 	(WIDGET *)(&buttons[1]),	
 	NULL };
 
@@ -494,9 +498,10 @@ SetDefaults (void)
 	choices[44].selected = opts.scalePlanets;
 	choices[45].selected = opts.customBorder;
 	choices[46].selected = opts.spaceMusic;
-	choices[47].selected = opts.volasRemix;
+	choices[47].selected = opts.volasMusic;
+	choices[48].selected = opts.wholeFuel;
 	// For Android
-	choices[48].selected = opts.directionalJoystick;
+	choices[49].selected = opts.directionalJoystick;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -558,9 +563,10 @@ PropagateResults (void)
 	opts.scalePlanets = choices[44].selected;
 	opts.customBorder = choices[45].selected;
 	opts.spaceMusic = choices[46].selected;
-	opts.volasRemix = choices[47].selected;
+	opts.volasMusic = choices[47].selected;
+	opts.wholeFuel = choices[48].selected;
 	// For Android
-	opts.directionalJoystick = choices[48].selected;
+	opts.directionalJoystick = choices[49].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1474,8 +1480,9 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->customBorder = optCustomBorder ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->customSeed = res_GetInteger ("config.customSeed");
 	opts->spaceMusic = optSpaceMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->loresBlowup = res_GetInteger ("config.loresBlowupScale");
-	opts->volasRemix = optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->loresBlowup = res_GetInteger("config.loresBlowupScale");
+	opts->volasMusic = optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->wholeFuel = optWholeFuel ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	// For Android
 	opts->directionalJoystick = optDirectionalJoystick ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 
@@ -1748,7 +1755,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		(opts->intro != (optWhichIntro == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC) ||
 		(opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
 		(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
-		(opts->volasRemix != (optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)))
+		(opts->volasMusic != (optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)))
 	{
 		if(opts->speech != (optSpeech ? OPTVAL_ENABLED : OPTVAL_DISABLED)){
 			printf("Voice Option Changed\n");
@@ -1758,7 +1765,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		}
 		if((opts->music3do != (opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
 			(opts->musicremix != (optRemixMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)) ||
-			(opts->volasRemix != (optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)))
+			(opts->volasMusic != (optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED)))
 		{
 			printf("Music Option Changed\n");
 			optRequiresRestart = TRUE;
@@ -1904,8 +1911,12 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	optSpaceMusic = opts->spaceMusic == OPTVAL_ENABLED;
 
 	// Serosis: Enable Volasaurus' music remixes
-	res_PutBoolean("config.volasRemix", opts->volasRemix == OPTVAL_ENABLED);
-	optVolasMusic = (opts->volasRemix == OPTVAL_ENABLED);
+	res_PutBoolean("config.volasMusic", opts->volasMusic == OPTVAL_ENABLED);
+	optVolasMusic = (opts->volasMusic == OPTVAL_ENABLED);
+
+	// Serosis: Enable Whole Fuel values
+	res_PutBoolean("config.wholeFuel", opts->wholeFuel == OPTVAL_ENABLED);
+	optWholeFuel = (opts->wholeFuel == OPTVAL_ENABLED);
 
 	// Serosis: Enable Android Directional Joystick
 	res_PutBoolean("config.directionalJoystick", opts->directionalJoystick == OPTVAL_ENABLED);

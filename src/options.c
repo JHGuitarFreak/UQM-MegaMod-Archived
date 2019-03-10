@@ -94,6 +94,7 @@ int newGameSeed;
 int spaceMusicBySOI;
 BOOLEAN optSpaceMusic;
 BOOLEAN optVolasMusic;
+BOOLEAN optWholeFuel;
 // For Android
 BOOLEAN optDirectionalJoystick;
 
