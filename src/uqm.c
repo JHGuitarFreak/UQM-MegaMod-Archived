@@ -934,6 +934,8 @@ enum
 	CUSTBORD_OPT,
 	EXSEED_OPT,
 	SPACEMUSIC_OPT,
+	WHOLEFUEL_OPT,
+	DIRJOY_OPT,
 	MELEE_OPT,
 	LOADGAME_OPT,
 #ifdef NETPLAY
@@ -1005,6 +1007,8 @@ static struct option longOptions[] =
 	{"customborder", 0, NULL, CUSTBORD_OPT},
 	{"customseed", 1, NULL, EXSEED_OPT},
 	{"spacemusic", 1, NULL, SPACEMUSIC_OPT},
+	{"wholefuel", 1, NULL, WHOLEFUEL_OPT},
+	{"dirjoystick", 1, NULL, DIRJOY_OPT},
 	{"melee", 0, NULL, MELEE_OPT},
 	{"loadgame", 0, NULL, LOADGAME_OPT},
 #ifdef NETPLAY
@@ -1362,6 +1366,12 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case SPACEMUSIC_OPT:
 				optSpaceMusic = TRUE;
 				break;
+			case WHOLEFUEL_OPT:
+				optWholeFuel = TRUE;
+				break;
+			case DIRJOY_OPT:
+				optDirectionalJoystick = TRUE;
+				break;
 			case MELEE_OPT:
 				optSuperMelee = TRUE;
 				break;
@@ -1636,6 +1646,10 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_add(log_User, "  --customseed=# : Allows you to customize the internal seed used to generate the solar systems in-game.");
 	log_add(log_User, "  --spacemusic : Enables localized music for races when you are in their sphere of influence    (default: %s)",
 		boolOptString(&defaults->spaceMusic));
+	log_add(log_User, "  --wholefuel : Enables the display of the whole fuel value in the ship status    (default: %s)",
+		boolOptString(&defaults->wholeFuel));
+	log_add(log_User, "  --spacemusic : Enables the use of directional joystick controls for Android    (default: %s)",
+		boolOptString(&defaults->directionalJoystick));
 	log_setOutput (old);
 }
 
