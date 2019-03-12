@@ -27,6 +27,7 @@
 #include "libs/sound/trackplayer.h"
 #include "libs/log.h"
 #include "libs/resource/stringbank.h"
+#include "battle.h"
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -34,6 +35,8 @@
 
 #define CONFIRM_WIN_WIDTH RES_SCALE(80) // JMS_GFX
 #define CONFIRM_WIN_HEIGHT RES_SCALE(22) // JMS_GFX
+
+BOOLEAN WarpFromMenu = FALSE;
 
 static void
 DrawConfirmationWindow (BOOLEAN answer)
@@ -48,6 +51,12 @@ DrawConfirmationWindow (BOOLEAN answer)
 	r.corner.x = (SCREEN_WIDTH - CONFIRM_WIN_WIDTH) >> 1;
 	r.corner.y = (SCREEN_HEIGHT - CONFIRM_WIN_HEIGHT) >> 1;
 	r.extent.width = CONFIRM_WIN_WIDTH;
+#ifdef ANDROID
+	if (GLOBAL(CurrentActivity) & IN_BATTLE && RunAwayAllowed()) {
+		r.corner.x -= RES_BOOL(40, 0);
+		r.extent.width += RES_BOOL(40, 0);
+	}
+#endif
 	r.extent.height = CONFIRM_WIN_HEIGHT;
 	DrawShadowedBox (&r, SHADOWBOX_BACKGROUND_COLOR, 
 			SHADOWBOX_DARK_COLOR, SHADOWBOX_MEDIUM_COLOR);
@@ -60,11 +69,21 @@ DrawConfirmationWindow (BOOLEAN answer)
 	font_DrawText (&t);
 	t.baseline.y += RES_SCALE(10); // JMS_GFX
 	t.baseline.x = r.corner.x + (r.extent.width >> 2);
+#ifdef ANDROID
+	if (GLOBAL(CurrentActivity) & IN_BATTLE && RunAwayAllowed())
+		t.baseline.x -= RES_BOOL(5, 0);
+#endif
 	t.pStr = GAME_STRING (QUITMENU_STRING_BASE + 1); // "Yes"
 	SetContextForeGroundColor (answer ? MENU_HIGHLIGHT_COLOR : MENU_TEXT_COLOR);
 	font_DrawText (&t);
 	t.baseline.x += (r.extent.width >> 1);
 	t.pStr = GAME_STRING (QUITMENU_STRING_BASE + 2); // "No"
+#ifdef ANDROID
+	if (GLOBAL(CurrentActivity) & IN_BATTLE && RunAwayAllowed()) {
+		t.baseline.x -= RES_BOOL(10, 20);
+		t.pStr = GAME_STRING(QUITMENU_STRING_BASE + 3); // "Escape Unit"
+	}
+#endif
 	SetContextForeGroundColor (answer ? MENU_TEXT_COLOR : MENU_HIGHLIGHT_COLOR);	
 	font_DrawText (&t);
 
@@ -110,8 +129,16 @@ DoConfirmExit (void)
 
 		FlushInput ();
 		done = FALSE;
+
+#ifdef ANDROID
+		if (!(GLOBAL(CurrentActivity) & IN_BATTLE)) {
+			/* Abort immediately */
+			response = TRUE;
+			done = TRUE;
+		}
+#endif
 		
-		do {
+		while (!done) {
 			// Forbid recursive calls or pausing here!
 			ExitRequested = FALSE;
 			GamePaused = FALSE;
@@ -138,7 +165,7 @@ DoConfirmExit (void)
 				PlayMenuSound (MENU_SOUND_MOVE);
 			}
 			SleepThread (ONE_SECOND / 30);
-		} while (!done);
+		};
 
 		// Restore the screen under the confirmation window
 		DrawStamp (&s);
@@ -151,6 +178,10 @@ DoConfirmExit (void)
 		}		
 		else
 		{
+#ifdef ANDROID
+			if (GLOBAL(CurrentActivity) & IN_BATTLE && RunAwayAllowed())
+				WarpFromMenu = TRUE;
+#endif
 			result = FALSE;
 		}
 		ExitRequested = FALSE;

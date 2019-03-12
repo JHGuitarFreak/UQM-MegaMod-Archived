@@ -66,7 +66,7 @@ BattleFrameCounter battleFrameCount;
 		// Used for synchronisation purposes during netplay.
 #endif
 
-static BOOLEAN
+BOOLEAN
 RunAwayAllowed (void)
 {
 	return (LOBYTE (GLOBAL (CurrentActivity)) == IN_ENCOUNTER
@@ -214,8 +214,11 @@ ProcessInput (void)
 						StarShipPtr->ship_input_state |= SPECIAL;
 
 					if (CanRunAway && cur_player == 0 &&
-							(InputState & BATTLE_ESCAPE))
-						DoRunAway (StarShipPtr);
+						((InputState & BATTLE_ESCAPE) || WarpFromMenu))
+					{
+						WarpFromMenu = FALSE;
+						DoRunAway(StarShipPtr);
+					}
 				}
 			}
 
