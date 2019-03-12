@@ -58,6 +58,7 @@ BOOLEAN Battle (BattleFrameCallback *);
 
 extern void BattleSong (BOOLEAN DoPlay);
 extern void FreeBattleSong (void);
+extern BOOLEAN RunAwayAllowed (void);
 
 #if defined(__cplusplus)
 }
