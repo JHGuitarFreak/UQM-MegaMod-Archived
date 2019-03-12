@@ -1119,13 +1119,16 @@ DeltaSISGauges_fuelDelta (SDWORD fuel_delta)
 		// I.E. only 4 (7) characters, we don't need that much extra padding.
 		UNICODE buf[7];
 		RECT r;
-		float floatFuelOnBoard = (float)GLOBAL_SIS(FuelOnBoard) / 100;
+		// Serosis: Cast as a double and divided by FUEL_TANK_SCALE to get a decimal
+		double dblFuelOnBoard = (double)GLOBAL_SIS(FuelOnBoard) / FUEL_TANK_SCALE;
 
 		if (!optInfiniteFuel) {
 			if(!optWholeFuel)
 				snprintf(buf, sizeof buf, "%u", new_coarse_fuel);
+			else if (dblFuelOnBoard > 999.99)
+				snprintf(buf, sizeof buf, "%.1f", dblFuelOnBoard);
 			else
-				snprintf(buf, sizeof buf, "%.2f", floatFuelOnBoard);
+				snprintf(buf, sizeof buf, "%.2f", dblFuelOnBoard);
 		}
 		else
 			snprintf (buf, sizeof buf, "%s", STR_INFINITY_SIGN);
