@@ -1096,8 +1096,7 @@ DeltaSISGauges_fuelDelta (SDWORD fuel_delta)
 	else
 	{
 
-		old_coarse_fuel = (COUNT)(
-				GLOBAL_SIS (FuelOnBoard) / FUEL_TANK_SCALE);
+		old_coarse_fuel = (COUNT)(GLOBAL_SIS(FuelOnBoard) / (!optWholeFuel ? FUEL_TANK_SCALE : 1));
 		if (fuel_delta < 0
 				&& GLOBAL_SIS (FuelOnBoard) <= (DWORD)-fuel_delta)
 		{
@@ -1112,18 +1111,22 @@ DeltaSISGauges_fuelDelta (SDWORD fuel_delta)
 		}
 	}
 
-	new_coarse_fuel = (COUNT)(
-			GLOBAL_SIS (FuelOnBoard) / FUEL_TANK_SCALE);
+	new_coarse_fuel = (COUNT)(GLOBAL_SIS(FuelOnBoard) / (!optWholeFuel ? FUEL_TANK_SCALE : 1));
 	if (new_coarse_fuel != old_coarse_fuel)
 	{
 		TEXT t;
-		// buf from [60] to [5]: The max fuel anyone can ever get is 1610
-		// I.E. only 4 characters, we don't need that much extra padding.
-		UNICODE buf[5];
+		// buf from [60] to [7]: The max fuel anyone can ever get is 1610 (1610.00 in whole value)
+		// I.E. only 4 (7) characters, we don't need that much extra padding.
+		UNICODE buf[7];
 		RECT r;
+		float floatFuelOnBoard = (float)GLOBAL_SIS(FuelOnBoard) / 100;
 
-		if(!optInfiniteFuel)
-			snprintf (buf, sizeof buf, "%u", new_coarse_fuel);
+		if (!optInfiniteFuel) {
+			if(!optWholeFuel)
+				snprintf(buf, sizeof buf, "%u", new_coarse_fuel);
+			else
+				snprintf(buf, sizeof buf, "%.2f", floatFuelOnBoard);
+		}
 		else
 			snprintf (buf, sizeof buf, "%s", STR_INFINITY_SIGN);
 
@@ -1137,6 +1140,10 @@ DeltaSISGauges_fuelDelta (SDWORD fuel_delta)
 		t.CharCount = (COUNT)~0;
 
 		SetContextForeGroundColor (BLACK_COLOR);
+		if (optWholeFuel) {
+			r.corner.x -= RES_STAT_SCALE(1);
+			r.extent.width += RES_STAT_SCALE(2);
+		}
 		DrawFilledRectangle (&r);
 		SetContextForeGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x13, 0x00, 0x00), 0x2C));
