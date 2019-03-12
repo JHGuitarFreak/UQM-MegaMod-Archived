@@ -1085,25 +1085,21 @@ DeltaSISGauges_crewDelta (SIZE crew_delta)
 static void
 DeltaSISGauges_fuelDelta (SDWORD fuel_delta)
 {
-	COUNT old_coarse_fuel;
-	COUNT new_coarse_fuel;
+	DWORD OldCoarseFuel;
+	DWORD NewCoarseFuel;
 
 	if (fuel_delta == 0)
 		return;
 
 	if (fuel_delta == UNDEFINED_DELTA)
-		old_coarse_fuel = (COUNT)~0;
-	else
-	{
+		OldCoarseFuel = (DWORD)~0;
+	else {
 
-		old_coarse_fuel = (COUNT)(GLOBAL_SIS(FuelOnBoard) / (!optWholeFuel ? FUEL_TANK_SCALE : 1));
+		OldCoarseFuel = (GLOBAL_SIS(FuelOnBoard) / (!optWholeFuel ? FUEL_TANK_SCALE : 1));
 		if (fuel_delta < 0
-				&& GLOBAL_SIS (FuelOnBoard) <= (DWORD)-fuel_delta)
-		{
+				&& GLOBAL_SIS (FuelOnBoard) <= (DWORD)-fuel_delta) {
 			GLOBAL_SIS (FuelOnBoard) = 0;
-		}
-		else
-		{
+		} else {
 			DWORD FuelCapacity = GetFuelTankCapacity ();
 			GLOBAL_SIS (FuelOnBoard) += fuel_delta;
 			if (GLOBAL_SIS (FuelOnBoard) > FuelCapacity)
@@ -1111,8 +1107,8 @@ DeltaSISGauges_fuelDelta (SDWORD fuel_delta)
 		}
 	}
 
-	new_coarse_fuel = (COUNT)(GLOBAL_SIS(FuelOnBoard) / (!optWholeFuel ? FUEL_TANK_SCALE : 1));
-	if (new_coarse_fuel != old_coarse_fuel)
+	NewCoarseFuel = (GLOBAL_SIS(FuelOnBoard) / (!optWholeFuel ? FUEL_TANK_SCALE : 1));
+	if (NewCoarseFuel != OldCoarseFuel)
 	{
 		TEXT t;
 		// buf from [60] to [7]: The max fuel anyone can ever get is 1610 (1610.00 in whole value)
@@ -1120,11 +1116,11 @@ DeltaSISGauges_fuelDelta (SDWORD fuel_delta)
 		UNICODE buf[7];
 		RECT r;
 		// Serosis: Cast as a double and divided by FUEL_TANK_SCALE to get a decimal
-		double dblFuelOnBoard = (double)GLOBAL_SIS(FuelOnBoard) / FUEL_TANK_SCALE;
+		double dblFuelOnBoard = (double)NewCoarseFuel / FUEL_TANK_SCALE;
 
 		if (!optInfiniteFuel) {
 			if(!optWholeFuel)
-				snprintf(buf, sizeof buf, "%u", new_coarse_fuel);
+				snprintf(buf, sizeof buf, "%u", NewCoarseFuel);
 			else if (dblFuelOnBoard > 999.99)
 				snprintf(buf, sizeof buf, "%.1f", dblFuelOnBoard);
 			else
