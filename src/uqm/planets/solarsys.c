@@ -1247,18 +1247,19 @@ flagship_inertial_thrust (COUNT CurrentAngle)
 static void
 ProcessShipControls (void)
 {
-	COUNT index;
+	COUNT index = GetFrameIndex(GLOBAL(ShipStamp.frame));
 	SIZE delta_x, delta_y;
+	BATTLE_INPUT_STATE InputState = GetDirectionalJoystickInput(index, 0);
 
-	if (CurrentInputState.key[PlayerControls[0]][KEY_UP])
+	if (InputState & BATTLE_THRUST)
 		delta_y = -1;
 	else
 		delta_y = 0;
 
 	delta_x = 0;
-	if (CurrentInputState.key[PlayerControls[0]][KEY_LEFT])
+	if (InputState & BATTLE_LEFT)
 		delta_x -= 1;
-	if (CurrentInputState.key[PlayerControls[0]][KEY_RIGHT])
+	if (InputState & BATTLE_RIGHT)
 		delta_x += 1;
 		
 	if (delta_x || delta_y < 0)
@@ -1271,7 +1272,7 @@ ProcessShipControls (void)
 	else
 		delta_y = 0;
 
-	index = GetFrameIndex (GLOBAL (ShipStamp.frame));
+	//index = GetFrameIndex (GLOBAL (ShipStamp.frame));
 	if (pSolarSysState->turn_counter)
 		--pSolarSysState->turn_counter;
 	else if (delta_x)
@@ -2470,7 +2471,13 @@ ExploreSolarSys (void)
 	InitSolarSys ();
 	SetMenuSounds (MENU_SOUND_NONE, MENU_SOUND_NONE);
 	SolarSysState.InputFunc = DoIpFlight;
+#ifdef ANDROID
+	TFB_SetOnScreenKeyboard_Melee();
+	DoInput(&SolarSysState, FALSE);
+	TFB_SetOnScreenKeyboard_Menu();
+#else
 	DoInput (&SolarSysState, FALSE);
+#endif
 	UninitSolarSys ();
 	pSolarSysState = 0;
 }
@@ -2739,13 +2746,25 @@ DoIpFlight (SOLARSYS_STATE *pSS)
 
 	if (pSS->InOrbit)
 	{	// CheckShipLocation() or InitSolarSys() sent us to orbital
+#ifdef ANDROID
+		TFB_SetOnScreenKeyboard_Menu();
+		EnterPlanetOrbit();
+		TFB_SetOnScreenKeyboard_Melee();
+#else
 		EnterPlanetOrbit ();
+#endif
 		SetMenuSounds (MENU_SOUND_NONE, MENU_SOUND_NONE);
 		pSS->InOrbit = FALSE;
 	}
 	else if (cancel || LastActivity == CHECK_LOAD)
 	{
-		SolarSysMenu ();
+#ifdef ANDROID
+		TFB_SetOnScreenKeyboard_Menu();
+		SolarSysMenu();
+		TFB_SetOnScreenKeyboard_Melee();
+#else
+		SolarSysMenu();
+#endif		
 		SetMenuSounds (MENU_SOUND_NONE, MENU_SOUND_NONE);
 	}
 	else

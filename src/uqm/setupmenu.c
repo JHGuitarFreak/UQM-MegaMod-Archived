@@ -210,7 +210,9 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[41]),	// Submenu switch
 	(WIDGET *)(&choices[45]),	// Custom Border switch
 	(WIDGET *)(&choices[48]),	// Whole Fuel Value switch
-	(WIDGET *)(&choices[49]),	// Android Directional Joystick toggle
+#ifdef ANDROID
+	(WIDGET *)(&choices[49]),	// Android: Directional Joystick toggle
+#endif
 	(WIDGET *)(&buttons[1]),	
 	NULL };
 
@@ -342,6 +344,8 @@ do_keyconfig (WIDGET *self, int event)
 	if (event == WIDGET_EVENT_SELECT)
 	{
 		next = (WIDGET *)(&menus[5]);
+		if (getenv("OUYA"))
+			next = (WIDGET *)(&menus[4]);
 		(*next->receiveFocus) (next, WIDGET_EVENT_DOWN);
 		return TRUE;
 	}

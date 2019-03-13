@@ -27,6 +27,9 @@
 #include "resinst.h"
 #include "nameref.h"
 
+#ifdef __ANDROID__
+#include <SDL/SDL_screenkeyboard.h>
+#endif
 
 // TODO: This may be better done with UniChar at the cost of a tiny bit
 //   of overhead to convert UniChar back to UTF8 string. This overhead
@@ -140,6 +143,11 @@ DoTextEntry (TEXTENTRY_STATE *pTES)
 	if (!pTES->Initialized)
 	{	// init basic vars
 		int lwlen;
+
+#ifdef __ANDROID__
+		SDL_ANDROID_ToggleScreenKeyboardTextInput(pTES->BaseStr);
+		pTES->BaseStr[0] = 0;
+#endif
 
 		pTES->InputFunc = DoTextEntry;
 		pTES->Success = FALSE;

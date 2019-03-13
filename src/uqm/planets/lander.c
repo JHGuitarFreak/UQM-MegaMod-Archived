@@ -1714,15 +1714,15 @@ landerSpeedNumer = WORLD_TO_VELOCITY (RES_SCALE(48)); // JMS
 		if (crew_left)
 		{
 			SIZE index = GetFrameIndex (LanderFrame[0]);
+			BATTLE_INPUT_STATE InputState = GetDirectionalJoystickInput(index, 0);
 			if (turn_wait)
 				--turn_wait;
-			else if (CurrentInputState.key[PlayerControls[0]][KEY_LEFT] ||
-					CurrentInputState.key[PlayerControls[0]][KEY_RIGHT])
+			else if ((InputState & BATTLE_LEFT) || (InputState & BATTLE_RIGHT))
 			{
 				COUNT landerSpeedNumer;
 				COUNT angle;
 
-				if (CurrentInputState.key[PlayerControls[0]][KEY_LEFT])
+				if (InputState & BATTLE_LEFT)
 					--index;
 				else
 					++index;
@@ -1746,7 +1746,7 @@ landerSpeedNumer = WORLD_TO_VELOCITY (RES_SCALE(48));
 				turn_wait = SHUTTLE_TURN_WAIT;
 			}
 
-			if (!CurrentInputState.key[PlayerControls[0]][KEY_UP])
+			if (!(InputState & BATTLE_THRUST))
 			{
 				dx = 0;
 				dy = 0;
@@ -2095,7 +2095,13 @@ PlanetSide (POINT planetLoc)
 	landerInputState.Initialized = FALSE;
 	landerInputState.InputFunc = DoPlanetSide;
 	SetMenuSounds (MENU_SOUND_NONE, MENU_SOUND_NONE);
+#ifdef ANDROID
+	TFB_SetOnScreenKeyboard_Melee();
+	DoInput(&landerInputState, FALSE);
+	TFB_SetOnScreenKeyboard_Menu();
+#else
 	DoInput (&landerInputState, FALSE);
+#endif
 
 	if (!(GLOBAL (CurrentActivity) & CHECK_ABORT))
 	{
