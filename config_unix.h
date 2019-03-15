@@ -11,19 +11,19 @@
 #define CONFIG_UNIX_H_
 
 /* Directory where the UQM game data is located */
-#define CONTENTDIR "/usr/local/games/share/uqm-megamod/content"
+#define CONTENTDIR ""
 
 /* Directory where game data will be stored */
-#define USERDIR "~/.uqm-megamod/"
+#define USERDIR "config/"
 
 /* Directory where config files will be stored */
 #define CONFIGDIR USERDIR
 
 /* Directory where supermelee teams will be stored */
-#define MELEEDIR "${UQM_CONFIG_DIR}/teams/"
+#define MELEEDIR "teams/"
 
 /* Directory where save games will be stored */
-#define SAVEDIR "${UQM_CONFIG_DIR}/save/"
+#define SAVEDIR "save/"
 
 /* Defined if words are stored with the most significant byte first */
 #undef WORDS_BIGENDIAN
