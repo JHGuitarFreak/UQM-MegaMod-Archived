@@ -101,12 +101,12 @@ CalcAlphaFormat (const SDL_PixelFormat* video, SDL_PixelFormat* ours)
 }
 
 int
-TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int togglefullscreen, unsigned int resFactor)
+TFB_Pure_ConfigureVideo(int driver, int flags, int width, int height, int togglefullscreen, unsigned int resFactor)
 {
 	int i, videomode_flags;
 	SDL_PixelFormat conv_fmt;
 	int BPP = 32;
-	
+
 	GraphicsDriver = driver;
 
 	// must use SDL_SWSURFACE, HWSURFACE doesn't work properly
@@ -121,38 +121,46 @@ TFB_Pure_ConfigureVideo (int driver, int flags, int width, int height, int toggl
 	else
 	{
 		videomode_flags = SDL_SWSURFACE;
-		
+
 		// JMS_GFX: Resolution is calculated with the help of a Resolution factor.
 		if (resFactor != HD)
 		{
 			// Check the sanity of resolution.
 			if (width != 640 || height != 480)
 			{
-				log_add (log_Error, "Screen resolution of %dx%d not supported "
-						 "under pure SDL, using 640x480", width, height);
-			
+				log_add(log_Error, "Screen resolution of %dx%d not supported "
+					"under pure SDL, using 640x480", width, height);
+
 				width = 640;
 				height = 480;
 			}
-			
-			ScreenWidthActual  = width;
+
+			ScreenWidthActual = width;
 			ScreenHeightActual = height;
 			graphics_backend = &pure_scaled_backend;
 		}
 		else
 		{
-			ScreenWidthActual  = (320 << resFactor);
+			ScreenWidthActual = (320 << resFactor);
 			ScreenHeightActual = (240 << resFactor);
 			graphics_backend = &pure_unscaled_backend;
 		}
 	}
 
-#ifdef ANDROID
-	 videomode_flags = SDL_SWSURFACE;
-	//ScreenWidthActual = 1280;
-	//ScreenHeightActual = 960;
-	graphics_backend = &pure_unscaled_backend;
-	BPP = 24;
+#ifdef ANDROID || __ANDROID__
+	if (resFactor == HD) {
+		videomode_flags = SDL_SWSURFACE;
+		//ScreenWidthActual = 1280;
+		//ScreenHeightActual = 960;
+		graphics_backend = &pure_unscaled_backend;
+		BPP = 24;
+	} else {
+		videomode_flags = SDL_SWSURFACE;
+		ScreenWidthActual = 320;
+		ScreenHeightActual = 240;
+		graphics_backend = &pure_unscaled_backend;
+		BPP = 16;
+	}
 #endif
 
 	videomode_flags |= SDL_ANYFORMAT;
