@@ -18,7 +18,7 @@
 #ifdef USE_INTERNAL_LUA
 #   include "libs/lua/lualib.h"
 #else
-#	include <lualib.h>
+#	include "lualib.h"
 #endif
 
 #define LUAUQM_INTERNAL
