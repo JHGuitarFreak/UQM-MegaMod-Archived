@@ -21,8 +21,8 @@
 #   include "libs/lua/lua.h"
 #   include "libs/lua/lauxlib.h"
 #else
-#	include <lua.h>
-#	include <lauxlib.h>
+#	include "lua.h"
+#	include "lauxlib.h"
 #endif
 
 #if defined(__cplusplus)
