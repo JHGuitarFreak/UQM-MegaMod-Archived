@@ -285,10 +285,15 @@ main (int argc, char *argv[])
 		/* .addonDir = */           NULL,
 		/* .addons = */             NULL,
 		/* .numAddons = */          0,
-
-		INIT_CONFIG_OPTION(  opengl,            true ),
+#ifdef ANDROID || __ANDROID__
+		INIT_CONFIG_OPTION(	 opengl,            false ),
+		INIT_CONFIG_OPTION2( resolution,        320, 240 ),
+		INIT_CONFIG_OPTION(	 fullscreen,        true ),
+#else
+		INIT_CONFIG_OPTION(	 opengl,            true ),
 		INIT_CONFIG_OPTION2( resolution,        640, 480 ),
-		INIT_CONFIG_OPTION(  fullscreen,        false ),
+		INIT_CONFIG_OPTION(	 fullscreen,        false ),
+#endif
 		INIT_CONFIG_OPTION(  scanlines,         false ),
 		INIT_CONFIG_OPTION(  scaler,            0 ),
 		INIT_CONFIG_OPTION(  showFps,           false ),
@@ -307,7 +312,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  smoothScroll,      OPT_PC ),
 		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_TRILINEAR ),
 		INIT_CONFIG_OPTION(  subtitles,         true ),
-		INIT_CONFIG_OPTION(  stereoSFX,         true ),
+		INIT_CONFIG_OPTION(  stereoSFX,         false ),
 		INIT_CONFIG_OPTION(  musicVolumeScale,  1.0f ),
 		INIT_CONFIG_OPTION(  sfxVolumeScale,    1.0f ),
 		INIT_CONFIG_OPTION(  speechVolumeScale, 0.8f ),
@@ -327,23 +332,28 @@ main (int argc, char *argv[])
 		// JMS
 		INIT_CONFIG_OPTION(  mainMenuMusic,     true ),
 		INIT_CONFIG_OPTION(  nebulae,			true ),
-		INIT_CONFIG_OPTION(  orbitingPlanets,	false),
-		INIT_CONFIG_OPTION(  texturedPlanets,	true),
+		INIT_CONFIG_OPTION(  orbitingPlanets,	false ),
+		INIT_CONFIG_OPTION(  texturedPlanets,	true ),
 		// Nic
-		INIT_CONFIG_OPTION(  optDateFormat,		0),
+		INIT_CONFIG_OPTION(  optDateFormat,		0 ),
 		//Serosis
-		INIT_CONFIG_OPTION(  infiniteFuel,		false),
-		INIT_CONFIG_OPTION(  partialPickup,		false),
-		INIT_CONFIG_OPTION(  submenu,			true),
-		INIT_CONFIG_OPTION(  addDevices,		false),
-		INIT_CONFIG_OPTION(  scalePlanets,		true),
-		INIT_CONFIG_OPTION(  customBorder,		true),
-		INIT_CONFIG_OPTION(  customSeed,		PrimeA),
-		INIT_CONFIG_OPTION(  spaceMusic,		true),
-		INIT_CONFIG_OPTION(	 volasMusic,		false),
-		INIT_CONFIG_OPTION(	 wholeFuel,			false),
+		INIT_CONFIG_OPTION(  infiniteFuel,		false ),
+		INIT_CONFIG_OPTION(  partialPickup,		false ),
+		INIT_CONFIG_OPTION(  submenu,			true ),
+		INIT_CONFIG_OPTION(  addDevices,		false ),
+		INIT_CONFIG_OPTION(  scalePlanets,		true ),
+		INIT_CONFIG_OPTION(  customBorder,		true ),
+		INIT_CONFIG_OPTION(  customSeed,		PrimeA ),
+		INIT_CONFIG_OPTION(  spaceMusic,		true ),
+		INIT_CONFIG_OPTION(	 volasMusic,		false ),
+		INIT_CONFIG_OPTION(	 wholeFuel,			false ),
 		// For Android
-		INIT_CONFIG_OPTION(	 directionalJoystick, false),
+#ifdef ANDROID || __ANDROID__
+		INIT_CONFIG_OPTION(	 directionalJoystick, true ),
+#else
+		INIT_CONFIG_OPTION(	 directionalJoystick, false ),
+#endif
+
 	};
 	struct options_struct defaults = options;
 	int optionsResult;

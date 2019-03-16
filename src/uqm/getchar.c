@@ -27,7 +27,7 @@
 #include "resinst.h"
 #include "nameref.h"
 
-#ifdef __ANDROID__
+#ifdef ANDROID || __ANDROID__
 #include <SDL/SDL_screenkeyboard.h>
 #endif
 
@@ -144,7 +144,7 @@ DoTextEntry (TEXTENTRY_STATE *pTES)
 	{	// init basic vars
 		int lwlen;
 
-#ifdef __ANDROID__
+#ifdef ANDROID || __ANDROID__
 		SDL_ANDROID_ToggleScreenKeyboardTextInput(pTES->BaseStr);
 		pTES->BaseStr[0] = 0;
 #endif
