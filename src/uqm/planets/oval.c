@@ -35,9 +35,9 @@ DrawOval (RECT *pRect, BYTE num_off_pixels)
 	COUNT off;
 	COORD x, y;
 	SIZE A, B;
-	long Asquared, TwoAsquared,
+	long long Asquared, TwoAsquared,
 						Bsquared, TwoBsquared;
-	long d, dx, dy;
+	long long d, dx, dy;
 	BYTE quad_visible;
 	LINE corners;
 	POINT mp;
@@ -146,8 +146,8 @@ DrawOval (RECT *pRect, BYTE num_off_pixels)
 	x = 0;
 	y = B;
 
-	Asquared = ((long)A * A) << 1;
-	Bsquared = ((long)B * B) << 1;
+	Asquared = ((long long)A * A) << 1;
+	Bsquared = ((long long)B * B) << 1;
 	do
 	{
 		Asquared >>= 1;
@@ -221,9 +221,9 @@ DrawFilledOval (RECT *pRect)
 {
 	COORD x, y;
 	SIZE A, B;
-	long Asquared, TwoAsquared,
+	long long Asquared, TwoAsquared,
 						Bsquared, TwoBsquared;
-	long d, dx, dy;
+	long long d, dx, dy;
 	LINE corners;
 	PRIMITIVE prim[NUM_QUADS >> 1];
 	COUNT StartPrim;
@@ -261,8 +261,8 @@ DrawFilledOval (RECT *pRect)
 	x = 0;
 	y = B;
 
-	Asquared = ((long)A * A) << 1;
-	Bsquared = ((long)B * B) << 1;
+	Asquared = ((long long)A * A) << 1;
+	Bsquared = ((long long)B * B) << 1;
 	do
 	{
 		Asquared >>= 1;
