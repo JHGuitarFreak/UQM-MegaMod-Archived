@@ -148,13 +148,11 @@ TFB_Pure_ConfigureVideo(int driver, int flags, int width, int height, int toggle
 	}
 
 #if defined(ANDROID) || defined(__ANDROID__)
-
 	videomode_flags = SDL_SWSURFACE;
 	//ScreenWidthActual = 1280;
 	//ScreenHeightActual = 960;
 	graphics_backend = &pure_unscaled_backend;
-	BPP = 24;
-
+	BPP = 16;
 #endif
 
 	videomode_flags |= SDL_ANYFORMAT;
