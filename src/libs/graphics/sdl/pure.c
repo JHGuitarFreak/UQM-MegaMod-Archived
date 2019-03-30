@@ -152,7 +152,7 @@ TFB_Pure_ConfigureVideo(int driver, int flags, int width, int height, int toggle
 	//ScreenWidthActual = 1280;
 	//ScreenHeightActual = 960;
 	graphics_backend = &pure_unscaled_backend;
-	BPP = 16;
+	BPP = 24;
 #endif
 
 	videomode_flags |= SDL_ANYFORMAT;
