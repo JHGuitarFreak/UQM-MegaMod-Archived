@@ -16,7 +16,7 @@
 
 #include "msgbox.h"
 #include "loginternal.h"
-#ifdef ANDROID
+#if defined(ANDROID) || defined(__ANDROID__)
 #include <android/log.h>
 #endif
 
@@ -29,7 +29,7 @@ log_displayBox (const /*UTF-8*/char *title, int isError,
 	// So just inform the user of our predicament
 	fprintf (streamOut, "Do not know how to display %s box\n",
 			isError ? "an error" : "a");
-#ifdef ANDROID
+#if defined(ANDROID) || defined(__ANDROID__)
 	__android_log_print( isError ? ANDROID_LOG_FATAL : ANDROID_LOG_INFO, "Ur-Quan Masters", "%s: %s", title, msg );
 #endif
 	

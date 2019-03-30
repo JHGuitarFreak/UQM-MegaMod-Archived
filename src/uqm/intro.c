@@ -829,7 +829,7 @@ ShowSlidePresentation (STRING PresStr)
 	pis.MovieFrame = -1;
 	pis.StartTime = GetTimeCounter ();
 	pis.LastSyncTime = pis.StartTime;
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 	TFB_SetOnScreenKeyboard_Hidden();
 	DoInput(&pis, TRUE);
 	TFB_SetOnScreenKeyboard_Menu();
@@ -923,7 +923,7 @@ ShowLegacyVideo (LEGACY_VIDEO vid)
 	vis.InputFunc = DoVideoInput;
 	vis.CurVideo = ref;
 	SetMenuSounds (MENU_SOUND_NONE, MENU_SOUND_NONE);
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 	TFB_SetOnScreenKeyboard_Hidden();
 	DoInput (&vis, TRUE);
 	TFB_SetOnScreenKeyboard_Menu();

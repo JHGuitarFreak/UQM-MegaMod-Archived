@@ -2471,7 +2471,7 @@ ExploreSolarSys (void)
 	InitSolarSys ();
 	SetMenuSounds (MENU_SOUND_NONE, MENU_SOUND_NONE);
 	SolarSysState.InputFunc = DoIpFlight;
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 	TFB_SetOnScreenKeyboard_Melee();
 	DoInput(&SolarSysState, FALSE);
 	TFB_SetOnScreenKeyboard_Menu();
@@ -2746,7 +2746,7 @@ DoIpFlight (SOLARSYS_STATE *pSS)
 
 	if (pSS->InOrbit)
 	{	// CheckShipLocation() or InitSolarSys() sent us to orbital
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 		TFB_SetOnScreenKeyboard_Menu();
 		EnterPlanetOrbit();
 		TFB_SetOnScreenKeyboard_Melee();
@@ -2758,7 +2758,7 @@ DoIpFlight (SOLARSYS_STATE *pSS)
 	}
 	else if (cancel || LastActivity == CHECK_LOAD)
 	{
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 		TFB_SetOnScreenKeyboard_Menu();
 		SolarSysMenu();
 		TFB_SetOnScreenKeyboard_Melee();

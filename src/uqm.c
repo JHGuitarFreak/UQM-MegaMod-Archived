@@ -65,15 +65,14 @@ BOOLEAN restartGame;
 			// Including this is actually necessary on OSX.
 #endif
 
-#if defined (__ANDROID__)
+#if defined(ANDROID) || defined(__ANDROID__)
 #	include <SDL_android.h>
-static void AndroidAppPutToBackgroundCallback(void)
-{
+static void AndroidAppPutToBackgroundCallback(void) {
 	SDL_ANDROID_PauseAudioPlayback();
 	GameActive = FALSE;
 }
-static void SDLCALL AndroidAppRestoredCallback(void)
-{
+
+static void SDLCALL AndroidAppRestoredCallback(void) {
 	SDL_ANDROID_ResumeAudioPlayback();
 	GameActive = TRUE;
 }
@@ -285,7 +284,7 @@ main (int argc, char *argv[])
 		/* .addonDir = */           NULL,
 		/* .addons = */             NULL,
 		/* .numAddons = */          0,
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 		INIT_CONFIG_OPTION(	 opengl,            false ),
 		INIT_CONFIG_OPTION2( resolution,        320, 240 ),
 		INIT_CONFIG_OPTION(	 fullscreen,        true ),
@@ -348,7 +347,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(	 volasMusic,		false ),
 		INIT_CONFIG_OPTION(	 wholeFuel,			false ),
 		// For Android
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 		INIT_CONFIG_OPTION(	 directionalJoystick, true ),
 #else
 		INIT_CONFIG_OPTION(	 directionalJoystick, false ),
@@ -447,7 +446,7 @@ main (int argc, char *argv[])
 		return optionsResult;
 	}
 
-#if defined (ANDROID)
+#if defined(ANDROID) || defined(__ANDROID__)
 	SDL_ANDROID_SetApplicationPutToBackgroundCallback (AndroidAppPutToBackgroundCallback, AndroidAppRestoredCallback);
 	if( !fileExists("config/save") ) {
 		// Copy savegames from UQM non-HD, I'm too lazy to do that properly.

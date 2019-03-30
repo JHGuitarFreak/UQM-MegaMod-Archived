@@ -36,7 +36,7 @@
 #include "../../../uqm/units.h"
 #include SDL_INCLUDE(SDL_thread.h)
 
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 #include <SDL/SDL_screenkeyboard.h>
 #endif
 
@@ -445,7 +445,7 @@ UnInit_Screen (SDL_Surface **screen)
 	*screen = NULL;
 }
 
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 
 static SDL_Rect SDL_LeftJoystickRect, SDL_RightJoystickRect, SDL_TextInputRect;
 static BOOLEAN HideScreenKeyboard = FALSE;
