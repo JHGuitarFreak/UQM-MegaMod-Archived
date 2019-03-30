@@ -315,10 +315,6 @@ GetEncounterStarShip (STARSHIP *LastStarShipPtr, COUNT which_player)
 		// Let the player chose their own ship. (May be a computer player).
 		HSTARSHIP hBattleShip;
 
-#if defined(ANDROID) || defined(__ANDROID__)
-		TFB_SetOnScreenKeyboard_Menu();
-#endif
-
 		if (battle_counter[0] == 0 || battle_counter[1] == 0)
 		{	// One side is out of ships. Game over.
 			return 0;
@@ -326,10 +322,6 @@ GetEncounterStarShip (STARSHIP *LastStarShipPtr, COUNT which_player)
 
 		if (!GetNextMeleeStarShip (which_player, &hBattleShip))
 			return 0;
-
-#if defined(ANDROID) || defined(__ANDROID__)
-		TFB_SetOnScreenKeyboard_Melee();
-#endif
 		
 		return hBattleShip;
 	}
