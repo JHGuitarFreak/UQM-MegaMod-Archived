@@ -51,7 +51,7 @@ DrawConfirmationWindow (BOOLEAN answer)
 	r.corner.x = (SCREEN_WIDTH - CONFIRM_WIN_WIDTH) >> 1;
 	r.corner.y = (SCREEN_HEIGHT - CONFIRM_WIN_HEIGHT) >> 1;
 	r.extent.width = CONFIRM_WIN_WIDTH;
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 	if (GLOBAL(CurrentActivity) & IN_BATTLE && RunAwayAllowed()) {
 		r.corner.x -= RES_BOOL(40, 0);
 		r.extent.width += RES_BOOL(40, 0);
@@ -69,7 +69,7 @@ DrawConfirmationWindow (BOOLEAN answer)
 	font_DrawText (&t);
 	t.baseline.y += RES_SCALE(10); // JMS_GFX
 	t.baseline.x = r.corner.x + (r.extent.width >> 2);
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 	if (GLOBAL(CurrentActivity) & IN_BATTLE && RunAwayAllowed())
 		t.baseline.x -= RES_BOOL(5, 0);
 #endif
@@ -78,7 +78,7 @@ DrawConfirmationWindow (BOOLEAN answer)
 	font_DrawText (&t);
 	t.baseline.x += (r.extent.width >> 1);
 	t.pStr = GAME_STRING (QUITMENU_STRING_BASE + 2); // "No"
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 	if (GLOBAL(CurrentActivity) & IN_BATTLE && RunAwayAllowed()) {
 		t.baseline.x -= RES_BOOL(10, 20);
 		t.pStr = GAME_STRING(QUITMENU_STRING_BASE + 3); // "Escape Unit"
@@ -130,7 +130,7 @@ DoConfirmExit (void)
 		FlushInput ();
 		done = FALSE;
 
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 		if (!(GLOBAL(CurrentActivity) & IN_BATTLE)) {
 			/* Abort immediately */
 			response = TRUE;
@@ -178,7 +178,7 @@ DoConfirmExit (void)
 		}		
 		else
 		{
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 			if (GLOBAL(CurrentActivity) & IN_BATTLE && RunAwayAllowed())
 				WarpFromMenu = TRUE;
 #endif

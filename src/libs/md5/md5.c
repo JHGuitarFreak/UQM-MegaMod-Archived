@@ -21,7 +21,7 @@
 
 /* Written by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.  */
 
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 #include "config.h"
 #else
 #include <config.h>

@@ -2095,7 +2095,7 @@ PlanetSide (POINT planetLoc)
 	landerInputState.Initialized = FALSE;
 	landerInputState.InputFunc = DoPlanetSide;
 	SetMenuSounds (MENU_SOUND_NONE, MENU_SOUND_NONE);
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 	TFB_SetOnScreenKeyboard_Melee();
 	DoInput(&landerInputState, FALSE);
 	TFB_SetOnScreenKeyboard_Menu();

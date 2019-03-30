@@ -835,7 +835,7 @@ VControl_ProcessJoyAxis (int port, int axis, int value)
 			joysticks[port].axes[axis].polarity = 1;
 			activate (joysticks[port].axes[axis].pos);
 		}
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 		if (port == 2) {
 		// Gamepad used - hide on-screen keys
 			TFB_SetOnScreenKeyboard_HiddenPermanently();

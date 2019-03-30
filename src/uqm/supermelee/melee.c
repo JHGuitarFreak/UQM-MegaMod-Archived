@@ -2087,7 +2087,7 @@ Melee (void)
 			PlayerControl[0] = HUMAN_CONTROL | STANDARD_RATING;
 			Melee_LocalChange_team (&MenuState, 0,
 					MenuState.load.preBuiltList[0]);
-			PlayerControl[1] = COMPUTER_CONTROL | STANDARD_RATING;
+			PlayerControl[1] = HUMAN_CONTROL | STANDARD_RATING; // COMPUTER_CONTROL | STANDARD_RATING;
 			Melee_LocalChange_team (&MenuState, 1,
 					MenuState.load.preBuiltList[1]);
 		}

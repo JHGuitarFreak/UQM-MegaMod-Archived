@@ -16,7 +16,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 #include <android/log.h>
 #endif
 

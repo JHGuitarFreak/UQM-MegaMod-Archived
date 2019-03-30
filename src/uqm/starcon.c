@@ -260,7 +260,7 @@ while (--ac > 0)
 			AskNameForCaptainAndShip();
 			newGameSeed = optCustomSeed;
 		}
-#ifdef ANDROID || __ANDROID__
+#if defined(ANDROID) || defined(__ANDROID__)
 		TFB_SetOnScreenKeyboard_Melee();
 #endif
 		do
