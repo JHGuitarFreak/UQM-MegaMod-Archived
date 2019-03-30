@@ -514,9 +514,9 @@ TFB_SetOnScreenKeyboard_Starmap(void) {
 	b.w = SDL_RightJoystickRect.w / 2;
 	b.x = SDL_RightJoystickRect.x - b.w;
 	b.y = SDL_RightJoystickRect.y + SDL_RightJoystickRect.h - b.h;
-	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_3, &b);
+	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_2, &b);
 	b.x -= b.w;
-	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_4, &b);
+	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_3, &b);
 }
 
 void
@@ -534,12 +534,6 @@ TFB_SetOnScreenKeyboard_Melee(void) {
 	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_0, &b);
 	b.x = SDL_RightJoystickRect.x;
 	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_1, &b);
-	// Throttle button is replaced by tapping joystick
-	/*
-	b.w = SDL_RightJoystickRect.w;
-	b.y = SDL_RightJoystickRect.y + SDL_RightJoystickRect.h - b.h;
-	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_2, &b);
-	*/
 }
 
 void
@@ -555,16 +549,9 @@ TFB_SetOnScreenKeyboard_TwoPlayersMelee(void) {
 	b.h = SDL_RightJoystickRect.h * 3 / 5;
 	b.x = 0;
 	b.y = 0; // SDL_RightJoystickRect.h - b.h;
-	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_3, &b);
-	b.x = SDL_RightJoystickRect.w - b.w;
 	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_4, &b);
-	// Throttle button is replaced by tapping joystick
-	/*
-	b.w = SDL_RightJoystickRect.w;
-	b.x = 0;
-	b.y = 0;
+	b.x = SDL_RightJoystickRect.w - b.w;
 	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_5, &b);
-	*/
 }
 
 #else
