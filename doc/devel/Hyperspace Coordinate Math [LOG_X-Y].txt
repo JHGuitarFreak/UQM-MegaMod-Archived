@@ -1,4 +1,4 @@
-Vanilla & HD-Mod [Using Sol for LOG_X & LOG_Y]
+Vanilla 0.7.0 [Using Sol for LOG_X & LOG_Y]
 
 SCREEN_WIDTH = 320
 STATUS_WIDTH = 64
@@ -34,7 +34,7 @@ ________________________________________________________________________________
 ____________________________________________________________________________________
 
 
-0.8.0, macOS, & MegaMod [Using Sol for LOG_X & LOG_Y]
+0.8.0, macOS, HD-Mod & MegaMod [Using Sol for LOG_X & LOG_Y]
 
 
 MAX_X_UNIVERSE = 9999
