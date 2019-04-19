@@ -140,6 +140,8 @@ UNIVERSE_TO_LOGY (MAX_Y_UNIVERSE + 1) : UNIVERSE_TO_LOGY (-1)) - 1L)
 #define UNIVERSE_UNITS_Y (((MAX_Y_UNIVERSE + 1) >> 4))
 #else
 // Original (and now broken) Hyperspace speed factors
+#define SECTOR_WIDTH 195
+#define SECTOR_HEIGHT 25
 
 #define LOG_UNITS_X      ((SDWORD)(LOG_SPACE_WIDTH >> 4) * SECTOR_WIDTH)
 #define LOG_UNITS_Y      ((SDWORD)(LOG_SPACE_HEIGHT >> 4) * SECTOR_HEIGHT)
