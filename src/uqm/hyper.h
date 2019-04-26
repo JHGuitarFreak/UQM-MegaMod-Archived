@@ -69,6 +69,8 @@ extern "C" {
 // Should be the same as in plandata.c
 #define SOL_X  1752
 #define SOL_Y  1450
+#define VELA_X  3345
+#define VELA_Y  1931
 
 
 extern BOOLEAN LoadHyperspace (void);
