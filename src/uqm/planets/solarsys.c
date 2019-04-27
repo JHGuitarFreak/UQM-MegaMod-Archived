@@ -2554,6 +2554,12 @@ GetNamedPlanetaryBody (void)
 		{	// Sa-Matra
 			return GAME_STRING (PLANET_NUMBER_BASE + 32);
 		}
+	} else if (CurStarDescPtr->Index == START_COLONY_DEFINED) {
+		if (matchWorld(pSolarSysState, pSolarSysState->pOrbitalDesc,
+			1, MATCH_PLANET))
+		{
+			return GAME_STRING(PLANET_NUMBER_BASE + 33);
+		}
 	}
 
 	return NULL;

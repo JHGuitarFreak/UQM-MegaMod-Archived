@@ -22,11 +22,14 @@
 #include "../../globdata.h"
 #include "../../grpinfo.h"
 #include "../../state.h"
+#include "../../gamestr.h"
 #include "libs/mathlib.h"
 
 
 static bool GenerateColony_initNpcs (SOLARSYS_STATE *solarSys);
 static bool GenerateColony_generatePlanets (SOLARSYS_STATE *solarSys);
+static bool GenerateColony_generateName(const SOLARSYS_STATE *,
+	const PLANET_DESC *world);
 static bool GenerateColony_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world);
 
@@ -37,7 +40,7 @@ const GenerateFunctions generateColonyFunctions = {
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
 	/* .generatePlanets  = */ GenerateColony_generatePlanets,
 	/* .generateMoons    = */ GenerateDefault_generateMoons,
-	/* .generateName     = */ GenerateDefault_generateName,
+	/* .generateName     = */ GenerateColony_generateName,
 	/* .generateOrbital  = */ GenerateColony_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
 	/* .generateEnergy   = */ GenerateDefault_generateEnergy,
@@ -90,10 +93,10 @@ GenerateColony_generatePlanets (SOLARSYS_STATE *solarSys)
 	int planetArray[] = { PRIMORDIAL_WORLD, WATER_WORLD, TELLURIC_WORLD };
 
 	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
-	solarSys->SunDesc[0].PlanetByte = 0;
+	solarSys->SunDesc[0].PlanetByte = 1;
 
 	if(!PrimeSeed){
-		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 2) + 2);
 	}
 
 	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
@@ -106,11 +109,30 @@ GenerateColony_generatePlanets (SOLARSYS_STATE *solarSys)
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = planetArray[RandomContext_Random (SysGenRNG) % 2] | PLANET_SHIELDED;
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
 	} else {
+		solarSys->PlanetDesc[0].data_index = NOBLE_WORLD;
+		solarSys->PlanetDesc[0].radius = EARTH_RADIUS * 37L / 100;
+		angle = ARCTAN(solarSys->PlanetDesc[0].location.x, solarSys->PlanetDesc[0].location.y);
+		solarSys->PlanetDesc[0].location.x = COSINE(angle, solarSys->PlanetDesc[0].radius);
+		solarSys->PlanetDesc[0].location.y = SINE(angle, solarSys->PlanetDesc[0].radius);
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius = EARTH_RADIUS * 115L / 100;
 		angle = ARCTAN (solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y);
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.x = COSINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].location.y = SINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
 		ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
+	}
+
+	return true;
+}
+
+static bool
+GenerateColony_generateName(const SOLARSYS_STATE *solarSys,
+	const PLANET_DESC *world)
+{
+	if (matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{
+		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
+			GAME_STRING(PLANET_NUMBER_BASE + 33));
+		SET_GAME_STATE(BATTLE_PLANET, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index);
 	}
 
 	return true;
@@ -129,6 +151,27 @@ GenerateColony_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 			solarSys->SysInfo.PlanetInfo.Weather = 0;
 			solarSys->SysInfo.PlanetInfo.Tectonics = 0;
 			solarSys->SysInfo.PlanetInfo.SurfaceTemperature = 28;
+		}
+
+		LoadPlanet (NULL);
+
+		return true;
+	}
+	
+	if (matchWorld (solarSys, world, 0, MATCH_PLANET))
+	{
+		DoPlanetaryAnalysis (&solarSys->SysInfo, world);
+
+		if(PrimeSeed){
+			solarSys->SysInfo.PlanetInfo.AtmoDensity = 0;
+			solarSys->SysInfo.PlanetInfo.PlanetDensity = 32;
+			solarSys->SysInfo.PlanetInfo.PlanetRadius = 31;
+			solarSys->SysInfo.PlanetInfo.AxialTilt = 10;
+			solarSys->SysInfo.PlanetInfo.Weather = 0;
+			solarSys->SysInfo.PlanetInfo.Tectonics = 2;
+			solarSys->SysInfo.PlanetInfo.RotationPeriod = 0.75 * 240;
+			solarSys->SysInfo.PlanetInfo.SurfaceGravity = 9;
+			solarSys->SysInfo.PlanetInfo.LifeChance = 0;
 		}
 
 		LoadPlanet (NULL);
