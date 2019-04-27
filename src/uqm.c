@@ -312,7 +312,7 @@ main (int argc, char *argv[])
 #if defined(ANDROID) || defined(__ANDROID__)
 		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_STEP),
 #else
-		INIT_CONFIG_OPTION(	 meleeScale,        TFB_SCALE_NEAREST),
+		INIT_CONFIG_OPTION(	 meleeScale,        TFB_SCALE_TRILINEAR),
 #endif
 
 		INIT_CONFIG_OPTION(  subtitles,         true ),
@@ -323,9 +323,9 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  safeMode,          false ),
 		INIT_CONFIG_OPTION(  resolutionFactor,  0 ),
 #if defined(ANDROID) || defined(__ANDROID__)
-		INIT_CONFIG_OPTION(loresBlowupScale,  0),
+		INIT_CONFIG_OPTION(	 loresBlowupScale,  0),
 #else
-		INIT_CONFIG_OPTION(loresBlowupScale,  1),
+		INIT_CONFIG_OPTION(	 loresBlowupScale,  1),
 #endif
 		INIT_CONFIG_OPTION(  cheatMode,			false ), // JMS
 		//Serosis
