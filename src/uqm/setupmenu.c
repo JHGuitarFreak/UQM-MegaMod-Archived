@@ -1933,6 +1933,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	} else {
 		NewGfxFlags &= ~TFB_GFXFLAGS_SCANLINES;
 	}
+#if !defined(ANDROID) || !defined(__ANDROID__)
 	if (opts->fullscreen){
 		NewGfxFlags |= TFB_GFXFLAGS_FULLSCREEN;
 		// JMS: Force the usage of bilinear scaler in 1280x960 and 640x480 fullscreen.
@@ -1962,6 +1963,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 			}
 		}
 	}
+#endif
 
 	res_PutBoolean ("config.scanlines", opts->scanlines);
 	res_PutBoolean ("config.fullscreen", opts->fullscreen);
