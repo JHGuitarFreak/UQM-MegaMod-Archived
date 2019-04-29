@@ -210,6 +210,7 @@ static const struct option_list_value meleeScaleList[] =
 	{"step",     TFB_SCALE_STEP},
 	{"pc",       TFB_SCALE_STEP},
 	{"bilinear", TFB_SCALE_BILINEAR},
+	{"nearest",  TFB_SCALE_NEAREST},
 	{NULL, 0}
 };
 
