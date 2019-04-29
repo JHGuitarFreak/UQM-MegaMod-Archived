@@ -311,7 +311,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  whichShield,       OPT_3DO ),
 		INIT_CONFIG_OPTION(  smoothScroll,      OPT_PC ),
 #if defined(ANDROID) || defined(__ANDROID__)
-		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_STEP),
+		INIT_CONFIG_OPTION(  meleeScale,        TFB_SCALE_NEAREST),
 #else
 		INIT_CONFIG_OPTION(	 meleeScale,        TFB_SCALE_TRILINEAR),
 #endif
@@ -831,8 +831,9 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->useRemixMusic, "config.remixmusic");
 	getBoolConfigValue (&options->useSpeech, "config.speech");
 
-	getBoolConfigValueXlat (&options->meleeScale, "config.smoothmelee",
-			TFB_SCALE_TRILINEAR, TFB_SCALE_STEP);
+	if (res_IsInteger("config.smoothmelee") && !&options->meleeScale.set) {
+		options->meleeScale.value = res_GetInteger("config.smoothmelee");
+	}
 
 	getListConfigValue (&options->soundDriver, "config.audiodriver",
 			audioDriverList);

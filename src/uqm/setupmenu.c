@@ -79,7 +79,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          9
-#define CHOICE_COUNT       50
+#define CHOICE_COUNT       51
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       11
 #define LABEL_COUNT         4
@@ -107,7 +107,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2,						// 20-23
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 24-33
 	2, 2, 2, 2, 3, 2, 2, 2, 3,		// 34-42
-	2, 2, 2, 2, 2, 2, 2 };			// 43-49
+	2, 2, 2, 2, 2, 2, 2, 3 };		// 43-50
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -149,7 +149,11 @@ static WIDGET *engine_widgets[] = {
 	(WIDGET *)(&choices[7]),	// Scroll Style
 	(WIDGET *)(&choices[22]),	// Speech
 	(WIDGET *)(&choices[8]),	// Subtitles
+#if defined(ANDROID) || defined(__ANDROID__)
+	(WIDGET *)(&choices[50]),	// Melee Zoom Android
+#else
 	(WIDGET *)(&choices[13]),	// Melee Zoom
+#endif
 	(WIDGET *)(&choices[11]),	// Cutscenes
 	(WIDGET *)(&choices[17]),	// Slave Shields
 	(WIDGET *)(&choices[32]),	// Skip Intro
@@ -466,7 +470,9 @@ SetDefaults (void)
 	choices[10].selected = opts.fullscreen;
 	choices[11].selected = opts.intro;
 	choices[12].selected = opts.fps;
+#if !defined(ANDROID) || !defined(__ANDROID__)
 	choices[13].selected = opts.meleezoom;
+#endif
 	choices[14].selected = opts.stereo;
 	choices[15].selected = opts.adriver;
 	choices[16].selected = opts.aquality;
@@ -508,6 +514,9 @@ SetDefaults (void)
 	choices[48].selected = opts.wholeFuel;
 	// For Android
 	choices[49].selected = opts.directionalJoystick;
+#if defined(ANDROID) || defined(__ANDROID__)
+	choices[50].selected = opts.meleezoom;
+#endif
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -532,7 +541,9 @@ PropagateResults (void)
 	opts.fullscreen = choices[10].selected;
 	opts.intro = choices[11].selected;
 	opts.fps = choices[12].selected;
+#if !defined(ANDROID) || !defined(__ANDROID__)
 	opts.meleezoom = choices[13].selected;
+#endif
 	opts.stereo = choices[14].selected;
 	opts.adriver = choices[15].selected;
 	opts.aquality = choices[16].selected;
@@ -573,6 +584,9 @@ PropagateResults (void)
 	opts.wholeFuel = choices[48].selected;
 	// For Android
 	opts.directionalJoystick = choices[49].selected;
+#if defined(ANDROID) || defined(__ANDROID__)
+	opts.meleezoom = choices[50].selected;
+#endif
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1392,9 +1406,27 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->intro = (optWhichIntro == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC;
 	opts->shield = (optWhichShield == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC;
 	opts->fps = (GfxFlags & TFB_GFXFLAGS_SHOWFPS) ? 
-			OPTVAL_ENABLED : OPTVAL_DISABLED;
-	opts->meleezoom = (optMeleeScale == TFB_SCALE_STEP) ? 
-			OPTVAL_PC : OPTVAL_3DO;
+		OPTVAL_ENABLED : OPTVAL_DISABLED;
+#if defined(ANDROID) || defined(__ANDROID__)
+	switch (optMeleeScale) {
+	case 1:
+		opts->meleezoom = OPTVAL_NEAREST;
+		break;
+	case 2:
+		opts->meleezoom = OPTVAL_BILINEAR;
+		break;
+	case 3:
+		opts->meleezoom = OPTVAL_TRILINEAR;
+		break;
+	case 0:
+	default:
+		opts->meleezoom = OPTVAL_STEP;
+		break;
+	}
+#else
+	opts->meleezoom = (optMeleeScale == TFB_SCALE_STEP) ?
+		OPTVAL_PC : OPTVAL_3DO;
+#endif
 	opts->stereo = optStereoSFX ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	/* These values are read in, but won't change during a run. */
 	opts->music3do = opt3doMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
@@ -2017,7 +2049,25 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	optWhichCoarseScan = (opts->cscan == OPTVAL_3DO) ? OPT_3DO : OPT_PC;
 	optSmoothScroll = (opts->scroll == OPTVAL_3DO) ? OPT_3DO : OPT_PC;
 	optWhichShield = (opts->shield == OPTVAL_3DO) ? OPT_3DO : OPT_PC;
+#if defined(ANDROID) || defined(__ANDROID__)
+	switch (opts->meleezoom) {
+	case 1:
+		optMeleeScale = OPTVAL_NEAREST;
+		break;
+	case 2:
+		optMeleeScale = OPTVAL_BILINEAR;
+		break;
+	case 3:
+		optMeleeScale = OPTVAL_TRILINEAR;
+		break;
+	case 0:
+	default:
+		optMeleeScale = OPTVAL_STEP;
+		break;
+	}
+#else
 	optMeleeScale = (opts->meleezoom == OPTVAL_3DO) ? TFB_SCALE_TRILINEAR : TFB_SCALE_STEP;
+#endif
 	opt3doMusic = (opts->music3do == OPTVAL_ENABLED);
 	optRemixMusic = (opts->musicremix == OPTVAL_ENABLED);
 	optSpeech = (opts->speech == OPTVAL_ENABLED);
@@ -2038,7 +2088,11 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutBoolean ("config.speech", opts->speech == OPTVAL_ENABLED);
 	res_PutBoolean ("config.3domovies", opts->intro == OPTVAL_3DO);
 	res_PutBoolean ("config.showfps", opts->fps == OPTVAL_ENABLED);
-	res_PutBoolean ("config.smoothmelee", opts->meleezoom == OPTVAL_3DO);
+#if defined(ANDROID) || defined(__ANDROID__)
+	res_PutInteger("config.smoothmelee", opts->meleezoom);
+#else
+	res_PutInteger("config.smoothmelee", opts->meleezoom == OPTVAL_3DO ? OPTVAL_3DO : OPTVAL_PC);
+#endif
 	res_PutBoolean ("config.positionalsfx", opts->stereo == OPTVAL_ENABLED); 
 	res_PutBoolean ("config.pulseshield", opts->shield == OPTVAL_3DO);
 	res_PutBoolean ("config.keepaspectratio", opts->keepaspect == OPTVAL_ENABLED);
