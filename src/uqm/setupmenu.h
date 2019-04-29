@@ -80,13 +80,20 @@ typedef enum {
 	OPTVAL_SLOW,
 	OPTVAL_FAST
 } OPT_TDTYPE;
- 
+
 typedef enum {
 	OPTVAL_MMMDDYYYY,
 	OPTVAL_MMDDYYYY,
 	OPTVAL_DDMMMYYYY,
 	OPTVAL_DDMMYYYY
 } OPT_DATETYPE;
+
+typedef enum {
+	OPTVAL_STEP,
+	OPTVAL_NEAREST,
+	OPTVAL_BILINEAR,
+	OPTVAL_TRILINEAR
+} OPT_MELEEZOOM;
 
 /* At the moment, CONTROL_TEMPLATE is directly in this structure.  If
  * CONTROL_TEMPLATE and the options available diverge, this will need
@@ -100,12 +107,13 @@ typedef struct globalopts_struct {
 	OPT_AQUALITYTYPE aquality;
 	OPT_TDTYPE tdType; // Serosis
 	OPT_DATETYPE dateType; // Serosis
+	OPT_MELEEZOOM meleezoom;
 	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo, music3do, musicremix, speech, keepaspect,
 		cheatMode, godMode, bubbleWarp, unlockShips, headStart, unlockUpgrades, infiniteRU, skipIntro, // Serosis: except for cheatMode = JMS
 		mainMenuMusic, nebulae, orbitingPlanets, texturedPlanets, // JMS
 		infiniteFuel, partialPickup, submenu, addDevices, scalePlanets, customBorder, spaceMusic,	// Serosis
 		volasMusic, directionalJoystick, wholeFuel; // Serosis
-	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, meleezoom, shield;
+	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, shield;
 	CONTROL_TEMPLATE player1, player2;
 	int speechvol, musicvol, sfxvol;
 	int gamma, customSeed;
