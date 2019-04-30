@@ -259,6 +259,7 @@ while (--ac > 0)
 		if (LastActivity == (CHECK_LOAD | CHECK_RESTART)){
 			AskNameForCaptainAndShip();
 			newGameSeed = optCustomSeed;
+			printf("New Game Seed: %d\n", newGameSeed);
 		}
 
 #if defined(ANDROID) || defined(__ANDROID__)
