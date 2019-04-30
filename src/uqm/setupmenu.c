@@ -83,7 +83,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       11
 #define LABEL_COUNT         4
-#define TEXTENTRY_COUNT     1
+#define TEXTENTRY_COUNT     2
 #define CONTROLENTRY_COUNT  7
 
 /* The space for our widgets */
@@ -197,6 +197,9 @@ static WIDGET *cheat_widgets[] = {
 static WIDGET *keyconfig_widgets[] = {
 	(WIDGET *)(&choices[18]),	// Bottom Player
 	(WIDGET *)(&choices[19]),	// Top Player
+#if defined(ANDROID) || defined(__ANDROID__)
+	(WIDGET *)(&choices[49]),	// Android: Directional Joystick toggle
+#endif
 	(WIDGET *)(&labels[1]),
 	(WIDGET *)(&buttons[8]),	// Edit Controls
 	(WIDGET *)(&buttons[1]),
@@ -214,9 +217,7 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[41]),	// Submenu switch
 	(WIDGET *)(&choices[45]),	// Custom Border switch
 	(WIDGET *)(&choices[48]),	// Whole Fuel Value switch
-#if defined(ANDROID) || defined(__ANDROID__)
-	(WIDGET *)(&choices[49]),	// Android: Directional Joystick toggle
-#endif
+	(WIDGET *)(&textentries[1]),// Custom Seed entry
 	(WIDGET *)(&buttons[1]),	
 	NULL };
 
@@ -359,12 +360,21 @@ do_keyconfig (WIDGET *self, int event)
 	return FALSE;
 }
 
+static void
+populate_seed(void)
+{	
+	sprintf(textentries[1].value, "%d", optCustomSeed); 
+	if (optCustomSeed <= 1 || optCustomSeed >= 2147483646)
+		optCustomSeed = PrimeA;
+}
+
 static int
 do_advanced (WIDGET *self, int event)
 {
 	if (event == WIDGET_EVENT_SELECT)
 	{
 		next = (WIDGET *)(&menus[6]);
+		populate_seed();
 		(*next->receiveFocus) (next, WIDGET_EVENT_DOWN);
 		return TRUE;
 	}
@@ -436,6 +446,16 @@ rename_template (WIDGET_TEXTENTRY *self)
 	   reworking of widgets */
 	strncpy (input_templates[choices[20].selected].name, self->value, 30);
 	input_templates[choices[20].selected].name[29] = 0;
+}
+
+static void
+change_seed(WIDGET_TEXTENTRY *self)
+{
+	int NewSeed = atoi(self->value);
+	if (NewSeed <= 1 || NewSeed >= 2147483646)
+		optCustomSeed = PrimeA;
+	else
+		optCustomSeed = atoi(self->value);
 }
 
 #define NUM_STEPS 20
@@ -1257,6 +1277,7 @@ init_widgets (void)
 		textentries[i].value[textentries[i].maxlen] = 0;
 	}
 	textentries[0].onChange = rename_template;
+	textentries[1].onChange = change_seed;
 
 	/* Control Entry boxes */
 	if (index >= count)
