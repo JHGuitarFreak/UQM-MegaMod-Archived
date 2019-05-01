@@ -257,7 +257,7 @@ bin/config/*
 !bin/content/version
 !bin/content/addons
 bin/content/addons/*
-bin/content/packages/[^.]*
+bin/content/packages
 UQM-MegaMod.zip
 build.vars
 config.state
