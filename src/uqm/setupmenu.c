@@ -150,7 +150,7 @@ static WIDGET *engine_widgets[] = {
 	(WIDGET *)(&choices[22]),	// Speech
 	(WIDGET *)(&choices[8]),	// Subtitles
 #if defined(ANDROID) || defined(__ANDROID__)
-	(WIDGET *)(&choices[50]),	// Melee Zoom Android
+	(WIDGET *)(&choices[50]),	// Android: Melee Zoom
 #else
 	(WIDGET *)(&choices[13]),	// Melee Zoom
 #endif
@@ -1257,14 +1257,10 @@ init_widgets (void)
 		textentries[i].maxlen = WIDGET_TEXTENTRY_WIDTH-1;
 		textentries[i].state = WTE_NORMAL;
 		textentries[i].cursor_pos = 0;
+		textentries[i].tooltip[0] = "";
+		textentries[i].tooltip[1] = "";
+		textentries[i].tooltip[2] = "";
 	}
-
-	if (index >= count)
-	{
-		log_add (log_Fatal, "PANIC: String table cut short while reading text entries");
-		exit (EXIT_FAILURE);
-	}
-
 	if (SplitString (GetStringAddress (SetAbsStringTableIndex (SetupTab, index++)), '\n', 100, buffer, bank) != TEXTENTRY_COUNT)
 	{
 		/* TODO: Ignore extras instead of dying. */
@@ -1273,9 +1269,28 @@ init_widgets (void)
 	}
 	for (i = 0; i < TEXTENTRY_COUNT; i++)
 	{
+		int j, tipcount;
+
 		strncpy (textentries[i].value, buffer[i], textentries[i].maxlen);
 		textentries[i].value[textentries[i].maxlen] = 0;
+
+		if (index >= count)
+		{
+			log_add(log_Fatal, "PANIC: String table cut short while reading text entries");
+			exit(EXIT_FAILURE);
+		}
+		str = GetStringAddress(SetAbsStringTableIndex(SetupTab, index++));
+		tipcount = SplitString(str, '\n', 100, buffer, bank);
+		if (tipcount > 3)
+		{
+			tipcount = 3;
+		}
+		for (j = 0; j < tipcount; j++)
+		{
+			textentries[i].tooltip[j] = buffer[j];
+		}
 	}
+
 	textentries[0].onChange = rename_template;
 	textentries[1].onChange = change_seed;
 
