@@ -831,8 +831,9 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->useRemixMusic, "config.remixmusic");
 	getBoolConfigValue (&options->useSpeech, "config.speech");
 
-	if (res_IsInteger("config.smoothmelee") && !&options->meleeScale.set) {
+	if (res_IsInteger("config.smoothmelee") && !options->meleeScale.set) {
 		options->meleeScale.value = res_GetInteger("config.smoothmelee");
+		options->meleeScale.set = true;
 	}
 
 	getListConfigValue (&options->soundDriver, "config.audiodriver",
