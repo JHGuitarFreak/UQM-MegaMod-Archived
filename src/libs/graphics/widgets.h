@@ -157,6 +157,7 @@ typedef struct _widget_textentry {
 	int maxlen;
 	WIDGET_TEXTENTRY_STATE state;
 	int cursor_pos;
+	const char *tooltip[3];
 } WIDGET_TEXTENTRY;
 
 typedef struct _widget_controlentry {

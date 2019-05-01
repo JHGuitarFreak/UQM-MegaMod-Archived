@@ -513,6 +513,7 @@ Widget_DrawTextEntry (WIDGET *_self, int x, int y)
 	t.pStr = self->category;
 	if (widget_focus == _self)
 	{
+		Widget_DrawToolTips(3, self->tooltip);
 		oldtext = SetContextForeGroundColor (selected);
 	}
 	else
