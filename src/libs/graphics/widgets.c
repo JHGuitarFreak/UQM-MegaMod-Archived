@@ -40,6 +40,8 @@ WIDGET *widget_focus = NULL;
 		BUILD_COLOR (MAKE_RGB15 (0x00, 0x18, 0x00), 0x00)
 #define WIDGET_DISABLED_COLOR \
 		PCMENU_TOP_LEFT_BORDER_COLOR
+#define WIDGET_TOOLTIP_COLOR \
+		BUILD_COLOR(MAKE_RGB15(0xD2, 0xB4, 0x8C), 0x00)
 
 static Color win_bg_clr =
 		BUILD_COLOR (MAKE_RGB15_INIT (0x18, 0x18, 0x1F), 0x00);
@@ -178,7 +180,7 @@ Widget_DrawToolTips (int numlines, const char **tips)
 	RECT r;
 	FONT  oldfont = 0;
 	FRAME oldFontEffect = SetContextFontEffect (NULL);
-	Color oldtext = SetContextForeGroundColor (WIDGET_ENABLED_COLOR);
+	Color oldtext = SetContextForeGroundColor (WIDGET_TOOLTIP_COLOR);
 	TEXT t;
 	int i;
 
