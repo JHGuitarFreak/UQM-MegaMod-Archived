@@ -253,12 +253,11 @@ paket-files/
 
 # Addons directory and miscellany
 bin/config/*
-bin/content/*
+#bin/content/*
 !bin/content/version
 !bin/content/addons
-!bin/content/packages
 bin/content/addons/*
-!bin/content/packages/[^.]*
+bin/content/packages/[^.]*
 UQM-MegaMod.zip
 build.vars
 config.state
