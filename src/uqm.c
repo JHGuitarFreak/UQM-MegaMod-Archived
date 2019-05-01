@@ -856,6 +856,7 @@ getUserConfigOptions (struct options_struct *options)
 	if (res_IsInteger ("config.loresBlowupScale"))
 	{
 		options->loresBlowupScale.value = res_GetInteger ("config.loresBlowupScale");
+		options->loresBlowupScale.set = true;
 	}
 
 	getBoolConfigValue (&options->cheatMode, "cheat.kohrStahp"); // JMS
@@ -893,7 +894,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue(&options->volasMusic, "config.volasMusic");
 	getBoolConfigValue(&options->wholeFuel, "config.wholeFuel");
 	// For Android
-	getBoolConfigValue (&options->directionalJoystick, "config.directionaljoystick");
+	getBoolConfigValue (&options->directionalJoystick, "config.directionalJoystick");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
