@@ -1,0 +1,26 @@
+#(Load font)
+FONT 0 base/fonts/starcon.fon
+
+#(... and BG)
+TBC 000000
+
+#(Load movie)
+ANI1X base/cutscene/logo/logo.ani
+
+#(Load movie)
+ANI4X base/cutscene/logo/logo4x/logo.ani
+
+#(Take up entire screen)
+DIMS 320 240
+
+#(Fade out)
+FTB 250
+
+#(Draw first frame)
+DRAW 0
+
+#(Draw first frame)
+DRAW 1
+
+#(Fade in)
+FTC 250

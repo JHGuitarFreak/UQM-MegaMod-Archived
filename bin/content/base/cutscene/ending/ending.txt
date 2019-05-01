@@ -1,0 +1,24 @@
+#(=========== This is the PC ending script =========================)
+
+#(**** This script is a wrapper for 3 sequences ****)
+
+#(Clear entire screen first; set size...)
+DIMS 320 240
+
+#(... and clear)
+CLS
+
+#(Set sequence dimensions; param1=width; param2=height)
+DIMS 320 200
+#(Everything is drawn within the clipping rect defined by DIMS, from 0, 0)
+
+#(Sequence 1 -- position the bomb)
+CALL base/cutscene/ending/victory1.txt
+
+#(Sequence 2 -- blow it up!)
+CALL base/cutscene/ending/victory2.txt
+
+#(Sequence 3 -- final slide show)
+CALL base/cutscene/ending/final.txt
+
+#(***************************** The End ********************************)

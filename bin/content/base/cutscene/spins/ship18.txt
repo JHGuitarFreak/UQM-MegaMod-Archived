@@ -1,0 +1,29 @@
+#(Load font)
+FONT 0 base/fonts/starcon.fon
+
+#(... and BG)
+TBC 000000
+
+#(Load movie)
+ANI1X base/cutscene/spins/ship18.ani
+
+#(Load movie)
+ANI4X addons/mm-hires4x/cutscene/spins/ship18.ani
+
+#(Take up entire screen)
+DIMS 320 240
+
+#(Fade out)
+FTB 250
+
+#(Draw first frame)
+DRAW 0
+
+#(Draw first frame)
+DRAW 1
+
+#(Fade in)
+FTC 250
+
+#(Wait for five minutes, or keypress)
+WAIT 300000
