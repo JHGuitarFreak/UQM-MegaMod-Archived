@@ -494,7 +494,7 @@ TFB_SetOnScreenKeyboard_Menu(void) {
 	TFB_SetOnScreenKeyboard_Hidden();
 	SDL_Rect b;
 	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_DPAD, &SDL_LeftJoystickRect);
-	/* SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_TEXT, &SDL_TextInputRect); */
+	SDL_ANDROID_SetScreenKeyboardButtonPos(SDL_ANDROID_SCREENKEYBOARD_BUTTON_TEXT, &SDL_TextInputRect);
 	b.w = SDL_RightJoystickRect.w / 2;
 	b.h = SDL_RightJoystickRect.h / 2;
 	b.x = SDL_RightJoystickRect.x + b.w;
