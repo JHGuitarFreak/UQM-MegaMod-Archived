@@ -172,6 +172,9 @@ FeedbackSetting (BYTE which_setting)
 #define DDSHS_EDIT     1
 #define DDSHS_BLOCKCUR 2
 
+static RECT captainNameRect;
+static RECT shipNameRect;
+
 static BOOLEAN
 DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 		COUNT state)
@@ -182,17 +185,17 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 	FONT Font;
 
 	{
-		r.extent.height = SHIP_NAME_HEIGHT;
+		captainNameRect.extent.height = shipNameRect.extent.height = SHIP_NAME_HEIGHT;
 
 		if (nameCaptain)
 		{	// Naming the captain
 			Font = TinyFont;
-			r.corner.x = RES_STAT_SCALE(3) - IF_HD(5); // JMS_GFX
-			r.corner.y = RES_BOOL(10, 32); // JMS_GFX
-			r.extent.width = SHIP_NAME_WIDTH - RES_BOOL(2, 0);		// JMS_GFX
-			r.extent.height += RESOLUTION_FACTOR; // JMS_GFX
+			captainNameRect.corner.x = RES_STAT_SCALE(3) - IF_HD(5); // JMS_GFX
+			captainNameRect.corner.y = RES_BOOL(10, 32); // JMS_GFX
+			captainNameRect.extent.width = SHIP_NAME_WIDTH - RES_BOOL(2, 0);		// JMS_GFX
+			captainNameRect.extent.height += RESOLUTION_FACTOR; // JMS_GFX
+			r = captainNameRect;
 			lf.baseline.x = (STATUS_WIDTH >> 1) - RES_BOOL(1, -1);
-			lf.baseline.y = r.corner.y + r.extent.height - RES_BOOL(1, 3);
 
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x1F), 0x09);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x0A, 0x1F, 0x1F), 0x0B);
@@ -200,16 +203,17 @@ DrawNameString (bool nameCaptain, UNICODE *Str, COUNT CursorPos,
 		else
 		{	// Naming the flagship
 			Font = StarConFont;
-			r.corner.x = RES_BOOL(2, 5); // JMS_GFX
-			r.corner.y = RES_BOOL(20, 63); // JMS_GFX
-			r.extent.width = SHIP_NAME_WIDTH;
-			r.extent.height += IF_HD(1); // JMS_GFX
+			shipNameRect.corner.x = RES_BOOL(2, 5); // JMS_GFX
+			shipNameRect.corner.y = RES_BOOL(20, 63); // JMS_GFX
+			shipNameRect.extent.width = SHIP_NAME_WIDTH;
+			shipNameRect.extent.height += IF_HD(1); // JMS_GFX
+			r = shipNameRect;
 			lf.baseline.x = r.corner.x + (r.extent.width >> 1);
-			lf.baseline.y = r.corner.y + r.extent.height - RES_BOOL(1, 3); // JMS_GFX
 
 			BackGround = BUILD_COLOR (MAKE_RGB15 (0x0F, 0x00, 0x00), 0x2D);
 			ForeGround = BUILD_COLOR (MAKE_RGB15 (0x1F, 0x0A, 0x00), 0x7D);
 		}
+		lf.baseline.y = r.corner.y + r.extent.height - RES_BOOL(1, 3);
 		lf.align = ALIGN_CENTER;
 	}
 
@@ -350,9 +354,9 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 		font_DrawText (&t);
 	}
 
-	SetFlashRect (NULL);
-
 	DrawNameString (nameCaptain, buf, CursPos, DDSHS_EDIT);
+
+	SetFlashRect(nameCaptain ? &captainNameRect : &shipNameRect);
 
 	if (!gamestart) {
 		DrawStatusMessage (GAME_STRING (NAMING_STRING_BASE + 0));
