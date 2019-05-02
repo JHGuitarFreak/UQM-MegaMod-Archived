@@ -356,19 +356,18 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 
 	DrawNameString (nameCaptain, buf, CursPos, DDSHS_EDIT);
 
+	if (!gamestart)
+		DrawBorder(nameCaptain ? 6 : 11, false);
+
 	SetFlashRect(nameCaptain ? &captainNameRect : &shipNameRect);
 
-	if (!gamestart) {
+	if (!gamestart)
 		DrawStatusMessage (GAME_STRING (NAMING_STRING_BASE + 0));
-	}
 
-	if (nameCaptain)
-	{
+	if (nameCaptain) {
 		Setting = GLOBAL_SIS (CommanderName);
 		tes.MaxSize = sizeof (GLOBAL_SIS (CommanderName));
-	}
-	else
-	{
+	} else {
 		Setting = GLOBAL_SIS (ShipName);
 		tes.MaxSize = sizeof (GLOBAL_SIS (ShipName));
 	}
