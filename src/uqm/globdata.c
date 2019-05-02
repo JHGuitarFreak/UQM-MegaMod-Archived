@@ -512,8 +512,7 @@ InitGameStructures (void)
 
 	utf8StringCopy (GLOBAL_SIS (ShipName), sizeof (GLOBAL_SIS (ShipName)),
 			GAME_STRING (NAMING_STRING_BASE + 2));
-	utf8StringCopy (GLOBAL_SIS (CommanderName),
-			sizeof (GLOBAL_SIS (CommanderName)),
+	utf8StringCopy (GLOBAL_SIS (CommanderName), sizeof (GLOBAL_SIS (CommanderName)),
 			GAME_STRING (NAMING_STRING_BASE + 3));
 
 	SetRaceAllied (HUMAN_SHIP, TRUE);
@@ -530,7 +529,7 @@ InitGameStructures (void)
 	CurStarDescPtr = 0;
 	GLOBAL (autopilot.x) = ~0;
 	GLOBAL (autopilot.y) = ~0;
-	if (optHeadStart) {
+	if (optHeadStart && newGameSeed == PrimeA) {
 		// Start at Earth when Head Start is enabled
 		GLOBAL(ShipFacing) = 1;
 		GLOBAL(ip_location.x) = -725;
