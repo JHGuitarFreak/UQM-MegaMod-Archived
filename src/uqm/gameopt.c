@@ -394,7 +394,8 @@ NameCaptainOrShip (bool nameCaptain, bool gamestart)
 		SetContext (ScreenContext);
 		DrawStarConBox (&r, 2,
 			BLACK_COLOR, BLACK_COLOR, TRUE, BLACK_COLOR);
-	}
+	} else
+		DeltaSISGauges(UNDEFINED_DELTA, UNDEFINED_DELTA, UNDEFINED_DELTA);
 
 	SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);
 }
