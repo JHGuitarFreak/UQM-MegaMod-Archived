@@ -90,7 +90,7 @@ GenerateUtwig_generatePlanets (SOLARSYS_STATE *solarSys)
 		solarSys->SunDesc[0].PlanetByte = 0;
 
 		if(!PrimeSeed){
-			solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+			solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (MAX_GEN_PLANETS - 1) + 1);
 		}
 
 		FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
@@ -112,14 +112,14 @@ GenerateUtwig_generatePlanets (SOLARSYS_STATE *solarSys)
 		} else {			
 			solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
 			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = planetArray[RandomContext_Random (SysGenRNG) % 2];
-			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (4 - 1) + 1);
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (MAX_GEN_MOONS - 1) + 1);
 		}
 	} else if (CurStarDescPtr->Index == BOMB_DEFINED) {		
 		solarSys->SunDesc[0].PlanetByte = 5;		
 		solarSys->SunDesc[0].MoonByte = 1;
 
 		if(!PrimeSeed){
-			solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 6) + 6);
+			solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (MAX_GEN_PLANETS - 6) + 6);
 		}
 
 		FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);

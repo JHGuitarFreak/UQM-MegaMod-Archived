@@ -236,7 +236,7 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 			if (solTexturesPresent)
 				solarSys->MoonDesc[1].alternate_colormap = LUNA_COLOR_TAB;
 			solarSys->MoonDesc[1].radius = MIN_MOON_RADIUS
-					+ (MAX_MOONS - 1) * MOON_DELTA;
+					+ (4 - 1) * MOON_DELTA;
 			rand_val = RandomContext_Random (SysGenRNG);
 			angle = NORMALIZE_ANGLE (LOWORD (rand_val));
 			solarSys->MoonDesc[1].location.x =

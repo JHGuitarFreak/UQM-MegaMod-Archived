@@ -338,7 +338,7 @@ GenerateMoons (SOLARSYS_STATE *system, PLANET_DESC *planet)
 	old_seed = RandomContext_SeedRandom (SysGenRNG, planet->rand_seed);
 
 	for (i = 0, pMoonDesc = &system->MoonDesc[0];
-			i < MAX_MOONS; ++i, ++pMoonDesc)
+			i < MAX_GEN_MOONS; ++i, ++pMoonDesc)
 	{
 		pMoonDesc->pPrevDesc = planet;
 		if (i >= planet->NumPlanets)
@@ -1301,7 +1301,7 @@ ProcessShipControls (void)
 static void
 enterInnerSystem (PLANET_DESC *planet)
 {
-#define INNER_ENTRY_DISTANCE  (MIN_MOON_RADIUS + ((MAX_MOONS - 1) \
+#define INNER_ENTRY_DISTANCE  (MIN_MOON_RADIUS + ((MAX_GEN_MOONS - 1) \
 		* MOON_DELTA) + (MOON_DELTA / 4))
 	COUNT angle;
 

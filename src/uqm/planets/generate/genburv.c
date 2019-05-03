@@ -63,7 +63,7 @@ GenerateBurvixese_generatePlanets (SOLARSYS_STATE *solarSys)
 	solarSys->SunDesc[0].MoonByte = 0;
 
 	if(!PrimeSeed){
-		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (9 - 1) + 1);
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (MAX_GEN_PLANETS - 1) + 1);
 	}
 
 	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
@@ -108,7 +108,7 @@ GenerateBurvixese_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 
 		if (PrimeSeed){
 			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].radius = MIN_MOON_RADIUS
-					+ (MAX_MOONS - 1) * MOON_DELTA;
+					+ (MAX_GEN_MOONS - 1) * MOON_DELTA;
 			rand_val = RandomContext_Random (SysGenRNG);
 			angle = NORMALIZE_ANGLE (LOWORD (rand_val));
 			solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].location.x =
