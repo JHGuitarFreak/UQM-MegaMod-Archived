@@ -475,7 +475,7 @@ void ComputeSpeed(PLANET_DESC *planet, BOOLEAN GeneratingMoons, UWORD rand_val)
 	//BW : empiric values, which would give roughly correct
 	// rotation periods for most moons in the solar system
 	if (GeneratingMoons) {
-		planet->orb_speed = FULL_CIRCLE / (29 * pow((double)planet->radius / (MIN_MOON_RADIUS + (MAX_MOONS - 1) * MOON_DELTA), 1.5));
+		planet->orb_speed = FULL_CIRCLE / (29 * pow((double)planet->radius / (MIN_MOON_RADIUS + (MAX_GEN_MOONS - 1) * MOON_DELTA), 1.5));
 		if ((planet->pPrevDesc->data_index & ~PLANET_SHIELDED) >= FIRST_GAS_GIANT)
 			planet->orb_speed *= 2;
 		if (!(rand_val % 7))
@@ -514,14 +514,13 @@ char scolor[] = {'B', 'G', 'O', 'R', 'W', 'Y'};
 
 	if (NumPlanets == (BYTE)~0)
 	{
-#define MAX_GENERATED_PLANETS 9
 		// XXX: This is pretty funny. Instead of calling RNG once, like so:
 		//     1 + Random % MAX_GENERATED_PLANETS
 		//   we spin in a loop until the result > 0.
 		//   Note that this behavior must be kept to preserve the universe.
 		do
 			NumPlanets = LOWORD (RandomContext_Random (SysGenRNG))
-					% (MAX_GENERATED_PLANETS + 1);
+					% (MAX_GEN_PLANETS + 1);
 		while (NumPlanets == 0);
 		system->SunDesc[0].NumPlanets = NumPlanets;
 	}
@@ -534,7 +533,7 @@ char scolor[] = {'B', 'G', 'O', 'R', 'W', 'Y'};
 #endif /* DEBUG_ORBITS */
 	GeneratingMoons = (BOOLEAN) (pBaseDesc == system->MoonDesc);
 	if (GeneratingMoons)
-		MaxPlanet = FIRST_LARGE_ROCKY_WORLD;
+		MaxPlanet = (PrimeSeed ? FIRST_LARGE_ROCKY_WORLD : LAST_LARGE_ROCKY_WORLD);
 	else
 		MaxPlanet = NUMBER_OF_PLANET_TYPES;
 	PlanetCount = NumPlanets;
@@ -590,7 +589,7 @@ RelocatePlanet:
 		if (GeneratingMoons)
 		{
 			pPD->radius = MIN_MOON_RADIUS
-					+ ((LOWORD (rand_val) % MAX_MOONS) * MOON_DELTA);
+				+ ((LOWORD(rand_val) % MAX_GEN_MOONS) * MOON_DELTA);
 			for (pLocPD = pPD - 1; pLocPD >= pBaseDesc; --pLocPD)
 			{
 				if (pPD->radius == pLocPD->radius)
@@ -622,9 +621,9 @@ RelocatePlanet:
 		pPD->location.x = COSINE (pPD->angle, pPD->radius);
 		pPD->location.y = SINE (pPD->angle, pPD->radius);
 		if (GeneratingMoons) {
-		pPD->rand_seed = MAKE_DWORD (
-		     COSINE (pPD->angle, RES_DESCALE(pPD->radius)),
-		     SINE (pPD->angle, RES_DESCALE(pPD->radius)));
+			pPD->rand_seed = MAKE_DWORD (
+				 COSINE (pPD->angle, RES_DESCALE(pPD->radius)),
+				 SINE (pPD->angle, RES_DESCALE(pPD->radius)));
 		} else {
 			pPD->rand_seed = MAKE_DWORD (pPD->location.x, pPD->location.y);
 		}
