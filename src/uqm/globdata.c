@@ -529,13 +529,11 @@ InitGameStructures (void)
 	CurStarDescPtr = 0;
 	GLOBAL (autopilot.x) = ~0;
 	GLOBAL (autopilot.y) = ~0;
-	if (optHeadStart && newGameSeed == PrimeA) {
+	if (optHeadStart && PrimeSeed) {
 		// Start at Earth when Head Start is enabled
 		GLOBAL(ShipFacing) = 1;
-		GLOBAL(ip_location.x) = -725;
-		GLOBAL(ip_location.y) = 597;
-		GLOBAL(ShipStamp.origin.x) = 121;
-		GLOBAL(ShipStamp.origin.y) = 113;
+		GLOBAL(ip_location.x) = -475;
+		GLOBAL(ip_location.y) = 402;
 	}
 
 	return (TRUE);
