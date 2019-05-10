@@ -579,8 +579,8 @@ void GenerateTexturedPlanets (void)
 				case 8: /* PLUTO */
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_PLUTO_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 119;
-					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 1533;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 122;
+					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 1532;
 					break;
 			}
 		}
