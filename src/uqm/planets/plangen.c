@@ -32,9 +32,10 @@
 #include "libs/mathlib.h"
 #include "libs/log.h"
 #include "libs/memlib.h"
+#include "../starmap.h"
+#include "../gendef.h"
 #include <math.h>
 #include <time.h>
-
 
 #undef PROFILE_ROTATION
 
@@ -1979,7 +1980,10 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	if (PLANALGO (PlanDataPtr->Type) != GAS_GIANT_ALGO)
 	{	// convert topo data to a light map, based on relative
 		// map point elevations
-		GenerateLightMap (Orbit->lpTopoData, Width, Height);
+		if (solTexturesPresent && CurStarDescPtr->Index == SOL_DEFINED)
+			memset(Orbit->lpTopoData, 0, Width * Height);
+		else
+			GenerateLightMap(Orbit->lpTopoData, Width, Height);
 	}
 	else
 	{	// gas giants are pretty much flat
