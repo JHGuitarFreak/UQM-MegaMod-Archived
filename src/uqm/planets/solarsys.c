@@ -529,8 +529,8 @@ void GenerateTexturedPlanets (void)
 				case 0: /* MERCURY */
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_MERCURY_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 3;
-					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 59 * 240;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 2;
+					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 175.942 * 240;
 					break;
 				case 1: /* VENUS */
 					if (solTexturesPresent)
@@ -580,7 +580,7 @@ void GenerateTexturedPlanets (void)
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_PLUTO_MASK_ANIM));
 					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 122;
-					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 1532;
+					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 6.387 * 240;
 					break;
 			}
 		}
