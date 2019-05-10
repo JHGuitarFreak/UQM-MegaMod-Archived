@@ -439,16 +439,16 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 							LoadStringTable (SPAPLUTO_STRTAB));
 				}
 
-				solarSys->SysInfo.PlanetInfo.AtmoDensity = 0;
-				solarSys->SysInfo.PlanetInfo.PlanetDensity = 33;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1; // Should be 0.45
+				solarSys->SysInfo.PlanetInfo.PlanetDensity = 22;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 18;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 119;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 122;
 				solarSys->SysInfo.PlanetInfo.Weather = 0;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 1533;
-				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -235;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 1532;
+				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -223;
 				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
-						EARTH_RADIUS * 3937L / 100;
+						EARTH_RADIUS * 3948.2L / 100;
 				break;
 		}
 
