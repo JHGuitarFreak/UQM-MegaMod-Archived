@@ -161,29 +161,21 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 				break;
 			case 4: /* JUPITER */
 				pCurDesc->data_index = RED_GAS_GIANT;
-				if (solTexturesPresent)
-					pCurDesc->alternate_colormap = JUPITER_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 500L /* 520L */ / 100;
 				pCurDesc->NumPlanets = 4;
 				break;
 			case 5: /* SATURN */
 				pCurDesc->data_index = ORA_GAS_GIANT;
-				if (solTexturesPresent)
-					pCurDesc->alternate_colormap = SATURN_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 750L /* 952L */ / 100;
 				pCurDesc->NumPlanets = 1;
 				break;
 			case 6: /* URANUS */
 				pCurDesc->data_index = GRN_GAS_GIANT;
-				if (solTexturesPresent)
-					pCurDesc->alternate_colormap = URANUS_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 1000L /* 1916L */ / 100;
 				pCurDesc->NumPlanets = 0;
 				break;
 			case 7: /* NEPTUNE */
 				pCurDesc->data_index = BLU_GAS_GIANT;
-				if (solTexturesPresent)
-					pCurDesc->alternate_colormap = NEPTUNE_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * 1250L /* 2999L */ / 100;
 				pCurDesc->NumPlanets = 1;
 				break;
