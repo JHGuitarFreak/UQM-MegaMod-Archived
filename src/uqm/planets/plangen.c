@@ -460,7 +460,7 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 			
 			da = atan2 ((double)y, (double)x);
 			// compute the planet-tilt
-			da += M_DEG2RAD * angle;
+			da += M_DEG2RAD * -angle;
 			dx = rad * cos (da);
 			dy = rad * sin (da);
 
@@ -1731,6 +1731,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
 	BOOLEAN SurfDef = FALSE;
 	BOOLEAN shielded = (pPlanetDesc->data_index & PLANET_SHIELDED) != 0;
+	SDWORD PlanetRotation = (CurStarDescPtr->Index == SOL_DEFINED ? -1 : 1 - 2 * (PlanetInfo->AxialTilt & 1));
 	
 	SphereSpanX = (inOrbit ? SPHERE_SPAN_X : Height);
 	Radius = (inOrbit ? RADIUS : ((SphereSpanX >> 1) - RESOLUTION_FACTOR)) ;
@@ -2005,10 +2006,10 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	CreateSphereTiltMap (PlanetInfo->AxialTilt, Height, Radius);
 	if (shielded)
 		Orbit->ObjectFrame = CreateShieldMask (Radius);
-	InitSphereRotation (1 - 2 * (PlanetInfo->AxialTilt & 1), shielded, Width, Height);
+	InitSphereRotation (PlanetRotation, shielded, Width, Height);
 
 	if (!inOrbit){
-		pPlanetDesc->rotDirection = 1 - 2 * (PlanetInfo->AxialTilt & 1);
+		pPlanetDesc->rotDirection = PlanetRotation;
 		pPlanetDesc->rotwidth = Width;
 		pPlanetDesc->rotheight = Height;
 		pPlanetDesc->rotFrameIndex = 0;
