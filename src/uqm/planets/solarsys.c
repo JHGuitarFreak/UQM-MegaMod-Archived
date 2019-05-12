@@ -308,6 +308,15 @@ GenerateTexturedMoons (SOLARSYS_STATE *system, PLANET_DESC *planet)
 							pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 4300;
 							break;
 					}
+				} else if (curr_planet_index == 8) {
+					// PLUTO
+					switch (i) {
+						case 0: /* CHARON */
+							if (solTexturesPresent)
+								SurfFrame = CaptureDrawable (LoadGraphic (IP_CHARON_MASK_ANIM));
+							pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 4300;
+							break;
+					}
 				}
 			}
 
@@ -2535,6 +2544,10 @@ GetNamedPlanetaryBody (void)
 			case 7: // Neptune
 				if (moon == 0) // Triton
 					return GAME_STRING (PLANET_NUMBER_BASE + 15);
+				break;
+			case 8: // Pluto
+				if (moon == 0) // Charon
+					return GAME_STRING (PLANET_NUMBER_BASE + 34);
 				break;
 		}
 	}

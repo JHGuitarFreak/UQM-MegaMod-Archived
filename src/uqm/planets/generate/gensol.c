@@ -45,6 +45,8 @@ static COUNT GenerateSol_generateEnergy (const SOLARSYS_STATE *,
 		const PLANET_DESC *world, COUNT whichNode, NODE_INFO *);
 static COUNT GenerateSol_generateLife (const SOLARSYS_STATE *,
 		const PLANET_DESC *world, COUNT whichNode, NODE_INFO *);
+static COUNT GenerateSol_generateMinerals (const SOLARSYS_STATE *,
+		const PLANET_DESC *world, COUNT whichNode, NODE_INFO *);
 static bool GenerateSol_pickupEnergy (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world, COUNT whichNode);
 
@@ -60,7 +62,7 @@ const GenerateFunctions generateSolFunctions = {
 	/* .generateMoons    = */ GenerateSol_generateMoons,
 	/* .generateName     = */ GenerateSol_generateName,
 	/* .generateOrbital  = */ GenerateSol_generateOrbital,
-	/* .generateMinerals = */ GenerateDefault_generateMinerals,
+	/* .generateMinerals = */ GenerateSol_generateMinerals,
 	/* .generateEnergy   = */ GenerateSol_generateEnergy,
 	/* .generateLife     = */ GenerateSol_generateLife,
 	/* .pickupMinerals   = */ GenerateDefault_pickupMinerals,
@@ -184,7 +186,7 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 				if (solTexturesPresent)
 					pCurDesc->alternate_colormap = PLUTO_COLOR_TAB;
 				pCurDesc->radius = EARTH_RADIUS * (39.482 / 2.5); // 1550L /* 3937 */ / 100;
-				pCurDesc->NumPlanets = 0;
+				pCurDesc->NumPlanets = 1;
 				if(PrimeSeed)
 					pCurDesc->angle = FULL_CIRCLE - OCTANT;
 				break;
@@ -264,8 +266,8 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 			solarSys->MoonDesc[0].data_index = ALKALI_WORLD;
 			if (solTexturesPresent)
 				solarSys->MoonDesc[0].alternate_colormap = TITAN_COLOR_TAB;
-			/*solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS
-					+ (MAX_MOONS - 1) * MOON_DELTA;*/
+			solarSys->MoonDesc[0].radius = MIN_MOON_RADIUS
+					+ (MAX_MOONS - 1) * MOON_DELTA;
 			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / 15.95;
 					/* Titan */
 			break;
@@ -274,7 +276,14 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 			if (solTexturesPresent)
 				solarSys->MoonDesc[0].alternate_colormap = TRITON_COLOR_TAB;
 			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / -5.88;
-					/* Triton */
+			/* Triton */
+			break;
+		case 8: /* moon of PLUTO */
+			solarSys->MoonDesc[0].data_index = PURPLE_WORLD;
+			if (solTexturesPresent)
+				solarSys->MoonDesc[0].alternate_colormap = CHARON_COLOR_TAB;
+			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / -5.88;
+			/* Triton */
 			break;
 	}
 
@@ -585,6 +594,18 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = 4300;
 				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -216;
 				break;
+
+			case 8: /* moon of PLUTO: Charon */
+				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
+					EARTH_RADIUS * 2999L / 100;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity = 10;
+				solarSys->SysInfo.PlanetInfo.Weather = 1;
+				solarSys->SysInfo.PlanetInfo.PlanetDensity = 95;
+				solarSys->SysInfo.PlanetInfo.PlanetRadius = 27;
+				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 4300;
+				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -216;
+				break;
 		}
 
 		/*solarSys->SysInfo.PlanetInfo.SurfaceGravity =
@@ -618,8 +639,11 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 					LoadPlanet (CaptureDrawable (LoadGraphic (TITAN_MASK_ANIM)));
 					break;
 				case 7: /* moon of NEPTUNE: Triton */
-				default:
 					LoadPlanet (CaptureDrawable (LoadGraphic (TRITON_MASK_ANIM)));
+					break;
+				case 8: /* moon of PLUTO: Charon */
+				default:
+					LoadPlanet (CaptureDrawable (LoadGraphic (CHARON_MASK_ANIM)));
 					break;
 			}
 		} else			
@@ -627,6 +651,19 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 	}
 
 	return true;
+}
+
+COUNT
+GenerateSol_generateMinerals(const SOLARSYS_STATE *solarSys,
+	const PLANET_DESC *world, COUNT whichNode, NODE_INFO *info)
+{
+	if (matchWorld (solarSys, world, 8, 0)) {
+		/* Charon */
+		return 0;
+	} else
+		return GenerateMineralDeposits(&solarSys->SysInfo, whichNode, info);
+
+	(void)world;
 }
 
 static COUNT
