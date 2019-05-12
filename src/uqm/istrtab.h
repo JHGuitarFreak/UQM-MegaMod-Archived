@@ -22,6 +22,7 @@
 #define CALLISTO_COLOR_TAB "planet.callisto.colortable"
 #define CARBIDE_COLOR_TAB "planet.carbide.colortable"
 #define CARBIDE_XLAT_TAB "planet.carbide.translatetable"
+#define CHARON_COLOR_TAB "planet.charon.colortable"
 #define CHLORINE_COLOR_TAB "planet.chlorine.colortable"
 #define CHLORINE_XLAT_TAB "planet.chlorine.translatetable"
 #define CHMMR_BASE_STRTAB "text.chmmrbase"
