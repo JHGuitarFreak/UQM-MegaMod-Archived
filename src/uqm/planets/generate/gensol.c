@@ -127,8 +127,8 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 		BOOLEAN RealSol = optRealisticSol;
 		double mxInner, mxOuter;
 
-		mxInner = 2.24;
-		mxOuter = 2.35; 
+		mxInner = 2.3;
+		mxOuter = 2.47; 
 
 		pCurDesc->rand_seed = RandomContext_Random (SysGenRNG);
 		rand_val = pCurDesc->rand_seed;
