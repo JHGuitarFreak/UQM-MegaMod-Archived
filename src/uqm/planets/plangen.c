@@ -431,6 +431,9 @@ CreateSphereTiltMap (int angle, COUNT height, COUNT radius)
 	const double multy = ((double)height / M_PI);
 	const double xadj = ((double)spherespanx / 2.0);
 
+	if (CurStarDescPtr->Index == SOL_DEFINED)
+		 angle = angle / 10;
+
 	for (y = -radius; y <= radius; y++)
 	{
 		int y_2 = y * y;
