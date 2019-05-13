@@ -37,6 +37,8 @@
 #include "../state.h"
 #include "../sis.h"
 #include "../save.h"
+#include "../starmap.h"
+#include "../gendef.h"
 #include "options.h"
 #include "libs/graphics/gfx_common.h"
 #include "libs/graphics/drawable.h"
@@ -156,7 +158,8 @@ PrintCoarseScanPC (void)
 	SDWORD val;
 	TEXT t;
 	RECT r;
-	UNICODE buf[200];
+	UNICODE buf[200]; 
+	double dblAxialTilt;
 
 	/* We need this for the new color-changing hazard readouts.
 	 * We initialize it to SCAN_PC_TITLE_COLOR because we'll need
@@ -352,10 +355,16 @@ PrintCoarseScanPC (void)
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE + 18),
 			RIGHT_SIDE_BASELINE_X_PC); // "Tilt: "
 	val = pSolarSysState->SysInfo.PlanetInfo.AxialTilt;
+	dblAxialTilt = (double)val / 10;
+	if (dblAxialTilt < 0)
+		dblAxialTilt = -dblAxialTilt;
 	if (val < 0)
 		val = -val;
 	t.pStr = buf;
-	sprintf (buf, "%d" STR_DEGREE_SIGN, val);
+	if(CurStarDescPtr->Index == SOL_DEFINED)
+		sprintf (buf, "%.1f" STR_DEGREE_SIGN, dblAxialTilt);
+	else
+		sprintf(buf, "%d" STR_DEGREE_SIGN, val);
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
 }

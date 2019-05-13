@@ -341,7 +341,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 0.0553 * EARTH_MASS;
 				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 100 * 0.378;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 0.383 * 100;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 2;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 0;
 				solarSys->SysInfo.PlanetInfo.Weather = 0;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 2;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = 175.942 * EARTH_HOURS;
@@ -354,7 +354,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						EARTH_ATMOSPHERE;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 95;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 95;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 177;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 1774;
 				solarSys->SysInfo.PlanetInfo.Weather = 7;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 1;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = 243 * EARTH_HOURS;
@@ -365,7 +365,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						EARTH_ATMOSPHERE;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 100;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 100;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 23;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 234;
 				solarSys->SysInfo.PlanetInfo.Weather = 1;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 1;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = EARTH_HOURS;
@@ -376,7 +376,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 72;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 53;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 24;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 252;
 				solarSys->SysInfo.PlanetInfo.Weather = 1;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 1;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = 246;
@@ -387,7 +387,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						GAS_GIANT_ATMOSPHERE;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 24;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 1120;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 3;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 310;
 				solarSys->SysInfo.PlanetInfo.Weather = 7;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = 98;
@@ -400,7 +400,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						GAS_GIANT_ATMOSPHERE;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 13;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 945;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 27;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 267;
 				solarSys->SysInfo.PlanetInfo.Weather = 7;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = 102;
@@ -413,7 +413,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						GAS_GIANT_ATMOSPHERE;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 21;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 411;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 98;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 978;
 				solarSys->SysInfo.PlanetInfo.Weather = 7;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = 172;
@@ -426,7 +426,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						GAS_GIANT_ATMOSPHERE;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 28;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 396;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 30;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 283;
 				solarSys->SysInfo.PlanetInfo.Weather = 7;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = 182;
@@ -450,7 +450,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 22;
 				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 100 * 0.063;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 18;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 122;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 1225;
 				solarSys->SysInfo.PlanetInfo.Weather = 0;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = 6.387 * EARTH_HOURS;
@@ -666,7 +666,7 @@ GenerateSol_generateMinerals(const SOLARSYS_STATE *solarSys,
 	} else
 		return GenerateMineralDeposits(&solarSys->SysInfo, whichNode, info);
 
-	(void)world;
+	//(void)world;
 }
 
 static COUNT
