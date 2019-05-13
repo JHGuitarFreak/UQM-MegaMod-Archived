@@ -5,7 +5,7 @@ The Ur-Quan Masters Setup
 
 Graphics Options
 Sound Options
-3DO/PC Options
+PC/3DO Options
 Cheat Options
 Controls Setup
 Advanced Options
@@ -64,6 +64,8 @@ Volasaurus' Remixes
 Whole Fuel Value
 Directional Joystick
 Melee Zoom
+Realistic Sol
+IP Transitions
 
 #(CAT_0_OPTS)
 Original
@@ -800,6 +802,28 @@ Resembles 3DO combat.
 #(CAT_50_OPT_3_DESC)
 Continuously scale the combat view.
 Resembles 3DO combat.
+
+#(CAT_51_OPTS)
+Classic
+Realistic
+
+#(CAT_51_OPT_0_DESC)
+Vanilla Sol orbits and planets
+
+#(CAT_51_OPT_1_DESC)
+A more realistic set of orbits and extra planets
+
+#(CAT_52_OPTS)
+Step
+Crossfade
+
+#(CAT_52_OPT_0_DESC)
+Interplanetary transitions will be instantaneous,
+as per the original PC version
+
+#(CAT_52_OPT_1_DESC)
+Interplanetary transitions will crossfade,
+as per the 3DO version
 
 #(SLIDERS)
 Music Volume
