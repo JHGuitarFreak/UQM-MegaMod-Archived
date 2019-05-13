@@ -96,7 +96,7 @@ BOOLEAN optSpaceMusic;
 BOOLEAN optVolasMusic;
 BOOLEAN optWholeFuel;
 BOOLEAN optDirectionalJoystick; // For Android
-BOOLEAN optRealisticSol;
+BOOLEAN optRealSol;
 int optIPScaler;
 
 BOOLEAN opt3doMusic;

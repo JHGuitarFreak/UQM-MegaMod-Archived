@@ -124,7 +124,7 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 		DWORD rand_val;
 		UWORD word_val;
 		PLANET_DESC *pCurDesc = &solarSys->PlanetDesc[planetI];
-		BOOLEAN RealSol = optRealisticSol;
+		BOOLEAN RealSol = optRealSol;
 		double mxInner, mxOuter;
 
 		mxInner = 2.3;

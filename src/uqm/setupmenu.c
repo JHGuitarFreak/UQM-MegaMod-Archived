@@ -539,7 +539,7 @@ SetDefaults (void)
 #if defined(ANDROID) || defined(__ANDROID__)
 	choices[50].selected = opts.meleezoom;
 #endif
-	choices[51].selected = opts.realisticSol;
+	choices[51].selected = opts.realSol;
 	choices[52].selected = opts.ipTrans;
 
 	sliders[0].value = opts.musicvol;
@@ -611,7 +611,7 @@ PropagateResults (void)
 #if defined(ANDROID) || defined(__ANDROID__)
 	opts.meleezoom = choices[50].selected;
 #endif
-	opts.realisticSol = choices[51].selected;
+	opts.realSol = choices[51].selected;
 	opts.ipTrans = choices[52].selected;
 
 	opts.musicvol = sliders[0].value;
@@ -1550,7 +1550,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->volasMusic = optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->wholeFuel = optWholeFuel ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->directionalJoystick = optDirectionalJoystick ? OPTVAL_ENABLED : OPTVAL_DISABLED;	// For Android
-	opts->realisticSol = optRealisticSol ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->realSol = optRealSol ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->ipTrans = (optIPScaler == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC;
 
 	// Serosis: 320x240
@@ -1990,8 +1990,8 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	optDirectionalJoystick = (opts->directionalJoystick == OPTVAL_ENABLED);
 
 	// Serosis: Enable a more realistic Sol System
-	res_PutBoolean("config.realisticsol", opts->realisticSol == OPTVAL_ENABLED);
-	optRealisticSol = (opts->realisticSol == OPTVAL_ENABLED);
+	res_PutBoolean("config.realsol", opts->realSol == OPTVAL_ENABLED);
+	optRealSol = (opts->realSol == OPTVAL_ENABLED);
 
 	// Serosis: IP Transitions
 	optIPScaler = (opts->ipTrans == OPTVAL_3DO);
