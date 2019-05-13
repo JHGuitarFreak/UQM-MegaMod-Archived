@@ -538,13 +538,13 @@ void GenerateTexturedPlanets (void)
 				case 0: /* MERCURY */
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_MERCURY_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 2;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 0;
 					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 175.942 * EARTH_HOURS;
 					break;
 				case 1: /* VENUS */
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_VENUS_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 177;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 1774;
 					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 243 * EARTH_HOURS;
 					break;
 				case 2: // EARTH
@@ -552,43 +552,43 @@ void GenerateTexturedPlanets (void)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_EARTH_MASK_ANIM));
 					else
 						SurfFrame = CaptureDrawable (LoadGraphic (EARTH_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 23;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 234;
 					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = EARTH_HOURS;
 					break;
 				case 3: // MARS
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_MARS_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 25;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 252;
 					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 246;
 					break;
 				case 4: /* JUPITER */
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_JUPITER_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 3;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 31;
 					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 98;
 					break;
 				case 5: /* SATURN */
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_SATURN_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 26;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 267;
 					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 102;
 					break;
 				case 6: /* URANUS */
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_URANUS_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 97;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 978;
 					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 172;
 					break;
 				case 7: /* NEPTUNE */
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_NEPTUNE_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 28;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 283;
 					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 182;
 					break;
 				case 8: /* PLUTO */
 					if (solTexturesPresent)
 						SurfFrame = CaptureDrawable (LoadGraphic (IP_PLUTO_MASK_ANIM));
-					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 122;
+					pSolarSysState->SysInfo.PlanetInfo.AxialTilt = 1225;
 					pSolarSysState->SysInfo.PlanetInfo.RotationPeriod = 6.387 * EARTH_HOURS;
 					break;
 			}

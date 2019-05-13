@@ -127,7 +127,7 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 		BOOLEAN RealSol = optRealisticSol;
 		double mxInner, mxOuter;
 
-		mxInner = 2;
+		mxInner = 2.24;
 		mxOuter = 2.35; 
 
 		pCurDesc->rand_seed = RandomContext_Random (SysGenRNG);
@@ -339,100 +339,113 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 			case 0: /* MERCURY */
 				solarSys->SysInfo.PlanetInfo.AtmoDensity = 0;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 0.0553 * EARTH_MASS;
-				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 100 * 0.378;
-				solarSys->SysInfo.PlanetInfo.PlanetRadius = 0.383 * 100;
+				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 0.378 * EARTH_G;
+				solarSys->SysInfo.PlanetInfo.PlanetRadius = 0.383 * EARTH_RAD;
 				solarSys->SysInfo.PlanetInfo.AxialTilt = 0;
 				solarSys->SysInfo.PlanetInfo.Weather = 0;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 2;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = 175.942 * EARTH_HOURS;
 				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = 167;
 				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
-					EARTH_RADIUS * 38.7L / 100;
+					EARTH_RADIUS * 0.387L;
 				break;
 			case 1: /* VENUS */
-				solarSys->SysInfo.PlanetInfo.AtmoDensity = 90 *
+				solarSys->SysInfo.PlanetInfo.AtmoDensity = 92 *
 						EARTH_ATMOSPHERE;
-				solarSys->SysInfo.PlanetInfo.PlanetDensity = 95;
-				solarSys->SysInfo.PlanetInfo.PlanetRadius = 95;
+				solarSys->SysInfo.PlanetInfo.PlanetDensity = 0.815 * EARTH_MASS;
+				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 0.905 * EARTH_G;
+				solarSys->SysInfo.PlanetInfo.PlanetRadius = 0.949 * EARTH_RAD;
 				solarSys->SysInfo.PlanetInfo.AxialTilt = 1774;
 				solarSys->SysInfo.PlanetInfo.Weather = 7;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 1;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 243 * EARTH_HOURS;
-				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = 457;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 116.75 * EARTH_HOURS;
+				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = 464;
+				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
+					EARTH_RADIUS * 0.723L;
 				break;
 			case 2: /* EARTH */
 				solarSys->SysInfo.PlanetInfo.AtmoDensity =
 						EARTH_ATMOSPHERE;
-				solarSys->SysInfo.PlanetInfo.PlanetDensity = 100;
-				solarSys->SysInfo.PlanetInfo.PlanetRadius = 100;
+				solarSys->SysInfo.PlanetInfo.PlanetDensity = EARTH_MASS;
+				solarSys->SysInfo.PlanetInfo.SurfaceGravity = EARTH_G;
+				solarSys->SysInfo.PlanetInfo.PlanetRadius = EARTH_RAD;
 				solarSys->SysInfo.PlanetInfo.AxialTilt = 234;
 				solarSys->SysInfo.PlanetInfo.Weather = 1;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 1;
 				solarSys->SysInfo.PlanetInfo.RotationPeriod = EARTH_HOURS;
-				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = 22;
+				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = 15;
+				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
+					EARTH_RADIUS;
 				break;
 			case 3: /* MARS */
 				// XXX: Mars atmo should actually be 1/2 in current units
 				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1;
-				solarSys->SysInfo.PlanetInfo.PlanetDensity = 72;
-				solarSys->SysInfo.PlanetInfo.PlanetRadius = 53;
+				solarSys->SysInfo.PlanetInfo.PlanetDensity = 0.107 * EARTH_MASS;
+				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 0.379 * EARTH_G;
+				solarSys->SysInfo.PlanetInfo.PlanetRadius = 0.532 * EARTH_RAD;
 				solarSys->SysInfo.PlanetInfo.AxialTilt = 252;
 				solarSys->SysInfo.PlanetInfo.Weather = 1;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 1;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 246;
-				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -53;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 1.027 * EARTH_HOURS;
+				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -63;
+				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
+					EARTH_RADIUS * 1.524L;
 				break;
 			case 4: /* JUPITER */
-				solarSys->SysInfo.PlanetInfo.AtmoDensity =
-						GAS_GIANT_ATMOSPHERE;
-				solarSys->SysInfo.PlanetInfo.PlanetDensity = 24;
-				solarSys->SysInfo.PlanetInfo.PlanetRadius = 1120;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 310;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1000 * 
+					EARTH_ATMOSPHERE;
+				solarSys->SysInfo.PlanetInfo.PlanetDensity = 317.83 * EARTH_MASS;
+				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 2.53 * EARTH_G;
+				solarSys->SysInfo.PlanetInfo.PlanetRadius = 11.209 * EARTH_RAD;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 31;
 				solarSys->SysInfo.PlanetInfo.Weather = 7;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 98;
-				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -143;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 0.414 * EARTH_HOURS;
+				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -108;
 				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
-						EARTH_RADIUS * 520L / 100;
+						EARTH_RADIUS * 5.204;
 				break;
 			case 5: /* SATURN */
-				solarSys->SysInfo.PlanetInfo.AtmoDensity =
-						GAS_GIANT_ATMOSPHERE;
-				solarSys->SysInfo.PlanetInfo.PlanetDensity = 13;
-				solarSys->SysInfo.PlanetInfo.PlanetRadius = 945;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1000 *
+					EARTH_ATMOSPHERE;
+				solarSys->SysInfo.PlanetInfo.PlanetDensity = 95.16 * EARTH_MASS;
+				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 1.065 * EARTH_G;
+				solarSys->SysInfo.PlanetInfo.PlanetRadius = 9.449 * EARTH_RAD;
 				solarSys->SysInfo.PlanetInfo.AxialTilt = 267;
 				solarSys->SysInfo.PlanetInfo.Weather = 7;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 102;
-				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -197;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 0.444 * EARTH_HOURS;
+				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -139;
 				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
-						EARTH_RADIUS * 952L / 100;
+						EARTH_RADIUS * 9.582L;
 				break;
 			case 6: /* URANUS */
-				solarSys->SysInfo.PlanetInfo.AtmoDensity =
-						GAS_GIANT_ATMOSPHERE;
-				solarSys->SysInfo.PlanetInfo.PlanetDensity = 21;
-				solarSys->SysInfo.PlanetInfo.PlanetRadius = 411;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1000 *
+					EARTH_ATMOSPHERE;
+				solarSys->SysInfo.PlanetInfo.PlanetDensity = 14.54 * EARTH_MASS;
+				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 0.905 * EARTH_G;
+				solarSys->SysInfo.PlanetInfo.PlanetRadius = 4.007 * EARTH_RAD;
 				solarSys->SysInfo.PlanetInfo.AxialTilt = 978;
 				solarSys->SysInfo.PlanetInfo.Weather = 7;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 172;
-				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -217;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 0.718 * EARTH_HOURS;
+				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -197;
 				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
-						EARTH_RADIUS * 1916L / 100;
+					EARTH_RADIUS * 19.201L;
 				break;
 			case 7: /* NEPTUNE */
-				solarSys->SysInfo.PlanetInfo.AtmoDensity =
-						GAS_GIANT_ATMOSPHERE;
-				solarSys->SysInfo.PlanetInfo.PlanetDensity = 28;
-				solarSys->SysInfo.PlanetInfo.PlanetRadius = 396;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1000 *
+						EARTH_ATMOSPHERE;
+				solarSys->SysInfo.PlanetInfo.PlanetDensity = 17.15 * EARTH_MASS;
+				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 1.14 * EARTH_G;
+				solarSys->SysInfo.PlanetInfo.PlanetRadius = 3.883 * EARTH_RAD;
 				solarSys->SysInfo.PlanetInfo.AxialTilt = 283;
 				solarSys->SysInfo.PlanetInfo.Weather = 7;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 182;
-				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -229;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 0.671 * EARTH_HOURS;
+				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -201;
 				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
-						EARTH_RADIUS * 2999L / 100;
+						EARTH_RADIUS * 30.047L;
 				break;
 			case 8: /* PLUTO */
 				if (!GET_GAME_STATE (FOUND_PLUTO_SPATHI))
