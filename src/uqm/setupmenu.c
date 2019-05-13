@@ -218,6 +218,7 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[41]),	// Submenu switch
 	(WIDGET *)(&choices[45]),	// Custom Border switch
 	(WIDGET *)(&choices[48]),	// Whole Fuel Value switch
+	(WIDGET *)(&choices[51]),	// Realistic Sol
 	(WIDGET *)(&textentries[1]),// Custom Seed entry
 	(WIDGET *)(&buttons[1]),	
 	NULL };
