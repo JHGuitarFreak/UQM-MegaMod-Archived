@@ -112,8 +112,8 @@ typedef struct globalopts_struct {
 		cheatMode, godMode, bubbleWarp, unlockShips, headStart, unlockUpgrades, infiniteRU, skipIntro, // Serosis: except for cheatMode = JMS
 		mainMenuMusic, nebulae, orbitingPlanets, texturedPlanets, // JMS
 		infiniteFuel, partialPickup, submenu, addDevices, scalePlanets, customBorder, spaceMusic,	// Serosis
-		volasMusic, directionalJoystick, wholeFuel; // Serosis
-	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, shield;
+		volasMusic, directionalJoystick, wholeFuel, realisticSol; // Serosis
+	OPT_CONSOLETYPE menu, text, cscan, scroll, intro, shield, ipTrans;
 	CONTROL_TEMPLATE player1, player2;
 	int speechvol, musicvol, sfxvol;
 	int gamma, customSeed;
