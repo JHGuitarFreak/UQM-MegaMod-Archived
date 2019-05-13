@@ -133,7 +133,7 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 		pCurDesc->rand_seed = RandomContext_Random (SysGenRNG);
 		rand_val = pCurDesc->rand_seed;
 		word_val = LOWORD (rand_val);
-		angle = NORMALIZE_ANGLE ((COUNT)HIBYTE (word_val));
+		pCurDesc->angle = NORMALIZE_ANGLE ((COUNT)HIBYTE (word_val));
 
 		switch (planetI)
 		{
@@ -151,7 +151,7 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 0.723 / mxInner : EARTH_RADIUS * 72L / 100);
 				pCurDesc->NumPlanets = 0;
 				if (PrimeSeed)
-					angle = NORMALIZE_ANGLE (FULL_CIRCLE - angle);
+					pCurDesc->angle = NORMALIZE_ANGLE (FULL_CIRCLE - angle);
 				break;
 			case 2: /* EARTH */
 				pCurDesc->data_index = WATER_WORLD | PLANET_SHIELDED;
@@ -193,13 +193,13 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 39.482 / mxOuter : EARTH_RADIUS * 1550L /* 3937 */ / 100);
 				pCurDesc->NumPlanets = RealSol ? 1 : 0;
 				if(PrimeSeed)
-					angle = FULL_CIRCLE - OCTANT;
+					pCurDesc->angle = FULL_CIRCLE - OCTANT;
 				break;
 		}
 
 		pCurDesc->orb_speed = FULL_CIRCLE / (365.25 * pow((float)pCurDesc->radius / EARTH_RADIUS, 1.5));
-		pCurDesc->location.x = COSINE (angle, pCurDesc->radius);
-		pCurDesc->location.y = SINE (angle, pCurDesc->radius);
+		pCurDesc->location.x = COSINE (pCurDesc->angle, pCurDesc->radius);
+		pCurDesc->location.y = SINE (pCurDesc->angle, pCurDesc->radius);
 	}
 
 	return true;
@@ -472,9 +472,6 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						EARTH_RADIUS * 39.482L;
 				break;
 		}
-
-		/*solarSys->SysInfo.PlanetInfo.SurfaceGravity =
-				CalcGravity (&solarSys->SysInfo.PlanetInfo)*/;
 		
 		if (solTexturesPresent){
 			switch (planetNr) {
@@ -623,9 +620,6 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -216;
 				break;
 		}
-
-		/*solarSys->SysInfo.PlanetInfo.SurfaceGravity =
-				CalcGravity (&solarSys->SysInfo.PlanetInfo);*/
 		
 		if (solTexturesPresent){
 			switch (planetNr) {
