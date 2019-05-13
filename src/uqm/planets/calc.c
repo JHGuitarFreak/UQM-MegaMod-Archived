@@ -213,12 +213,12 @@ CalcRotation (PLANET_INFO *PlanetInfoPtr, PLANET_DESC *planet)
 	if (PLANSIZE (PlanetInfoPtr->PlanDataPtr->Type) == GAS_GIANT) {
 		period = ((COUNT)CalcFromBase (80, 80));
 	} else if (LOBYTE (RandomContext_Random (SysGenRNG)) % 10 == 0) {
-		period = ((COUNT)CalcFromBase ((UWORD)50 * 240, (UWORD)200 * 240));
+		period = ((COUNT)CalcFromBase ((UWORD)500 * EARTH_HOURS, (UWORD)2000 * EARTH_HOURS));
 	} else {
 		period = ((COUNT)CalcFromBase (150, 150));
 	} // BW 2011: Research shows that most major moons have a synchronous rotation
 	if (planet->pPrevDesc != pSolarSysState->SunDesc) {
-		period = ((COUNT)(FULL_CIRCLE * 240 / planet->orb_speed));
+		period = ((COUNT)(FULL_CIRCLE * EARTH_HOURS / planet->orb_speed));
 	}
 	return period;
 }
