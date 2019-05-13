@@ -175,8 +175,9 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, spaceMusic);
 	DECL_CONFIG_OPTION(bool, volasMusic);
 	DECL_CONFIG_OPTION(bool, wholeFuel);
-	// For Android
-	DECL_CONFIG_OPTION(bool, directionalJoystick);
+	DECL_CONFIG_OPTION(bool, directionalJoystick); // For Android
+	DECL_CONFIG_OPTION(bool, realisticSol);
+	DECL_CONFIG_OPTION(int,  ipTrans);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -357,6 +358,8 @@ main (int argc, char *argv[])
 #else
 		INIT_CONFIG_OPTION(	 directionalJoystick, false ),
 #endif
+		INIT_CONFIG_OPTION(realisticSol,		false),
+		INIT_CONFIG_OPTION(whichShield,         OPT_PC),
 
 	};
 	struct options_struct defaults = options;
@@ -551,8 +554,9 @@ main (int argc, char *argv[])
 	optSpaceMusic = options.spaceMusic.value;
 	optVolasMusic = options.volasMusic.value;
 	optWholeFuel = options.wholeFuel.value;
-	// For Android
-	optDirectionalJoystick = options.directionalJoystick.value;
+	optDirectionalJoystick = options.directionalJoystick.value; // For Android
+	optRealisticSol = options.realisticSol.value;
+	optIPScaler = options.ipTrans.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -888,8 +892,10 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->spaceMusic, "config.spaceMusic");
 	getBoolConfigValue(&options->volasMusic, "config.volasMusic");
 	getBoolConfigValue(&options->wholeFuel, "config.wholeFuel");
-	// For Android
-	getBoolConfigValue (&options->directionalJoystick, "config.directionalJoystick");
+	getBoolConfigValue (&options->directionalJoystick, "config.directionaljoystick"); // For Android
+	getBoolConfigValue(&options->realisticSol, "config.realisticsol");
+	getBoolConfigValueXlat(&options->ipTrans, "config.iptransition",
+		OPT_3DO, OPT_PC);
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -952,6 +958,7 @@ enum
 	EXSEED_OPT,
 	SPACEMUSIC_OPT,
 	WHOLEFUEL_OPT,
+	REALSOL_OPT,
 	DIRJOY_OPT,
 	MELEE_OPT,
 	LOADGAME_OPT,
@@ -1025,6 +1032,7 @@ static struct option longOptions[] =
 	{"customseed", 1, NULL, EXSEED_OPT},
 	{"spacemusic", 1, NULL, SPACEMUSIC_OPT},
 	{"wholefuel", 1, NULL, WHOLEFUEL_OPT},
+	{"realisticsol", 1, NULL, REALSOL_OPT},
 	{"dirjoystick", 1, NULL, DIRJOY_OPT},
 	{"melee", 0, NULL, MELEE_OPT},
 	{"loadgame", 0, NULL, LOADGAME_OPT},
@@ -1364,7 +1372,7 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				setBoolOption (&options->scalePlanets, true);
 				break;
 			case CUSTBORD_OPT:
-				optCustomBorder = TRUE;
+				setBoolOption(&options->customBorder, true);
 				break;
 			case EXSEED_OPT:{
 				int temp;
@@ -1381,13 +1389,16 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				break;
 			}
 			case SPACEMUSIC_OPT:
-				optSpaceMusic = TRUE;
+				setBoolOption(&options->spaceMusic, true);
 				break;
 			case WHOLEFUEL_OPT:
-				optWholeFuel = TRUE;
+				setBoolOption(&options->wholeFuel, true);
+				break;
+			case REALSOL_OPT:
+				setBoolOption(&options->realisticSol, true);
 				break;
 			case DIRJOY_OPT:
-				optDirectionalJoystick = TRUE;
+				setBoolOption(&options->directionalJoystick, true);
 				break;
 			case MELEE_OPT:
 				optSuperMelee = TRUE;

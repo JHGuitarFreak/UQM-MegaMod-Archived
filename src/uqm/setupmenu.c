@@ -79,7 +79,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT          9
-#define CHOICE_COUNT       51
+#define CHOICE_COUNT       53
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       11
 #define LABEL_COUNT         4
@@ -107,7 +107,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2,						// 20-23
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 24-33
 	2, 2, 2, 2, 3, 2, 2, 2, 3,		// 34-42
-	2, 2, 2, 2, 2, 2, 2, 3 };		// 43-50
+	2, 2, 2, 2, 2, 2, 2, 3, 2, 2 };	// 43-51
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -156,6 +156,7 @@ static WIDGET *engine_widgets[] = {
 #endif
 	(WIDGET *)(&choices[11]),	// Cutscenes
 	(WIDGET *)(&choices[17]),	// Slave Shields
+	(WIDGET *)(&choices[52]),	// IP Transitions
 	(WIDGET *)(&choices[32]),	// Skip Intro
 	(WIDGET *)(&buttons[1]),
 	NULL };
@@ -537,6 +538,8 @@ SetDefaults (void)
 #if defined(ANDROID) || defined(__ANDROID__)
 	choices[50].selected = opts.meleezoom;
 #endif
+	choices[51].selected = opts.realisticSol;
+	choices[52].selected = opts.ipTrans;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -607,6 +610,8 @@ PropagateResults (void)
 #if defined(ANDROID) || defined(__ANDROID__)
 	opts.meleezoom = choices[50].selected;
 #endif
+	opts.realisticSol = choices[51].selected;
+	opts.ipTrans = choices[52].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1543,8 +1548,9 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->loresBlowup = res_GetInteger("config.loresBlowupScale");
 	opts->volasMusic = optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->wholeFuel = optWholeFuel ? OPTVAL_ENABLED : OPTVAL_DISABLED;
-	// For Android
-	opts->directionalJoystick = optDirectionalJoystick ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->directionalJoystick = optDirectionalJoystick ? OPTVAL_ENABLED : OPTVAL_DISABLED;	// For Android
+	opts->realisticSol = optRealisticSol ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->ipTrans = (optIPScaler == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC;
 
 	// Serosis: 320x240
 	if (RESOLUTION_FACTOR != HD) {
@@ -1979,8 +1985,16 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	optWholeFuel = (opts->wholeFuel == OPTVAL_ENABLED);
 
 	// Serosis: Enable Android Directional Joystick
-	res_PutBoolean("config.directionalJoystick", opts->directionalJoystick == OPTVAL_ENABLED);
+	res_PutBoolean("config.directionaljoystick", opts->directionalJoystick == OPTVAL_ENABLED);
 	optDirectionalJoystick = (opts->directionalJoystick == OPTVAL_ENABLED);
+
+	// Serosis: Enable a more realistic Sol System
+	res_PutBoolean("config.realisticsol", opts->realisticSol == OPTVAL_ENABLED);
+	optRealisticSol = (opts->realisticSol == OPTVAL_ENABLED);
+
+	// Serosis: IP Transitions
+	optIPScaler = (opts->ipTrans == OPTVAL_3DO);
+	res_PutBoolean("config.iptransition", opts->ipTrans == OPTVAL_3DO);
 
 	if (opts->scanlines && RESOLUTION_FACTOR != HD) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;

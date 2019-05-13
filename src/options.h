@@ -85,8 +85,9 @@ extern int spaceMusicBySOI;
 extern BOOLEAN optSpaceMusic;
 extern BOOLEAN optVolasMusic;
 extern BOOLEAN optWholeFuel;
-// For Android
-extern BOOLEAN optDirectionalJoystick;
+extern BOOLEAN optDirectionalJoystick; // For Android
+extern BOOLEAN optRealisticSol;
+extern int optIPScaler;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

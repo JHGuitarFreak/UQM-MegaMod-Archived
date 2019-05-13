@@ -1506,9 +1506,8 @@ TransitionSystemIn (void)
 }
 
 static void
-ScaleSystem (SIZE new_radius)
+ScaleSystemPC (SIZE new_radius)
 {
-#ifdef SMOOTH_SYSTEM_ZOOM // Enabled this for shits 'n gigs.
 	// XXX: This appears to have been an attempt to zoom the system view
 	//   in a different way. This code zooms gradually instead of
 	//   doing a crossfade from one zoom level to the other.
@@ -1551,8 +1550,11 @@ ScaleSystem (SIZE new_radius)
 	DrawOuterSystem ();
 	RedrawQueue (FALSE);
 	UnbatchGraphics ();
-	
-#else // !SMOOTH_SYSTEM_ZOOM
+}
+
+static void
+ScaleSystem3DO (SIZE new_radius)
+{
 	RECT r;
 
 	pSolarSysState->SunDesc[0].radius = new_radius;
@@ -1565,7 +1567,6 @@ ScaleSystem (SIZE new_radius)
 	RedrawQueue (FALSE);
 	ScreenTransition (3, &r);
 	UnbatchGraphics ();
-#endif // SMOOTH_SYSTEM_ZOOM
 }
 
 static void
@@ -1812,7 +1813,10 @@ IP_frame (void)
 			// Leaving inner system to outer
 			DrawSystemTransition (FALSE);
 		} else {	// Zooming outer system
-			ScaleSystem (newRadius);
+			if(optIPScaler == OPT_PC)
+				ScaleSystemPC (newRadius);
+			else
+				ScaleSystem3DO (newRadius);
 		}
 	} else if (!pSolarSysState->InOrbit) {
 		// Just flying around, minding own business..
