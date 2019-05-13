@@ -186,7 +186,7 @@ CalcTemp (SYSTEM_INFO *SysInfoPtr, SIZE radius)
 			* PLANET_TEMP_CONSTANT * SysInfoPtr->StarEnergy
 			/ ((YELLOW_SUN_INTENSITY + 1) * DWARF_ENERGY);
 
-	if (CurStarDescPtr->Index == SOL_DEFINED && optRealisticSol)
+	if (CurStarDescPtr->Index == SOL_DEFINED && optRealSol)
 		alb = 17834;
 
 	centigrade = (SIZE)(alb / square_root (radius * 10000L / EARTH_RADIUS))

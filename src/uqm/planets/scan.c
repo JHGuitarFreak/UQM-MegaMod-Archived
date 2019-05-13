@@ -363,7 +363,7 @@ PrintCoarseScanPC (void)
 	if (val < 0)
 		val = -val;
 	t.pStr = buf;
-	if(IsSol && optRealisticSol)
+	if(IsSol && optRealSol)
 		sprintf (buf, "%.1f" STR_DEGREE_SIGN, dblAxialTilt);
 	else
 		sprintf(buf, "%d" STR_DEGREE_SIGN, val);

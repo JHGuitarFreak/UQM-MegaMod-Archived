@@ -176,7 +176,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, volasMusic);
 	DECL_CONFIG_OPTION(bool, wholeFuel);
 	DECL_CONFIG_OPTION(bool, directionalJoystick); // For Android
-	DECL_CONFIG_OPTION(bool, realisticSol);
+	DECL_CONFIG_OPTION(bool, realSol);
 	DECL_CONFIG_OPTION(int,  ipTrans);
 
 #define INIT_CONFIG_OPTION(name, val) \
@@ -358,7 +358,7 @@ main (int argc, char *argv[])
 #else
 		INIT_CONFIG_OPTION(	 directionalJoystick, false ),
 #endif
-		INIT_CONFIG_OPTION(realisticSol,		false),
+		INIT_CONFIG_OPTION(realSol,		false),
 		INIT_CONFIG_OPTION(whichShield,         OPT_PC),
 
 	};
@@ -555,7 +555,7 @@ main (int argc, char *argv[])
 	optVolasMusic = options.volasMusic.value;
 	optWholeFuel = options.wholeFuel.value;
 	optDirectionalJoystick = options.directionalJoystick.value; // For Android
-	optRealisticSol = options.realisticSol.value;
+	optRealSol = options.realSol.value;
 	optIPScaler = options.ipTrans.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
@@ -893,7 +893,7 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue(&options->volasMusic, "config.volasMusic");
 	getBoolConfigValue(&options->wholeFuel, "config.wholeFuel");
 	getBoolConfigValue (&options->directionalJoystick, "config.directionaljoystick"); // For Android
-	getBoolConfigValue(&options->realisticSol, "config.realisticsol");
+	getBoolConfigValue(&options->realSol, "config.realsol");
 	getBoolConfigValueXlat(&options->ipTrans, "config.iptransition",
 		OPT_3DO, OPT_PC);
 	
@@ -958,8 +958,9 @@ enum
 	EXSEED_OPT,
 	SPACEMUSIC_OPT,
 	WHOLEFUEL_OPT,
-	REALSOL_OPT,
 	DIRJOY_OPT,
+	REALSOL_OPT,
+	IPTRANS_OPT,
 	MELEE_OPT,
 	LOADGAME_OPT,
 #ifdef NETPLAY
@@ -1032,8 +1033,9 @@ static struct option longOptions[] =
 	{"customseed", 1, NULL, EXSEED_OPT},
 	{"spacemusic", 1, NULL, SPACEMUSIC_OPT},
 	{"wholefuel", 1, NULL, WHOLEFUEL_OPT},
-	{"realisticsol", 1, NULL, REALSOL_OPT},
 	{"dirjoystick", 1, NULL, DIRJOY_OPT},
+	{"realsol", 1, NULL, REALSOL_OPT},
+	{"iptrans", 1, NULL, IPTRANS_OPT},
 	{"melee", 0, NULL, MELEE_OPT},
 	{"loadgame", 0, NULL, LOADGAME_OPT},
 #ifdef NETPLAY
@@ -1394,11 +1396,17 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case WHOLEFUEL_OPT:
 				setBoolOption(&options->wholeFuel, true);
 				break;
-			case REALSOL_OPT:
-				setBoolOption(&options->realisticSol, true);
-				break;
 			case DIRJOY_OPT:
 				setBoolOption(&options->directionalJoystick, true);
+				break;
+			case REALSOL_OPT:
+				setBoolOption(&options->realSol, true);
+				break;
+			case IPTRANS_OPT:
+				if (!setChoiceOption(&options->ipTrans, optarg)) {
+					InvalidArgument(optarg, "--iptrans");
+					badArg = true;
+				}
 				break;
 			case MELEE_OPT:
 				optSuperMelee = TRUE;
@@ -1676,8 +1684,10 @@ usage (FILE *out, const struct options_struct *defaults)
 		boolOptString(&defaults->spaceMusic));
 	log_add(log_User, "  --wholefuel : Enables the display of the whole fuel value in the ship status    (default: %s)",
 		boolOptString(&defaults->wholeFuel));
-	log_add(log_User, "  --spacemusic : Enables the use of directional joystick controls for Android    (default: %s)",
+	log_add(log_User, "  --dirjoystick : Enables the use of directional joystick controls for Android    (default: %s)",
 		boolOptString(&defaults->directionalJoystick));
+	log_add(log_User, "  --realsol : Enables more realistic orbits and extra planets for Sol    (default: %s)",
+		boolOptString(&defaults->realSol));
 	log_setOutput (old);
 }
 
