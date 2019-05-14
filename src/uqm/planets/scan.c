@@ -196,7 +196,7 @@ PrintCoarseScanPC (void)
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE),
 			LEFT_SIDE_BASELINE_X_PC); // "Orbit: "
 
-	if (pSolarSysState->pOrbitalDesc->pPrevDesc != pSolarSysState->SunDesc && optRealSol) {
+	if (pSolarSysState->pOrbitalDesc->pPrevDesc != pSolarSysState->SunDesc && optRealSol && IsSol) {
 		val = ((pSolarSysState->SysInfo.PlanetInfo.PlanetToSunDist * 100L 
 			+ (LUNAR_DISTANCE >> 1)) / LUNAR_DISTANCE);
 		MakeScanValue (buf, val,
@@ -387,6 +387,8 @@ PrintCoarseScan3DO (void)
 	TEXT t;
 	STAMP s;
 	UNICODE buf[200];
+	double dblAxialTilt;
+	BOOLEAN IsSol = CurStarDescPtr->Index == SOL_DEFINED;
 
 	/* We need this for the new color-changing hazard readouts.
 	 * We initialize it to SCAN_PC_TITLE_COLOR because we'll need
@@ -425,7 +427,7 @@ PrintCoarseScan3DO (void)
 
 	t.pStr = buf;
 
-	if (pSolarSysState->pOrbitalDesc->pPrevDesc != pSolarSysState->SunDesc && optRealSol) {
+	if (pSolarSysState->pOrbitalDesc->pPrevDesc != pSolarSysState->SunDesc && optRealSol && IsSol) {
 		val = ((pSolarSysState->SysInfo.PlanetInfo.PlanetToSunDist * 100L
 			+ (LUNAR_DISTANCE >> 1)) / LUNAR_DISTANCE);
 		MakeScanValue(buf, val,
@@ -559,9 +561,16 @@ PrintCoarseScan3DO (void)
 
 	t.pStr = buf;
 	val = pSolarSysState->SysInfo.PlanetInfo.AxialTilt;
+	if (IsSol) {
+		dblAxialTilt = (double)val / 10;
+		val /= 10;
+	}
 	if (val < 0)
 		val = -val;
-	sprintf (buf, "%d" STR_DEGREE_SIGN, val);
+	if (IsSol && optRealSol)
+		sprintf(buf, "%.1f" STR_DEGREE_SIGN, dblAxialTilt);
+	else
+		sprintf(buf, "%d" STR_DEGREE_SIGN, val);
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
 	t.baseline.y += SCAN_LEADING;
