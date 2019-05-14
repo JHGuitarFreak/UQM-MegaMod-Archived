@@ -195,10 +195,18 @@ PrintCoarseScanPC (void)
 
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE),
 			LEFT_SIDE_BASELINE_X_PC); // "Orbit: "
-	val = ((pSolarSysState->SysInfo.PlanetInfo.PlanetToSunDist * 100L
+
+	if (pSolarSysState->pOrbitalDesc->pPrevDesc != pSolarSysState->SunDesc && optRealSol) {
+		val = ((pSolarSysState->SysInfo.PlanetInfo.PlanetToSunDist * 100L 
+			+ (LUNAR_DISTANCE >> 1)) / LUNAR_DISTANCE);
+		MakeScanValue (buf, val,
+				GAME_STRING (ORBITSCAN_STRING_BASE + 19)); // "L.D."
+	} else {
+		val = ((pSolarSysState->SysInfo.PlanetInfo.PlanetToSunDist * 100L
 			+ (EARTH_RADIUS >> 1)) / EARTH_RADIUS);
-	MakeScanValue (buf, val,
-			GAME_STRING (ORBITSCAN_STRING_BASE + 1)); // " a.u."
+		MakeScanValue (buf, val,
+				GAME_STRING (ORBITSCAN_STRING_BASE + 1)); // "A.U."
+	}
 	t.pStr = buf;
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
@@ -416,10 +424,20 @@ PrintCoarseScan3DO (void)
 	t.align = ALIGN_LEFT;
 
 	t.pStr = buf;
-	val = ((pSolarSysState->SysInfo.PlanetInfo.PlanetToSunDist * 100L
+
+	if (pSolarSysState->pOrbitalDesc->pPrevDesc != pSolarSysState->SunDesc && optRealSol) {
+		val = ((pSolarSysState->SysInfo.PlanetInfo.PlanetToSunDist * 100L
+			+ (LUNAR_DISTANCE >> 1)) / LUNAR_DISTANCE);
+		MakeScanValue(buf, val,
+			GAME_STRING(ORBITSCAN_STRING_BASE + 19)); // "L.D."
+	}
+	else {
+		val = ((pSolarSysState->SysInfo.PlanetInfo.PlanetToSunDist * 100L
 			+ (EARTH_RADIUS >> 1)) / EARTH_RADIUS);
-	MakeScanValue (buf, val,
-			GAME_STRING (ORBITSCAN_STRING_BASE + 1)); // " a.u."
+		MakeScanValue(buf, val,
+			GAME_STRING(ORBITSCAN_STRING_BASE + 1)); // "A.U."
+	}
+
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
 	t.baseline.y += SCAN_LEADING;
@@ -865,10 +883,7 @@ DoPickPlanetSide (MENU_STATE *pMS)
 			// Since I couldn't find that mysterious element, I had to do speed things up
 			// with a loop and this thing here.
 			// XXX: Actually, with the optimized release build the best solution now seems is to keep all at 1/40th, but keep the loop...
-			if (RESOLUTION_FACTOR != HD)
-				SleepThreadUntil (TimeIn + ONE_SECOND / 40);
-			else
-				SleepThreadUntil (TimeIn + ONE_SECOND / 40);
+			SleepThreadUntil (TimeIn + ONE_SECOND / 40);
 			
 			UnbatchGraphics ();
 		}
@@ -1078,7 +1093,7 @@ callPickupForScanType (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 static void
 ScanPlanet (COUNT scanType)
 {
-#define SCAN_DURATION  ONE_SECOND * RES_BOOL(7, 12) / 4
+#define SCAN_DURATION  (ONE_SECOND * RES_BOOL(7, 12) / 4)
 // NUM_FLASH_COLORS for flashing blips; 1 for the final frame
 #define SCAN_LINES      (MAP_HEIGHT + NUM_FLASH_COLORS - 8)
 #define SCAN_LINE_WAIT  (SCAN_DURATION / SCAN_LINES)

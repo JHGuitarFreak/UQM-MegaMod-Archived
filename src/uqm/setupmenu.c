@@ -1993,7 +1993,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutBoolean("config.realsol", opts->realSol == OPTVAL_ENABLED);
 	optRealSol = (opts->realSol == OPTVAL_ENABLED);
 
-	// Serosis: IP Transitions
+	// Serosis: PC/3DO IP Transitions
 	optIPScaler = (opts->ipTrans == OPTVAL_3DO);
 	res_PutBoolean("config.iptransition", opts->ipTrans == OPTVAL_3DO);
 

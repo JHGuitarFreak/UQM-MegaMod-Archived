@@ -120,7 +120,6 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 	solarSys->SunDesc[0].NumPlanets = 9;
 	for (planetI = 0; planetI < 9; ++planetI)
 	{
-		COUNT angle;
 		DWORD rand_val;
 		UWORD word_val;
 		PLANET_DESC *pCurDesc = &solarSys->PlanetDesc[planetI];
@@ -151,7 +150,7 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 0.723 / mxInner : EARTH_RADIUS * 72L / 100);
 				pCurDesc->NumPlanets = 0;
 				if (PrimeSeed)
-					pCurDesc->angle = NORMALIZE_ANGLE (FULL_CIRCLE - angle);
+					pCurDesc->angle = NORMALIZE_ANGLE (FULL_CIRCLE - pCurDesc->angle);
 				break;
 			case 2: /* EARTH */
 				pCurDesc->data_index = WATER_WORLD | PLANET_SHIELDED;
@@ -210,6 +209,7 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 {
 	COUNT planetNr;
 	DWORD rand_val;
+	COUNT angle;
 
 	GenerateDefault_generateMoons (solarSys, planet);
 
@@ -218,7 +218,6 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 	{
 		case 2: /* moons of EARTH */
 		{
-			COUNT angle;
 
 			/* Starbase: */
 			solarSys->MoonDesc[0].data_index = HIERARCHY_STARBASE;
@@ -235,13 +234,13 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 			if (solTexturesPresent)
 				solarSys->MoonDesc[1].alternate_colormap = LUNA_COLOR_TAB;
 			solarSys->MoonDesc[1].radius = MIN_MOON_RADIUS
-					+ (4 - 1) * MOON_DELTA;
+					+ (MAX_GEN_MOONS - 1) * MOON_DELTA;
 			rand_val = RandomContext_Random (SysGenRNG);
 			angle = NORMALIZE_ANGLE (LOWORD (rand_val));
 			solarSys->MoonDesc[1].location.x =
-					COSINE (angle, solarSys->MoonDesc[1].radius);
+				COSINE(angle, solarSys->MoonDesc[1].radius);
 			solarSys->MoonDesc[1].location.y =
-					SINE (angle, solarSys->MoonDesc[1].radius);
+				SINE(angle, solarSys->MoonDesc[1].radius);
 			solarSys->MoonDesc[1].orb_speed = FULL_CIRCLE / 29;
 			break;
 		}
@@ -285,8 +284,16 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 			solarSys->MoonDesc[0].data_index = PURPLE_WORLD;
 			if (solTexturesPresent)
 				solarSys->MoonDesc[0].alternate_colormap = CHARON_COLOR_TAB;
+			solarSys->MoonDesc[0].radius = (MIN_MOON_RADIUS
+				+ (MAX_GEN_MOONS - 1) * MOON_DELTA) >> 2;
+			rand_val = RandomContext_Random(SysGenRNG);
+			angle = NORMALIZE_ANGLE(LOWORD(rand_val));
+			solarSys->MoonDesc[0].location.x =
+				COSINE(angle, solarSys->MoonDesc[0].radius);
+			solarSys->MoonDesc[0].location.y =
+				SINE(angle, solarSys->MoonDesc[0].radius);
 			solarSys->MoonDesc[0].orb_speed = FULL_CIRCLE / -5.88;
-			/* Triton */
+			/* Charon */
 			break;
 	}
 
@@ -519,6 +526,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 		solarSys->SysInfo.PlanetInfo.AxialTilt = 0;
 		solarSys->SysInfo.PlanetInfo.AtmoDensity = 0;
 		solarSys->SysInfo.PlanetInfo.Weather = 0;
+
 		switch (planetNr)
 		{
 			case 2: /* moons of EARTH */
@@ -540,12 +548,16 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 							LoadStringTable (MOONBASE_STRTAB));
 				}
 
-				solarSys->SysInfo.PlanetInfo.PlanetDensity = 60;
-				solarSys->SysInfo.PlanetInfo.PlanetRadius = 25;
-				solarSys->SysInfo.PlanetInfo.AxialTilt = 0;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity = 0;
+				solarSys->SysInfo.PlanetInfo.PlanetDensity = 0.0123 * EARTH_MASS;
+				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 0.165 * EARTH_G;
+				solarSys->SysInfo.PlanetInfo.PlanetRadius = 0.2725 * EARTH_RAD;
+				solarSys->SysInfo.PlanetInfo.AxialTilt = 3;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 240 * 29;
-				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -18;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 29.573 * EARTH_HOURS;
+				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -290;
+				if(optRealSol)
+					solarSys->SysInfo.PlanetInfo.PlanetToSunDist = LUNAR_DISTANCE;
 				break;
 
 			case 4: /* moons of JUPITER */
@@ -559,6 +571,8 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						solarSys->SysInfo.PlanetInfo.Tectonics = 3;
 						solarSys->SysInfo.PlanetInfo.RotationPeriod = 390;
 						solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -163;
+						if (optRealSol)
+							solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 421700;
 						break;
 					case 1: /* Europa */
 						solarSys->SysInfo.PlanetInfo.PlanetDensity = 54;
@@ -566,6 +580,8 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						solarSys->SysInfo.PlanetInfo.Tectonics = 1;
 						solarSys->SysInfo.PlanetInfo.RotationPeriod = 840;
 						solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -161;
+						if (optRealSol)
+							solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 670900;
 						break;
 					case 2: /* Ganymede */
 						solarSys->SysInfo.PlanetInfo.PlanetDensity = 35;
@@ -573,6 +589,8 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						solarSys->SysInfo.PlanetInfo.Tectonics = 0;
 						solarSys->SysInfo.PlanetInfo.RotationPeriod = 1728;
 						solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -164;
+						if (optRealSol)
+							solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 1070400;
 						break;
 					case 3: /* Callisto */
 						solarSys->SysInfo.PlanetInfo.PlanetDensity = 35;
@@ -580,13 +598,18 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						solarSys->SysInfo.PlanetInfo.Tectonics = 1;
 						solarSys->SysInfo.PlanetInfo.RotationPeriod = 4008;
 						solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -167;
+						if (optRealSol)
+							solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 1882700;
 						break;
 				}
 				break;
 
 			case 5: /* moon of SATURN: Titan */
-				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
-						EARTH_RADIUS * 952L / 100;
+				if (optRealSol)
+					solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 1221870;
+				else					
+					solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
+							EARTH_RADIUS * 952L / 100;
 				solarSys->SysInfo.PlanetInfo.AtmoDensity = 160;
 				solarSys->SysInfo.PlanetInfo.Weather = 2;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 34;
@@ -597,8 +620,11 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 				break;
 
 			case 7: /* moon of NEPTUNE: Triton */
-				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
-						EARTH_RADIUS * 2999L / 100;
+				if (optRealSol)
+					solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 354759;
+				else					
+					solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
+							EARTH_RADIUS * 2999L / 100;
 				solarSys->SysInfo.PlanetInfo.AtmoDensity = 10;
 				solarSys->SysInfo.PlanetInfo.Weather = 1;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 95;
@@ -609,8 +635,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 				break;
 
 			case 8: /* moon of PLUTO: Charon */
-				solarSys->SysInfo.PlanetInfo.PlanetToSunDist =
-					EARTH_RADIUS * 2999L / 100;
+				solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 19591;
 				solarSys->SysInfo.PlanetInfo.AtmoDensity = 10;
 				solarSys->SysInfo.PlanetInfo.Weather = 1;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 95;

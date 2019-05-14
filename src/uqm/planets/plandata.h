@@ -272,7 +272,7 @@ typedef struct
 	UWORD RotationPeriod;
 	UWORD AtmoDensity;
 	SIZE LifeChance;
-	UWORD PlanetToSunDist;
+	DWORD PlanetToSunDist;
 
 	const PlanetFrame *PlanDataPtr;
 

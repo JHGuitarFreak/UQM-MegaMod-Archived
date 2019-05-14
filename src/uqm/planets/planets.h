@@ -73,6 +73,8 @@ enum
 #define EARTH_MASS 100
 #define EARTH_RAD EARTH_MASS
 #define EARTH_G EARTH_RAD
+#define REAL_AU 149597870 // Real World A.U. in kilometres
+#define LUNAR_DISTANCE 384402 // Lunar distance in kilometres
 
 #define MIN_PLANET_RADIUS SCALE_RADIUS (4)
 #define MAX_PLANET_RADIUS SCALE_RADIUS (124)
