@@ -98,6 +98,7 @@ BOOLEAN optWholeFuel;
 BOOLEAN optDirectionalJoystick; // For Android
 BOOLEAN optRealSol;
 int optIPScaler;
+int optDifficulty;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

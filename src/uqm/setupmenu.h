@@ -89,6 +89,12 @@ typedef enum {
 } OPT_DATETYPE;
 
 typedef enum {
+	OPTVAL_NORM,
+	OPTVAL_EASY,
+	OPTVAL_HARD
+} OPT_DIFFICULTY;
+
+typedef enum {
 	OPTVAL_STEP,
 	OPTVAL_NEAREST,
 	OPTVAL_BILINEAR,
@@ -107,6 +113,7 @@ typedef struct globalopts_struct {
 	OPT_AQUALITYTYPE aquality;
 	OPT_TDTYPE tdType; // Serosis
 	OPT_DATETYPE dateType; // Serosis
+	OPT_DIFFICULTY difficulty; // Serosis
 	OPT_MELEEZOOM meleezoom;
 	OPT_ENABLABLE fullscreen, subtitles, scanlines, fps, stereo, music3do, musicremix, speech, keepaspect,
 		cheatMode, godMode, bubbleWarp, unlockShips, headStart, unlockUpgrades, infiniteRU, skipIntro, // Serosis: except for cheatMode = JMS
