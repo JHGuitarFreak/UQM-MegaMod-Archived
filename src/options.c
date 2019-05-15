@@ -99,6 +99,8 @@ BOOLEAN optDirectionalJoystick; // For Android
 BOOLEAN optRealSol;
 int optIPScaler;
 int optDifficulty;
+int savedDifficulty;
+int newGameDifficulty;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

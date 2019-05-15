@@ -325,6 +325,19 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 	read_a8  (fh, GSPtr->ElementWorth, NUM_ELEMENT_CATEGORIES);
 	read_16  (fh, &GSPtr->CurrentActivity);
 
+	switch (GLOBAL(ElementWorth[EXOTIC])) {
+		case 50:
+			savedDifficulty = 1;
+			break;
+		case 8:
+			savedDifficulty = 2;
+			break;
+		case 25:
+		default:
+			savedDifficulty = 0;
+			break;
+	}
+
 	// JMS
 	if (LOBYTE (GSPtr->CurrentActivity) != IN_INTERPLANETARY)
 		res_scale = RESOLUTION_FACTOR;
@@ -746,6 +759,10 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 	initEventSystem ();
 
 	Activity = GLOBAL (CurrentActivity);
+
+	savedDifficulty = 0;
+	newGameDifficulty = 0;
+
 	if (!LoadGameState (&GlobData.Game_state, in_fp))
 	{
 		res_CloseResFile (in_fp);

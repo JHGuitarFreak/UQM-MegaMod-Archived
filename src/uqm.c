@@ -899,6 +899,9 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue(&options->realSol, "config.realsol");
 	getBoolConfigValueXlat(&options->ipTrans, "config.iptransition",
 		OPT_3DO, OPT_PC);
+	if (res_IsInteger("config.difficulty") && !options->optDifficulty.set) {
+		options->optDifficulty.value = res_GetInteger("config.difficulty");
+	}
 	
 	if (res_IsInteger ("config.player1control"))
 	{
