@@ -88,6 +88,7 @@ extern BOOLEAN optWholeFuel;
 extern BOOLEAN optDirectionalJoystick; // For Android
 extern BOOLEAN optRealSol;
 extern int optIPScaler;
+extern int optDifficulty;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

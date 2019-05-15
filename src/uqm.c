@@ -178,6 +178,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, directionalJoystick); // For Android
 	DECL_CONFIG_OPTION(bool, realSol);
 	DECL_CONFIG_OPTION(int,  ipTrans);
+	DECL_CONFIG_OPTION(int,  optDifficulty);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -307,7 +308,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  useSpeech,         true ),
 		INIT_CONFIG_OPTION(  whichCoarseScan,   OPT_PC ),
 		INIT_CONFIG_OPTION(  whichMenu,         OPT_3DO ),
-		INIT_CONFIG_OPTION(  whichFonts,        OPT_PC ),
+		INIT_CONFIG_OPTION(  whichFonts,        OPT_3DO ),
 		INIT_CONFIG_OPTION(  whichIntro,        OPT_PC ),
 		INIT_CONFIG_OPTION(  whichShield,       OPT_3DO ),
 		INIT_CONFIG_OPTION(  smoothScroll,      OPT_PC ),
@@ -358,8 +359,9 @@ main (int argc, char *argv[])
 #else
 		INIT_CONFIG_OPTION(	 directionalJoystick, false ),
 #endif
-		INIT_CONFIG_OPTION(realSol,		false),
-		INIT_CONFIG_OPTION(whichShield,         OPT_PC),
+		INIT_CONFIG_OPTION(	 realSol,			false),
+		INIT_CONFIG_OPTION(	 ipTrans,			OPT_PC),
+		INIT_CONFIG_OPTION(  optDifficulty,		0 ),
 
 	};
 	struct options_struct defaults = options;
@@ -557,6 +559,7 @@ main (int argc, char *argv[])
 	optDirectionalJoystick = options.directionalJoystick.value; // For Android
 	optRealSol = options.realSol.value;
 	optIPScaler = options.ipTrans.value;
+	optDifficulty = options.optDifficulty.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();

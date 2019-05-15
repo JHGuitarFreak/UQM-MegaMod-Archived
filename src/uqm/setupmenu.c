@@ -67,6 +67,7 @@ static int do_keyconfig (WIDGET *self, int event);
 static int do_advanced (WIDGET *self, int event);
 static int do_editkeys (WIDGET *self, int event);
 static int do_music(WIDGET *self, int event); // Serosis
+static int do_visual(WIDGET *self, int event); // Serosis
 static void change_template (WIDGET_CHOICE *self, int oldval);
 static void rename_template (WIDGET_TEXTENTRY *self);
 static void rebind_control (WIDGET_CONTROLENTRY *widget);
@@ -78,11 +79,11 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #define RES_OPTS 2
 #endif
 
-#define MENU_COUNT          9
-#define CHOICE_COUNT       53
+#define MENU_COUNT         10
+#define CHOICE_COUNT       54
 #define SLIDER_COUNT        4
-#define BUTTON_COUNT       11
-#define LABEL_COUNT         4
+#define BUTTON_COUNT       12
+#define LABEL_COUNT         5
 #define TEXTENTRY_COUNT     2
 #define CONTROLENTRY_COUNT  7
 
@@ -107,12 +108,13 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2,						// 20-23
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 24-33
 	2, 2, 2, 2, 3, 2, 2, 2, 3,		// 34-42
-	2, 2, 2, 2, 2, 2, 2, 3, 2, 2 };	// 43-51
+	2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 	// 43-51
+	3 };							// 52
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
 	do_audio, do_cheats, do_keyconfig, do_advanced, do_editkeys, 
-	do_keyconfig, do_music };
+	do_keyconfig, do_music, do_visual };
 
 /* These refer to uninitialized widgets, but that's OK; we'll fill
  * them in before we touch them */
@@ -123,6 +125,7 @@ static WIDGET *main_widgets[] = {
 	(WIDGET *)(&buttons[10]),	// Music
 	(WIDGET *)(&buttons[5]),	// Cheats
 	(WIDGET *)(&buttons[6]),	// Controls
+	(WIDGET *)(&buttons[11]),	// Visuals
 	(WIDGET *)(&buttons[7]),	// Advanced
 	(WIDGET *)(&buttons[0]),	// Quit Setup Menu
 	NULL };
@@ -157,7 +160,6 @@ static WIDGET *engine_widgets[] = {
 	(WIDGET *)(&choices[11]),	// Cutscenes
 	(WIDGET *)(&choices[17]),	// Slave Shields
 	(WIDGET *)(&choices[52]),	// IP Transitions
-	(WIDGET *)(&choices[32]),	// Skip Intro
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -165,9 +167,11 @@ static WIDGET *audio_widgets[] = {
 	(WIDGET *)(&sliders[0]),	// Music Volume
 	(WIDGET *)(&sliders[1]),	// SFX Volume
 	(WIDGET *)(&sliders[2]),	// Speech Volume
+	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&choices[14]),	// Positional Audio
 	(WIDGET *)(&choices[15]),	// Sound Driver
 	(WIDGET *)(&choices[16]),	// Sound Quality
+	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -175,13 +179,15 @@ static WIDGET *music_widgets[] = {
 	(WIDGET *)(&choices[9]),	// 3DO Remixes
 	(WIDGET *)(&choices[21]),	// Precursor's Remixes
 	(WIDGET *)(&choices[47]),	// Serosis: Volasaurus' Remix Pack
+	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&choices[46]),	// Serosis: Volasaurus' Space Music
 	(WIDGET *)(&choices[34]),	// JMS: Main Menu Music
+	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
 static WIDGET *cheat_widgets[] = {
-	(WIDGET *)(&choices[24]), // JMS: cheatMode on/off
+	(WIDGET *)(&choices[24]),	// JMS: cheatMode on/off
 	// Serosis
 	(WIDGET *)(&choices[25]),	// God Mode
 	(WIDGET *)(&choices[26]),	// Time Dilation
@@ -201,26 +207,35 @@ static WIDGET *keyconfig_widgets[] = {
 #if defined(ANDROID) || defined(__ANDROID__)
 	(WIDGET *)(&choices[49]),	// Android: Directional Joystick toggle
 #endif
+	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&labels[1]),
 	(WIDGET *)(&buttons[8]),	// Edit Controls
+	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
 static WIDGET *advanced_widgets[] = {
+	(WIDGET *)(&choices[53]),	// Difficulty
+	(WIDGET *)(&labels[4]),		// Spacer
+	(WIDGET *)(&choices[32]),	// Skip Intro
+	(WIDGET *)(&choices[40]),	// Partial Pickup switch
+	(WIDGET *)(&textentries[1]),// Custom Seed entry
+	(WIDGET *)(&labels[4]),		// Spacer
+	(WIDGET *)(&buttons[1]),	
+	NULL };
+
+static WIDGET *visual_widgets[] = {
 	// JMS
 	(WIDGET *)(&choices[35]),	// IP nebulae on/off
 	(WIDGET *)(&choices[36]),	// orbitingPlanets on/off
 	(WIDGET *)(&choices[37]),	// texturedPlanets on/off
 	(WIDGET *)(&choices[44]),	// Serosis: Scaled Planets
 	(WIDGET *)(&choices[38]),	// Nic: Switch date formats
-	// Serosis
-	(WIDGET *)(&choices[40]),	// Partial Pickup switch
 	(WIDGET *)(&choices[41]),	// Submenu switch
 	(WIDGET *)(&choices[45]),	// Custom Border switch
 	(WIDGET *)(&choices[48]),	// Whole Fuel Value switch
 	(WIDGET *)(&choices[51]),	// Realistic Sol
-	(WIDGET *)(&textentries[1]),// Custom Seed entry
-	(WIDGET *)(&buttons[1]),	
+	(WIDGET *)(&buttons[1]),
 	NULL };
 
 static WIDGET *editkeys_widgets[] = {
@@ -253,6 +268,7 @@ menu_defs[] =
 	{advanced_widgets, 6},
 	{editkeys_widgets, 7},
 	{music_widgets, 8},
+	{visual_widgets, 9},
 	{NULL, 0}
 };
 
@@ -390,6 +406,19 @@ do_music(WIDGET *self, int event)
 	if (event == WIDGET_EVENT_SELECT)
 	{
 		next = (WIDGET *)(&menus[8]);
+		(*next->receiveFocus) (next, WIDGET_EVENT_DOWN);
+		return TRUE;
+	}
+	(void)self;
+	return FALSE;
+}
+
+static int
+do_visual(WIDGET *self, int event)
+{
+	if (event == WIDGET_EVENT_SELECT)
+	{
+		next = (WIDGET *)(&menus[9]);
 		(*next->receiveFocus) (next, WIDGET_EVENT_DOWN);
 		return TRUE;
 	}
@@ -541,6 +570,7 @@ SetDefaults (void)
 #endif
 	choices[51].selected = opts.realSol;
 	choices[52].selected = opts.ipTrans;
+	choices[53].selected = opts.difficulty;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -613,6 +643,7 @@ PropagateResults (void)
 #endif
 	opts.realSol = choices[51].selected;
 	opts.ipTrans = choices[52].selected;
+	opts.difficulty = choices[53].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1552,6 +1583,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->directionalJoystick = optDirectionalJoystick ? OPTVAL_ENABLED : OPTVAL_DISABLED;	// For Android
 	opts->realSol = optRealSol ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->ipTrans = (optIPScaler == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC;
+	opts->difficulty = res_GetInteger("config.difficulty");
 
 	// Serosis: 320x240
 	if (RESOLUTION_FACTOR != HD) {
@@ -1927,17 +1959,17 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	switch (opts->dateType){
 		case OPTVAL_MMDDYYYY:
 			optDateFormat=1;
-		break;
+			break;
 		case OPTVAL_DDMMMYYYY:
 			optDateFormat=2;
-		break;
+			break;
 		case OPTVAL_DDMMYYYY:
 			optDateFormat=3;
-		break;
+			break;
 		case OPTVAL_MMMDDYYYY:
 		default:
 			optDateFormat=0;
-		break;
+			break;
 	}
 	res_PutInteger ("config.dateFormat", opts->dateType);	
 	
@@ -1996,6 +2028,21 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: PC/3DO IP Transitions
 	optIPScaler = (opts->ipTrans == OPTVAL_3DO);
 	res_PutBoolean("config.iptransition", opts->ipTrans == OPTVAL_3DO);
+
+	// Serosis: Difficulty
+	switch (opts->difficulty) {
+		case OPTVAL_EASY:
+			optDifficulty = 1;
+			break;
+		case OPTVAL_HARD:
+			optDifficulty = 2;
+			break;
+		case OPTVAL_NORM:
+		default:
+			optDifficulty = 0;
+			break;
+	}
+	res_PutInteger("config.difficulty", opts->difficulty);
 
 	if (opts->scanlines && RESOLUTION_FACTOR != HD) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
