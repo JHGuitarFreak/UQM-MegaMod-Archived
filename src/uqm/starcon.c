@@ -236,9 +236,11 @@ while (--ac > 0)
 	SplashScreen (BackgroundInitKernel);
 
 #ifdef DEBUG
-	printf("Set Seed: %d\n", optCustomSeed);
+	printf("Set Seed: %d\n\n", optCustomSeed);
+	printf("Set Difficulty: %d\n\n", optDifficulty);
 #endif
-	log_add(log_Info, "Set Seed: %d\n", optCustomSeed);
+	log_add(log_Info, "Set Seed: %d\n\n", optCustomSeed);
+	log_add(log_Info, "Set Difficulty: %d\n\n", optDifficulty);
 
 //	OpenJournal ();
 	while (StartGame ())
@@ -248,6 +250,8 @@ while (--ac > 0)
 			log_add (log_Fatal, "Could not set player input.");
 			explode ();  // Does not return;
 		}
+
+		newGameDifficulty = optDifficulty;
 
 		luaUqm_reinitState ();
 		InitGameStructures ();
@@ -259,7 +263,8 @@ while (--ac > 0)
 		if (LastActivity == (CHECK_LOAD | CHECK_RESTART)){
 			AskNameForCaptainAndShip();
 			newGameSeed = optCustomSeed;
-			printf("New Game Seed: %d\n", newGameSeed);
+			printf("New Game Seed: %d\n\n", newGameSeed);
+			printf("New Game Difficulty: %d\n\n", newGameDifficulty);
 		}
 
 #if defined(ANDROID) || defined(__ANDROID__)

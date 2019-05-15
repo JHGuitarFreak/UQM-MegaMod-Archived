@@ -452,6 +452,23 @@ InitGameStructures (void)
 	GLOBAL (ElementWorth[EXOTIC]) = 25;
 	GLOBAL_SIS (ElementAmounts[EXOTIC]) = 0;
 
+	switch (DIFFICULTY) {
+		case 1:
+			GLOBAL(ElementWorth[COMMON]) = 2;
+			GLOBAL(ElementWorth[CORROSIVE]) = 3;
+			GLOBAL(ElementWorth[BASE_METAL]) = 4;
+			GLOBAL(ElementWorth[NOBLE]) = 6;
+			GLOBAL(ElementWorth[RARE_EARTH]) = 8;
+			GLOBAL(ElementWorth[PRECIOUS]) = 10;
+			GLOBAL(ElementWorth[RADIOACTIVE]) = 12;
+			GLOBAL(ElementWorth[EXOTIC]) = 50;
+			break;
+		case 2:
+			GLOBAL(ElementWorth[RADIOACTIVE]) = 7;
+			GLOBAL(ElementWorth[EXOTIC]) = 8;
+			break;
+	}
+
 	for (i = 0; i < NUM_DRIVE_SLOTS; ++i)
 		GLOBAL_SIS (DriveSlots[i]) = EMPTY_SLOT + 0;
 	GLOBAL_SIS (DriveSlots[5]) =
@@ -552,6 +569,8 @@ FreeSC2Data (void)
 	FlagStatFrame = 0;
 	newGameSeed = 0;
 	savedSeed = 0;
+	newGameDifficulty = 0;
+	savedDifficulty = 0;
 }
 
 void

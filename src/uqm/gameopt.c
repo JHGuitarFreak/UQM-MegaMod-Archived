@@ -1424,9 +1424,11 @@ GameOptions (void)
 		}
 
 #ifdef DEBUG
-		printf("Loaded Seed: %d\n", SeedA);
+		printf("Loaded Seed: %d\n\n", SeedA);
+		printf("Loaded Difficulty: %d\n\n", DIFFICULTY);
 #endif
-		log_add(log_Info, "Loaded Seed: %d\n", SeedA);
+		log_add(log_Info, "Loaded Seed: %d\n\n", SeedA);
+		log_add(log_Info, "Loaded Difficulty: %d\n\n", DIFFICULTY);
 
 		return FALSE;
 	}

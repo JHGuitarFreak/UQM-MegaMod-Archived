@@ -41,6 +41,8 @@ extern int ScreenHeight;
 #define IF_HD(a) (RES_BOOL(0, (a)))										// Serosis
 #define UNSCALED_PLANETS(a,b) ((RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets) ? (a) : (b))
 
+#define DIFFICULTY (newGameDifficulty ? newGameDifficulty : (savedDifficulty ? savedDifficulty : 0))
+
 		/* Margins. */
 #define SIS_ORG_X (7)								// JMS_GFX
 #define SIS_ORG_Y RES_STAT_SCALE(10)				// DC: top status window. Manually entered in for HD mode.
