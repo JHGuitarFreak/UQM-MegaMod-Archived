@@ -399,8 +399,8 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 					EARTH_RADIUS * 1.524L;
 				break;
 			case 4: /* JUPITER */
-				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1000 * 
-					EARTH_ATMOSPHERE;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity =
+					GAS_GIANT_ATMOSPHERE;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 317.83 * EARTH_MASS;
 				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 2.53 * EARTH_G;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 11.209 * EARTH_RAD;
@@ -413,8 +413,8 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						EARTH_RADIUS * 5.204;
 				break;
 			case 5: /* SATURN */
-				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1000 *
-					EARTH_ATMOSPHERE;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity =
+					GAS_GIANT_ATMOSPHERE;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 95.16 * EARTH_MASS;
 				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 1.065 * EARTH_G;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 9.449 * EARTH_RAD;
@@ -427,8 +427,8 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						EARTH_RADIUS * 9.582L;
 				break;
 			case 6: /* URANUS */
-				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1000 *
-					EARTH_ATMOSPHERE;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity =
+					GAS_GIANT_ATMOSPHERE;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 14.54 * EARTH_MASS;
 				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 0.905 * EARTH_G;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 4.007 * EARTH_RAD;
@@ -441,8 +441,8 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 					EARTH_RADIUS * 19.201L;
 				break;
 			case 7: /* NEPTUNE */
-				solarSys->SysInfo.PlanetInfo.AtmoDensity = 1000 *
-						EARTH_ATMOSPHERE;
+				solarSys->SysInfo.PlanetInfo.AtmoDensity =
+					GAS_GIANT_ATMOSPHERE;
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 17.15 * EARTH_MASS;
 				solarSys->SysInfo.PlanetInfo.SurfaceGravity = 1.14 * EARTH_G;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 3.883 * EARTH_RAD;
