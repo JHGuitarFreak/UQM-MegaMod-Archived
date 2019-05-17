@@ -465,7 +465,8 @@ static int
 shofixti_return_event (int arg)
 {
 	SetRaceAllied (SHOFIXTI_SHIP, TRUE);
-	GLOBAL (CrewCost) -= 2;
+	if(DIFFICULTY < HARD)
+		GLOBAL (CrewCost) -= 2;
 			/* crew is not an issue anymore */
 	SET_GAME_STATE (CREW_PURCHASED0, 0);
 	SET_GAME_STATE (CREW_PURCHASED1, 0);

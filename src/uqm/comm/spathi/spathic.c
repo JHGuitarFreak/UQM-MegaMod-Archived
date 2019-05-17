@@ -148,6 +148,7 @@ static LOCDATA spathi_desc =
 static void
 ExitConversation (RESPONSE_REF Response)
 {
+	BYTE SpaCrew = (DIFFICULTY == EASY ? 30 : 1);
 	setSegue (Segue_peace);
 
 	if (PLAYER_SAID (Response, bye_ally_space))
@@ -198,7 +199,7 @@ ExitConversation (RESPONSE_REF Response)
 			AlienTalkSegue ((COUNT)~0);
 			AddEscortShips (SPATHI_SHIP, 1);
 			/* Make the Eluder escort captained by Fwiffo alone */
-			SetEscortCrewComplement (SPATHI_SHIP, 1,
+			SetEscortCrewComplement (SPATHI_SHIP, SpaCrew,
 					NAME_OFFSET + NUM_CAPTAINS_NAMES);
 		}
 	}
