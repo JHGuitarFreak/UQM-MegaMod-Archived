@@ -453,7 +453,7 @@ InitGameStructures (void)
 	GLOBAL_SIS (ElementAmounts[EXOTIC]) = 0;
 
 	switch (DIFFICULTY) {
-		case 1:
+		case EASY:
 			GLOBAL(ElementWorth[COMMON]) = 2;
 			GLOBAL(ElementWorth[CORROSIVE]) = 3;
 			GLOBAL(ElementWorth[BASE_METAL]) = 4;
@@ -463,7 +463,7 @@ InitGameStructures (void)
 			GLOBAL(ElementWorth[RADIOACTIVE]) = 12;
 			GLOBAL(ElementWorth[EXOTIC]) = 50;
 			break;
-		case 2:
+		case HARD:
 			GLOBAL(ElementWorth[RADIOACTIVE]) = 7;
 			GLOBAL(ElementWorth[EXOTIC]) = 8;
 			break;

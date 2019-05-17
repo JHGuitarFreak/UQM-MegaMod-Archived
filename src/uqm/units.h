@@ -41,7 +41,10 @@ extern int ScreenHeight;
 #define IF_HD(a) (RES_BOOL(0, (a)))										// Serosis
 #define UNSCALED_PLANETS(a,b) ((RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets) ? (a) : (b))
 
-#define DIFFICULTY (newGameDifficulty ? newGameDifficulty : (savedDifficulty ? savedDifficulty : 0))
+#define NORMAL 0
+#define EASY 1
+#define HARD 2
+#define DIFFICULTY (newGameDifficulty ? newGameDifficulty : (savedDifficulty ? savedDifficulty : NORMAL))
 
 		/* Margins. */
 #define SIS_ORG_X (7)								// JMS_GFX
