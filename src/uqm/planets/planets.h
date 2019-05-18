@@ -20,6 +20,7 @@
 #define UQM_PLANETS_PLANETS_H_
 
 #include "libs/mathlib.h"
+#include "options.h"
 
 #define END_INTERPLANETARY START_INTERPLANETARY
 
@@ -67,7 +68,7 @@ enum
 #define SCALE_RADIUS(r) ((r) << 6)
 #define UNSCALE_RADIUS(r) ((r) >> 6)
 #define MAX_ZOOM_RADIUS SCALE_RADIUS(128)
-#define MIN_ZOOM_RADIUS (MAX_ZOOM_RADIUS>>3)
+#define MIN_ZOOM_RADIUS (MAX_ZOOM_RADIUS>> (optRealSol ? 4 : 3))
 #define EARTH_RADIUS SCALE_RADIUS(8)
 #define EARTH_HOURS 240
 #define EARTH_MASS 100
