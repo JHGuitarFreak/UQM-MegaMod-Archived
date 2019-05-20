@@ -111,7 +111,7 @@ ShipsReady (void)
 static void
 PrepareShip (void)
 {
-#define MAX_PKUNK_SHIPS (DIFFICULTY < HARD ? 4 : 1)
+#define MAX_PKUNK_SHIPS IF_HARD(1, 4)
 	if (AddEscortShips (PKUNK_SHIP, MAX_PKUNK_SHIPS))
 	{
 		BYTE mi, di, yi;
