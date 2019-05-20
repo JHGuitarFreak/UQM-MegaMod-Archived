@@ -534,8 +534,8 @@ InitGameStructures (void)
 	if(optHeadStart){
 		BYTE SpaCrew = (DIFFICULTY == EASY ? 30 : 1);
 		AddEscortShips (SPATHI_SHIP, 1);
-		/* Make the Eluder escort captained by Fwiffo alone */
-		SetEscortCrewComplement (SPATHI_SHIP, SpaCrew, NAME_OFFSET + NUM_CAPTAINS_NAMES); // NAME_OFFSET + NUM_CAPTAINS_NAMES = 21 by the way.
+		/* Make the Eluder escort captained by Fwiffo alone or have a full compliment for Easy mode. */
+		SetEscortCrewComplement (SPATHI_SHIP, SpaCrew, NAME_OFFSET + NUM_CAPTAINS_NAMES);
 	}
 
 	GLOBAL_SIS (log_x) = UNIVERSE_TO_LOGX (SOL_X);
