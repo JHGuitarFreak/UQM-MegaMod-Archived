@@ -155,8 +155,6 @@ ExitConversation (RESPONSE_REF R)
 
 #define EARTH_INDEX 2 /* earth is 3rd planet --> 3 - 1 = 2 */
 /* Magic numbers for Earth */
-#define EARTH_OUTER_X (-725)
-#define EARTH_OUTER_Y (597)
 #define EARTH_INNER_X (121)
 #define EARTH_INNER_Y (113)
 /* Magic numbers for Earth Starbase */

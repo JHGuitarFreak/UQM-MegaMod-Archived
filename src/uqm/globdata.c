@@ -546,8 +546,8 @@ InitGameStructures (void)
 	if (optHeadStart && PrimeSeed) {
 		// Start at Earth when Head Start is enabled
 		GLOBAL(ShipFacing) = 1;
-		GLOBAL(ip_location.x) = optRealSol ? -310 : -731;
-		GLOBAL(ip_location.y) = optRealSol ? 256 : 603;
+		GLOBAL(ip_location.x) = EARTH_OUTER_X;
+		GLOBAL(ip_location.y) = EARTH_OUTER_Y;
 	}
 
 	return (TRUE);
