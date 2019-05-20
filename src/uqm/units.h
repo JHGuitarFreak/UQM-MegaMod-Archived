@@ -36,15 +36,27 @@ extern int ScreenHeight;
 #define RESOLUTION_FACTOR resolutionFactor								// JMS_GFX
 #define RES_STAT_SCALE(a) (RESOLUTION_FACTOR != HD ? (a) : ((a) * 3))	// JMS_GFX
 #define RES_SCALE(a) ((a) << RESOLUTION_FACTOR)							// Serosis
-#define RES_DESCALE(a) ((a) >> RESOLUTION_FACTOR)							// Serosis
+#define RES_DESCALE(a) ((a) >> RESOLUTION_FACTOR)						// Serosis
 #define RES_BOOL(a,b) (RESOLUTION_FACTOR != HD ? (a) : (b))				// Serosis
 #define IF_HD(a) (RES_BOOL(0, (a)))										// Serosis
 #define UNSCALED_PLANETS(a,b) ((RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets) ? (a) : (b))
 
+// Difficulty Units
 #define NORMAL 0
 #define EASY 1
 #define HARD 2
 #define DIFFICULTY (newGameDifficulty ? newGameDifficulty : (savedDifficulty ? savedDifficulty : NORMAL))
+#define DIF_CASE (a,b,c) (DIFFICULTY == NORMAL ? (a) : DIFFICULTY == EASY ? (b) : (c))
+#define BOOL_NORM (DIFFICULTY == NORMAL ? true : false)
+#define BOOL_EASY (DIFFICULTY == EASY ? true : false)
+#define BOOL_HARD (DIFFICULTY == HARD ? true : false)
+#define IF_NORM (a) (BOOL_NORM ? (a) : 0)
+#define IF_EASY (a) (BOOL_EASY ? (a) : 0)
+#define IF_HARD (a) (BOOL_HARD ? (a) : 0)
+
+// Earth Coordinates
+#define EARTH_OUTER_X (optRealSol ? -310 : -725)
+#define EARTH_OUTER_Y (optRealSol ? 256 : 597)
 
 		/* Margins. */
 #define SIS_ORG_X (7)								// JMS_GFX
