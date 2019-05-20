@@ -2039,7 +2039,7 @@ Orbit:
 
 
 #( a.u.)
- A.U.
+ a.u.
 
 
 #(Atmo: )
@@ -2110,7 +2110,7 @@ Day:
 Tilt: 
 
 #( l.d.)
- L.D.
+ l.d.
 
 #(scan) -- MAINMENU_STRING_BASE
 scan
