@@ -124,10 +124,7 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 		UWORD word_val;
 		PLANET_DESC *pCurDesc = &solarSys->PlanetDesc[planetI];
 		BOOLEAN RealSol = optRealSol;
-		double mxInner, mxOuter;
-
-		mxInner = 2.3;
-		mxOuter = 2.47; 
+		double MultiX = 2.47; 
 
 		pCurDesc->rand_seed = RandomContext_Random (SysGenRNG);
 		rand_val = pCurDesc->rand_seed;
@@ -140,14 +137,14 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 				pCurDesc->data_index = METAL_WORLD;
 				if (solTexturesPresent)
 					pCurDesc->alternate_colormap = MERCURY_COLOR_TAB;
-				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 0.387 / mxInner : EARTH_RADIUS * 39L / 100);
+				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 0.387 / MultiX : EARTH_RADIUS * 39L / 100);
 				pCurDesc->NumPlanets = 0;
 				break;
 			case 1: /* VENUS */
 				pCurDesc->data_index = PRIMORDIAL_WORLD;
 				if (solTexturesPresent)
 					pCurDesc->alternate_colormap = VENUS_COLOR_TAB;
-				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 0.723 / mxInner : EARTH_RADIUS * 72L / 100);
+				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 0.723 / MultiX : EARTH_RADIUS * 72L / 100);
 				pCurDesc->NumPlanets = 0;
 				if (PrimeSeed)
 					pCurDesc->angle = NORMALIZE_ANGLE (FULL_CIRCLE - pCurDesc->angle);
@@ -155,41 +152,41 @@ GenerateSol_generatePlanets (SOLARSYS_STATE *solarSys)
 			case 2: /* EARTH */
 				pCurDesc->data_index = WATER_WORLD | PLANET_SHIELDED;
 				pCurDesc->alternate_colormap = NULL;
-				pCurDesc->radius = (RealSol ? EARTH_RADIUS / mxInner : EARTH_RADIUS);
+				pCurDesc->radius = (RealSol ? EARTH_RADIUS / MultiX : EARTH_RADIUS);
 				pCurDesc->NumPlanets = 2;
 				break;
 			case 3: /* MARS */
 				pCurDesc->data_index = DUST_WORLD;
 				if (solTexturesPresent)
 					pCurDesc->alternate_colormap = MARS_COLOR_TAB;
-				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 1.524 / mxInner : EARTH_RADIUS * 152L / 100);
+				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 1.524 / MultiX : EARTH_RADIUS * 152L / 100);
 				pCurDesc->NumPlanets = 0;
 				break;
 			case 4: /* JUPITER */
 				pCurDesc->data_index = RED_GAS_GIANT;
-				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 5.204 / mxOuter : EARTH_RADIUS * 500L /* 520L */ / 100);
+				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 5.204 / MultiX : EARTH_RADIUS * 500L /* 520L */ / 100);
 				pCurDesc->NumPlanets = 4;
 				break;
 			case 5: /* SATURN */
 				pCurDesc->data_index = ORA_GAS_GIANT;
-				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 9.582 / mxOuter : EARTH_RADIUS * 750L /* 952L */ / 100);
+				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 9.582 / MultiX : EARTH_RADIUS * 750L /* 952L */ / 100);
 				pCurDesc->NumPlanets = 1;
 				break;
 			case 6: /* URANUS */
 				pCurDesc->data_index = GRN_GAS_GIANT;
-				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 19.201 / mxOuter : EARTH_RADIUS * 1000L /* 1916L */ / 100);
+				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 19.201 / MultiX : EARTH_RADIUS * 1000L /* 1916L */ / 100);
 				pCurDesc->NumPlanets = 0;
 				break;
 			case 7: /* NEPTUNE */
 				pCurDesc->data_index = BLU_GAS_GIANT;
-				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 30.047 / mxOuter : EARTH_RADIUS * 1250L /* 2999L */ / 100);
+				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 30.047 / MultiX : EARTH_RADIUS * 1250L /* 2999L */ / 100);
 				pCurDesc->NumPlanets = 1;
 				break;
 			case 8: /* PLUTO */
 				pCurDesc->data_index = PELLUCID_WORLD;
 				if (solTexturesPresent)
 					pCurDesc->alternate_colormap = PLUTO_COLOR_TAB;
-				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 39.482 / mxOuter : EARTH_RADIUS * 1550L /* 3937 */ / 100);
+				pCurDesc->radius = (RealSol ? EARTH_RADIUS * 39.482 / MultiX : EARTH_RADIUS * 1550L /* 3937 */ / 100);
 				pCurDesc->NumPlanets = RealSol ? 1 : 0;
 				if(PrimeSeed)
 					pCurDesc->angle = FULL_CIRCLE - OCTANT;
