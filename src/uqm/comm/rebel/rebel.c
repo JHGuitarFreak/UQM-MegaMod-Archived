@@ -534,7 +534,7 @@ Intro (void)
 		NumVisits = (BYTE) EscortFeasibilityStudy (YEHAT_REBEL_SHIP);
 		if (NumVisits > 8)
 			NumVisits = 8;
-		if(DIFFICULTY < HARD){
+		if(!DIF_HARD){
 			AddEscortShips (YEHAT_REBEL_SHIP, NumVisits - (NumVisits >> 1));
 			AddEscortShips (PKUNK_SHIP, NumVisits >> 1);
 		}

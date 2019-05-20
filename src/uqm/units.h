@@ -46,13 +46,13 @@ extern int ScreenHeight;
 #define EASY 1
 #define HARD 2
 #define DIFFICULTY (newGameDifficulty ? newGameDifficulty : (savedDifficulty ? savedDifficulty : NORMAL))
-#define DIF_CASE (a,b,c) (DIFFICULTY == NORMAL ? (a) : DIFFICULTY == EASY ? (b) : (c))
-#define BOOL_NORM (DIFFICULTY == NORMAL ? true : false)
-#define BOOL_EASY (DIFFICULTY == EASY ? true : false)
-#define BOOL_HARD (DIFFICULTY == HARD ? true : false)
-#define IF_NORM (a) (BOOL_NORM ? (a) : 0)
-#define IF_EASY (a) (BOOL_EASY ? (a) : 0)
-#define IF_HARD (a) (BOOL_HARD ? (a) : 0)
+#define DIF_CASE(a,b,c) (DIFFICULTY == NORMAL ? (a) : DIFFICULTY == EASY ? (b) : (c))
+#define DIF_NORM (DIFFICULTY == NORMAL ? true : false)
+#define DIF_EASY (DIFFICULTY == EASY ? true : false)
+#define DIF_HARD (DIFFICULTY == HARD ? true : false)
+#define IF_NORM(a,b) (DIF_NORM ? (a) : (b))
+#define IF_EASY(a,b) (DIF_EASY ? (a) : (b))
+#define IF_HARD(a,b) (DIF_HARD ? (a) : (b))
 
 // Earth Coordinates
 #define EARTH_OUTER_X (optRealSol ? -310 : -725)

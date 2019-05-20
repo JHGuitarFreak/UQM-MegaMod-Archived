@@ -465,7 +465,7 @@ static int
 shofixti_return_event (int arg)
 {
 	SetRaceAllied (SHOFIXTI_SHIP, TRUE);
-	if(DIFFICULTY < HARD)
+	if(!DIF_HARD)
 		GLOBAL (CrewCost) -= 2;
 			/* crew is not an issue anymore */
 	SET_GAME_STATE (CREW_PURCHASED0, 0);
@@ -698,7 +698,7 @@ spathi_shield_event (int arg)
 		if (SpathiPtr->actual_strength)
 		{
 			SetRaceAllied (SPATHI_SHIP, FALSE);
-			if(DIFFICULTY == HARD)
+			if(DIF_HARD)
 				RemoveEscortShips (SPATHI_SHIP);
 			SET_GAME_STATE (SPATHI_SHIELDED_SELVES, 1);
 			SpathiPtr->actual_strength = 0;

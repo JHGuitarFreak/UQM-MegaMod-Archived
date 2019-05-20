@@ -477,7 +477,7 @@ InitGameStructures (void)
 		GLOBAL_SIS (ModuleSlots[i]) = EMPTY_SLOT + 2;
 	GLOBAL_SIS (ModuleSlots[15]) = GUN_WEAPON;
 	GLOBAL_SIS (ModuleSlots[2]) = CREW_POD;
-	GLOBAL_SIS (CrewEnlisted) = CREW_POD_CAPACITY - (DIFFICULTY == HARD ? 19 : 0);
+	GLOBAL_SIS (CrewEnlisted) =  IF_HARD(31, CREW_POD_CAPACITY);
 	GLOBAL_SIS (ModuleSlots[8]) = STORAGE_BAY;
 	GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
 	GLOBAL_SIS (FuelOnBoard) = 10 * FUEL_TANK_SCALE;
@@ -521,7 +521,7 @@ InitGameStructures (void)
 	GLOBAL (ModuleCost[DYNAMO_UNIT]) = 2000 / MODULE_COST_SCALE;
 	GLOBAL (ModuleCost[GUN_WEAPON]) = 2000 / MODULE_COST_SCALE;
 
-	GLOBAL_SIS (NumLanders) = (DIFFICULTY == EASY ? 2 : 1);
+	GLOBAL_SIS (NumLanders) = IF_EASY(2, 1);
 
 	utf8StringCopy (GLOBAL_SIS (ShipName), sizeof (GLOBAL_SIS (ShipName)),
 			GAME_STRING (NAMING_STRING_BASE + 2));
@@ -532,7 +532,7 @@ InitGameStructures (void)
 	CloneShipFragment (HUMAN_SHIP, &GLOBAL (built_ship_q), 0);
 
 	if(optHeadStart){
-		BYTE SpaCrew = (DIFFICULTY == EASY ? 30 : 1);
+		BYTE SpaCrew = IF_EASY(30, 1);
 		AddEscortShips (SPATHI_SHIP, 1);
 		/* Make the Eluder escort captained by Fwiffo alone or have a full compliment for Easy mode. */
 		SetEscortCrewComplement (SPATHI_SHIP, SpaCrew, NAME_OFFSET + NUM_CAPTAINS_NAMES);
