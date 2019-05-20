@@ -52,8 +52,8 @@
 #include <math.h>
 #include <time.h>
 
-// #define DEBUG_SOLARSYS
-#define SMOOTH_SYSTEM_ZOOM  1
+//#define DEBUG_SOLARSYS
+//#define SMOOTH_SYSTEM_ZOOM  1
 
 #define IP_FRAME_RATE  (ONE_SECOND / 30)
 
@@ -1506,8 +1506,9 @@ TransitionSystemIn (void)
 }
 
 static void
-ScaleSystemPC (SIZE new_radius)
+ScaleSystem (SIZE new_radius)
 {
+#ifdef SMOOTH_SYSTEM_ZOOM
 	// XXX: This appears to have been an attempt to zoom the system view
 	//   in a different way. This code zooms gradually instead of
 	//   doing a crossfade from one zoom level to the other.
@@ -1516,7 +1517,7 @@ ScaleSystemPC (SIZE new_radius)
 	//   controls are not handled in the loop, and the flagship
 	//   can collide with a group while zooming, and that is not handled
 	//   100% correctly.
-#define NUM_STEPS 1
+#define NUM_STEPS 10
 	COUNT i;
 	SIZE old_radius;
 	SIZE d, step;
@@ -1550,11 +1551,8 @@ ScaleSystemPC (SIZE new_radius)
 	DrawOuterSystem ();
 	RedrawQueue (FALSE);
 	UnbatchGraphics ();
-}
-
-static void
-ScaleSystem3DO (SIZE new_radius)
-{
+	
+#else // !SMOOTH_SYSTEM_ZOOM
 	RECT r;
 
 	pSolarSysState->SunDesc[0].radius = new_radius;
@@ -1565,8 +1563,10 @@ ScaleSystem3DO (SIZE new_radius)
 	BatchGraphics ();
 	DrawOuterSystem ();
 	RedrawQueue (FALSE);
-	ScreenTransition (3, &r);
+	if(optIPScaler == OPT_3DO)
+		ScreenTransition (3, &r);
 	UnbatchGraphics ();
+#endif // SMOOTH_SYSTEM_ZOOM
 }
 
 static void
@@ -1813,10 +1813,7 @@ IP_frame (void)
 			// Leaving inner system to outer
 			DrawSystemTransition (FALSE);
 		} else {	// Zooming outer system
-			if(optIPScaler == OPT_PC)
-				ScaleSystemPC (newRadius);
-			else
-				ScaleSystem3DO (newRadius);
+			ScaleSystem (newRadius);
 		}
 	} else if (!pSolarSysState->InOrbit) {
 		// Just flying around, minding own business..
