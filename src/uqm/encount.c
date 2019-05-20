@@ -879,6 +879,9 @@ EncounterBattle (void)
 		}
 	}
 
+	if(DIF_EASY)
+		PlayerControl[1] = CYBORG_CONTROL | STANDARD_RATING;
+
 	GameSounds = CaptureSound (LoadSound (GAME_SOUNDS));
 
 	Battle (NULL);
