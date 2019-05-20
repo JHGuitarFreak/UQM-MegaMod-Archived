@@ -1860,8 +1860,7 @@ IP_frame (void)
 		RedrawQueue (FALSE);
 		DrawAutoPilotMessage (FALSE);
 		UnbatchGraphics ();
-	}
-	
+	}	
 }
 
 static BOOLEAN
