@@ -141,7 +141,6 @@ UNIVERSE_TO_LOGY (MAX_Y_UNIVERSE + 1) : UNIVERSE_TO_LOGY (-1)) - 1L)
 #define UNIT_SCREEN_WIDTH ((63 << (COUNT)RESOLUTION_FACTOR) + (COUNT)RESOLUTION_FACTOR * 10) // JMS_GFX
 #define UNIT_SCREEN_HEIGHT ((50 << (COUNT)RESOLUTION_FACTOR) + (COUNT)RESOLUTION_FACTOR * 10) // JMS_GFX
 
-#define NORMALIZED_HYPERSPACE_SPEED // JMS_GFX
 
 // Bug #945: Simplified, these set the speed of SIS in Hyperspace and
 //   Quasispace. The ratio between UNIVERSE_UNITS_ and LOG_UNITS_ is
@@ -150,21 +149,22 @@ UNIVERSE_TO_LOGY (MAX_Y_UNIVERSE + 1) : UNIVERSE_TO_LOGY (-1)) - 1L)
 //   32 bits. The original math is unnecessarily complex and depends
 //   on the screen resolution when it should not.
 //   Using the new math will break old savegames.
-#ifdef NORMALIZED_HYPERSPACE_SPEED
+
 #define LOG_UNITS_X      ((SDWORD)(UNIVERSE_UNITS_X * RES_SCALE(16))) // JMS_GFX
 #define LOG_UNITS_Y      ((SDWORD)(UNIVERSE_UNITS_Y * RES_SCALE(16))) // JMS_GFX
 #define UNIVERSE_UNITS_X (((MAX_X_UNIVERSE + 1) >> 4))
 #define UNIVERSE_UNITS_Y (((MAX_Y_UNIVERSE + 1) >> 4))
-#else
+
 // Original (and now broken) Hyperspace speed factors
+// Serosis: Now being utilized to load Vanilla saves properly
 #define SECTOR_WIDTH 195
 #define SECTOR_HEIGHT 25
 
-#define LOG_UNITS_X      ((SDWORD)(LOG_SPACE_WIDTH >> 4) * SECTOR_WIDTH)
-#define LOG_UNITS_Y      ((SDWORD)(LOG_SPACE_HEIGHT >> 4) * SECTOR_HEIGHT)
-#define UNIVERSE_UNITS_X (((MAX_X_UNIVERSE + 1) >> 4) * 10)
-#define UNIVERSE_UNITS_Y (((MAX_Y_UNIVERSE + 1) >> 4))
-#endif
+#define OLD_LOG_UNITS_X      ((SDWORD)(8192 >> 4) * SECTOR_WIDTH)
+#define OLD_LOG_UNITS_Y      ((SDWORD)(7680 >> 4) * SECTOR_HEIGHT)
+#define OLD_UNIVERSE_UNITS_X (((MAX_X_UNIVERSE + 1) >> 4) * 10)
+#define OLD_UNIVERSE_UNITS_Y (((MAX_Y_UNIVERSE + 1) >> 4))
+
 
 #define ROUNDING_ERROR(div)  ((div) >> 1)
 
@@ -202,6 +202,21 @@ universeToLogy (COORD uy)
 }
 #define UNIVERSE_TO_LOGY(uy) \
 		universeToLogy (uy)
+
+static inline SDWORD
+oldLogxToUniverse(SDWORD lx)
+{
+	return (SDWORD)((lx * OLD_UNIVERSE_UNITS_X + ROUNDING_ERROR(OLD_LOG_UNITS_X))
+		/ OLD_LOG_UNITS_X);
+}
+
+static inline SDWORD
+oldLogyToUniverse(SDWORD ly)
+{
+	return (SDWORD)(MAX_Y_UNIVERSE -
+		((ly * OLD_UNIVERSE_UNITS_Y + ROUNDING_ERROR(OLD_LOG_UNITS_Y))
+			/ OLD_LOG_UNITS_Y));
+}
 
 #define CIRCLE_SHIFT 6
 #define FULL_CIRCLE (1 << CIRCLE_SHIFT)
