@@ -268,10 +268,9 @@ slylandro_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 	STARSHIP *StarShipPtr;
 
 	// no dodging in role playing game, unless you haven't
-	// visited the starbase yet
+	// visited the starbase yet or difficulty is set to Hard
 	if ((LOBYTE (GLOBAL (CurrentActivity)) == IN_ENCOUNTER) &&
-			GET_GAME_STATE (STARBASE_AVAILABLE))
-
+			GET_GAME_STATE (STARBASE_AVAILABLE) && !DIF_HARD)
 		ObjectsOfConcern[ENEMY_WEAPON_INDEX].ObjectPtr = 0;
 
 	lpEvalDesc = &ObjectsOfConcern[ENEMY_SHIP_INDEX];
