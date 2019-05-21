@@ -566,7 +566,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						solarSys->SysInfo.PlanetInfo.PlanetDensity = 69;
 						solarSys->SysInfo.PlanetInfo.PlanetRadius = 25;
 						solarSys->SysInfo.PlanetInfo.Tectonics = 3;
-						solarSys->SysInfo.PlanetInfo.RotationPeriod = 390;
+						solarSys->SysInfo.PlanetInfo.RotationPeriod = 1.76 * EARTH_HOURS;
 						solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -163;
 						if (optRealSol)
 							solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 421700;
@@ -575,7 +575,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						solarSys->SysInfo.PlanetInfo.PlanetDensity = 54;
 						solarSys->SysInfo.PlanetInfo.PlanetRadius = 25;
 						solarSys->SysInfo.PlanetInfo.Tectonics = 1;
-						solarSys->SysInfo.PlanetInfo.RotationPeriod = 840;
+						solarSys->SysInfo.PlanetInfo.RotationPeriod = 3.55 * EARTH_HOURS;
 						solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -161;
 						if (optRealSol)
 							solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 670900;
@@ -584,7 +584,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						solarSys->SysInfo.PlanetInfo.PlanetDensity = 35;
 						solarSys->SysInfo.PlanetInfo.PlanetRadius = 41;
 						solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-						solarSys->SysInfo.PlanetInfo.RotationPeriod = 1728;
+						solarSys->SysInfo.PlanetInfo.RotationPeriod = 7.15 * EARTH_HOURS;
 						solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -164;
 						if (optRealSol)
 							solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 1070400;
@@ -593,7 +593,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 						solarSys->SysInfo.PlanetInfo.PlanetDensity = 35;
 						solarSys->SysInfo.PlanetInfo.PlanetRadius = 38;
 						solarSys->SysInfo.PlanetInfo.Tectonics = 1;
-						solarSys->SysInfo.PlanetInfo.RotationPeriod = 4008;
+						solarSys->SysInfo.PlanetInfo.RotationPeriod = 16.68 * EARTH_HOURS;
 						solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -167;
 						if (optRealSol)
 							solarSys->SysInfo.PlanetInfo.PlanetToSunDist = 1882700;
@@ -612,7 +612,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 34;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 40;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 1;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 3816;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 15.91 * EARTH_HOURS;
 				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -178;
 				break;
 
@@ -627,7 +627,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 95;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 27;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 4300;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 5.87 * EARTH_HOURS;
 				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -216;
 				break;
 
@@ -638,7 +638,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 				solarSys->SysInfo.PlanetInfo.PlanetDensity = 95;
 				solarSys->SysInfo.PlanetInfo.PlanetRadius = 27;
 				solarSys->SysInfo.PlanetInfo.Tectonics = 0;
-				solarSys->SysInfo.PlanetInfo.RotationPeriod = 4300;
+				solarSys->SysInfo.PlanetInfo.RotationPeriod = 6.4 * EARTH_HOURS;
 				solarSys->SysInfo.PlanetInfo.SurfaceTemperature = -216;
 				break;
 		}
