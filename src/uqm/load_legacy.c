@@ -1456,15 +1456,9 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp, BOOLEAN try_vanilla)
 	// JMS: Now we'll put those temp variables into action.
 	if (no_savename)
 	{
-		{
-			// Serosis: A bit of maths to fix the discrepency between Vanilla and HD
-			// Hyperspace coordinates.
-			float xPercent = 0.16f, yPercent = -16.66f;
-			temp_log_x = (float)temp_log_x + ((xPercent / 100) * (float)temp_log_x);
-			temp_log_y = (float)temp_log_y + ((yPercent / 100) * (float)temp_log_y);
-		}
-		SummPtr->SS.log_x = RES_SCALE(temp_log_x);
-		SummPtr->SS.log_y = RES_SCALE(temp_log_y);
+		// Removed the complicated maths in favor of utilizing the Vanilla LOG_X code
+		SummPtr->SS.log_x = UNIVERSE_TO_LOGX(oldLogxToUniverse(temp_log_x));
+		SummPtr->SS.log_y = UNIVERSE_TO_LOGY(oldLogyToUniverse(temp_log_y));
 		SummPtr->SS.ResUnits = temp_ru;
 		SummPtr->SS.FuelOnBoard = temp_fuel;
 	}
