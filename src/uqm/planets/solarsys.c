@@ -2422,7 +2422,7 @@ CreateStarBackGround (void)
 		s.frame = IncFrameIndex (s.frame);
 	}
 	
-	if (optNebulae && NebulaePercentY < numNebulae){ // MB: Make some solar systems not have nebulae
+	if (optNebulae && NebulaePercentY < numNebulae && CurStarDescPtr->Index != SOL_DEFINED){ // MB: Make some solar systems & Sol not have nebulae
 		nebula.origin.x = nebula.origin.y = 0;
 		nebula.frame = SetAbsFrameIndex (NebulaeFrame, NebulaePercentX);
 		DrawStamp(&nebula);
