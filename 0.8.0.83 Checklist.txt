@@ -1,0 +1,34 @@
+*Difficulty Modes
+
+DIFFICULTY SETTING:
+
+HARD:
+	*All Spathi escorts fuck off when they slave shield themselves
+	*Starting crew is 31 to account for the epilogue story
+	*Amount of Thraddash to defeat is 35 to become allied
+	*Crew Cost does not come down when the Shofixti are revived
+	*Slylandro Probes dodge projectiles
+	*Player does not receive Yehat or Pkunk ships at the last battle
+	*Get one Pkunk ship when you are nice to the Pkunk upon first meeting
+	*Mineral worth for Radioactives and Exotics is brought down to 7 and 8 respectively
+	Lower BioData/Rainbow World values
+	Add a couple of Slylandro Probes orbiting Rainbow Worlds
+	SIS: Side shots take double energy
+	SIS: Auto tracking costs more energy
+	Make critters more dangerous
+	Double Quasi-Portal fuel consumption
+	When fitted with bomb remove all devices (excluding the talking pet and taalo shield)
+	Randomise Quasi Portal exits
+	Disable Melnorme Fuel rescue or increase chances of them taking modules as payment.
+
+EASY:
+	*Double mineral worth
+	*Fwiffo starts with a full crew compliment
+	*Amount of Thraddash to defeat is 15 to become allied
+	*Tune down the battle difficulty to Weak Cyborg
+	*Start with two landers
+	Able to build Probes after completing Slylandro quest
+	Melnorme prices halved
+	Melnorme towing costs nothing
+	Portal Spawner costs no fuel
+	Player already knows about Deep Children
