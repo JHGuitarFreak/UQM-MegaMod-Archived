@@ -967,6 +967,7 @@ enum
 	DIRJOY_OPT,
 	REALSOL_OPT,
 	IPTRANS_OPT,
+	DIFFICULTY_OPT,
 	MELEE_OPT,
 	LOADGAME_OPT,
 #ifdef NETPLAY
@@ -1044,6 +1045,7 @@ static struct option longOptions[] =
 	{"iptrans", 1, NULL, IPTRANS_OPT},
 	{"melee", 0, NULL, MELEE_OPT},
 	{"loadgame", 0, NULL, LOADGAME_OPT},
+	{"difficulty", 1, NULL, DIFFICULTY_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1414,6 +1416,22 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 					badArg = true;
 				}
 				break;
+			case DIFFICULTY_OPT: {
+				int temp;
+				if (parseIntOption(optarg, &temp, "Difficulty") == -1) {
+					badArg = true;
+					break;
+				}
+				else if (temp < 0 || temp > 2) {
+					saveError("\nDifficulty has to be 0, 1, or 2.\n");
+					badArg = true;
+				}
+				else {
+					options->optDifficulty.value = temp;
+					options->optDifficulty.set = true;
+				}
+				break;
+			}
 			case MELEE_OPT:
 				optSuperMelee = TRUE;
 				break;
@@ -1694,6 +1712,10 @@ usage (FILE *out, const struct options_struct *defaults)
 		boolOptString(&defaults->directionalJoystick));
 	log_add(log_User, "  --realsol : Enables more realistic orbits and extra planets for Sol    (default: %s)",
 		boolOptString(&defaults->realSol));
+	log_add(log_User, "  --iptrans : Interplanetary transitions, pc=stepped, "
+		"3do=crossfade (default: %s)",
+		choiceOptString(&defaults->ipTrans));
+	log_add(log_User, "  --difficulty : 0: Normal | 1: Easy | 2: Hard   (default: 0)");
 	log_setOutput (old);
 }
 

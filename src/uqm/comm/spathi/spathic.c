@@ -148,7 +148,7 @@ static LOCDATA spathi_desc =
 static void
 ExitConversation (RESPONSE_REF Response)
 {
-	BYTE SpaCrew = IF_EASY(30, 1);
+	BYTE SpaCrew = IF_EASY(1, 30);
 	setSegue (Segue_peace);
 
 	if (PLAYER_SAID (Response, bye_ally_space))
