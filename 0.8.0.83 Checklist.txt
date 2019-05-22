@@ -1,4 +1,24 @@
+Everything with an asterisk (*) in front is completed
+
 *Difficulty Modes
+*Add Android compaitibility
+*Add option to show fuel in its whole decimal
+*BUG: Fix orbit line bug for macOS and Android
+*Used old Hyperspace code to improve compatibility for Vanilla saves
+*New icon
+*Added ability to switch between different Melee scalers for Android
+*Custom Seed can now be edited in the setup menu
+*Text fields in the setup menu can now have tooltips
+*BUG: Captain/Ship name box now flashes while editing
+*RealSol attempts to do a more realistic version of the Sol System, as such these changes only benefit Sol alone
+		- *Main planetary orbit lines to a scale that fits the viewport
+		- *Charon added to Pluto (with no minerals as to not mess up Sol's economy)
+		- *Sol textures have been completely redone
+		- *A new unit of measurement, Lunar Distance (l.d.), used to show distance from planet to moon
+		- *Axial tilt shows the tilt in decimal
+		- *Going through and trying to make each planet and moon have the correct data
+		- Possibly more stuff coming soon
+*Added option to switch between PC/3DO interplanetary transitions (when the viewport zooms in while traveling through a solar system)
 
 DIFFICULTY SETTING:
 
