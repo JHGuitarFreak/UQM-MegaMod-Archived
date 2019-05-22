@@ -19,6 +19,8 @@ Everything with an asterisk (*) in front is completed
 		- *Going through and trying to make each planet and moon have the correct data
 		- Possibly more stuff coming soon
 *Added option to switch between PC/3DO interplanetary transitions (when the viewport zooms in while traveling through a solar system)
+*Vela I is now named "Unzervalt"
+Name home worlds of various aliens (where applicable) after you've met them.
 
 DIFFICULTY SETTING:
 
