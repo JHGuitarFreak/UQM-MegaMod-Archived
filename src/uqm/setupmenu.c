@@ -105,11 +105,10 @@ typedef int (*HANDLER)(WIDGET *, int);
 static int choice_widths[CHOICE_COUNT] = {
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 0-9
 	2, 2, 2, 2, 2, 3, 3, 2,	3, 3,	// 10-19
-	3, 2, 2, 2,						// 20-23
-	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 24-33
-	2, 2, 2, 2, 3, 2, 2, 2, 3,		// 34-42
-	2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 	// 43-51
-	3 };							// 52
+	3, 2, 2, 2, 2, 2, 3, 2, 2, 2,	// 20-29
+	2, 2, 2, 2, 2, 2, 2, 2, 3, 2,	// 30-39
+	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 40-49
+	3, 2, 2, 3 };					// 50-53
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -219,6 +218,7 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&choices[32]),	// Skip Intro
 	(WIDGET *)(&choices[40]),	// Partial Pickup switch
+	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&textentries[1]),// Custom Seed entry
 	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&buttons[1]),	
