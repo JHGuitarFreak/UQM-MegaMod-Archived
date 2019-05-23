@@ -1699,6 +1699,27 @@ Unzervalt
 #(Charon)
 Charon
 
+#(Kyabetsu)
+Kyabetsu
+
+#(Source)
+Source
+
+#(Spathiwa)
+Spathiwa
+
+#(Vlik)
+Vlik
+
+#(Gaia)
+Gaia
+
+#(Fahz)
+Fahz
+
+#(Crimson Corp.)
+Crimson Corp.
+
 #(JAN) -- MONTHS_STRING_BASE
 JAN
 
