@@ -128,7 +128,8 @@ GenerateColony_generateName(const SOLARSYS_STATE *solarSys,
 		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
 			GAME_STRING(PLANET_NUMBER_BASE + 33));
 		SET_GAME_STATE(BATTLE_PLANET, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index);
-	}
+	} else
+		GenerateDefault_generateName(solarSys, world);
 
 	return true;
 }
