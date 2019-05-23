@@ -21,6 +21,7 @@
 #include "../../globdata.h"
 #include "../../grpinfo.h"
 #include "../../state.h"
+#include "../../gamestr.h"
 #include "../planets.h"
 
 
@@ -28,6 +29,8 @@ static bool GenerateShofixti_initNpcs (SOLARSYS_STATE *solarSys);
 static bool GenerateShofixti_reinitNpcs (SOLARSYS_STATE *solarSys);
 static bool GenerateShofixti_uninitNpcs (SOLARSYS_STATE *solarSys);
 static bool GenerateShofixti_generatePlanets (SOLARSYS_STATE *solarSys);
+static bool GenerateShofixti_generateName(const SOLARSYS_STATE *,
+	const PLANET_DESC *world);
 
 static void check_old_shofixti (void);
 
@@ -38,7 +41,7 @@ const GenerateFunctions generateShofixtiFunctions = {
 	/* .uninitNpcs       = */ GenerateShofixti_uninitNpcs,
 	/* .generatePlanets  = */ GenerateShofixti_generatePlanets,
 	/* .generateMoons    = */ GenerateDefault_generateMoons,
-	/* .generateName     = */ GenerateDefault_generateName,
+	/* .generateName     = */ GenerateShofixti_generateName,
 	/* .generateOrbital  = */ GenerateDefault_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
 	/* .generateEnergy   = */ GenerateDefault_generateEnergy,
@@ -148,6 +151,22 @@ GenerateShofixti_generatePlanets (SOLARSYS_STATE *solarSys)
 	}
 
 	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, TRUE);
+
+	return true;
+}
+
+static bool
+GenerateShofixti_generateName(const SOLARSYS_STATE *solarSys,
+	const PLANET_DESC *world)
+{
+	if (matchWorld(solarSys, world, 0, MATCH_PLANET))
+	{
+		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
+			GAME_STRING(PLANET_NUMBER_BASE + 35));
+		SET_GAME_STATE(BATTLE_PLANET, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index);
+	}
+	else
+		GenerateDefault_generateName(solarSys, world);
 
 	return true;
 }
