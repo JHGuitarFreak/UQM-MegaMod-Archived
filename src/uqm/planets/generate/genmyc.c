@@ -29,10 +29,13 @@
 #include "../../nameref.h"
 #include "../../setup.h"
 #include "../../state.h"
+#include "../../gamestr.h"
 #include "libs/mathlib.h"
 
 
 static bool GenerateMycon_generatePlanets (SOLARSYS_STATE *solarSys);
+static bool GenerateMycon_generateName(const SOLARSYS_STATE *,
+	const PLANET_DESC *world);
 static bool GenerateMycon_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world);
 static COUNT GenerateMycon_generateEnergy (const SOLARSYS_STATE *,
@@ -49,7 +52,7 @@ const GenerateFunctions generateMyconFunctions = {
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
 	/* .generatePlanets  = */ GenerateMycon_generatePlanets,
 	/* .generateMoons    = */ GenerateDefault_generateMoons,
-	/* .generateName     = */ GenerateDefault_generateName,
+	/* .generateName     = */ GenerateMycon_generateName,
 	/* .generateOrbital  = */ GenerateMycon_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
 	/* .generateEnergy   = */ GenerateMycon_generateEnergy,
@@ -91,6 +94,22 @@ GenerateMycon_generatePlanets (SOLARSYS_STATE *solarSys)
 	}
 
 	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = SHATTERED_WORLD;
+
+	return true;
+}
+
+static bool
+GenerateMycon_generateName(const SOLARSYS_STATE *solarSys,
+	const PLANET_DESC *world)
+{
+	if (CurStarDescPtr->Index == EGG_CASE0_DEFINED && matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{
+		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
+			GAME_STRING(PLANET_NUMBER_BASE + 42));
+		SET_GAME_STATE(BATTLE_PLANET, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index);
+	}
+	else
+		GenerateDefault_generateName(solarSys, world);
 
 	return true;
 }
