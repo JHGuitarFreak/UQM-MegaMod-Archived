@@ -35,7 +35,7 @@ extern "C" {
 #define ELEMENTS_STRING_COUNT   133
 #define SCAN_STRING_COUNT        56
 #define STAR_NUMBER_COUNT        14
-#define PLANET_NUMBER_COUNT      42
+#define PLANET_NUMBER_COUNT      43
 #define MONTHS_STRING_COUNT      12
 #define FEEDBACK_STRING_COUNT     5
 #define STARBASE_STRING_COUNT     5

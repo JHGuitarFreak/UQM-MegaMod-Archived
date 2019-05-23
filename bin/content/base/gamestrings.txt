@@ -1720,6 +1720,9 @@ Fahz
 #(Crimson Corp.)
 Crimson Corp.
 
+#(Syra)
+Syra
+
 #(JAN) -- MONTHS_STRING_BASE
 JAN
 

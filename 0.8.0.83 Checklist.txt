@@ -21,6 +21,14 @@ Everything with an asterisk (*) in front is completed
 *Added option to switch between PC/3DO interplanetary transitions (when the viewport zooms in while traveling through a solar system)
 *Vela I is now named "Unzervalt"
 Name home worlds of various aliens (where applicable) after you've met them.
+		- *Druuge home planet named "Crimson Corp." after meeting them
+		- Spathi home planet named "Spathiwa" after meeting them
+		- Slylandro home planet named "Source" after meeting them
+		- Supox home planet named "Vlik" after meeting them
+		- Syreen home planet named "Gaia" after meeting them
+		- Utwig home planet named "Fahz" after meeting them
+		- *Syreen's previous home planet named "Syra"
+		- Shofixti home planet named "Kyabetsu"
 
 DIFFICULTY SETTING:
 
