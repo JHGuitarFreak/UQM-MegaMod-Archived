@@ -27,12 +27,15 @@
 #include "../../ipdisp.h"
 #include "../../nameref.h"
 #include "../../state.h"
+#include "../../gamestr.h"
 #include "libs/mathlib.h"
 
 
 static bool GenerateSpathi_generatePlanets (SOLARSYS_STATE *solarSys);
 static bool GenerateSpathi_generateMoons (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *planet);
+static bool GenerateSpathi_generateName(const SOLARSYS_STATE *,
+	const PLANET_DESC *world);
 static bool GenerateSpathi_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world);
 static COUNT GenerateSpathi_generateEnergy (const SOLARSYS_STATE *,
@@ -51,7 +54,7 @@ const GenerateFunctions generateSpathiFunctions = {
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
 	/* .generatePlanets  = */ GenerateSpathi_generatePlanets,
 	/* .generateMoons    = */ GenerateSpathi_generateMoons,
-	/* .generateName     = */ GenerateDefault_generateName,
+	/* .generateName     = */ GenerateSpathi_generateName,
 	/* .generateOrbital  = */ GenerateSpathi_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
 	/* .generateEnergy   = */ GenerateSpathi_generateEnergy,
@@ -121,6 +124,24 @@ GenerateSpathi_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 			ComputeSpeed(&solarSys->MoonDesc[0], TRUE, 1);
 		}
 	}
+
+	return true;
+}
+
+static bool
+GenerateSpathi_generateName(const SOLARSYS_STATE *solarSys,
+	const PLANET_DESC *world)
+{
+	BOOLEAN IfMetASpathi = GET_GAME_STATE(KNOW_SPATHI_QUEST) || GET_GAME_STATE(FOUND_PLUTO_SPATHI) || GET_GAME_STATE(SPATHI_VISITS);
+
+	if (matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) && IfMetASpathi)
+	{
+		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
+			GAME_STRING(PLANET_NUMBER_BASE + 37));
+		SET_GAME_STATE(BATTLE_PLANET, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index);
+	}
+	else
+		GenerateDefault_generateName(solarSys, world);
 
 	return true;
 }
