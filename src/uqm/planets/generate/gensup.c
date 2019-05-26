@@ -25,10 +25,13 @@
 #include "../../ipdisp.h"
 #include "../../nameref.h"
 #include "../../state.h"
+#include "../../gamestr.h"
 #include "libs/mathlib.h"
 
 
 static bool GenerateSupox_generatePlanets (SOLARSYS_STATE *solarSys);
+static bool GenerateSupox_generateName(const SOLARSYS_STATE *,
+	const PLANET_DESC *world);
 static bool GenerateSupox_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world);
 static COUNT GenerateSupox_generateEnergy (const SOLARSYS_STATE *,
@@ -43,7 +46,7 @@ const GenerateFunctions generateSupoxFunctions = {
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
 	/* .generatePlanets  = */ GenerateSupox_generatePlanets,
 	/* .generateMoons    = */ GenerateDefault_generateMoons,
-	/* .generateName     = */ GenerateDefault_generateName,
+	/* .generateName     = */ GenerateSupox_generateName,
 	/* .generateOrbital  = */ GenerateSupox_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
 	/* .generateEnergy   = */ GenerateSupox_generateEnergy,
@@ -88,6 +91,22 @@ GenerateSupox_generatePlanets (SOLARSYS_STATE *solarSys)
 			SINE (angle, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].radius);
 		ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
 	}
+
+	return true;
+}
+
+static bool
+GenerateSupox_generateName(const SOLARSYS_STATE *solarSys,
+	const PLANET_DESC *world)
+{
+	if (matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) && GET_GAME_STATE(SUPOX_STACK1) > 2)
+	{
+		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
+			GAME_STRING(PLANET_NUMBER_BASE + 38));
+		SET_GAME_STATE(BATTLE_PLANET, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index);
+	}
+	else
+		GenerateDefault_generateName(solarSys, world);
 
 	return true;
 }
