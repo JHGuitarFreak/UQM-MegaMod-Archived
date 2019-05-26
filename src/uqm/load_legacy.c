@@ -1738,10 +1738,8 @@ LoadLegacyGame (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN try_vanilla)
 			&& LOBYTE (NextActivity) == IN_INTERPLANETARY)
 		NextActivity |= START_INTERPLANETARY;
 
-	if (optSpaceMusic && LOBYTE(NextActivity) == IN_INTERPLANETARY) {
-		findRaceSOI();
+	if (optSpaceMusic && LOBYTE(NextActivity) == IN_INTERPLANETARY)
 		playSpaceMusic(TRUE);
-	}
 
 	return TRUE;
 }
