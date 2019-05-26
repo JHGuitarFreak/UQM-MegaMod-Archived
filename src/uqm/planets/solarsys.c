@@ -1977,6 +1977,8 @@ void
 playSpaceMusic(BOOLEAN ComingFromLoad) {
 
 	if (optSpaceMusic) {
+		findRaceSOI();
+
 		if (ComingFromLoad) {
 			DestroyMusic(SpaceMusic);
 			SpaceMusic = 0;
