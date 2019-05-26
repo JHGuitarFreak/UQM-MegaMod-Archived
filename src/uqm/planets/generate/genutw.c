@@ -28,11 +28,14 @@
 #include "../../nameref.h"
 #include "../../setup.h"
 #include "../../state.h"
+#include "../../gamestr.h"
 #include "libs/mathlib.h"
 
 
 static bool GenerateUtwig_initNpcs (SOLARSYS_STATE *solarSys);
 static bool GenerateUtwig_generatePlanets (SOLARSYS_STATE *solarSys);
+static bool GenerateUtwig_generateName(const SOLARSYS_STATE *,
+	const PLANET_DESC *world);
 static bool GenerateUtwig_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world);
 static COUNT GenerateUtwig_generateEnergy (const SOLARSYS_STATE *,
@@ -47,7 +50,7 @@ const GenerateFunctions generateUtwigFunctions = {
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
 	/* .generatePlanets  = */ GenerateUtwig_generatePlanets,
 	/* .generateMoons    = */ GenerateDefault_generateMoons,
-	/* .generateName     = */ GenerateDefault_generateName,
+	/* .generateName     = */ GenerateUtwig_generateName,
 	/* .generateOrbital  = */ GenerateUtwig_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
 	/* .generateEnergy   = */ GenerateUtwig_generateEnergy,
@@ -130,6 +133,24 @@ GenerateUtwig_generatePlanets (SOLARSYS_STATE *solarSys)
 			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (4 - 2) + 2);
 		}		
 	}
+
+	return true;
+}
+
+static bool
+GenerateUtwig_generateName(const SOLARSYS_STATE *solarSys,
+	const PLANET_DESC *world)
+{
+	BOOLEAN IfMetAnUtwig = GET_GAME_STATE(UTWIG_HAVE_ULTRON) || GET_GAME_STATE(UTWIG_WAR_NEWS);
+
+	if (CurStarDescPtr->Index == UTWIG_DEFINED && matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) && IfMetAnUtwig)
+	{
+		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
+			GAME_STRING(PLANET_NUMBER_BASE + 40));
+		SET_GAME_STATE(BATTLE_PLANET, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index);
+	}
+	else
+		GenerateDefault_generateName(solarSys, world);
 
 	return true;
 }
