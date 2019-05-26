@@ -265,6 +265,9 @@ while (--ac > 0)
 			newGameSeed = optCustomSeed;
 			printf("New Game Seed: %d\n\n", newGameSeed);
 			printf("New Game Difficulty: %d\n\n", newGameDifficulty);
+
+			if (optSpaceMusic && LOBYTE(NextActivity) == IN_INTERPLANETARY)
+				playSpaceMusic(TRUE);
 		}
 
 #if defined(ANDROID) || defined(__ANDROID__)
