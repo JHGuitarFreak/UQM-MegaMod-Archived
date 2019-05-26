@@ -19,10 +19,14 @@
 #include "genall.h"
 #include "../planets.h"
 #include "../../comm.h"
+#include "../../build.h"
+#include "../../gamestr.h"
 
 static bool GenerateSyreen_generatePlanets (SOLARSYS_STATE *solarSys);
 static bool GenerateSyreen_generateMoons (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *planet);
+static bool GenerateSyreen_generateName(const SOLARSYS_STATE *,
+	const PLANET_DESC *world);
 static bool GenerateSyreen_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world);
 
@@ -33,7 +37,7 @@ const GenerateFunctions generateSyreenFunctions = {
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
 	/* .generatePlanets  = */ GenerateSyreen_generatePlanets,
 	/* .generateMoons    = */ GenerateSyreen_generateMoons,
-	/* .generateName     = */ GenerateDefault_generateName,
+	/* .generateName     = */ GenerateSyreen_generateName,
 	/* .generateOrbital  = */ GenerateSyreen_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
 	/* .generateEnergy   = */ GenerateDefault_generateEnergy,
@@ -93,6 +97,22 @@ GenerateSyreen_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 			ComputeSpeed(&solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte], TRUE, 1);
 		}
 	}
+
+	return true;
+}
+
+static bool
+GenerateSyreen_generateName(const SOLARSYS_STATE *solarSys,
+	const PLANET_DESC *world)
+{
+	if (matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) && GET_GAME_STATE(SYREEN_HOME_VISITS) > 0)
+	{
+		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
+			GAME_STRING(PLANET_NUMBER_BASE + 39));
+		SET_GAME_STATE(BATTLE_PLANET, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index);
+	}
+	else
+		GenerateDefault_generateName(solarSys, world);
 
 	return true;
 }
