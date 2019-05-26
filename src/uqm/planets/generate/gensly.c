@@ -19,9 +19,12 @@
 #include "genall.h"
 #include "../planets.h"
 #include "../../comm.h"
+#include "../../gamestr.h"
 
 
 static bool GenerateSlylandro_generatePlanets (SOLARSYS_STATE *solarSys);
+static bool GenerateSlylandro_generateName(const SOLARSYS_STATE *,
+	const PLANET_DESC *world);
 static bool GenerateSlylandro_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world);
 
@@ -32,7 +35,7 @@ const GenerateFunctions generateSlylandroFunctions = {
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
 	/* .generatePlanets  = */ GenerateSlylandro_generatePlanets,
 	/* .generateMoons    = */ GenerateDefault_generateMoons,
-	/* .generateName     = */ GenerateDefault_generateName,
+	/* .generateName     = */ GenerateSlylandro_generateName,
 	/* .generateOrbital  = */ GenerateSlylandro_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
 	/* .generateEnergy   = */ GenerateDefault_generateEnergy,
@@ -65,6 +68,22 @@ GenerateSlylandro_generatePlanets (SOLARSYS_STATE *solarSys)
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = (RandomContext_Random (SysGenRNG) % (YEL_GAS_GIANT - BLU_GAS_GIANT) + BLU_GAS_GIANT);
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
 	}
+
+	return true;
+}
+
+static bool
+GenerateSlylandro_generateName(const SOLARSYS_STATE *solarSys,
+	const PLANET_DESC *world)
+{
+	if (matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) && GET_GAME_STATE(SLYLANDRO_HOME_VISITS))
+	{
+		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
+			GAME_STRING(PLANET_NUMBER_BASE + 36));
+		SET_GAME_STATE(BATTLE_PLANET, solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index);
+	}
+	else
+		GenerateDefault_generateName(solarSys, world);
 
 	return true;
 }
