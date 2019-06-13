@@ -18,19 +18,24 @@
 
 #include "genall.h"
 #include "../planets.h"
+#include "../../build.h"
 #include "../../gendef.h"
+#include "../../grpinfo.h"
 #include "../../starmap.h"
+#include "../../state.h"
 #include "../../globdata.h"
 #include "libs/mathlib.h"
 
-
+static bool GenerateRainbowWorld_initNpcs(SOLARSYS_STATE *solarSys);
 static bool GenerateRainbowWorld_generatePlanets (SOLARSYS_STATE *solarSys);
 static bool GenerateRainbowWorld_generateOrbital (SOLARSYS_STATE *solarSys,
-		PLANET_DESC *world);
+		PLANET_DESC *world); 
+
+static void GenerateSlylandro(SOLARSYS_STATE *solarSys);
 
 
 const GenerateFunctions generateRainbowWorldFunctions = {
-	/* .initNpcs         = */ GenerateDefault_initNpcs,
+	/* .initNpcs         = */ GenerateRainbowWorld_initNpcs,
 	/* .reinitNpcs       = */ GenerateDefault_reinitNpcs,
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
 	/* .generatePlanets  = */ GenerateRainbowWorld_generatePlanets,
@@ -45,6 +50,17 @@ const GenerateFunctions generateRainbowWorldFunctions = {
 	/* .pickupLife       = */ GenerateDefault_pickupLife,
 };
 
+static bool
+GenerateRainbowWorld_initNpcs(SOLARSYS_STATE *solarSys)
+{
+
+	if (DIF_HARD && GET_GAME_STATE(SLYLANDRO_MULTIPLIER) > 0)
+		GenerateSlylandro(solarSys);
+	else
+		GenerateDefault_initNpcs(solarSys);
+
+	return true;
+}
 
 static bool
 GenerateRainbowWorld_generatePlanets (SOLARSYS_STATE *solarSys)
@@ -114,3 +130,43 @@ GenerateRainbowWorld_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *wor
 	return true;
 }
 
+static void
+GenerateSlylandro(SOLARSYS_STATE *solarSys) {
+	HIPGROUP hGroup, hNextGroup;
+	BYTE a, b;
+	COUNT NumSly;
+
+	NumSly = 2 * GET_GAME_STATE(SLYLANDRO_MULTIPLIER);
+
+	printf("NumSly: %d\n", NumSly);
+
+	assert(CountLinks(&GLOBAL(npc_built_ship_q)) == 0);
+
+	CloneShipFragment(SLYLANDRO_SHIP, &GLOBAL(npc_built_ship_q), 0);
+	if (GLOBAL(BattleGroupRef) == 0)
+		GLOBAL(BattleGroupRef) = PutGroupInfo(GROUPS_ADD_NEW, 1);
+	for (a = 1; a <= NumSly; ++a)
+		PutGroupInfo(GLOBAL(BattleGroupRef), a);
+
+	ReinitQueue(&GLOBAL(npc_built_ship_q));
+	GetGroupInfo(GLOBAL(BattleGroupRef), GROUP_INIT_IP);
+	hGroup = GetHeadLink(&GLOBAL(ip_group_q));
+
+	for (a = 0, b = 0; a < NumSly; ++a, b += FULL_CIRCLE / NumSly)
+	{
+		IP_GROUP *GroupPtr;
+
+		if (b % (FULL_CIRCLE / NumSly) == 0)
+			b += FULL_CIRCLE / NumSly;
+
+		GroupPtr = LockIpGroup(&GLOBAL(ip_group_q), hGroup);
+		hNextGroup = _GetSuccLink(GroupPtr);
+		GroupPtr->task = IN_ORBIT;
+		GroupPtr->sys_loc = solarSys->SunDesc[0].PlanetByte + 1;
+		GroupPtr->dest_loc = solarSys->SunDesc[0].PlanetByte + 1;
+		GroupPtr->orbit_pos = NORMALIZE_FACING(ANGLE_TO_FACING(b));
+		GroupPtr->group_counter = 0;
+		UnlockIpGroup(&GLOBAL(ip_group_q), hGroup);
+		hGroup = hNextGroup;
+	}
+}
