@@ -30,7 +30,7 @@ Everything with an asterisk (*) in front is completed
 		- *Syreen home planet named "Gaia" after meeting them
 		- *Utwig home planet named "Fahz" after meeting them
 		- *Syreen's previous home planet named "Syra"
-		- *Shofixti home planet named "Kyabetsu"
+		- *Shofixti's previous home planet named "Kyabetsu"
 
 DIFFICULTY SETTING:
 
@@ -43,8 +43,8 @@ HARD:
 	*Player does not receive Yehat or Pkunk ships at the last battle
 	*Get one Pkunk ship when you are nice to the Pkunk upon first meeting
 	*Mineral worth for Radioactives and Exotics is brought down to 7 and 8 respectively
+	*Slylandro Probes will orbit Rainbow Worlds, their numbers increase if left unchecked and will eventually vanish once you complete their quest
 	Lower BioData/Rainbow World values
-	Add a couple of Slylandro Probes orbiting Rainbow Worlds
 	SIS: Side shots take double energy
 	SIS: Auto tracking costs more energy
 	Make critters more dangerous
