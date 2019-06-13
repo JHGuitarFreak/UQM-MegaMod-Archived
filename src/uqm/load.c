@@ -457,7 +457,7 @@ LoadSisState (SIS_STATE *SSPtr, void *fp)
 static BOOLEAN
 LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
 {
-	SDWORD magic;
+	SDWORD magic, PrevFLoc;
 	DWORD nameSize = 0;
 	if (!read_32s (fp, &magic))
 		return FALSE;
@@ -509,9 +509,17 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
 			return FALSE;
 	}
 
-	// JMS: UQM-HD saves have an extra piece of padding to compensate for the
-	// added res_factor in SummPtr.
-	//read_8 (fp, NULL); /* padding */
+	{	// To show the Difficulty and Custom Seed on the summary screen
+		PrevFLoc = TellResFile(fp);
+
+		SeekResFile(fp, 38, SEEK_CUR);
+		read_8(fp, &SummPtr->Difficulty);
+
+		SeekResFile(fp, -4L, SEEK_END);
+		read_32s(fp, &SummPtr->Seed);
+
+		SeekResFile(fp, PrevFLoc, SEEK_SET);
+	}
 
 	return TRUE;
 }

@@ -62,6 +62,8 @@ typedef struct
 	BYTE DeviceList[MAX_EXCLUSIVE_DEVICES];
 	UNICODE SaveName[SAVE_NAME_SIZE], SaveNameChecker[SAVE_CHECKER_SIZE], LegacySaveName[LEGACY_SAVE_NAME_SIZE]; // JMS
 	BYTE res_factor;	// JMS: Stores resolution factor to enable saving/loading from different res modes.
+	SDWORD Seed;
+	BYTE Difficulty;
 } SUMMARY_DESC;
 
 extern ACTIVITY NextActivity;
