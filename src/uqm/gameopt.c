@@ -814,6 +814,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		s.frame = SetAbsFrameIndex (pickState->SummaryFrame,
 				GetFrameCount (pickState->SummaryFrame) - 4);
 		DrawStamp (&s);
+		DrawDiffSeed(NULL, NULL);
 	}
 	else
 	{
@@ -843,6 +844,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 
 		// Hack the states so that we can use standard SIS display funcs
 		GlobData.SIS_state = pSD->SS;
+		DrawDiffSeed(pSD->Seed, pSD->Difficulty);
 		InitQueue (&GLOBAL (built_ship_q),
 				MAX_BUILT_SHIPS, sizeof (SHIP_FRAGMENT));
 		for (i = 0; i < pSD->NumShips; ++i)
@@ -1332,6 +1334,17 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 		RedrawPickDisplay (&pickState, MenuState.CurState);
 	}
 
+#ifdef DEBUG
+	printf(saving ? "Saving > " : "Loading > ");
+	printf("Slot: %d\n", MenuState.CurState + 1);
+	printf("Seed: %d\n", SeedA);
+	printf("Difficulty: %s\n\n", DIF_STR);
+#endif
+	log_add(log_Info, saving ? "Saving > " : "Loading > ");
+	log_add(log_Info, "Slot: %d\n", MenuState.CurState + 1);
+	log_add(log_Info, "Seed: %d\n", SeedA);
+	log_add(log_Info, "Difficulty: %s\n\n", DIF_STR);
+
 	SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);
 
 	if (pickState.success && !saving)
@@ -1345,8 +1358,7 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 		SetTransitionSource (&DlgRect);
 		BatchGraphics ();
 
-		if(optCustomBorder)
-			DeltaSISGauges (UNDEFINED_DELTA, UNDEFINED_DELTA, UNDEFINED_DELTA);
+		DeltaSISGauges (UNDEFINED_DELTA, UNDEFINED_DELTA, UNDEFINED_DELTA);
 
 		DrawStamp (&DlgStamp);
 		ScreenTransition (3, &DlgRect);
@@ -1422,14 +1434,6 @@ GameOptions (void)
 		{	// Selected LOAD from main menu, and canceled
 			GLOBAL (CurrentActivity) |= CHECK_ABORT;
 		}
-
-#ifdef DEBUG
-		printf("Loaded Seed: %d\n\n", SeedA);
-		printf("Loaded Difficulty: %d\n\n", DIFFICULTY);
-#endif
-		log_add(log_Info, "Loaded Seed: %d\n\n", SeedA);
-		log_add(log_Info, "Loaded Difficulty: %d\n\n", DIFFICULTY);
-
 		return FALSE;
 	}
 
