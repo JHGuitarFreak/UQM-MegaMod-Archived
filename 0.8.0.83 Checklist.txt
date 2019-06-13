@@ -12,6 +12,7 @@ Everything with an asterisk (*) in front is completed
 *BUG: Captain/Ship name box now flashes while editing
 *SETUP MENU: Separated Advanced Options into Visual Options and Advanced Options to clear up space for more options
 *SETUP MENU: Rearranged and cleaned up menu options
+*Show Difficulty and Seed info on the load screen
 *RealSol attempts to do a more realistic version of the Sol System, as such these changes only benefit Sol alone
 		- *Main planetary orbit lines to a scale that fits the viewport
 		- *Charon added to Pluto (with no minerals as to not mess up Sol's economy)
