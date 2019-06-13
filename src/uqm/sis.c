@@ -178,6 +178,39 @@ DrawHyperCoords (POINT universe)
 }
 
 void
+DrawDiffSeed(SDWORD seed, BYTE difficulty) {
+	UNICODE buf[100];
+	char diffSTR[3][7] = {"Normal", "Easy", "Hard"};
+	char TempDiff[7];
+
+	switch (difficulty) {
+		case 50:
+			strncpy(TempDiff, diffSTR[1], 7);
+			break;
+		case 8:
+			strncpy(TempDiff, diffSTR[2], 7);
+			break;
+		case 25:
+		default:
+			strncpy(TempDiff, diffSTR[0], 7);
+			break;
+	}
+
+	if (seed && difficulty) {
+		snprintf(buf, sizeof buf, "Difficulty: %s", TempDiff);
+		DrawSISMessage(buf);
+
+		memset(&buf[0], 0, sizeof(buf));
+		snprintf(buf, sizeof buf, "%u", seed);
+		DrawSISTitle(buf);
+	} else {
+		snprintf(buf, sizeof buf, "");
+		DrawSISMessage(buf);
+		DrawSISTitle(buf);
+	}
+}
+
+void
 DrawSISMessage (const UNICODE *pStr)
 {
 	DrawSISMessageEx (pStr, -1, -1, DSME_NONE);
