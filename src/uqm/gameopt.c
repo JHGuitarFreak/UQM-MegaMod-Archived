@@ -1358,7 +1358,17 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 		SetTransitionSource (&DlgRect);
 		BatchGraphics ();
 
-		DeltaSISGauges (UNDEFINED_DELTA, UNDEFINED_DELTA, UNDEFINED_DELTA);
+		// These redraw the status of the ship after saving or aborting a load/save
+		DeltaSISGauges(UNDEFINED_DELTA, UNDEFINED_DELTA, UNDEFINED_DELTA); // Redraws fuel, crew, and status message (green box)
+		DrawSISMessage(NULL); // Redraws main title bar at the top-left
+
+		// Redraws secondary title bar to the right of the main bar
+		if (inHQSpace())
+			DrawHyperCoords(GLOBAL(ShipStamp.origin));
+		else if (GLOBAL(ip_planet) == 0)
+			DrawHyperCoords(CurStarDescPtr->star_pt);
+		else
+			DrawSISTitle(GLOBAL_SIS(PlanetName));
 
 		DrawStamp (&DlgStamp);
 		ScreenTransition (3, &DlgRect);
