@@ -58,6 +58,7 @@ HARD:
 	Add more tiers of Slylandro Probe growth for a new Game Over scenario where the Probes completely take over the sector
 	Add a squadron of Slylandro Probes at Delta Crateris if their population is left unchecked and after you have the Chmmr Bomb installed
 	Game Over if you meet the Talking Pet without the Taalo Shield
+	Remove Druuge/Melnorme fuel exploit
 
 EASY:
 	*Double mineral worth
