@@ -197,13 +197,15 @@ DrawDiffSeed(SDWORD seed, BYTE difficulty) {
 	}
 
 	if (seed && difficulty) {
+		memset(&buf[0], 0, sizeof(buf));
 		snprintf(buf, sizeof buf, "Difficulty: %s", TempDiff);
 		DrawSISMessage(buf);
 
 		memset(&buf[0], 0, sizeof(buf));
-		snprintf(buf, sizeof buf, "%u", seed);
+		snprintf(buf, sizeof buf, RES_BOOL("%u", "Seed: %u"), seed);
 		DrawSISTitle(buf);
 	} else {
+		memset(&buf[0], 0, sizeof(buf));
 		snprintf(buf, sizeof buf, "");
 		DrawSISMessage(buf);
 		DrawSISTitle(buf);
