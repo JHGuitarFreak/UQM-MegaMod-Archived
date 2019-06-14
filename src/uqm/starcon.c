@@ -262,6 +262,12 @@ while (--ac > 0)
 		// JMS: Name Captain & Ship at start (not at loading old game).
 		if (LastActivity == (CHECK_LOAD | CHECK_RESTART)){
 			AskNameForCaptainAndShip();
+
+			if(DIF_HARD && !PrimeSeed){
+				srand(time(NULL));
+				optCustomSeed = (rand() % ((MAX_SEED - MIN_SEED) + MIN_SEED));
+			}
+
 			newGameSeed = optCustomSeed;
 			printf("New Game Seed: %d\n", newGameSeed);
 			printf("New Game Difficulty: %d\n\n", newGameDifficulty);
