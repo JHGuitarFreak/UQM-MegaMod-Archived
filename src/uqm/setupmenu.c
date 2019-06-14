@@ -80,7 +80,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT         10
-#define CHOICE_COUNT       54
+#define CHOICE_COUNT       55
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       12
 #define LABEL_COUNT         5
@@ -108,7 +108,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2, 2, 2, 3, 2, 2, 2,	// 20-29
 	2, 2, 2, 2, 2, 2, 2, 2, 3, 2,	// 30-39
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 40-49
-	3, 2, 2, 3 };					// 50-53
+	3, 2, 2, 3, 2 };				// 50-54
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -235,6 +235,7 @@ static WIDGET *visual_widgets[] = {
 	(WIDGET *)(&choices[45]),	// Custom Border switch
 	(WIDGET *)(&choices[48]),	// Whole Fuel Value switch
 	(WIDGET *)(&choices[51]),	// Realistic Sol
+	(WIDGET *)(&choices[54]),	// Fuel Range
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -571,6 +572,7 @@ SetDefaults (void)
 	choices[51].selected = opts.realSol;
 	choices[52].selected = opts.ipTrans;
 	choices[53].selected = opts.difficulty;
+	choices[54].selected = opts.fuelRange;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -644,6 +646,7 @@ PropagateResults (void)
 	opts.realSol = choices[51].selected;
 	opts.ipTrans = choices[52].selected;
 	opts.difficulty = choices[53].selected;
+	opts.fuelRange = choices[54].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1584,6 +1587,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->realSol = optRealSol ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->ipTrans = (optIPScaler == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC;
 	opts->difficulty = res_GetInteger("config.difficulty");
+	opts->fuelRange = optFuelRange ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 
 	// Serosis: 320x240
 	if (RESOLUTION_FACTOR != HD) {
@@ -2043,6 +2047,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 			break;
 	}
 	res_PutInteger("config.difficulty", opts->difficulty);
+
+	// Serosis: Enable "point of no return" fuel range
+	res_PutBoolean("config.fuelrange", opts->fuelRange == OPTVAL_ENABLED);
+	optFuelRange = (opts->fuelRange == OPTVAL_ENABLED);
 
 	if (opts->scanlines && RESOLUTION_FACTOR != HD) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;

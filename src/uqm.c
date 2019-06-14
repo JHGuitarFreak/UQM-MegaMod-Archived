@@ -179,6 +179,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, realSol);
 	DECL_CONFIG_OPTION(int,  ipTrans);
 	DECL_CONFIG_OPTION(int,  optDifficulty);
+	DECL_CONFIG_OPTION(bool, fuelRange);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -362,6 +363,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(	 realSol,			false),
 		INIT_CONFIG_OPTION(	 ipTrans,			OPT_PC),
 		INIT_CONFIG_OPTION(  optDifficulty,		0 ),
+		INIT_CONFIG_OPTION(	 fuelRange,		false),
 
 	};
 	struct options_struct defaults = options;
@@ -560,6 +562,7 @@ main (int argc, char *argv[])
 	optRealSol = options.realSol.value;
 	optIPScaler = options.ipTrans.value;
 	optDifficulty = options.optDifficulty.value;
+	optFuelRange = options.fuelRange.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -902,6 +905,7 @@ getUserConfigOptions (struct options_struct *options)
 	if (res_IsInteger("config.difficulty") && !options->optDifficulty.set) {
 		options->optDifficulty.value = res_GetInteger("config.difficulty");
 	}
+	getBoolConfigValue(&options->fuelRange, "config.fuelrange");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -968,6 +972,7 @@ enum
 	REALSOL_OPT,
 	IPTRANS_OPT,
 	DIFFICULTY_OPT,
+	FUELRANGE_OPT,
 	MELEE_OPT,
 	LOADGAME_OPT,
 #ifdef NETPLAY
@@ -1038,14 +1043,15 @@ static struct option longOptions[] =
 	{"scaledevices", 0, NULL, SCALEPLAN_OPT},
 	{"customborder", 0, NULL, CUSTBORD_OPT},
 	{"customseed", 1, NULL, EXSEED_OPT},
-	{"spacemusic", 1, NULL, SPACEMUSIC_OPT},
-	{"wholefuel", 1, NULL, WHOLEFUEL_OPT},
-	{"dirjoystick", 1, NULL, DIRJOY_OPT},
-	{"realsol", 1, NULL, REALSOL_OPT},
+	{"spacemusic", 0, NULL, SPACEMUSIC_OPT},
+	{"wholefuel", 0, NULL, WHOLEFUEL_OPT},
+	{"dirjoystick", 0, NULL, DIRJOY_OPT},
+	{"realsol", 0, NULL, REALSOL_OPT},
 	{"iptrans", 1, NULL, IPTRANS_OPT},
 	{"melee", 0, NULL, MELEE_OPT},
 	{"loadgame", 0, NULL, LOADGAME_OPT},
 	{"difficulty", 1, NULL, DIFFICULTY_OPT},
+	{"fuelrange", 0, NULL, FUELRANGE_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1432,6 +1438,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				}
 				break;
 			}
+			case FUELRANGE_OPT:
+				setBoolOption(&options->fuelRange, true);
+				break;
 			case MELEE_OPT:
 				optSuperMelee = TRUE;
 				break;
@@ -1716,6 +1725,8 @@ usage (FILE *out, const struct options_struct *defaults)
 		"3do=crossfade (default: %s)",
 		choiceOptString(&defaults->ipTrans));
 	log_add(log_User, "  --difficulty : 0: Normal | 1: Easy | 2: Hard   (default: 0)");
+	log_add(log_User, "  --fuelrange : Enables 'point of no return' fuel range    (default: %s)",
+		boolOptString(&defaults->fuelRange));
 	log_setOutput (old);
 }
 

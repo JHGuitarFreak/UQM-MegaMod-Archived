@@ -389,18 +389,20 @@ DrawFuelCircles ()
 		(get_fuel_to_sol () > OnBoardFuel))
 	{
 		diameter_no_return = 0;
-	} else
-	{
+	} else {
 		diameter_no_return = OnBoardFuel - get_fuel_to_sol();
 	}
 
-	if (LOBYTE (GLOBAL (CurrentActivity)) != IN_HYPERSPACE)
+	if (!inHQSpace())
 		corner = CurStarDescPtr->star_pt;
-	else
-	{
+	else {
 		corner.x = LOGX_TO_UNIVERSE (GLOBAL_SIS (log_x));
 		corner.y = LOGY_TO_UNIVERSE (GLOBAL_SIS (log_y));
 	}
+
+	// Cap the diameter to a sane range
+	if (diameter > MAX_X_UNIVERSE * 4)
+		diameter = MAX_X_UNIVERSE * 4;
 
 	/* Draw outer circle*/
 	r.extent.width = UNIVERSE_TO_DISPX (diameter)
@@ -428,28 +430,29 @@ DrawFuelCircles ()
 	/* Draw a second fuel circle showing the 'point of no return', past which there will
 	 * not be enough fuel to return to Sol.
 	 */
+	if (optFuelRange) {
+		r.extent.width = UNIVERSE_TO_DISPX(diameter_no_return)
+			- UNIVERSE_TO_DISPX(0);
 
-	r.extent.width = UNIVERSE_TO_DISPX (diameter_no_return)
-	                 - UNIVERSE_TO_DISPX (0);
+		if (r.extent.width < 0)
+			r.extent.width = -r.extent.width;
 
-	if (r.extent.width < 0)
-		r.extent.width = -r.extent.width;
+		r.extent.height = UNIVERSE_TO_DISPY(diameter_no_return)
+			- UNIVERSE_TO_DISPY(0);
 
-	r.extent.height = UNIVERSE_TO_DISPY (diameter_no_return)
-	                  - UNIVERSE_TO_DISPY (0);
+		if (r.extent.height < 0)
+			r.extent.height = -r.extent.height;
 
-	if (r.extent.height < 0)
-		r.extent.height = -r.extent.height;
+		r.corner.x = UNIVERSE_TO_DISPX(corner.x)
+			- (r.extent.width >> 1);
+		r.corner.y = UNIVERSE_TO_DISPY(corner.y)
+			- (r.extent.height >> 1);
 
-	r.corner.x = UNIVERSE_TO_DISPX (corner.x)
-	             - (r.extent.width >> 1);
-	r.corner.y = UNIVERSE_TO_DISPY (corner.y)
-	             - (r.extent.height >> 1);
-
-	OldColor = SetContextForeGroundColor (
-	                   BUILD_COLOR (MAKE_RGB15 (0x04, 0x04, 0x05), 0x22));
-	DrawFilledOval (&r);
-	SetContextForeGroundColor (OldColor);
+		OldColor = SetContextForeGroundColor(
+			BUILD_COLOR(MAKE_RGB15(0x04, 0x04, 0x05), 0x22));
+		DrawFilledOval(&r);
+		SetContextForeGroundColor(OldColor);
+	}
 }
 
 static void
