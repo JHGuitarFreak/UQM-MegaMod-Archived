@@ -1334,22 +1334,24 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 		RedrawPickDisplay (&pickState, MenuState.CurState);
 	}
 
-#ifdef DEBUG
-	printf(saving ? "Saving > " : "Loading > ");
-	printf("Slot: %d\n", MenuState.CurState);
-	printf("Seed: %d\n", SeedA);
-	printf("Difficulty: %s\n\n", DIF_STR);
-#endif
-	log_add(log_Info, saving ? "Saving > " : "Loading > ");
-	log_add(log_Info, "Slot: %d\n", MenuState.CurState);
-	log_add(log_Info, "Seed: %d\n", SeedA);
-	log_add(log_Info, "Difficulty: %s\n\n", DIF_STR);
-
 	SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);
 
 	if (pickState.success && !saving)
 	{	// Load succeeded, signal up the chain
 		GLOBAL (CurrentActivity) |= CHECK_LOAD;
+	}
+
+	if (pickState.success) {
+#ifdef DEBUG
+		printf(saving ? "Saving > " : "Loading > ");
+		printf("Slot: %d\n", MenuState.CurState);
+		printf("Seed: %d\n", SeedA);
+		printf("Difficulty: %s\n\n", DIF_STR);
+#endif
+		log_add(log_Info, saving ? "Saving > " : "Loading > ");
+		log_add(log_Info, "Slot: %d\n", MenuState.CurState);
+		log_add(log_Info, "Seed: %d\n", SeedA);
+		log_add(log_Info, "Difficulty: %s\n\n", DIF_STR);
 	}
 
 	if (!(GLOBAL (CurrentActivity) & CHECK_ABORT) &&
