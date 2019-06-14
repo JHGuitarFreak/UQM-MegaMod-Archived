@@ -1336,12 +1336,12 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 
 #ifdef DEBUG
 	printf(saving ? "Saving > " : "Loading > ");
-	printf("Slot: %d\n", MenuState.CurState + 1);
+	printf("Slot: %d\n", MenuState.CurState);
 	printf("Seed: %d\n", SeedA);
 	printf("Difficulty: %s\n\n", DIF_STR);
 #endif
 	log_add(log_Info, saving ? "Saving > " : "Loading > ");
-	log_add(log_Info, "Slot: %d\n", MenuState.CurState + 1);
+	log_add(log_Info, "Slot: %d\n", MenuState.CurState);
 	log_add(log_Info, "Seed: %d\n", SeedA);
 	log_add(log_Info, "Difficulty: %s\n\n", DIF_STR);
 

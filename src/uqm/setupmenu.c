@@ -382,7 +382,7 @@ static void
 populate_seed(void)
 {	
 	sprintf(textentries[1].value, "%d", optCustomSeed); 
-	if (optCustomSeed <= 1 || optCustomSeed >= 2147483646)
+	if (optCustomSeed < MIN_SEED || optCustomSeed > MAX_SEED)
 		optCustomSeed = PrimeA;
 }
 
@@ -483,7 +483,7 @@ static void
 change_seed(WIDGET_TEXTENTRY *self)
 {
 	int NewSeed = atoi(self->value);
-	if (NewSeed <= 1 || NewSeed >= 2147483646)
+	if (NewSeed < MIN_SEED || NewSeed > MAX_SEED)
 		optCustomSeed = PrimeA;
 	else
 		optCustomSeed = atoi(self->value);
@@ -1999,7 +1999,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	
 	// Serosis: Externalized Seed Generation
 	SeedStuff = res_GetInteger ("config.customSeed");
-	if(SeedStuff <= 1 || SeedStuff >= 2147483646)
+	if(SeedStuff < MIN_SEED || SeedStuff > MAX_SEED)
 		opts->customSeed = PrimeA;
 	else 
 		opts->customSeed = optCustomSeed;

@@ -48,10 +48,12 @@ struct RandomContext {
 
 #define PrimeA 16807
 #define SeedA (newGameSeed ? newGameSeed : (savedSeed ? savedSeed : PrimeA)) // Serosis - Default: 16807 - a relatively prime number - also M div Q
-#define SeedM 2147483647 // 0xFFFFFFFF div 2
+#define SeedM (UINT32_MAX / 2) // 0xFFFFFFFF div 2
 #define SeedQ (SeedM / SeedA) // Serosis - Default: 127773L - M div A
 #define SeedR (SeedM % SeedA) // Serosis - Default: 2836 - M mod A 
 #define PrimeSeed (SeedA == PrimeA ? true : false)
+#define MAX_SEED 2147483645
+#define MIN_SEED 2
 
 RandomContext *RandomContext_New (void);
 RandomContext *RandomContext_Set(DWORD Context);
