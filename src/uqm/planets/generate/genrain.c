@@ -94,7 +94,7 @@ GenerateRainbowWorld_generatePlanets (SOLARSYS_STATE *solarSys)
 	ComputeSpeed(&solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte], FALSE, 1);
 
 	if(!PrimeSeed){
-		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % 4);
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % MAX_GEN_MOONS);
 	}
 
 	return true;
