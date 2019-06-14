@@ -101,6 +101,7 @@ int optIPScaler;
 int optDifficulty;
 int savedDifficulty;
 int newGameDifficulty;
+BOOLEAN optFuelRange;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

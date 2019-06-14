@@ -91,6 +91,7 @@ extern int optIPScaler;
 extern int optDifficulty;
 extern int savedDifficulty;
 extern int newGameDifficulty;
+extern BOOLEAN optFuelRange;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

@@ -68,6 +68,7 @@ Melee Zoom
 Realistic Sol
 IP Transitions
 Difficulty
+Fuel Range
 
 #(CAT_0_OPTS)
 Original
@@ -840,6 +841,16 @@ Easier difficulty.
 
 #(CAT_53_OPT_2_DESC)
 Harder difficulty.
+
+#(CAT_54_OPTS)
+Disabled
+Enabled
+
+#(CAT_54_OPT_0_DESC)
+Default fuel range on starmap 
+
+#(CAT_54_OPT_1_DESC)
+Fuel range will show point of no return
 
 #(SLIDERS)
 Music Volume
