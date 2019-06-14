@@ -550,7 +550,7 @@ InterplanetaryTransition (ELEMENT *ElementPtr)
 			portal_rng_x = RandomContext_Set(portal_pt[index].x);
 			portal_rng_y = RandomContext_Set(portal_pt[index].y);
 
-			if (!PrimeSeed) {
+			if (!PrimeSeed || DIF_HARD) {
 				GLOBAL_SIS(log_x) = UNIVERSE_TO_LOGX(RandomContext_Random(portal_rng_x) % (MAX_X_UNIVERSE + 1));
 				GLOBAL_SIS(log_y) = UNIVERSE_TO_LOGY(RandomContext_Random(portal_rng_y) % (MAX_Y_UNIVERSE + 1));
 			} else {
