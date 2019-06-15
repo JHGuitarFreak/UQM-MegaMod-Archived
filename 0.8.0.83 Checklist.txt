@@ -14,6 +14,7 @@ Everything with an asterisk (*) in front is completed
 *SETUP MENU: Rearranged and cleaned up menu options
 *SETUP MENU: Added option enable/disable fuel range point of no return
 *Show Difficulty and Seed info on the load screen
+*Custom seed generated solar systems can have a max of 10 planets and a max of 5 moons for any given planet
 *RealSol attempts to do a more realistic version of the Sol System, as such these changes only benefit Sol alone
 		- *Main planetary orbit lines to a scale that fits the viewport
 		- *Charon added to Pluto (with no minerals as to not mess up Sol's economy)
