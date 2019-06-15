@@ -1378,7 +1378,7 @@ DoSell (RESPONSE_REF R)
 		}
 		else /* if (R == sell_rainbow_locations) */
 		{
-			added_credit = num_new_rainbows * (250 * BIO_CREDIT_VALUE);
+			added_credit = num_new_rainbows * (DIF_CASE(250, 500, 125) * BIO_CREDIT_VALUE);
 
 			NPCPhrase (SOLD_RAINBOW_LOCATIONS1);
 			NPCNumber (num_new_rainbows, NULL);
