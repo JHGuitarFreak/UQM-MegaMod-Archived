@@ -1251,7 +1251,7 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 	CONTEXT OldContext;
 	MENU_STATE MenuState;
 	PICK_GAME_STATE pickState;
-	RECT DlgRect, OtherRect;
+	RECT DlgRect;
 	STAMP DlgStamp;
 	TimeCount TimeOut;
 	InputFrameCallback *oldCallback;
@@ -1358,11 +1358,15 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 			(saving || (!pickState.success && !fromMainMenu)))
 	{	// Restore previous screen
 
-		// Set the context to screen so that the whole screen will update
-		SetContext(ScreenContext); 
-		GetContextClipRect(&OtherRect);
-		SetTransitionSource(&OtherRect);
+		// Math to include the title bars in the screen transition
+		DlgRect.extent.width += DlgRect.corner.x;
+		DlgRect.extent.height += DlgRect.corner.y;
+		DlgRect.corner.x = DlgRect.corner.y = 0;
+
+		SetTransitionSource (&DlgRect);
 		BatchGraphics ();
+
+		DrawStamp (&DlgStamp);
 
 		// These redraw the status of the ship after saving or aborting a load/save
 		DeltaSISGauges(UNDEFINED_DELTA, UNDEFINED_DELTA, UNDEFINED_DELTA); // Redraws fuel, crew, and status message (green box)
@@ -1376,12 +1380,7 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 		else
 			DrawSISTitle(GLOBAL_SIS(PlanetName));
 
-		// Set the context back so we can draw the saved frame properly
-		SetContext(OldContext);
-		GetContextClipRect(&DlgRect);
-		DrawStamp(&DlgStamp);
-
-		ScreenTransition (3, &OtherRect);
+		ScreenTransition (3, &DlgRect);
 		UnbatchGraphics ();
 	}
 
