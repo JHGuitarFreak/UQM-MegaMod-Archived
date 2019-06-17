@@ -481,6 +481,13 @@ InitGameStructures (void)
 	GLOBAL_SIS (ModuleSlots[8]) = STORAGE_BAY;
 	GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
 	GLOBAL_SIS (FuelOnBoard) = 10 * FUEL_TANK_SCALE;
+
+	if (DIF_EASY) {
+		GLOBAL_SIS(DriveSlots[7]) =
+			GLOBAL_SIS(DriveSlots[8]) = FUSION_THRUSTER;
+		GLOBAL_SIS(JetSlots[1]) =
+			GLOBAL_SIS(JetSlots[7]) = TURNING_JETS;
+	}
  
 	if (optHeadStart){
 		GLOBAL_SIS (ModuleSlots[7]) = STORAGE_BAY;
