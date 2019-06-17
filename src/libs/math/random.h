@@ -54,6 +54,7 @@ struct RandomContext {
 #define PrimeSeed (SeedA == PrimeA ? true : false)
 #define MAX_SEED 2147483645
 #define MIN_SEED 2
+#define SANE_SEED(a) (((a) < MIN_SEED || (a) > MAX_SEED) ? false : true)
 
 RandomContext *RandomContext_New (void);
 RandomContext *RandomContext_Set(DWORD Context);

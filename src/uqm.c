@@ -1395,7 +1395,7 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 				if (parseIntOption (optarg, &temp, "Custom Seed") == -1) {
 					badArg = true;
 					break;
-				} else if (temp < MIN_SEED || temp > MAX_SEED) {					
+				} else if (!SANE_SEED(temp)) {
 					saveError ("\nCustom Seed can not be less than 2 or greater than 2147483645.\n");
 					badArg = true;
 				} else {
