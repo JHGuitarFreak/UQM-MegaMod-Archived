@@ -70,6 +70,7 @@ EASY:
 	*Tune down the battle difficulty to Weak Cyborg
 	*Start with two landers
 	*Rainbow World credit value doubled
+	*Add a couple more fusion thrusters and turning jets for new game
 	Able to build Probes after completing Slylandro quest
 	Melnorme prices halved
 	Melnorme towing costs nothing
