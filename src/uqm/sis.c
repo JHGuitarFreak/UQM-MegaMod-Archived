@@ -196,9 +196,6 @@ DrawDiffSeed(SDWORD seed, BYTE difficulty) {
 			break;
 	}
 
-	if (seed > MAX_SEED || seed < MIN_SEED)
-		seed = 16807;
-
 	if (seed && difficulty) {
 		memset(&buf[0], 0, sizeof(buf));
 		snprintf(buf, sizeof buf, "Difficulty: %s", TempDiff);
