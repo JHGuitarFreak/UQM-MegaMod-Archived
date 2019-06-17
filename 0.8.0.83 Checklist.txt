@@ -34,6 +34,7 @@ Everything with an asterisk (*) in front is completed
 		- *Utwig home planet named "Fahz" after meeting them
 		- *Syreen's previous home planet named "Syra"
 		- *Shofixti's previous home planet named "Kyabetsu"
+Create an "Ironman" setting and save system
 
 DIFFICULTY SETTING:
 
@@ -48,7 +49,8 @@ HARD:
 	*Mineral worth for Radioactives and Exotics is brought down to 7 and 8 respectively
 	*Slylandro Probes will orbit Rainbow Worlds, their numbers increase if left unchecked and will eventually vanish once you complete their quest
 	*New game will have a random custom seed if the loaded or commandline seed isn't the default.
-	Lower BioData/Rainbow World values
+	*Rainbow World credit value cut in half
+	Lower BioData value
 	SIS: Side shots take double energy
 	SIS: Auto tracking costs more energy
 	Make critters more dangerous
@@ -67,9 +69,10 @@ EASY:
 	*Amount of Thraddash to defeat is 15 to become allied
 	*Tune down the battle difficulty to Weak Cyborg
 	*Start with two landers
+	*Rainbow World credit value doubled
 	Able to build Probes after completing Slylandro quest
 	Melnorme prices halved
 	Melnorme towing costs nothing
 	Portal Spawner costs no fuel
 	Player already knows about Deep Children
-	Keep the Emergency Escape Warp Unit enabled after Chmmr Bomb installation
+	*Keep the Emergency Escape Warp Unit enabled after Chmmr Bomb installation
