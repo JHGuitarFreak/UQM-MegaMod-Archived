@@ -1399,6 +1399,16 @@ generateBioNode (SOLARSYS_STATE *system, ELEMENT *NodeElementPtr,
 	COUNT i;
 	DWORD j;
 
+	if (DIF_HARD) {
+		CreatureData[EVIL_ONE].Attributes = BEHAVIOR_HUNT | AWARENESS_HIGH | SPEED_SLOW | DANGER_MONSTROUS;
+		CreatureData[EVIL_ONE].ValueAndHitPoints = MAKE_BYTE(5, 8);
+		// CreatureData[ZEX_BEAUTY].Attributes = BEHAVIOR_HUNT | AWARENESS_HIGH | SPEED_FAST | DANGER_MONSTROUS;
+		// CreatureData[ZEX_BEAUTY].ValueAndHitPoints = MAKE_BYTE(15, 30);
+	} else if (DIF_EASY){
+		CreatureData[ZEX_BEAUTY].Attributes = BEHAVIOR_HUNT | AWARENESS_LOW | SPEED_SLOW | DANGER_MONSTROUS;
+		CreatureData[ZEX_BEAUTY].ValueAndHitPoints = MAKE_BYTE(15, 8);
+	}
+
 	// NOTE: TFB_Random() calls here are NOT part of the deterministic planet
 	//   generation PRNG flow.
 	if (CreatureData[creatureType].Attributes & SPEED_MASK)
