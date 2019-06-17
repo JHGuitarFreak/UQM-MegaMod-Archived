@@ -464,7 +464,7 @@ DrawStarMap (COUNT race_update, RECT *pClipRect)
 	// long diameter;
 	RECT r, old_r;
 	POINT oldOrigin = {0, 0};
-	STAMP s, nebula;
+	STAMP s;
 	FRAME star_frame;
 	STAR_DESC *SDPtr;
 	BOOLEAN draw_cursor;
@@ -1041,7 +1041,7 @@ UpdateCursorInfo (UNICODE *prevbuf)
 	}
 }
 
-static int
+static unsigned int
 FuelRequired (void){
 	COUNT fuel_required;
 	DWORD f;

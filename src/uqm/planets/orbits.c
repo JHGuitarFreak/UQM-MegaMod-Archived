@@ -540,7 +540,7 @@ char scolor[] = {'B', 'G', 'O', 'R', 'W', 'Y'};
 	while (NumPlanets--)
 	{
 		BYTE chance;
-		DWORD rand_val, min_radius, angle;
+		DWORD rand_val, min_radius;
 		SIZE delta_r;
 		PLANET_DESC *pLocPD;
 
