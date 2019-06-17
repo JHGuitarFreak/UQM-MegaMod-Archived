@@ -1407,6 +1407,9 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp, BOOLEAN try_vanilla)
 	DWORD   temp_fuel  = 0;
 	BOOLEAN no_savename = FALSE;	
 	
+	// Sanitize summary seed and difficulty
+	SummPtr->Seed = SummPtr->Difficulty = 0;
+
 	// First we check if there is a savegamename identifier.
 	// The identifier tells us whether the name exists at all.
 	read_str (fp, SummPtr->SaveNameChecker, SAVE_CHECKER_SIZE);
@@ -1727,6 +1730,9 @@ LoadLegacyGame (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN try_vanilla)
 	loadGameCheats();
 	cclose (fh);
 	res_CloseResFile (in_fp);
+
+	// Sanitize custom seed and difficulty for legacy saves
+	savedSeed = newGameSeed = savedDifficulty = newGameDifficulty = 0;
 
 	EncounterGroup = 0;
 	EncounterRace = -1;
