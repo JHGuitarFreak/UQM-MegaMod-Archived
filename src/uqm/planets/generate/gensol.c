@@ -793,7 +793,7 @@ GenerateSol_generateLife (const SOLARSYS_STATE *solarSys,
 	{
 		/* Earth Moon */
 		return GenerateRandomNodes (&solarSys->SysInfo, BIOLOGICAL_SCAN, 10,
-				NUM_CREATURE_TYPES + 1, whichNode, info);
+				BRAINBOX_BULLDOZER, whichNode, info);
 	}
 
 	return 0;

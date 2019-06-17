@@ -290,7 +290,7 @@ GenerateSpathi_generateLife (const SOLARSYS_STATE *solarSys,
 	{
 		#define NUM_EVIL_ONES  32
 		return GenerateRandomNodes (&solarSys->SysInfo, BIOLOGICAL_SCAN, NUM_EVIL_ONES,
-				NUM_CREATURE_TYPES, whichNode, info);
+				EVIL_ONE, whichNode, info);
 	}
 
 	return 0;

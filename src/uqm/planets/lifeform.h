@@ -59,6 +59,10 @@ extern "C" {
 #define NUM_SPECIAL_CREATURE_TYPES 3
 #define MAX_LIFE_VARIATION 3
 
+#define EVIL_ONE NUM_CREATURE_TYPES
+#define BRAINBOX_BULLDOZER NUM_CREATURE_TYPES + 1
+#define ZEX_BEAUTY NUM_CREATURE_TYPES + 2
+
 #define CREATURE_AWARE (BYTE)(1 << 7)
 
 typedef struct
@@ -66,7 +70,7 @@ typedef struct
 	BYTE Attributes, ValueAndHitPoints;
 } LIFEFORM_DESC;
 
-extern const LIFEFORM_DESC CreatureData[];
+extern LIFEFORM_DESC CreatureData[];
 
 #if defined(__cplusplus)
 }

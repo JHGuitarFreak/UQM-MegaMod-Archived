@@ -65,7 +65,7 @@ FRAME LanderFrame[8];
 static SOUND LanderSounds;
 MUSIC_REF LanderMusic;
 
-const LIFEFORM_DESC CreatureData[] =
+LIFEFORM_DESC CreatureData[] =
 {
 	{SPEED_MOTIONLESS | DANGER_HARMLESS, MAKE_BYTE (1, 1)},
 			// Roto-Dendron

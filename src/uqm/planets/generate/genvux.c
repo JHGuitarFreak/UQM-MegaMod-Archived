@@ -338,7 +338,7 @@ GenerateVux_generateLife (const SOLARSYS_STATE *solarSys,
 	{
 		static const SBYTE life[] =
 		{
-			NUM_CREATURE_TYPES + 2, /* VUX Beast */
+			ZEX_BEAUTY, /* VUX Beast */
 					// Must be the first node, see pickupLife() below
 			3, 3, 3, 3, 3, /* Whackin' Bush */
 			8, 8, 8, 8, 8, /* Glowing Medusa */
