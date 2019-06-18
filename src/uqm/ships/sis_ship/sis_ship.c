@@ -78,7 +78,7 @@
 		 * for module IDs (bigger gun == longer life). See the first half of
 		 * InitWeaponSlots */
 #define MAX_TRACKING 3
-#define TRACKER_ENERGY_COST 3
+#define TRACKER_ENERGY_COST IF_HARD(3, 6)
 #define BLASTER_OFFSET RES_SCALE(8)
 #define SIS_VERT_OFFSET RES_SCALE(28)
 		/* Used for foward, spread, and rear slots */
