@@ -769,6 +769,7 @@ InitWeaponSlots (RACE_DESC *RaceDescPtr, const BYTE *ModuleSlots)
 	for (i = 0; i < NUM_MODULE_SLOTS; ++i)
 	{
 		COUNT which_gun;
+		BOOLEAN IfHard = DIF_HARD && (i == 1 || i == 2) ? TRUE : FALSE;
 
 		if (i == 3)
 			i = NUM_MODULE_SLOTS - 1;
@@ -780,7 +781,7 @@ InitWeaponSlots (RACE_DESC *RaceDescPtr, const BYTE *ModuleSlots)
 
 		which_gun -= GUN_WEAPON - 1;
 		RaceDescPtr->characteristics.weapon_energy_cost +=
-				which_gun * 2;
+				which_gun * (IfHard ? 4 : 2);
 		
 		lpMB->flags = IGNORE_SIMILAR;
 		lpMB->blast_offs = BLASTER_OFFSET;

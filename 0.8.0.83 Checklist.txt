@@ -51,7 +51,7 @@ HARD:
 	*New game will have a random custom seed if the loaded or commandline seed isn't the default.
 	*Rainbow World credit value cut in half
 	Lower BioData value
-	SIS: Side shots take double energy
+	*SIS: Weapon slots 2 & 3 take double energy
 	SIS: Auto tracking costs more energy
 	Make critters more dangerous
 	Double Quasi-Portal fuel consumption
