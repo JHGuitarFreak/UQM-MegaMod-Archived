@@ -52,7 +52,7 @@ HARD:
 	*Rainbow World credit value cut in half
 	Lower BioData value
 	*SIS: Weapon slots 2 & 3 take double energy
-	SIS: Auto tracking costs more energy
+	*SIS: Auto tracking costs double energy
 	Make critters more dangerous
 	Double Quasi-Portal fuel consumption
 	When fitted with bomb remove all devices (excluding the talking pet and taalo shield)
