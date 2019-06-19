@@ -34,6 +34,7 @@ Everything with an asterisk (*) in front is completed
 		- *Utwig home planet named "Fahz" after meeting them
 		- *Syreen's previous home planet named "Syra"
 		- *Shofixti's previous home planet named "Kyabetsu"
+*Add "Gameplay options" to options menu to toggle Hard Mode options for normal and easy gameplay
 Create an "Ironman" setting and save system
 
 DIFFICULTY SETTING:

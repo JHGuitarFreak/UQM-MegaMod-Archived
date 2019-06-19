@@ -66,8 +66,9 @@ static int do_cheats (WIDGET *self, int event);
 static int do_keyconfig (WIDGET *self, int event);
 static int do_advanced (WIDGET *self, int event);
 static int do_editkeys (WIDGET *self, int event);
-static int do_music(WIDGET *self, int event); // Serosis
-static int do_visual(WIDGET *self, int event); // Serosis
+static int do_music (WIDGET *self, int event); // Serosis
+static int do_visual (WIDGET *self, int event); // Serosis
+static int do_gameplay (WIDGET *self, int event); // Serosis
 static void change_template (WIDGET_CHOICE *self, int oldval);
 static void rename_template (WIDGET_TEXTENTRY *self);
 static void rebind_control (WIDGET_CONTROLENTRY *widget);
@@ -79,10 +80,10 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #define RES_OPTS 2
 #endif
 
-#define MENU_COUNT         10
+#define MENU_COUNT         11
 #define CHOICE_COUNT       55
 #define SLIDER_COUNT        4
-#define BUTTON_COUNT       12
+#define BUTTON_COUNT       13
 #define LABEL_COUNT         5
 #define TEXTENTRY_COUNT     2
 #define CONTROLENTRY_COUNT  7
@@ -113,7 +114,7 @@ static int choice_widths[CHOICE_COUNT] = {
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
 	do_audio, do_cheats, do_keyconfig, do_advanced, do_editkeys, 
-	do_keyconfig, do_music, do_visual };
+	do_keyconfig, do_music, do_visual, do_gameplay };
 
 /* These refer to uninitialized widgets, but that's OK; we'll fill
  * them in before we touch them */
@@ -122,9 +123,10 @@ static WIDGET *main_widgets[] = {
 	(WIDGET *)(&buttons[3]),	// PC/3DO Compat Options
 	(WIDGET *)(&buttons[4]),	// Sound
 	(WIDGET *)(&buttons[10]),	// Music
-	(WIDGET *)(&buttons[5]),	// Cheats
+	(WIDGET *)(&buttons[12]),	// Gameplay
 	(WIDGET *)(&buttons[6]),	// Controls
 	(WIDGET *)(&buttons[11]),	// Visuals
+	(WIDGET *)(&buttons[5]),	// Cheats
 	(WIDGET *)(&buttons[7]),	// Advanced
 	(WIDGET *)(&buttons[0]),	// Quit Setup Menu
 	NULL };
@@ -187,7 +189,6 @@ static WIDGET *music_widgets[] = {
 
 static WIDGET *cheat_widgets[] = {
 	(WIDGET *)(&choices[24]),	// JMS: cheatMode on/off
-	// Serosis
 	(WIDGET *)(&choices[25]),	// God Mode
 	(WIDGET *)(&choices[26]),	// Time Dilation
 	(WIDGET *)(&choices[27]),	// Bubble Warp
@@ -225,7 +226,6 @@ static WIDGET *advanced_widgets[] = {
 	NULL };
 
 static WIDGET *visual_widgets[] = {
-	// JMS
 	(WIDGET *)(&choices[35]),	// IP nebulae on/off
 	(WIDGET *)(&choices[36]),	// orbitingPlanets on/off
 	(WIDGET *)(&choices[37]),	// texturedPlanets on/off
@@ -236,6 +236,17 @@ static WIDGET *visual_widgets[] = {
 	(WIDGET *)(&choices[48]),	// Whole Fuel Value switch
 	(WIDGET *)(&choices[51]),	// Realistic Sol
 	(WIDGET *)(&choices[54]),	// Fuel Range
+	(WIDGET *)(&buttons[1]),
+	NULL };
+
+static WIDGET *gameplay_widgets[] = {
+	(WIDGET *)(&choices[53]),	// Difficulty
+	(WIDGET *)(&labels[4]),		// Spacer
+	(WIDGET *)(&choices[32]),	// Skip Intro
+	(WIDGET *)(&choices[40]),	// Partial Pickup switch
+	(WIDGET *)(&labels[4]),		// Spacer
+	(WIDGET *)(&textentries[1]),// Custom Seed entry
+	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -270,6 +281,7 @@ menu_defs[] =
 	{editkeys_widgets, 7},
 	{music_widgets, 8},
 	{visual_widgets, 9},
+	{gameplay_widgets, 10},
 	{NULL, 0}
 };
 
@@ -420,6 +432,19 @@ do_visual(WIDGET *self, int event)
 	if (event == WIDGET_EVENT_SELECT)
 	{
 		next = (WIDGET *)(&menus[9]);
+		(*next->receiveFocus) (next, WIDGET_EVENT_DOWN);
+		return TRUE;
+	}
+	(void)self;
+	return FALSE;
+}
+
+static int
+do_gameplay(WIDGET *self, int event)
+{
+	if (event == WIDGET_EVENT_SELECT)
+	{
+		next = (WIDGET *)(&menus[10]);
 		(*next->receiveFocus) (next, WIDGET_EVENT_DOWN);
 		return TRUE;
 	}
