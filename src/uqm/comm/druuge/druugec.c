@@ -438,9 +438,10 @@ DoTransaction (RESPONSE_REF R)
 		if (trade_gas)
 		{
 			BYTE slot;
-			COUNT f, Limiter, Compensation, HardLimit = 500;
-			DWORD capacity;
+			COUNT f, HardLimit = 500;
+			DWORD capacity, FuelOnBoard;
 
+			FuelOnBoard = GLOBAL_SIS(FuelOnBoard);
 			capacity = FUEL_RESERVE;
 			slot = NUM_MODULE_SLOTS - 1;
 			do
@@ -455,12 +456,12 @@ DoTransaction (RESPONSE_REF R)
 					capacity += volume;
 				}
 			} while (slot--);
-			capacity -= GLOBAL_SIS (FuelOnBoard);
+			capacity -= FuelOnBoard;
 			f = (COUNT)((capacity + (FUEL_TANK_SCALE >> 1)) / FUEL_TANK_SCALE);
 
 			if (DIF_HARD && f > HardLimit) {
 				f -= (f - HardLimit);
-				capacity -= f * FUEL_TANK_SCALE;
+				capacity = (f * FUEL_TANK_SCALE) - FuelOnBoard;
 			}
 
 			while (capacity > 0x3FFFL)
@@ -469,7 +470,7 @@ DoTransaction (RESPONSE_REF R)
 				capacity -= 0x3FFF;
 			}
 
-			DeltaSISGauges (0, (SIZE)capacity, 0);
+			DeltaSISGauges (0, capacity, 0);
 
 			NPCPhrase (FUEL0);
 			NPCNumber (f, NULL);
