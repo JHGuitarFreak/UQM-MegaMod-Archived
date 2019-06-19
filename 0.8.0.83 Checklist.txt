@@ -53,15 +53,16 @@ HARD:
 	*SIS: Weapon slots 2 & 3 take double energy
 	*SIS: Auto tracking costs double energy
 	*Evil Ones now more dangerous
-	*Melnorme tech catalog spread out between between the 9 Supergiants (No tech upgrades in Hyperspace)
+	*Melnorme tech catalog spread out between the 9 Supergiants (No tech upgrades in Hyperspace)
+	*Melnorme fuel cost upped to 10 credits per unit
 	Double Quasi-Portal fuel consumption
 	When fitted with bomb remove all devices (excluding the talking pet and taalo shield)
-	Randomise Quasi Portal exits
+	*Randomize Quasi Portal exits
 	Disable Melnorme Fuel rescue or increase chances of them taking modules as payment.
 	Add more tiers of Slylandro Probe growth for a new Game Over scenario where the Probes completely take over the sector
 	Add a squadron of Slylandro Probes at Delta Crateris if their population is left unchecked and after you have the Chmmr Bomb installed
 	Game Over if you meet the Talking Pet without the Taalo Shield
-	Remove Druuge/Melnorme fuel exploit
+	*Reduced viability of the Druuge/Melnorme fuel exploit
 
 EASY:
 	*Double mineral worth
