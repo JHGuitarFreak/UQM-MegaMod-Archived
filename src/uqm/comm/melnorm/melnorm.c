@@ -1155,7 +1155,8 @@ DoBuy (RESPONSE_REF R)
 	COUNT credit;
 	SIZE needed_credit;
 	BYTE slot;
-	DWORD capacity;
+	DWORD capacity; 
+	BYTE FuelCost = IF_HARD((BIO_CREDIT_VALUE / 2), (FUEL_COST_RU / 2));
 
 	credit = GetAvailableCredits ();
 
@@ -1220,7 +1221,7 @@ DoBuy (RESPONSE_REF R)
 				goto TryFuelAgain;
 			}
 
-			if ((int)(needed_credit * (BIO_CREDIT_VALUE / 2)) <= (int)credit)
+			if ((int)(needed_credit * FuelCost) <= (int)credit)
 			{
 				DWORD f;
 
@@ -1234,7 +1235,7 @@ DoBuy (RESPONSE_REF R)
 				}
 				DeltaSISGauges (0, (SIZE)f, 0);
 			}
-			needed_credit *= (BIO_CREDIT_VALUE / 2);
+			needed_credit *= FuelCost;
 		}
 		if (needed_credit)
 		{
