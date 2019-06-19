@@ -12,6 +12,7 @@ Advanced Options
 Edit Controls
 Music Options
 Visual Options
+Gameplay Options
 
 #(CHOICES)
 Graphics
@@ -884,6 +885,7 @@ Edit Controls
 Back to Control Select
 Music Options
 Visual Options
+Gameplay Options
 
 #(BUTTON_0_DESC)
 Return to the main menu.
@@ -929,6 +931,9 @@ Configure music options for UQM.
 
 #(BUTTON_11_DESC)
 Configure music options for UQM.
+
+#(BUTTON_11_DESC)
+Configure gameplay options for UQM.
 
 #(LABELS)
 Incomplete
