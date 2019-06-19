@@ -31,6 +31,8 @@
 #include "uqm/planets/planets.h"
 		// for xxx_DISASTER
 #include "uqm/sis.h"
+#include "../../gendef.h"
+#include "../../starmap.h"
 
 
 static const NUMBER_SPEECH_DESC melnorme_numbers_english;
@@ -606,10 +608,65 @@ static const TechSaleData*
 GetNextTechForSale (void)
 {
 	size_t i = 0;
-	for (i = 0; i < NUM_TECH_ITEMS; ++i)
-	{
-		if (!HasTech (tech_sale_catalog[i].techId))
-			return &tech_sale_catalog[i];
+	BYTE j = 0;
+
+	if(DIF_HARD && CurStarDescPtr){
+		switch (CurStarDescPtr->Index)
+		{
+			case MELNORME0_DEFINED:
+				i = TECH_MODULE_CANNON;	 
+				j = i + 1;
+				break;
+			case MELNORME1_DEFINED:
+				i = TECH_MODULE_BLASTER; 
+				j = i + 1;
+				break;
+			case MELNORME2_DEFINED:
+				i = TECH_LANDER_SHIELD_BIO;	
+				j = i + 2;
+				break;
+			case MELNORME3_DEFINED:
+				i = TECH_LANDER_RAPIDFIRE;
+				j = i + 2;
+				break;
+			case MELNORME4_DEFINED:
+				i = TECH_MODULE_BIGFUELTANK;	
+				j = i + 1;
+				break;
+			case MELNORME5_DEFINED:
+				i = TECH_LANDER_SPEED;
+				j = i + 1;
+				break;
+			case MELNORME6_DEFINED:
+				i = TECH_MODULE_TRACKING;	
+				j = i + 1;
+				break;
+			case MELNORME7_DEFINED:
+				i = TECH_LANDER_SHIELD_LIGHTNING;	
+				j = i + 2;
+				break;
+			case MELNORME8_DEFINED:
+				i = TECH_MODULE_FURNACE;
+				j = i + 1;
+				break;
+			default:
+				i = 0; j = i;
+		}
+
+		for (i = i; i < j; ++i)
+		{
+			if (!HasTech (tech_sale_catalog[i].techId))
+				return &tech_sale_catalog[i];
+		}
+	} else if (DIF_HARD && !CurStarDescPtr) {
+		return NULL;
+	} else {
+		for (i = 0; i < NUM_TECH_ITEMS; ++i)
+		{
+			if (!HasTech (tech_sale_catalog[i].techId))
+				return &tech_sale_catalog[i];
+		}
+
 	}
 
 	return NULL;
