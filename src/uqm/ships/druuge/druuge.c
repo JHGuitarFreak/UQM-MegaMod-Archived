@@ -177,7 +177,7 @@ initialize_cannon (ELEMENT *ShipPtr, HELEMENT CannonArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = DRUUGE_OFFSET;
-	MissileBlock.speed = RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_HD;
+	MissileBlock.speed = RES_BOOL(MISSILE_SPEED, MISSILE_SPEED_HD);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -317,7 +317,7 @@ init_druuge (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		druuge_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		druuge_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		druuge_desc.cyborg_control.WeaponRange = MISSILE_RANGE_HD;

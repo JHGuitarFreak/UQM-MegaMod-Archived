@@ -557,7 +557,7 @@ init_black_urquan (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		black_urquan_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		black_urquan_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		black_urquan_desc.cyborg_control.WeaponRange = CLOSE_RANGE_WEAPON_HD;

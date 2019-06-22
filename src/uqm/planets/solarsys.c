@@ -380,7 +380,7 @@ FreeIPData (void)
 	OrbitalFrame = 0;
 	DestroyDrawable(ReleaseDrawable(OrbitalFrameUnscaled));
 	OrbitalFrameUnscaled = 0;
-	if (RESOLUTION_FACTOR == HD && HDPackPresent) {
+	if (IS_HD && HDPackPresent) {
 		DestroyDrawable(ReleaseDrawable(OrbitalFrameIntersect));
 		OrbitalFrameIntersect = 0;
 	}
@@ -399,7 +399,7 @@ FreeIPData (void)
 void
 LoadIPData (void)
 {
-	if (RESOLUTION_FACTOR != HD) {
+	if (!IS_HD) {
 		SunFrame = CaptureDrawable (LoadGraphic (SUN_MASK_PMAP_ANIM));
 	} else {
 		if (STAR_COLOR(CurStarDescPtr->Type) == BLUE_BODY)
@@ -424,7 +424,7 @@ LoadIPData (void)
 		OrbitalCMap = CaptureColorMap (LoadColorMap (ORBPLAN_COLOR_MAP));
 		OrbitalFrame = CaptureDrawable(LoadGraphic(ORBPLAN_MASK_PMAP_ANIM));
 		OrbitalFrameUnscaled = CaptureDrawable(LoadGraphic(ORBPLAN_UNSCALED_MASK_PMAP_ANIM));
-		if(RESOLUTION_FACTOR == HD && HDPackPresent)
+		if(IS_HD && HDPackPresent)
 			OrbitalFrameIntersect = CaptureDrawable(LoadGraphic(ORBPLAN_INTERSECT_MASK_PMAP_ANIM));
 		SunCMap = CaptureColorMap (LoadColorMap (IPSUN_COLOR_MAP));
  
@@ -637,7 +637,7 @@ LoadSolarSys (void)
 	RandomContext_SeedRandom (SysGenRNG, GetRandomSeedForStar (CurStarDescPtr));
 
 	// JMS: Animating IP sun in hi-res...
-	if (RESOLUTION_FACTOR != HD)
+	if (!IS_HD)
 		SunFrame = SetAbsFrameIndex (SunFrame, STAR_TYPE (CurStarDescPtr->Type));
 	else
 		SunFrame = SetAbsFrameIndex (SunFrame, (STAR_TYPE (CurStarDescPtr->Type)) * 32);
@@ -877,7 +877,7 @@ static FRAME
 getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 {
 	if (pSolarSysState->WaitIntersect != (COUNT)~0 && pSolarSysState->WaitIntersect != WaitPlanet) {
-		if (RESOLUTION_FACTOR != HD || !optScalePlanets)
+		if (!IS_HD || !optScalePlanets)
 			return DecFrameIndex(stars_in_space);
 		else if (planet->data_index >= SA_MATRA)
 			return planet->image.frame;
@@ -1131,7 +1131,7 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 			(Size << FACING_SHIFT) + NORMALIZE_FACING(
 				ANGLE_TO_FACING(angle)));
 
-		if (RESOLUTION_FACTOR == HD && HDPackPresent) {
+		if (IS_HD && HDPackPresent) {
 			planet->intersect.frame = SetAbsFrameIndex(OrbitalFrameIntersect, Size);
 		}
 	}
@@ -1455,7 +1455,7 @@ CheckShipLocation (SIZE *newRadius)
 	}
 
 	if (GLOBAL (autopilot.x) == ~0 && GLOBAL (autopilot.y) == ~0
-		&& (ec < 60 || RESOLUTION_FACTOR != HD))
+		&& (ec < 60 || !IS_HD))
 	{	// Not on autopilot -- may collide with a planet
 		PLANET_DESC *planet = CheckIntersect (FALSE);
 		if (planet)
@@ -1627,7 +1627,7 @@ CalcSunSize (PLANET_DESC *pSunDesc, SIZE radius)
 	pSunDesc->image.origin.x = SIS_SCREEN_WIDTH >> 1;
 	pSunDesc->image.origin.y = SIS_SCREEN_HEIGHT >> 1;
 	// JMS: Animating IP sun in hi-res modes...
-	if (RESOLUTION_FACTOR != HD)
+	if (!IS_HD)
 		pSunDesc->image.frame = SetRelFrameIndex (SunFrame, index);
 	else
 		pSunDesc->image.frame = SetRelFrameIndex (SunFrame, index * SUN_ANIMFRAMES_NUM);
@@ -1846,7 +1846,7 @@ IP_frame (void)
 		}
 
 		// JMS: Animating IP sun in hi-res modes...
-		if (!playerInInnerSystem () && RESOLUTION_FACTOR == HD)
+		if (!playerInInnerSystem () && IS_HD)
 			AnimateSun (newRadius);
 
 		RedrawQueue (FALSE);
@@ -2041,7 +2041,7 @@ EnterPlanetOrbit (void)
 			GLOBAL (ShipStamp.origin) = pSolarSysState->pOrbitalDesc->image.origin;
 			// JMS_GFX: Draw the moon letter when orbiting a moon in 1280x960
 			// and 640x480 modes. Do not draw it in 320x240 since there's no room!
-			if (RESOLUTION_FACTOR == HD && !(GetNamedPlanetaryBody()) && pSolarSysState->pOrbitalDesc->data_index != HIERARCHY_STARBASE)
+			if (IS_HD && !(GetNamedPlanetaryBody()) && pSolarSysState->pOrbitalDesc->data_index != HIERARCHY_STARBASE)
 			{
 				moon = moonIndex (pSolarSysState, pSolarSysState->pOrbitalDesc);
 				snprintf ((GLOBAL_SIS (PlanetName)) + strlen(GLOBAL_SIS (PlanetName)), 3, "-%c%c", 'A' + moon, '\0');

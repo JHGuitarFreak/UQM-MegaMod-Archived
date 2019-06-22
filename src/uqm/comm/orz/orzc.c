@@ -240,7 +240,7 @@ ExitConversation (RESPONSE_REF R)
 			|| PLAYER_SAID (R, must_know_about_androsyn))
 	{
 		// JMS_GFX: Use separate graphics in hires instead of colormap transform.
-		if (RESOLUTION_FACTOR == HD)
+		if (IS_HD)
 		{
 			int ii;
 			for (ii = 0; ii < CommData.NumAnimations - 1; ii++)
@@ -257,7 +257,7 @@ ExitConversation (RESPONSE_REF R)
 			NPCPhrase (KNOW_TOO_MUCH);
 
 		// JMS_GFX: Use separate graphics in hires instead of colormap transform.
-		if (RESOLUTION_FACTOR == HD)
+		if (IS_HD)
 		{
 			int ii;
 			AlienTalkSegue (1);
@@ -677,7 +677,7 @@ Intro (void)
 				SetAbsColorMapIndex (CommData.AlienColorMap, 1);
 
 		// JMS_GFX: Use separate red angry graphics in hires instead of colormap transform.
-		if (RESOLUTION_FACTOR == HD) {
+		if (IS_HD) {
 			CommData.AlienFrameRes = ORZ_ANGRY_PMAP_ANIM;
 			CommData.AlienFrame = CaptureDrawable (
 				LoadGraphic (CommData.AlienFrameRes));

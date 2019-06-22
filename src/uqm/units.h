@@ -40,7 +40,7 @@ extern int ScreenHeight;
 #define RES_BOOL(a,b) (RESOLUTION_FACTOR != HD ? (a) : (b))				// Serosis
 #define IF_HD(a) (RES_BOOL(0, (a)))										// Serosis
 #define IS_HD (RESOLUTION_FACTOR != HD ? false : true)
-#define UNSCALED_PLANETS(a,b) ((RESOLUTION_FACTOR == HD && HDPackPresent && !optScalePlanets) ? (a) : (b))
+#define UNSCALED_PLANETS(a,b) ((IS_HD && HDPackPresent && !optScalePlanets) ? (a) : (b))
 
 // Difficulty Units
 #define NORMAL 0

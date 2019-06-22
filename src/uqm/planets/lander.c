@@ -835,7 +835,7 @@ CheckObjectCollision (COUNT index)
 							case EARTHQUAKE_DISASTER:
 							case LAVASPOT_DISASTER:
 								if (scan == LAVASPOT_DISASTER 
-									&& RESOLUTION_FACTOR == HD 
+									&& IS_HD
 									&& TFB_Random () % 100 < 9)
 									DeltaLanderCrew (-1, scan);
 								else if (TFB_Random () % 100 < 25)
@@ -1025,7 +1025,7 @@ AddLightning (void)
 		rand_val = TFB_Random ();
 		LightningElementPtr->life_span = 10 + (HIWORD (rand_val) % 10) + 1;
 
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			LightningElementPtr->next.location.x = (curLanderLoc.x
 				+ ((MAP_WIDTH << MAG_SHIFT) - ((SURFACE_WIDTH >> 1) - 6))
 				+ (LOBYTE (rand_val) % (SURFACE_WIDTH - 12))
@@ -1422,7 +1422,7 @@ AnimateLaunch (FRAME farray, BOOLEAN landing)
 	}
 
 	// This clears the last lander return / launch) anim frame from the planet window.
-	if (RESOLUTION_FACTOR != HD || !landing)
+	if (!IS_HD || !landing)
 		RepairBackRect (&r, FALSE);
 }
 
@@ -1905,14 +1905,14 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 	delta = 0;
 	// JMS_GFX: In HD graphics we run out of default offsets. -> Use larger offset value.
 	max_offsets = MAX_OFFSETS;
-	if (RESOLUTION_FACTOR == HD) 
+	if (IS_HD) 
 		max_offsets = MAX_OFFSETS_HD;
 
 	for (index = 0; index < max_offsets && delta < DISTANCE_COVERED; ++index)
 	{
 		delta += index + 1;
 		// JMS_GFX
-		if (RESOLUTION_FACTOR == HD)
+		if (IS_HD)
 			landingOfsHD[index] = -delta;
 		else
 			landingOfs[index] = -delta;
@@ -1939,7 +1939,7 @@ LandingTakeoffSequence (LanderInputState *inputState, BOOLEAN landing)
 	for (index = start; index != end; index += delta)
 	{
 		// JMS_GFX
-		if (RESOLUTION_FACTOR == HD)
+		if (IS_HD)
 			ScrollPlanetSide (0, 0, landingOfsHD[index]);
 		else
 			ScrollPlanetSide (0, 0, landingOfs[index]);

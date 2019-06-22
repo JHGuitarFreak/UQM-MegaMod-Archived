@@ -236,7 +236,7 @@ DrawOrbitalDisplay (DRAW_ORBITAL_MODE Mode)
 
 	// for later RepairBackRect()
 	// JMS_GFX
-	LoadIntoExtraScreen (&r, (RESOLUTION_FACTOR == HD ? TRUE : FALSE));
+	LoadIntoExtraScreen (&r, IS_HD);
 }
 
 // Initialise the surface graphics, and start the planet music.

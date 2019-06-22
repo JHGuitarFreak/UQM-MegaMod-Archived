@@ -557,7 +557,7 @@ GiveRadios (RESPONSE_REF R)
 		AlienTalkSegue (1);
 
 		// JMS_GFX: Disable noisy static animation in hi-res.
-		if (RESOLUTION_FACTOR == HD) {
+		if (IS_HD) {
 			CommData.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
 			CommData.AlienAmbientArray[0].AnimFlags &= ~ANIM_DISABLED;
 			CommData.AlienAmbientArray[1].AnimFlags &= ~ANIM_DISABLED;
@@ -662,7 +662,7 @@ init_commander_comm ()
 {
 	LOCDATA *retval;
 
-	if (RESOLUTION_FACTOR == HD){
+	if (IS_HD){
 		commander_desc.AlienAmbientArray[1].NumFrames = 27;
 		commander_desc.AlienAmbientArray[1].AnimFlags = CIRCULAR_ANIM;
 
@@ -684,7 +684,7 @@ init_commander_comm ()
 	if (GET_GAME_STATE (RADIOACTIVES_PROVIDED))
 	{
 		// JMS_GFX: Disable noisy static animation in hi-res.
-		if (RESOLUTION_FACTOR == HD)
+		if (IS_HD)
 		{
 			commander_desc.AlienTalkDesc.AnimFlags &= ~PAUSE_TALKING;
 			commander_desc.AlienAmbientArray[0].AnimFlags &= ~ANIM_DISABLED;
@@ -697,7 +697,7 @@ init_commander_comm ()
 	else
 	{	
 		// JMS_GFX: Enable noisy static animation in hi-res.
-		if (RESOLUTION_FACTOR == HD)
+		if (IS_HD)
 		{
 			commander_desc.AlienTalkDesc.AnimFlags |= PAUSE_TALKING;
 			commander_desc.AlienAmbientArray[0].AnimFlags |= ANIM_DISABLED;

@@ -132,7 +132,7 @@ initialize_autoaim_laser (ELEMENT *ShipPtr, HELEMENT LaserArray[])
 	LASER_BLOCK LaserBlock;
 	COUNT LaserRange; // JMS_GFX
 
-	LaserRange = RESOLUTION_FACTOR != HD ? LASER_RANGE : LASER_RANGE_HD;
+	LaserRange = RES_BOOL(LASER_RANGE, LASER_RANGE_HD);
 
 	GetElementStarShip (ShipPtr, &StarShipPtr);
 	LaserBlock.face = orig_facing = StarShipPtr->ShipFacing;
@@ -314,7 +314,7 @@ init_arilou (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		arilou_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		arilou_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		arilou_desc.cyborg_control.WeaponRange = LASER_RANGE_HD >> 1;

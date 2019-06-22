@@ -378,7 +378,7 @@ DoModifyRoster (MENU_STATE *pMS)
 			// Draw the previous escort in unselected state.
 			// JMS_GFX: In HD mode we draw the rectangle of screen
 			// we captured earlier.
-			if (RESOLUTION_FACTOR == HD)
+			if (IS_HD)
 				DrawStamp (&savedShipFrame);
 			else // In 1x mode we just draw the icon.
 				drawSupportShip (rosterState, FALSE, FALSE);
@@ -388,7 +388,7 @@ DoModifyRoster (MENU_STATE *pMS)
 
 			// JMS_GFX: In HD mode we now have to capture the
 			// location of this new rectangle.
-			if (RESOLUTION_FACTOR == HD)
+			if (IS_HD)
 				flashSupportShip (rosterState, TRUE);
 			else
 				flashSupportShip (rosterState, FALSE);
@@ -451,7 +451,7 @@ RosterMenu (void)
 
 	// JMS_GFX: Remember the location of the first ship to be able to erase
 	// the red junk from around it after rostering.
-	if (RESOLUTION_FACTOR == HD)
+	if (IS_HD)
 		drawSupportShip (&RosterState, TRUE, TRUE);
 
 	SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);
@@ -464,7 +464,7 @@ RosterMenu (void)
 	// Draw the last escort in unselected state.
 	// JMS_GFX: In HD mode we draw the rectangle of screen
 	// we captured earlier.
-	if (RESOLUTION_FACTOR == HD)
+	if (IS_HD)
 		DrawStamp (&savedShipFrame);
 	else // In Original mode we just draw the icon.
 		drawSupportShip (&RosterState, FALSE, FALSE);

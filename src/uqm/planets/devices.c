@@ -182,7 +182,7 @@ DrawDevicesDisplay (DEVICES_STATE *devState)
 		s.frame = SetAbsFrameIndex (MiscDataFrame,
 				77 + devState->list[devIndex]);
 		
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			DrawStamp (&s);			
 		} else {
 			int oldMode, oldScale;

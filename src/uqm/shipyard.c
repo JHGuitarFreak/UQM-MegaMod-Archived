@@ -756,7 +756,7 @@ DMS_HireFlagShipCrew (void)
 
 	// Draw a crew member.
 	// Crew dots/rectangles for Original and HD graphics.
-	if (RESOLUTION_FACTOR != HD) {
+	if (!IS_HD) {
 		r.extent.width = RES_SCALE(1);
 		r.extent.height = r.extent.width;
 		DrawFilledRectangle (&r);
@@ -1362,7 +1362,7 @@ DrawBluePrint (MENU_STATE *pMS)
 			DrawShipPiece (ModuleFrame, which_piece, num_frames, TRUE);
 	}
 
-	if (RESOLUTION_FACTOR != HD)
+	if (!IS_HD)
 		SetContextForeGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x0A, 0x0A, 0x1F), 0x09));
 	for (num_frames = 0; num_frames < NUM_MODULE_SLOTS; ++num_frames)
@@ -1382,7 +1382,7 @@ DrawBluePrint (MENU_STATE *pMS)
 		{
 			RECT r;
 			// Crew dots/rectangles for Original and HD graphics.
-			if (RESOLUTION_FACTOR != HD) {
+			if (!IS_HD) {
 				r.extent.width = RES_SCALE(1);
 				r.extent.height = r.extent.width;
 				

@@ -168,7 +168,7 @@ DrawCargoDisplay (void)
 
 	s.frame = SetAbsFrameIndex (MiscDataFrame,
 			(NUM_SCANDOT_TRANSITIONS * 2) + 3);
-	if (RESOLUTION_FACTOR == HD)
+	if (IS_HD)
 		s.frame = SetRelFrameIndex (s.frame, -1); // JMS_GFX
 
 	r.corner.x = ELEMENT_COL_0;

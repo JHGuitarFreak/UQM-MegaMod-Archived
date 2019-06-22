@@ -779,7 +779,7 @@ init_yehat_comm (void)
 	static LOCDATA yehat_desc;
  	LOCDATA *retval;
 	
-	yehat_desc = (RESOLUTION_FACTOR != HD ? yehat_desc_orig : yehat_desc_hd);
+	yehat_desc = RES_BOOL(yehat_desc_orig, yehat_desc_hd);
 
 	yehat_desc.init_encounter_func = Intro;
 	yehat_desc.post_encounter_func = post_yehat_enc;

@@ -941,7 +941,7 @@ init_sis (void)
 	SIS_DATA empty_data;
 	memset (&empty_data, 0, sizeof (empty_data));
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		sis_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		sis_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		sis_desc.cyborg_control.WeaponRange = BLASTER_SPEED_HD * BLASTER_LIFE;
@@ -965,7 +965,7 @@ init_sis (void)
 		new_sis_desc.ship_data.victory_ditty_rsc = NULL_RESOURCE;
 		new_sis_desc.ship_data.ship_sounds_rsc = NULL_RESOURCE;
 
-		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1 && (RESOLUTION_FACTOR == HD || EndlessSCLoaded))
+		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) > 1 && (IS_HD || EndlessSCLoaded))
 			new_sis_desc.ship_data.ship_rsc[0] = SIS_QUASI_MASK_PMAP_ANIM;
 		else
 			new_sis_desc.ship_data.ship_rsc[0] = SIS_HYPER_MASK_PMAP_ANIM;

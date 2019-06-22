@@ -290,7 +290,7 @@ DrawCaptainsWindow (STARSHIP *StarShipPtr)
 		DrawBattleCrewAmount (&RDPtr->ship_info, y_offs);
 	}
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		DrawBorder(20, TRUE);
 		DrawBorder(21, TRUE);
 	}
