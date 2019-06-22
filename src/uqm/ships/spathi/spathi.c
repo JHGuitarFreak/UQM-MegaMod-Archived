@@ -263,7 +263,7 @@ initialize_standard_missile (ELEMENT *ShipPtr, HELEMENT MissileArray[])
 	MissileBlock.sender = ShipPtr->playerNr;
 	MissileBlock.flags = IGNORE_SIMILAR;
 	MissileBlock.pixoffs = SPATHI_FORWARD_OFFSET;
-	MissileBlock.speed = (RESOLUTION_FACTOR != HD ? MISSILE_SPEED : MISSILE_SPEED_HD);
+	MissileBlock.speed = RES_BOOL(MISSILE_SPEED, MISSILE_SPEED_HD);
 	MissileBlock.hit_points = MISSILE_HITS;
 	MissileBlock.damage = MISSILE_DAMAGE;
 	MissileBlock.life = MISSILE_LIFE;
@@ -296,7 +296,7 @@ init_spathi (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		spathi_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		spathi_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		spathi_desc.cyborg_control.WeaponRange = MISSILE_RANGE_HD;

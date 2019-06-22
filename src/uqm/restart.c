@@ -58,7 +58,7 @@ static BOOLEAN
 PacksInstalled(void){
 	BOOLEAN packsInstalled;
 
-	if (RESOLUTION_FACTOR != HD) {
+	if (!IS_HD) {
 		packsInstalled = TRUE;
 	} else {
 		packsInstalled = (HDPackPresent ? TRUE : FALSE);
@@ -86,7 +86,7 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 
 	// DC: Load the different menus and fonts depending on the resolution factor
 
-	if (RESOLUTION_FACTOR != HD) {
+	if (!IS_HD) {
 		if (optRequiresRestart || !PacksInstalled()) {
 			TinyFont = LoadFont(TINY_FALLBACK_TO_ORIG_FONT);
 			PlyrFont = LoadFont(PLYR_FALLBACK_TO_ORIG_FONT);

@@ -131,7 +131,7 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 	if (loadIndices (contentDir) == 0)
 		return FALSE; // Must have at least one index in content dir
 
-	if (RESOLUTION_FACTOR != HD) {
+	if (!IS_HD) {
 		if (loadAddon("EndlessSC-1x")) {
 			EndlessSCLoaded = TRUE;
 			printf("Loading Endless SC \n");

@@ -371,7 +371,7 @@ init_zoqfotpik (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		zoqfotpik_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		zoqfotpik_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		zoqfotpik_desc.cyborg_control.WeaponRange = MISSILE_RANGE_HD;

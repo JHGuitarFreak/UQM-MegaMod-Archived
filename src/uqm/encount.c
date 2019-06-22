@@ -660,7 +660,7 @@ UninitEncounter (void)
 								SetContextFont (MicroFont);
 
 								// JMS: Let's store the rectangle behind "Enemy ships destroyed" (before drawing the text on it).
-								if (RESOLUTION_FACTOR == HD)
+								if (IS_HD)
 								{
 									// These values are inferred from DrawFadeText.
 									// However, they're not the same (100 and 45) because the text there is centered,
@@ -742,7 +742,7 @@ UninitEncounter (void)
 								}
 							}
 
-							if (RESOLUTION_FACTOR == HD) {
+							if (IS_HD) {
 								SetContextForeGroundColor (BLACK_COLOR);
 								DrawFilledStamp (&ship_s);
 								DrawFilledStamp (&ship_s);
@@ -805,7 +805,7 @@ UninitEncounter (void)
 
 					// JMS: Now we draw the clean metallic frame to erase the "Enemy ships destroyed"
 					// text before drawing "debris scavenged."
-					if(RESOLUTION_FACTOR == HD)
+					if(IS_HD)
 						DrawStamp (&saveMetallicFrame);
 
 					DrawFadeText (str1, str2, TRUE, &scavenge_r);
@@ -814,7 +814,7 @@ UninitEncounter (void)
 						DrawFadeText (str1, str2, FALSE, &scavenge_r);
 
 					// JMS: The final cleanup of the "Debris scavenged". Without this, an ugly grey ghost-text would remain.
-					if(RESOLUTION_FACTOR == HD)
+					if(IS_HD)
 						DrawStamp (&saveMetallicFrame);
 				}
 			}

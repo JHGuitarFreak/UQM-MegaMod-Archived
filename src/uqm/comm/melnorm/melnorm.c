@@ -1233,7 +1233,7 @@ DoBuy (RESPONSE_REF R)
 					DeltaSISGauges (0, 0x3FFF, 0);
 					f -= 0x3FFF;
 				}
-				DeltaSISGauges (0, (SIZE)f, 0);
+				DeltaSISGauges (0, f, 0);
 			}
 			needed_credit *= FuelCost;
 		}
@@ -1532,7 +1532,7 @@ NatureOfConversation (RESPONSE_REF R)
 			NPCPhrase (BUY_OR_SELL);
 			AlienTalkSegue (1);
 
-			if (RESOLUTION_FACTOR != HD) {
+			if (!IS_HD) {
 				XFormColorMap (GetColorMapAddress (
 					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
 					), ONE_SECOND / 2);
@@ -1614,7 +1614,7 @@ DoBluster (RESPONSE_REF R)
 		NPCPhrase (WERE_NOT_AFRAID);
 		AlienTalkSegue ((COUNT)~0);
 
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
 				), ONE_SECOND / 2);
@@ -1815,7 +1815,7 @@ DoFirstMeeting (RESPONSE_REF R)
 		NPCPhrase (TEST_RESULTS);
 		AlienTalkSegue ((COUNT)~0);
 		
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
 				), ONE_SECOND / 2);
@@ -1840,7 +1840,7 @@ DoFirstMeeting (RESPONSE_REF R)
 		NPCPhrase (APOLOGY_ACCEPTED);
 		AlienTalkSegue ((COUNT)~0);
 		
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			XFormColorMap (GetColorMapAddress (
 				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
 				), ONE_SECOND / 2);
@@ -1895,7 +1895,7 @@ DoMelnormeMiffed (RESPONSE_REF R)
 
 		AlienTalkSegue ((COUNT)~0);
 		
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			XFormColorMap (GetColorMapAddress (
  				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
  				), ONE_SECOND / 2);
@@ -1983,7 +1983,7 @@ DoMelnormePissed (RESPONSE_REF R)
 
 		AlienTalkSegue ((COUNT)~0);
 		
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			XFormColorMap (GetColorMapAddress (
  				SetAbsColorMapIndex (CommData.AlienColorMap, 2)
  				), ONE_SECOND / 2);
@@ -2054,7 +2054,7 @@ DoMelnormeHate (RESPONSE_REF R)
 
 	AlienTalkSegue ((COUNT)~0);
 	
-	if (RESOLUTION_FACTOR != HD) {
+	if (!IS_HD) {
 		XFormColorMap (GetColorMapAddress (
  			SetAbsColorMapIndex (CommData.AlienColorMap, 2)
  			), ONE_SECOND / 2);
@@ -2130,7 +2130,7 @@ init_melnorme_comm (void)
 	static LOCDATA melnorme_desc;
  	LOCDATA *retval;
 
-	melnorme_desc = (RESOLUTION_FACTOR != HD ? melnorme_desc_orig : melnorme_desc_hd);
+	melnorme_desc = RES_BOOL(melnorme_desc_orig, melnorme_desc_hd);
 
 	melnorme_desc.init_encounter_func = Intro;
 	melnorme_desc.post_encounter_func = post_melnorme_enc;
@@ -2144,7 +2144,7 @@ init_melnorme_comm (void)
 	melnorme_desc.AlienTextBaseline.y = 0;
 	melnorme_desc.AlienTextWidth = SIS_TEXT_WIDTH - RES_SCALE(16);
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		melnorme_desc.AlienAmbientArray[2].AnimFlags &= ~ANIM_DISABLED;
 		melnorme_desc.AlienAmbientArray[3].AnimFlags &= ~ANIM_DISABLED;
 		melnorme_desc.AlienAmbientArray[4].AnimFlags |= ANIM_DISABLED;

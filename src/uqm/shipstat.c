@@ -137,7 +137,7 @@ OutlineShipStatus (COORD y, COORD w, BOOLEAN inMeleeMenu)
 	if (inMeleeMenu)
 		DrawFilledRectangle (&r);
 
-	if(RESOLUTION_FACTOR != HD){
+	if(!IS_HD){
 		SetContextForeGroundColor (BLACK_COLOR);
 		r.corner.x = 0;
 		r.corner.y = y;
@@ -193,7 +193,7 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 		SIZE crew_height, energy_height;
 		
 #define MIN(a, b) (((a) <= (b)) ? (a) : (b))
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			crew_height = ((MIN(SIPtr->max_crew, MAX_CREW_SIZE) + 1) & ~1) + 1;
 			energy_height = (((SIPtr->max_energy + 1) >> 1) << 1) + 1;
 		} else {
@@ -321,7 +321,7 @@ InitShipStatus (SHIP_INFO *SIPtr, STARSHIP *StarShipPtr, RECT *pClipRect, BOOLEA
 		DeltaStatistics (SIPtr, y, crew_delta, energy_delta);
 	}
 
-	if (RESOLUTION_FACTOR == HD && !inMeleeMenu) {
+	if (IS_HD && !inMeleeMenu) {
 		DrawBorder(18, TRUE);
 		DrawBorder(19, TRUE);
 	}

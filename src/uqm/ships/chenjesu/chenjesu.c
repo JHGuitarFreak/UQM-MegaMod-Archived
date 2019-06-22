@@ -297,7 +297,7 @@ doggy_preprocess (ELEMENT *ElementPtr)
 	}
 
 	// JMS_GFX: Doggy is animated in hi-res modes
-	if (RESOLUTION_FACTOR == HD)
+	if (IS_HD)
 	{
 		if (ElementPtr->turn_wait > 0)
 			--ElementPtr->turn_wait;
@@ -330,7 +330,7 @@ doggy_death (ELEMENT *ElementPtr)
 	ElementPtr->state_flags &= ~DISAPPEARING;
 	ElementPtr->state_flags |= NONSOLID | FINITE_LIFE;
 	// JMS_GFX: Doggy's dying animation starts at different frame in hi-res modes.
-	if (RESOLUTION_FACTOR == HD){
+	if (IS_HD){
 		ElementPtr->current.image.frame = SetRelFrameIndex (
 			ElementPtr->current.image.frame, 12);
 	}
@@ -483,7 +483,7 @@ chenjesu_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 					COUNT which_turn;
 					BOOLEAN crystal_would_miss = false;
 
-					if (RESOLUTION_FACTOR != HD || lpEvalDesc != &ObjectsOfConcern[ENEMY_SHIP_INDEX])
+					if (!IS_HD || lpEvalDesc != &ObjectsOfConcern[ENEMY_SHIP_INDEX])
 					{
 						crystal_would_miss = ((which_turn = PlotIntercept (CrystalPtr,
 							ObjectsOfConcern[ENEMY_SHIP_INDEX].ObjectPtr,
@@ -518,7 +518,7 @@ chenjesu_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 						old_dist[ShipPtr->playerNr] = (DWORD)~0;
 						
 						// JMS: Let's try to stop Chenjesu's stupid over-rapid firing behavior in hires modes...
-						if (RESOLUTION_FACTOR == HD 
+						if (IS_HD
 							&& ObjectsOfConcern[ENEMY_SHIP_INDEX].which_turn > 16
 							&& ((ObjectsOfConcern[ENEMY_WEAPON_INDEX].ObjectPtr
 								 && ObjectsOfConcern[ENEMY_WEAPON_INDEX].which_turn > 8)
@@ -551,7 +551,7 @@ chenjesu_intelligence (ELEMENT *ShipPtr, EVALUATE_DESC *ObjectsOfConcern,
 			else if (StarShipPtr->weapon_counter == 0
 					&& ship_weapons (ShipPtr, lpEvalDesc->ObjectPtr, FRAGMENT_RANGE / 2))
 			{
-				if (RESOLUTION_FACTOR == HD)
+				if (IS_HD)
 				{
 					COUNT num_weapons;
 					ELEMENT Ship;
@@ -677,7 +677,7 @@ init_chenjesu (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		chenjesu_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		chenjesu_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		chenjesu_desc.cyborg_control.WeaponRange = LONG_RANGE_WEAPON_HD;

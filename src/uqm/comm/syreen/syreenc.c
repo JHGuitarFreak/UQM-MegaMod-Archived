@@ -406,7 +406,7 @@ FriendlyExit (RESPONSE_REF R)
 		NPCPhrase (SEX_GOODBYE);
 
 		AlienTalkSegue (2);
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			XFormColorMap (GetColorMapAddress (
  				SetAbsColorMapIndex (CommData.AlienColorMap, 0)
  				), ONE_SECOND / 2);
@@ -490,7 +490,7 @@ Foreplay (RESPONSE_REF R)
 		NPCPhrase (MORE_COMFORTABLE);
 		AlienTalkSegue (1);
 
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			XFormColorMap (GetColorMapAddress (
 					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
 					), ONE_SECOND);

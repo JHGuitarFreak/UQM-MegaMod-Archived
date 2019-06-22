@@ -404,7 +404,7 @@ CombatIsInevitable (RESPONSE_REF R)
 
 		AlienTalkSegue (1);
 
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			XFormColorMap (GetColorMapAddress (
 					SetAbsColorMapIndex (CommData.AlienColorMap, 1)
 					), ONE_SECOND / 4);

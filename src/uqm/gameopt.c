@@ -1012,6 +1012,8 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 	TEXT t;
 	COUNT i, curSlot;
 	UNICODE buf[256], buf2[80], *SaveName;
+	Color SD_Color = BUILD_COLOR(MAKE_RGB15(0x00, 0x00, 0x14), 0x01);
+	Color HD_Color = BUILD_COLOR(MAKE_RGB15(0x00, 0x00, 0x19), 0x01);
 
 	BatchGraphics ();
 
@@ -1038,10 +1040,7 @@ DrawGameSelection (PICK_GAME_STATE *pickState, COUNT selSlot)
 
 		// JMS_GFX: In hi-res modes, the dark blue is brighter because otherwise
 		// the thinner lines/text would be hard to see.
-		SetContextForeGroundColor ((curSlot == selSlot) ?
-				(BUILD_COLOR (MAKE_RGB15 (0x1B, 0x00, 0x1B), 0x33)): 
-				( RESOLUTION_FACTOR != HD ?
-				(BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x14), 0x01)) : (BUILD_COLOR (MAKE_RGB15 (0x00, 0x00, 0x19), 0x01))));
+		SetContextForeGroundColor ((curSlot == selSlot) ? (BUILD_COLOR (MAKE_RGB15 (0x1B, 0x00, 0x1B), 0x33)): RES_BOOL(SD_Color, HD_Color));
 		r.extent.width = RES_SCALE(15); // JMS_GFX
 		if (MAX_SAVED_GAMES > 99)
 			r.extent.width += RES_SCALE(5); // JMS_GFX

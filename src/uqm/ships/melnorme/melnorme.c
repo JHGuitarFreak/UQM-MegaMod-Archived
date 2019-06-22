@@ -661,7 +661,7 @@ init_melnorme (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		melnorme_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		melnorme_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		melnorme_desc.cyborg_control.WeaponRange = PUMPUP_SPEED_HD * PUMPUP_LIFE;

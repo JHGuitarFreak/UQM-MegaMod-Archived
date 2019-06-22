@@ -957,7 +957,7 @@ UpdateCursorInfo (UNICODE *prevbuf)
 		// A star is near the cursor:
 		// Snap cursor onto star only in 1x res. In hi-res modes,
 		// snapping is done when the star is selected as auto-pilot target.
-		if (RESOLUTION_FACTOR != HD)
+		if (!IS_HD)
 			cursorLoc = BestSDPtr->star_pt;
 		
 		if (GET_GAME_STATE(ARILOU_SPACE_SIDE) >= 2
@@ -1533,7 +1533,7 @@ DoMoveCursor (MENU_STATE *pMS)
 		// JMS: The hi-res modes now have a user-friendly starmap cursor.
 		// The cursor finds a star even if the cursor is several pixels away from it (CURSOR_SNAP_AREA)
 		// The cursor centers on the star only when selected as an auto-pilot target.
-		if (RESOLUTION_FACTOR == HD)
+		if (IS_HD)
 		{
 			STAR_DESC *SDPtr;
 			STAR_DESC *BestSDPtr;

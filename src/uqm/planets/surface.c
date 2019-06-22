@@ -249,7 +249,7 @@ GenerateRandomLocation (POINT *loc)
 	loc->y += RES_SCALE(8); // JMS_GFX
 	
 	// JMS_GFX: Compensate for 1280x960's different aspect ratio
-	if (RESOLUTION_FACTOR == HD)
+	if (IS_HD)
 	{
 		DWORD xx = (DWORD)loc->x;
 		xx *= 111;

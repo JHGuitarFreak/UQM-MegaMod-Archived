@@ -398,7 +398,7 @@ intruder_preprocess (ELEMENT *ElementPtr)
 			{
 				--ElementPtr->thrust_wait;
 
-				if (RESOLUTION_FACTOR != HD) {
+				if (!IS_HD) {
 					s.origin.x = RES_SCALE(16) + (ElementPtr->turn_wait & 3) * RES_SCALE(9 + RESOLUTION_FACTOR * 6);
 					s.origin.y = RES_SCALE(14) + (ElementPtr->turn_wait >> 2) * RES_SCALE(11 + RESOLUTION_FACTOR * 6);
 				} else {
@@ -418,7 +418,7 @@ intruder_preprocess (ELEMENT *ElementPtr)
 				UnlockElement (hElement);
 				hElement = 0;
 LeftShip:
-				if (RESOLUTION_FACTOR != HD) {
+				if (!IS_HD) {
 					s.origin.x = RES_SCALE(16) + (ElementPtr->turn_wait & 3) * RES_SCALE(9 + RESOLUTION_FACTOR * 6);
 					s.origin.y = RES_SCALE(14) + (ElementPtr->turn_wait >> 2) * RES_SCALE(11 + RESOLUTION_FACTOR * 6);
 				} else {
@@ -452,7 +452,7 @@ LeftShip:
 					}
 
 					++ElementPtr->thrust_wait;
-					if (RESOLUTION_FACTOR != HD) {
+					if (!IS_HD) {
 						s.origin.x = RES_SCALE(16) + (ElementPtr->turn_wait & 3) * RES_SCALE(9 + RESOLUTION_FACTOR * 6);
 						s.origin.y = RES_SCALE(14) + (ElementPtr->turn_wait >> 2) * RES_SCALE(11 + RESOLUTION_FACTOR * 6);
 					} else {
@@ -788,7 +788,7 @@ marine_collision (ELEMENT *ElementPtr0, POINT *pPt0, ELEMENT *ElementPtr1, POINT
 				ElementPtr0->state_flags &= ~CREW_OBJECT;
 				SetPrimType (&(GLOBAL (DisplayArray))[ElementPtr0->PrimIndex], NO_PRIM);
 				ElementPtr0->preprocess_func = intruder_preprocess;
-				if (RESOLUTION_FACTOR != HD) {
+				if (!IS_HD) {
 					s.origin.x = RES_SCALE(16) + (ElementPtr0->turn_wait & 3) * RES_SCALE(9 + RESOLUTION_FACTOR * 6);
 					s.origin.y = RES_SCALE(14) + (ElementPtr0->turn_wait >> 2) * RES_SCALE(11 + RESOLUTION_FACTOR * 6);
 				} else {
@@ -1066,7 +1066,7 @@ init_orz (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		orz_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		orz_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		orz_desc.cyborg_control.WeaponRange = MISSILE_SPEED_HD * MISSILE_LIFE;

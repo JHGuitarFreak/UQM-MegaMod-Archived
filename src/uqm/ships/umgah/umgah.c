@@ -422,7 +422,7 @@ init_umgah (void)
 {
 	RACE_DESC *RaceDescPtr;
 
-	if (RESOLUTION_FACTOR == HD) {
+	if (IS_HD) {
 		umgah_desc.characteristics.max_thrust = RES_SCALE(MAX_THRUST);
 		umgah_desc.characteristics.thrust_increment = RES_SCALE(THRUST_INCREMENT);
 		umgah_desc.cyborg_control.WeaponRange = (LONG_RANGE_WEAPON_HD << 2);

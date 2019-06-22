@@ -1417,7 +1417,7 @@ generateBioNode (SOLARSYS_STATE *system, ELEMENT *NodeElementPtr,
 		i = TFB_Random ();
 		j = (DWORD)TFB_Random ();
 		
-		if (RESOLUTION_FACTOR != HD) {
+		if (!IS_HD) {
 			NodeElementPtr->current.location.x = (LOBYTE (i) % (MAP_WIDTH - (8 << 1))) + 8;
 			NodeElementPtr->current.location.y = (HIBYTE (i) % (MAP_HEIGHT - (8 << 1))) + 8;
 		} else {

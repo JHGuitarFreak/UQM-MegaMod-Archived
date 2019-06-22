@@ -1735,7 +1735,7 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	BOOLEAN SurfDef = FALSE;
 	BOOLEAN shielded = (pPlanetDesc->data_index & PLANET_SHIELDED) != 0;
 	SDWORD PlanetRotation = (CurStarDescPtr->Index == SOL_DEFINED ? -1 : 1 - 2 * (PlanetInfo->AxialTilt & 1));
-	
+		
 	SphereSpanX = (inOrbit ? SPHERE_SPAN_X : Height);
 	Radius = (inOrbit ? RADIUS : ((SphereSpanX >> 1) - RESOLUTION_FACTOR)) ;
 
@@ -1744,9 +1744,8 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	TopoContext = CreateContext ("Plangen.TopoContext");
 	OldContext = SetContext (TopoContext);
 
-
-
-	PlanetOrbitInit (Width, (inOrbit && RESOLUTION_FACTOR == HD ? (Height + 1) : Height), inOrbit);
+	Height += inOrbit && IS_HD ? 1 : 0;
+	PlanetOrbitInit (Width, Height, inOrbit);
 
 	PlanDataPtr = &PlanData[pPlanetDesc->data_index & ~PLANET_SHIELDED];
 
