@@ -159,9 +159,6 @@ PrintCoarseScanPC (void)
 	TEXT t;
 	RECT r;
 	UNICODE buf[200];
-	double dblAxialTilt;
-	SOLARSYS_STATE *pSS = pSolarSysState;
-	BOOLEAN IsSol = CurStarDescPtr->Index == SOL_DEFINED;
 
 	/* We need this for the new color-changing hazard readouts.
 	 * We initialize it to SCAN_PC_TITLE_COLOR because we'll need
@@ -196,18 +193,10 @@ PrintCoarseScanPC (void)
 
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE),
 			LEFT_SIDE_BASELINE_X_PC); // "Orbit: "
-
-	if (worldIsMoon(pSS, pSS->pOrbitalDesc) && optRealSol && IsSol) {
-		val = ((pSS->SysInfo.PlanetInfo.PlanetToSunDist * 100L 
-			+ (LUNAR_DISTANCE >> 1)) / LUNAR_DISTANCE);
-		MakeScanValue (buf, val,
-				GAME_STRING (ORBITSCAN_STRING_BASE + 19)); // "L.D."
-	} else {
-		val = ((pSS->SysInfo.PlanetInfo.PlanetToSunDist * 100L
+	val = ((pSolarSysState->SysInfo.PlanetInfo.PlanetToSunDist * 100L
 			+ (EARTH_RADIUS >> 1)) / EARTH_RADIUS);
-		MakeScanValue (buf, val,
-				GAME_STRING (ORBITSCAN_STRING_BASE + 1)); // "A.U."
-	}
+	MakeScanValue (buf, val,
+			GAME_STRING (ORBITSCAN_STRING_BASE + 1)); // " a.u."
 	t.pStr = buf;
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
@@ -215,15 +204,15 @@ PrintCoarseScanPC (void)
 
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE + 2),
 			LEFT_SIDE_BASELINE_X_PC); // "Atmo: "
-	if (pSS->SysInfo.PlanetInfo.AtmoDensity == GAS_GIANT_ATMOSPHERE)
+	if (pSolarSysState->SysInfo.PlanetInfo.AtmoDensity == GAS_GIANT_ATMOSPHERE)
 		utf8StringCopy (buf, sizeof (buf),
 				GAME_STRING (ORBITSCAN_STRING_BASE + 3)); // "Super Thick"
-	else if (pSS->SysInfo.PlanetInfo.AtmoDensity == 0)
+	else if (pSolarSysState->SysInfo.PlanetInfo.AtmoDensity == 0)
 		utf8StringCopy (buf, sizeof (buf),
 				GAME_STRING (ORBITSCAN_STRING_BASE + 4)); // "Vacuum"
 	else
 	{
-		val = (pSS->SysInfo.PlanetInfo.AtmoDensity * 100
+		val = (pSolarSysState->SysInfo.PlanetInfo.AtmoDensity * 100
 			+ (EARTH_ATMOSPHERE >> 1)) / EARTH_ATMOSPHERE;
 		MakeScanValue (buf, val,
 				GAME_STRING (ORBITSCAN_STRING_BASE + 5)); // " atm"
@@ -236,15 +225,15 @@ PrintCoarseScanPC (void)
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE + 6),
 			LEFT_SIDE_BASELINE_X_PC); // "Temp: "
 	sprintf (buf, "%d" STR_DEGREE_SIGN " c",
-			pSS->SysInfo.PlanetInfo.SurfaceTemperature);
+			pSolarSysState->SysInfo.PlanetInfo.SurfaceTemperature);
 #ifdef HAZARD_COLORS
-	if ((pSS->SysInfo.PlanetInfo.SurfaceTemperature) >= (100) &&
-	    (pSS->SysInfo.PlanetInfo.SurfaceTemperature) <= (400))
+	if ((pSolarSysState->SysInfo.PlanetInfo.SurfaceTemperature) >= (100) &&
+	    (pSolarSysState->SysInfo.PlanetInfo.SurfaceTemperature) <= (400))
 	{ /* Between 100 and 400 temperature the planet is still explorable,
 	   * draw the readout in yellow */
 		OldColor = SetContextForeGroundColor (DULL_YELLOW_COLOR);
 	}
-	else if (pSS->SysInfo.PlanetInfo.SurfaceTemperature > 400)
+	else if (pSolarSysState->SysInfo.PlanetInfo.SurfaceTemperature > 400)
 	{ /* Above 400 the planet is quite dangerous, draw the readout in red. */
 		OldColor = SetContextForeGroundColor (BRIGHT_RED_COLOR);
 	}
@@ -257,23 +246,23 @@ PrintCoarseScanPC (void)
 
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE + 7),
 			LEFT_SIDE_BASELINE_X_PC); // "Weather: "
-	if (pSS->SysInfo.PlanetInfo.AtmoDensity == 0)
+	if (pSolarSysState->SysInfo.PlanetInfo.AtmoDensity == 0)
 		t.pStr = GAME_STRING (ORBITSCAN_STRING_BASE + 8); // "None"
 	else
 	{
 		sprintf (buf, "%s %u",
 				GAME_STRING (ORBITSCAN_STRING_BASE + 9), // "Class"
-				pSS->SysInfo.PlanetInfo.Weather + 1);
+				pSolarSysState->SysInfo.PlanetInfo.Weather + 1);
 		t.pStr = buf;
 	}
 #ifdef HAZARD_COLORS
-	if ((pSS->SysInfo.PlanetInfo.Weather + 1) >= (3) &&
-	    (pSS->SysInfo.PlanetInfo.Weather + 1) <= (4))
+	if ((pSolarSysState->SysInfo.PlanetInfo.Weather + 1) >= (3) &&
+	    (pSolarSysState->SysInfo.PlanetInfo.Weather + 1) <= (4))
 	{ /* Weather values of 3 or 4 will unavoidably kill a few
 	   * crew, draw the readout in yellow. */
 		OldColor = SetContextForeGroundColor (DULL_YELLOW_COLOR);
 	}
-	else if ((pSS->SysInfo.PlanetInfo.Weather + 1) >= (5))
+	else if ((pSolarSysState->SysInfo.PlanetInfo.Weather + 1) >= (5))
 	{ /* Weather values >= 5 will unavoidably kill many crew,
 	   * draw the readout in red. */
 		OldColor = SetContextForeGroundColor (BRIGHT_RED_COLOR);
@@ -286,24 +275,24 @@ PrintCoarseScanPC (void)
 
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE + 10),
 			LEFT_SIDE_BASELINE_X_PC); // "Tectonics: "
-	if (PLANSIZE (pSS->SysInfo.PlanetInfo.PlanDataPtr->Type) ==
+	if (PLANSIZE (pSolarSysState->SysInfo.PlanetInfo.PlanDataPtr->Type) ==
 			GAS_GIANT)
 		t.pStr = GAME_STRING (ORBITSCAN_STRING_BASE + 8); // "None"
 	else
 	{
 		sprintf (buf, "%s %u",
 				GAME_STRING (ORBITSCAN_STRING_BASE + 9), // "Class"
-				pSS->SysInfo.PlanetInfo.Tectonics + 1);
+				pSolarSysState->SysInfo.PlanetInfo.Tectonics + 1);
 		t.pStr = buf;
 	}
 #ifdef HAZARD_COLORS
-	if ((pSS->SysInfo.PlanetInfo.Tectonics + 1) >= (3) &&
-	    (pSS->SysInfo.PlanetInfo.Tectonics + 1) <= (5))
+	if ((pSolarSysState->SysInfo.PlanetInfo.Tectonics + 1) >= (3) &&
+	    (pSolarSysState->SysInfo.PlanetInfo.Tectonics + 1) <= (5))
 	{ /* Between class 3 and 5 tectonics the planet is still explorable,
 	   * draw the readout in yellow. */
 		OldColor = SetContextForeGroundColor (DULL_YELLOW_COLOR);
 	}
-	else if ((pSS->SysInfo.PlanetInfo.Tectonics + 1) > (5))
+	else if ((pSolarSysState->SysInfo.PlanetInfo.Tectonics + 1) > (5))
 	{ /* Above class 5 tectonics the planet is quite dangerous, draw the
 	   * readout in red. */
 		OldColor = SetContextForeGroundColor (BRIGHT_RED_COLOR);
@@ -316,9 +305,9 @@ PrintCoarseScanPC (void)
 
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE + 11),
 			RIGHT_SIDE_BASELINE_X_PC); // "Mass: "
-	val = pSS->SysInfo.PlanetInfo.PlanetRadius;
+	val = pSolarSysState->SysInfo.PlanetInfo.PlanetRadius;
 	val = ((DWORD) val * (DWORD) val * (DWORD) val / 100L
-			* pSS->SysInfo.PlanetInfo.PlanetDensity
+			* pSolarSysState->SysInfo.PlanetInfo.PlanetDensity
 			+ ((100L * 100L) >> 1)) / (100L * 100L);
 	if (val == 0)
 		val = 1;
@@ -331,7 +320,7 @@ PrintCoarseScanPC (void)
 
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE + 13),
 			RIGHT_SIDE_BASELINE_X_PC); // "Radius: "
-	val = pSS->SysInfo.PlanetInfo.PlanetRadius;
+	val = pSolarSysState->SysInfo.PlanetInfo.PlanetRadius;
 	MakeScanValue (buf, val,
 			GAME_STRING (ORBITSCAN_STRING_BASE + 12)); // " e.s."
 	t.pStr = buf;
@@ -341,7 +330,7 @@ PrintCoarseScanPC (void)
 
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE + 14),
 			RIGHT_SIDE_BASELINE_X_PC); // "Gravity: "
-	val = pSS->SysInfo.PlanetInfo.SurfaceGravity;
+	val = pSolarSysState->SysInfo.PlanetInfo.SurfaceGravity;
 	if (val == 0)
 		val = 1;
 	MakeScanValue (buf, val,
@@ -353,7 +342,7 @@ PrintCoarseScanPC (void)
 
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE + 16),
 			RIGHT_SIDE_BASELINE_X_PC); // "Day: "
-	val = (SDWORD)pSS->SysInfo.PlanetInfo.RotationPeriod
+	val = (SDWORD)pSolarSysState->SysInfo.PlanetInfo.RotationPeriod
 			* 10 / 24;
 	MakeScanValue (buf, val,
 			GAME_STRING (ORBITSCAN_STRING_BASE + 17)); // " days"
@@ -364,18 +353,11 @@ PrintCoarseScanPC (void)
 
 	PrintScanTitlePC (&t, &r, GAME_STRING (ORBITSCAN_STRING_BASE + 18),
 			RIGHT_SIDE_BASELINE_X_PC); // "Tilt: "
-	val = pSS->SysInfo.PlanetInfo.AxialTilt;
-	if (IsSol) {
-		dblAxialTilt = (double)val / 10;
-		val /= 10;
-	}
+	val = pSolarSysState->SysInfo.PlanetInfo.AxialTilt;
 	if (val < 0)
 		val = -val;
 	t.pStr = buf;
-	if(IsSol && optRealSol)
-		sprintf (buf, "%.1f" STR_DEGREE_SIGN, dblAxialTilt);
-	else
-		sprintf(buf, "%d" STR_DEGREE_SIGN, val);
+	sprintf (buf, "%d" STR_DEGREE_SIGN, val);
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
 }
@@ -388,9 +370,6 @@ PrintCoarseScan3DO (void)
 	TEXT t;
 	STAMP s;
 	UNICODE buf[200];
-	double dblAxialTilt;
-	SOLARSYS_STATE *pSS = pSolarSysState;
-	BOOLEAN IsSol = CurStarDescPtr->Index == SOL_DEFINED;
 
 	/* We need this for the new color-changing hazard readouts.
 	 * We initialize it to SCAN_PC_TITLE_COLOR because we'll need
@@ -428,30 +407,20 @@ PrintCoarseScan3DO (void)
 	t.align = ALIGN_LEFT;
 
 	t.pStr = buf;
-
-	if (worldIsMoon(pSS, pSS->pOrbitalDesc) && optRealSol && IsSol) {
-		val = ((pSS->SysInfo.PlanetInfo.PlanetToSunDist * 100L
-			+ (LUNAR_DISTANCE >> 1)) / LUNAR_DISTANCE);
-		MakeScanValue(buf, val,
-			GAME_STRING(ORBITSCAN_STRING_BASE + 19)); // "L.D."
-	}
-	else {
-		val = ((pSS->SysInfo.PlanetInfo.PlanetToSunDist * 100L
+	val = ((pSolarSysState->SysInfo.PlanetInfo.PlanetToSunDist * 100L
 			+ (EARTH_RADIUS >> 1)) / EARTH_RADIUS);
-		MakeScanValue(buf, val,
-			GAME_STRING(ORBITSCAN_STRING_BASE + 1)); // "A.U."
-	}
-
+	MakeScanValue (buf, val,
+			GAME_STRING (ORBITSCAN_STRING_BASE + 1)); // " a.u."
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
 	t.baseline.y += SCAN_LEADING;
 
 	t.pStr = buf;
-	if (pSS->SysInfo.PlanetInfo.AtmoDensity == GAS_GIANT_ATMOSPHERE)
+	if (pSolarSysState->SysInfo.PlanetInfo.AtmoDensity == GAS_GIANT_ATMOSPHERE)
 		strcpy (buf, STR_INFINITY_SIGN);
 	else
 	{
-		val = (pSS->SysInfo.PlanetInfo.AtmoDensity * 100
+		val = (pSolarSysState->SysInfo.PlanetInfo.AtmoDensity * 100
 				+ (EARTH_ATMOSPHERE >> 1)) / EARTH_ATMOSPHERE;
 		MakeScanValue (buf, val,
 				GAME_STRING (ORBITSCAN_STRING_BASE + 5)); // " atm"
@@ -462,15 +431,15 @@ PrintCoarseScan3DO (void)
 
 	t.pStr = buf;
 	sprintf (buf, "%d" STR_DEGREE_SIGN " c",
-			pSS->SysInfo.PlanetInfo.SurfaceTemperature);
+			pSolarSysState->SysInfo.PlanetInfo.SurfaceTemperature);
 #ifdef HAZARD_COLORS
-	if ((pSS->SysInfo.PlanetInfo.SurfaceTemperature) >= (100) &&
-	    (pSS->SysInfo.PlanetInfo.SurfaceTemperature) <= (400))
+	if ((pSolarSysState->SysInfo.PlanetInfo.SurfaceTemperature) >= (100) &&
+	    (pSolarSysState->SysInfo.PlanetInfo.SurfaceTemperature) <= (400))
 	{ /* Between 100 and 400 temperature the planet is still explorable,
 	   * draw the readout in yellow */
 		OldColor = SetContextForeGroundColor (DULL_YELLOW_COLOR);
 	}
-	else if (pSS->SysInfo.PlanetInfo.SurfaceTemperature > 400)
+	else if (pSolarSysState->SysInfo.PlanetInfo.SurfaceTemperature > 400)
 	{ /* Above 400 the planet is quite dangerous, draw the readout in red. */
 		OldColor = SetContextForeGroundColor (BRIGHT_RED_COLOR);
 	}
@@ -482,16 +451,16 @@ PrintCoarseScan3DO (void)
 
 	t.pStr = buf;
 	sprintf (buf, "%s %u", GAME_STRING (ORBITSCAN_STRING_BASE + 9), // Class
-			pSS->SysInfo.PlanetInfo.AtmoDensity == 0
-			? 0 : (pSS->SysInfo.PlanetInfo.Weather + 1));
+			pSolarSysState->SysInfo.PlanetInfo.AtmoDensity == 0
+			? 0 : (pSolarSysState->SysInfo.PlanetInfo.Weather + 1));
 #ifdef HAZARD_COLORS
-	if ((pSS->SysInfo.PlanetInfo.Weather + 1) >= (3) &&
-	    (pSS->SysInfo.PlanetInfo.Weather + 1) <= (4))
+	if ((pSolarSysState->SysInfo.PlanetInfo.Weather + 1) >= (3) &&
+	    (pSolarSysState->SysInfo.PlanetInfo.Weather + 1) <= (4))
 	{ /* Weather values of 3 or 4 will unavoidably kill a few
 	   * crew, draw the readout in yellow. */
 		OldColor = SetContextForeGroundColor (DULL_YELLOW_COLOR);
 	}
-	else if ((pSS->SysInfo.PlanetInfo.Weather + 1) >= (5))
+	else if ((pSolarSysState->SysInfo.PlanetInfo.Weather + 1) >= (5))
 	{ /* Weather values < 5 will unavoidably kill many crew,
 	   * draw the readout in red. */
 		OldColor = SetContextForeGroundColor (BRIGHT_RED_COLOR);
@@ -505,17 +474,17 @@ PrintCoarseScan3DO (void)
 	t.pStr = buf;
 	sprintf (buf, "%s %u", GAME_STRING (ORBITSCAN_STRING_BASE + 9), // Class
 			PLANSIZE (
-			pSS->SysInfo.PlanetInfo.PlanDataPtr->Type
+			pSolarSysState->SysInfo.PlanetInfo.PlanDataPtr->Type
 			) == GAS_GIANT
-			? 0 : (pSS->SysInfo.PlanetInfo.Tectonics + 1));
+			? 0 : (pSolarSysState->SysInfo.PlanetInfo.Tectonics + 1));
 #ifdef HAZARD_COLORS
-	if ((pSS->SysInfo.PlanetInfo.Tectonics + 1) >= (3) &&
-	    (pSS->SysInfo.PlanetInfo.Tectonics + 1) <= (5))
+	if ((pSolarSysState->SysInfo.PlanetInfo.Tectonics + 1) >= (3) &&
+	    (pSolarSysState->SysInfo.PlanetInfo.Tectonics + 1) <= (5))
 	{ /* Between class 3 and 5 tectonics the planet is still explorable,
 	   * draw the readout in yellow. */
 		OldColor = SetContextForeGroundColor (DULL_YELLOW_COLOR);
 	}
-	else if ((pSS->SysInfo.PlanetInfo.Tectonics + 1) > (5))
+	else if ((pSolarSysState->SysInfo.PlanetInfo.Tectonics + 1) > (5))
 	{ /* Above class 5 tectonics the planet is quite dangerous, draw the
 	   * readout in red. */
 		OldColor = SetContextForeGroundColor (BRIGHT_RED_COLOR);
@@ -530,9 +499,9 @@ PrintCoarseScan3DO (void)
 	t.align = ALIGN_RIGHT;
 
 	t.pStr = buf;
-	val = pSS->SysInfo.PlanetInfo.PlanetRadius;
+	val = pSolarSysState->SysInfo.PlanetInfo.PlanetRadius;
 	val = ((DWORD) val * (DWORD) val * (DWORD) val / 100L
-			* pSS->SysInfo.PlanetInfo.PlanetDensity
+			* pSolarSysState->SysInfo.PlanetInfo.PlanetDensity
 			+ ((100L * 100L) >> 1)) / (100L * 100L);
 	if (val == 0)
 		val = 1;
@@ -543,7 +512,7 @@ PrintCoarseScan3DO (void)
 	t.baseline.y += SCAN_LEADING;
 
 	t.pStr = buf;
-	val = pSS->SysInfo.PlanetInfo.PlanetRadius;
+	val = pSolarSysState->SysInfo.PlanetInfo.PlanetRadius;
 	MakeScanValue (buf, val,
 			GAME_STRING (ORBITSCAN_STRING_BASE + 15)); // " g."
 
@@ -552,7 +521,7 @@ PrintCoarseScan3DO (void)
 	t.baseline.y += SCAN_LEADING;
 
 	t.pStr = buf;
-	val = pSS->SysInfo.PlanetInfo.SurfaceGravity;
+	val = pSolarSysState->SysInfo.PlanetInfo.SurfaceGravity;
 	if (val == 0)
 		val = 1;
 	MakeScanValue (buf, val,
@@ -562,23 +531,16 @@ PrintCoarseScan3DO (void)
 	t.baseline.y += SCAN_LEADING;
 
 	t.pStr = buf;
-	val = pSS->SysInfo.PlanetInfo.AxialTilt;
-	if (IsSol) {
-		dblAxialTilt = (double)val / 10;
-		val /= 10;
-	}
+	val = pSolarSysState->SysInfo.PlanetInfo.AxialTilt;
 	if (val < 0)
 		val = -val;
-	if (IsSol && optRealSol)
-		sprintf(buf, "%.1f" STR_DEGREE_SIGN, dblAxialTilt);
-	else
-		sprintf(buf, "%d" STR_DEGREE_SIGN, val);
+	sprintf (buf, "%d" STR_DEGREE_SIGN, val);
 	t.CharCount = (COUNT)~0;
 	font_DrawText (&t);
 	t.baseline.y += SCAN_LEADING;
 
 	t.pStr = buf;
-	val = (SDWORD)pSS->SysInfo.PlanetInfo.RotationPeriod
+	val = (SDWORD)pSolarSysState->SysInfo.PlanetInfo.RotationPeriod
 			* 10 / 24;
 	MakeScanValue (buf, val,
 			GAME_STRING (ORBITSCAN_STRING_BASE + 17)); // " days"

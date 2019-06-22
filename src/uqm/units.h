@@ -57,8 +57,8 @@ extern int ScreenHeight;
 #define DIF_STR DIF_CASE("Normal", "Easy", "Hard")
 
 // Earth Coordinates
-#define EARTH_OUTER_X (optRealSol ? -310 : -725)
-#define EARTH_OUTER_Y (optRealSol ? 256 : 597)
+#define EARTH_OUTER_X -725
+#define EARTH_OUTER_Y 597
 
 		/* Margins. */
 #define SIS_ORG_X (7)								// JMS_GFX

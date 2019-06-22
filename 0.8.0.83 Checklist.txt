@@ -15,14 +15,6 @@ Everything with an asterisk (*) in front is completed
 *SETUP MENU: Added option enable/disable fuel range point of no return
 *Show Difficulty and Seed info on the load screen
 *Custom seed generated solar systems can have a max of 10 planets and a max of 5 moons for any given planet
-*RealSol attempts to do a more realistic version of the Sol System, as such these changes only benefit Sol alone
-		- *Main planetary orbit lines to a scale that fits the viewport
-		- *Charon added to Pluto (with no minerals as to not mess up Sol's economy)
-		- *Sol textures have been completely redone
-		- *A new unit of measurement, Lunar Distance (l.d.), used to show distance from planet to moon
-		- *Axial tilt shows the tilt in decimal
-		- *Going through and trying to make each planet and moon have the correct data
-		- Possibly more stuff coming soon
 *Added option to switch between PC/3DO interplanetary transitions (when the viewport zooms in while traveling through a solar system)
 *Vela I is now named "Unzervalt"
 *Name home worlds of various aliens (where applicable) after you've met them.
@@ -56,9 +48,9 @@ HARD:
 	*Evil Ones now more dangerous
 	*Melnorme tech catalog spread out between the 9 Supergiants (No tech upgrades in Hyperspace)
 	*Melnorme fuel cost upped to 10 credits per unit
-	When fitted with bomb remove all devices (excluding the talking pet and taalo shield)
 	*Randomize Quasi Portal exits
 	*Reduced viability of the Druuge/Melnorme fuel exploit
+	When fitted with bomb remove all devices (excluding the talking pet and taalo shield)
 
 EASY:
 	*Double mineral worth
@@ -68,9 +60,9 @@ EASY:
 	*Start with two landers
 	*Rainbow World credit value doubled
 	*Add a couple more fusion thrusters and turning jets for new game
+	*Keep the Emergency Escape Warp Unit enabled after Chmmr Bomb installation
 	Able to build Probes after completing Slylandro quest
 	Melnorme prices halved
 	Melnorme towing costs nothing
 	Portal Spawner costs no fuel
 	Player already knows about Deep Children
-	*Keep the Emergency Escape Warp Unit enabled after Chmmr Bomb installation
