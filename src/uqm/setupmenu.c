@@ -123,7 +123,7 @@ static WIDGET *main_widgets[] = {
 	(WIDGET *)(&buttons[3]),	// PC/3DO Compat Options
 	(WIDGET *)(&buttons[4]),	// Sound
 	(WIDGET *)(&buttons[10]),	// Music
-	(WIDGET *)(&buttons[12]),	// Gameplay
+	//(WIDGET *)(&buttons[12]),	// Gameplay
 	(WIDGET *)(&buttons[6]),	// Controls
 	(WIDGET *)(&buttons[11]),	// Visuals
 	(WIDGET *)(&buttons[5]),	// Cheats
@@ -240,13 +240,6 @@ static WIDGET *visual_widgets[] = {
 	NULL };
 
 static WIDGET *gameplay_widgets[] = {
-	(WIDGET *)(&choices[53]),	// Difficulty
-	(WIDGET *)(&labels[4]),		// Spacer
-	(WIDGET *)(&choices[32]),	// Skip Intro
-	(WIDGET *)(&choices[40]),	// Partial Pickup switch
-	(WIDGET *)(&labels[4]),		// Spacer
-	(WIDGET *)(&textentries[1]),// Custom Seed entry
-	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -1615,7 +1608,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->fuelRange = optFuelRange ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 
 	// Serosis: 320x240
-	if (RESOLUTION_FACTOR != HD) {
+	if (!IS_HD) {
 		switch (ScreenWidthActual) {
 		case 320:
 			if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE) {
@@ -2077,7 +2070,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutBoolean("config.fuelrange", opts->fuelRange == OPTVAL_ENABLED);
 	optFuelRange = (opts->fuelRange == OPTVAL_ENABLED);
 
-	if (opts->scanlines && RESOLUTION_FACTOR != HD) {
+	if (opts->scanlines && !IS_HD) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;
 	} else {
 		NewGfxFlags &= ~TFB_GFXFLAGS_SCANLINES;
@@ -2086,7 +2079,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	if (opts->fullscreen){
 		NewGfxFlags |= TFB_GFXFLAGS_FULLSCREEN;
 		// JMS: Force the usage of bilinear scaler in 1280x960 and 640x480 fullscreen.
-		if (RESOLUTION_FACTOR == HD) {
+		if (IS_HD) {
 			NewGfxFlags |= TFB_GFXFLAGS_SCALE_BILINEAR;
 			res_PutString ("config.scaler", "bilinear");
 		}
@@ -2094,7 +2087,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		NewGfxFlags &= ~TFB_GFXFLAGS_FULLSCREEN;
 		// Serosis: Force the usage of no filter in 1280x960 windowed mode.
 		// While forcing the usage of bilinear filter in scaled windowed modes.
-		if(RESOLUTION_FACTOR == HD){
+		if(IS_HD){
 			switch(NewWidth){
 				case 640:
 				case 960:
