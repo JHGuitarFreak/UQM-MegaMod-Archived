@@ -723,27 +723,11 @@ loadGameCheats (void){
 		loadFuel = 0;
 	}
 	if (optUnlockShips){
-		SetRaceAllowBuild (ARILOU_SHIP);
-		SetRaceAllowBuild (CHMMR_SHIP);
-		SetRaceAllowBuild (ORZ_SHIP);
-		SetRaceAllowBuild (PKUNK_SHIP);
-		SetRaceAllowBuild (SHOFIXTI_SHIP);
-		SetRaceAllowBuild (SPATHI_SHIP);
-		SetRaceAllowBuild (SUPOX_SHIP);
-		SetRaceAllowBuild (THRADDASH_SHIP);
-		SetRaceAllowBuild (UTWIG_SHIP);
-		SetRaceAllowBuild (VUX_SHIP);
-		SetRaceAllowBuild (YEHAT_SHIP);
-		SetRaceAllowBuild (MELNORME_SHIP);
-		SetRaceAllowBuild (DRUUGE_SHIP);
-		SetRaceAllowBuild (ILWRATH_SHIP);
-		SetRaceAllowBuild (MYCON_SHIP);
-		SetRaceAllowBuild (SLYLANDRO_SHIP);
-		SetRaceAllowBuild (UMGAH_SHIP);
-		SetRaceAllowBuild (URQUAN_SHIP);
-		SetRaceAllowBuild (ZOQFOTPIK_SHIP);
-		SetRaceAllowBuild (SYREEN_SHIP);
-		SetRaceAllowBuild (BLACK_URQUAN_SHIP);
+		BYTE i = 0;
+
+		for (i = ARILOU_SHIP; i <= BLACK_URQUAN_SHIP; ++i) {
+			SetRaceAllowBuild(i);
+		}
 	}
 	if (optUnlockUpgrades){
 		SET_GAME_STATE (IMPROVED_LANDER_SPEED, 1);
