@@ -32,7 +32,7 @@ Create an "Ironman" setting and save system
 DIFFICULTY SETTING:
 
 HARD:
-	*All Spathi escorts fuck off when they slave shield themselves
+	*All Spathi escorts flee when they slave shield themselves
 	*Starting crew is 31 to account for the epilogue story
 	*Amount of Thraddash to defeat is 35 to become allied
 	*Crew Cost does not come down when the Shofixti are revived
@@ -50,6 +50,7 @@ HARD:
 	*Melnorme fuel cost upped to 10 credits per unit
 	*Randomize Quasi Portal exits
 	*Reduced viability of the Druuge/Melnorme fuel exploit
+	*If player kills Tanaka they do not get a second chance with Katana
 	When fitted with bomb remove all devices (excluding the talking pet and taalo shield)
 
 EASY:
