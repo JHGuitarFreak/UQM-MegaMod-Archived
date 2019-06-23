@@ -10,8 +10,8 @@ Cheat Options
 Controls Setup
 Advanced Options
 Edit Controls
-Music Options
-Visual Options
+Music Configuration
+Visual Configuration
 Gameplay Options
 
 #(CHOICES)
@@ -883,9 +883,11 @@ Configure Controls
 Advanced Options
 Edit Controls
 Back to Control Select
-Music Options
-Visual Options
+Music Configuration
+Visual Configuration
 Gameplay Options
+Back to Sound Options
+Back to Advanced Options
 
 #(BUTTON_0_DESC)
 Return to the main menu.
@@ -930,10 +932,20 @@ Return to control set selection screen.
 Configure music options for UQM.
 
 #(BUTTON_11_DESC)
-Configure music options for UQM.
+Configure the look and feel of the MegaMod.
 
-#(BUTTON_11_DESC)
+#(BUTTON_12_DESC)
 Configure gameplay options for UQM.
+
+#(BUTTON_13_DESC)
+
+
+Return to the sound settings screen.
+
+#(BUTTON_14_DESC)
+
+
+Return to to the advanced options screen.
 
 #(LABELS)
 Incomplete

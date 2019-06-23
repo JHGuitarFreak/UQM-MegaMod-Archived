@@ -83,7 +83,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #define MENU_COUNT         11
 #define CHOICE_COUNT       55
 #define SLIDER_COUNT        4
-#define BUTTON_COUNT       13
+#define BUTTON_COUNT       15
 #define LABEL_COUNT         5
 #define TEXTENTRY_COUNT     2
 #define CONTROLENTRY_COUNT  7
@@ -114,7 +114,8 @@ static int choice_widths[CHOICE_COUNT] = {
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
 	do_audio, do_cheats, do_keyconfig, do_advanced, do_editkeys, 
-	do_keyconfig, do_music, do_visual, do_gameplay };
+	do_keyconfig, do_music, do_visual, do_gameplay, do_audio, 
+	do_advanced };
 
 /* These refer to uninitialized widgets, but that's OK; we'll fill
  * them in before we touch them */
@@ -122,10 +123,8 @@ static WIDGET *main_widgets[] = {
 	(WIDGET *)(&buttons[2]),	// Graphics
 	(WIDGET *)(&buttons[3]),	// PC/3DO Compat Options
 	(WIDGET *)(&buttons[4]),	// Sound
-	(WIDGET *)(&buttons[10]),	// Music
 	//(WIDGET *)(&buttons[12]),	// Gameplay
 	(WIDGET *)(&buttons[6]),	// Controls
-	(WIDGET *)(&buttons[11]),	// Visuals
 	(WIDGET *)(&buttons[5]),	// Cheats
 	(WIDGET *)(&buttons[7]),	// Advanced
 	(WIDGET *)(&buttons[0]),	// Quit Setup Menu
@@ -173,6 +172,8 @@ static WIDGET *audio_widgets[] = {
 	(WIDGET *)(&choices[15]),	// Sound Driver
 	(WIDGET *)(&choices[16]),	// Sound Quality
 	(WIDGET *)(&labels[4]),		// Spacer
+	(WIDGET *)(&buttons[10]),	// Music
+	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -184,7 +185,7 @@ static WIDGET *music_widgets[] = {
 	(WIDGET *)(&choices[46]),	// Serosis: Volasaurus' Space Music
 	(WIDGET *)(&choices[34]),	// JMS: Main Menu Music
 	(WIDGET *)(&labels[4]),		// Spacer
-	(WIDGET *)(&buttons[1]),
+	(WIDGET *)(&buttons[13]),
 	NULL };
 
 static WIDGET *cheat_widgets[] = {
@@ -222,6 +223,8 @@ static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&textentries[1]),// Custom Seed entry
 	(WIDGET *)(&labels[4]),		// Spacer
+	(WIDGET *)(&buttons[11]),	// Visuals
+	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&buttons[1]),	
 	NULL };
 
@@ -236,7 +239,7 @@ static WIDGET *visual_widgets[] = {
 	(WIDGET *)(&choices[48]),	// Whole Fuel Value switch
 	(WIDGET *)(&choices[51]),	// Realistic Sol
 	(WIDGET *)(&choices[54]),	// Fuel Range
-	(WIDGET *)(&buttons[1]),
+	(WIDGET *)(&buttons[14]),
 	NULL };
 
 static WIDGET *gameplay_widgets[] = {
