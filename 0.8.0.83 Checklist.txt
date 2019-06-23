@@ -51,7 +51,7 @@ HARD:
 	*Randomize Quasi Portal exits
 	*Reduced viability of the Druuge/Melnorme fuel exploit
 	*If player kills Tanaka they do not get a second chance with Katana
-	When fitted with bomb remove all devices (excluding the talking pet and taalo shield)
+	*Player only recieves one Pkunk & Yehat ship at endgame
 
 EASY:
 	*Double mineral worth
