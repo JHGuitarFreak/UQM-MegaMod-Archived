@@ -2133,9 +2133,6 @@ Day:
 #(Tilt: )
 Tilt: 
 
-#( l.d.)
- l.d.
-
 #(scan) -- MAINMENU_STRING_BASE
 scan
 
