@@ -605,14 +605,12 @@ const size_t NUM_TECH_ITEMS = ARRAY_SIZE (tech_sale_catalog);
 // Return the next tech for sale that the player doesn't already have.
 // Returns NULL if the player has all the techs.
 static const TechSaleData*
-GetNextTechForSale (void)
-{
+GetNextTechForSale (void) {
 	size_t i = 0;
 	BYTE j = 0;
 
 	if(DIF_HARD && CurStarDescPtr){
-		switch (CurStarDescPtr->Index)
-		{
+		switch (CurStarDescPtr->Index) {
 			case MELNORME0_DEFINED:
 				i = TECH_MODULE_CANNON;	 
 				j = i + 1;
@@ -653,22 +651,18 @@ GetNextTechForSale (void)
 				i = 0; j = i;
 		}
 
-		for (i = i; i < j; ++i)
-		{
+		for (i = i; i < j; ++i) {
 			if (!HasTech (tech_sale_catalog[i].techId))
 				return &tech_sale_catalog[i];
 		}
 	} else if (DIF_HARD && !CurStarDescPtr) {
 		return NULL;
 	} else {
-		for (i = 0; i < NUM_TECH_ITEMS; ++i)
-		{
+		for (i = 0; i < NUM_TECH_ITEMS; ++i) {
 			if (!HasTech (tech_sale_catalog[i].techId))
 				return &tech_sale_catalog[i];
 		}
-
 	}
-
 	return NULL;
 }
 

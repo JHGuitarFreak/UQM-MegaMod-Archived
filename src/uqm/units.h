@@ -43,12 +43,12 @@ extern int ScreenHeight;
 #define UNSCALED_PLANETS(a,b) ((IS_HD && HDPackPresent && !optScalePlanets) ? (a) : (b))
 
 // Difficulty Units
-#define NORMAL 0
+#define NORM 0
 #define EASY 1
 #define HARD 2
-#define DIFFICULTY (newGameDifficulty ? newGameDifficulty : (savedDifficulty ? savedDifficulty : NORMAL))
-#define DIF_CASE(a,b,c) (DIFFICULTY == NORMAL ? (a) : DIFFICULTY == EASY ? (b) : (c))
-#define DIF_NORM (DIFFICULTY == NORMAL ? true : false)
+#define DIFFICULTY (newGameDifficulty ? newGameDifficulty : (savedDifficulty ? savedDifficulty : NORM))
+#define DIF_CASE(a,b,c) (DIFFICULTY == NORM ? (a) : DIFFICULTY == EASY ? (b) : (c))
+#define DIF_NORM (DIFFICULTY == NORM ? true : false)
 #define DIF_EASY (DIFFICULTY == EASY ? true : false)
 #define DIF_HARD (DIFFICULTY == HARD ? true : false)
 #define IF_NORM(a,b) (!DIF_NORM ? (a) : (b))
