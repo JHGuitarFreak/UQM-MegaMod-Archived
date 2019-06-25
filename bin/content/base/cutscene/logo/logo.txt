@@ -8,7 +8,7 @@ TBC 000000
 ANI1X base/cutscene/logo/logo.ani
 
 #(Load movie)
-ANI4X base/cutscene/logo/logo4x/logo.ani
+ANI4X base/cutscene/logo/logohd/logo.ani
 
 #(Take up entire screen)
 DIMS 320 240
