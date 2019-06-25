@@ -838,20 +838,23 @@ Hard
 Vanilla difficulty as it was originally intended.
 
 #(CAT_53_OPT_1_DESC)
-Easier difficulty.
+Various changes to make UQM gameplay easier.
 
 #(CAT_53_OPT_2_DESC)
-Harder difficulty.
+NOT FOR BEGINNERS!
+A multitude of changes to make gameplay harder
+for the veteran UQM player.
 
 #(CAT_54_OPTS)
 Disabled
 Enabled
 
 #(CAT_54_OPT_0_DESC)
-Default fuel range on starmap 
+Default fuel range on the Starmap.
 
 #(CAT_54_OPT_1_DESC)
-Fuel range will show point of no return
+Fuel range on the Starmap will show 
+the point of no return to the Starbase.
 
 #(SLIDERS)
 Music Volume
