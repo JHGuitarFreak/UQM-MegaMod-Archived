@@ -331,6 +331,7 @@ extern UWORD CalcGravity (const PLANET_INFO*);
 #define SUPER_TECTONICS 200
 
 extern const PlanetFrame *PlanData;
+extern STAR_DESC starmap_array[];
 
 #if defined(__cplusplus)
 }
