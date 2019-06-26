@@ -1589,8 +1589,8 @@ DoMoveCursor (MENU_STATE *pMS)
 	}
 	else if (PulsedInputState.menu[KEY_MENU_SEARCH])
 	{
-		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1)
-		{	// HyperSpace search
+		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1 && !DIF_HARD) {	
+			// HyperSpace search
 			POINT oldpt = cursorLoc;
 
 			if (!DoStarSearch (pMS))
@@ -1605,9 +1605,8 @@ DoMoveCursor (MENU_STATE *pMS)
 			SetMenuRepeatDelay (MIN_ACCEL_DELAY, MAX_ACCEL_DELAY,
 					STEP_ACCEL_DELAY, TRUE);
 			SetMenuSounds (MENU_SOUND_NONE, MENU_SOUND_NONE);
-		}
-		else
-		{	// no search in QuasiSpace
+		} else {
+			// no search in QuasiSpace or Hard Mode
 			PlayMenuSound (MENU_SOUND_FAILURE);
 		}
 	}
