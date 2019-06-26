@@ -52,6 +52,7 @@ HARD:
 	*Reduced viability of the Druuge/Melnorme fuel exploit
 	*If player kills Tanaka they do not get a second chance with Katana
 	*Player only recieves one Pkunk & Yehat ship at endgame
+	*No star search
 
 EASY:
 	*Double mineral worth
