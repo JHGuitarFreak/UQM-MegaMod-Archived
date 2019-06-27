@@ -48,7 +48,7 @@ Head Start
 Unlock Upgrades
 Infinite R.U.
 Skip Intro
-Placeholder
+Fuel Range
 Menu Music
 Show Nebulae
 Orbiting Planets
@@ -69,7 +69,6 @@ Melee Zoom
 Realistic Sol
 IP Transitions
 Difficulty
-Fuel Range
 
 #(CAT_0_OPTS)
 Original
@@ -574,14 +573,15 @@ Skips the game intro. Also skips the opening
 Crystal Dynamics FMV if the 3DO videos are enabled.
 
 #(CAT_33_OPTS)
-Placeholder
-Placeholder
+Disabled
+Enabled
 
 #(CAT_33_OPT_0_DESC)
-Placeholder
+Default fuel range on the Starmap.
 
 #(CAT_33_OPT_1_DESC)
-Placeholder
+Fuel range on the Starmap will show 
+the point of no return to the Starbase.
 
 #(CAT_34_OPTS)
 Disabled
@@ -844,17 +844,6 @@ Various changes to make UQM gameplay easier.
 NOT FOR BEGINNERS!
 A multitude of changes to make gameplay harder
 for the veteran UQM player.
-
-#(CAT_54_OPTS)
-Disabled
-Enabled
-
-#(CAT_54_OPT_0_DESC)
-Default fuel range on the Starmap.
-
-#(CAT_54_OPT_1_DESC)
-Fuel range on the Starmap will show 
-the point of no return to the Starbase.
 
 #(SLIDERS)
 Music Volume
