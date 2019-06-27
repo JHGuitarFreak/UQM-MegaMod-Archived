@@ -471,9 +471,9 @@ Enabled
 The game plays and ends normally.
 
 #(CAT_24_OPT_1_DESC)
-The game will last indefinitely.
-(A certain end condition will not
-trigger even after running out of time limit...)
+Stops the Kohr-Ah in their tracks, literally.
+When enabled the Kohr-Ah SOI does not move.
+Even when the time limit is reached.
 
 #(CAT_25_OPTS)
 Disabled
@@ -483,8 +483,8 @@ Enabled
 You are mortal and can come to harm.
 
 #(CAT_25_OPT_1_DESC)
-Nothing in the game can harm you. 
-In Melee energy is replenished every time you fire.
+Nothing in the game can harm you.
+In Super Melee energy is replenished every time you fire.
 Only works against computer controlled opponents
 
 #(CAT_26_OPTS)
@@ -510,21 +510,23 @@ Disabled
 Enabled
 
 #(CAT_27_OPT_0_DESC)
-Bubble Warp disabled.
+Normal Hyperspace travel.
 
 #(CAT_27_OPT_1_DESC)
-Instantaneously warp to any spot on the starmap
+Instantaneously warp to any spot on the Starmap.
 
 #(CAT_28_OPTS)
 Disabled
 Enabled
 
 #(CAT_28_OPT_0_DESC)
-Unlock ships disabled.
+Only allied ships can be built in the Shipyard.
+If you've saved with this option enabled then all ships
+will still be available for you.
 
 #(CAT_28_OPT_1_DESC)
-Unlock ships not normally available 
-to you in the story.
+Unlock ships not normally available to you in the story.
+
 This option persists through saves.
 
 #(CAT_29_OPTS)
@@ -532,20 +534,24 @@ Disabled
 Enabled
 
 #(CAT_29_OPT_0_DESC)
-Disable head start.
+Start the game normally.
 
 #(CAT_29_OPT_1_DESC)
-Gives you a big head start for New Game only.
+Start with Fwiffo in your fleet, all of Sol's resources, 
+an extra Storage Bay, and in near Earth Orbit having 
+already visited the Hierarchy base on Luna.
 
 #(CAT_30_OPTS)
 Disabled
 Enabled
 
 #(CAT_30_OPT_0_DESC)
-Disable unlock upgrades.
+Earn Melnorme tech normally.
+If you've saved with this option enabled then all Melnorme
+technology will still be available for you.
 
 #(CAT_30_OPT_1_DESC)
-Unlocks all Melnorme tech upgrades.
+Unlock all Melnorme tech including ship modules and lander upgrades.
 
 This option persists through saves.
 
@@ -664,18 +670,19 @@ Disabled
 Enabled
 
 #(CAT_40_OPT_0_DESC)
-Partial Pickup Disabled
+Normal mineral collection mechanics.
 
 #(CAT_40_OPT_1_DESC)
 Minerals that are bigger than the remaining limit of 
 your Lander hold will be partially picked up.
+Leaving a smaller amount left on the planet surface.
 
 #(CAT_41_OPTS)
 Disabled
 Enabled
 
 #(CAT_41_OPT_0_DESC)
-Submenu Disabled
+Submenu isn't displayed.
 
 #(CAT_41_OPT_1_DESC)
 Shows mineral info while traversing planets
@@ -717,9 +724,13 @@ Enabled
 
 #(CAT_43_OPT_0_DESC)
 Do not add all devices.
+If you've saved with this option enabled then all
+devices will still be available for you.
 
 #(CAT_43_OPT_1_DESC)
 Add all devices.
+
+Persists through saves.
 
 #(CAT_44_OPTS)
 Disabled
@@ -727,6 +738,8 @@ Enabled
 
 #(CAT_44_OPT_0_DESC)
 What is this? A solar system for ants?!
+
+Textured planets stay at non-HD scale.
 
 #(CAT_44_OPT_1_DESC)
 Textured Planets are scaled up in HD.
@@ -749,8 +762,9 @@ Enabled
 Default space music for interplanetary
 
 #(CAT_46_OPT_1_DESC)
-Race specific space music for interplanetary 
-composed by Volasaurus
+Race specific space music for interplanetary.
+
+Music included with the MegaMod composed by Volasaurus.
 
 #(CAT_47_OPTS)
 Disabled
@@ -782,8 +796,12 @@ Enabled
 #(CAT_49_OPT_0_DESC)
 Normal control
 
+Android only.
+
 #(CAT_49_OPT_1_DESC)
 Directional joystick enabled
+
+Android only.
 
 #(CAT_50_OPTS)
 Stepped
@@ -793,19 +811,23 @@ Trilinear
 
 #(CAT_50_OPT_0_DESC)
 Cut between three zoom levels in combat.
-Resembles PC combat.
+
+Resembles PC combat | Android Only
 
 #(CAT_50_OPT_1_DESC)
-Continuously scale the combat view.
-Resembles 3DO combat.
+Continuously scale the combat view using Nearest scaler.
+
+Resembles 3DO combat | Android Only
 
 #(CAT_50_OPT_2_DESC)
-Continuously scale the combat view.
-Resembles 3DO combat.
+Continuously scale the combat view using Bilinear scaler.
+
+Resembles 3DO combat | Android Only
 
 #(CAT_50_OPT_3_DESC)
-Continuously scale the combat view.
-Resembles 3DO combat.
+Continuously scale the combat view using Trilinear scaler.
+
+Resembles 3DO combat | Android Only
 
 #(CAT_51_OPTS)
 Classic
@@ -842,8 +864,8 @@ Various changes to make UQM gameplay easier.
 
 #(CAT_53_OPT_2_DESC)
 NOT FOR BEGINNERS!
-A multitude of changes to make gameplay harder
-for the veteran UQM player.
+A multitude of changes to make gameplay much
+harder for the veteran UQM player.
 
 #(SLIDERS)
 Music Volume
