@@ -81,7 +81,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT         11
-#define CHOICE_COUNT       55
+#define CHOICE_COUNT       54
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       15
 #define LABEL_COUNT         5
@@ -109,7 +109,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2, 2, 2, 3, 2, 2, 2,	// 20-29
 	2, 2, 2, 2, 2, 2, 2, 2, 3, 2,	// 30-39
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 40-49
-	3, 2, 2, 3, 2 };				// 50-54
+	3, 2, 2, 3};					// 50-53
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -238,7 +238,7 @@ static WIDGET *visual_widgets[] = {
 	(WIDGET *)(&choices[45]),	// Custom Border switch
 	(WIDGET *)(&choices[48]),	// Whole Fuel Value switch
 	(WIDGET *)(&choices[51]),	// Realistic Sol
-	(WIDGET *)(&choices[54]),	// Fuel Range
+	(WIDGET *)(&choices[33]),	// Fuel Range
 	(WIDGET *)(&buttons[14]),
 	NULL };
 
@@ -567,6 +567,7 @@ SetDefaults (void)
 	choices[30].selected = opts.unlockUpgrades;
 	choices[31].selected = opts.infiniteRU;
 	choices[32].selected = opts.skipIntro;
+	choices[33].selected = opts.fuelRange;
 	// JMS
 	choices[34].selected = opts.mainMenuMusic;
 	choices[35].selected = opts.nebulae;
@@ -593,7 +594,6 @@ SetDefaults (void)
 	choices[51].selected = opts.realSol;
 	choices[52].selected = opts.ipTrans;
 	choices[53].selected = opts.difficulty;
-	choices[54].selected = opts.fuelRange;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -641,6 +641,7 @@ PropagateResults (void)
 	opts.unlockUpgrades = choices[30].selected;
 	opts.infiniteRU = choices[31].selected;
 	opts.skipIntro = choices[32].selected;
+	opts.fuelRange = choices[33].selected;
 	 // JMS
 	opts.mainMenuMusic = choices[34].selected;
 	opts.nebulae = choices[35].selected;
@@ -667,7 +668,6 @@ PropagateResults (void)
 	opts.realSol = choices[51].selected;
 	opts.ipTrans = choices[52].selected;
 	opts.difficulty = choices[53].selected;
-	opts.fuelRange = choices[54].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
