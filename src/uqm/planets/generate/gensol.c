@@ -203,7 +203,6 @@ GenerateSol_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 {
 	COUNT planetNr;
 	DWORD rand_val;
-	COUNT angle;
 
 	GenerateDefault_generateMoons (solarSys, planet);
 

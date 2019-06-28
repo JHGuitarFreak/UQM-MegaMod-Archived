@@ -214,7 +214,6 @@ GenerateThraddash_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 {
 	HFLEETINFO hThradd = GetStarShipFromIndex (&GLOBAL (avail_race_q), THRADDASH_SHIP);
 	FLEET_INFO *ThraddPtr = LockFleetInfo (&GLOBAL (avail_race_q), hThradd);
-	SIZE strength_loss;
 
 	if (CurStarDescPtr->Index == THRADD_DEFINED
 			&& matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
