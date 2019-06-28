@@ -66,7 +66,7 @@ Volasaurus' Remixes
 Whole Fuel Value
 Directional Joystick
 Melee Zoom
-Realistic Sol
+Lander Hold Size
 IP Transitions
 Difficulty
 
@@ -830,14 +830,16 @@ Continuously scale the combat view using Trilinear scaler.
 Resembles 3DO combat | Android Only
 
 #(CAT_51_OPTS)
-Classic
-Realistic
+Moderate
+Conservative
 
 #(CAT_51_OPT_0_DESC)
-Vanilla Sol orbits and planets
+Max amount of minerals the Lander can pick up
+as per the PC version: 64 units
 
 #(CAT_51_OPT_1_DESC)
-A more realistic set of orbits and extra planets
+Max amount of minerals the Lander can pick up
+as per the 3DO version: 50 units
 
 #(CAT_52_OPTS)
 Step

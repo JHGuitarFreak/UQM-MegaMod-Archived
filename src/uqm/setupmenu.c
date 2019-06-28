@@ -160,6 +160,7 @@ static WIDGET *engine_widgets[] = {
 	(WIDGET *)(&choices[11]),	// Cutscenes
 	(WIDGET *)(&choices[17]),	// Slave Shields
 	(WIDGET *)(&choices[52]),	// IP Transitions
+	(WIDGET *)(&choices[51]),	// Lander Hold Size
 	(WIDGET *)(&buttons[1]),
 	NULL };
 
@@ -237,7 +238,6 @@ static WIDGET *visual_widgets[] = {
 	(WIDGET *)(&choices[41]),	// Submenu switch
 	(WIDGET *)(&choices[45]),	// Custom Border switch
 	(WIDGET *)(&choices[48]),	// Whole Fuel Value switch
-	(WIDGET *)(&choices[51]),	// Realistic Sol
 	(WIDGET *)(&choices[33]),	// Fuel Range
 	(WIDGET *)(&buttons[14]),
 	NULL };
@@ -591,7 +591,7 @@ SetDefaults (void)
 #if defined(ANDROID) || defined(__ANDROID__)
 	choices[50].selected = opts.meleezoom;
 #endif
-	choices[51].selected = opts.realSol;
+	choices[51].selected = opts.landerHold;
 	choices[52].selected = opts.ipTrans;
 	choices[53].selected = opts.difficulty;
 
@@ -665,7 +665,7 @@ PropagateResults (void)
 #if defined(ANDROID) || defined(__ANDROID__)
 	opts.meleezoom = choices[50].selected;
 #endif
-	opts.realSol = choices[51].selected;
+	opts.landerHold = choices[51].selected;
 	opts.ipTrans = choices[52].selected;
 	opts.difficulty = choices[53].selected;
 
@@ -1605,7 +1605,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->volasMusic = optVolasMusic ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->wholeFuel = optWholeFuel ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->directionalJoystick = optDirectionalJoystick ? OPTVAL_ENABLED : OPTVAL_DISABLED;	// For Android
-	opts->realSol = optRealSol ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->landerHold = (optLanderHold == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC;
 	opts->ipTrans = (optIPScaler == OPT_3DO) ? OPTVAL_3DO : OPTVAL_PC;
 	opts->difficulty = res_GetInteger("config.difficulty");
 	opts->fuelRange = optFuelRange ? OPTVAL_ENABLED : OPTVAL_DISABLED;
@@ -2046,9 +2046,9 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutBoolean("config.directionaljoystick", opts->directionalJoystick == OPTVAL_ENABLED);
 	optDirectionalJoystick = (opts->directionalJoystick == OPTVAL_ENABLED);
 
-	// Serosis: Enable a more realistic Sol System
-	res_PutBoolean("config.realsol", opts->realSol == OPTVAL_ENABLED);
-	optRealSol = (opts->realSol == OPTVAL_ENABLED);
+	// Serosis: Switch between PC/3DO max lander hold value
+	optLanderHold = (opts->landerHold == OPTVAL_3DO);
+	res_PutBoolean("config.landerhold", opts->landerHold == OPTVAL_3DO);
 
 	// Serosis: PC/3DO IP Transitions
 	optIPScaler = (opts->ipTrans == OPTVAL_3DO);

@@ -176,7 +176,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(bool, volasMusic);
 	DECL_CONFIG_OPTION(bool, wholeFuel);
 	DECL_CONFIG_OPTION(bool, directionalJoystick); // For Android
-	DECL_CONFIG_OPTION(bool, realSol);
+	DECL_CONFIG_OPTION(bool, landerHold);
 	DECL_CONFIG_OPTION(int,  ipTrans);
 	DECL_CONFIG_OPTION(int,  optDifficulty);
 	DECL_CONFIG_OPTION(bool, fuelRange);
@@ -360,10 +360,10 @@ main (int argc, char *argv[])
 #else
 		INIT_CONFIG_OPTION(	 directionalJoystick, false ),
 #endif
-		INIT_CONFIG_OPTION(	 realSol,			false),
+		INIT_CONFIG_OPTION(	 landerHold,		OPT_PC),
 		INIT_CONFIG_OPTION(	 ipTrans,			OPT_PC),
 		INIT_CONFIG_OPTION(  optDifficulty,		0 ),
-		INIT_CONFIG_OPTION(	 fuelRange,		false),
+		INIT_CONFIG_OPTION(	 fuelRange,			false),
 
 	};
 	struct options_struct defaults = options;
@@ -559,7 +559,7 @@ main (int argc, char *argv[])
 	optVolasMusic = options.volasMusic.value;
 	optWholeFuel = options.wholeFuel.value;
 	optDirectionalJoystick = options.directionalJoystick.value; // For Android
-	optRealSol = options.realSol.value;
+	optLanderHold = options.landerHold.value;
 	optIPScaler = options.ipTrans.value;
 	optDifficulty = options.optDifficulty.value;
 	optFuelRange = options.fuelRange.value;
@@ -899,7 +899,8 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue(&options->volasMusic, "config.volasMusic");
 	getBoolConfigValue(&options->wholeFuel, "config.wholeFuel");
 	getBoolConfigValue (&options->directionalJoystick, "config.directionaljoystick"); // For Android
-	getBoolConfigValue(&options->realSol, "config.realsol");
+	getBoolConfigValueXlat(&options->landerHold, "config.landerhold",
+		OPT_3DO, OPT_PC);
 	getBoolConfigValueXlat(&options->ipTrans, "config.iptransition",
 		OPT_3DO, OPT_PC);
 	if (res_IsInteger("config.difficulty") && !options->optDifficulty.set) {
@@ -969,7 +970,7 @@ enum
 	SPACEMUSIC_OPT,
 	WHOLEFUEL_OPT,
 	DIRJOY_OPT,
-	REALSOL_OPT,
+	LANDHOLD_OPT,
 	IPTRANS_OPT,
 	DIFFICULTY_OPT,
 	FUELRANGE_OPT,
@@ -1046,7 +1047,7 @@ static struct option longOptions[] =
 	{"spacemusic", 0, NULL, SPACEMUSIC_OPT},
 	{"wholefuel", 0, NULL, WHOLEFUEL_OPT},
 	{"dirjoystick", 0, NULL, DIRJOY_OPT},
-	{"realsol", 0, NULL, REALSOL_OPT},
+	{"landerhold", 0, NULL, LANDHOLD_OPT},
 	{"iptrans", 1, NULL, IPTRANS_OPT},
 	{"melee", 0, NULL, MELEE_OPT},
 	{"loadgame", 0, NULL, LOADGAME_OPT},
@@ -1413,8 +1414,11 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case DIRJOY_OPT:
 				setBoolOption(&options->directionalJoystick, true);
 				break;
-			case REALSOL_OPT:
-				setBoolOption(&options->realSol, true);
+			case LANDHOLD_OPT:
+				if (!setChoiceOption(&options->landerHold, optarg)) {
+					InvalidArgument(optarg, "--landerhold");
+					badArg = true;
+				}
 				break;
 			case IPTRANS_OPT:
 				if (!setChoiceOption(&options->ipTrans, optarg)) {
@@ -1719,8 +1723,8 @@ usage (FILE *out, const struct options_struct *defaults)
 		boolOptString(&defaults->wholeFuel));
 	log_add(log_User, "  --dirjoystick : Enables the use of directional joystick controls for Android    (default: %s)",
 		boolOptString(&defaults->directionalJoystick));
-	log_add(log_User, "  --realsol : Enables more realistic orbits and extra planets for Sol    (default: %s)",
-		boolOptString(&defaults->realSol));
+	log_add(log_User, "  --landerhold : Switch between PC/3DO max lander hold, pc=64, 3do=50 (default: %s)",
+		choiceOptString(&defaults->landerHold));
 	log_add(log_User, "  --iptrans : Interplanetary transitions, pc=stepped, "
 		"3do=crossfade (default: %s)",
 		choiceOptString(&defaults->ipTrans));
