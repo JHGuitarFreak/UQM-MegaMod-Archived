@@ -62,7 +62,7 @@ enum
 	LANDER_DESTROYED
 };
 
-#define MAX_SCROUNGED 64 /* max units lander can hold (was 64 in SC2 DOS) */
+#define MAX_SCROUNGED (optLanderHold == OPT_3DO ? 50 : 64) /* max units lander can hold (was 64 in SC2 DOS) */
 #define MAX_HOLD_BARS 50 /* number of bars on the lander screen */
 
 #define SCALE_RADIUS(r) ((r) << 6)
@@ -71,11 +71,6 @@ enum
 #define MIN_ZOOM_RADIUS (MAX_ZOOM_RADIUS>>3)
 #define EARTH_RADIUS SCALE_RADIUS(8)
 #define EARTH_HOURS 240
-#define EARTH_MASS 100
-#define EARTH_RAD EARTH_MASS
-#define EARTH_G EARTH_RAD
-#define REAL_AU 149597870 // Real World A.U. in kilometres
-#define LUNAR_DISTANCE 384402 // Lunar distance in kilometres
 
 #define MIN_PLANET_RADIUS SCALE_RADIUS (4)
 #define MAX_PLANET_RADIUS SCALE_RADIUS (124)
