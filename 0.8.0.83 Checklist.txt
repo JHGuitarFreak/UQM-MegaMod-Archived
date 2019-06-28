@@ -27,6 +27,7 @@ Everything with an asterisk (*) in front is completed
 		- *Syreen's previous home planet named "Syra"
 		- *Shofixti's previous home planet named "Kyabetsu"
 *Add "Gameplay options" to options menu to toggle Hard Mode options for normal and easy gameplay
+*Added option to switch between PC or 3DO lander hold size
 Create an "Ironman" setting and save system
 
 DIFFICULTY SETTING:
