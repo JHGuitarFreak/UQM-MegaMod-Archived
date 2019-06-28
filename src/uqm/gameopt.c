@@ -814,7 +814,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		s.frame = SetAbsFrameIndex (pickState->SummaryFrame,
 				GetFrameCount (pickState->SummaryFrame) - 4);
 		DrawStamp (&s);
-		DrawDiffSeed(NULL, NULL);
+		DrawDiffSeed(0, 0);
 	}
 	else
 	{
