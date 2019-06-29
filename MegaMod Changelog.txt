@@ -10,7 +10,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Able to build Probes after completing Slylandro quest
 - Melnorme prices halved
 - Melnorme towing costs nothing
-- Portal Spawner costs no fuel
 - Player already knows about Deep Children
 
 ## [Unreleased]
@@ -55,6 +54,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - If player kills Tanaka they do not get a second chance with Katana
 - Player only recieves one Pkunk & Yehat ship at endgame (When applicable)
 - No star search
+- Portal Spawner costs 20 whole units of fuel
 # EASY MODE
 - Double mineral worth
 - Fwiffo starts with a full crew compliment
@@ -64,6 +64,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Rainbow World credit value doubled
 - Add a couple more fusion thrusters and turning jets for new game
 - Keep the Emergency Escape Warp Unit enabled after Chmmr Bomb installation
+- Portal Spawner costs 5 whole units of fuel
 
 ### Changed
 -New icon
