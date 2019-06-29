@@ -72,8 +72,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 -Used old Hyperspace code to improve compatibility for Vanilla saves
 -SETUP MENU: Separated Advanced Options into Visual Options and Advanced Options to clear up space for more options
 -SETUP MENU: Rearranged and cleaned up menu options
+-SETUP MENU: Added option to enable/disable fuel range point of no return
 
 ### Fixed
--BUG: Fix orbit line bug for macOS and Android
--BUG: Captain/Ship name box now flashes while editing
--SETUP MENU: Added option enable/disable fuel range point of no return
+- Fix orbit line bug for macOS and Android
+- Captain/Ship name box now flashes while editing
