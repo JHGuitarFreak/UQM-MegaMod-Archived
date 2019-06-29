@@ -457,7 +457,7 @@ InvokeDevice (BYTE which_device)
 		case DESTRUCT_CODE_DEVICE:
 			break;
 		case PORTAL_SPAWNER_DEVICE:
-#define PORTAL_FUEL_COST (10 * FUEL_TANK_SCALE)
+#define PORTAL_FUEL_COST (DIF_CASE(10, 5, 20) * FUEL_TANK_SCALE)
 			if (inHyperSpace ()
 					&& GLOBAL_SIS (FuelOnBoard) >= PORTAL_FUEL_COST)
 			{
