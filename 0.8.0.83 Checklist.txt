@@ -1,71 +1,79 @@
-Everything with an asterisk (*) in front is completed
+# Changelog
+All notable changes to this project will be documented in this file.
 
-*Difficulty Modes
-*Add Android compaitibility
-*Add option to show fuel in its whole decimal
-*BUG: Fix orbit line bug for macOS and Android
-*Used old Hyperspace code to improve compatibility for Vanilla saves
-*New icon
-*Added ability to switch between different Melee scalers for Android
-*Custom Seed can now be edited in the setup menu
-*Text fields in the setup menu can now have tooltips
-*BUG: Captain/Ship name box now flashes while editing
-*SETUP MENU: Separated Advanced Options into Visual Options and Advanced Options to clear up space for more options
-*SETUP MENU: Rearranged and cleaned up menu options
-*SETUP MENU: Added option enable/disable fuel range point of no return
-*Show Difficulty and Seed info on the load screen
-*Custom seed generated solar systems can have a max of 10 planets and a max of 5 moons for any given planet
-*Added option to switch between PC/3DO interplanetary transitions (when the viewport zooms in while traveling through a solar system)
-*Vela I is now named "Unzervalt"
-*Name home worlds of various aliens (where applicable) after you've met them.
-		- *Druuge home planet named "Crimson Corp." after meeting them
-		- *Spathi home planet named "Spathiwa" after meeting them
-		- *Slylandro home planet named "Source" after meeting them
-		- *Supox home planet named "Vlik" after meeting them
-		- *Syreen home planet named "Gaia" after meeting them
-		- *Utwig home planet named "Fahz" after meeting them
-		- *Syreen's previous home planet named "Syra"
-		- *Shofixti's previous home planet named "Kyabetsu"
-*Add "Gameplay options" to options menu to toggle Hard Mode options for normal and easy gameplay
-*Added option to switch between PC or 3DO lander hold size
-Create an "Ironman" setting and save system
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
-DIFFICULTY SETTING:
+## [Ideas]
+- Create an "Ironman" setting and save system
+- Add "Gameplay options" to options menu to toggle Hard Mode options for normal and easy gameplay
+### EASY MODE
+- Able to build Probes after completing Slylandro quest
+- Melnorme prices halved
+- Melnorme towing costs nothing
+- Portal Spawner costs no fuel
+- Player already knows about Deep Children
 
-HARD:
-	*All Spathi escorts flee when they slave shield themselves
-	*Starting crew is 31 to account for the epilogue story
-	*Amount of Thraddash to defeat is 35 to become allied
-	*Crew Cost does not come down when the Shofixti are revived
-	*Slylandro Probes dodge projectiles
-	*Player does not receive Yehat or Pkunk ships at the last battle
-	*Get one Pkunk ship when you are nice to the Pkunk upon first meeting
-	*Mineral worth for Radioactives and Exotics is brought down to 7 and 8 respectively
-	*Slylandro Probes will orbit Rainbow Worlds, their numbers increase if left unchecked and will eventually vanish once you complete their quest
-	*New game will have a random custom seed if the loaded or commandline seed isn't the default.
-	*Rainbow World credit value cut in half
-	*SIS: Weapon slots 2 & 3 take double energy
-	*SIS: Auto tracking costs double energy
-	*Evil Ones now more dangerous
-	*Melnorme tech catalog spread out between the 9 Supergiants (No tech upgrades in Hyperspace)
-	*Melnorme fuel cost upped to 10 credits per unit
-	*Randomize Quasi Portal exits
-	*Reduced viability of the Druuge/Melnorme fuel exploit
-	*If player kills Tanaka they do not get a second chance with Katana
-	*Player only recieves one Pkunk & Yehat ship at endgame
-	*No star search
+## [Unreleased]
+### Added
+-Difficulty Modes
+-Android compaitibility
+-Option to show fuel in its whole decimal
+-SETUP MENU: Ability to switch between different Melee scalers for Android
+-SETUP MENU: Text fields in the setup menu can now have tooltips
+-Show Difficulty and Seed info on the load screen
+-SETUP MENU: Added option to switch between PC/3DO interplanetary transitions (when the viewport zooms in while traveling through a solar system)
+-Name home worlds of various aliens (where applicable) after conditions are met
+	- Druuge home planet named "Crimson Corp." after meeting them
+	- Spathi home planet named "Spathiwa" after meeting them
+	- Slylandro home planet named "Source" after Slylandro talk about their planet
+	- Supox home planet named "Vlik" after the Supox say the name
+	- Syreen home planet named "Gaia" after meeting them
+	- Utwig home planet named "Fahz" after meeting them
+	- Syreen's previous home planet named "Syra"
+	- Shofixti's previous home planet named "Kyabetsu"
+	- Vela I is now named "Unzervalt"
+-SETUP MENU: Added option to switch between PC or 3DO lander hold size
+-CUSTOM SEED: When using a custom seed moons can be any planet (Barring gas giants, rainbow, and shattered worlds)
+# HARD MODE
+- All Spathi escorts flee when they slave shield themselves
+- Starting crew is 31 to account for the epilogue story
+- Amount of Thraddash to defeat is 35 to become allied
+- Crew Cost does not come down when the Shofixti are revived
+- Slylandro Probes dodge projectiles
+- Get one Pkunk ship when you are nice to the Pkunk upon first meeting
+- Mineral worth for Radioactives and Exotics is brought down to 7 and 8 respectively
+- Slylandro Probes will orbit Rainbow Worlds, their numbers increase if left unchecked and will eventually vanish once you complete their quest
+- New game will have a random custom seed if the set, loaded, or commandline seed isn't the default.
+- Rainbow World credit value cut in half
+- SIS: Weapon slots 2 & 3 take double energy
+- SIS: Auto tracking costs double energy
+- Evil Ones are now more dangerous
+- Melnorme tech catalog spread out between the 9 Supergiants (No tech upgrades in Hyperspace)
+- Melnorme fuel cost upped to 10 credits per unit
+- Randomize Quasi Portal exits
+- Reduced viability of the Druuge/Melnorme fuel exploit
+- If player kills Tanaka they do not get a second chance with Katana
+- Player only recieves one Pkunk & Yehat ship at endgame (When applicable)
+- No star search
+# EASY MODE
+- Double mineral worth
+- Fwiffo starts with a full crew compliment
+- Amount of Thraddash to defeat is 15 to become allied
+- Tune down the battle difficulty to Weak Cyborg
+- Start with two landers
+- Rainbow World credit value doubled
+- Add a couple more fusion thrusters and turning jets for new game
+- Keep the Emergency Escape Warp Unit enabled after Chmmr Bomb installation
 
-EASY:
-	*Double mineral worth
-	*Fwiffo starts with a full crew compliment
-	*Amount of Thraddash to defeat is 15 to become allied
-	*Tune down the battle difficulty to Weak Cyborg
-	*Start with two landers
-	*Rainbow World credit value doubled
-	*Add a couple more fusion thrusters and turning jets for new game
-	*Keep the Emergency Escape Warp Unit enabled after Chmmr Bomb installation
-	Able to build Probes after completing Slylandro quest
-	Melnorme prices halved
-	Melnorme towing costs nothing
-	Portal Spawner costs no fuel
-	Player already knows about Deep Children
+### Changed
+-New icon
+-CUSTOM SEED: Can now be edited in the setup menu
+-CUSTOM SEED: Solar systems can have a max of 10 planets and a max of 5 moons for any given planet
+-Used old Hyperspace code to improve compatibility for Vanilla saves
+-SETUP MENU: Separated Advanced Options into Visual Options and Advanced Options to clear up space for more options
+-SETUP MENU: Rearranged and cleaned up menu options
+
+### Fixed
+-BUG: Fix orbit line bug for macOS and Android
+-BUG: Captain/Ship name box now flashes while editing
+-SETUP MENU: Added option enable/disable fuel range point of no return
