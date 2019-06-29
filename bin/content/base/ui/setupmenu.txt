@@ -925,7 +925,8 @@ to more closely match the PC or 3DO behavior.
 Configure sound and audio options for UQM.
 
 #(BUTTON_5_DESC)
-Toggle Various Cheats.
+Some cheats are not meant for new players, please review the
+descriptions to determine if they are appropriate for you.
 
 #(BUTTON_6_DESC)
 Set up keyboard and joystick controls.
