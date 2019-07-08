@@ -6,11 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Ideas]
 - Create an "Ironman" setting and save system
 - Add "Gameplay options" to options menu to toggle Hard Mode options for normal and easy gameplay
-### EASY MODE
-- Able to build Probes after completing Slylandro quest
-- Melnorme prices halved
-- Melnorme towing costs nothing
-- Player already knows about Deep Children
+- HARD MODE: Ur-Quan can show up anywhere on the map, not just in their SOI. Kzer-Za would be more prevalent while Kohr-Ah would be more rare.
+- HARD MODE: Can only build two of any ship
+- HARD MODE: Tanaka/Katana can fight back
+- HARD MODE: Mineral types aren't revealed on the scan
+- HARD MODE: Life form location does not show up on a scan
+- HARD MODE: Melnrome tech is limited so you can't build an overpowered flagship
+- HARD MODE: Selling any amount of crew to the Druuge immediately guarantees a hike in crew cost and the Commander's disapproval
+- HARD MODE: If you don't take care of the Probes before a year passes they spawn at a 100% rate
+- EASY MODE: Have the Commander tell you about the Melnorme earlier than usual
+- EASY MODE: Have the commander tell you about the ZFP earlier
+- EASY MODE: life forms can be picked up without stunning them
+- EASY MODE: Some modules are built in to the ship, like autotracking. Adding more just enhances the effect
+- EASY MODE: Start off with more fuel
+- EASY MODE: start off with more RU
+
 
 ## [Unreleased]
 ### Added
