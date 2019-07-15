@@ -60,6 +60,10 @@ extern int ScreenHeight;
 #define EARTH_OUTER_X -725
 #define EARTH_OUTER_Y 597
 
+// Druuge Crew Values
+#define MIN_SOLD DIF_CASE(100, 200, 10)
+#define MAX_SOLD DIF_CASE(250, 500, 25)
+
 		/* Margins. */
 #define SIS_ORG_X (7)								// JMS_GFX
 #define SIS_ORG_Y RES_STAT_SCALE(10)				// DC: top status window. Manually entered in for HD mode.
