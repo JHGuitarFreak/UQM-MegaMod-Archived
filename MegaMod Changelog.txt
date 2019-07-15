@@ -63,6 +63,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Player only recieves one Pkunk & Yehat ship at endgame (When applicable)
 - No star search
 - Portal Spawner costs 20 whole units of fuel
+- Selling more than 10 crew guarantees a price hike in crew cost and the immediate disapproval of the Commander
 # EASY MODE
 - Double mineral worth
 - Fwiffo starts with a full crew compliment
@@ -75,6 +76,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Portal Spawner costs 5 whole units of fuel
 - Player starts with 43.38 units of fuel (The difference between a full tank and the amount of fuel it takes to travel from Vela to Sol)
 - Player starts with 2500 R.U.
+- Limit to the amount of crew to sell to the Druuge before crew cost hike is 200
 
 ### Changed
 -New icon

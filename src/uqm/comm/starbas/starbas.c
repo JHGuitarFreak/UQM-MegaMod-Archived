@@ -1427,6 +1427,9 @@ CheckBulletins (BOOLEAN Repeat)
 	RESPONSE_REF pIntro;
 	BYTE b0;
 	DWORD BulletinMask;
+	COUNT CrewSold = MAKE_WORD(
+		GET_GAME_STATE(CREW_SOLD_TO_DRUUGE0),
+		GET_GAME_STATE(CREW_SOLD_TO_DRUUGE1));
 
 	if (Repeat)
 		BulletinMask = CurBulletinMask ^ 0xFFFFFFFFL;
@@ -1591,13 +1594,9 @@ CheckBulletins (BOOLEAN Repeat)
 					break;
 				case 26:
 				{
-					COUNT crew_sold;
+					COUNT crew_sold = CrewSold;
 
-					crew_sold = MAKE_WORD (
-							GET_GAME_STATE (CREW_SOLD_TO_DRUUGE0),
-							GET_GAME_STATE (CREW_SOLD_TO_DRUUGE1)
-							);
-					if (crew_sold > 100)
+					if (crew_sold > MIN_SOLD)
 						BulletinMask |= 1L << b0;
 					else if (crew_sold)
 					{
@@ -1607,15 +1606,11 @@ CheckBulletins (BOOLEAN Repeat)
 				}
 				case 27:
 				{
-					COUNT crew_sold;
+					COUNT crew_sold = CrewSold;
 
-					crew_sold = MAKE_WORD (
-							GET_GAME_STATE (CREW_SOLD_TO_DRUUGE0),
-							GET_GAME_STATE (CREW_SOLD_TO_DRUUGE1)
-							);
-					if (crew_sold > 250)
+					if (crew_sold > MAX_SOLD)
 						BulletinMask |= 1L << b0;
-					else if (crew_sold > 100)
+					else if (crew_sold > MIN_SOLD)
 					{
 						pStr = STARBASE_BULLETIN_28;
 					}
@@ -1636,10 +1631,7 @@ CheckBulletins (BOOLEAN Repeat)
 					break;
 				}
 				case 29:
-					if (MAKE_WORD (
-							GET_GAME_STATE (CREW_SOLD_TO_DRUUGE0),
-							GET_GAME_STATE (CREW_SOLD_TO_DRUUGE1)
-							) > 250)
+					if (CrewSold > MAX_SOLD)
 					{
 						pStr = STARBASE_BULLETIN_30;
 					}
