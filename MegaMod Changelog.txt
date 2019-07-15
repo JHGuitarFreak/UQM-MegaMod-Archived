@@ -7,7 +7,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Create an "Ironman" setting and save system
 - Add "Gameplay options" to options menu to toggle Hard Mode options for normal and easy gameplay
 - HARD MODE: Ur-Quan can show up anywhere on the map, not just in their SOI. Kzer-Za would be more prevalent while Kohr-Ah would be more rare.
-- HARD MODE: Can only build two of any ship
 - HARD MODE: Tanaka/Katana can fight back
 - HARD MODE: Mineral types aren't revealed on the scan
 - HARD MODE: Life form location does not show up on a scan
@@ -64,6 +63,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - No star search
 - Portal Spawner costs 20 whole units of fuel
 - Selling more than 10 crew guarantees a price hike in crew cost and the immediate disapproval of the Commander
+- Can only build two of any ship
 # EASY MODE
 - Double mineral worth
 - Fwiffo starts with a full crew compliment
