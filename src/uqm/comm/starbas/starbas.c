@@ -1498,7 +1498,7 @@ CheckBulletins (BOOLEAN Repeat)
 				case 7:
 					if (GET_GAME_STATE (MET_MELNORME))
 						BulletinMask |= 1L << b0;
-					else if (CheckTiming (3, 0))
+					else if (CheckTiming (IF_EASY(3, 1), 0))
 					{
 						pStr = STARBASE_BULLETIN_8;
 					}
@@ -1506,7 +1506,7 @@ CheckBulletins (BOOLEAN Repeat)
 				case 8:
 					if (GET_GAME_STATE (MET_MELNORME))
 						BulletinMask |= 1L << b0;
-					else if (CheckTiming (6, 0))
+					else if (CheckTiming (IF_EASY(6, 3), 0))
 					{
 						pStr = STARBASE_BULLETIN_9;
 					}
@@ -1529,7 +1529,7 @@ CheckBulletins (BOOLEAN Repeat)
 					if (GET_GAME_STATE (ZOQFOT_HOME_VISITS)
 							|| GET_GAME_STATE (ZOQFOT_GRPOFFS))
 						BulletinMask |= 1L << b0;
-					else if (CheckTiming (0, 42))
+					else if (CheckTiming (0, IF_EASY(42, 21)))
 					{
 						pStr = STARBASE_BULLETIN_12;
 					}

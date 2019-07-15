@@ -11,10 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - HARD MODE: Mineral types aren't revealed on the scan
 - HARD MODE: Life form location does not show up on a scan
 - HARD MODE: Melnrome tech is limited so you can't build an overpowered flagship
-- HARD MODE: Selling any amount of crew to the Druuge immediately guarantees a hike in crew cost and the Commander's disapproval
 - HARD MODE: If you don't take care of the Probes before a year passes they spawn at a 100% rate
-- EASY MODE: Have the Commander tell you about the Melnorme earlier than usual
-- EASY MODE: Have the commander tell you about the ZFP earlier
 - EASY MODE: life forms can be picked up without stunning them
 - EASY MODE: Some modules are built in to the ship, like autotracking. Adding more just enhances the effect
 
@@ -77,6 +74,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Player starts with 43.38 units of fuel (The difference between a full tank and the amount of fuel it takes to travel from Vela to Sol)
 - Player starts with 2500 R.U.
 - Limit to the amount of crew to sell to the Druuge before crew cost hike is 200
+- Commander will tell you about the Melnorme and ZFP earlier than usual
 
 ### Changed
 -New icon
