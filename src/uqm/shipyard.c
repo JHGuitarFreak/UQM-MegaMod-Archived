@@ -1013,8 +1013,10 @@ DMS_TryAddEscortShip (MENU_STATE *pMS)
 	HFLEETINFO shipInfo = GetAvailableRaceFromIndex (
 			LOBYTE (pMS->delta_item));
 	COUNT Index = GetIndexFromStarShip (&GLOBAL (avail_race_q), shipInfo);
+	BYTE MaxBuild = 2;
 
-	if (GLOBAL_SIS (ResUnits) >= (DWORD)ShipCost[Index]
+	if ((DIF_HARD && CountEscortShips(Index) < MaxBuild || !DIF_HARD)
+			&& GLOBAL_SIS (ResUnits) >= (DWORD)ShipCost[Index]
 			&& CloneShipFragment (Index, &GLOBAL (built_ship_q), 1))
 	{
 		ShowCombatShip (pMS, pMS->CurState, NULL);
@@ -1027,7 +1029,8 @@ DMS_TryAddEscortShip (MENU_STATE *pMS)
 	}
 	else
 	{
-		// not enough RUs to build, or cloning the ship failed.
+		// not enough RUs to build, cloning the ship failed, 
+		// or reached max ship limit in hard mode
 		PlayMenuSound (MENU_SOUND_FAILURE);
 	}
 }
