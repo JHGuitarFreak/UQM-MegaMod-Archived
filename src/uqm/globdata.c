@@ -480,7 +480,7 @@ InitGameStructures (void)
 	GLOBAL_SIS (CrewEnlisted) =  IF_HARD(CREW_POD_CAPACITY, 31);
 	GLOBAL_SIS (ModuleSlots[8]) = STORAGE_BAY;
 	GLOBAL_SIS (ModuleSlots[1]) = FUEL_TANK;
-	GLOBAL_SIS (FuelOnBoard) = 10 * FUEL_TANK_SCALE;
+	GLOBAL_SIS (FuelOnBoard) = IF_EASY(10 * FUEL_TANK_SCALE, 4338);
 
 	if (DIF_EASY) {
 		GLOBAL_SIS(DriveSlots[7]) =
@@ -516,7 +516,7 @@ InitGameStructures (void)
 
 	GLOBAL (CurrentActivity) = IN_INTERPLANETARY | START_INTERPLANETARY;
 
-	GLOBAL_SIS (ResUnits) = 0;
+	GLOBAL_SIS (ResUnits) = IF_EASY(0, 2500);
 	GLOBAL (CrewCost) = 3;
 	GLOBAL (FuelCost) = FUEL_COST_RU; // JMS: Was 20
 	GLOBAL (ModuleCost[PLANET_LANDER]) = 500 / MODULE_COST_SCALE;

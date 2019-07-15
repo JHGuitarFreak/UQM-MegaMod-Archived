@@ -18,8 +18,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - EASY MODE: Have the commander tell you about the ZFP earlier
 - EASY MODE: life forms can be picked up without stunning them
 - EASY MODE: Some modules are built in to the ship, like autotracking. Adding more just enhances the effect
-- EASY MODE: Start off with more fuel
-- EASY MODE: start off with more RU
 
 
 ## [Unreleased]
@@ -75,6 +73,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Add a couple more fusion thrusters and turning jets for new game
 - Keep the Emergency Escape Warp Unit enabled after Chmmr Bomb installation
 - Portal Spawner costs 5 whole units of fuel
+- Player starts with 43.38 units of fuel (The difference between a full tank and the amount of fuel it takes to travel from Vela to Sol)
+- Player starts with 2500 R.U.
 
 ### Changed
 -New icon
