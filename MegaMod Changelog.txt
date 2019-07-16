@@ -11,14 +11,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 ### Added
--Difficulty Modes
--Android compaitibility
--Option to show fuel in its whole decimal
--SETUP MENU: Ability to switch between different Melee scalers for Android
--SETUP MENU: Text fields in the setup menu can now have tooltips
--Show Difficulty and Seed info on the load screen
--SETUP MENU: Added option to switch between PC/3DO interplanetary transitions (when the viewport zooms in while traveling through a solar system)
--Name home worlds of various aliens (where applicable) after conditions are met
+- Difficulty Modes
+- Android compaitibility
+- Option to show fuel in its whole decimal
+- SETUP MENU: Ability to switch between different Melee scalers for Android
+- SETUP MENU: Text fields in the setup menu can now have tooltips
+- Show Difficulty and Seed info on the load screen
+- SETUP MENU: Added option to switch between PC/3DO interplanetary transitions (when the viewport zooms in while traveling through a solar system)
+- Name home worlds of various aliens (where applicable) after conditions are met
 	- Druuge home planet named "Crimson Corp." after meeting them
 	- Spathi home planet named "Spathiwa" after meeting them
 	- Slylandro home planet named "Source" after Slylandro talk about their planet
@@ -28,8 +28,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 	- Syreen's previous home planet named "Syra"
 	- Shofixti's previous home planet named "Kyabetsu"
 	- Vela I is now named "Unzervalt"
--SETUP MENU: Added option to switch between PC or 3DO lander hold size
--CUSTOM SEED: When using a custom seed moons can be any planet (Barring gas giants, rainbow, and shattered worlds)
+- SETUP MENU: Added option to switch between PC or 3DO lander hold size
+- CUSTOM SEED: When using a custom seed moons can be any planet (Barring gas giants, rainbow, and shattered worlds)
+- SETUP MENU: Added menu option to enable/disable Extended Edition features
+
 # HARD MODE
 - All Spathi escorts flee when they slave shield themselves
 - Starting crew is 31 to account for the epilogue story
@@ -55,6 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Selling more than 10 crew guarantees a price hike in crew cost and the immediate disapproval of the Commander
 - Can only build two of any ship
 - Tanaka's Scout only has the glory device disabled
+
 # EASY MODE
 - Double mineral worth
 - Fwiffo starts with a full crew compliment
@@ -71,13 +74,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Commander will tell you about the Melnorme and ZFP earlier than usual
 
 ### Changed
--New icon
--CUSTOM SEED: Can now be edited in the setup menu
--CUSTOM SEED: Solar systems can have a max of 10 planets and a max of 5 moons for any given planet
--Used old Hyperspace code to improve compatibility for Vanilla saves
--SETUP MENU: Separated Advanced Options into Visual Options and Advanced Options to clear up space for more options
--SETUP MENU: Rearranged and cleaned up menu options
--SETUP MENU: Added option to enable/disable fuel range point of no return
+- New icon
+- CUSTOM SEED: Can now be edited in the setup menu
+- CUSTOM SEED: Solar systems can have a max of 10 planets and a max of 5 moons for any given planet
+- Used old Hyperspace code to improve compatibility for Vanilla saves
+- SETUP MENU: Separated Advanced Options into Visual Options and Advanced Options to clear up space for more options
+- SETUP MENU: Rearranged and cleaned up menu options
+- SETUP MENU: Added option to enable/disable fuel range point of no return
+- Sol doesn't have a nebula when the option is enabled
 
 ### Fixed
 - Fix orbit line bug for macOS and Android

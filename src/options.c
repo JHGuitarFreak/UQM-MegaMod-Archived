@@ -102,6 +102,9 @@ int optDifficulty;
 int savedDifficulty;
 int newGameDifficulty;
 BOOLEAN optFuelRange;
+BOOLEAN optExtended;
+BOOLEAN savedExtended;
+BOOLEAN newGameExtended;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

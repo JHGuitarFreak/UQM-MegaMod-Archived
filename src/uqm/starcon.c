@@ -237,10 +237,12 @@ while (--ac > 0)
 
 #ifdef DEBUG
 	printf("Set Seed: %d\n", optCustomSeed);
-	printf("Set Difficulty: %d\n\n", optDifficulty);
+	printf("Set Difficulty: %s\n", optDifficulty == 0 ? "Normal" : (optDifficulty == 1 ? "Easy" : "Hard"));
+	printf("Set Extended: %s\n\n", optExtended ? "True" : "False");
 #endif
 	log_add(log_Info, "Set Seed: %d\n", optCustomSeed);
-	log_add(log_Info, "Set Difficulty: %d\n\n", optDifficulty);
+	log_add(log_Info, "Set Difficulty: %s\n", optDifficulty == 0 ? "Normal" : (optDifficulty == 1 ? "Easy" : "Hard"));
+	log_add(log_Info, "Set Extended: %s\n\n", optExtended ? "True" : "False");
 
 //	OpenJournal ();
 	while (StartGame ())
@@ -252,6 +254,7 @@ while (--ac > 0)
 		}
 
 		newGameDifficulty = optDifficulty;
+		newGameExtended = optExtended;
 
 		luaUqm_reinitState ();
 		InitGameStructures ();
@@ -269,8 +272,14 @@ while (--ac > 0)
 			}
 
 			newGameSeed = optCustomSeed;
+#ifdef DEBUG
 			printf("New Game Seed: %d\n", newGameSeed);
-			printf("New Game Difficulty: %d\n\n", newGameDifficulty);
+			printf("New Game Difficulty: %s\n", newGameDifficulty == 0 ? "Normal" : (newGameDifficulty == 1 ? "Easy" : "Hard"));
+			printf("New Game Extended: %s\n\n", newGameExtended ? "True" : "False");
+#endif
+			log_add(log_Info, "New Game Seed: %d\n", newGameSeed);
+			log_add(log_Info, "New Game Difficulty: %s\n", newGameDifficulty == 0 ? "Normal" : (newGameDifficulty == 1 ? "Easy" : "Hard"));
+			log_add(log_Info, "New Game Extended: %s\n\n", newGameExtended ? "True" : "False");
 
 			if (optSpaceMusic && LOBYTE(NextActivity) == IN_INTERPLANETARY)
 				playSpaceMusic(TRUE);

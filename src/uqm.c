@@ -180,6 +180,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(int,  ipTrans);
 	DECL_CONFIG_OPTION(int,  optDifficulty);
 	DECL_CONFIG_OPTION(bool, fuelRange);
+	DECL_CONFIG_OPTION(bool, extended);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -364,6 +365,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(	 ipTrans,			OPT_PC),
 		INIT_CONFIG_OPTION(  optDifficulty,		0 ),
 		INIT_CONFIG_OPTION(	 fuelRange,			false),
+		INIT_CONFIG_OPTION(	 extended,			false),
 
 	};
 	struct options_struct defaults = options;
@@ -563,6 +565,7 @@ main (int argc, char *argv[])
 	optIPScaler = options.ipTrans.value;
 	optDifficulty = options.optDifficulty.value;
 	optFuelRange = options.fuelRange.value;
+	optExtended = options.extended.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -907,6 +910,7 @@ getUserConfigOptions (struct options_struct *options)
 		options->optDifficulty.value = res_GetInteger("config.difficulty");
 	}
 	getBoolConfigValue(&options->fuelRange, "config.fuelrange");
+	getBoolConfigValue(&options->extended, "config.extended");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -974,6 +978,7 @@ enum
 	IPTRANS_OPT,
 	DIFFICULTY_OPT,
 	FUELRANGE_OPT,
+	EXTENDED_OPT,
 	MELEE_OPT,
 	LOADGAME_OPT,
 #ifdef NETPLAY
@@ -1053,6 +1058,7 @@ static struct option longOptions[] =
 	{"loadgame", 0, NULL, LOADGAME_OPT},
 	{"difficulty", 1, NULL, DIFFICULTY_OPT},
 	{"fuelrange", 0, NULL, FUELRANGE_OPT},
+	{"extended", 0, NULL, EXTENDED_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1445,6 +1451,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case FUELRANGE_OPT:
 				setBoolOption(&options->fuelRange, true);
 				break;
+			case EXTENDED_OPT:
+				setBoolOption(&options->extended, true);
+				break;
 			case MELEE_OPT:
 				optSuperMelee = TRUE;
 				break;
@@ -1731,6 +1740,8 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_add(log_User, "  --difficulty : 0: Normal | 1: Easy | 2: Hard   (default: 0)");
 	log_add(log_User, "  --fuelrange : Enables 'point of no return' fuel range    (default: %s)",
 		boolOptString(&defaults->fuelRange));
+	log_add(log_User, "  --extended : Enables Extended Edition features    (default: %s)",
+		boolOptString(&defaults->extended));
 	log_setOutput (old);
 }
 
