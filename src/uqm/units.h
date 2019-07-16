@@ -55,6 +55,9 @@ extern int ScreenHeight;
 #define IF_EASY(a,b) (!DIF_EASY ? (a) : (b))
 #define IF_HARD(a,b) (!DIF_HARD ? (a) : (b))
 #define DIF_STR DIF_CASE("Normal", "Easy", "Hard")
+#define ELEM_NORM 25
+#define ELEM_EASY (ELEM_NORM * 2)
+#define ELEM_HARD 16
 
 // Earth Coordinates
 #define EARTH_OUTER_X -725
