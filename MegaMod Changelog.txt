@@ -89,3 +89,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ### Fixed
 - Fix orbit line bug for macOS and Android
 - Captain/Ship name box now flashes while editing
+- Androsynth captain activating the special weapon is consistent with SC1 (Bugzilla Bug #444)
