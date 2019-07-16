@@ -527,6 +527,11 @@ InitGameStructures (void)
 	GLOBAL (ModuleCost[DYNAMO_UNIT]) = 2000 / MODULE_COST_SCALE;
 	GLOBAL (ModuleCost[GUN_WEAPON]) = 2000 / MODULE_COST_SCALE;
 
+	if (EXTENDED) {
+		GLOBAL(ModuleCost[GUN_WEAPON]) = 1950 / MODULE_COST_SCALE;
+		GLOBAL_SIS(ResUnits) += 50;
+	}
+
 	GLOBAL_SIS (NumLanders) = IF_EASY(1, 2);
 
 	utf8StringCopy (GLOBAL_SIS (ShipName), sizeof (GLOBAL_SIS (ShipName)),

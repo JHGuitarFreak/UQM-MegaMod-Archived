@@ -337,6 +337,8 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 			savedDifficulty = 0;
 	}
 
+	savedExtended = GSPtr->ModuleCost[9] == 39 ? TRUE : FALSE;
+
 	// JMS
 	if (LOBYTE (GSPtr->CurrentActivity) != IN_INTERPLANETARY)
 		res_scale = RESOLUTION_FACTOR;
@@ -769,6 +771,8 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 
 	savedDifficulty = 0;
 	newGameDifficulty = 0;
+	savedExtended = false;
+	newGameExtended = false;
 
 	if (!LoadGameState (&GlobData.Game_state, in_fp))
 	{

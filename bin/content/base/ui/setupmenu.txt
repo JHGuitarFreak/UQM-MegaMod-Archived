@@ -69,6 +69,7 @@ Melee Zoom
 Lander Hold Size
 IP Transitions
 Difficulty
+Extended Features
 
 #(CAT_0_OPTS)
 Original
@@ -868,6 +869,18 @@ Various changes to make UQM gameplay easier.
 NOT FOR BEGINNERS!
 A multitude of changes to make gameplay much
 harder for the veteran UQM player.
+
+#(CAT_54_OPTS)
+Disabled
+Enabled
+
+#(CAT_54_OPT_0_DESC)
+Extended Features will be disabled
+Option overridden by saved games.
+
+#(CAT_54_OPT_1_DESC)
+Features from 0xDEC0DE's Extended Edition enabled.
+Option overridden by saved games.
 
 #(SLIDERS)
 Music Volume

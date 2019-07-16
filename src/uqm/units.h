@@ -59,6 +59,10 @@ extern int ScreenHeight;
 #define ELEM_EASY (ELEM_NORM * 2)
 #define ELEM_HARD 16
 
+// Extended Units
+#define EXTENDED (newGameExtended ? newGameExtended : savedExtended)
+#define EXT_STR (EXTENDED ? "True" : "False")
+
 // Earth Coordinates
 #define EARTH_OUTER_X -725
 #define EARTH_OUTER_Y 597

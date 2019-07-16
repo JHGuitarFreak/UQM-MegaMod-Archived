@@ -92,6 +92,9 @@ extern int optDifficulty;
 extern int savedDifficulty;
 extern int newGameDifficulty;
 extern BOOLEAN optFuelRange;
+extern BOOLEAN optExtended;
+extern BOOLEAN savedExtended;
+extern BOOLEAN newGameExtended;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

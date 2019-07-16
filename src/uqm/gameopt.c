@@ -1345,7 +1345,8 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 		printf(saving ? "Saving > " : "Loading > ");
 		printf("Slot: %d\n", MenuState.CurState);
 		printf("Seed: %d\n", SeedA);
-		printf("Difficulty: %s\n\n", DIF_STR);
+		printf("Difficulty: %s\n", DIF_STR);
+		printf("Extended: %s\n\n", EXT_STR);
 #endif
 		log_add(log_Info, saving ? "Saving > " : "Loading > ");
 		log_add(log_Info, "Slot: %d\n", MenuState.CurState);
