@@ -32,6 +32,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - CUSTOM SEED: When using a custom seed moons can be any planet (Barring gas giants, rainbow, and shattered worlds)
 - SETUP MENU: Added menu option to enable/disable Extended Edition features
 
+# EXTENDED EDITION
+- No longer possible to encounter random Ur-Quan ships in the Zoq-Fot-Pik home system, like their dialogs say (Bugzilla Bug #759)
+
 # HARD MODE
 - All Spathi escorts flee when they slave shield themselves
 - Starting crew is 31 to account for the epilogue story
