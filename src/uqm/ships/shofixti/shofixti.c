@@ -495,35 +495,38 @@ init_shofixti (void)
 		new_shofixti_desc.ship_info.icons_rsc = OLDSHOF_ICON_MASK_PMAP_ANIM;
 
 		/* Weapon doesn't work as well */
-		new_shofixti_desc.characteristics.weapon_wait = 10;
+		if (!DIF_HARD)
+			new_shofixti_desc.characteristics.weapon_wait = 10;
 		
 		/* Simulate VUX limpets */
 		for (i = 0; i < NUM_LIMPETS; ++i)
 		{
-			if (++new_shofixti_desc.characteristics.turn_wait == 0)
-				--new_shofixti_desc.characteristics.turn_wait;
-			if (++new_shofixti_desc.characteristics.thrust_wait == 0)
-				--new_shofixti_desc.characteristics.thrust_wait;
+			if (!DIF_HARD) {
+				if (++new_shofixti_desc.characteristics.turn_wait == 0)
+					--new_shofixti_desc.characteristics.turn_wait;
+				if (++new_shofixti_desc.characteristics.thrust_wait == 0)
+					--new_shofixti_desc.characteristics.thrust_wait;
 
-/* This should be the same as MIN_THRUST_INCREMENT in vux.c */
+				/* This should be the same as MIN_THRUST_INCREMENT in vux.c */
 #define MIN_THRUST_INCREMENT DISPLAY_TO_WORLD (RES_SCALE(1))
 
-			if (new_shofixti_desc.characteristics.thrust_increment <=
+				if (new_shofixti_desc.characteristics.thrust_increment <=
 					MIN_THRUST_INCREMENT)
-			{
-				new_shofixti_desc.characteristics.max_thrust =
+				{
+					new_shofixti_desc.characteristics.max_thrust =
 						new_shofixti_desc.characteristics.thrust_increment << 1;
-			}
-			else
-			{
-				COUNT num_thrusts;
+				}
+				else
+				{
+					COUNT num_thrusts;
 
-				num_thrusts = new_shofixti_desc.characteristics.max_thrust /
+					num_thrusts = new_shofixti_desc.characteristics.max_thrust /
 						new_shofixti_desc.characteristics.thrust_increment;
-				new_shofixti_desc.characteristics.thrust_increment -= RES_SCALE(1); // JMS_GFX
-				new_shofixti_desc.characteristics.max_thrust =
+					new_shofixti_desc.characteristics.thrust_increment -= RES_SCALE(1); // JMS_GFX
+					new_shofixti_desc.characteristics.max_thrust =
 						new_shofixti_desc.characteristics.thrust_increment *
 						num_thrusts;
+				}
 			}
 		}
 	}
