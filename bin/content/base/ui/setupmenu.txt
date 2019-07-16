@@ -875,12 +875,14 @@ Disabled
 Enabled
 
 #(CAT_54_OPT_0_DESC)
-Extended Features will be disabled
+Extended Edition features are disabled
 Option overridden by saved games.
+See the readme for a full list of features.
 
 #(CAT_54_OPT_1_DESC)
 Features from 0xDEC0DE's Extended Edition enabled.
 Option overridden by saved games.
+See the readme for a full list of features.
 
 #(SLIDERS)
 Music Volume
