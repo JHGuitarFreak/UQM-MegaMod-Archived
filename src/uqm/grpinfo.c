@@ -221,6 +221,12 @@ BuildGroups (void)
 	BYTE EncounterPercent[] = { RACE_INTERPLANETARY_PERCENT };
 
 	EncounterPercent[SLYLANDRO_SHIP] *= GET_GAME_STATE (SLYLANDRO_MULTIPLIER);
+
+	/* make Ur-Quan encounters impossible at the ZFP homeworld,
+	 * like their dialog claims */
+	if (CurStarDescPtr->Index == ZOQFOT_DEFINED && EXTENDED)
+		EncounterPercent[URQUAN_SHIP] = EncounterPercent[BLACK_URQUAN_SHIP] = 0;
+
 	Index = GET_GAME_STATE (UTWIG_SUPOX_MISSION);
 	if (Index > 1 && Index < 5)
 	{
