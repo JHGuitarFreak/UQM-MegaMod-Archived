@@ -455,13 +455,12 @@ InitGameStructures (void)
 	switch (DIFFICULTY) {
 		int i;
 		case EASY:
-			for (i = 0; i < 8; i++) {
+			for (i = 0; i < NUM_ELEMENT_CATEGORIES; i++) {
 				GLOBAL(ElementWorth[i]) *= 2;
 			}
 			break;
 		case HARD:
-			GLOBAL(ElementWorth[RADIOACTIVE]) = 7;
-			GLOBAL(ElementWorth[EXOTIC]) = 8;
+			GLOBAL(ElementWorth[EXOTIC]) = ELEM_HARD;
 			break;
 	}
 

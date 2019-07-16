@@ -325,17 +325,16 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 	read_a8  (fh, GSPtr->ElementWorth, NUM_ELEMENT_CATEGORIES);
 	read_16  (fh, &GSPtr->CurrentActivity);
 
-	switch (GLOBAL(ElementWorth[EXOTIC])) {
-		case 50:
+	switch (GSPtr->ElementWorth[7]) {
+		case ELEM_EASY:
 			savedDifficulty = 1;
 			break;
-		case 8:
+		case ELEM_HARD:
 			savedDifficulty = 2;
 			break;
-		case 25:
+		case ELEM_NORM:
 		default:
 			savedDifficulty = 0;
-			break;
 	}
 
 	// JMS

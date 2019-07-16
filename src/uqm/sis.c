@@ -184,16 +184,15 @@ DrawDiffSeed(SDWORD seed, BYTE difficulty) {
 	char TempDiff[7];
 
 	switch (difficulty) {
-		case 50:
+		case ELEM_EASY:
 			strncpy(TempDiff, diffSTR[1], 7);
 			break;
-		case 8:
+		case ELEM_HARD:
 			strncpy(TempDiff, diffSTR[2], 7);
 			break;
-		case 25:
+		case ELEM_NORM:
 		default:
 			strncpy(TempDiff, diffSTR[0], 7);
-			break;
 	}
 
 	if (seed && difficulty) {
