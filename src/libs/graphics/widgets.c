@@ -201,7 +201,7 @@ Widget_DrawToolTips (int numlines, const char **tips)
 	{
 		t.pStr = tips[i];
 		font_DrawText(&t);
-		t.baseline.y += RES_SCALE(8); // JMS_GFX
+		t.baseline.y += RES_SCALE(9); // JMS_GFX
 	}
 
 	SetContextFontEffect (oldFontEffect);
