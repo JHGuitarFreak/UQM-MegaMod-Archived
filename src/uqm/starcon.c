@@ -237,12 +237,12 @@ while (--ac > 0)
 
 #ifdef DEBUG
 	printf("Set Seed: %d\n", optCustomSeed);
-	printf("Set Difficulty: %s\n", optDifficulty == 0 ? "Normal" : (optDifficulty == 1 ? "Easy" : "Hard"));
-	printf("Set Extended: %s\n\n", optExtended ? "True" : "False");
+	printf("Set Difficulty: %s\n", DIF_STR(optDifficulty));
+	printf("Set Extended: %s\n\n", EXT_STR(optExtended));
 #endif
 	log_add(log_Info, "Set Seed: %d\n", optCustomSeed);
-	log_add(log_Info, "Set Difficulty: %s\n", optDifficulty == 0 ? "Normal" : (optDifficulty == 1 ? "Easy" : "Hard"));
-	log_add(log_Info, "Set Extended: %s\n\n", optExtended ? "True" : "False");
+	log_add(log_Info, "Set Difficulty: %s\n", DIF_STR(optDifficulty));
+	log_add(log_Info, "Set Extended: %s\n\n", EXT_STR(optExtended));
 
 //	OpenJournal ();
 	while (StartGame ())
@@ -274,12 +274,12 @@ while (--ac > 0)
 			newGameSeed = optCustomSeed;
 #ifdef DEBUG
 			printf("New Game Seed: %d\n", newGameSeed);
-			printf("New Game Difficulty: %s\n", newGameDifficulty == 0 ? "Normal" : (newGameDifficulty == 1 ? "Easy" : "Hard"));
-			printf("New Game Extended: %s\n\n", newGameExtended ? "True" : "False");
+			printf("New Game Difficulty: %s\n", DIF_STR(newGameDifficulty));
+			printf("New Game Extended: %s\n\n", EXT_STR(newGameExtended));
 #endif
 			log_add(log_Info, "New Game Seed: %d\n", newGameSeed);
-			log_add(log_Info, "New Game Difficulty: %s\n", newGameDifficulty == 0 ? "Normal" : (newGameDifficulty == 1 ? "Easy" : "Hard"));
-			log_add(log_Info, "New Game Extended: %s\n\n", newGameExtended ? "True" : "False");
+			log_add(log_Info, "New Game Difficulty: %s\n", DIF_STR(newGameDifficulty));
+			log_add(log_Info, "New Game Extended: %s\n\n", EXT_STR(newGameExtended));
 
 			if (optSpaceMusic && LOBYTE(NextActivity) == IN_INTERPLANETARY)
 				playSpaceMusic(TRUE);
