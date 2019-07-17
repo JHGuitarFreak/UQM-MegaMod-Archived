@@ -1040,6 +1040,7 @@ text.fwiffo = STRTAB:base/lander/energy/fwiffo.txt
 text.joyalpha = STRTAB:base/ui/joyalpha.txt
 text.maidens = STRTAB:base/lander/energy/maidens.txt
 text.moonbase = STRTAB:base/lander/energy/moonbase.txt
+text.destroyedbase = STRTAB:base/lander/energy/destroyedbase.txt
 text.ruins = STRTAB:base/lander/energy/ruins.txt
 text.setupmenu = STRTAB:base/ui/setupmenu.txt
 text.sphere = STRTAB:base/lander/energy/sphere.txt

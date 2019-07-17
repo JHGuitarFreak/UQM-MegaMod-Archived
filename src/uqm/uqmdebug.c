@@ -795,7 +795,9 @@ moonRecurse (STAR_DESC *star, SOLARSYS_STATE *system, PLANET_DESC *planet,
 	if (universeRecurseArg->moonFunc != NULL)
 	{
 		system->pOrbitalDesc = moon;
-		if (moon->data_index != HIERARCHY_STARBASE && moon->data_index != SA_MATRA)
+		if (moon->data_index != HIERARCHY_STARBASE 
+			&& moon->data_index != SA_MATRA 
+			&& moon->data_index != DESTROYED_STARBASE)
 		{
 			DoPlanetaryAnalysis (&system->SysInfo, moon);
 				// When GenerateDefaultFunctions is used as genFuncs,
@@ -1070,6 +1072,10 @@ dumpMoon (FILE *out, const PLANET_DESC *moon)
 	{
 		typeStr = "Sa-Matra";
 	}
+	else if (moon->data_index == DESTROYED_STARBASE)
+	{
+		typeStr = "Destroyed StarBase";
+	}
 	else
 	{
 		typeStr = planetTypeString (moon->data_index & ~PLANET_SHIELDED);
@@ -1090,6 +1096,10 @@ dumpWorld (FILE *out, const PLANET_DESC *world)
 	}
 	
 	if (world->data_index == SA_MATRA) {
+		return;
+	}
+
+	if (world->data_index == DESTROYED_STARBASE) {
 		return;
 	}
 
@@ -1309,6 +1319,10 @@ tallyResourcesWorld (TallyResourcesArg *arg, const PLANET_DESC *world)
 	}
 	
 	if (world->data_index == SA_MATRA) {
+		return;
+	}
+
+	if (world->data_index == DESTROYED_STARBASE) {
 		return;
 	}
 
