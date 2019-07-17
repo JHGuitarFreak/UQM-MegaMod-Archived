@@ -30,6 +30,7 @@ extern GenerateFunctions generateDruugeFunctions;
 extern GenerateFunctions generateIlwrathFunctions;
 extern GenerateFunctions generateMelnormeFunctions;
 extern GenerateFunctions generateMyconFunctions;
+extern GenerateFunctions generateDestroyedStarbaseFunctions;
 extern GenerateFunctions generateOrzFunctions;
 extern GenerateFunctions generatePkunkFunctions;
 extern GenerateFunctions generateRainbowWorldFunctions;
@@ -130,6 +131,8 @@ getGenerateFunctions (BYTE Index)
 			return &generateRainbowWorldFunctions;
 		case ILWRATH_DEFINED:
 			return &generateIlwrathFunctions;
+		case DESTROYED_STARBASE_DEFINED:
+			return &generateDestroyedStarbaseFunctions;
 		default:
 			return &generateDefaultFunctions;
 	}

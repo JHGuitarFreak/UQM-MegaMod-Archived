@@ -870,7 +870,7 @@ getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 	if (pSolarSysState->WaitIntersect != (COUNT)~0 && pSolarSysState->WaitIntersect != WaitPlanet) {
 		if (!IS_HD || !optScalePlanets)
 			return DecFrameIndex(stars_in_space);
-		else if (planet->data_index >= SA_MATRA)
+		else if (planet->data_index >= DESTROYED_STARBASE)
 			return planet->image.frame;
 		else
 			return planet->intersect.frame;
@@ -1133,6 +1133,10 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 	else if (planet->data_index == SA_MATRA)
 	{
 		planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, UNSCALED_PLANETS(23, 19));
+	}
+	else if (planet->data_index == DESTROYED_STARBASE)
+	{
+		planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, UNSCALED_PLANETS(26, RES_BOOL(22, 25)));
 	}
 }
 
@@ -2032,7 +2036,9 @@ EnterPlanetOrbit (void)
 			GLOBAL (ShipStamp.origin) = pSolarSysState->pOrbitalDesc->image.origin;
 			// JMS_GFX: Draw the moon letter when orbiting a moon in 1280x960
 			// and 640x480 modes. Do not draw it in 320x240 since there's no room!
-			if (IS_HD && !(GetNamedPlanetaryBody()) && pSolarSysState->pOrbitalDesc->data_index != HIERARCHY_STARBASE)
+			if (IS_HD && !(GetNamedPlanetaryBody()) 
+				&& (pSolarSysState->pOrbitalDesc->data_index != HIERARCHY_STARBASE 
+					|| pSolarSysState->pOrbitalDesc->data_index != DESTROYED_STARBASE))
 			{
 				moon = moonIndex (pSolarSysState, pSolarSysState->pOrbitalDesc);
 				snprintf ((GLOBAL_SIS (PlanetName)) + strlen(GLOBAL_SIS (PlanetName)), 3, "-%c%c", 'A' + moon, '\0');

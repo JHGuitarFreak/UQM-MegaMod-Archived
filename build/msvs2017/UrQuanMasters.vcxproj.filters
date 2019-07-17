@@ -1497,6 +1497,9 @@
     <ClCompile Include="..\..\src\libs\network\wspiapiwrap.c">
       <Filter>Source Files\libs\network</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\uqm\planets\generate\gennegl.c">
+      <Filter>Source Files\uqm\planets\generate</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\getopt\getopt.h">

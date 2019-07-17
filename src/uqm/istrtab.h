@@ -88,6 +88,7 @@
 #define METAL_COLOR_TAB "planet.metal.colortable"
 #define METAL_XLAT_TAB "planet.metal.translatetable"
 #define MOONBASE_STRTAB "text.moonbase"
+#define DESTROYED_BASE_STRTAB "text.destroyedbase"
 #define NOBLE_COLOR_TAB "planet.noble.colortable"
 #define NOBLE_XLAT_TAB "planet.noble.translatetable"
 #define OOLITE_COLOR_TAB "planet.oolite.colortable"
