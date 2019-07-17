@@ -54,14 +54,14 @@ extern int ScreenHeight;
 #define IF_NORM(a,b) (!DIF_NORM ? (a) : (b))
 #define IF_EASY(a,b) (!DIF_EASY ? (a) : (b))
 #define IF_HARD(a,b) (!DIF_HARD ? (a) : (b))
-#define DIF_STR DIF_CASE("Normal", "Easy", "Hard")
+#define DIF_STR(a) ((a) == NORM ? "Normal" : ((a) == EASY ? "Easy" : "Hard"))
 #define ELEM_NORM 25
 #define ELEM_EASY (ELEM_NORM * 2)
 #define ELEM_HARD 16
 
 // Extended Units
 #define EXTENDED (newGameExtended ? newGameExtended : savedExtended)
-#define EXT_STR (EXTENDED ? "True" : "False")
+#define EXT_STR(a) ((a) ? "True" : "False")
 
 // Earth Coordinates
 #define EARTH_OUTER_X -725
