@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 # EXTENDED EDITION
 - No longer possible to encounter random Ur-Quan ships in the Zoq-Fot-Pik home system, like their dialogs say (Bugzilla Bug #759)
+- Add a "dead" slave-shielded world and starbase @ Beta Ophiuchi I (047.9:887.5)
 
 # HARD MODE
 - All Spathi escorts flee when they slave shield themselves
