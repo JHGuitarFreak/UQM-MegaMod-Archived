@@ -807,7 +807,10 @@ advance_mycon_mission (int arg)
 			// Head back.
 			SET_GAME_STATE (MYCON_KNOW_AMBUSH, 1);
 			SetRaceDest (MYCON_SHIP, 6392, 2200, 30, (BYTE)~0);
-			//SetRaceDest (SYREEN_SHIP, 4125, 3770, 15, (BYTE)~0);
+
+			if(EXTENDED)
+				SetRaceDest (SYREEN_SHIP, 4125, 3770, 15, (BYTE)~0);
+
 			MyconPtr->growth = 0;
 			MyconPtr->growth_fract = 0;
 		}
