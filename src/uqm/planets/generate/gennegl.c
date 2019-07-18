@@ -22,8 +22,10 @@
 #include "../../comm.h"
 #include "../../build.h"
 #include "../../gamestr.h"
+#include "../../gendef.h"
 #include "../../nameref.h"
 #include "../../sounds.h"
+#include "../../starmap.h"
 
 static bool GenerateDestroyedStarbase_generatePlanets (SOLARSYS_STATE *solarSys);
 static bool GenerateDestroyedStarbase_generateMoons (SOLARSYS_STATE *solarSys,
@@ -52,29 +54,48 @@ const GenerateFunctions generateDestroyedStarbaseFunctions = {
 static bool
 GenerateDestroyedStarbase_generatePlanets (SOLARSYS_STATE *solarSys)
 {
-	int planetArray[] = { PRIMORDIAL_WORLD, WATER_WORLD, TELLURIC_WORLD };
+	COUNT p;
 
 	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
-	solarSys->SunDesc[0].PlanetByte = 0;
-	solarSys->SunDesc[0].MoonByte = 0;
 
-	if(!PrimeSeed && EXTENDED){
-		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (MAX_GEN_PLANETS - 1) + 1);
-		solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
-	}
+	if (!PrimeSeed && EXTENDED)
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random(SysGenRNG) % (MAX_GEN_PLANETS - 1) + 1);
 
 	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
 	GeneratePlanets (solarSys);	
 
 	if (EXTENDED) {
-		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = PLANET_SHIELDED;
-		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
-		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+		if (CurStarDescPtr->Index == DESTROYED_STARBASE_DEFINED) {
+			solarSys->SunDesc[0].PlanetByte = 0;
+			solarSys->SunDesc[0].MoonByte = 0;
 
-		if (!PrimeSeed) {
+			if (!PrimeSeed)
+				solarSys->SunDesc[0].PlanetByte = (RandomContext_Random(SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
+
 			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = PLANET_SHIELDED;
-			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random(SysGenRNG) % (MAX_GEN_MOONS - 1) + 1);
-			solarSys->SunDesc[0].MoonByte = (RandomContext_Random(SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+
+			if (!PrimeSeed) {
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = PLANET_SHIELDED;
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random(SysGenRNG) % (MAX_GEN_MOONS - 1) + 1);
+				solarSys->SunDesc[0].MoonByte = (RandomContext_Random(SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
+			}
+		} else {
+			for (p = 0; p < solarSys->SunDesc[0].NumPlanets; p++) {
+				if (solarSys->PlanetDesc[p].NumPlanets <= 1)
+					break;
+			}
+			solarSys->SunDesc[0].PlanetByte = p;
+			solarSys->SunDesc[0].MoonByte = 0;
+
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].alternate_colormap = NULL;
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+
+			if (!PrimeSeed) {
+				solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random(SysGenRNG) % (MAX_GEN_MOONS - 1) + 1);
+				solarSys->SunDesc[0].MoonByte = (RandomContext_Random(SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
+			}
 		}
 	}
 
@@ -102,16 +123,28 @@ GenerateDestroyedStarbase_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC
 	{
 		/* Starbase */
 		LoadStdLanderFont(&solarSys->SysInfo.PlanetInfo);
-		solarSys->SysInfo.PlanetInfo.DiscoveryString =
-				CaptureStringTable (
-				LoadStringTable (DESTROYED_BASE_STRTAB));
 
-		// use alternate text if the player
-		// hasn't freed the Earth starbase yet
-		if (!GET_GAME_STATE(STARBASE_AVAILABLE))
+
+		if (CurStarDescPtr->Index == DESTROYED_STARBASE_DEFINED) {
 			solarSys->SysInfo.PlanetInfo.DiscoveryString =
+					CaptureStringTable (
+						LoadStringTable (DESTROYED_BASE_STRTAB));
+
+			// use alternate text if the player
+			// hasn't freed the Earth starbase yet
+			if (!GET_GAME_STATE(STARBASE_AVAILABLE))
+				solarSys->SysInfo.PlanetInfo.DiscoveryString =
 					SetRelStringTableIndex (
-					solarSys->SysInfo.PlanetInfo.DiscoveryString, 1);
+						solarSys->SysInfo.PlanetInfo.DiscoveryString, 1);
+		} else {
+			BYTE Index = CurStarDescPtr->Index == URQUAN_DEFINED ? 0 : 1;
+
+			solarSys->SysInfo.PlanetInfo.DiscoveryString =
+				SetRelStringTableIndex(
+					CaptureStringTable(
+						LoadStringTable(URQUAN_BASE_STRTAB)), Index);
+
+		}
 
 		DoDiscoveryReport(MenuSounds);
 

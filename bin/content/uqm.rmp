@@ -1051,6 +1051,7 @@ text.syreenvault = STRTAB:base/lander/energy/syreenvault.txt
 text.taalodevice = STRTAB:base/lander/energy/taalodevice.txt
 text.ultron = STRTAB:base/lander/energy/ultron.txt
 text.umgahcaster = STRTAB:base/lander/energy/umgahcaster.txt
+text.urquanbase = STRTAB:base/lander/energy/urquanbase.txt
 text.urquanwreck = STRTAB:base/lander/energy/urquanwreck.txt
 text.utwigbomb = STRTAB:base/lander/energy/utwigbomb.txt
 text.vuxbeast = STRTAB:base/lander/bio/vuxbeast.txt
