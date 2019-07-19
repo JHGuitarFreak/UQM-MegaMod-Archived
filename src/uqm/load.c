@@ -510,10 +510,13 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
 			return FALSE;
 	}
 
-	{	// To show the Difficulty and Custom Seed on the summary screen
+	{	// To show the Difficulty, Custom Seed, and Extended status on the summary screen
 		PrevFLoc = TellResFile(fp);
 
-		SeekResFile(fp, 38, SEEK_CUR);
+		SeekResFile(fp, 20, SEEK_CUR);
+		read_8(fp, &SummPtr->Extended);
+
+		SeekResFile(fp, 17, SEEK_CUR);
 		read_8(fp, &SummPtr->Difficulty);
 
 		SeekResFile(fp, -4L, SEEK_END);

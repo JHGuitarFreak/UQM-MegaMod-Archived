@@ -64,6 +64,7 @@ typedef struct
 	BYTE res_factor;	// JMS: Stores resolution factor to enable saving/loading from different res modes.
 	SDWORD Seed;
 	BYTE Difficulty;
+	BYTE Extended;
 } SUMMARY_DESC;
 
 extern ACTIVITY NextActivity;

@@ -176,7 +176,7 @@ extern void ContinueFlash (void);
 #define SFR_MENU_3DO ((RECT*)~0L)
 #define SFR_MENU_ANY ((RECT*)~1L)
 extern void DrawHyperCoords (POINT puniverse);
-extern void DrawDiffSeed(SDWORD seed, BYTE difficulty);
+extern void DrawDiffSeed(SDWORD seed, BYTE difficulty, BYTE extended);
 extern void DrawSISTitle (UNICODE *pStr);
 
 // Flags for DrawSISMessageEx (may be OR'ed):

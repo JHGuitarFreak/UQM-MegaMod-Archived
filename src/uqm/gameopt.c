@@ -814,7 +814,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		s.frame = SetAbsFrameIndex (pickState->SummaryFrame,
 				GetFrameCount (pickState->SummaryFrame) - 4);
 		DrawStamp (&s);
-		DrawDiffSeed(0, 0);
+		DrawDiffSeed(0, 0, 0);
 	}
 	else
 	{
@@ -844,7 +844,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 
 		// Hack the states so that we can use standard SIS display funcs
 		GlobData.SIS_state = pSD->SS;
-		DrawDiffSeed(pSD->Seed, pSD->Difficulty);
+		DrawDiffSeed(pSD->Seed, pSD->Difficulty, pSD->Extended);
 		InitQueue (&GLOBAL (built_ship_q),
 				MAX_BUILT_SHIPS, sizeof (SHIP_FRAGMENT));
 		for (i = 0; i < pSD->NumShips; ++i)
