@@ -198,7 +198,7 @@ DrawDiffSeed(SDWORD seed, BYTE difficulty, BYTE extended) {
 
 	if (seed) {
 		memset(&buf[0], 0, sizeof(buf));
-		snprintf(buf, sizeof buf, "%s Difficulty: %s", (Extended ? "Extended |" : ""), TempDiff);
+		snprintf(buf, sizeof buf, "Difficulty: %s%s", TempDiff, (Extended ? " | Extended" : ""));
 		DrawSISMessage(buf);
 
 		memset(&buf[0], 0, sizeof(buf));
