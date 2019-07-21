@@ -462,6 +462,9 @@ InitGameStructures (void)
 		case HARD:
 			GLOBAL(ElementWorth[EXOTIC]) = ELEM_HARD;
 			break;
+		case IMPO:
+			GLOBAL(ElementWorth[EXOTIC]) = ELEM_IMPO;
+			break;
 	}
 
 	for (i = 0; i < NUM_DRIVE_SLOTS; ++i)

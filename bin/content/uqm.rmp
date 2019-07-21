@@ -1037,6 +1037,7 @@ text.burvixeseruins = STRTAB:base/lander/energy/burvixeseruins.txt
 text.chmmrbase = STRTAB:base/lander/energy/chmmrbase.txt
 text.eggcase = STRTAB:base/lander/energy/eggcase.txt
 text.fwiffo = STRTAB:base/lander/energy/fwiffo.txt
+text.impbase = STRTAB:base/lander/energy/impbase.txt
 text.joyalpha = STRTAB:base/ui/joyalpha.txt
 text.maidens = STRTAB:base/lander/energy/maidens.txt
 text.moonbase = STRTAB:base/lander/energy/moonbase.txt

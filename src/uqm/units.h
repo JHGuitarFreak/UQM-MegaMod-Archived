@@ -46,18 +46,22 @@ extern int ScreenHeight;
 #define NORM 0
 #define EASY 1
 #define HARD 2
+#define IMPO 3
 #define DIFFICULTY (newGameDifficulty ? newGameDifficulty : (savedDifficulty ? savedDifficulty : NORM))
-#define DIF_CASE(a,b,c) (DIFFICULTY == NORM ? (a) : DIFFICULTY == EASY ? (b) : (c))
+#define DIF_CASE(a,b,c) (DIFFICULTY == NORM ? (a) : (DIFFICULTY == EASY ? (b) : (c)))
 #define DIF_NORM (DIFFICULTY == NORM ? true : false)
 #define DIF_EASY (DIFFICULTY == EASY ? true : false)
 #define DIF_HARD (DIFFICULTY == HARD ? true : false)
+#define DIF_IMPO (DIFFICULTY == IMPO ? true : false)
 #define IF_NORM(a,b) (!DIF_NORM ? (a) : (b))
 #define IF_EASY(a,b) (!DIF_EASY ? (a) : (b))
 #define IF_HARD(a,b) (!DIF_HARD ? (a) : (b))
-#define DIF_STR(a) ((a) == NORM ? "Normal" : ((a) == EASY ? "Easy" : "Hard"))
+#define IF_IMPO(a,b) (!DIF_IMPO ? (a) : (b))
+#define DIF_STR(a) ((a) == NORM ? "Normal" : ((a) == EASY ? "Easy" : ((a) == HARD ? "Hard" : "Impossible")))
 #define ELEM_NORM 25
 #define ELEM_EASY (ELEM_NORM * 2)
 #define ELEM_HARD 16
+#define ELEM_IMPO 1
 
 // Extended Units
 #define EXTENDED (newGameExtended ? newGameExtended : savedExtended)

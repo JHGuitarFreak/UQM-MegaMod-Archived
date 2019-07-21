@@ -2066,6 +2066,9 @@ SetGlobalOptions (GLOBALOPTS *opts)
 		case OPTVAL_HARD:
 			optDifficulty = 2;
 			break;
+		case OPTVAL_IMPO:
+			optDifficulty = 3;
+			break;
 		case OPTVAL_NORM:
 		default:
 			optDifficulty = 0;

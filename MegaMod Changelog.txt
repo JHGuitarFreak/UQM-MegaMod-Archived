@@ -7,7 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - HARD MODE: Ur-Quan can show up anywhere on the map, not just in their SOI. Kzer-Za would be more prevalent while Kohr-Ah would be more rare.
 - HARD MODE: Melnrome tech is limited so you can't build an overpowered flagship
 - HARD MODE: If you don't take care of the Probes before a year passes they spawn at a 100% rate
-- Add a another difficulty named "Impossible"
+- IMPOSSIBLE: Make Probes spawn at a reasonable rate so as to not annoy the player
+- IMPOSSIBLE: Give players free ships from allies when completing quests
+- IMPOSSIBLE: Make it so the player can complete the Shofixti quest
+- IMPOSSIBLE: Give player extra jets and thrusters so as to not be completely outmatched in speed
 
 
 ## [Unreleased]
@@ -32,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - SETUP MENU: Added option to switch between PC or 3DO lander hold size
 - CUSTOM SEED: When using a custom seed moons can be any planet (Barring gas giants, rainbow, and shattered worlds)
 - SETUP MENU: Added menu option to enable/disable Extended Edition features
+- Add a another difficulty named "Impossible"
 
 # EXTENDED EDITION
 - No longer possible to encounter random Ur-Quan ships in the Zoq-Fot-Pik home system, like their dialogs say (Bugzilla Bug #759)
@@ -86,6 +90,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Limit to the amount of crew to sell to the Druuge before crew cost hike is 200
 - Commander will tell you about the Melnorme and ZFP earlier than usual
 
+# IMPOSSIBLE MODE
+- New message report for the Earth Starbase when you try to dock
+
 ### Changed
 - New icon
 - CUSTOM SEED: Can now be edited in the setup menu
@@ -101,10 +108,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Captain/Ship name box now flashes while editing
 - Androsynth captain activating the special weapon is consistent with SC1 (Bugzilla Bug #444)
 
-
 ### Miscellaneous Ideas
-- New dialog for Hayes in Impossible mode:
-		Attention alien space vessel, 
-		this is Starbase Commander Hayes of the slave planet Earth. You are currently in violation of Ur-Quan 
-		Slave Treaty Article 15. We are obligated to inform our Masters of any transgressions of this treaty so we advise you 
-		to leave and never return, otherwise you will have to deal with the full wrath of The Ur-Quan Hierarchy.

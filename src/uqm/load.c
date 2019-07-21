@@ -332,6 +332,9 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 		case ELEM_HARD:
 			savedDifficulty = 2;
 			break;
+		case ELEM_IMPO:
+			savedDifficulty = 3;
+			break;
 		case ELEM_NORM:
 		default:
 			savedDifficulty = 0;

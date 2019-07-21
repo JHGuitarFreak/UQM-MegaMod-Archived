@@ -26,6 +26,7 @@
 #include "../../gamestr.h"
 #include "../../grpinfo.h"
 #include "../../nameref.h"
+#include "../../sounds.h"
 #include "../../state.h"
 #include "libs/mathlib.h"
 #include "options.h"
@@ -301,15 +302,32 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 	if (matchWorld (solarSys, world, 2, 0))
 	{
-		/* Starbase */
-		PutGroupInfo (GROUPS_RANDOM, GROUP_SAVE_IP);
-		ReinitQueue (&GLOBAL (ip_group_q));
-		assert (CountLinks (&GLOBAL (npc_built_ship_q)) == 0);
+		if (!DIF_IMPO) {
+			/* Starbase */
+			PutGroupInfo(GROUPS_RANDOM, GROUP_SAVE_IP);
+			ReinitQueue(&GLOBAL(ip_group_q));
+			assert(CountLinks(&GLOBAL(npc_built_ship_q)) == 0);
 
-		EncounterGroup = 0;
-		GLOBAL (CurrentActivity) |= START_ENCOUNTER;
-		SET_GAME_STATE (GLOBAL_FLAGS_AND_DATA, (BYTE)~0);
-		return true;
+			EncounterGroup = 0;
+			GLOBAL(CurrentActivity) |= START_ENCOUNTER;
+			SET_GAME_STATE(GLOBAL_FLAGS_AND_DATA, (BYTE)~0);
+			return true;
+		} else {
+			LoadStdLanderFont(&solarSys->SysInfo.PlanetInfo);
+
+			solarSys->SysInfo.PlanetInfo.DiscoveryString =
+				CaptureStringTable(
+					LoadStringTable(IMPOSSIBLE_BASE_STRTAB));
+
+			DoDiscoveryReport(MenuSounds);
+
+			DestroyStringTable(ReleaseStringTable(
+				solarSys->SysInfo.PlanetInfo.DiscoveryString));
+			solarSys->SysInfo.PlanetInfo.DiscoveryString = 0;
+			FreeLanderFont(&solarSys->SysInfo.PlanetInfo);
+
+			return true;
+		}
 	}
 
 	DoPlanetaryAnalysis (&solarSys->SysInfo, world);

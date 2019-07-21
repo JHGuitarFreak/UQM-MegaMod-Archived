@@ -180,20 +180,23 @@ DrawHyperCoords (POINT universe)
 void
 DrawDiffSeed(SDWORD seed, BYTE difficulty, BYTE extended) {
 	UNICODE buf[100];
-	char diffSTR[3][7] = {"Normal", "Easy", "Hard"};
-	char TempDiff[7];
+	char diffSTR[4][11] = {"Normal", "Easy", "Hard", "Impossible"};
+	char TempDiff[11];
 	BOOLEAN Extended = extended == 39 ? true : false;
 
 	switch (difficulty) {
 		case ELEM_EASY:
-			strncpy(TempDiff, diffSTR[1], 7);
+			strncpy(TempDiff, diffSTR[1], 11);
 			break;
 		case ELEM_HARD:
-			strncpy(TempDiff, diffSTR[2], 7);
+			strncpy(TempDiff, diffSTR[2], 11);
+			break;
+		case ELEM_IMPO:
+			strncpy(TempDiff, diffSTR[3], 11);
 			break;
 		case ELEM_NORM:
 		default:
-			strncpy(TempDiff, diffSTR[0], 7);
+			strncpy(TempDiff, diffSTR[0], 11);
 	}
 
 	if (seed) {

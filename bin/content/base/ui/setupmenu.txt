@@ -858,6 +858,7 @@ as per the 3DO version
 Normal
 Easy
 Hard
+Impossible
 
 #(CAT_53_OPT_0_DESC)
 Vanilla difficulty as it was originally intended.
@@ -869,6 +870,11 @@ Various changes to make UQM gameplay easier.
 NOT FOR BEGINNERS!
 A multitude of changes to make gameplay much
 harder for the veteran UQM player.
+
+#(CAT_53_OPT_2_DESC)
+FOR VETERANS ONLY!
+A forced "No Starbase" mode for expert players 
+who want the most extreme of challenges.
 
 #(CAT_54_OPTS)
 Disabled
