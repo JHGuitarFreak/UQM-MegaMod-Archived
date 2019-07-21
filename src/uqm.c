@@ -1438,8 +1438,8 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 					badArg = true;
 					break;
 				}
-				else if (temp < 0 || temp > 2) {
-					saveError("\nDifficulty has to be 0, 1, or 2.\n");
+				else if (temp < 0 || temp > 3) {
+					saveError("\nDifficulty has to be 0, 1, 2, or 3.\n");
 					badArg = true;
 				}
 				else {
@@ -1737,7 +1737,7 @@ usage (FILE *out, const struct options_struct *defaults)
 	log_add(log_User, "  --iptrans : Interplanetary transitions, pc=stepped, "
 		"3do=crossfade (default: %s)",
 		choiceOptString(&defaults->ipTrans));
-	log_add(log_User, "  --difficulty : 0: Normal | 1: Easy | 2: Hard   (default: 0)");
+	log_add(log_User, "  --difficulty : 0: Normal | 1: Easy | 2: Hard | 3: Impossible  (default: 0)");
 	log_add(log_User, "  --fuelrange : Enables 'point of no return' fuel range    (default: %s)",
 		boolOptString(&defaults->fuelRange));
 	log_add(log_User, "  --extended : Enables Extended Edition features    (default: %s)",

@@ -91,7 +91,8 @@ typedef enum {
 typedef enum {
 	OPTVAL_NORM,
 	OPTVAL_EASY,
-	OPTVAL_HARD
+	OPTVAL_HARD,
+	OPTVAL_IMPO
 } OPT_DIFFICULTY;
 
 typedef enum {
