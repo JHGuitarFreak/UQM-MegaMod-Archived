@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - HARD MODE: Ur-Quan can show up anywhere on the map, not just in their SOI. Kzer-Za would be more prevalent while Kohr-Ah would be more rare.
 - HARD MODE: Melnrome tech is limited so you can't build an overpowered flagship
 - HARD MODE: If you don't take care of the Probes before a year passes they spawn at a 100% rate
+- Add a another difficulty named "Impossible"
 
 
 ## [Unreleased]
@@ -66,7 +67,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Player only recieves one Pkunk & Yehat ship at endgame (When applicable)
 - No star search
 - Portal Spawner costs 20 whole units of fuel
-- Selling more than 10 crew guarantees a price hike in crew cost and the immediate disapproval of the Commander
+- Selling more than 10 crew to the Druuge guarantees a price hike in crew cost and the immediate disapproval of the Commander
 - Can only build two of any ship
 - Tanaka's Scout only has the glory device disabled
 
@@ -99,3 +100,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Fix orbit line bug for macOS and Android
 - Captain/Ship name box now flashes while editing
 - Androsynth captain activating the special weapon is consistent with SC1 (Bugzilla Bug #444)
+
+
+### Miscellaneous Ideas
+- New dialog for Hayes in Impossible mode:
+		Attention alien space vessel, 
+		this is Starbase Commander Hayes of the slave planet Earth. You are currently in violation of Ur-Quan 
+		Slave Treaty Article 15. We are obligated to inform our Masters of any transgressions of this treaty so we advise you 
+		to leave and never return, otherwise you will have to deal with the full wrath of The Ur-Quan Hierarchy.
