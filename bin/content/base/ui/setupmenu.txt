@@ -70,6 +70,7 @@ Lander Hold Size
 IP Transitions
 Difficulty
 Extended Features
+Nomad Mode
 
 #(CAT_0_OPTS)
 Original
@@ -858,7 +859,6 @@ as per the 3DO version
 Normal
 Easy
 Hard
-Impossible
 
 #(CAT_53_OPT_0_DESC)
 Vanilla difficulty as it was originally intended.
@@ -870,11 +870,6 @@ Various changes to make UQM gameplay easier.
 NOT FOR BEGINNERS!
 A multitude of changes to make gameplay much
 harder for the veteran UQM player.
-
-#(CAT_53_OPT_2_DESC)
-FOR VETERANS ONLY!
-A forced "No Starbase" mode for expert players 
-who want the most extreme of challenges.
 
 #(CAT_54_OPTS)
 Disabled
@@ -889,6 +884,18 @@ See the readme for a full list of features.
 Features from 0xDEC0DE's Extended Edition enabled.
 Option overridden by saved games.
 See the readme for a full list of features.
+
+#(CAT_55_OPTS)
+Disabled
+Enabled
+
+#(CAT_55_OPT_0_DESC)
+Starbase is unlocked and can be used.
+
+#(CAT_55_OPT_1_DESC)
+FOR VETERANS ONLY!
+A forced "No Starbase" mode for expert players 
+who want the most extreme of challenges.
 
 #(SLIDERS)
 Music Volume
