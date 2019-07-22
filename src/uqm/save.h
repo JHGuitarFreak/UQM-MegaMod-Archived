@@ -61,7 +61,7 @@ typedef struct
 	BYTE ShipList[MAX_BUILT_SHIPS];
 	BYTE DeviceList[MAX_EXCLUSIVE_DEVICES];
 	UNICODE SaveName[SAVE_NAME_SIZE], SaveNameChecker[SAVE_CHECKER_SIZE], LegacySaveName[LEGACY_SAVE_NAME_SIZE]; // JMS
-	BYTE res_factor, Difficulty, Extended;
+	BYTE res_factor, Difficulty, Extended, Nomad;
 	SDWORD Seed;
 } SUMMARY_DESC;
 

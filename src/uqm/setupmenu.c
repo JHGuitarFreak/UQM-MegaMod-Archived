@@ -81,7 +81,7 @@ static void clear_control (WIDGET_CONTROLENTRY *widget);
 #endif
 
 #define MENU_COUNT         11
-#define CHOICE_COUNT       55
+#define CHOICE_COUNT       56
 #define SLIDER_COUNT        4
 #define BUTTON_COUNT       15
 #define LABEL_COUNT         5
@@ -109,7 +109,7 @@ static int choice_widths[CHOICE_COUNT] = {
 	3, 2, 2, 2, 2, 2, 3, 2, 2, 2,	// 20-29
 	2, 2, 2, 2, 2, 2, 2, 2, 3, 2,	// 30-39
 	2, 2, 3, 2, 2, 2, 2, 2, 2, 2,	// 40-49
-	3, 2, 2, 3, 2 };				// 50-54
+	3, 2, 2, 3, 2, 2 };				// 50-55
 
 static HANDLER button_handlers[BUTTON_COUNT] = {
 	quit_main_menu, quit_sub_menu, do_graphics, do_engine,
@@ -218,8 +218,8 @@ static WIDGET *keyconfig_widgets[] = {
 
 static WIDGET *advanced_widgets[] = {
 	(WIDGET *)(&choices[53]),	// Difficulty
-	(WIDGET *)(&labels[4]),		// Spacer
 	(WIDGET *)(&choices[54]),	// Extended features
+	(WIDGET *)(&choices[55]),	// Nomad Mode
 	(WIDGET *)(&choices[32]),	// Skip Intro
 	(WIDGET *)(&choices[40]),	// Partial Pickup switch
 	(WIDGET *)(&labels[4]),		// Spacer
@@ -596,6 +596,7 @@ SetDefaults (void)
 	choices[52].selected = opts.ipTrans;
 	choices[53].selected = opts.difficulty;
 	choices[54].selected = opts.extended;
+	choices[55].selected = opts.nomad;
 
 	sliders[0].value = opts.musicvol;
 	sliders[1].value = opts.sfxvol;
@@ -671,6 +672,7 @@ PropagateResults (void)
 	opts.ipTrans = choices[52].selected;
 	opts.difficulty = choices[53].selected;
 	opts.extended = choices[54].selected;
+	opts.nomad = choices[55].selected;
 
 	opts.musicvol = sliders[0].value;
 	opts.sfxvol = sliders[1].value;
@@ -1613,6 +1615,7 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	opts->difficulty = res_GetInteger("config.difficulty");
 	opts->fuelRange = optFuelRange ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 	opts->extended = optExtended ? OPTVAL_ENABLED : OPTVAL_DISABLED;
+	opts->nomad = optNomad ? OPTVAL_ENABLED : OPTVAL_DISABLED;
 
 	// Serosis: 320x240
 	if (!IS_HD) {
@@ -2083,6 +2086,10 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: Enable Extended Edition features
 	res_PutBoolean("config.extended", opts->extended == OPTVAL_ENABLED);
 	optExtended = (opts->extended == OPTVAL_ENABLED);
+
+	// Serosis: Enable Nomad mode (No Starbase)
+	res_PutBoolean("config.nomad", opts->nomad == OPTVAL_ENABLED);
+	optNomad = (opts->nomad == OPTVAL_ENABLED);
 
 	if (opts->scanlines && !IS_HD) {
 		NewGfxFlags |= TFB_GFXFLAGS_SCANLINES;

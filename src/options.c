@@ -105,6 +105,9 @@ BOOLEAN optFuelRange;
 BOOLEAN optExtended;
 BOOLEAN savedExtended;
 BOOLEAN newGameExtended;
+BOOLEAN optNomad;
+BOOLEAN savedNomad;
+BOOLEAN newGameNomad;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

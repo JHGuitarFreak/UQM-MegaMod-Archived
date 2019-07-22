@@ -181,6 +181,7 @@ struct options_struct
 	DECL_CONFIG_OPTION(int,  optDifficulty);
 	DECL_CONFIG_OPTION(bool, fuelRange);
 	DECL_CONFIG_OPTION(bool, extended);
+	DECL_CONFIG_OPTION(bool, nomad);
 
 #define INIT_CONFIG_OPTION(name, val) \
 	{ val, false }
@@ -366,6 +367,7 @@ main (int argc, char *argv[])
 		INIT_CONFIG_OPTION(  optDifficulty,		0 ),
 		INIT_CONFIG_OPTION(	 fuelRange,			false),
 		INIT_CONFIG_OPTION(	 extended,			false),
+		INIT_CONFIG_OPTION(	 nomad,				false),
 
 	};
 	struct options_struct defaults = options;
@@ -566,6 +568,7 @@ main (int argc, char *argv[])
 	optDifficulty = options.optDifficulty.value;
 	optFuelRange = options.fuelRange.value;
 	optExtended = options.extended.value;
+	optNomad = options.nomad.value;
 
 	prepareContentDir (options.contentDir, options.addonDir, argv[0]);
 	prepareMeleeDir ();
@@ -911,6 +914,7 @@ getUserConfigOptions (struct options_struct *options)
 	}
 	getBoolConfigValue(&options->fuelRange, "config.fuelrange");
 	getBoolConfigValue(&options->extended, "config.extended");
+	getBoolConfigValue(&options->nomad, "config.nomad");
 	
 	if (res_IsInteger ("config.player1control"))
 	{
@@ -979,6 +983,7 @@ enum
 	DIFFICULTY_OPT,
 	FUELRANGE_OPT,
 	EXTENDED_OPT,
+	NOMAD_OPT,
 	MELEE_OPT,
 	LOADGAME_OPT,
 #ifdef NETPLAY
@@ -1059,6 +1064,7 @@ static struct option longOptions[] =
 	{"difficulty", 1, NULL, DIFFICULTY_OPT},
 	{"fuelrange", 0, NULL, FUELRANGE_OPT},
 	{"extended", 0, NULL, EXTENDED_OPT},
+	{"nomad", 0, NULL, NOMAD_OPT},
 #ifdef NETPLAY
 	{"nethost1", 1, NULL, NETHOST1_OPT},
 	{"netport1", 1, NULL, NETPORT1_OPT},
@@ -1454,6 +1460,9 @@ parseOptions (int argc, char *argv[], struct options_struct *options)
 			case EXTENDED_OPT:
 				setBoolOption(&options->extended, true);
 				break;
+			case NOMAD_OPT:
+				setBoolOption(&options->nomad, true);
+				break;
 			case MELEE_OPT:
 				optSuperMelee = TRUE;
 				break;
@@ -1742,6 +1751,8 @@ usage (FILE *out, const struct options_struct *defaults)
 		boolOptString(&defaults->fuelRange));
 	log_add(log_User, "  --extended : Enables Extended Edition features    (default: %s)",
 		boolOptString(&defaults->extended));
+	log_add(log_User, "  --nomad : Enables 'Nomad Mode' (No Starbase)    (default: %s)",
+		boolOptString(&defaults->nomad));
 	log_setOutput (old);
 }
 
