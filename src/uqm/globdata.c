@@ -462,9 +462,6 @@ InitGameStructures (void)
 		case HARD:
 			GLOBAL(ElementWorth[EXOTIC]) = ELEM_HARD;
 			break;
-		case IMPO:
-			GLOBAL(ElementWorth[EXOTIC]) = ELEM_IMPO;
-			break;
 	}
 
 	for (i = 0; i < NUM_DRIVE_SLOTS; ++i)
@@ -533,6 +530,10 @@ InitGameStructures (void)
 	if (EXTENDED) {
 		GLOBAL(ModuleCost[GUN_WEAPON]) = 1950 / MODULE_COST_SCALE;
 		GLOBAL_SIS(ResUnits) += 50;
+	}
+
+	if (NOMAD) {
+		GLOBAL(ModuleCost[DYNAMO_UNIT]) = 1950 / MODULE_COST_SCALE;
 	}
 
 	GLOBAL_SIS (NumLanders) = IF_EASY(1, 2);

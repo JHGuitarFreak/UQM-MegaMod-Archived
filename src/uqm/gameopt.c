@@ -814,7 +814,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 		s.frame = SetAbsFrameIndex (pickState->SummaryFrame,
 				GetFrameCount (pickState->SummaryFrame) - 4);
 		DrawStamp (&s);
-		DrawDiffSeed(0, 0, 0);
+		DrawDiffSeed(0, 0, 0, 0);
 	}
 	else
 	{
@@ -844,7 +844,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 
 		// Hack the states so that we can use standard SIS display funcs
 		GlobData.SIS_state = pSD->SS;
-		DrawDiffSeed(pSD->Seed, pSD->Difficulty, pSD->Extended);
+		DrawDiffSeed(pSD->Seed, pSD->Difficulty, pSD->Extended, pSD->Nomad);
 		InitQueue (&GLOBAL (built_ship_q),
 				MAX_BUILT_SHIPS, sizeof (SHIP_FRAGMENT));
 		for (i = 0; i < pSD->NumShips; ++i)
@@ -1346,13 +1346,15 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 		printf("Slot: %d\n", MenuState.CurState);
 		printf("Seed: %d\n", SeedA);
 		printf("Difficulty: %s\n", DIF_STR(DIFFICULTY));
-		printf("Extended: %s\n\n", EXT_STR(EXTENDED));
+		printf("Extended: %s\n", EXT_STR(EXTENDED));
+		printf("Nomad: %s\n\n", NOMAD_STR(NOMAD));
 #endif
 		log_add(log_Info, saving ? "Saving > " : "Loading > ");
 		log_add(log_Info, "Slot: %d\n", MenuState.CurState);
 		log_add(log_Info, "Seed: %d\n", SeedA);
 		log_add(log_Info, "Difficulty: %s\n", DIF_STR(DIFFICULTY));
-		log_add(log_Info, "Extended: %s\n\n", EXT_STR(EXTENDED));
+		log_add(log_Info, "Extended: %s\n", EXT_STR(EXTENDED));
+		log_add(log_Info, "Nomad: %s\n\n", NOMAD_STR(NOMAD));
 	}
 
 	if (!(GLOBAL (CurrentActivity) & CHECK_ABORT) &&

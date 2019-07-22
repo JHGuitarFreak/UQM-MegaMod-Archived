@@ -302,7 +302,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 	if (matchWorld (solarSys, world, 2, 0))
 	{
-		if (!DIF_IMPO) {
+		if (!NOMAD) {
 			/* Starbase */
 			PutGroupInfo(GROUPS_RANDOM, GROUP_SAVE_IP);
 			ReinitQueue(&GLOBAL(ip_group_q));
@@ -317,7 +317,7 @@ GenerateSol_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 			solarSys->SysInfo.PlanetInfo.DiscoveryString =
 				CaptureStringTable(
-					LoadStringTable(IMPOSSIBLE_BASE_STRTAB));
+					LoadStringTable(NOMAD_BASE_STRTAB));
 
 			DoDiscoveryReport(MenuSounds);
 

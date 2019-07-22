@@ -95,6 +95,9 @@ extern BOOLEAN optFuelRange;
 extern BOOLEAN optExtended;
 extern BOOLEAN savedExtended;
 extern BOOLEAN newGameExtended;
+extern BOOLEAN optNomad;
+extern BOOLEAN savedNomad;
+extern BOOLEAN newGameNomad;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

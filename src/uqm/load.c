@@ -332,15 +332,13 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 		case ELEM_HARD:
 			savedDifficulty = 2;
 			break;
-		case ELEM_IMPO:
-			savedDifficulty = 3;
-			break;
 		case ELEM_NORM:
 		default:
 			savedDifficulty = 0;
 	}
 
 	savedExtended = GSPtr->ModuleCost[9] == 39 ? TRUE : FALSE;
+	savedExtended = GSPtr->ModuleCost[10] == 79 ? TRUE : FALSE;
 
 	// JMS
 	if (LOBYTE (GSPtr->CurrentActivity) != IN_INTERPLANETARY)
@@ -516,8 +514,12 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
 	{	// To show the Difficulty, Custom Seed, and Extended status on the summary screen
 		PrevFLoc = TellResFile(fp);
 
-		SeekResFile(fp, 20, SEEK_CUR);
+		SeekResFile(fp, 18, SEEK_CUR);
+		read_8(fp, &SummPtr->Nomad);
+		read_8(fp, NULL); // padding
 		read_8(fp, &SummPtr->Extended);
+
+		printf("Nomad: %d\n", SummPtr->Nomad);
 
 		SeekResFile(fp, 17, SEEK_CUR);
 		read_8(fp, &SummPtr->Difficulty);
@@ -779,6 +781,8 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 	newGameDifficulty = 0;
 	savedExtended = false;
 	newGameExtended = false;
+	savedNomad = false;
+	newGameNomad = false;
 
 	if (!LoadGameState (&GlobData.Game_state, in_fp))
 	{
