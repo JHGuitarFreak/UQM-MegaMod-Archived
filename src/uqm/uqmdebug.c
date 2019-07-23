@@ -1030,6 +1030,12 @@ starPresenceString (BYTE index)
 			return "Androsynth ruins";
 		case MYCON_TRAP_DEFINED:
 			return "Mycon trap";
+		case URQUAN_DEFINED:
+		case KOHRAH_DEFINED:
+		case DESTROYED_STARBASE_DEFINED:
+			return "Destroyed Starbase";
+		case MOTHER_ARK_DEFINED:
+			return "Mother-Ark";
 		default:
 			// Should not happen
 			return "???";
