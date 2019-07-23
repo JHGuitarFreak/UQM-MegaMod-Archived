@@ -50,6 +50,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 	+ Antares (647.9 : 754.1)
 - Add a Syreen and Chmmr SOI
 - Add a defunct Mother-Ark @ Delta Virginis IV
+- Add a stripped Precursor Starbase at Alpha Centauri
 
 # HARD MODE
 - All Spathi escorts flee when they slave shield themselves
