@@ -1058,3 +1058,4 @@ text.urquanbase = STRTAB:base/lander/energy/urquanbase.txt
 text.urquanwreck = STRTAB:base/lander/energy/urquanwreck.txt
 text.utwigbomb = STRTAB:base/lander/energy/utwigbomb.txt
 text.vuxbeast = STRTAB:base/lander/bio/vuxbeast.txt
+text.zfpcolony = STRTAB:base/lander/energy/zfpcolony.txt
