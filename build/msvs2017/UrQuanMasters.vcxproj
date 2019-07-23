@@ -491,7 +491,6 @@
     <ClCompile Include="..\..\src\uqm\planets\generate\genilw.c" />
     <ClCompile Include="..\..\src\uqm\planets\generate\genmel.c" />
     <ClCompile Include="..\..\src\uqm\planets\generate\genmyc.c" />
-    <ClCompile Include="..\..\src\uqm\planets\generate\gennegl.c" />
     <ClCompile Include="..\..\src\uqm\planets\generate\genorz.c" />
     <ClCompile Include="..\..\src\uqm\planets\generate\genpet.c" />
     <ClCompile Include="..\..\src\uqm\planets\generate\genpku.c" />
