@@ -337,8 +337,8 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 			savedDifficulty = 0;
 	}
 
+	savedNomad = GSPtr->ModuleCost[7] == 39 ? TRUE : FALSE;
 	savedExtended = GSPtr->ModuleCost[9] == 39 ? TRUE : FALSE;
-	savedExtended = GSPtr->ModuleCost[10] == 79 ? TRUE : FALSE;
 
 	// JMS
 	if (LOBYTE (GSPtr->CurrentActivity) != IN_INTERPLANETARY)
@@ -511,15 +511,13 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
 			return FALSE;
 	}
 
-	{	// To show the Difficulty, Custom Seed, and Extended status on the summary screen
+	{	// To show the Difficulty, Custom Seed, Extended, and Nomad status on the summary screen
 		PrevFLoc = TellResFile(fp);
 
 		SeekResFile(fp, 18, SEEK_CUR);
 		read_8(fp, &SummPtr->Nomad);
 		read_8(fp, NULL); // padding
 		read_8(fp, &SummPtr->Extended);
-
-		printf("Nomad: %d\n", SummPtr->Nomad);
 
 		SeekResFile(fp, 17, SEEK_CUR);
 		read_8(fp, &SummPtr->Difficulty);
