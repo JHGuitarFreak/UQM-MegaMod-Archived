@@ -21,10 +21,12 @@
 #include "../planets.h"
 #include "../../build.h"
 #include "../../comm.h"
+#include "../../gendef.h"
 #include "../../globdata.h"
 #include "../../nameref.h"
 #include "../../setup.h"
 #include "../../sounds.h"
+#include "../../starmap.h"
 #include "../../state.h"
 #include "libs/mathlib.h"
 
@@ -33,6 +35,10 @@ static bool GenerateChmmr_generateMoons (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *planet);
 static bool GenerateChmmr_generateOrbital (SOLARSYS_STATE *solarSys,
 		PLANET_DESC *world);
+static COUNT GenerateChmmr_generateEnergy (const SOLARSYS_STATE *,
+		const PLANET_DESC *world, COUNT whichNode, NODE_INFO *);
+static bool GenerateChmmr_pickupEnergy (SOLARSYS_STATE *solarSys,
+		PLANET_DESC *world, COUNT whichNode);
 
 
 const GenerateFunctions generateChmmrFunctions = {
@@ -44,10 +50,10 @@ const GenerateFunctions generateChmmrFunctions = {
 	/* .generateName     = */ GenerateDefault_generateName,
 	/* .generateOrbital  = */ GenerateChmmr_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
-	/* .generateEnergy   = */ GenerateDefault_generateEnergy,
+	/* .generateEnergy   = */ GenerateChmmr_generateEnergy,
 	/* .generateLife     = */ GenerateDefault_generateLife,
 	/* .pickupMinerals   = */ GenerateDefault_pickupMinerals,
-	/* .pickupEnergy     = */ GenerateDefault_pickupEnergy,
+	/* .pickupEnergy     = */ GenerateChmmr_pickupEnergy,
 	/* .pickupLife       = */ GenerateDefault_pickupLife,
 };
 
@@ -56,29 +62,44 @@ static bool
 GenerateChmmr_generatePlanets (SOLARSYS_STATE *solarSys)
 {
 	int jewelArray[] = { SAPPHIRE_WORLD, EMERALD_WORLD, RUBY_WORLD };
+
 	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
-	solarSys->SunDesc[0].PlanetByte = 1;
-	solarSys->SunDesc[0].MoonByte = 0;
 
 	if(!PrimeSeed){
 		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (MAX_GEN_PLANETS - 1) + 1);
-		solarSys->SunDesc[0].PlanetByte = (RandomContext_Random (SysGenRNG) % solarSys->SunDesc[0].NumPlanets);
 	}
 
 	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
 	GeneratePlanets (solarSys);
 
-	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = SAPPHIRE_WORLD;
-	solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+	if (CurStarDescPtr->Index == CHMMR_DEFINED) {
 
-	if(!PrimeSeed){
-		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = jewelArray[RandomContext_Random (SysGenRNG) % 2];
-		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random (SysGenRNG) % (MAX_GEN_MOONS - 1) + 1);
-		solarSys->SunDesc[0].MoonByte = (RandomContext_Random (SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
+		solarSys->SunDesc[0].PlanetByte = 1;
+		solarSys->SunDesc[0].MoonByte = 0;
+
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = SAPPHIRE_WORLD;
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+
+		if (!PrimeSeed) {
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = jewelArray[RandomContext_Random(SysGenRNG) % 2];
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random(SysGenRNG) % (MAX_GEN_MOONS - 1) + 1);
+			solarSys->SunDesc[0].MoonByte = (RandomContext_Random(SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
+		}
+
+		if (!GET_GAME_STATE(CHMMR_UNLEASHED))
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index |= PLANET_SHIELDED;
+	} 
+	else if (CurStarDescPtr->Index == MOTHER_ARK_DEFINED && EXTENDED){
+		solarSys->SunDesc[0].PlanetByte = 3;
+
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = EMERALD_WORLD;
+
+		if (!PrimeSeed) {
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = jewelArray[RandomContext_Random(SysGenRNG) % 2];
+			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random(SysGenRNG) % (MAX_GEN_MOONS - 1) + 1);
+		}
+
 	}
-	
-	if (!GET_GAME_STATE (CHMMR_UNLEASHED))
-		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index |= PLANET_SHIELDED;
 
 	return true;
 }
@@ -88,7 +109,8 @@ GenerateChmmr_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 {
 	GenerateDefault_generateMoons (solarSys, planet);
 
-	if (matchWorld (solarSys, planet, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
+	if (CurStarDescPtr->Index == CHMMR_DEFINED 
+		&& matchWorld (solarSys, planet, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		COUNT angle;
 		DWORD rand_val;
@@ -113,64 +135,122 @@ GenerateChmmr_generateMoons (SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
 static bool
 GenerateChmmr_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 {
-	if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
-	{
-		if (GET_GAME_STATE (CHMMR_UNLEASHED))
+	if (CurStarDescPtr->Index == CHMMR_DEFINED) {
+		if (matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 		{
-			SET_GAME_STATE (GLOBAL_FLAGS_AND_DATA, 1 << 7);
-			InitCommunication (CHMMR_CONVERSATION);
-
-			if (GET_GAME_STATE (CHMMR_BOMB_STATE) == 2)
+			if (GET_GAME_STATE(CHMMR_UNLEASHED))
 			{
-				GLOBAL (CurrentActivity) |= END_INTERPLANETARY;
+				SET_GAME_STATE(GLOBAL_FLAGS_AND_DATA, 1 << 7);
+				InitCommunication(CHMMR_CONVERSATION);
+
+				if (GET_GAME_STATE(CHMMR_BOMB_STATE) == 2)
+				{
+					GLOBAL(CurrentActivity) |= END_INTERPLANETARY;
+				}
+
+				return true;
 			}
-		
-			return true;
+			else if (GET_GAME_STATE(SUN_DEVICE_ON_SHIP)
+				&& !GET_GAME_STATE(ILWRATH_DECEIVED)
+				&& StartSphereTracking(ILWRATH_SHIP))
+			{
+				PutGroupInfo(GROUPS_RANDOM, GROUP_SAVE_IP);
+				ReinitQueue(&GLOBAL(ip_group_q));
+				assert(CountLinks(&GLOBAL(npc_built_ship_q)) == 0);
+
+				CloneShipFragment(ILWRATH_SHIP,
+					&GLOBAL(npc_built_ship_q), INFINITE_FLEET);
+
+				SET_GAME_STATE(GLOBAL_FLAGS_AND_DATA, 1 << 6);
+				GLOBAL(CurrentActivity) |= START_INTERPLANETARY;
+				InitCommunication(ILWRATH_CONVERSATION);
+
+				if (!(GLOBAL(CurrentActivity) & (CHECK_ABORT | CHECK_LOAD)))
+				{
+					GLOBAL(CurrentActivity) &= ~START_INTERPLANETARY;
+					ReinitQueue(&GLOBAL(npc_built_ship_q));
+					GetGroupInfo(GROUPS_RANDOM, GROUP_LOAD_IP);
+				}
+
+				return true;
+			}
 		}
-		else if (GET_GAME_STATE (SUN_DEVICE_ON_SHIP)
-				&& !GET_GAME_STATE (ILWRATH_DECEIVED)
-				&& StartSphereTracking (ILWRATH_SHIP))
+		else if (matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
 		{
-			PutGroupInfo (GROUPS_RANDOM, GROUP_SAVE_IP);
-			ReinitQueue (&GLOBAL (ip_group_q));
-			assert (CountLinks (&GLOBAL (npc_built_ship_q)) == 0);
+			/* Starbase */
+			LoadStdLanderFont(&solarSys->SysInfo.PlanetInfo);
+			solarSys->SysInfo.PlanetInfo.DiscoveryString =
+				CaptureStringTable(LoadStringTable(CHMMR_BASE_STRTAB));
 
-			CloneShipFragment (ILWRATH_SHIP,
-					&GLOBAL (npc_built_ship_q), INFINITE_FLEET);
+			DoDiscoveryReport(MenuSounds);
 
-			SET_GAME_STATE (GLOBAL_FLAGS_AND_DATA, 1 << 6);
-			GLOBAL (CurrentActivity) |= START_INTERPLANETARY;
-			InitCommunication (ILWRATH_CONVERSATION);
-
-			if (!(GLOBAL (CurrentActivity) & (CHECK_ABORT | CHECK_LOAD)))
-			{
-				GLOBAL (CurrentActivity) &= ~START_INTERPLANETARY;
-				ReinitQueue (&GLOBAL (npc_built_ship_q));
-				GetGroupInfo (GROUPS_RANDOM, GROUP_LOAD_IP);
-			}
-
-			return true;
-		}
-	}
-	else if (matchWorld (solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
-	{
-		/* Starbase */
-		LoadStdLanderFont (&solarSys->SysInfo.PlanetInfo);
-		solarSys->SysInfo.PlanetInfo.DiscoveryString =
-				CaptureStringTable (LoadStringTable (CHMMR_BASE_STRTAB));
-
-		DoDiscoveryReport (MenuSounds);
-
-		DestroyStringTable (ReleaseStringTable (
+			DestroyStringTable(ReleaseStringTable(
 				solarSys->SysInfo.PlanetInfo.DiscoveryString));
-		solarSys->SysInfo.PlanetInfo.DiscoveryString = 0;
-		FreeLanderFont (&solarSys->SysInfo.PlanetInfo);
+			solarSys->SysInfo.PlanetInfo.DiscoveryString = 0;
+			FreeLanderFont(&solarSys->SysInfo.PlanetInfo);
 
-		return true;
+			return true;
+		}
+	} 
+	else if (CurStarDescPtr->Index == MOTHER_ARK_DEFINED 
+				&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) 
+					&& EXTENDED)
+	{
+		BOOLEAN MelnormeInfo = GET_GAME_STATE(MELNORME_ALIEN_INFO_STACK) >= 8;
+		BOOLEAN ChmmrStack = GET_GAME_STATE(CHMMR_HOME_VISITS);
+
+		solarSys->SysInfo.PlanetInfo.AtmoDensity = 0;
+		solarSys->SysInfo.PlanetInfo.Tectonics = 2;
+
+		LoadStdLanderFont(&solarSys->SysInfo.PlanetInfo);
+		solarSys->PlanetSideFrame[1] =
+			CaptureDrawable(LoadGraphic(MOTHER_ARK_MASK_PMAP_ANIM));
+		solarSys->SysInfo.PlanetInfo.DiscoveryString =
+			CaptureStringTable(LoadStringTable(MOTHER_ARK_STRTAB));
+
+
+		if (MelnormeInfo || ChmmrStack)
+			solarSys->SysInfo.PlanetInfo.DiscoveryString =
+				SetRelStringTableIndex (
+					solarSys->SysInfo.PlanetInfo.DiscoveryString, 1);
 	}
 
 	GenerateDefault_generateOrbital (solarSys, world);
 
 	return true;
+}
+
+static COUNT
+GenerateChmmr_generateEnergy(const SOLARSYS_STATE *solarSys,
+	const PLANET_DESC *world, COUNT whichNode, NODE_INFO *info)
+{
+	if (CurStarDescPtr->Index == MOTHER_ARK_DEFINED 
+		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) 
+			&& EXTENDED)
+	{
+		return GenerateDefault_generateArtifact(solarSys, whichNode, info);
+	}
+
+	return 0;
+}
+
+static bool
+GenerateChmmr_pickupEnergy(SOLARSYS_STATE *solarSys, PLANET_DESC *world,
+	COUNT whichNode)
+{
+	if (CurStarDescPtr->Index == MOTHER_ARK_DEFINED 
+		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) 
+			&& EXTENDED)
+	{
+		assert(whichNode == 0);
+
+		GenerateDefault_landerReport(solarSys);
+
+		// The Ark cannot be "picked up". It is always on the surface.
+		return false;
+	}
+
+	(void)whichNode;
+	return false;
 }
 

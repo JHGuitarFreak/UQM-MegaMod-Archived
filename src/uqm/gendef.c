@@ -79,6 +79,7 @@ getGenerateFunctions (BYTE Index)
 		case TALKING_PET_DEFINED:
 			return &generateTalkingPetFunctions;
 		case CHMMR_DEFINED:
+		case MOTHER_ARK_DEFINED:
 			return &generateChmmrFunctions;
 		case SYREEN_DEFINED:
 			return &generateSyreenFunctions;

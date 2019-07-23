@@ -105,6 +105,7 @@
 #define MISCDATA_MASK_PMAP_ANIM "graphics.miscdata"
 #define MODULES_PMAP_ANIM "graphics.modulesmenu"
 #define MOONBASE_MASK_PMAP_ANIM "graphics.moonbase"
+#define MOTHER_ARK_MASK_PMAP_ANIM "graphics.motherark"
 #define NEBULAE_PMAP_ANIM "graphics.nebulae"
 #define NEPTUNE_MASK_ANIM "graphics.neptunemask"
 #define NPCBUBBLE_MASK_PMAP_ANIM "graphics.npcbubble"
