@@ -208,7 +208,6 @@ GenerateChmmr_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 		solarSys->SysInfo.PlanetInfo.DiscoveryString =
 			CaptureStringTable(LoadStringTable(MOTHER_ARK_STRTAB));
 
-
 		if (MelnormeInfo || ChmmrStack)
 			solarSys->SysInfo.PlanetInfo.DiscoveryString =
 				SetRelStringTableIndex (

@@ -120,7 +120,8 @@ getGenerateFunctions (BYTE Index)
 		case KOHRAH_DEFINED:
 		case DESTROYED_STARBASE_DEFINED:
 		case SAMATRA_DEFINED:
-			return &generateSaMatraFunctions;
+			return &generateSaMatraFunctions; 
+		case ZOQ_COLONY_DEFINED:
 		case ZOQFOT_DEFINED:
 			return &generateZoqFotPikFunctions;
 		case ZOQ_SCOUT_DEFINED:
