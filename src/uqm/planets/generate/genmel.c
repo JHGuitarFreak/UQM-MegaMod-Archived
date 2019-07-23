@@ -17,8 +17,12 @@
  */
 
 #include "genall.h"
+#include "../lander.h"
 #include "../../build.h"
+#include "../../comm.h"
 #include "../../gendef.h"
+#include "../../nameref.h"
+#include "../../sounds.h"
 #include "../../starmap.h"
 #include "../../globdata.h"
 #include "../../state.h"
@@ -26,6 +30,11 @@
 
 
 static bool GenerateMelnorme_initNpcs (SOLARSYS_STATE *solarSys);
+static bool GenerateMelnorme_generatePlanets(SOLARSYS_STATE *solarSys);
+static bool GenerateMelnorme_generateMoons(SOLARSYS_STATE *solarSys,
+	PLANET_DESC *planet);
+static bool GenerateMelnorme_generateOrbital(SOLARSYS_STATE *solarSys,
+	PLANET_DESC *world);
 
 static DWORD GetMelnormeRef (void);
 static void SetMelnormeRef (DWORD Ref);
@@ -35,10 +44,10 @@ const GenerateFunctions generateMelnormeFunctions = {
 	/* .initNpcs         = */ GenerateMelnorme_initNpcs,
 	/* .reinitNpcs       = */ GenerateDefault_reinitNpcs,
 	/* .uninitNpcs       = */ GenerateDefault_uninitNpcs,
-	/* .generatePlanets  = */ GenerateDefault_generatePlanets,
-	/* .generateMoons    = */ GenerateDefault_generateMoons,
+	/* .generatePlanets  = */ GenerateMelnorme_generatePlanets,
+	/* .generateMoons    = */ GenerateMelnorme_generateMoons,
 	/* .generateName     = */ GenerateDefault_generateName,
-	/* .generateOrbital  = */ GenerateDefault_generateOrbital,
+	/* .generateOrbital  = */ GenerateMelnorme_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
 	/* .generateEnergy   = */ GenerateDefault_generateEnergy,
 	/* .generateLife     = */ GenerateDefault_generateLife,
@@ -62,6 +71,76 @@ GenerateMelnorme_initNpcs (SOLARSYS_STATE *solarSys)
 
 	GenerateDefault_initNpcs (solarSys);
 
+	return true;
+}
+
+static bool
+GenerateMelnorme_generatePlanets(SOLARSYS_STATE *solarSys)
+{
+	int jewelArray[] = { SAPPHIRE_WORLD, EMERALD_WORLD, RUBY_WORLD };
+
+	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+
+	if (EXTENDED && !PrimeSeed && CurStarDescPtr->Index == MELNORME1_DEFINED)
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random(SysGenRNG) % (MAX_GEN_PLANETS - 1) + 1);
+
+	FillOrbits(solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+	GeneratePlanets(solarSys);
+
+	if (EXTENDED && CurStarDescPtr->Index == MELNORME1_DEFINED) {
+		solarSys->SunDesc[0].PlanetByte = 2;
+		solarSys->SunDesc[0].MoonByte = 0;
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+	}
+
+	if (EXTENDED && !PrimeSeed && CurStarDescPtr->Index == MELNORME1_DEFINED) {
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = jewelArray[RandomContext_Random(SysGenRNG) % 2];
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = (RandomContext_Random(SysGenRNG) % (MAX_GEN_MOONS - 1) + 1);
+		solarSys->SunDesc[0].MoonByte = (RandomContext_Random(SysGenRNG) % solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets);
+	}
+
+	return true;
+}
+
+static bool
+GenerateMelnorme_generateMoons(SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
+{
+	GenerateDefault_generateMoons(solarSys, planet);
+
+	if (EXTENDED
+		&& CurStarDescPtr->Index == MELNORME1_DEFINED
+		&& matchWorld(solarSys, planet, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = PRECURSOR_STARBASE;
+	}
+
+	return true;
+}
+
+static bool
+GenerateMelnorme_generateOrbital(SOLARSYS_STATE *solarSys, PLANET_DESC *world)
+{
+	if (EXTENDED
+		&& CurStarDescPtr->Index == MELNORME1_DEFINED
+		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
+	{
+		/* Starbase */
+		LoadStdLanderFont(&solarSys->SysInfo.PlanetInfo);
+
+		solarSys->SysInfo.PlanetInfo.DiscoveryString =
+			CaptureStringTable(
+				LoadStringTable(PRECURSOR_BASE_STRTAB));
+
+		DoDiscoveryReport(MenuSounds);
+
+		DestroyStringTable(ReleaseStringTable(
+			solarSys->SysInfo.PlanetInfo.DiscoveryString));
+		solarSys->SysInfo.PlanetInfo.DiscoveryString = 0;
+		FreeLanderFont(&solarSys->SysInfo.PlanetInfo);
+		return true;
+	}
+
+	GenerateDefault_generateOrbital(solarSys, world);
 	return true;
 }
 
