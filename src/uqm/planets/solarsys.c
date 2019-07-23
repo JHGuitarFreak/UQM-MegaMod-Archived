@@ -870,7 +870,7 @@ getCollisionFrame (PLANET_DESC *planet, COUNT WaitPlanet)
 	if (pSolarSysState->WaitIntersect != (COUNT)~0 && pSolarSysState->WaitIntersect != WaitPlanet) {
 		if (!IS_HD || !optScalePlanets)
 			return DecFrameIndex(stars_in_space);
-		else if (planet->data_index >= DESTROYED_STARBASE)
+		else if (planet->data_index >= PRECURSOR_STARBASE)
 			return planet->image.frame;
 		else
 			return planet->intersect.frame;
@@ -1137,6 +1137,10 @@ ValidateOrbit (PLANET_DESC *planet, int sizeNumer, int dyNumer, int denom)
 	else if (planet->data_index == DESTROYED_STARBASE)
 	{
 		planet->image.frame = SetAbsFrameIndex (SpaceJunkFrame, UNSCALED_PLANETS(26, RES_BOOL(22, 25)));
+	}
+	else if (planet->data_index == PRECURSOR_STARBASE)
+	{
+		planet->image.frame = SetAbsFrameIndex(SpaceJunkFrame, UNSCALED_PLANETS(28, RES_BOOL(23, 27)));
 	}
 }
 
@@ -2038,7 +2042,8 @@ EnterPlanetOrbit (void)
 			// and 640x480 modes. Do not draw it in 320x240 since there's no room!
 			if (IS_HD && !(GetNamedPlanetaryBody()) 
 				&& (pSolarSysState->pOrbitalDesc->data_index != HIERARCHY_STARBASE 
-					|| pSolarSysState->pOrbitalDesc->data_index != DESTROYED_STARBASE))
+					|| pSolarSysState->pOrbitalDesc->data_index != DESTROYED_STARBASE
+					|| pSolarSysState->pOrbitalDesc->data_index != PRECURSOR_STARBASE))
 			{
 				moon = moonIndex (pSolarSysState, pSolarSysState->pOrbitalDesc);
 				snprintf ((GLOBAL_SIS (PlanetName)) + strlen(GLOBAL_SIS (PlanetName)), 3, "-%c%c", 'A' + moon, '\0');

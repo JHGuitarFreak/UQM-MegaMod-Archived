@@ -30,7 +30,6 @@ extern GenerateFunctions generateDruugeFunctions;
 extern GenerateFunctions generateIlwrathFunctions;
 extern GenerateFunctions generateMelnormeFunctions;
 extern GenerateFunctions generateMyconFunctions;
-extern GenerateFunctions generateDestroyedStarbaseFunctions;
 extern GenerateFunctions generateOrzFunctions;
 extern GenerateFunctions generatePkunkFunctions;
 extern GenerateFunctions generateRainbowWorldFunctions;
