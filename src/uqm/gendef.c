@@ -116,6 +116,9 @@ getGenerateFunctions (BYTE Index)
 		case VUX_BEAST_DEFINED:
 		case VUX_DEFINED:
 			return &generateVuxFunctions;
+		case URQUAN_DEFINED:
+		case KOHRAH_DEFINED:
+		case DESTROYED_STARBASE_DEFINED:
 		case SAMATRA_DEFINED:
 			return &generateSaMatraFunctions;
 		case ZOQFOT_DEFINED:
@@ -132,10 +135,6 @@ getGenerateFunctions (BYTE Index)
 			return &generateRainbowWorldFunctions;
 		case ILWRATH_DEFINED:
 			return &generateIlwrathFunctions;
-		case URQUAN_DEFINED:
-		case KOHRAH_DEFINED:
-		case DESTROYED_STARBASE_DEFINED:
-			return &generateDestroyedStarbaseFunctions;
 		default:
 			return &generateDefaultFunctions;
 	}
