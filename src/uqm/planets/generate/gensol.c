@@ -713,15 +713,20 @@ GenerateSol_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 	
 	if (matchWorld (solarSys, world, 2, 1))
 	{	// Earth Moon
-		assert (!GET_GAME_STATE (MOONBASE_DESTROYED) && whichNode == 0);
+		// assert (!GET_GAME_STATE (MOONBASE_DESTROYED) && whichNode == 0);
 
 		GenerateDefault_landerReport (solarSys);
-		SetLanderTakeoff ();
 
-		SET_GAME_STATE (MOONBASE_DESTROYED, 1);
-		SET_GAME_STATE (MOONBASE_ON_SHIP, 1);
+		if (!NOMAD) {
+			SetLanderTakeoff();
 
-		return true; // picked up
+			SET_GAME_STATE(MOONBASE_DESTROYED, 1);
+			SET_GAME_STATE(MOONBASE_ON_SHIP, 1);
+
+			return true; // picked up
+		}
+		else
+			return false;
 	}
 
 	(void) whichNode;
