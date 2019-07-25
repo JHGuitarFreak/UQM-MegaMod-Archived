@@ -64,6 +64,7 @@ getGenerateFunctions (BYTE Index)
 		case START_COLONY_DEFINED:
 			return &generateColonyFunctions;
 		case ALGOLITES_DEFINED:
+		case SPATHI_MONUMENT_DEFINED:
 		case SPATHI_DEFINED:
 			return &generateSpathiFunctions;
 		case MELNORME0_DEFINED:
@@ -78,8 +79,8 @@ getGenerateFunctions (BYTE Index)
 			return &generateMelnormeFunctions;
 		case TALKING_PET_DEFINED:
 			return &generateTalkingPetFunctions;
-		case CHMMR_DEFINED:
 		case MOTHER_ARK_DEFINED:
+		case CHMMR_DEFINED:
 			return &generateChmmrFunctions;
 		case SYREEN_DEFINED:
 			return &generateSyreenFunctions;

@@ -11,7 +11,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - NOMAD: Give players free ships from allies when completing quests
 - NOMAD: Make it so the player can complete the Shofixti quest
 - NOMAD: Give player extra jets and thrusters so as to not be completely outmatched in speed
-- HARD MODE: Make allied home systems the only place you can save the game
 
 
 ## [Unreleased]
@@ -53,6 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Add a defunct Mother-Ark @ Delta Virginis IV
 - Add a stripped Precursor Starbase at Alpha Centauri
 - Add ruins and lore on Algol IV to match with the lore as told by the Melnorme
+- Add a Spathi erected monument to the peaceful negotiatons of colonization between them and the Mmrnmhrm on Beta Herculis II
 
 # HARD MODE
 - All Spathi escorts flee when they slave shield themselves

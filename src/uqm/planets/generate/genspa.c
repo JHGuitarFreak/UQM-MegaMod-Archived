@@ -111,6 +111,18 @@ GenerateSpathi_generatePlanets (SOLARSYS_STATE *solarSys)
 		GeneratePlanets(solarSys);
 	}
 
+	if (EXTENDED && CurStarDescPtr->Index == SPATHI_MONUMENT_DEFINED) {
+		solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
+		solarSys->SunDesc[0].PlanetByte = 1;
+
+		if (!PrimeSeed) {
+			solarSys->SunDesc[0].NumPlanets = (RandomContext_Random(SysGenRNG) % (MAX_GEN_PLANETS - 2) + 2);
+		}
+
+		FillOrbits(solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
+		GeneratePlanets(solarSys);
+	}
+
 	return true;
 }
 
@@ -267,11 +279,24 @@ GenerateSpathi_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 		&& CurStarDescPtr->Index == ALGOLITES_DEFINED
 		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
+		solarSys->SysInfo.PlanetInfo.AtmoDensity = 0;
+
 		LoadStdLanderFont(&solarSys->SysInfo.PlanetInfo);
 		solarSys->PlanetSideFrame[1] =
 			CaptureDrawable(LoadGraphic(RUINS_MASK_PMAP_ANIM));
 		solarSys->SysInfo.PlanetInfo.DiscoveryString =
 			CaptureStringTable(LoadStringTable(ALGOLITE_RUINS_STRTAB));
+	}
+
+	if (EXTENDED
+		&& CurStarDescPtr->Index == SPATHI_MONUMENT_DEFINED
+		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{
+		LoadStdLanderFont(&solarSys->SysInfo.PlanetInfo);
+		solarSys->PlanetSideFrame[1] =
+			CaptureDrawable(LoadGraphic(RUINS_MASK_PMAP_ANIM));
+		solarSys->SysInfo.PlanetInfo.DiscoveryString =
+			CaptureStringTable(LoadStringTable(SPATHI_MONUMENT_STRTAB));
 	}
 	
 	GenerateDefault_generateOrbital (solarSys, world);
@@ -304,6 +329,14 @@ GenerateSpathi_generateEnergy (const SOLARSYS_STATE *solarSys,
 			0, whichNode, info);
 	}
 
+	if (EXTENDED
+		&& CurStarDescPtr->Index == SPATHI_MONUMENT_DEFINED
+		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{
+		return GenerateRandomNodes(&solarSys->SysInfo, ENERGY_SCAN, 1,
+			0, whichNode, info);
+	}
+
 	return 0;
 }
 
@@ -327,6 +360,15 @@ GenerateSpathi_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 
 	if (EXTENDED 
 		&& CurStarDescPtr->Index == ALGOLITES_DEFINED 
+		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{
+		GenerateDefault_landerReportCycle(solarSys);
+
+		return false; // do not remove the node
+	}
+
+	if (EXTENDED
+		&& CurStarDescPtr->Index == SPATHI_MONUMENT_DEFINED
 		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		GenerateDefault_landerReportCycle(solarSys);

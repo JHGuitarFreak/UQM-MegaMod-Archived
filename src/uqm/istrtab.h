@@ -138,6 +138,7 @@
 #define SHATTERED_COLOR_TAB "planet.shattered.colortable"
 #define SHATTERED_XLAT_TAB "planet.shattered.translatetable"
 #define SPAPLUTO_STRTAB "text.fwiffo"
+#define SPATHI_MONUMENT_STRTAB "text.spathimonument"
 #define SPECIAL_CMAP_XLAT_TAB "planet.specialcolormap.translatetable"
 #define STARCON_COLOR_MAP "colortable.main"
 #define STARCON_GAME_STRINGS "text.starcon"
