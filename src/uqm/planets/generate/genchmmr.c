@@ -62,18 +62,18 @@ static bool
 GenerateChmmr_generatePlanets (SOLARSYS_STATE *solarSys)
 {
 	int jewelArray[] = { SAPPHIRE_WORLD, EMERALD_WORLD, RUBY_WORLD };
+	BYTE NumPlanets = (EXTENDED && CurStarDescPtr->Index == MOTHER_ARK_DEFINED ? 4 : 1);
 
 	solarSys->SunDesc[0].NumPlanets = (BYTE)~0;
 
 	if(!PrimeSeed){
-		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (MAX_GEN_PLANETS - 1) + 1);
+		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (MAX_GEN_PLANETS - NumPlanets) + NumPlanets);
 	}
 
 	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
 	GeneratePlanets (solarSys);
 
 	if (CurStarDescPtr->Index == CHMMR_DEFINED) {
-
 		solarSys->SunDesc[0].PlanetByte = 1;
 		solarSys->SunDesc[0].MoonByte = 0;
 
@@ -89,7 +89,8 @@ GenerateChmmr_generatePlanets (SOLARSYS_STATE *solarSys)
 		if (!GET_GAME_STATE(CHMMR_UNLEASHED))
 			solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index |= PLANET_SHIELDED;
 	} 
-	else if (CurStarDescPtr->Index == MOTHER_ARK_DEFINED && EXTENDED){
+	
+	if (EXTENDED && CurStarDescPtr->Index == MOTHER_ARK_DEFINED){
 		solarSys->SunDesc[0].PlanetByte = 3;
 
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = EMERALD_WORLD;
@@ -191,10 +192,11 @@ GenerateChmmr_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 
 			return true;
 		}
-	} 
-	else if (CurStarDescPtr->Index == MOTHER_ARK_DEFINED 
-				&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) 
-					&& EXTENDED)
+	}
+
+	if (EXTENDED 
+		&& CurStarDescPtr->Index == MOTHER_ARK_DEFINED
+		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		BOOLEAN MelnormeInfo = GET_GAME_STATE(MELNORME_ALIEN_INFO_STACK) >= 8;
 		BOOLEAN ChmmrStack = GET_GAME_STATE(CHMMR_HOME_VISITS);
@@ -223,9 +225,9 @@ static COUNT
 GenerateChmmr_generateEnergy(const SOLARSYS_STATE *solarSys,
 	const PLANET_DESC *world, COUNT whichNode, NODE_INFO *info)
 {
-	if (CurStarDescPtr->Index == MOTHER_ARK_DEFINED 
-		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) 
-			&& EXTENDED)
+	if (EXTENDED 
+		&& CurStarDescPtr->Index == MOTHER_ARK_DEFINED
+		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		return GenerateDefault_generateArtifact(solarSys, whichNode, info);
 	}
@@ -237,9 +239,9 @@ static bool
 GenerateChmmr_pickupEnergy(SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 	COUNT whichNode)
 {
-	if (CurStarDescPtr->Index == MOTHER_ARK_DEFINED 
-		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) 
-			&& EXTENDED)
+	if (EXTENDED
+		&& CurStarDescPtr->Index == MOTHER_ARK_DEFINED
+		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		assert(whichNode == 0);
 
