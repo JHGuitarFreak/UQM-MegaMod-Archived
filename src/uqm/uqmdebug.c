@@ -1037,6 +1037,8 @@ starPresenceString (BYTE index)
 			return "Destroyed Starbase";
 		case MOTHER_ARK_DEFINED:
 			return "Mother-Ark";
+		case ALGOLITES_DEFINED:
+			return "Algolites";
 		default:
 			// Should not happen
 			return "???";

@@ -1031,6 +1031,7 @@ space.vux.music = MUSICRES:base/nav/space.music/vux.ogg
 space.yehat.music = MUSICRES:base/nav/space.music/yehat.ogg
 space.arilou.music = MUSICRES:base/nav/space.music/arilou.ogg
 space.zoqfotpik.music = MUSICRES:base/nav/space.music/zoqfotpik.ogg
+text.algoliteruins = STRTAB:base/lander/energy/algoliteruins.txt
 text.androsynthruins = STRTAB:base/lander/energy/androsynth_ruins.txt
 text.aquahelix = STRTAB:base/lander/energy/aquahelix.txt
 text.burvixcaster = STRTAB:base/lander/energy/burvixcaster.txt
