@@ -83,7 +83,7 @@ GenerateZoqFotPik_generatePlanets (SOLARSYS_STATE *solarSys)
 	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, FALSE);
 	GeneratePlanets (solarSys);
 	
-	if (CurStarDescPtr->Index == ZOQFOT_DEFINED || (CurStarDescPtr->Index == ZOQ_COLONY_DEFINED && EXTENDED)) {
+	if (CurStarDescPtr->Index == ZOQFOT_DEFINED || (EXTENDED && CurStarDescPtr->Index == ZOQ_COLONY_DEFINED)) {
 
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].data_index = REDUX_WORLD;
 		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
@@ -165,9 +165,9 @@ GenerateZoqFotPik_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 			solarSys->SysInfo.PlanetInfo.DiscoveryString =
 				CaptureStringTable(LoadStringTable(RUINS_STRTAB));
 		} 
-		else if (CurStarDescPtr->Index == ZOQ_COLONY_DEFINED 
-			&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) 
-				&& EXTENDED)
+		else if (EXTENDED 
+			&& CurStarDescPtr->Index == ZOQ_COLONY_DEFINED
+			&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 		{
 			LoadStdLanderFont(&solarSys->SysInfo.PlanetInfo);
 			solarSys->PlanetSideFrame[1] =
@@ -190,7 +190,7 @@ GenerateZoqFotPik_generateEnergy (const SOLARSYS_STATE *solarSys,
 	{
 		if (CurStarDescPtr->Index == ZOQFOT_DEFINED)
 			return GenerateDefault_generateRuins(solarSys, whichNode, info);
-		else if (CurStarDescPtr->Index == ZOQ_COLONY_DEFINED && EXTENDED)
+		else if (EXTENDED && CurStarDescPtr->Index == ZOQ_COLONY_DEFINED)
 			return GenerateRandomNodes(&solarSys->SysInfo, ENERGY_SCAN, 4,
 				0, whichNode, info);
 	}
@@ -205,7 +205,7 @@ GenerateZoqFotPik_pickupEnergy (SOLARSYS_STATE *solarSys, PLANET_DESC *world,
 	if (matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		if (CurStarDescPtr->Index == ZOQFOT_DEFINED 
-			|| (CurStarDescPtr->Index == ZOQ_COLONY_DEFINED && EXTENDED)) 
+			|| (EXTENDED && CurStarDescPtr->Index == ZOQ_COLONY_DEFINED))
 		{
 			// Standard ruins report
 			GenerateDefault_landerReportCycle(solarSys);
