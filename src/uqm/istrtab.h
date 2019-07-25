@@ -4,6 +4,7 @@
 
 #define ACID_COLOR_TAB "planet.acid.colortable"
 #define ACID_XLAT_TAB "planet.acid.translatetable"
+#define ALGOLITE_RUINS_STRTAB "text.algoliteruins"
 #define ALKALI_COLOR_TAB "planet.alkali.colortable"
 #define ALKALI_XLAT_TAB "planet.alkali.translatetable"
 #define ANDROSYNTH_RUINS_STRTAB "text.androsynthruins"

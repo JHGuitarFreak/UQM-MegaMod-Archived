@@ -63,6 +63,7 @@ getGenerateFunctions (BYTE Index)
 			return &generateShofixtiFunctions;
 		case START_COLONY_DEFINED:
 			return &generateColonyFunctions;
+		case ALGOLITES_DEFINED:
 		case SPATHI_DEFINED:
 			return &generateSpathiFunctions;
 		case MELNORME0_DEFINED:

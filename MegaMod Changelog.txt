@@ -52,7 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Add a Syreen and Chmmr SOI
 - Add a defunct Mother-Ark @ Delta Virginis IV
 - Add a stripped Precursor Starbase at Alpha Centauri
-- Put a couple of dead cities on Algol IV to match with the lore as told by the Melnorme
+- Add ruins and lore on Algol IV to match with the lore as told by the Melnorme
 
 # HARD MODE
 - All Spathi escorts flee when they slave shield themselves
