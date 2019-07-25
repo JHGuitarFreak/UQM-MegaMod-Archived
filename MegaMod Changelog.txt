@@ -37,8 +37,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - CUSTOM SEED: When using a custom seed moons can be any planet (Barring gas giants, rainbow, and shattered worlds)
 - SETUP MENU: Added menu option to enable/disable Extended Edition features
 - Add a new mode named "NOMAD" which is a "no Starbase" gameplay mode
+- A new mode called "Extended Lore" to expand more upon the lore of UQM
 
-# EXTENDED EDITION
+# EXTENDED LORE
 - No longer possible to encounter random Ur-Quan ships in the Zoq-Fot-Pik home system, like their dialogs say (Bugzilla Bug #759)
 - Add a "dead" slave-shielded world and starbase @ Beta Ophiuchi I (047.9:887.5)
 - Destroyed Ur-Quan(*) / Kohr-Ah(+) starbases
@@ -51,6 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Add a Syreen and Chmmr SOI
 - Add a defunct Mother-Ark @ Delta Virginis IV
 - Add a stripped Precursor Starbase at Alpha Centauri
+- Put a couple of dead cities on Algol IV to match with the lore as told by the Melnorme
 
 # HARD MODE
 - All Spathi escorts flee when they slave shield themselves
