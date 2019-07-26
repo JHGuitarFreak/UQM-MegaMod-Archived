@@ -312,6 +312,7 @@
 #define SISMODS_MASK_PMAP_ANIM "graphics.outfitmodules"
 #define SISSKEL_MASK_PMAP_ANIM "graphics.flagshipskeleton"
 #define SPAPLUTO_MASK_PMAP_ANIM "graphics.fwiffo"
+#define MONUMENT_MASK_PMAP_ANIM "graphics.spathimonument"
 #define STARBASE_ANIM "graphics.starbase"
 #define STAR_MASK_PMAP_ANIM "graphics.stars"
 #define STARPOINT_MASK_PMAP_ANIM "graphics.starpoints"

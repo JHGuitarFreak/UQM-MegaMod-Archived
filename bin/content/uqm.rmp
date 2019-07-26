@@ -257,6 +257,7 @@ graphics.segue = GFXRES:base/ui/segue.ani
 graphics.setupmenu = GFXRES:base/ui/setupmenu.ani
 graphics.setupmenuhd = GFXRES:base/ui/hd/setupmenu.ani
 graphics.shipyard = GFXRES:base/ui/shipyard.ani
+graphics.spathimonument = GFXRES:base/lander/energy/spathimonument.ani
 graphics.starbase = GFXRES:base/ui/starbase.ani
 graphics.stars = GFXRES:base/battle/stars.ani
 graphics.status = GFXRES:base/ui/status.ani
