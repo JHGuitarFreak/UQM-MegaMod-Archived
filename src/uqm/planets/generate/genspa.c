@@ -294,7 +294,7 @@ GenerateSpathi_generateOrbital (SOLARSYS_STATE *solarSys, PLANET_DESC *world)
 	{
 		LoadStdLanderFont(&solarSys->SysInfo.PlanetInfo);
 		solarSys->PlanetSideFrame[1] =
-			CaptureDrawable(LoadGraphic(RUINS_MASK_PMAP_ANIM));
+			CaptureDrawable(LoadGraphic(MONUMENT_MASK_PMAP_ANIM));
 		solarSys->SysInfo.PlanetInfo.DiscoveryString =
 			CaptureStringTable(LoadStringTable(SPATHI_MONUMENT_STRTAB));
 	}
