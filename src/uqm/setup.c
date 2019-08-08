@@ -152,6 +152,7 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 			log_add(log_Debug, "loading sol-textures-4x");
 		}
 		loadAddon("yellow-fried-4x");
+		loadAddon("orange-peel-melnorme4x");
 	}
 
 	usingSpeech = optSpeech;
