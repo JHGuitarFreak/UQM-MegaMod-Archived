@@ -523,7 +523,7 @@ Rebels (RESPONSE_REF R)
 static void
 Intro (void)
 {
-	BYTE NumVisits, TempVisits;
+	BYTE NumVisits;
 
 	setSegue (Segue_peace);
 	if (LOBYTE (GLOBAL (CurrentActivity)) == IN_LAST_BATTLE)
@@ -534,15 +534,8 @@ Intro (void)
 		NumVisits = (BYTE) EscortFeasibilityStudy (YEHAT_REBEL_SHIP);
 		if (NumVisits > 8)
 			NumVisits = 8;
-		if(!DIF_HARD){
-			AddEscortShips (YEHAT_REBEL_SHIP, NumVisits - (NumVisits >> 1));
-			AddEscortShips (PKUNK_SHIP, NumVisits >> 1);
-		} else {
-			TempVisits = NumVisits - 1;
-			NumVisits -= TempVisits;
-			AddEscortShips(YEHAT_REBEL_SHIP, NumVisits);
-			AddEscortShips(PKUNK_SHIP, NumVisits);
-		}
+		AddEscortShips (YEHAT_REBEL_SHIP, NumVisits - (NumVisits >> 1));
+		AddEscortShips (PKUNK_SHIP, NumVisits >> 1);
 	}
 	else
 	{
