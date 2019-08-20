@@ -29,9 +29,12 @@
 #include "libs/compiler.h"
 #include "libs/log.h"
 #include "libs/mathlib.h"
+#include "nameref.h"
 #include "options.h"
 #include <stdlib.h>
 #include "setup.h"
+#include "sounds.h"
+#include "planets/lander.h"
 
 static int arilou_entrance_event (int arg);
 static int arilou_exit_event (int arg);
@@ -469,6 +472,19 @@ shofixti_return_event (int arg)
 			/* crew is not an issue anymore */
 	SET_GAME_STATE (CREW_PURCHASED0, 0);
 	SET_GAME_STATE (CREW_PURCHASED1, 0);
+
+	if (NOMAD) {
+		/*STRING ReportTable;
+
+		ReportTable = CaptureStringTable(LoadStringTable(SPATHI_MONUMENT_STRTAB));
+		if(!inHQSpace())
+			DoSpaceReport(MenuSounds, ReportTable);
+		DestroyStringTable(ReleaseStringTable(ReportTable));
+		ReportTable = 0;*/
+
+		if(EscortFeasibilityStudy(SHOFIXTI_SHIP))
+			AddEscortShips(SHOFIXTI_SHIP, 1);
+	}
 
 	(void) arg;
 	return 0;
