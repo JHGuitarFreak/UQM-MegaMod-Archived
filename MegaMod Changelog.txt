@@ -59,7 +59,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Amount of Thraddash to defeat is 35 to become allied
 - Crew Cost does not come down when the Shofixti are revived
 - Slylandro Probes dodge projectiles
-- Get one Pkunk ship when you are nice to the Pkunk upon first meeting
 - Mineral worth for Exotics is brought down to 16
 - Slylandro Probes will orbit Rainbow Worlds, their numbers increase if left unchecked and will eventually vanish once you complete their quest
 - New game will have a random custom seed if the set, loaded, or commandline seed isn't the default.
@@ -72,7 +71,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Randomize Quasi Portal exits
 - Reduced viability of the Druuge/Melnorme fuel exploit
 - If player kills Tanaka they do not get a second chance with Katana
-- Player only recieves one Pkunk & Yehat ship at endgame (When applicable)
 - No star search
 - Portal Spawner costs 20 whole units of fuel
 - Selling more than 10 crew to the Druuge guarantees a price hike in crew cost and the immediate disapproval of the Commander
