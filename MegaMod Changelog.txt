@@ -4,9 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Ideas]
-- HARD MODE: Ur-Quan can show up anywhere on the map, not just in their SOI. Kzer-Za would be more prevalent while Kohr-Ah would be more rare.
 - HARD MODE: Melnrome tech is limited so you can't build an overpowered flagship
-- HARD MODE: If you don't take care of the Probes before a year passes they spawn at a 100% rate
 - NOMAD: Make Probes spawn at a reasonable rate so as to not annoy the player
 - NOMAD: Give players free ships from allies when completing quests
 - NOMAD: Make it so the player can complete the Shofixti quest
@@ -53,6 +51,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Add a stripped Precursor Starbase at Alpha Centauri
 - Add ruins and lore on Algol IV to match with the lore as told by the Melnorme
 - Add a Spathi erected monument to the peaceful negotiatons of colonization between them and the Mmrnmhrm on Beta Herculis II
+- The Thraddash will survive the Ilwrath war if you are allied with them. And they will let you take the AquaHelix peacefully
 
 # HARD MODE
 - All Spathi escorts flee when they slave shield themselves
