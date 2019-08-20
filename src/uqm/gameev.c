@@ -713,7 +713,6 @@ spathi_shield_event (int arg)
 static int
 advance_ilwrath_mission (int arg)
 {
-	SIZE strength_loss;
 	BYTE ThraddState = GET_GAME_STATE(THRADD_MISSION);
 	HFLEETINFO	hIlwrath = GetStarShipFromIndex(&GLOBAL(avail_race_q), ILWRATH_SHIP),
 		hThradd = GetStarShipFromIndex(&GLOBAL(avail_race_q), THRADDASH_SHIP);

@@ -224,7 +224,7 @@ BuildGroups (void)
 
 	/* make Ur-Quan encounters impossible at the ZFP homeworld,
 	 * like their dialog claims */
-	if (CurStarDescPtr->Index == ZOQFOT_DEFINED && EXTENDED)
+	if (EXTENDED && CurStarDescPtr->Index == ZOQFOT_DEFINED)
 		EncounterPercent[URQUAN_SHIP] = EncounterPercent[BLACK_URQUAN_SHIP] = 0;
 
 	Index = GET_GAME_STATE (UTWIG_SUPOX_MISSION);
