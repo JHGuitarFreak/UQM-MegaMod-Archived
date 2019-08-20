@@ -775,12 +775,8 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 
 	Activity = GLOBAL (CurrentActivity);
 
-	savedDifficulty = 0;
-	newGameDifficulty = 0;
-	savedExtended = false;
-	newGameExtended = false;
-	savedNomad = false;
-	newGameNomad = false;
+	savedDifficulty = newGameDifficulty = 0;
+	savedExtended = newGameExtended = savedNomad = newGameNomad = false;
 
 	if (!LoadGameState (&GlobData.Game_state, in_fp))
 	{
