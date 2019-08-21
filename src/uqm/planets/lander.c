@@ -2081,9 +2081,9 @@ PlanetSide (POINT planetLoc)
 
 	if (optSubmenu){
 		if(optCustomBorder)
-			DrawBorder(14, FALSE);
+			DrawBorder(DIF_CASE(14, 15, 16), FALSE);
 		else
-			DrawSubmenu (1);
+			DrawSubmenu (DIF_CASE(1, 2, 3));
 	}
 
 	InitPlanetSide (planetLoc);
