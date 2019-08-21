@@ -6,8 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Ideas]
 - HARD MODE: Melnrome tech is limited so you can't build an overpowered flagship
 - NOMAD: Give players free ships from allies when completing quests
-- NOMAD: Make it so the player can complete the Shofixti quest
 - NOMAD: Give player a Slylandro Probe upon completion of their quest
+- EXTENDED: Slave Shield the Ilwrath if the Thraddash survive their war
 
 
 ## [Unreleased]
