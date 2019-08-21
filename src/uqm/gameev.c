@@ -473,19 +473,6 @@ shofixti_return_event (int arg)
 	SET_GAME_STATE (CREW_PURCHASED0, 0);
 	SET_GAME_STATE (CREW_PURCHASED1, 0);
 
-	if (NOMAD) {
-		/*STRING ReportTable;
-
-		ReportTable = CaptureStringTable(LoadStringTable(SPATHI_MONUMENT_STRTAB));
-		if(!inHQSpace())
-			DoSpaceReport(MenuSounds, ReportTable);
-		DestroyStringTable(ReleaseStringTable(ReportTable));
-		ReportTable = 0;*/
-
-		if(EscortFeasibilityStudy(SHOFIXTI_SHIP))
-			AddEscortShips(SHOFIXTI_SHIP, 1);
-	}
-
 	(void) arg;
 	return 0;
 }
