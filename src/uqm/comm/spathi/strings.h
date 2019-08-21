@@ -155,6 +155,7 @@ enum
 	bye_ally_space,
 	GOODBYE_ALLY_SPACE,
 	OK_WE_FIGHT_AT_PLUTO,
+	join_us_nomad,
 };
 
 #endif /* UQM_COMM_SPATHI_STRINGS_H */
