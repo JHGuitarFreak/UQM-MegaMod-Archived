@@ -487,6 +487,13 @@ InitGameStructures (void)
 		GLOBAL_SIS(JetSlots[1]) =
 			GLOBAL_SIS(JetSlots[7]) = TURNING_JETS;
 	}
+
+	if (NOMAD) {
+		GLOBAL_SIS(DriveSlots[3]) =
+			GLOBAL_SIS(DriveSlots[4]) = FUSION_THRUSTER;
+		GLOBAL_SIS(JetSlots[2]) =
+			GLOBAL_SIS(JetSlots[5]) = TURNING_JETS;
+	}
  
 	if (optHeadStart){
 		SET_GAME_STATE (FOUND_PLUTO_SPATHI, 2);
