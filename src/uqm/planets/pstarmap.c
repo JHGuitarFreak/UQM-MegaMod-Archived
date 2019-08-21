@@ -1950,10 +1950,10 @@ StarMap (void)
 	if(optSubmenu){
 		if(optCustomBorder){
 			if(optWhichMenu != OPT_PC)
-				DrawBorder(17, FALSE);
-			DrawBorder(15, FALSE);
+				DrawBorder(19, FALSE);
+			DrawBorder(17, FALSE);
 		} else
-			DrawSubmenu (2);
+			DrawSubmenu (4);
 	}
 
 	DrawStarMap (0, (RECT*)-1);
