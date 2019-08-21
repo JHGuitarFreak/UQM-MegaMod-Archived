@@ -137,6 +137,7 @@
 #define SETUP_MENU_STRTAB "text.setupmenu"
 #define SHATTERED_COLOR_TAB "planet.shattered.colortable"
 #define SHATTERED_XLAT_TAB "planet.shattered.translatetable"
+#define SHOFIXTI_BASE_STRTAB "text.shofixtibase"
 #define SPAPLUTO_STRTAB "text.fwiffo"
 #define SPATHI_MONUMENT_STRTAB "text.spathimonument"
 #define SPECIAL_CMAP_XLAT_TAB "planet.specialcolormap.translatetable"

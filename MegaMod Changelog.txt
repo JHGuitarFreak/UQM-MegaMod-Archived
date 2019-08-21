@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - NOMAD: Give players free ships from allies when completing quests
 - NOMAD: Make it so the player can complete the Shofixti quest
 - NOMAD: Give player extra jets and thrusters so as to not be completely outmatched in speed
+- NOMAD: Give player a Slylandro Probe upon completion of their quest
 
 
 ## [Unreleased]
@@ -96,7 +97,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - New message report for the Earth Starbase when you try to dock
 - Player will no longer "pick up" the base on Luna
 - Emergency Warp Unit activated without needing to visit the Starbase
-- Give player a single Shofixti scout upon full completion of Shofixti quest... If there's room.
+- Add a starbase around Kyabetsu that will give the player a max of two Scouts after their quest is completed
 
 ### Changed
 - New icon

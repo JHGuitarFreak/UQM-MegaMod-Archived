@@ -20,8 +20,12 @@
 #include "../../build.h"
 #include "../../globdata.h"
 #include "../../grpinfo.h"
+#include "../../istrtab.h"
+#include "../../nameref.h"
+#include "../../sounds.h"
 #include "../../state.h"
 #include "../../gamestr.h"
+#include "../lander.h"
 #include "../planets.h"
 
 
@@ -29,8 +33,12 @@ static bool GenerateShofixti_initNpcs (SOLARSYS_STATE *solarSys);
 static bool GenerateShofixti_reinitNpcs (SOLARSYS_STATE *solarSys);
 static bool GenerateShofixti_uninitNpcs (SOLARSYS_STATE *solarSys);
 static bool GenerateShofixti_generatePlanets (SOLARSYS_STATE *solarSys);
+static bool GenerateShofixti_generateMoons (SOLARSYS_STATE *solarSys,
+		PLANET_DESC *planet);
 static bool GenerateShofixti_generateName(const SOLARSYS_STATE *,
-	const PLANET_DESC *world);
+		const PLANET_DESC *world);
+static bool GenerateShofixti_generateOrbital (SOLARSYS_STATE *solarSys,
+		PLANET_DESC *world);
 
 static void check_old_shofixti (void);
 
@@ -40,9 +48,9 @@ const GenerateFunctions generateShofixtiFunctions = {
 	/* .reinitNpcs       = */ GenerateShofixti_reinitNpcs,
 	/* .uninitNpcs       = */ GenerateShofixti_uninitNpcs,
 	/* .generatePlanets  = */ GenerateShofixti_generatePlanets,
-	/* .generateMoons    = */ GenerateDefault_generateMoons,
+	/* .generateMoons    = */ GenerateShofixti_generateMoons,
 	/* .generateName     = */ GenerateShofixti_generateName,
-	/* .generateOrbital  = */ GenerateDefault_generateOrbital,
+	/* .generateOrbital  = */ GenerateShofixti_generateOrbital,
 	/* .generateMinerals = */ GenerateDefault_generateMinerals,
 	/* .generateEnergy   = */ GenerateDefault_generateEnergy,
 	/* .generateLife     = */ GenerateDefault_generateLife,
@@ -136,7 +144,9 @@ GenerateShofixti_generatePlanets (SOLARSYS_STATE *solarSys)
 {
 	COUNT i;
 
-	solarSys->SunDesc[0].NumPlanets = 6;
+	solarSys->SunDesc[0].NumPlanets = 6; 
+	solarSys->SunDesc[0].PlanetByte = 0;
+	solarSys->SunDesc[0].MoonByte = 0;
 
 	if(!PrimeSeed)
 		solarSys->SunDesc[0].NumPlanets = (RandomContext_Random (SysGenRNG) % (MAX_GEN_PLANETS - 2) + 2);
@@ -154,6 +164,23 @@ GenerateShofixti_generatePlanets (SOLARSYS_STATE *solarSys)
 
 	FillOrbits (solarSys, solarSys->SunDesc[0].NumPlanets, solarSys->PlanetDesc, TRUE);
 
+	if(NOMAD && CheckAlliance(SHOFIXTI_SHIP) == GOOD_GUY)
+		solarSys->PlanetDesc[solarSys->SunDesc[0].PlanetByte].NumPlanets = 1;
+
+	return true;
+}
+
+static bool
+GenerateShofixti_generateMoons(SOLARSYS_STATE *solarSys, PLANET_DESC *planet)
+{
+	GenerateDefault_generateMoons(solarSys, planet);
+
+	if (NOMAD && matchWorld(solarSys, planet, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].data_index = HIERARCHY_STARBASE;
+		solarSys->MoonDesc[solarSys->SunDesc[0].MoonByte].alternate_colormap = NULL;
+	}
+
 	return true;
 }
 
@@ -161,7 +188,7 @@ static bool
 GenerateShofixti_generateName(const SOLARSYS_STATE *solarSys,
 	const PLANET_DESC *world)
 {
-	if (matchWorld(solarSys, world, 0, MATCH_PLANET))
+	if (matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
 			GAME_STRING(PLANET_NUMBER_BASE + 35));
@@ -173,6 +200,41 @@ GenerateShofixti_generateName(const SOLARSYS_STATE *solarSys,
 	return true;
 }
 
+static bool
+GenerateShofixti_generateOrbital(SOLARSYS_STATE *solarSys, PLANET_DESC *world)
+{
+	if (NOMAD && matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, solarSys->SunDesc[0].MoonByte))
+	{
+		if (CheckAlliance(SHOFIXTI_SHIP) == GOOD_GUY)
+		{
+			BOOLEAN MaxShips = (CountEscortShips(SHOFIXTI_SHIP) < IF_HARD(2, 1) ? TRUE : FALSE);
+			BOOLEAN RoomInFleet = EscortFeasibilityStudy(SHOFIXTI_SHIP) ? TRUE : FALSE;
+			BYTE Index = !MaxShips ? 0 : (!RoomInFleet ? 1 : 2);
+
+			LoadStdLanderFont(&solarSys->SysInfo.PlanetInfo);
+
+			solarSys->SysInfo.PlanetInfo.DiscoveryString =
+				SetRelStringTableIndex(
+					CaptureStringTable(
+						LoadStringTable(SHOFIXTI_BASE_STRTAB)), Index);
+
+			DoDiscoveryReport(MenuSounds);
+
+			if (Index == 2) {
+				AddEscortShips(SHOFIXTI_SHIP, (CountEscortShips(SHOFIXTI_SHIP) == 1 ? 1 : 2));
+			}
+
+			DestroyStringTable(ReleaseStringTable(
+				solarSys->SysInfo.PlanetInfo.DiscoveryString));
+			solarSys->SysInfo.PlanetInfo.DiscoveryString = 0;
+			FreeLanderFont(&solarSys->SysInfo.PlanetInfo);
+			return true;
+		}
+	}
+
+	GenerateDefault_generateOrbital(solarSys, world);
+	return true;
+}
 
 static void
 check_old_shofixti (void)
