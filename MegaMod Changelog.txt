@@ -5,7 +5,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Ideas]
 - HARD MODE: Melnrome tech is limited so you can't build an overpowered flagship
-- NOMAD: Make Probes spawn at a reasonable rate so as to not annoy the player
 - NOMAD: Give players free ships from allies when completing quests
 - NOMAD: Make it so the player can complete the Shofixti quest
 - NOMAD: Give player a Slylandro Probe upon completion of their quest
@@ -98,6 +97,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Emergency Warp Unit activated without needing to visit the Starbase
 - Add a starbase around Kyabetsu that will give the player a max of two Scouts after their quest is completed
 - Give player two extra jets and thrusters so as to not be completely outmatched in speed
+- Make Probes spawn at a reasonable rate so as to not annoy the player
 
 ### Changed
 - New icon
