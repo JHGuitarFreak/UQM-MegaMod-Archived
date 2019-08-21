@@ -675,3 +675,6 @@ oops -- dang! -- you made me give that away!
 Captain, if you somehow survive my attack, I have one sincere hope
 that you may soon be devoured slowly by an ugly, flat-toothed herbivore!
 
+#(join_us_nomad)
+I'm sure you'd feel a lot safer if you were with us. Come on, join our fleet!
+
