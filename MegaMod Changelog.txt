@@ -4,10 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Ideas]
-- HARD MODE: Melnrome tech is limited so you can't build an overpowered flagship
+- HARD MODE: Melnorme tech is limited so you can't build an overpowered flagship
 - NOMAD: Give players free ships from allies when completing quests
-- NOMAD: Give player a Slylandro Probe upon completion of their quest
-- EXTENDED: Slave Shield the Ilwrath if the Thraddash survive their war
 
 
 ## [Unreleased]
@@ -56,7 +54,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - All Spathi escorts flee when they slave shield themselves
 - Starting crew is 31 to account for the epilogue story
 - Amount of Thraddash to defeat is 35 to become allied
-- Crew Cost does not come down when the Shofixti are revived
+- Crew Cost is minimally reduced when the Shofixti are revived
 - Slylandro Probes dodge projectiles
 - Mineral worth for Exotics is brought down to 16
 - Slylandro Probes will orbit Rainbow Worlds, their numbers increase if left unchecked and will eventually vanish once you complete their quest
@@ -67,7 +65,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Evil Ones are now more dangerous
 - Melnorme tech catalog spread out between the 9 Supergiants (No tech upgrades in Hyperspace)
 - Melnorme fuel cost upped to 10 credits per unit
-- Randomize Quasi Portal exits
+- Randomize Quasi Portal exits based on seed
 - Reduced viability of the Druuge/Melnorme fuel exploit
 - If player kills Tanaka they do not get a second chance with Katana
 - No star search
@@ -104,12 +102,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - CUSTOM SEED: Can now be edited in the setup menu
 - CUSTOM SEED: Solar systems can have a max of 10 planets and a max of 5 moons for any given planet
 - Used old Hyperspace code to improve compatibility for Vanilla saves
-- SETUP MENU: Separated Advanced Options into Visual Options and Advanced Options to clear up space for more options
+- SETUP MENU: Split the visual options into a submenu in Advanced Options to clear up some room
 - SETUP MENU: Rearranged and cleaned up menu options
 - SETUP MENU: Added option to enable/disable fuel range point of no return
 - Sol doesn't have a nebula when the option is enabled
+- Druuge's HD convo image changed to the Alpha version of HD-Mod's as it's more faithful to the original lighting and design
 
 ### Fixed
-- Fix orbit line bug for macOS and Android
+- Fix orbit line bug in HD for macOS and Android
 - Captain/Ship name box now flashes while editing
 - Androsynth captain activating the special weapon is consistent with SC1 (Bugzilla Bug #444)
