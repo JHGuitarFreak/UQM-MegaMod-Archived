@@ -116,3 +116,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Captain/Ship name box now flashes while editing
 - Androsynth captain activating the special weapon is consistent with SC1 (Bugzilla Bug #444)
 - Fixed possible memory leak introduced with the Bubble Warp cheat dealing with interplanetary music not being released properly
+- Removed extraneous Umgah dialogue from the credits sequence
