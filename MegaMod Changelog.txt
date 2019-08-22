@@ -4,10 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Ideas]
-- NOMAD: Give players free ships from allies when completing quests
+- Correct the UI scaling in HD to be more faithful to Vanilla UQM
+
+## [v0.8.0.84]
 
 
-## [Unreleased]
+## [v0.8.0.83]
 ### Added
 - Difficulty Modes
 - Android compaitibility
@@ -113,3 +115,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Fix orbit line bug in HD for macOS and Android
 - Captain/Ship name box now flashes while editing
 - Androsynth captain activating the special weapon is consistent with SC1 (Bugzilla Bug #444)
+- Fixed possible memory leak introduced with the Bubble Warp cheat dealing with interplanetary music not being released properly
