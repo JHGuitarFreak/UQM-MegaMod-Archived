@@ -359,11 +359,15 @@ void
 findRaceSOI(void) {
 	POINT universe;
 	HFLEETINFO hFleet, hNextFleet;
-	BYTE Index, HomeworldID, loop = HomeworldID = Index = 0;
+	BYTE Index, HomeworldID, loop;
 	BYTE speciesID[4] = { 0 };
 
 	BYTE EncounterPercent[] = { RACE_MUSIC_BOOL };
 	BYTE HomeWorld[] = { HOMEWORLD_LOC };
+
+	loop = 0;
+	HomeworldID = 0;
+	Index = 0;
 
 	universe = CurStarDescPtr->star_pt;
 

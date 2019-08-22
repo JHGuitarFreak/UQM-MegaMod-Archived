@@ -1733,7 +1733,7 @@ LoadLegacyGame (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN try_vanilla)
 
 	// Sanitize custom seed and difficulty for legacy saves
 	savedSeed = newGameSeed = savedDifficulty = newGameDifficulty = 0;
-	savedExtended = newGameExtended = savedNomad = newGameNomad = false;
+	savedExtended = newGameExtended = savedNomad = newGameNomad = FALSE;
 
 	EncounterGroup = 0;
 	EncounterRace = -1;
