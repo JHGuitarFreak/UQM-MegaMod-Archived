@@ -430,7 +430,7 @@ DrawFuelCircles ()
 	/* Draw a second fuel circle showing the 'point of no return', past which there will
 	 * not be enough fuel to return to Sol.
 	 */
-	if (optFuelRange) {
+	if (GET_GAME_STATE(STARBASE_AVAILABLE) && optFuelRange) {
 		r.extent.width = UNIVERSE_TO_DISPX(diameter_no_return)
 			- UNIVERSE_TO_DISPX(0);
 
