@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Add a new mode named "NOMAD" which is a "no Starbase" gameplay mode
 - A new mode called "Extended Lore" to expand more upon the lore of UQM
 - New mineral helpers for Easy and Hard mode
+- Fuel Range point of no return is disabled until you get access to the Starbase
 
 # EXTENDED LORE
 - No longer possible to encounter random Ur-Quan ships in the Zoq-Fot-Pik home system, like their dialogs say (Bugzilla Bug #759)
