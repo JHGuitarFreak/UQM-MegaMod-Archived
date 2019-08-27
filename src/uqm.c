@@ -462,14 +462,6 @@ main (int argc, char *argv[])
 		return optionsResult;
 	}
 
-#if defined(ANDROID) || defined(__ANDROID__)
-	SDL_ANDROID_SetApplicationPutToBackgroundCallback (AndroidAppPutToBackgroundCallback, AndroidAppRestoredCallback);
-	if( !fileExists("config/save") ) {
-		// Copy savegames from UQM non-HD, I'm too lazy to do that properly.
-		system("SAVEDIR=`pwd`/config/save ; mkdir -p $SAVEDIR ; cd ../../../../app-data/com.sourceforge.sc2/config/save || exit 1 ; for f in * ; do cat $f > $SAVEDIR/$f ; done");
-	}
-#endif
-
 	TFB_PreInit ();
 	mem_init ();
 	InitThreadSystem ();

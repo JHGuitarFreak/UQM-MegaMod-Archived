@@ -377,7 +377,6 @@ FreeIPData (void)
 	}
 	DestroyDrawable (ReleaseDrawable (SpaceJunkFrame));
 	SpaceJunkFrame = 0;
-
 	DestroyMusic (SpaceMusic);
 	SpaceMusic = 0;
 
@@ -855,10 +854,6 @@ FreeSolarSys (void)
 		}
 	// End clean up
 	}
-	
-	if((LastActivity != IN_INTERPLANETARY && LOBYTE (NextActivity) != IN_INTERPLANETARY) && !optBubbleWarp)
-		StopMusic ();
-
 	// FreeIPData ();
 }
 

@@ -250,8 +250,8 @@ BuildGroups (void)
 		FleetPtr = LockFleetInfo (&GLOBAL (avail_race_q), hFleet);
 		hNextFleet = _GetSuccLink (FleetPtr);
 
-		if (((encounter_radius = FleetPtr->actual_strength)
-				&& (i = EncounterPercent[Index])))
+		if ((encounter_radius = FleetPtr->actual_strength)
+				&& (i = EncounterPercent[Index]))
 		{
 			SIZE dx, dy;
 			DWORD d_squared;
@@ -380,8 +380,8 @@ findRaceSOI(void) {
 		FleetPtr = LockFleetInfo(&GLOBAL(avail_race_q), hFleet);
 		hNextFleet = _GetSuccLink(FleetPtr);
 
-		if (((encounter_radius = FleetPtr->actual_strength)
-			&& (i = EncounterPercent[Index])))
+		if ((encounter_radius = FleetPtr->actual_strength)
+			&& (i = EncounterPercent[Index]))
 		{
 			SIZE dx, dy;
 			DWORD d_squared;
