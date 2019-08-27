@@ -1166,6 +1166,8 @@ PlayerResponseInput (ENCOUNTER_STATE *pES)
 			COORD y;
 
 			BatchGraphics ();
+			add_text(-2,
+				&pES->response_list[pES->cur_response].response_text);
 
 			pES->cur_response = response;
 
@@ -1174,12 +1176,13 @@ PlayerResponseInput (ENCOUNTER_STATE *pES)
 			if (response < pES->top_response)
 			{
 				pES->top_response = 0;
+				RefreshResponses(pES);
 			}
 			else if (y > SIS_SCREEN_HEIGHT)
 			{
 				pES->top_response = response;
+				RefreshResponses(pES);
 			}
-			RefreshResponses (pES);
 			UnbatchGraphics ();
 		}
 
@@ -1476,9 +1479,6 @@ InitCommunication (CONVERSATION which_comm)
 	LOCDATA *LocDataPtr;
 
 	IsProbe = FALSE;
-	
-	if(optBubbleWarp)
-		StopMusic(); // Stops the IP music upon contact with alien while Bubble Warp is active
 
 #ifdef DEBUG
 	if (disableInteractivity)

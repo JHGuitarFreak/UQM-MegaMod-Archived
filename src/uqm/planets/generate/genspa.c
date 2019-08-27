@@ -19,6 +19,7 @@
 #include "genall.h"
 #include "../lander.h"
 #include "../planets.h"
+#include "../scan.h"
 #include "../../build.h"
 #include "../../comm.h"
 #include "../../gamestr.h"
