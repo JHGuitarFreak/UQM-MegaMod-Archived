@@ -1,0 +1,216 @@
+#(=========== This is the PC intro script =========================)
+
+#( !!!WARNING!!! Do not mess with the timing of this script starting )
+#( from SYNC in Slide 1. The music is synchronized to the slides. If )
+#( you MUST change timing of a subtitle, make sure this change is    )
+#( balanced off by another subtitle within the same slide!           )
+
+#(Clear entire screen first; set size...)
+DIMS 320 240
+
+#(... and clear)
+CLS
+
+#(Set sequence dimensions; param1=width; param2=height)
+DIMS 320 200
+#(Everything is drawn within the clipping rect defined by DIMS, from 0, 0)
+
+#(Fade all to black; param1=fade time)
+FTB 0
+
+#(Set text fore color; 0xRRGGBB)
+TC FFFFFF
+#(Set text back color; 0xRRGGBB)
+TBC 000000
+#(Set text effect; Traced, None, others when added)
+TE TRACED
+
+#(Load font to use later)
+FONT1X 0 base/fonts/starcon.fon
+#(Load font to use later)
+FONT1X 1 base/fonts/slides.fon
+
+#(Load font to use later)
+FONT4X 0 addons/mm-hires4x/fonts/player.fon
+#(Load font to use later)
+FONT4X 1 addons/mm-hires4x/fonts/slides.fon
+
+#(************ Title Screen ******************************************)
+
+#(+++++++++++ Title 1 +++++++++++++++++++++++++++++++++)
+
+#(Set font to use)
+FONT 0
+
+#(Set ANIM to draw slides from)
+ANI1X base/cutscene/gameover/gameover.ani
+
+#(Set ANIM to draw slides from)
+ANI4X addons/mm-hires4x/cutscene/gameover/gameover.ani
+
+#(Set text fade in/out color; 0xRRGGBB)
+TFC 880000
+
+#(Set text vertical position; can be T=top, B=bottom, M=middle)
+TVA B
+
+#(Play music)
+MUSIC base/cutscene/gameover/deathmarch.ogg
+
+#(Draw slide; param1=ANI index)
+DRAW 2
+#(Fade-in a slide; param1=fade time)
+FTC 1500
+#(Wait)
+WAIT 2000
+#(Fade slide to black; param1=fade time)
+FTB 2000
+
+#(++++++++++++ Title 2 +++++++++++++++++++++++++++++++++++)
+
+
+#(Move sync point to current time index)
+RESYNC
+
+#(Draw slide; param1=ANI index)
+DRAW 1
+#(Fade-in a slide; param1=fade time)
+FTC 3000
+#(Synchronize)
+SYNC 3000
+#(Text fade-in)
+TFI The Kohr-Ah Primat stares at the ignition key,
+talons dangling mere inches from
+Earth's certain doom.
+#(Wait)
+WAIT 5000
+#(Text fade-out)
+TFO
+#(Draw slide; param1=ANI index)
+DRAW 1
+
+#(Wait)
+WAIT 500
+#(Text fade-in)
+TFI This would be it.
+
+The end of the crusade.
+#(Wait)
+WAIT 5000
+#(Text fade-out)
+TFO
+#(Draw slide; param1=ANI index)
+DRAW 1
+
+#(Wait)
+WAIT 500
+#(Text fade-in)
+TFI This wasn't just Earth's end, this wasn't
+just the end of the New Alliance.
+#(Wait)
+WAIT 5000
+#(Text fade-out)
+TFO
+#(Draw slide; param1=ANI index)
+DRAW 1
+
+#(Wait)
+WAIT 500
+#(Text fade-in)
+TFI The Kzer-Za could no longer intervene.
+The Captain could no longer stand against the might
+of the Kohr-Ah.
+#(Wait)
+WAIT 9000
+#(Text fade-out)
+TFO
+#(Draw slide; param1=ANI index)
+DRAW 1
+
+#(Wait)
+WAIT 500
+#(Text fade-in)
+TFI But it would be the end of the Eternal Doctrine.
+After cleansing this world, the Doctrine's purpose
+would be fulfilled... At least for another millennia.
+#(Wait)
+WAIT 9000
+#(Text fade-out)
+TFO
+#(Draw slide; param1=ANI index)
+DRAW 1
+
+#(Wait)
+WAIT 200
+#(Text fade-in)
+TFI When the new sentient resistance would emerge from
+their scattered worlds, she hoped that her progeny
+would take up the mantle.
+#(Wait)
+WAIT 9000
+#(Text fade-out)
+TFO
+#(Draw slide; param1=ANI index)
+DRAW 1
+
+#(Wait)
+WAIT 200
+#(Text fade-in)
+TFI Eliminating future threats to the
+freedom of the Ur-Quan.
+#(Wait)
+WAIT 5000
+#(Text fade-out)
+TFO
+#(Draw slide; param1=ANI index)
+DRAW 1
+
+#(Wait)
+WAIT 200
+#(Text fade-in)
+TFI They would not understand.
+
+This has to be done.
+#(Wait)
+WAIT 5000
+#(Text fade-out)
+TFO
+#(Draw slide; param1=ANI index)
+DRAW 1
+#(Fade slide to black; param1=fade time)
+FTB 2000
+
+#(Set text vertical position; can be T=top, B=bottom, M=middle)
+TVA M
+#(Set font to use)
+FONT 1
+#(Set text fade in/out color; 0xRRGGBB)
+TFC 000000
+
+#(Draw slide; param1=ANI index)
+DRAW 2
+#(Fade-in a slide; param1=fade time)
+FTC 1500
+#(Text fade-in)
+TFI Forever.
+#(Wait)
+WAIT 5000
+#(Text fade-out)
+TFO
+#(Draw slide; param1=ANI index)
+DRAW 2
+#(Fade slide to black; param1=fade time)
+FTB 2000
+
+
+#(Draw slide; param1=ANI index)
+DRAW 0
+#(Fade-in a slide; param1=fade time)
+FTC 3000
+#(Wait)
+WAIT 5000
+
+#(Fade slide to black; param1=fade time)
+FTB 5000
+
+#(***************************** The End ********************************)

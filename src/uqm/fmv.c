@@ -133,7 +133,23 @@ Victory (void)
 		
 	FadeScreen (FadeAllToBlack, 0);
 }
- 
+
+void
+DeathMarch (void)
+{
+	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 2));
+	ShowPresentation (DEATHMARCHPRES_STRTAB);
+	FadeScreen (FadeAllToBlack, 0);
+}
+
+void
+PrematureBomb(void)
+{
+	SleepThreadUntil(FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
+	ShowPresentation(PREMATUREBOMBPRES_STRTAB);
+	FadeScreen(FadeAllToBlack, 0);
+}
+
 void
 Logo (void)
 {	

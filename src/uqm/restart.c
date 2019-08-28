@@ -397,6 +397,9 @@ RestartMenu (MENU_STATE *pMS)
 		FlushColorXForms ();
 
 		TimeOut = ONE_SECOND / 8;
+
+		GLOBAL(CurrentActivity) = IN_ENCOUNTER;
+		PrematureBomb();
 	}
 	else
 	{
