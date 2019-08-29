@@ -143,11 +143,19 @@ DeathMarch (void)
 }
 
 void
-PrematureBomb(void)
+PrematureBomb (void)
 {
-	SleepThreadUntil(FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
-	ShowPresentation(PREMATUREBOMBPRES_STRTAB);
-	FadeScreen(FadeAllToBlack, 0);
+	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 2));
+	ShowPresentation (PREMATUREBOMBPRES_STRTAB);
+	FadeScreen (FadeAllToBlack, 0);
+}
+
+void
+Defeated (void)
+{
+	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 2));
+	ShowPresentation (DEFEATEDPRES_STRTAB);
+	FadeScreen (FadeAllToBlack, 0);
 }
 
 void
