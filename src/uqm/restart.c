@@ -400,8 +400,23 @@ RestartMenu (MENU_STATE *pMS)
 
 		GLOBAL(CurrentActivity) = IN_ENCOUNTER;
 		PrematureBomb();
-	}
-	else
+
+		FreeGameData();
+
+		GLOBAL(CurrentActivity) = CHECK_ABORT;
+	} 
+	else if (GLOBAL_SIS(CrewEnlisted) == (COUNT)~0) 
+	{
+		TimeOut = ONE_SECOND / 2;
+
+		GLOBAL(CurrentActivity) = IN_ENCOUNTER;
+		Defeated();
+
+		FreeGameData();
+
+		GLOBAL(CurrentActivity) = CHECK_ABORT;
+	} 
+	else 
 	{
 		TimeOut = ONE_SECOND / 2;
 

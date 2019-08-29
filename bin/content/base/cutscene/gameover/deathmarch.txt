@@ -130,9 +130,9 @@ DRAW 1
 #(Wait)
 WAIT 500
 #(Text fade-in)
-TFI But it would be the end of the Eternal Doctrine.
-After cleansing this world, the Doctrine's purpose
-would be fulfilled... At least for another millennia.
+TFI But it would be the end of the Doctrinal War.
+After cleansing this filth, the Doctrine's purpose
+will be fulfilled... At least for another millennia.
 #(Wait)
 WAIT 9000
 #(Text fade-out)
