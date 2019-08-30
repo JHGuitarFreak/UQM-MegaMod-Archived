@@ -1,0 +1,76 @@
+#(=========== This is the PC intro script =========================)
+
+#( !!!WARNING!!! Do not mess with the timing of this script starting )
+#( from SYNC in Slide 1. The music is synchronized to the slides. If )
+#( you MUST change timing of a subtitle, make sure this change is    )
+#( balanced off by another subtitle within the same slide!           )
+
+#(Clear entire screen first; set size...)
+DIMS 320 240
+
+#(... and clear)
+CLS
+
+#(Set sequence dimensions; param1=width; param2=height)
+DIMS 320 200
+#(Everything is drawn within the clipping rect defined by DIMS, from 0, 0)
+
+#(Fade all to black; param1=fade time)
+FTB 0
+
+#(Set text fore color; 0xRRGGBB)
+TC FFFFFF
+#(Set text back color; 0xRRGGBB)
+TBC 000000
+#(Set text effect; Traced, None, others when added)
+TE TRACED
+
+#(Load font to use later)
+FONT1X 0 base/fonts/starcon.fon
+#(Load font to use later)
+FONT1X 1 base/fonts/slides.fon
+
+#(Load font to use later)
+FONT4X 0 addons/mm-hires4x/fonts/player.fon
+#(Load font to use later)
+FONT4X 1 addons/mm-hires4x/fonts/slides.fon
+
+#(************ Title Screen ******************************************)
+
+#(+++++++++++ Title 1 +++++++++++++++++++++++++++++++++)
+
+#(Set font to use)
+FONT 0
+
+#(Set ANIM to draw slides from)
+ANI1X base/cutscene/gameover/gameover.ani
+
+#(Set ANIM to draw slides from)
+ANI4X addons/mm-hires4x/cutscene/gameover/gameover.ani
+
+#(Set text fade in/out color; 0xRRGGBB)
+TFC 880000
+
+#(Set text vertical position; can be T=top, B=bottom, M=middle)
+TVA B
+
+#(Play music)
+MUSIC base/ships/urquan/dreadnought.mod
+
+#(Draw slide; param1=ANI index)
+DRAW 0
+#(Fade-in a slide; param1=fade time)
+FTC 2500
+#(Text fade-in)
+TFI I guess that's one way to quit the game.
+#(Wait)
+WAIT 2500
+#(Text fade-out)
+TFO
+#(Draw slide; param1=ANI index)
+DRAW 0
+
+#(Fade slide to black; param1=fade time)
+FTB 2500
+
+#(***************************** The End ********************************)

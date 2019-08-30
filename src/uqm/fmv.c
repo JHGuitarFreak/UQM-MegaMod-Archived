@@ -135,27 +135,28 @@ Victory (void)
 }
 
 void
-DeathMarch (void)
+GameOver (BYTE DeathType) 
 {
-	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 2));
-	ShowPresentation (DEATHMARCHPRES_STRTAB);
-	FadeScreen (FadeAllToBlack, 0);
-}
+	if(DeathType != SUICIDE)
+		SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 2));
 
-void
-PrematureBomb (void)
-{
-	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 2));
-	ShowPresentation (PREMATUREBOMBPRES_STRTAB);
-	FadeScreen (FadeAllToBlack, 0);
-}
-
-void
-Defeated (void)
-{
-	SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 2));
-	ShowPresentation (DEFEATEDPRES_STRTAB);
-	FadeScreen (FadeAllToBlack, 0);
+	switch (DeathType) {
+		case DEATH_MARCH:
+			ShowPresentation (DEATHMARCHPRES_STRTAB);
+			break;
+		case SUICIDE:
+			SleepThreadUntil (FadeScreen (FadeAllToWhite, ONE_SECOND / 2));
+			ShowPresentation (SUICIDEPRES_STRTAB);
+			break;
+		case SURRENDERED:
+			ShowPresentation (SURRENDEREDPRES_STRTAB);
+			break;
+		case DIED_IN_BATTLE:
+		default:
+			ShowPresentation (DEFEATEDPRES_STRTAB);
+			break;
+	}
+	FadeScreen(FadeAllToBlack, 0);
 }
 
 void

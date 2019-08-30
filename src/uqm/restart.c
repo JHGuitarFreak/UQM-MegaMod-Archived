@@ -382,12 +382,16 @@ RestartMenu (MENU_STATE *pMS)
 
 	SetContext (ScreenContext);
 
+	printf("Last Activity: %d\n", LOBYTE(LastActivity));
+
 	GLOBAL (CurrentActivity) |= CHECK_ABORT;
 	if (GLOBAL_SIS (CrewEnlisted) == (COUNT)~0
 			&& GET_GAME_STATE (UTWIG_BOMB_ON_SHIP)
-			&& !GET_GAME_STATE (UTWIG_BOMB))
+			&& !GET_GAME_STATE (UTWIG_BOMB)
+			&& DeathBySuicide)
 	{	// player blew himself up with Utwig bomb
 		SET_GAME_STATE (UTWIG_BOMB_ON_SHIP, 0);
+		DeathBySuicide = FALSE;
 
 		SleepThreadUntil (FadeScreen (FadeAllToWhite, ONE_SECOND / 8)
 				+ ONE_SECOND / 60);
@@ -399,26 +403,34 @@ RestartMenu (MENU_STATE *pMS)
 		TimeOut = ONE_SECOND / 8;
 
 		GLOBAL(CurrentActivity) = IN_ENCOUNTER;
-		PrematureBomb();
+		GameOver(SUICIDE);
 
 		FreeGameData();
 
 		GLOBAL(CurrentActivity) = CHECK_ABORT;
-	} 
-	else if (GLOBAL_SIS(CrewEnlisted) == (COUNT)~0) 
-	{
-		TimeOut = ONE_SECOND / 2;
-
-		GLOBAL(CurrentActivity) = IN_ENCOUNTER;
-		Defeated();
-
-		FreeGameData();
-
-		GLOBAL(CurrentActivity) = CHECK_ABORT;
-	} 
+	}
 	else 
 	{
 		TimeOut = ONE_SECOND / 2;
+
+		if (GLOBAL_SIS(CrewEnlisted) == (COUNT)~0) 
+		{
+			GLOBAL(CurrentActivity) = IN_ENCOUNTER;
+
+			if (DeathByMelee && GLOBAL_SIS(CrewEnlisted) == (COUNT)~0) {
+				GameOver(DIED_IN_BATTLE);
+				DeathByMelee = FALSE;
+			}
+
+			if (DeathBySurrender && GLOBAL_SIS(CrewEnlisted) == (COUNT)~0) {
+				GameOver(SURRENDERED);
+				DeathBySurrender = FALSE;
+			}			
+
+			FreeGameData();
+
+			GLOBAL(CurrentActivity) = CHECK_ABORT;
+		}
 
 		if (LOBYTE (LastActivity) == WON_LAST_BATTLE)
 		{

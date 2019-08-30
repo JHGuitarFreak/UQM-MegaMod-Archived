@@ -372,6 +372,7 @@ InvokeDevice (BYTE which_device)
 			SET_GAME_STATE (UTWIG_BOMB, 0);
 			GLOBAL (CurrentActivity) &= ~IN_BATTLE;
 			GLOBAL_SIS (CrewEnlisted) = (COUNT)~0;
+			DeathBySuicide = TRUE;
 			return DEVICE_SUCCESS;
 		case ULTRON_0_DEVICE:
 			break;
