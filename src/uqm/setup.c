@@ -82,6 +82,9 @@ BYTE Rando;
 BOOLEAN HDPackPresent;
 BOOLEAN VolasPackPresent;
 FONT MeleeFont;
+BOOLEAN DeathBySurrender = FALSE;
+BOOLEAN DeathByMelee = FALSE;
+BOOLEAN DeathBySuicide = FALSE;
 
 uio_Repository *repository;
 uio_DirHandle *rootDir;

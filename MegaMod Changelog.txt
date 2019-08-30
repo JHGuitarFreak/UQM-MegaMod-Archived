@@ -35,7 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - A new mode called "Extended Lore" to expand more upon the lore of UQM
 - New mineral helpers for Easy and Hard mode
 - Fuel Range point of no return is disabled until you get access to the Starbase
-- Added game over "cutscenes" for the Death March, activating the Utwig Bomb, and dying in battle/surrendering to the Ur-Quan
+- Added game over "cutscenes" for the Death March, activating the Utwig Bomb, dying in battle, and surrendering to the Ur-Quan
 
 # EXTENDED LORE
 - No longer possible to encounter random Ur-Quan ships in the Zoq-Fot-Pik home system, like their dialogs say (Bugzilla Bug #759)

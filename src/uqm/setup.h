@@ -72,6 +72,14 @@ extern BOOLEAN comingFromInit;
 extern BOOLEAN EndlessSCLoaded;
 extern BOOLEAN VolasPackPresent;
 extern BYTE Rando;
+extern BOOLEAN DeathBySurrender;
+extern BOOLEAN DeathByMelee;
+extern BOOLEAN DeathBySuicide;
+
+#define DEATH_MARCH 0
+#define DIED_IN_BATTLE 1
+#define SUICIDE 2
+#define SURRENDERED 3
 
 extern ACTIVITY LastActivity;
 

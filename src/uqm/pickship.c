@@ -345,6 +345,7 @@ GetEncounterStarShip (STARSHIP *LastStarShipPtr, COUNT which_player)
 				if (LastStarShipPtr->crew_level == 0)
 				{	// Died in the line of duty
 					GLOBAL_SIS (CrewEnlisted) = (COUNT)~0;
+					DeathByMelee = TRUE;
 				}
 				else
 				{	// Player ran away

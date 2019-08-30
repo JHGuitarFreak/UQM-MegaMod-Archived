@@ -371,11 +371,13 @@ while (--ac > 0)
 			{
 				if (GET_GAME_STATE(KOHR_AH_KILLED_ALL)) {
 					InitCommunication(BLACKURQ_CONVERSATION);
-					DeathMarch();
+					GameOver(DEATH_MARCH);
 				}
-						// surrendered to Ur-Quan
-				else if (GLOBAL (CurrentActivity) & CHECK_RESTART)
+				else if (GLOBAL (CurrentActivity) & CHECK_RESTART){
+					// surrendered to Ur-Quan
+					DeathBySurrender = TRUE;
 					GLOBAL (CurrentActivity) &= ~CHECK_RESTART;
+				}
 				break;
 			}
 		} while (!(GLOBAL (CurrentActivity) & CHECK_ABORT));
