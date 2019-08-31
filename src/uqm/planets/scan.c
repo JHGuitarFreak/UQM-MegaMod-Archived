@@ -1363,7 +1363,7 @@ generateBioNode (SOLARSYS_STATE *system, ELEMENT *NodeElementPtr,
 
 	if (DIF_HARD) {
 		CreatureData[EVIL_ONE].Attributes = BEHAVIOR_HUNT | AWARENESS_HIGH | SPEED_SLOW | DANGER_MONSTROUS;
-		CreatureData[EVIL_ONE].ValueAndHitPoints = MAKE_BYTE(5, 8);
+		CreatureData[EVIL_ONE].ValueAndHitPoints = MAKE_BYTE(5, 5);
 		// CreatureData[ZEX_BEAUTY].Attributes = BEHAVIOR_HUNT | AWARENESS_HIGH | SPEED_FAST | DANGER_MONSTROUS;
 		// CreatureData[ZEX_BEAUTY].ValueAndHitPoints = MAKE_BYTE(15, 30);
 	} else if (DIF_EASY){
