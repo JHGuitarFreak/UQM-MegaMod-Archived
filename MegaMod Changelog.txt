@@ -72,7 +72,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Randomize Quasi Portal exits based on seed
 - Reduced viability of the Druuge/Melnorme fuel exploit
 - If player kills Tanaka they do not get a second chance with Katana
-- No star search
 - Portal Spawner costs 20 whole units of fuel
 - Selling more than 10 crew to the Druuge guarantees a price hike in crew cost and the immediate disapproval of the Commander
 - Can only build two of any ship
