@@ -1589,7 +1589,7 @@ DoMoveCursor (MENU_STATE *pMS)
 	}
 	else if (PulsedInputState.menu[KEY_MENU_SEARCH])
 	{
-		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1 && !DIF_HARD) {	
+		if (GET_GAME_STATE (ARILOU_SPACE_SIDE) <= 1) {	
 			// HyperSpace search
 			POINT oldpt = cursorLoc;
 
