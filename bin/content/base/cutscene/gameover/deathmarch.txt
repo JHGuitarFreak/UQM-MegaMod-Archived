@@ -143,8 +143,8 @@ DRAW 1
 #(Wait)
 WAIT 200
 #(Text fade-in)
-TFI When the new sentient resistance would emerge from
-their scattered worlds, she hoped that her progeny
+TFI When new sentience emerges from worlds
+unknown, she hoped that her progeny
 would take up the mantle.
 #(Wait)
 WAIT 9000
