@@ -629,6 +629,7 @@ void
 forAllStars (void (*callback) (STAR_DESC *, void *), void *arg)
 {
 	int i;
+	extern STAR_DESC starmap_array[];
 
 	for (i = 0; i < NUM_SOLAR_SYSTEMS; i++)
 		callback (&starmap_array[i], arg);

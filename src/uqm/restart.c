@@ -559,6 +559,7 @@ StartGame (void)
 	} while (GLOBAL (CurrentActivity) & CHECK_ABORT);
 
 	{
+		extern STAR_DESC starmap_array[];
 		extern const BYTE element_array[];
 		extern const PlanetFrame planet_array[];
 
