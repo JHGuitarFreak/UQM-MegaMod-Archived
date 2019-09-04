@@ -28,13 +28,13 @@ MUSIC base/cutscene/ending/victoryf.mod
 FONT1X 0 base/fonts/slides.fon
 
 #(Set font to use)
-FONT4X 0 addons/mm-hires4x/fonts/slides.fon
+FONT4X 0 addons/mm-hd/fonts/slides.fon
 
 #(Set ANIM to draw animation frames from)
 ANI1X base/cutscene/ending/ending.ani
 
 #(Set ANIM to draw animation frames from)
-ANI4X addons/mm-hires4x/cutscene/ending/ending.ani
+ANI4X addons/mm-hd/cutscene/ending/ending.ani
 
 #(Set text vertical position; can be T=top, B=bottom, M=middle)
 TVA T

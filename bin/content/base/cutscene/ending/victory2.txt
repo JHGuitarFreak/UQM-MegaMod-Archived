@@ -9,7 +9,7 @@ DIMS 320 200
 ANI1X base/cutscene/ending/victory2.ani
 
 #(Set ANIM to draw animation frames from)
-ANI4X addons/mm-hires4x/cutscene/ending/victory2.ani
+ANI4X addons/mm-hd/cutscene/ending/victory2.ani
 
 #(Play music)
 MUSIC base/cutscene/ending/victory2.mod

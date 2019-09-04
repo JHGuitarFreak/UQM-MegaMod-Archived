@@ -2296,7 +2296,7 @@ Solutions:
  
 
 
-#(hires4x_pack_not_found))
+#(hd_pack_not_found))
 Hmm...
 You were trying to run the game in HD mode, 
 but the game couldn't find the 'HD' addon 

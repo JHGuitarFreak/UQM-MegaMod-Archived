@@ -7,7 +7,7 @@ TBC 000000
 #(Load movie)
 ANI1X base/cutscene/spins/ship05.ani
 #(Load movie)
-ANI4X addons/mm-hires4x/cutscene/spins/ship05.ani
+ANI4X addons/mm-hd/cutscene/spins/ship05.ani
 
 #(Take up entire screen)
 DIMS 320 240

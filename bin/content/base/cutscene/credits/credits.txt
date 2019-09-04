@@ -23,7 +23,7 @@
 #(===                                                  ===)
 
 FONT1X 0 base/fonts/starcon.fon
-FONT4X 0 addons/mm-hires4x/fonts/starcon.fon
+FONT4X 0 addons/mm-hd/fonts/starcon.fon
 #(Port caption)
 13 C
 The Ur-Quan Masters MegaMod

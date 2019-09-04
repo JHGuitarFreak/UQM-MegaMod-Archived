@@ -113,6 +113,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - SETUP MENU: Added option to enable/disable fuel range point of no return
 - Sol doesn't have a nebula when the option is enabled
 - Druuge's HD convo image changed to the Alpha version of HD-Mod's as it's more faithful to the original lighting and design
+- Refactor all the addons to use more simple "SD - HD" language
 
 ### Fixed
 - Fix orbit line bug in HD for macOS and Android

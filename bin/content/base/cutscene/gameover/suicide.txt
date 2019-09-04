@@ -36,9 +36,9 @@ FONT1X 0 base/fonts/starcon.fon
 FONT1X 1 base/fonts/slides.fon
 
 #(Load font to use later)
-FONT4X 0 addons/mm-hires4x/fonts/player.fon
+FONT4X 0 addons/mm-hd/fonts/player.fon
 #(Load font to use later)
-FONT4X 1 addons/mm-hires4x/fonts/slides.fon
+FONT4X 1 addons/mm-hd/fonts/slides.fon
 
 #(************ Title Screen ******************************************)
 
@@ -51,7 +51,7 @@ FONT 0
 ANI1X base/cutscene/gameover/gameover.ani
 
 #(Set ANIM to draw slides from)
-ANI4X addons/mm-hires4x/cutscene/gameover/gameover.ani
+ANI4X addons/mm-hd/cutscene/gameover/gameover.ani
 
 #(Set text fade in/out color; 0xRRGGBB)
 TFC 880000
