@@ -193,7 +193,7 @@ log_addV (log_Level level, const char *fmt, va_list list) {
 	if ((int)level <= maxStreamLevel) {
 		fprintf (streamOut, "%s\n", full_msg);
 #if defined(ANDROID) || defined(__ANDROID__)
-		__android_log_print(ANDROID_LOG_INFO, "Ur-Quan Masters", "%s", full_msg);
+		__android_log_print(ANDROID_LOG_INFO, "Ur-Quan Masters MegaMod", "%s", full_msg);
 #endif
 	}
 
@@ -229,7 +229,7 @@ log_add_nothreadV (log_Level level, const char *fmt, va_list list) {
 	if ((int)level <= maxStreamLevel) {
 		fprintf (streamOut, "%s\n", full_msg);
 #if defined(ANDROID) || defined(__ANDROID__)
-		__android_log_print(ANDROID_LOG_INFO, "Ur-Quan Masters", "%s", full_msg);
+		__android_log_print(ANDROID_LOG_INFO, "Ur-Quan Masters MegaMod", "%s", full_msg);
 #endif
 	}
 
