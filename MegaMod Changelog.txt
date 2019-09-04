@@ -100,6 +100,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Give player two extra jets and thrusters so as to not be completely outmatched in speed
 - Make Probes spawn at a reasonable rate so as to not annoy the player
 - When allied, Spathi ships can join your fleet when asked for a max of 3 ships in your fleet.
+- Player starts with 20 more units of fuel
 
 ### Changed
 - New icon
