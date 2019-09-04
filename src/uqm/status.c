@@ -146,9 +146,9 @@ DrawBattleCrewAmount (SHIP_INFO *ShipInfoPtr, COORD y_offs)
 	t.pStr = buf;
 	t.CharCount = (COUNT)~0;
 
-	r.corner.x = t.baseline.x;
-	r.corner.y = t.baseline.y - RES_SCALE(5); // JMS_GFX
-	r.extent.width = 6 * MAX_CREW_DIGITS + RES_SCALE(6); // JMS_GFX
+	r.corner.x = t.baseline.x - IF_HD(1);
+	r.corner.y = t.baseline.y - RES_STAT_SCALE(5); // JMS_GFX
+	r.extent.width = 6 * MAX_CREW_DIGITS + RES_SCALE(6) + IF_HD(2); // JMS_GFX
 	r.extent.height = RES_SCALE(5); // JMS_GFX
 
 	sprintf (buf, "%u", ShipInfoPtr->crew_level);

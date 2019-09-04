@@ -36,6 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - New mineral helpers for Easy and Hard mode
 - Fuel Range point of no return is disabled until you get access to the Starbase
 - Added game over "cutscenes" for the Death March, activating the Utwig Bomb, dying in battle, and surrendering to the Ur-Quan
+- Added back in autoload support for Orange Peel Melnorme
 
 # EXTENDED LORE
 - No longer possible to encounter random Ur-Quan ships in the Zoq-Fot-Pik home system, like their dialogs say (Bugzilla Bug #759)
@@ -119,3 +120,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Androsynth captain activating the special weapon is consistent with SC1 (Bugzilla Bug #444)
 - Fixed possible memory leak introduced with the Bubble Warp cheat dealing with interplanetary music not being released properly
 - Removed extraneous Umgah dialogue from the credits sequence
+- Fixed crew text updating properly during melee in HD
+
+
+## [v0.8.0.82]
+
+### Added
+-Massive graphics overhaul
+-Race specific ambient space music when inside a race's sphere of influence (Composed by Volasaurus)
+-Quasiportal exits now randomized with the custom seed system
+-Quasiportals stay "unknown" when custom seeds are enabled
+-Increment Fuel/Crew by min/max using the End/Home keys
+-Addon support for Volasaurus' Remix Pack
+-Added alternate music support for Zex, Ur-Quan Probe, Chmmr Pre/Post Process, Sa-Matra battle, 
+-Tumbling Slylandro Probe animation in solar system view
+-Added ability to scale non-textured planets
+
+### Fixed
+-Draw custom border over star search box 
+-Make intersect point for planets in HD "under the skin" (larger than a pixel, smaller than the planet image)
+-Fix Spathi ships being removed from fleet during their slave shield event
+-Head Start cheat properly fixed so one only has to go to the Starbase (you better hope to god no Slylandro spawn in)
+-Fixed mineral cargo fill-up in HD
+-Realign the cargo and device display for HD
+-Fix graphical bug in the custom border UI when choosing 3DO fonts
+
+### Removed
+-Removed the alternate Thraddash storyline
+-Autoload support for the alt-Kohr-Ah Ship design
+-Autoload support for the Orange Peel Melnorme
