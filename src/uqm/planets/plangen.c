@@ -1726,23 +1726,23 @@ GeneratePlanetSurface (PLANET_DESC *pPlanetDesc, FRAME SurfDefFrame, COUNT Width
 	PLANET_INFO *PlanetInfo = &pSolarSysState->SysInfo.PlanetInfo;
 	DWORD i, y; 
 	POINT loc;
-	COUNT SphereSpanX, Radius;
+	COUNT SphereSpanX, Radius, HeightPOI = Height;
 	CONTEXT OldContext, TopoContext;
 	PLANET_ORBIT *Orbit = &pSolarSysState->Orbit;
 	BOOLEAN SurfDef = FALSE;
 	BOOLEAN shielded = (pPlanetDesc->data_index & PLANET_SHIELDED) != 0;
 	SDWORD PlanetRotation = (CurStarDescPtr->Index == SOL_DEFINED ? -1 : 1 - 2 * (PlanetInfo->AxialTilt & 1));
-		
+
 	SphereSpanX = (inOrbit ? SPHERE_SPAN_X : Height);
-	Radius = (inOrbit ? RADIUS : ((SphereSpanX >> 1) - RESOLUTION_FACTOR)) ;
+	Radius = (inOrbit ? RADIUS : ((SphereSpanX >> 1) - RESOLUTION_FACTOR));
 
 	RandomContext_SeedRandom (SysGenRNG, pPlanetDesc->rand_seed);
 
 	TopoContext = CreateContext ("Plangen.TopoContext");
 	OldContext = SetContext (TopoContext);
 
-	Height += inOrbit && IS_HD ? 1 : 0;
-	PlanetOrbitInit (Width, Height, inOrbit);
+	HeightPOI += inOrbit && IS_HD ? 1 : 0;
+	PlanetOrbitInit(Width, HeightPOI, inOrbit);
 
 	PlanDataPtr = &PlanData[pPlanetDesc->data_index & ~PLANET_SHIELDED];
 
