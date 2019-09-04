@@ -30,7 +30,7 @@ log_displayBox (const /*UTF-8*/char *title, int isError,
 	fprintf (streamOut, "Do not know how to display %s box\n",
 			isError ? "an error" : "a");
 #if defined(ANDROID) || defined(__ANDROID__)
-	__android_log_print( isError ? ANDROID_LOG_FATAL : ANDROID_LOG_INFO, "Ur-Quan Masters", "%s: %s", title, msg );
+	__android_log_print( isError ? ANDROID_LOG_FATAL : ANDROID_LOG_INFO, "Ur-Quan Masters MegaMod", "%s: %s", title, msg );
 #endif
 	
 	// Suppress the compiler warnings in any case.
