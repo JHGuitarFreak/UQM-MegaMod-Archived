@@ -121,6 +121,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Fixed possible memory leak introduced with the Bubble Warp cheat dealing with interplanetary music not being released properly
 - Removed extraneous Umgah dialogue from the credits sequence
 - Fixed crew text updating properly during melee in HD
+- Planet spin speed in orbit view for HD
+- Fixed edges of Ur-Quan comm screen for HD
 
 
 ## [v0.8.0.82]
