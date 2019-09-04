@@ -493,6 +493,7 @@ InitGameStructures (void)
 			GLOBAL_SIS(DriveSlots[4]) = FUSION_THRUSTER;
 		GLOBAL_SIS(JetSlots[2]) =
 			GLOBAL_SIS(JetSlots[5]) = TURNING_JETS;
+		GLOBAL_SIS(FuelOnBoard) += 20 * FUEL_TANK_SCALE;
 	}
  
 	if (optHeadStart){
