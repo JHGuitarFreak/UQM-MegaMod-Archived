@@ -382,8 +382,6 @@ RestartMenu (MENU_STATE *pMS)
 
 	SetContext (ScreenContext);
 
-	printf("Last Activity: %d\n", LOBYTE(LastActivity));
-
 	GLOBAL (CurrentActivity) |= CHECK_ABORT;
 	if (GLOBAL_SIS (CrewEnlisted) == (COUNT)~0
 			&& GET_GAME_STATE (UTWIG_BOMB_ON_SHIP)
@@ -391,22 +389,22 @@ RestartMenu (MENU_STATE *pMS)
 			&& DeathBySuicide)
 	{	// player blew himself up with Utwig bomb
 		SET_GAME_STATE (UTWIG_BOMB_ON_SHIP, 0);
-		DeathBySuicide = FALSE;
 
 		SleepThreadUntil (FadeScreen (FadeAllToWhite, ONE_SECOND / 8)
 				+ ONE_SECOND / 60);
 		SetContextBackGroundColor (
 				BUILD_COLOR (MAKE_RGB15 (0x1F, 0x1F, 0x1F), 0x0F));
+
 		ClearDrawable ();
 		FlushColorXForms ();
-
 		TimeOut = ONE_SECOND / 8;
 
 		GLOBAL(CurrentActivity) = IN_ENCOUNTER;
+
 		GameOver(SUICIDE);
+		DeathBySuicide = FALSE;
 
 		FreeGameData();
-
 		GLOBAL(CurrentActivity) = CHECK_ABORT;
 	}
 	else 
@@ -425,11 +423,7 @@ RestartMenu (MENU_STATE *pMS)
 			if (DeathBySurrender && GLOBAL_SIS(CrewEnlisted) == (COUNT)~0) {
 				GameOver(SURRENDERED);
 				DeathBySurrender = FALSE;
-			}			
-
-			FreeGameData();
-
-			GLOBAL(CurrentActivity) = CHECK_ABORT;
+			}
 		}
 
 		if (LOBYTE (LastActivity) == WON_LAST_BATTLE)
@@ -437,11 +431,10 @@ RestartMenu (MENU_STATE *pMS)
 			GLOBAL (CurrentActivity) = WON_LAST_BATTLE;
 			Victory ();
 			Credits (TRUE);
-
-			FreeGameData ();
-			
-			GLOBAL (CurrentActivity) = CHECK_ABORT;
 		}
+
+		FreeGameData();
+		GLOBAL(CurrentActivity) = CHECK_ABORT;
 	}
 
 	LastActivity = 0;
