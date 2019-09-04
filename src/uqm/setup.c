@@ -135,27 +135,27 @@ LoadKernel (int argc, char *argv[], BOOLEAN ReloadPackages)
 		return FALSE; // Must have at least one index in content dir
 
 	if (!IS_HD) {
-		if (loadAddon("EndlessSC-1x")) {
+		if (loadAddon("EndlessSC-SD")) {
 			EndlessSCLoaded = TRUE;
 			printf("Loading Endless SC \n");
-			log_add(log_Debug, "loading EndlessSC-1x");
+			log_add(log_Debug, "loading EndlessSC-SD");
 		}
-		if (loadAddon("sol-textures-1x")) {
+		if (loadAddon("sol-textures-sd")) {
 			solTexturesPresent = TRUE;
 			printf("Loading Sol Textures \n");
-			log_add(log_Debug, "loading sol-textures-1x");
+			log_add(log_Debug, "loading sol-textures-sd");
 		}
-		loadAddon("yellow-fried-1x");
-	} else if (loadAddon("mm-hires4x")) {
+		loadAddon("yellow-fried-sd");
+	} else if (loadAddon("mm-hd")) {
 		HDPackPresent = TRUE;
-		log_add(log_Debug, "loading addon hires4x");
-		if (loadAddon("sol-textures-4x")) {
+		log_add(log_Debug, "loading addon HD pack");
+		if (loadAddon("sol-textures-hd")) {
 			solTexturesPresent = TRUE;
 			printf("Loading Sol Textures \n");
-			log_add(log_Debug, "loading sol-textures-4x");
+			log_add(log_Debug, "loading sol-textures-hd");
 		}
-		loadAddon("yellow-fried-4x");
-		loadAddon("orange-peel-melnorme4x");
+		loadAddon("yellow-fried-hd");
+		loadAddon("orange-peel-melnorme");
 	}
 
 	usingSpeech = optSpeech;
