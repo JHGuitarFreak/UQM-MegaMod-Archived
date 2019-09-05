@@ -1620,69 +1620,69 @@ GetGlobalOptions (GLOBALOPTS *opts)
 	// Serosis: 320x240
 	if (!IS_HD) {
 		switch (ScreenWidthActual) {
-		case 320:
-			if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE) {
+			case 320:
+				if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE) {
+					opts->screenResolution = OPTVAL_320_240;
+				}
+				else {
+					opts->screenResolution = OPTVAL_320_240;
+					opts->driver = OPTVAL_ALWAYS_GL;
+				}
+				break;
+			case 640:
+				if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE) {
+					opts->screenResolution = OPTVAL_320_240;
+					opts->loresBlowup = OPTVAL_SCALE_640_480;
+				}
+				else {
+					opts->screenResolution = OPTVAL_320_240;
+					opts->loresBlowup = OPTVAL_SCALE_640_480;
+					opts->driver = OPTVAL_ALWAYS_GL;
+				}
+				break;
+			case 960:
 				opts->screenResolution = OPTVAL_320_240;
-			}
-			else {
+				opts->loresBlowup = OPTVAL_SCALE_960_720;
+				break;
+			case 1280:
 				opts->screenResolution = OPTVAL_320_240;
-				opts->driver = OPTVAL_ALWAYS_GL;
-			}
-			break;
-		case 640:
-			if (GraphicsDriver == TFB_GFXDRIVER_SDL_PURE) {
+				opts->loresBlowup = OPTVAL_SCALE_1280_960;
+				break;
+			case 1600:
 				opts->screenResolution = OPTVAL_320_240;
-				opts->loresBlowup = OPTVAL_SCALE_640_480;
-			}
-			else {
+				opts->loresBlowup = OPTVAL_SCALE_1600_1200;
+				break;
+			case 1920:
 				opts->screenResolution = OPTVAL_320_240;
-				opts->loresBlowup = OPTVAL_SCALE_640_480;
-				opts->driver = OPTVAL_ALWAYS_GL;
-			}
-			break;
-		case 960:
-			opts->screenResolution = OPTVAL_320_240;
-			opts->loresBlowup = OPTVAL_SCALE_960_720;
-			break;
-		case 1280:
-			opts->screenResolution = OPTVAL_320_240;
-			opts->loresBlowup = OPTVAL_SCALE_1280_960;
-			break;
-		case 1600:
-			opts->screenResolution = OPTVAL_320_240;
-			opts->loresBlowup = OPTVAL_SCALE_1600_1200;
-			break;
-		case 1920:
-			opts->screenResolution = OPTVAL_320_240;
-			opts->loresBlowup = OPTVAL_SCALE_1920_1440;
-			break;
-		default:
-			opts->screenResolution = OPTVAL_320_240;
-			opts->loresBlowup = NO_BLOWUP;
-			break;
+				opts->loresBlowup = OPTVAL_SCALE_1920_1440;
+				break;
+			default:
+				opts->screenResolution = OPTVAL_320_240;
+				opts->loresBlowup = NO_BLOWUP;
+				break;
 		}		
 	} else { // Serosis: 1280x960 / HD
 		switch (ScreenWidthActual) {
-		case 640:
-			opts->screenResolution = OPTVAL_REAL_1280_960;
-			opts->loresBlowup = OPTVAL_SCALE_640_480;
-			break;
-		case 960:
-			opts->screenResolution = OPTVAL_REAL_1280_960;
-			opts->loresBlowup = OPTVAL_SCALE_960_720;
-			break;
-		case 1600:
-			opts->screenResolution = OPTVAL_REAL_1280_960;
-			opts->loresBlowup = OPTVAL_SCALE_1600_1200;
-			break;
-		case 1920:
-			opts->screenResolution = OPTVAL_REAL_1280_960;
-			opts->loresBlowup = OPTVAL_SCALE_1920_1440;
-			break;
-		case 1280:
-		default:
-			opts->screenResolution = OPTVAL_REAL_1280_960;
-			opts->loresBlowup = OPTVAL_SCALE_1280_960;
+			case 640:
+				opts->screenResolution = OPTVAL_REAL_1280_960;
+				opts->loresBlowup = OPTVAL_SCALE_640_480;
+				break;
+			case 960:
+				opts->screenResolution = OPTVAL_REAL_1280_960;
+				opts->loresBlowup = OPTVAL_SCALE_960_720;
+				break;
+			case 1600:
+				opts->screenResolution = OPTVAL_REAL_1280_960;
+				opts->loresBlowup = OPTVAL_SCALE_1600_1200;
+				break;
+			case 1920:
+				opts->screenResolution = OPTVAL_REAL_1280_960;
+				opts->loresBlowup = OPTVAL_SCALE_1920_1440;
+				break;
+			case 1280:
+			default:
+				opts->screenResolution = OPTVAL_REAL_1280_960;
+				opts->loresBlowup = OPTVAL_SCALE_1280_960;
 		}
 	}
 }
