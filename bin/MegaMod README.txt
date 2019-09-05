@@ -11,8 +11,8 @@ Explanation of new Setup Menu options:
 
 # PC/3DO Options
 
-	Melee Zoom - For Android the Melee Zoom option has been 'enhanced' to allow the user to choose which melee scaler to improve speed between none at all, Nearest, Bilinear, and Trilinear. 
-								The lowest option is a step zoom and will be the fastest on all devices. The 'Nearest' scaler will be the fastest for Smooth Scaling melee.
+	Melee Zoom - For Android the Melee Zoom option has been 'enhanced' to allow the user to choose which melee scaler to improve game speed. The choices are between Step, Nearest, Bilinear, and Trilinear.
+								The lowest option is a step zoom and will be the fastest on all devices. The 'Nearest' scaler will be the fastest for Smooth Scaling melee. Your mileage may vary depending on your device.
 
 	IP Transitions - This option allows the user to switch between Stepped zooming and Crossfade zooming in interplanetary view. Stepped is the method used in the origina PC version of SC2.
 										While Crossfade is what is used in the 3DO version of SC2. There is no performance difference between the two although the Stepped method has instantaneous transition.
