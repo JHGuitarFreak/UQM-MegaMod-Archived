@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Option to show fuel in its whole decimal
 - SETUP MENU: Ability to switch between different Melee scalers for Android
 - SETUP MENU: Text fields in the setup menu can now have tooltips
-- Show Difficulty and Seed info on the load screen
+- Show Difficulty, Seed, Extended, and Nomad info on the load screen
 - SETUP MENU: Added option to switch between PC/3DO interplanetary transitions (when the viewport zooms in while traveling through a solar system)
 - Name home worlds of various aliens (where applicable) after conditions are met
 	- Druuge home planet named "Crimson Corp." after meeting them
@@ -37,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Fuel Range point of no return is disabled until you get access to the Starbase
 - Added game over "cutscenes" for the Death March, activating the Utwig Bomb, dying in battle, and surrendering to the Ur-Quan
 - Added back in autoload support for Orange Peel Melnorme
+- SETUP MENU: Added option to enable/disable fuel range point of no return
 
 # EXTENDED LORE
 - No longer possible to encounter random Ur-Quan ships in the Zoq-Fot-Pik home system, like their dialogs say (Bugzilla Bug #759)
@@ -63,11 +64,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Slylandro Probes dodge projectiles
 - Mineral worth for Exotics is brought down to 16
 - Slylandro Probes will orbit Rainbow Worlds, their numbers increase if left unchecked and will eventually vanish once you complete their quest
-- New game will have a random custom seed if the set, loaded, or commandline seed isn't the default.
+- When using a custom seed the seed will be randomized on New Game
 - Rainbow World credit value cut in half
 - SIS: Weapon slots 2 & 3 take double energy
 - SIS: Auto tracking costs double energy
-- Evil Ones are now more dangerous
+- Evil Ones are now more dangerous. They move and seek the player out, as well as having 5 HP
 - Melnorme tech catalog spread out between the 9 Supergiants (No tech upgrades in Hyperspace)
 - Melnorme fuel cost upped to 10 credits per unit
 - Randomize Quasi Portal exits based on seed
@@ -76,7 +77,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Portal Spawner costs 20 whole units of fuel
 - Selling more than 10 crew to the Druuge guarantees a price hike in crew cost and the immediate disapproval of the Commander
 - Can only build two of any ship
-- Tanaka's Scout only has the glory device disabled
+- Tanaka's Scout has full maneuvreability and main weapon system (Bomb still disabled)
+- Quasispace portal Hyperspace coordinates not revealed
 
 # EASY MODE
 - Double mineral worth
@@ -92,6 +94,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Player starts with 2500 R.U.
 - Limit to the amount of crew to sell to the Druuge before crew cost hike is 200
 - Commander will tell you about the Melnorme and ZFP earlier than usual
+- Zex's Beast ferocity toned down
 
 # NOMAD MODE
 - New message report for the Earth Starbase when you try to dock
@@ -110,7 +113,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Used old Hyperspace code to improve compatibility for Vanilla saves
 - SETUP MENU: Split the visual options into a submenu in Advanced Options to clear up some room
 - SETUP MENU: Rearranged and cleaned up menu options
-- SETUP MENU: Added option to enable/disable fuel range point of no return
 - Sol doesn't have a nebula when the option is enabled
 - Druuge's HD convo image changed to the Alpha version of HD-Mod's as it's more faithful to the original lighting and design
 - Refactor all the addons to use more simple "SD - HD" language
