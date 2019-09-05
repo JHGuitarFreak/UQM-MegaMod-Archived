@@ -661,7 +661,7 @@ InterplanetaryTransition (ELEMENT *ElementPtr)
 
 			// JMS: This QS portal's HS coordinates are revealed on QS map
 			// the next time the player visits QS.
-			if (PrimeSeed) {
+			if (PrimeSeed && !DIF_HARD) {
 				SET_QS_PORTAL_KNOWN(index);
 			}
 
