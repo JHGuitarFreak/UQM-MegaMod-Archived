@@ -1717,8 +1717,8 @@ Gaia
 #(Fahz)
 Fahz
 
-#(Crimson Corp.)
-Crimson Corp.
+#(Crimson Corp)
+Trade HQ
 
 #(Syra)
 Syra
