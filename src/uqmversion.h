@@ -21,8 +21,8 @@
 #define UQM_MAJOR_VERSION_S  "0"
 #define UQM_MINOR_VERSION     8
 #define UQM_MINOR_VERSION_S  "8"
-#define UQM_PATCH_VERSION     0.83f
-#define UQM_PATCH_VERSION_S  "0.83"
+#define UQM_PATCH_VERSION     0.84f
+#define UQM_PATCH_VERSION_S  "0.84"
 #if defined(DEBUG)
 #define UQM_EXTRA_VERSION    "MegaMod Debug"
 #else

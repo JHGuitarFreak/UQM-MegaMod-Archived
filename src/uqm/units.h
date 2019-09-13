@@ -67,6 +67,10 @@ extern int ScreenHeight;
 #define NOMAD (newGameNomad ? newGameNomad : savedNomad)
 #define NOMAD_STR(a) ((a) ? "True" : "False")
 
+// Planet Name Units
+#define MET_A_SPATHI (GET_GAME_STATE(KNOW_SPATHI_QUEST) || GET_GAME_STATE(FOUND_PLUTO_SPATHI) || GET_GAME_STATE(SPATHI_VISITS))
+#define MET_AN_UTWIG (GET_GAME_STATE(UTWIG_HAVE_ULTRON) || GET_GAME_STATE(UTWIG_WAR_NEWS))
+
 // Earth Coordinates
 #define EARTH_OUTER_X -725
 #define EARTH_OUTER_Y 597

@@ -105,7 +105,7 @@ static bool
 GenerateSyreen_generateName(const SOLARSYS_STATE *solarSys,
 	const PLANET_DESC *world)
 {
-	if (matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET) && GET_GAME_STATE(SYREEN_HOME_VISITS) > 0)
+	if (GET_GAME_STATE(SYREEN_HOME_VISITS) && matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
 		utf8StringCopy(GLOBAL_SIS(PlanetName), sizeof(GLOBAL_SIS(PlanetName)),
 			GAME_STRING(PLANET_NUMBER_BASE + 39));

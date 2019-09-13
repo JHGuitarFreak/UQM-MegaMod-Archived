@@ -18,6 +18,7 @@
 
 #include "solarsys.h"
 #include "lander.h"
+#include "../build.h"
 #include "../colors.h"
 #include "../controls.h"
 #include "../menustat.h"
@@ -2540,28 +2541,65 @@ GetNamedPlanetaryBody (void)
 				break;
 		}
 	}
-	else if (CurStarDescPtr->Index == SPATHI_DEFINED)
-	{
-		if (matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
-				0, MATCH_PLANET))
-		{
-#ifdef NOTYET
-			return "Spathiwa";
-#endif // NOTYET
-		}
+	else if (CurStarDescPtr->Index == SHOFIXTI_DEFINED
+		&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
+			pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{	// Kyabetsu
+		return GAME_STRING (PLANET_NUMBER_BASE + 35);
 	}
-	else if (CurStarDescPtr->Index == SAMATRA_DEFINED)
-	{
-		if (matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc, 4, 0))
-		{	// Sa-Matra
-			return GAME_STRING (PLANET_NUMBER_BASE + 32);
-		}
-	} else if (CurStarDescPtr->Index == START_COLONY_DEFINED) {
-		if (matchWorld(pSolarSysState, pSolarSysState->pOrbitalDesc,
-			1, MATCH_PLANET))
-		{
-			return GAME_STRING(PLANET_NUMBER_BASE + 33);
-		}
+	else if (CurStarDescPtr->Index == START_COLONY_DEFINED 
+		&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
+			pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{	// Unzervalt
+		return GAME_STRING (PLANET_NUMBER_BASE + 33);
+	}
+	else if (CurStarDescPtr->Index == SPATHI_DEFINED && MET_A_SPATHI 
+		&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
+			pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{	// Spathiwa
+		return GAME_STRING (PLANET_NUMBER_BASE + 37);
+	}
+	else if (CurStarDescPtr->Index == SYREEN_DEFINED && GET_GAME_STATE(SYREEN_HOME_VISITS)
+		&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
+			pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{	// Gaia
+		return GAME_STRING (PLANET_NUMBER_BASE + 39);
+	}
+	else if (CurStarDescPtr->Index == SLYLANDRO_DEFINED && GET_GAME_STATE(SLYLANDRO_HOME_VISITS)
+		&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
+			pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{	// Source
+		return GAME_STRING (PLANET_NUMBER_BASE + 36);
+	}
+	else if (CurStarDescPtr->Index == DRUUGE_DEFINED && CheckSphereTracking(DRUUGE_SHIP)
+		&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
+			pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{	// Trade HQ
+		return GAME_STRING (PLANET_NUMBER_BASE + 41);
+	}
+	else if (CurStarDescPtr->Index == SAMATRA_DEFINED
+		&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
+			pSolarSysState->SunDesc[0].PlanetByte, pSolarSysState->SunDesc[0].MoonByte))
+	{	// Sa-Matra
+		return GAME_STRING (PLANET_NUMBER_BASE + 32);
+	}
+	else if (CurStarDescPtr->Index == EGG_CASE0_DEFINED
+		&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
+			pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{	// Syra
+		return GAME_STRING (PLANET_NUMBER_BASE + 42);
+	}
+	else if (CurStarDescPtr->Index == UTWIG_DEFINED && MET_AN_UTWIG
+		&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
+			pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{	// Fahz
+		return GAME_STRING (PLANET_NUMBER_BASE + 40);
+	}
+	else if (CurStarDescPtr->Index == SUPOX_DEFINED && GET_GAME_STATE(SUPOX_STACK1) > 2
+		&& matchWorld (pSolarSysState, pSolarSysState->pOrbitalDesc,
+			pSolarSysState->SunDesc[0].PlanetByte, MATCH_PLANET))
+	{	// Vlik
+		return GAME_STRING (PLANET_NUMBER_BASE + 38);
 	}
 
 	return NULL;
