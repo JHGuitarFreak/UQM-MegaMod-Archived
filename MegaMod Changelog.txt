@@ -5,8 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Ideas]
 - Correct the UI scaling in HD to be more faithful to Vanilla UQM
+- Hide addon options if the package isn't in the addon folder
 
 ## [v0.8.0.84]
+### Fixed
+- Animated powerlines no longer draw over ship desciriptions in the Shipyard
+- Only Unzervalt will be named Unzervalt
+- Fixed various other planet name discrepencies
 
 
 ## [v0.8.0.83]

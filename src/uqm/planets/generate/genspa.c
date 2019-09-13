@@ -167,9 +167,7 @@ static bool
 GenerateSpathi_generateName(const SOLARSYS_STATE *solarSys,
 	const PLANET_DESC *world)
 {
-	BOOLEAN IfMetASpathi = GET_GAME_STATE(KNOW_SPATHI_QUEST) || GET_GAME_STATE(FOUND_PLUTO_SPATHI) || GET_GAME_STATE(SPATHI_VISITS);
-
-	if (IfMetASpathi 
+	if (MET_A_SPATHI 
 		&& CurStarDescPtr->Index == SPATHI_DEFINED
 		&& matchWorld(solarSys, world, solarSys->SunDesc[0].PlanetByte, MATCH_PLANET))
 	{
