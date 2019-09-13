@@ -95,6 +95,7 @@ static COUNT ShipCost[] =
 	RACE_SHIP_COST
 };
 
+static BOOLEAN DoShipSpins;
 
 static void
 animatePowerLines (MENU_STATE *pMS)
@@ -124,16 +125,6 @@ animatePowerLines (MENU_STATE *pMS)
 }
 
 static void
-on_input_frame (void)
-{
-	CONTEXT oldContext;
-
-	oldContext = SetContext (SpaceContext);
-	animatePowerLines (NULL);
-	SetContext (oldContext);
-}
-
-static void
 SpinStarShip (MENU_STATE *pMS, HFLEETINFO hStarShip)
 {
 	int Index;
@@ -145,8 +136,21 @@ SpinStarShip (MENU_STATE *pMS, HFLEETINFO hStarShip)
 				
 	if (Index >= 0 && Index < NUM_MELEE_SHIPS)
 	{
+		DoShipSpins = TRUE;
 		DoShipSpin (Index, pMS->hMusic);
 	}
+	DoShipSpins = FALSE;
+}
+
+static void
+on_input_frame(void)
+{
+	CONTEXT oldContext;
+
+	oldContext = SetContext(SpaceContext);
+	if (!DoShipSpins)
+		animatePowerLines(NULL);
+	SetContext(oldContext);
 }
 
 // Count the ships which can be built by the player.
