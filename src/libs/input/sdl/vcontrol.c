@@ -46,7 +46,9 @@ typedef struct vcontrol_keypool {
 typedef struct vcontrol_joystick_axis {
 	keybinding *neg, *pos;
 	int polarity;
+#if defined(ANDROID) || defined(__ANDROID__)
 	int value;
+#endif
 } axis_type;
 
 typedef struct vcontrol_joystick_hat {
@@ -67,7 +69,12 @@ static joystick *joysticks;
 
 #endif /* HAVE_JOYSTICK */
 
+#if defined(ANDROID) || defined(__ANDROID__)
 static unsigned int joycount = 0;
+#else
+static unsigned int joycount;
+#endif
+
 static unsigned int num_sdl_keys = 0;
 static keybinding **bindings = NULL;
 
@@ -142,7 +149,9 @@ create_joystick (int index)
 		for (j = 0; j < axes; j++)
 		{
 			x->axes[j].neg = x->axes[j].pos = NULL;
+#if defined(ANDROID) || defined(__ANDROID__)
 			x->axes[j].polarity = x->axes[j].value = 0;
+#endif
 		}
 		for (j = 0; j < hats; j++)
 		{
@@ -822,7 +831,9 @@ VControl_ProcessJoyAxis (int port, int axis, int value)
 	int t;
 	if (!joysticks[port].stick)
 		return;
+#if defined(ANDROID) || defined(__ANDROID__)
 	joysticks[port].axes[axis].value = value;
+#endif
 	t = joysticks[port].threshold;
 	if (value > t)
 	{
@@ -905,6 +916,7 @@ VControl_ProcessJoyHat (int port, int which, Uint8 value)
 #endif /* HAVE_JOYSTICK */
 }
 
+#if defined(ANDROID) || defined(__ANDROID__)
 int
 VControl_GetJoyAxis(int port, int axis) {
 #ifdef HAVE_JOYSTICK
@@ -921,6 +933,7 @@ VControl_GetJoyAxis(int port, int axis) {
 int VControl_GetJoysticksAmount() {
 	return joycount;
 }
+#endif
 
 void
 VControl_ResetInput (void)

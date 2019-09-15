@@ -1714,6 +1714,7 @@ landerSpeedNumer = WORLD_TO_VELOCITY (RES_SCALE(48)); // JMS
 		if (crew_left)
 		{
 			SIZE index = GetFrameIndex (LanderFrame[0]);
+#if defined(ANDROID) || defined(__ANDROID__)
 			BATTLE_INPUT_STATE InputState = GetDirectionalJoystickInput(index, 0);
 			if (turn_wait)
 				--turn_wait;
@@ -1723,6 +1724,17 @@ landerSpeedNumer = WORLD_TO_VELOCITY (RES_SCALE(48)); // JMS
 				COUNT angle;
 
 				if (InputState & BATTLE_LEFT)
+#else
+			if (turn_wait)
+				--turn_wait;
+			else if (CurrentInputState.key[PlayerControls[0]][KEY_LEFT] ||
+				CurrentInputState.key[PlayerControls[0]][KEY_RIGHT])
+			{
+				COUNT landerSpeedNumer;
+				COUNT angle;
+
+				if (CurrentInputState.key[PlayerControls[0]][KEY_LEFT])
+#endif
 					--index;
 				else
 					++index;
@@ -1745,8 +1757,11 @@ landerSpeedNumer = WORLD_TO_VELOCITY (RES_SCALE(48));
 
 				turn_wait = SHUTTLE_TURN_WAIT;
 			}
-
+#if defined(ANDROID) || defined(__ANDROID__)
 			if (!(InputState & BATTLE_THRUST))
+#else
+			if (!CurrentInputState.key[PlayerControls[0]][KEY_UP])
+#endif
 			{
 				dx = 0;
 				dy = 0;

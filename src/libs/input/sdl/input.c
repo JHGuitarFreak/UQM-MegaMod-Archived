@@ -90,7 +90,9 @@ static const char *flight_res_names[] = {
 	"weapon",
 	"special",
 	"escape",
+#if defined(ANDROID) || defined(__ANDROID__)
 	"thrust",
+#endif
 	NULL
 };
 

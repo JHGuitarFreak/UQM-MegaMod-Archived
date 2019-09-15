@@ -418,8 +418,9 @@ GetMenuSounds (MENU_SOUND_FLAGS *s0, MENU_SOUND_FLAGS *s1)
 	*s1 = sound_1;
 }
 
+#if defined(ANDROID) || defined(__ANDROID__)
 static BATTLE_INPUT_STATE
-ControlInputToBattleInput (const int *keyState, COUNT player, int direction)
+ControlInputToBattleInputAndroid (const int *keyState, COUNT player, int direction)
 {
 	BATTLE_INPUT_STATE InputState = 0;
 
@@ -453,19 +454,65 @@ ControlInputToBattleInput (const int *keyState, COUNT player, int direction)
 
 	return InputState;
 }
+#endif
+
+static BATTLE_INPUT_STATE
+ControlInputToBattleInput(const int* keyState)
+{
+	BATTLE_INPUT_STATE InputState = 0;
+
+	if (keyState[KEY_UP])
+		InputState |= BATTLE_THRUST;
+	if (keyState[KEY_LEFT])
+		InputState |= BATTLE_LEFT;
+	if (keyState[KEY_RIGHT])
+		InputState |= BATTLE_RIGHT;
+	if (keyState[KEY_WEAPON]) {
+		if (antiCheatAlt()) {
+			resetEnergyBattle();
+		}
+		InputState |= BATTLE_WEAPON;
+	}
+	if (keyState[KEY_SPECIAL]) {
+		if (antiCheatAlt()) {
+			resetEnergyBattle();
+		}
+		InputState |= BATTLE_SPECIAL;
+	}
+	if (keyState[KEY_ESCAPE])
+		InputState |= BATTLE_ESCAPE;
+	if (keyState[KEY_DOWN])
+		InputState |= BATTLE_DOWN;
+
+	return InputState;
+}
+
+#if defined(ANDROID) || defined(__ANDROID__)
+BATTLE_INPUT_STATE
+CurrentInputToBattleInputAndroid (COUNT player, int direction)
+{
+	return ControlInputToBattleInputAndroid(
+			CurrentInputState.key[PlayerControls[player]], player, direction);
+}
+#endif
 
 BATTLE_INPUT_STATE
-CurrentInputToBattleInput (COUNT player, int direction)
+CurrentInputToBattleInput(COUNT player)
 {
 	return ControlInputToBattleInput(
-			CurrentInputState.key[PlayerControls[player]], player, direction);
+		CurrentInputState.key[PlayerControls[player]]);
 }
 
 BATTLE_INPUT_STATE
 PulsedInputToBattleInput (COUNT player)
 {
-	return ControlInputToBattleInput(
+#if defined(ANDROID) || defined(__ANDROID__)
+	return ControlInputToBattleInputAndroid(
 			PulsedInputState.key[PlayerControls[player]], player, -1);
+#else
+	return ControlInputToBattleInput(
+		PulsedInputState.key[PlayerControls[player]]);
+#endif
 }
 
 BOOLEAN
@@ -510,6 +557,7 @@ ConfirmExit (void)
 	return result;
 }
 
+#if defined(ANDROID) || defined(__ANDROID__)
 // Fast arctan2, returns angle in radians as integer, with fractional part in lower 16 bits
 // Stolen from http://www.dspguru.com/dsp/tricks/fixed-point-atan2-with-self-normalization , precision is said to be 0.07 rads
 
@@ -638,3 +686,4 @@ GetDirectionalJoystickInput(int direction, int player) {
 	}
 	return InputState;
 }
+#endif
