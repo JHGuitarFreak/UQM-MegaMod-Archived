@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Animated powerlines no longer draw over ship desciriptions in the Shipyard
 - Only Unzervalt will be named Unzervalt
 - Fixed various other planet name discrepencies
+- Isolated the Android specific controls to fix gamepad controls on non-Android devices
 
 
 ## [v0.8.0.83]
