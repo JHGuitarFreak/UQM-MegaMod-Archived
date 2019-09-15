@@ -257,7 +257,6 @@ bin/config/*
 !bin/content/version
 !bin/content/addons
 bin/content/addons/*
-!bin/content/addons/mm-hd
 bin/content/packages
 UQM-MegaMod.zip
 build.vars
@@ -274,7 +273,8 @@ log.txt
 
 *.tlog
 
-Debug NoAccel/
+Debug_NoAccel/
+Release_NoAccel/
 
 bin/UrQuanMastersDebug\.exp
 
