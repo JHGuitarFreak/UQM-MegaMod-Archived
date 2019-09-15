@@ -896,7 +896,11 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->spaceMusic, "config.spaceMusic");
 	getBoolConfigValue(&options->volasMusic, "config.volasMusic");
 	getBoolConfigValue(&options->wholeFuel, "config.wholeFuel");
+
+#if defined(ANDROID) || defined(__ANDROID__)
 	getBoolConfigValue (&options->directionalJoystick, "config.directionaljoystick"); // For Android
+#endif
+
 	getBoolConfigValueXlat(&options->landerHold, "config.landerhold",
 		OPT_3DO, OPT_PC);
 	getBoolConfigValueXlat(&options->ipTrans, "config.iptransition",

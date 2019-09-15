@@ -588,8 +588,8 @@ SetDefaults (void)
 	choices[47].selected = opts.volasMusic;
 	choices[48].selected = opts.wholeFuel;
 	// For Android
-	choices[49].selected = opts.directionalJoystick;
 #if defined(ANDROID) || defined(__ANDROID__)
+	choices[49].selected = opts.directionalJoystick;
 	choices[50].selected = opts.meleezoom;
 #endif
 	choices[51].selected = opts.landerHold;
@@ -664,8 +664,8 @@ PropagateResults (void)
 	opts.volasMusic = choices[47].selected;
 	opts.wholeFuel = choices[48].selected;
 	// For Android
-	opts.directionalJoystick = choices[49].selected;
 #if defined(ANDROID) || defined(__ANDROID__)
+	opts.directionalJoystick = choices[49].selected;
 	opts.meleezoom = choices[50].selected;
 #endif
 	opts.landerHold = choices[51].selected;
@@ -2049,9 +2049,11 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	res_PutBoolean("config.wholeFuel", opts->wholeFuel == OPTVAL_ENABLED);
 	optWholeFuel = (opts->wholeFuel == OPTVAL_ENABLED);
 
+#if defined(ANDROID) || defined(__ANDROID__)
 	// Serosis: Enable Android Directional Joystick
 	res_PutBoolean("config.directionaljoystick", opts->directionalJoystick == OPTVAL_ENABLED);
 	optDirectionalJoystick = (opts->directionalJoystick == OPTVAL_ENABLED);
+#endif
 
 	// Serosis: Switch between PC/3DO max lander hold value
 	optLanderHold = (opts->landerHold == OPTVAL_3DO);
