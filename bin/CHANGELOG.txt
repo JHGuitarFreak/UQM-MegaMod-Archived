@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [v0.8.0.84]
+### Fixed
+- Animated powerlines no longer draw over ship desciriptions in the Shipyard
+- Only Unzervalt will be named Unzervalt
+- Fixed various other planet name discrepencies
+- Isolated the Android specific controls to fix gamepad controls on non-Android devices
+
+
 ## [v0.8.0.83]
 ### Added
 - Difficulty Modes
