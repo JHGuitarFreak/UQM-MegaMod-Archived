@@ -1716,23 +1716,23 @@ landerSpeedNumer = WORLD_TO_VELOCITY (RES_SCALE(48)); // JMS
 			SIZE index = GetFrameIndex (LanderFrame[0]);
 #if defined(ANDROID) || defined(__ANDROID__)
 			BATTLE_INPUT_STATE InputState = GetDirectionalJoystickInput(index, 0);
+#endif
 			if (turn_wait)
 				--turn_wait;
+#if defined(ANDROID) || defined(__ANDROID__)
 			else if ((InputState & BATTLE_LEFT) || (InputState & BATTLE_RIGHT))
-			{
-				COUNT landerSpeedNumer;
-				COUNT angle;
-
-				if (InputState & BATTLE_LEFT)
 #else
-			if (turn_wait)
-				--turn_wait;
 			else if (CurrentInputState.key[PlayerControls[0]][KEY_LEFT] ||
 				CurrentInputState.key[PlayerControls[0]][KEY_RIGHT])
+#endif
+
 			{
 				COUNT landerSpeedNumer;
 				COUNT angle;
 
+#if defined(ANDROID) || defined(__ANDROID__)
+				if (InputState & BATTLE_LEFT)
+#else
 				if (CurrentInputState.key[PlayerControls[0]][KEY_LEFT])
 #endif
 					--index;
