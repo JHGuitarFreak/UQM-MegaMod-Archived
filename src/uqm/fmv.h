@@ -28,9 +28,7 @@ extern "C" {
 extern void SplashScreen (void (* DoProcessing)(DWORD TimeOut));
 extern void Introduction (void);
 extern void Victory (void);
-extern void DeathMarch (void);
-extern void PrematureBomb (void);
-extern void Defeated (void);
+extern void GameOver(BYTE DeathType);
 extern void DoShipSpin (COUNT index, MUSIC_REF hMusic);
 extern void Logo (void);
 extern void Drumall (void);
