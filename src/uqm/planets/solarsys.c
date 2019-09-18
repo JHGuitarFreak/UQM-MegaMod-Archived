@@ -1246,24 +1246,25 @@ ProcessShipControls (void)
 
 #if defined(ANDROID) || defined(__ANDROID__)
 	BATTLE_INPUT_STATE InputState = GetDirectionalJoystickInput(index, 0);
+#endif
 
+#if defined(ANDROID) || defined(__ANDROID__)
 	if (InputState & BATTLE_THRUST)
+#else
+	if (CurrentInputState.key[PlayerControls[0]][KEY_UP])
+#endif
 		delta_y = -1;
 	else
 		delta_y = 0;
 
 	delta_x = 0;
+
+#if defined(ANDROID) || defined(__ANDROID__)
 	if (InputState & BATTLE_LEFT)
 		delta_x -= 1;
 	if (InputState & BATTLE_RIGHT)
 		delta_x += 1;
 #else
-	if (CurrentInputState.key[PlayerControls[0]][KEY_UP])
-		delta_y = -1;
-	else
-		delta_y = 0;
-
-	delta_x = 0;
 	if (CurrentInputState.key[PlayerControls[0]][KEY_LEFT])
 		delta_x -= 1;
 	if (CurrentInputState.key[PlayerControls[0]][KEY_RIGHT])
