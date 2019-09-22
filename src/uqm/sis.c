@@ -178,28 +178,26 @@ DrawHyperCoords (POINT universe)
 }
 
 void
-DrawDiffSeed(SDWORD seed, BYTE difficulty, BYTE extended, BYTE nomad) {
+DrawDiffSeed(SDWORD seed, BYTE difficulty, BOOLEAN extended, BOOLEAN nomad) {
 	UNICODE buf[100];
 	char diffSTR[4][7] = {"Normal", "Easy", "Hard"};
 	char TempDiff[11];
-	BOOLEAN Extended = extended == 39 ? true : false;
-	BOOLEAN Nomad = nomad == 39 ? true : false;
 
 	switch (difficulty) {
-		case ELEM_EASY:
+		case EASY:
 			strncpy(TempDiff, diffSTR[1], 11);
 			break;
-		case ELEM_HARD:
+		case HARD:
 			strncpy(TempDiff, diffSTR[2], 11);
 			break;
-		case ELEM_NORM:
+		case NORM:
 		default:
 			strncpy(TempDiff, diffSTR[0], 11);
 	}
 
 	if (seed) {
 		memset(&buf[0], 0, sizeof(buf));
-		snprintf(buf, sizeof buf, "Difficulty: %s%s%s", TempDiff, (Extended ? " | Extended" : ""), (Nomad ? " | Nomad" : ""));
+		snprintf(buf, sizeof buf, "Difficulty: %s%s%s", TempDiff, (extended ? " | Extended" : ""), (nomad ? " | Nomad" : ""));
 		DrawSISMessage(buf);
 
 		memset(&buf[0], 0, sizeof(buf));

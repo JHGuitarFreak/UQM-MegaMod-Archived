@@ -1405,10 +1405,7 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp, BOOLEAN try_vanilla)
 	SDWORD  temp_log_y = 0;
 	DWORD   temp_ru    = 0;
 	DWORD   temp_fuel  = 0;
-	BOOLEAN no_savename = FALSE;	
-	
-	// Sanitize summary seed and difficulty
-	SummPtr->Seed = SummPtr->Difficulty = 0;
+	BOOLEAN no_savename = FALSE;
 
 	// First we check if there is a savegamename identifier.
 	// The identifier tells us whether the name exists at all.
@@ -1455,6 +1452,10 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp, BOOLEAN try_vanilla)
 	
 	if (!LoadSisState (&SummPtr->SS, fp))
 		return FALSE;
+
+	// Sanitize seed, difficulty, extended, and nomad variables
+	SummPtr->SS.Seed = SummPtr->SS.Difficulty = 0;
+	SummPtr->SS.Extended = SummPtr->SS.Nomad = 0;
 			
 	// JMS: Now we'll put those temp variables into action.
 	if (no_savename)
@@ -1730,10 +1731,6 @@ LoadLegacyGame (COUNT which_game, SUMMARY_DESC *SummPtr, BOOLEAN try_vanilla)
 	loadGameCheats();
 	cclose (fh);
 	res_CloseResFile (in_fp);
-
-	// Sanitize custom seed and difficulty for legacy saves
-	savedSeed = newGameSeed = savedDifficulty = newGameDifficulty = 0;
-	savedExtended = newGameExtended = savedNomad = newGameNomad = FALSE;
 
 	EncounterGroup = 0;
 	EncounterRace = -1;

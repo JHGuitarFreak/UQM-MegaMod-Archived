@@ -23,6 +23,7 @@
 #include "controls.h"
 #include "element.h"
 #include "races.h"
+#include "setup.h"
 
 #if defined(__cplusplus)
 extern "C" {

@@ -255,10 +255,6 @@ while (--ac > 0)
 			explode ();  // Does not return;
 		}
 
-		newGameDifficulty = optDifficulty;
-		newGameExtended = optExtended;
-		newGameNomad = optNomad;
-
 		luaUqm_reinitState ();
 		InitGameStructures ();
 		InitGameClock ();
@@ -269,22 +265,16 @@ while (--ac > 0)
 		if (LastActivity == (CHECK_LOAD | CHECK_RESTART)){
 			AskNameForCaptainAndShip();
 
-			if(DIF_HARD && !PrimeSeed){
-				srand(time(NULL));
-				optCustomSeed = (rand() % ((MAX_SEED - MIN_SEED) + MIN_SEED));
-			}
-
-			newGameSeed = optCustomSeed;
 #ifdef DEBUG
-			printf("New Game Seed: %d\n", newGameSeed);
-			printf("New Game Difficulty: %s\n", DIF_STR(newGameDifficulty));
-			printf("New Game Extended: %s\n", EXT_STR(newGameExtended));
-			printf("New Game Nomad: %s\n\n", NOMAD_STR(newGameNomad));
+			printf("New Game Seed: %d\n", GLOBAL_SIS(Seed));
+			printf("New Game Difficulty: %s\n", DIF_STR(GLOBAL_SIS(Difficulty)));
+			printf("New Game Extended: %s\n", EXT_STR(GLOBAL_SIS(Extended)));
+			printf("New Game Nomad: %s\n\n", NOMAD_STR(GLOBAL_SIS(Nomad)));
 #endif
-			log_add(log_Info, "New Game Seed: %d\n", newGameSeed);
-			log_add(log_Info, "New Game Difficulty: %s\n", DIF_STR(newGameDifficulty));
-			log_add(log_Info, "New Game Extended: %s\n", EXT_STR(newGameExtended));
-			log_add(log_Info, "New Game Nomad: %s\n\n", NOMAD_STR(newGameNomad));
+			log_add(log_Info, "New Game Seed: %d\n", GLOBAL_SIS(Seed));
+			log_add(log_Info, "New Game Difficulty: %s\n", DIF_STR(GLOBAL_SIS(Difficulty)));
+			log_add(log_Info, "New Game Extended: %s\n", EXT_STR(GLOBAL_SIS(Extended)));
+			log_add(log_Info, "New Game Nomad: %s\n\n", NOMAD_STR(GLOBAL_SIS(Nomad)));
 
 			if (optSpaceMusic && LOBYTE(NextActivity) == IN_INTERPLANETARY)
 				playSpaceMusic(TRUE);

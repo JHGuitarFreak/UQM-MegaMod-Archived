@@ -844,7 +844,7 @@ DrawSavegameSummary (PICK_GAME_STATE *pickState, COUNT gameIndex)
 
 		// Hack the states so that we can use standard SIS display funcs
 		GlobData.SIS_state = pSD->SS;
-		DrawDiffSeed(pSD->Seed, pSD->Difficulty, pSD->Extended, pSD->Nomad);
+		DrawDiffSeed(pSD->SS.Seed, pSD->SS.Difficulty, pSD->SS.Extended, pSD->SS.Nomad);
 		InitQueue (&GLOBAL (built_ship_q),
 				MAX_BUILT_SHIPS, sizeof (SHIP_FRAGMENT));
 		for (i = 0; i < pSD->NumShips; ++i)

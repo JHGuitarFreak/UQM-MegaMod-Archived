@@ -38,6 +38,8 @@
 #include <stdlib.h>
 #include "uqmdebug.h"
 
+#include <time.h>//required to use 'srand(time(NULL))'
+
 static void CreateRadar (void);
 
 CONTEXT RadarContext;
@@ -435,6 +437,16 @@ InitGameStructures (void)
 
 	GLOBAL (glob_flags) = 0;
 
+	if (DIF_HARD && !PrimeSeed) {
+		srand(time(NULL));
+		optCustomSeed = (rand() % ((MAX_SEED - MIN_SEED) + MIN_SEED));
+	}
+
+	GLOBAL_SIS (Seed) = optCustomSeed;
+	GLOBAL_SIS (Difficulty) = optDifficulty;
+	GLOBAL_SIS (Extended) = optExtended;
+	GLOBAL_SIS (Nomad) = optNomad;
+
 	GLOBAL (ElementWorth[COMMON]) = 1;
 	GLOBAL_SIS (ElementAmounts[COMMON]) = 0;
 	GLOBAL (ElementWorth[CORROSIVE]) = 2;
@@ -460,7 +472,7 @@ InitGameStructures (void)
 			}
 			break;
 		case HARD:
-			GLOBAL(ElementWorth[EXOTIC]) = ELEM_HARD;
+			GLOBAL(ElementWorth[EXOTIC]) = 16;
 			break;
 	}
 
@@ -537,15 +549,6 @@ InitGameStructures (void)
 	GLOBAL (ModuleCost[DYNAMO_UNIT]) = 2000 / MODULE_COST_SCALE;
 	GLOBAL (ModuleCost[GUN_WEAPON]) = 2000 / MODULE_COST_SCALE;
 
-	if (EXTENDED) {
-		GLOBAL(ModuleCost[GUN_WEAPON]) = 1950 / MODULE_COST_SCALE;
-		GLOBAL_SIS(ResUnits) += 50;
-	}
-
-	if (NOMAD) {
-		GLOBAL(ModuleCost[DYNAMO_UNIT]) = 1950 / MODULE_COST_SCALE;
-	}
-
 	GLOBAL_SIS (NumLanders) = IF_EASY(1, 2);
 
 	utf8StringCopy (GLOBAL_SIS (ShipName), sizeof (GLOBAL_SIS (ShipName)),
@@ -589,10 +592,6 @@ FreeSC2Data (void)
 	MiscDataFrame = 0;
 	DestroyDrawable (ReleaseDrawable (FlagStatFrame));
 	FlagStatFrame = 0;
-	newGameSeed = 0;
-	savedSeed = 0;
-	newGameDifficulty = 0;
-	savedDifficulty = 0;
 }
 
 void
