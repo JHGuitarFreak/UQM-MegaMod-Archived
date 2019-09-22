@@ -437,9 +437,12 @@ LoadHyperData (void)
 			hyperstars[3] = CaptureDrawable (
 				LoadGraphic (ARI_AMBIENT_MASK_PMAP_ANIM));
 		}
-		npcbubble = CaptureDrawable (LoadGraphic (NPCBUBBLE_MASK_PMAP_ANIM));
-		quasiportal = CaptureDrawable (LoadGraphic (QUASIPORTAL_MASK_PMAP_ANIM));
-        Falayalaralfali  = CaptureDrawable (LoadGraphic (FALAYALARALFALI_MASK_PMAP_ANIM));
+		if (npcbubble == 0)
+			npcbubble = CaptureDrawable (LoadGraphic (NPCBUBBLE_MASK_PMAP_ANIM));
+		if (quasiportal == 0)
+			quasiportal = CaptureDrawable (LoadGraphic (QUASIPORTAL_MASK_PMAP_ANIM));
+		if (Falayalaralfali == 0)
+			Falayalaralfali = CaptureDrawable (LoadGraphic (FALAYALARALFALI_MASK_PMAP_ANIM));
 	}
 	
 	if (hyperstars[0] == 0) {
