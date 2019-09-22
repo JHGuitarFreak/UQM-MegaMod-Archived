@@ -436,16 +436,16 @@ InitGameStructures (void)
 	InitGroupInfo (TRUE);
 
 	GLOBAL (glob_flags) = 0;
-
-	if (DIF_HARD && !PrimeSeed) {
-		srand(time(NULL));
-		optCustomSeed = (rand() % ((MAX_SEED - MIN_SEED) + MIN_SEED));
-	}
-
-	GLOBAL_SIS (Seed) = optCustomSeed;
+	
 	GLOBAL_SIS (Difficulty) = optDifficulty;
 	GLOBAL_SIS (Extended) = optExtended;
 	GLOBAL_SIS (Nomad) = optNomad;
+	GLOBAL_SIS (Seed) = optCustomSeed;
+
+	if (DIF_HARD && !PrimeSeed) {
+		srand(time(NULL));
+		GLOBAL_SIS(Seed) = (rand() % ((MAX_SEED - MIN_SEED) + MIN_SEED));
+	}
 
 	GLOBAL (ElementWorth[COMMON]) = 1;
 	GLOBAL_SIS (ElementAmounts[COMMON]) = 0;
