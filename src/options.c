@@ -89,8 +89,6 @@ BOOLEAN optSuperMelee;
 BOOLEAN optLoadGame;
 BOOLEAN optCustomBorder;
 int optCustomSeed;
-int savedSeed;
-int newGameSeed;
 int spaceMusicBySOI;
 BOOLEAN optSpaceMusic;
 BOOLEAN optVolasMusic;
@@ -99,15 +97,9 @@ BOOLEAN optDirectionalJoystick; // For Android
 BOOLEAN optLanderHold;
 int optIPScaler;
 int optDifficulty;
-int savedDifficulty;
-int newGameDifficulty;
 BOOLEAN optFuelRange;
 BOOLEAN optExtended;
-BOOLEAN savedExtended;
-BOOLEAN newGameExtended;
 BOOLEAN optNomad;
-BOOLEAN savedNomad;
-BOOLEAN newGameNomad;
 
 BOOLEAN opt3doMusic;
 BOOLEAN optRemixMusic;

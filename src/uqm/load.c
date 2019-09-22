@@ -325,21 +325,6 @@ LoadGameState (GAME_STATE *GSPtr, void *fh)
 	read_a8  (fh, GSPtr->ElementWorth, NUM_ELEMENT_CATEGORIES);
 	read_16  (fh, &GSPtr->CurrentActivity);
 
-	switch (GSPtr->ElementWorth[7]) {
-		case ELEM_EASY:
-			savedDifficulty = 1;
-			break;
-		case ELEM_HARD:
-			savedDifficulty = 2;
-			break;
-		case ELEM_NORM:
-		default:
-			savedDifficulty = 0;
-	}
-
-	savedNomad = GSPtr->ModuleCost[7] == 39 ? TRUE : FALSE;
-	savedExtended = GSPtr->ModuleCost[9] == 39 ? TRUE : FALSE;
-
 	// JMS
 	if (LOBYTE (GSPtr->CurrentActivity) != IN_INTERPLANETARY)
 		res_scale = RESOLUTION_FACTOR;
@@ -445,7 +430,11 @@ LoadSisState (SIS_STATE *SSPtr, void *fp)
 
 			read_str (fp, SSPtr->ShipName, SIS_NAME_SIZE) != 1 ||
 			read_str (fp, SSPtr->CommanderName, SIS_NAME_SIZE) != 1 ||
-			read_str (fp, SSPtr->PlanetName, SIS_NAME_SIZE) != 1
+			read_str (fp, SSPtr->PlanetName, SIS_NAME_SIZE) != 1 ||
+			read_8   (fp, &SSPtr->Difficulty) != 1 ||
+			read_8   (fp, &SSPtr->Extended) != 1 ||
+			read_8   (fp, &SSPtr->Nomad) != 1 ||
+			read_32s (fp, &SSPtr->Seed) != 1
 		)
 		return FALSE;
  	else {
@@ -511,23 +500,6 @@ LoadSummary (SUMMARY_DESC *SummPtr, void *fp)
 			return FALSE;
 	}
 
-	{	// To show the Difficulty, Custom Seed, Extended, and Nomad status on the summary screen
-		PrevFLoc = TellResFile(fp);
-
-		SeekResFile(fp, 18, SEEK_CUR);
-		read_8(fp, &SummPtr->Nomad);
-		read_8(fp, NULL); // padding
-		read_8(fp, &SummPtr->Extended);
-
-		SeekResFile(fp, 17, SEEK_CUR);
-		read_8(fp, &SummPtr->Difficulty);
-
-		SeekResFile(fp, -4L, SEEK_END);
-		read_32s(fp, &SummPtr->Seed);
-
-		SeekResFile(fp, PrevFLoc, SEEK_SET);
-	}
-
 	return TRUE;
 }
 
@@ -540,7 +512,6 @@ LoadStarDesc (STAR_DESC *SDPtr, void *fh)
 	read_8  (fh, &SDPtr->Index);
 	read_8  (fh, &SDPtr->Prefix);
 	read_8  (fh, &SDPtr->Postfix);
-	read_32s(fh, &savedSeed);
 }
 
 static void
@@ -775,9 +746,6 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 
 	Activity = GLOBAL (CurrentActivity);
 
-	savedDifficulty = newGameDifficulty = 0;
-	savedExtended = newGameExtended = savedNomad = newGameNomad = FALSE;
-
 	if (!LoadGameState (&GlobData.Game_state, in_fp))
 	{
 		res_CloseResFile (in_fp);
@@ -849,8 +817,6 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 			}
 			break;
 		case STAR_TAG:
-			savedSeed = 0;
-			newGameSeed = 0;
 			LoadStarDesc (&SD, in_fp);			
 			loadGameCheats();
 			break;

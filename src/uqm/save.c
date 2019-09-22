@@ -1077,6 +1077,10 @@ SaveSisState (const SIS_STATE *SSPtr, void *fp)
 	write_str (fp, SSPtr->ShipName, SIS_NAME_SIZE);
 	write_str (fp, SSPtr->CommanderName, SIS_NAME_SIZE);
 	write_str (fp, SSPtr->PlanetName, SIS_NAME_SIZE);
+	write_8   (fp, SSPtr->Difficulty);
+	write_8   (fp, SSPtr->Extended);
+	write_8   (fp, SSPtr->Nomad);
+	write_32  (fp, SSPtr->Seed);
 }
 
 /* Write out the Summary Chunk. This is variable length because of the
@@ -1117,7 +1121,6 @@ SaveStarDesc (const STAR_DESC *SDPtr, uio_Stream *fh)
 	write_8  (fh, SDPtr->Index);
 	write_8  (fh, SDPtr->Prefix);
 	write_8  (fh, SDPtr->Postfix);
-	write_32 (fh, SeedA);
 }
 
 static void

@@ -29,8 +29,7 @@
 #ifndef LIBS_MATH_RANDOM_H_
 #define LIBS_MATH_RANDOM_H_
 
-#include "../../options.h"
-#include "../../uqm/setup.h"
+#include "../../uqm/globdata.h"
 
 /* ----------------------------GLOBALS/EXTERNS---------------------------- */
 
@@ -47,14 +46,14 @@ struct RandomContext {
 #endif
 
 #define PrimeA 16807
-#define SeedA (newGameSeed ? newGameSeed : (savedSeed ? savedSeed : PrimeA)) // Serosis - Default: 16807 - a relatively prime number - also M div Q
+#define MAX_SEED 2147483645
+#define MIN_SEED 2
+#define SANE_SEED(a) (((a) < MIN_SEED || (a) > MAX_SEED) ? false : true)
+#define SeedA (SANE_SEED(GLOBAL_SIS(Seed)) ? GLOBAL_SIS(Seed) : PrimeA) // Serosis - Default: 16807 - a relatively prime number - also M div Q
 #define SeedM (UINT32_MAX / 2) // 0xFFFFFFFF div 2
 #define SeedQ (SeedM / SeedA) // Serosis - Default: 127773L - M div A
 #define SeedR (SeedM % SeedA) // Serosis - Default: 2836 - M mod A 
 #define PrimeSeed (SeedA == PrimeA ? true : false)
-#define MAX_SEED 2147483645
-#define MIN_SEED 2
-#define SANE_SEED(a) (((a) < MIN_SEED || (a) > MAX_SEED) ? false : true)
 
 RandomContext *RandomContext_New (void);
 RandomContext *RandomContext_Set(DWORD Context);

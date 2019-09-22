@@ -158,6 +158,8 @@ typedef struct
 	UNICODE ShipName[SIS_NAME_SIZE];
 	UNICODE CommanderName[SIS_NAME_SIZE];
 	UNICODE PlanetName[SIS_NAME_SIZE];
+	BYTE Difficulty, Extended, Nomad;
+	SDWORD Seed;
 } SIS_STATE;
 
 #define OVERRIDE_LANDER_FLAGS (1 << 7)
@@ -176,7 +178,7 @@ extern void ContinueFlash (void);
 #define SFR_MENU_3DO ((RECT*)~0L)
 #define SFR_MENU_ANY ((RECT*)~1L)
 extern void DrawHyperCoords (POINT puniverse);
-extern void DrawDiffSeed(SDWORD seed, BYTE difficulty, BYTE extended, BYTE nomad);
+extern void DrawDiffSeed(SDWORD seed, BYTE difficulty, BOOLEAN extended, BOOLEAN nomad);
 extern void DrawSISTitle (UNICODE *pStr);
 
 // Flags for DrawSISMessageEx (may be OR'ed):

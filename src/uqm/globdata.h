@@ -1111,6 +1111,28 @@ BOOLEAN inHQSpace (void);
 BOOLEAN inHyperSpace (void);
 BOOLEAN inQuasiSpace (void);
 
+// Difficulty
+#define NORM 0
+#define EASY 1
+#define HARD 2
+#define DIFFICULTY (GLOBAL_SIS(Difficulty) ? GLOBAL_SIS(Difficulty) : NORM)
+#define DIF_CASE(a,b,c) (DIFFICULTY == NORM ? (a) : (DIFFICULTY == EASY ? (b) : (c)))
+#define DIF_NORM (DIFFICULTY == NORM ? true : false)
+#define DIF_EASY (DIFFICULTY == EASY ? true : false)
+#define DIF_HARD (DIFFICULTY == HARD ? true : false)
+#define IF_NORM(a,b) (!DIF_NORM ? (a) : (b))
+#define IF_EASY(a,b) (!DIF_EASY ? (a) : (b))
+#define IF_HARD(a,b) (!DIF_HARD ? (a) : (b))
+#define DIF_STR(a) ((a) == NORM ? "Normal" : ((a) == EASY ? "Easy" : "Hard"))
+
+// Extended
+#define EXTENDED (GLOBAL_SIS(Extended) ? TRUE : FALSE)
+#define EXT_STR(a) ((a) ? "True" : "False")
+
+// Nomad
+#define NOMAD (GLOBAL_SIS(Nomad) ? TRUE : FALSE)
+#define NOMAD_STR(a) ((a) ? "True" : "False")
+
 extern BOOLEAN InitGameStructures (void);
 extern void UninitGameStructures (void);
 

@@ -79,8 +79,6 @@ extern BOOLEAN optSuperMelee;
 extern BOOLEAN optLoadGame;
 extern BOOLEAN optCustomBorder;
 extern int optCustomSeed;
-extern int savedSeed;
-extern int newGameSeed;
 extern int spaceMusicBySOI;
 extern BOOLEAN optSpaceMusic;
 extern BOOLEAN optVolasMusic;
@@ -89,15 +87,9 @@ extern BOOLEAN optDirectionalJoystick; // For Android
 extern BOOLEAN optLanderHold;
 extern int optIPScaler;
 extern int optDifficulty;
-extern int savedDifficulty;
-extern int newGameDifficulty;
 extern BOOLEAN optFuelRange;
 extern BOOLEAN optExtended;
-extern BOOLEAN savedExtended;
-extern BOOLEAN newGameExtended;
 extern BOOLEAN optNomad;
-extern BOOLEAN savedNomad;
-extern BOOLEAN newGameNomad;
 
 extern BOOLEAN opt3doMusic;
 extern BOOLEAN optRemixMusic;

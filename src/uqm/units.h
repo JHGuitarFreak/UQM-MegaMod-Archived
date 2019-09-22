@@ -42,31 +42,6 @@ extern int ScreenHeight;
 #define IS_HD (RESOLUTION_FACTOR != HD ? false : true)
 #define UNSCALED_PLANETS(a,b) ((IS_HD && HDPackPresent && !optScalePlanets) ? (a) : (b))
 
-// Difficulty Units
-#define NORM 0
-#define EASY 1
-#define HARD 2
-#define DIFFICULTY (newGameDifficulty ? newGameDifficulty : (savedDifficulty ? savedDifficulty : NORM))
-#define DIF_CASE(a,b,c) (DIFFICULTY == NORM ? (a) : (DIFFICULTY == EASY ? (b) : (c)))
-#define DIF_NORM (DIFFICULTY == NORM ? true : false)
-#define DIF_EASY (DIFFICULTY == EASY ? true : false)
-#define DIF_HARD (DIFFICULTY == HARD ? true : false)
-#define IF_NORM(a,b) (!DIF_NORM ? (a) : (b))
-#define IF_EASY(a,b) (!DIF_EASY ? (a) : (b))
-#define IF_HARD(a,b) (!DIF_HARD ? (a) : (b))
-#define DIF_STR(a) ((a) == NORM ? "Normal" : ((a) == EASY ? "Easy" : "Hard"))
-#define ELEM_NORM 25
-#define ELEM_EASY (ELEM_NORM * 2)
-#define ELEM_HARD 16
-
-// Extended Units
-#define EXTENDED (newGameExtended ? newGameExtended : savedExtended)
-#define EXT_STR(a) ((a) ? "True" : "False")
-
-// Nomad Units
-#define NOMAD (newGameNomad ? newGameNomad : savedNomad)
-#define NOMAD_STR(a) ((a) ? "True" : "False")
-
 // Planet Name Units
 #define MET_A_SPATHI (GET_GAME_STATE(KNOW_SPATHI_QUEST) || GET_GAME_STATE(FOUND_PLUTO_SPATHI) || GET_GAME_STATE(SPATHI_VISITS))
 #define MET_AN_UTWIG (GET_GAME_STATE(UTWIG_HAVE_ULTRON) || GET_GAME_STATE(UTWIG_WAR_NEWS))
