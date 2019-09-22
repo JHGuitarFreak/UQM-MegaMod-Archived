@@ -36,7 +36,6 @@
 DWORD TFB_SeedRandom (DWORD seed);
 DWORD TFB_Random (void);
 
-
 typedef struct RandomContext RandomContext;
 
 #ifdef RANDOM2_INTERNAL
