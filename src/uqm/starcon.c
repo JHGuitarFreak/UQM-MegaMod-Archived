@@ -285,9 +285,6 @@ while (--ac > 0)
 			log_add(log_Info, "New Game Difficulty: %s\n", DIF_STR(newGameDifficulty));
 			log_add(log_Info, "New Game Extended: %s\n", EXT_STR(newGameExtended));
 			log_add(log_Info, "New Game Nomad: %s\n\n", NOMAD_STR(newGameNomad));
-
-			if (optSpaceMusic && LOBYTE(NextActivity) == IN_INTERPLANETARY)
-				playSpaceMusic(TRUE);
 		}
 
 #if defined(ANDROID) || defined(__ANDROID__)

@@ -903,8 +903,5 @@ LoadGame (COUNT which_game, SUMMARY_DESC *SummPtr)
 			&& LOBYTE (NextActivity) == IN_INTERPLANETARY)
 		NextActivity |= START_INTERPLANETARY;
 
-	if (optSpaceMusic && LOBYTE(NextActivity) == IN_INTERPLANETARY)
-		playSpaceMusic(TRUE);
-
 	return TRUE;
 }
