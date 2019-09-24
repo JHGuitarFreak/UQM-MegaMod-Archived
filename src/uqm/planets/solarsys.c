@@ -416,8 +416,8 @@ LoadIPData (void)
 		if(IS_HD && HDPackPresent)
 			OrbitalFrameIntersect = CaptureDrawable(LoadGraphic(ORBPLAN_INTERSECT_MASK_PMAP_ANIM));
 		SunCMap = CaptureColorMap (LoadColorMap (IPSUN_COLOR_MAP));
- 
-		SpaceMusic = LoadMusic (IP_MUSIC);
+
+		SpaceMusic = 0;
 	}
 
 	if (!SysGenRNG)
@@ -1982,17 +1982,17 @@ spaceMusicSwitch(BYTE SpeciesID) {
 }
 
 void
-playSpaceMusic(BOOLEAN ComingFromLoad) {
+playSpaceMusic() {
 
-	if (optSpaceMusic) {
-		findRaceSOI();
+	if (!SpaceMusic) {
+		if (optSpaceMusic) {
+			findRaceSOI();
 
-		if (ComingFromLoad) {
-			DestroyMusic(SpaceMusic);
-			SpaceMusic = 0;
+			SpaceMusic = LoadMusic(spaceMusicSwitch(spaceMusicBySOI)); // SOI MUSIC TEST
 		}
-
-		SpaceMusic = LoadMusic(spaceMusicSwitch(spaceMusicBySOI)); // SOI MUSIC TEST
+		else {
+			SpaceMusic = LoadMusic(IP_MUSIC);
+		}
 	}
 
 	// Do not start playing the music if we entered the solarsys only
@@ -2028,7 +2028,7 @@ ResetSolarSys (void)
 	CheckIntersect (TRUE);
 	pSolarSysState->InIpFlight = TRUE;
 
-	playSpaceMusic(FALSE);
+	playSpaceMusic();
 }
 
 static void
