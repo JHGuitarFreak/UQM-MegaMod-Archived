@@ -67,7 +67,7 @@ Edmund Horner
 Benjamin Wack
 Damon Czanik
 Oldlaptop
-Ala-Lala
+Ala-lala
 
 #(padding)
 13 C
