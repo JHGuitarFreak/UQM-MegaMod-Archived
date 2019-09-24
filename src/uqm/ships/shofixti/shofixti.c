@@ -49,7 +49,7 @@
 // Glory Device
 #define SPECIAL_ENERGY_COST 0
 #define DESTRUCT_RANGE RES_SCALE(180)
-#define MAX_DESTRUCTION (RES_SCALE(DESTRUCT_RANGE) / 10)
+#define MAX_DESTRUCTION (DESTRUCT_RANGE / 10)
 
 // Full game: Tanaka/Katana's damaged ships
 #define NUM_LIMPETS 3
