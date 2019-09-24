@@ -144,7 +144,11 @@ BATTLE_INPUT_STATE
 frameInputHuman (HumanInputContext *context, STARSHIP *StarShipPtr)
 {
 	(void) StarShipPtr;
-	return CurrentInputToBattleInput (context->playerNr, StarShipPtr ? StarShipPtr->ShipFacing : -1);
+#if defined(ANDROID) || defined(__ANDROID__)
+	return CurrentInputToBattleInputAndroid(context->playerNr, StarShipPtr ? StarShipPtr->ShipFacing : -1);
+#else
+	return CurrentInputToBattleInput(context->playerNr, -1);
+#endif
 }
 
 static void
