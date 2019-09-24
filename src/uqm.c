@@ -834,10 +834,16 @@ getUserConfigOptions (struct options_struct *options)
 	getBoolConfigValue (&options->useRemixMusic, "config.remixmusic");
 	getBoolConfigValue (&options->useSpeech, "config.speech");
 
+
+#if defined(ANDROID) || defined(__ANDROID__)
 	if (res_IsInteger("config.smoothmelee") && !options->meleeScale.set) {
 		options->meleeScale.value = res_GetInteger("config.smoothmelee");
 		options->meleeScale.set = true;
 	}
+#else	
+	getBoolConfigValueXlat (&options->meleeScale, "config.smoothmelee",
+			TFB_SCALE_TRILINEAR, TFB_SCALE_STEP);
+#endif
 
 	getListConfigValue (&options->soundDriver, "config.audiodriver",
 			audioDriverList);
