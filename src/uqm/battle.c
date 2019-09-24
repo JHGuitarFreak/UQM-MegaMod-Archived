@@ -145,7 +145,7 @@ frameInputHuman (HumanInputContext *context, STARSHIP *StarShipPtr)
 {
 	(void) StarShipPtr;
 #if defined(ANDROID) || defined(__ANDROID__)
-	return CurrentInputToBattleInputAndroid(context->playerNr, StarShipPtr ? StarShipPtr->ShipFacing : -1);
+	return CurrentInputToBattleInput(context->playerNr, StarShipPtr ? StarShipPtr->ShipFacing : -1);
 #else
 	return CurrentInputToBattleInput(context->playerNr, -1);
 #endif
