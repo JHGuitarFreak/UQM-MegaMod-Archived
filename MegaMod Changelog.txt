@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Properly declared the GameOver() function in fmv.h
 - Bug #20: Shofixti Glory Device range being scaled twice in HD
 - Bug #19: Super Melee scaler not loading properly on non-Android devices
+- Pull Request #21 by Ala-lala: Fix space music resource leaks
+- Pull Request #22 by Ala-lala: Fix memory leak when entering hyperspace in HD
 
 ## [v0.8.0.84]
 ### Fixed
