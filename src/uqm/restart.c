@@ -77,11 +77,15 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	char *Credit;
 	UNICODE buf[64];
 
-	// Re-load all of the restart menu fonts so the text shows in correct size after changing the resolution.
+	// Re-load all of the restart menu fonts and graphics so the text and background show in the correct size and resolution.
 	if (optRequiresRestart || !PacksInstalled()) {	
 		DestroyFont (TinyFont);
 		DestroyFont (PlyrFont);
 		DestroyFont (StarConFont);
+		if (pMS->CurFrame) {
+			DestroyDrawable(ReleaseDrawable(pMS->CurFrame));
+			pMS->CurFrame = 0;
+		}
 	}	
 
 	// DC: Load the different menus and fonts depending on the resolution factor
@@ -92,14 +96,16 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 			PlyrFont = LoadFont(PLYR_FALLBACK_TO_ORIG_FONT);
 			StarConFont = LoadFont(SCON_FALLBACK_TO_ORIG_FONT);
 		}
-		pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM));
+		if (pMS->CurFrame == 0)
+			pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM));
 	} else {
 		if (optRequiresRestart || !PacksInstalled()) {
 			TinyFont = LoadFont(TINY_FALLBACK_TO_HD_FONT);
 			PlyrFont = LoadFont(PLYR_FALLBACK_TO_HD_FONT);
 			StarConFont = LoadFont(SCON_FALLBACK_TO_HD_FONT);
 		}
-		pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM_HD));
+		if (pMS->CurFrame == 0)
+			pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM_HD));
 	}
 
 	s.frame = pMS->CurFrame;
@@ -139,14 +145,13 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 	UnbatchGraphics ();
 }
 
-// JMS_GFX: The cleanup boolean can be used to avoid drawing a wrong-sized "Setup" flash overlay.
 static void
-DrawRestartMenu (MENU_STATE *pMS, BYTE NewState, FRAME f, BOOLEAN cleanup)
+DrawRestartMenu (MENU_STATE *pMS, BYTE NewState, FRAME f)
 {
 	POINT origin;
 	origin.x = 0;
 	origin.y = 0;
-	Flash_setOverlay (pMS->flashContext, &origin, SetAbsFrameIndex (f, NewState + 1), cleanup);
+	Flash_setOverlay (pMS->flashContext, &origin, SetAbsFrameIndex (f, NewState + 1), FALSE);
 }
 
 static BOOLEAN
@@ -172,6 +177,22 @@ RestartMessage(MENU_STATE *pMS, TimeCount TimeIn){
 		return TRUE;
 	} else 
 		return FALSE;
+}
+
+static void
+InitFlash(MENU_STATE *pMS)
+{
+	pMS->flashContext = Flash_createOverlay(ScreenContext,
+		NULL, NULL);
+	Flash_setMergeFactors(pMS->flashContext, -3, 3, 16);
+	Flash_setSpeed(pMS->flashContext, (6 * ONE_SECOND) / 14, 0,
+		(6 * ONE_SECOND) / 14, 0);
+	Flash_setFrameTime(pMS->flashContext, ONE_SECOND / 16);
+	Flash_setState(pMS->flashContext, FlashState_fadeIn,
+		(3 * ONE_SECOND) / 16);
+
+	DrawRestartMenu(pMS, pMS->CurState, pMS->CurFrame);
+	Flash_start(pMS->flashContext);
 }
 
 static BOOLEAN
@@ -208,17 +229,7 @@ DoRestart (MENU_STATE *pMS)
 		pMS->hMusic = loadMainMenuMusic (Rando);
 		InactTimeOut = (optMainMenuMusic ? 60 : 20) * ONE_SECOND;
 
-		pMS->flashContext = Flash_createOverlay (ScreenContext,
-				NULL, NULL);
-		Flash_setMergeFactors (pMS->flashContext, -3, 3, 16);
-		Flash_setSpeed (pMS->flashContext, (6 * ONE_SECOND) / 14, 0,
-				(6 * ONE_SECOND) / 14, 0);
-		Flash_setFrameTime (pMS->flashContext, ONE_SECOND / 16);
-		Flash_setState(pMS->flashContext, FlashState_fadeIn,
-				(3 * ONE_SECOND) / 16);
-
-		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-		Flash_start (pMS->flashContext);
+		InitFlash(pMS);
 		LastInputTime = GetTimeCounter ();
 		pMS->Initialized = TRUE;
 
@@ -266,10 +277,8 @@ DoRestart (MENU_STATE *pMS)
 				break;
 			case SETUP_GAME:
 				oldresfactor = resolutionFactor;
-				
-				Flash_pause(pMS->flashContext);
-				Flash_setState(pMS->flashContext, FlashState_fadeIn,
-						(3 * ONE_SECOND) / 16);
+
+				Flash_terminate(pMS->flashContext);
 				SetupMenu ();
 				SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN,
 						MENU_SOUND_SELECT);
@@ -281,12 +290,8 @@ DoRestart (MENU_STATE *pMS)
 				BatchGraphics ();
 				DrawRestartMenuGraphic (pMS);
 				ScreenTransition (3, NULL);
-				// JMS_GFX: This prevents drawing an annoying wrong-sized "Setup" frame when changing resolution. 
-				if (oldresfactor < RESOLUTION_FACTOR)
-					DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, TRUE);
 				
-				DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
-				Flash_continue(pMS->flashContext);
+				InitFlash(pMS);
 				UnbatchGraphics ();
 				return TRUE;
 			case QUIT_GAME:
@@ -322,7 +327,7 @@ DoRestart (MENU_STATE *pMS)
 		if (NewState != pMS->CurState)
 		{
 			BatchGraphics ();
-			DrawRestartMenu (pMS, NewState, pMS->CurFrame, FALSE);
+			DrawRestartMenu (pMS, NewState, pMS->CurFrame);
 			UnbatchGraphics ();
 			pMS->CurState = NewState;
 		}
@@ -343,7 +348,7 @@ DoRestart (MENU_STATE *pMS)
 		SetTransitionSource (NULL);
 		BatchGraphics ();
 		DrawRestartMenuGraphic (pMS);
-		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame, FALSE);
+		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame);
 		ScreenTransition (3, NULL);
 		UnbatchGraphics ();
 		Flash_continue(pMS->flashContext);
