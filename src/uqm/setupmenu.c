@@ -2223,7 +2223,7 @@ SetGlobalOptions (GLOBALOPTS *opts)
 	}
 	res_PutInteger("config.smoothmelee", opts->meleezoom);
 #else
-	res_PutInteger("config.smoothmelee", opts->meleezoom == OPTVAL_3DO);
+	res_PutBoolean("config.smoothmelee", opts->meleezoom == OPTVAL_3DO);
 #endif
 	res_PutBoolean ("config.positionalsfx", opts->stereo == OPTVAL_ENABLED); 
 	res_PutBoolean ("config.pulseshield", opts->shield == OPTVAL_3DO);
