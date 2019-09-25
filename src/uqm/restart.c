@@ -83,29 +83,28 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 		DestroyFont (PlyrFont);
 		DestroyFont (StarConFont);
 		if (pMS->CurFrame) {
-			DestroyDrawable(ReleaseDrawable(pMS->CurFrame));
+			DestroyDrawable (ReleaseDrawable (pMS->CurFrame));
 			pMS->CurFrame = 0;
 		}
 	}	
 
 	// DC: Load the different menus and fonts depending on the resolution factor
-
 	if (!IS_HD) {
 		if (optRequiresRestart || !PacksInstalled()) {
-			TinyFont = LoadFont(TINY_FALLBACK_TO_ORIG_FONT);
-			PlyrFont = LoadFont(PLYR_FALLBACK_TO_ORIG_FONT);
-			StarConFont = LoadFont(SCON_FALLBACK_TO_ORIG_FONT);
+			TinyFont = LoadFont (TINY_FALLBACK_TO_ORIG_FONT);
+			PlyrFont = LoadFont (PLYR_FALLBACK_TO_ORIG_FONT);
+			StarConFont = LoadFont (SCON_FALLBACK_TO_ORIG_FONT);
 		}
 		if (pMS->CurFrame == 0)
-			pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM));
+			pMS->CurFrame = CaptureDrawable (LoadGraphic(RESTART_PMAP_ANIM));
 	} else {
 		if (optRequiresRestart || !PacksInstalled()) {
-			TinyFont = LoadFont(TINY_FALLBACK_TO_HD_FONT);
-			PlyrFont = LoadFont(PLYR_FALLBACK_TO_HD_FONT);
-			StarConFont = LoadFont(SCON_FALLBACK_TO_HD_FONT);
+			TinyFont = LoadFont (TINY_FALLBACK_TO_HD_FONT);
+			PlyrFont = LoadFont (PLYR_FALLBACK_TO_HD_FONT);
+			StarConFont = LoadFont (SCON_FALLBACK_TO_HD_FONT);
 		}
 		if (pMS->CurFrame == 0)
-			pMS->CurFrame = CaptureDrawable(LoadGraphic(RESTART_PMAP_ANIM_HD));
+			pMS->CurFrame = CaptureDrawable (LoadGraphic(RESTART_PMAP_ANIM_HD));
 	}
 
 	s.frame = pMS->CurFrame;
@@ -132,15 +131,14 @@ DrawRestartMenuGraphic (MENU_STATE *pMS)
 
 	// Put the main menu music credit in the bottom left corner.
 	if (optMainMenuMusic) {
-		memset(&buf[0], 0, sizeof(buf));
+		memset (&buf[0], 0, sizeof (buf));
 		t.baseline.x = RES_SCALE(2);
 		t.baseline.y = SCREEN_HEIGHT - RES_SCALE(2);
 		t.align = ALIGN_LEFT;
 		Credit = (Rando == 0 ? "Saibuster" : (Rando == 1 ? "Rush AX" : "Mark Vera"));
 		sprintf(buf, "Main Menu Music by %s", Credit);
-		font_DrawText(&t);
+		font_DrawText (&t);
 	}
-
 
 	UnbatchGraphics ();
 }
@@ -162,17 +160,17 @@ RestartMessage(MENU_STATE *pMS, TimeCount TimeIn){
 		// Got to restart -message
 		SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
 		SetTransitionSource (NULL);
-		SleepThreadUntil (FadeScreen(FadeAllToBlack, ONE_SECOND / 2));
+		SleepThreadUntil (FadeScreen (FadeAllToBlack, ONE_SECOND / 2));
 		GLOBAL (CurrentActivity) = CHECK_ABORT;	
 		restartGame = TRUE;
 		return TRUE;
-	} else if (!PacksInstalled()) {
-		Flash_pause(pMS->flashContext);
+	} else if (!PacksInstalled ()) {
+		Flash_pause (pMS->flashContext);
 		DoPopupWindow (GAME_STRING (MAINMENU_STRING_BASE + 35 + RESOLUTION_FACTOR));
 		// Could not find graphics pack - message
 		SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN, MENU_SOUND_SELECT);	
 		SetTransitionSource (NULL);
-		Flash_continue(pMS->flashContext);
+		Flash_continue (pMS->flashContext);
 		SleepThreadUntil (TimeIn + ONE_SECOND / 30);
 		return TRUE;
 	} else 
@@ -180,19 +178,19 @@ RestartMessage(MENU_STATE *pMS, TimeCount TimeIn){
 }
 
 static void
-InitFlash(MENU_STATE *pMS)
+InitFlash (MENU_STATE *pMS)
 {
-	pMS->flashContext = Flash_createOverlay(ScreenContext,
+	pMS->flashContext = Flash_createOverlay (ScreenContext,
 		NULL, NULL);
-	Flash_setMergeFactors(pMS->flashContext, -3, 3, 16);
-	Flash_setSpeed(pMS->flashContext, (6 * ONE_SECOND) / 14, 0,
+	Flash_setMergeFactors (pMS->flashContext, -3, 3, 16);
+	Flash_setSpeed (pMS->flashContext, (6 * ONE_SECOND) / 14, 0,
 		(6 * ONE_SECOND) / 14, 0);
-	Flash_setFrameTime(pMS->flashContext, ONE_SECOND / 16);
-	Flash_setState(pMS->flashContext, FlashState_fadeIn,
+	Flash_setFrameTime (pMS->flashContext, ONE_SECOND / 16);
+	Flash_setState (pMS->flashContext, FlashState_fadeIn,
 		(3 * ONE_SECOND) / 16);
 
-	DrawRestartMenu(pMS, pMS->CurState, pMS->CurFrame);
-	Flash_start(pMS->flashContext);
+	DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame);
+	Flash_start (pMS->flashContext);
 }
 
 static BOOLEAN
@@ -229,7 +227,7 @@ DoRestart (MENU_STATE *pMS)
 		pMS->hMusic = loadMainMenuMusic (Rando);
 		InactTimeOut = (optMainMenuMusic ? 60 : 20) * ONE_SECOND;
 
-		InitFlash(pMS);
+		InitFlash (pMS);
 		LastInputTime = GetTimeCounter ();
 		pMS->Initialized = TRUE;
 
@@ -254,7 +252,7 @@ DoRestart (MENU_STATE *pMS)
 		switch (pMS->CurState)
 		{
 			case LOAD_SAVED_GAME:
-				if (!RestartMessage(pMS, TimeIn)) {
+				if (!RestartMessage (pMS, TimeIn)) {
 					LastActivity = CHECK_LOAD;
 					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
 					optLoadGame = FALSE;
@@ -262,14 +260,14 @@ DoRestart (MENU_STATE *pMS)
 					return TRUE;
 				break;
 			case START_NEW_GAME:
-				if (!RestartMessage(pMS, TimeIn)) {
+				if (!RestartMessage (pMS, TimeIn)) {
 					LastActivity = CHECK_LOAD | CHECK_RESTART;
 					GLOBAL (CurrentActivity) = IN_INTERPLANETARY;
 				} else
 					return TRUE;
 				break;
 			case PLAY_SUPER_MELEE:
-				if (!RestartMessage(pMS, TimeIn)) {
+				if (!RestartMessage (pMS, TimeIn)) {
 					GLOBAL (CurrentActivity) = SUPER_MELEE;
 					optSuperMelee = FALSE;
 				} else
@@ -278,7 +276,7 @@ DoRestart (MENU_STATE *pMS)
 			case SETUP_GAME:
 				oldresfactor = resolutionFactor;
 
-				Flash_terminate(pMS->flashContext);
+				Flash_terminate (pMS->flashContext);
 				SetupMenu ();
 				SetMenuSounds (MENU_SOUND_UP | MENU_SOUND_DOWN,
 						MENU_SOUND_SELECT);
@@ -291,7 +289,7 @@ DoRestart (MENU_STATE *pMS)
 				DrawRestartMenuGraphic (pMS);
 				ScreenTransition (3, NULL);
 				
-				InitFlash(pMS);
+				InitFlash (pMS);
 				UnbatchGraphics ();
 				return TRUE;
 			case QUIT_GAME:
@@ -300,7 +298,7 @@ DoRestart (MENU_STATE *pMS)
 				break;
 		}
 
-		Flash_pause(pMS->flashContext);
+		Flash_pause (pMS->flashContext);
 
 		return FALSE;
 	}
@@ -351,7 +349,7 @@ DoRestart (MENU_STATE *pMS)
 		DrawRestartMenu (pMS, pMS->CurState, pMS->CurFrame);
 		ScreenTransition (3, NULL);
 		UnbatchGraphics ();
-		Flash_continue(pMS->flashContext);
+		Flash_continue (pMS->flashContext);
 
 		LastInputTime = GetTimeCounter ();
 	}
@@ -361,7 +359,7 @@ DoRestart (MENU_STATE *pMS)
 		// (until the next time the game is restarted). This is to prevent
 		// showing the credits with the wrong resolution mode's font&background.
 		if (GetTimeCounter () - LastInputTime > InactTimeOut
-			&& !optRequiresRestart && PacksInstalled())
+			&& !optRequiresRestart && PacksInstalled ())
 		{
 			SleepThreadUntil (FadeMusic (0, ONE_SECOND/2));
 			StopMusic ();
@@ -406,7 +404,7 @@ RestartMenu (MENU_STATE *pMS)
 
 		GLOBAL(CurrentActivity) = IN_ENCOUNTER;
 
-		GameOver(SUICIDE);
+		GameOver (SUICIDE);
 		DeathBySuicide = FALSE;
 
 		FreeGameData();
@@ -416,17 +414,17 @@ RestartMenu (MENU_STATE *pMS)
 	{
 		TimeOut = ONE_SECOND / 2;
 
-		if (GLOBAL_SIS(CrewEnlisted) == (COUNT)~0) 
+		if (GLOBAL_SIS (CrewEnlisted) == (COUNT)~0) 
 		{
 			GLOBAL(CurrentActivity) = IN_ENCOUNTER;
 
-			if (DeathByMelee && GLOBAL_SIS(CrewEnlisted) == (COUNT)~0) {
-				GameOver(DIED_IN_BATTLE);
+			if (DeathByMelee && GLOBAL_SIS (CrewEnlisted) == (COUNT)~0) {
+				GameOver (DIED_IN_BATTLE);
 				DeathByMelee = FALSE;
 			}
 
-			if (DeathBySurrender && GLOBAL_SIS(CrewEnlisted) == (COUNT)~0) {
-				GameOver(SURRENDERED);
+			if (DeathBySurrender && GLOBAL_SIS (CrewEnlisted) == (COUNT)~0) {
+				GameOver (SURRENDERED);
 				DeathBySurrender = FALSE;
 			}
 		}
@@ -438,8 +436,8 @@ RestartMenu (MENU_STATE *pMS)
 			Credits (TRUE);
 		}
 
-		FreeGameData();
-		GLOBAL(CurrentActivity) = CHECK_ABORT;
+		FreeGameData ();
+		GLOBAL (CurrentActivity) = CHECK_ABORT;
 	}
 
 	LastActivity = 0;
