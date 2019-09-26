@@ -547,6 +547,7 @@ DoTimePassage (void)
 	MoveGameClockDays (LOST_DAYS);
 
 	// JMS: Calculate flagship location in IP.
+	if (optOrbitingPlanets)
 	{
 		double newAngle;
 		POINT starbase_coords;
@@ -564,21 +565,9 @@ DoTimePassage (void)
 		
 		//log_add (log_Debug, "startangle:%d angle:%f, radius:%d, speed:%f, days:%f X:%d, y:%d", 10, newAngle, MIN_MOON_RADIUS, FULL_CIRCLE / 11.46, daysElapsed(), starbase_coords.x, starbase_coords.y);
 		
-		// Translate the coordinates on a circle to an ellipse.
-		r.corner.x = (SIS_SCREEN_WIDTH >> 1) + (long)-dx;
-		r.corner.y = (SIS_SCREEN_HEIGHT >> 1) + (long)-dy / 2;
-		r.extent.width = (long)MIN_MOON_RADIUS * (2 << 1) / 2;
-		r.extent.height = r.extent.width >> 1;
-		r.corner.x += r.extent.width >> 1;
-		r.corner.y += r.extent.height >> 1;
-		r.corner.x += (long)starbase_coords.x;
-		r.corner.y += (long)starbase_coords.y / 2;
-		
-		//log_add (log_Debug, "X:%d, y:%d", r.corner.x, r.corner.y);
-		
-		// Update the ship's graphics' coordinates on the screen.
-		GLOBAL (ShipStamp.origin.x) = r.corner.x;
-		GLOBAL (ShipStamp.origin.y) = r.corner.y;
+		// Translate the coordinates on a circle to an ellipse and update the ship's graphics' coordinates on the screen.
+		GLOBAL (ShipStamp.origin.x) = (SIS_SCREEN_WIDTH >> 1) + starbase_coords.x;
+		GLOBAL (ShipStamp.origin.y) = (SIS_SCREEN_HEIGHT >> 1) + (starbase_coords.y >> 1);
 	}
 }
 
@@ -687,6 +676,9 @@ void
 InstallBombAtEarth (void)
 {
 	DoTimePassage ();
+
+	GLOBAL (ShipStamp.origin.x) = SIS_SCREEN_WIDTH >> 1;
+	GLOBAL (ShipStamp.origin.y) = SIS_SCREEN_HEIGHT >> 1;
 
 	SetContext (ScreenContext);
 	SetTransitionSource (NULL);
