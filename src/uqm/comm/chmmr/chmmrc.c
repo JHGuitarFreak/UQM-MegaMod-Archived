@@ -26,6 +26,8 @@
 			// for SOL_X/SOL_Y
 #include "../../nameref.h"
 			// JMS_GFX: For LoadGraphic 
+#include "../../planets/planets.h"
+			// For MIN_MOON_RADIUS
 
 
 static LOCDATA chmmr_desc =
@@ -154,12 +156,6 @@ ExitConversation (RESPONSE_REF R)
 		GLOBAL (ModuleCost[PLANET_LANDER]) = 0;
 
 #define EARTH_INDEX 2 /* earth is 3rd planet --> 3 - 1 = 2 */
-/* Magic numbers for Earth */
-#define EARTH_INNER_X (121)
-#define EARTH_INNER_Y (113)
-/* Magic numbers for Earth Starbase */
-#define STARBASE_INNER_X (86)
-#define STARBASE_INNER_Y (113)
 
 		/* transport player to Earth */
 		GLOBAL_SIS (log_x) = UNIVERSE_TO_LOGX (SOL_X);
@@ -185,8 +181,9 @@ ExitConversation (RESPONSE_REF R)
 
 			/* XXX : this should be unhardcoded eventually */
 			/* transport to Starbase */
-			GLOBAL (ShipStamp.origin.x) = SIS_SCREEN_WIDTH >> 1;
-			GLOBAL (ShipStamp.origin.y) = SIS_SCREEN_HEIGHT >> 1;
+			/* note: if optOrbitingPlanets is enabled, this will be corrected in DoTimePassage */
+			GLOBAL (ShipStamp.origin.x) = (SIS_SCREEN_WIDTH >> 1) + COSINE(HALF_CIRCLE + QUADRANT, MIN_MOON_RADIUS);
+			GLOBAL (ShipStamp.origin.y) = (SIS_SCREEN_HEIGHT >> 1) + SINE(HALF_CIRCLE + QUADRANT, MIN_MOON_RADIUS >> 1);
 		}
 		else
 		{	/* 'Beating Game Differently' mode - never visited Starbase,
@@ -215,11 +212,6 @@ ExitConversation (RESPONSE_REF R)
 				GLOBAL_SIS (ModuleSlots[i]) = GLOBAL_SIS (ModuleSlots[m]);
 				GLOBAL_SIS (ModuleSlots[m]) = EMPTY_SLOT + 2;
 			}
-
-			/* XXX : this should be unhardcoded eventually */
-			/* transport to Earth itself */
-			GLOBAL (ShipStamp.origin.x) = EARTH_INNER_X;
-			GLOBAL (ShipStamp.origin.y) = EARTH_INNER_Y;
 		}
 
 		/* install Chmmr-supplied modules */
