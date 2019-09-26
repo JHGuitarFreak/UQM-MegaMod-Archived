@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ### Fixed
 - Properly declared the GameOver() function in fmv.h
+- Properly redraw the title bars when exiting from the Save/Load screen
 - Bug #20: Shofixti Glory Device range being scaled twice in HD
 - Bug #19: Super Melee scaler not loading properly on non-Android devices
 - Pull Request #21 by Ala-lala: Fix space music resource leaks
