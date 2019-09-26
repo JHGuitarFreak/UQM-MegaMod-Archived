@@ -636,6 +636,13 @@ onNamingDone (void)
 	DrawFlagshipName (FALSE, FALSE);
 }
 
+static void
+DrawLocation (void)
+{
+	DrawSISMessage (GAME_STRING (STARBASE_STRING_BASE + 2));
+	DrawSISTitle (GAME_STRING (STARBASE_STRING_BASE));
+}
+
 BOOLEAN
 DoOutfit (MENU_STATE *pMS)
 {
@@ -648,6 +655,7 @@ DoOutfit (MENU_STATE *pMS)
 		pMS->Initialized = TRUE;
 
 		SetNamingCallback (onNamingDone);
+		SetSISBarDrawFunc (DrawLocation);
 
 		{
 			COUNT num_frames;
@@ -666,8 +674,7 @@ DoOutfit (MENU_STATE *pMS)
 			SetTransitionSource (NULL);
 			BatchGraphics ();
 			DrawSISFrame ();
-			DrawSISMessage (GAME_STRING (STARBASE_STRING_BASE + 2));
-			DrawSISTitle (GAME_STRING (STARBASE_STRING_BASE));
+			DrawLocation ();
 
 			SetContext (SpaceContext);
 
@@ -761,6 +768,7 @@ ExitOutfit:
 			pMS->ModuleFrame = 0;
 
 			SetNamingCallback (NULL);
+			SetSISBarDrawFunc (NULL);
 
 			return (FALSE);
 		}

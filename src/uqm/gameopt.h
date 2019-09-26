@@ -30,6 +30,10 @@ typedef void (NamingCallback) (void);
 extern void SetNamingCallback (NamingCallback *);
 extern void AskNameForCaptainAndShip(void);
 
+typedef void (SISBarDrawFunc) (void);
+// The function passed to this, if not null, is called instead when PickGame would normally redraw the SIS message and title with the current location.
+extern void SetSISBarDrawFunc (SISBarDrawFunc *);
+
 #if defined(__cplusplus)
 }
 #endif

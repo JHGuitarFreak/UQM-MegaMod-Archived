@@ -1506,6 +1506,13 @@ DrawBluePrint (MENU_STATE *pMS)
 	DestroyDrawable (ReleaseDrawable (ModuleFrame));
 }
 
+static void
+DrawLocation (void)
+{
+	DrawSISMessage (GAME_STRING (STARBASE_STRING_BASE + 3));
+	DrawSISTitle (GAME_STRING (STARBASE_STRING_BASE));
+}
+
 BOOLEAN
 DoShipyard (MENU_STATE *pMS)
 {
@@ -1520,6 +1527,8 @@ DoShipyard (MENU_STATE *pMS)
 	if (!pMS->Initialized)
 	{
 		pMS->InputFunc = DoShipyard;
+
+		SetSISBarDrawFunc (DrawLocation);
 
 		{
 			STAMP s;
@@ -1536,8 +1545,7 @@ DoShipyard (MENU_STATE *pMS)
 			SetTransitionSource (NULL);
 			BatchGraphics ();
 			DrawSISFrame ();
-			DrawSISMessage (GAME_STRING (STARBASE_STRING_BASE + 3));
-			DrawSISTitle (GAME_STRING (STARBASE_STRING_BASE));
+			DrawLocation ();
 			SetContext (SpaceContext);
 			DrawBluePrint (pMS);
 
@@ -1584,6 +1592,7 @@ DoShipyard (MENU_STATE *pMS)
 	{
 ExitShipyard:
 		SetInputCallback (NULL);
+		SetSISBarDrawFunc (NULL);
 
 		DestroyDrawable (ReleaseDrawable (pMS->ModuleFrame));
 		pMS->ModuleFrame = 0;
