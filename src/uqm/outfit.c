@@ -642,6 +642,8 @@ DoOutfit (MENU_STATE *pMS)
 	if (GLOBAL (CurrentActivity) & CHECK_ABORT)
 		goto ExitOutfit;
 
+	OutfitOrShipyard = 2;
+
 	if (!pMS->Initialized)
 	{
 		pMS->InputFunc = DoOutfit;
@@ -668,7 +670,6 @@ DoOutfit (MENU_STATE *pMS)
 			DrawSISFrame ();
 			DrawSISMessage (GAME_STRING (STARBASE_STRING_BASE + 2));
 			DrawSISTitle (GAME_STRING (STARBASE_STRING_BASE));
-
 			SetContext (SpaceContext);
 
 			DrawStamp (&s);

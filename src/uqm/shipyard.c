@@ -1516,6 +1516,8 @@ DoShipyard (MENU_STATE *pMS)
 	select = PulsedInputState.menu[KEY_MENU_SELECT];
 	cancel = PulsedInputState.menu[KEY_MENU_CANCEL];
 
+	OutfitOrShipyard = 3;
+
 	SetMenuSounds (MENU_SOUND_ARROWS, MENU_SOUND_SELECT);
 	if (!pMS->Initialized)
 	{

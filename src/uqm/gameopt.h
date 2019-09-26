@@ -30,6 +30,8 @@ typedef void (NamingCallback) (void);
 extern void SetNamingCallback (NamingCallback *);
 extern void AskNameForCaptainAndShip(void);
 
+extern BYTE OutfitOrShipyard;
+
 #if defined(__cplusplus)
 }
 #endif

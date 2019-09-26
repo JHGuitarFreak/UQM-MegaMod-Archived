@@ -50,6 +50,8 @@ static COUNT lastUsedSlot;
 
 static NamingCallback *namingCB;
 
+BYTE OutfitOrShipyard = 0;
+
 void
 ConfirmSaveLoad (STAMP *MsgStamp)
 {
@@ -1359,7 +1361,9 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 
 	if (!(GLOBAL (CurrentActivity) & CHECK_ABORT) &&
 			(saving || (!pickState.success && !fromMainMenu)))
-	{	// Restore previous screen
+	{	
+		// Restore previous screen
+		BOOLEAN InStarbase = (GET_GAME_STATE (GLOBAL_FLAGS_AND_DATA) == (BYTE)~0);
 
 		// Math to include the title bars in the screen transition
 		DlgRect.extent.width += DlgRect.corner.x;
@@ -1372,16 +1376,27 @@ PickGame (BOOLEAN saving, BOOLEAN fromMainMenu)
 		DrawStamp (&DlgStamp);
 
 		// These redraw the status of the ship after saving or aborting a load/save
-		DeltaSISGauges(UNDEFINED_DELTA, UNDEFINED_DELTA, UNDEFINED_DELTA); // Redraws fuel, crew, and status message (green box)
-		DrawSISMessage(NULL); // Redraws main title bar at the top-left
+
+		// Redraws main title bar at the top-left
+		if (InStarbase && OutfitOrShipyard > 1)
+			DrawSISMessage (GAME_STRING (STARBASE_STRING_BASE + OutfitOrShipyard));
+		else
+			DrawSISMessage (NULL);
+
+		OutfitOrShipyard = 0;
 
 		// Redraws secondary title bar to the right of the main bar
-		if (inHQSpace())
-			DrawHyperCoords(GLOBAL(ShipStamp.origin));
-		else if (GLOBAL(ip_planet) == 0)
-			DrawHyperCoords(CurStarDescPtr->star_pt);
+		if (inHQSpace ())
+			DrawHyperCoords (GLOBAL (ShipStamp.origin));
+		else if (InStarbase)
+			DrawSISTitle (GAME_STRING (STARBASE_STRING_BASE + 0));
+		else if (GLOBAL (ip_planet) == 0)
+			DrawHyperCoords (CurStarDescPtr->star_pt);
 		else
-			DrawSISTitle(GLOBAL_SIS(PlanetName));
+			DrawSISTitle (GLOBAL_SIS (PlanetName));
+
+		// Redraws fuel, crew, and status message (green box)
+		DeltaSISGauges(UNDEFINED_DELTA, UNDEFINED_DELTA, UNDEFINED_DELTA);
 
 		ScreenTransition (3, &DlgRect);
 		UnbatchGraphics ();
