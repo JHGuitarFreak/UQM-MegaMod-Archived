@@ -551,12 +551,6 @@ DoTimePassage (void)
 	{
 		double newAngle;
 		POINT starbase_coords;
-		RECT r;
-		COORD dx, dy;
-		
-		// Starbase's radius from earth is MIN_MOON_RADIUS.
-		dx = MIN_MOON_RADIUS;
-		dy = MIN_MOON_RADIUS;
 		
 		// Calculate the starbase position on a circle with the help of sin and cos.
 		newAngle = ((double)(10) + daysElapsed() * (FULL_CIRCLE / 11.46)) * M_PI / 32 - M_PI/2 ; // JMS: Starbase orbit values copied from gensol.c
