@@ -270,6 +270,7 @@ log.txt
 *.lib
 !dev-lib/[^.]*
 .DS_Store
+bin/*
 
 *.tlog
 
