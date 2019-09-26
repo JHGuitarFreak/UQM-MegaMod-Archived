@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Pull Request #22 by Ala-lala: Fix memory leak when entering hyperspace in HD
 - Pull Request #23 by Ala-lala: Fix main menu graphics leak
 - Pull Request #24 by Ala-lala: Properly display RU during conversation with Hayes after transport to starbase
+- Pull Request #25 by Ala-lala: Fix issues with the Sa-Matra and Druuge AIs' use of WORLD_TO_TURN in HD
 
 ## [v0.8.0.84]
 ### Fixed
