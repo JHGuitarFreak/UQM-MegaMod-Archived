@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Pull Request #23 by Ala-lala: Fix main menu graphics leak
 - Pull Request #24 by Ala-lala: Properly display RU during conversation with Hayes after transport to starbase
 - Pull Request #25 by Ala-lala: Fix issues with the Sa-Matra and Druuge AIs' use of WORLD_TO_TURN in HD
+- Pull Request #27 by Ala-lala: Fix positioning of SIS after time passes at StarBase and in a no-StarBase run at endgame
 
 ## [v0.8.0.84]
 ### Fixed
