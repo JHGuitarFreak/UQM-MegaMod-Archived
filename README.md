@@ -1,29 +1,5 @@
-# The Ur-Quan Masters MegaMod
-A fork of The Ur-Quan Masters that continues the HD mod with a veritable smorgasbord of extra features.
-
-## Changes from the original
-
-A full list of changes and features can be found on the [Main site](http://megamod.serosis.net/Features).
-
-And the current changelog can be found in the repository: [Changelog](https://github.com/Serosis/UQM-MegaMod/blob/master/MegaMod%20Changelog.txt)
-
-## Motivation
-
-This project exists out of my love for Star Control II and The Ur-Quan Masters project. Fiddling with the code as a hobby to try and expand my skill as a programmer.
-
-## Windows Installation
-
-Open up the installer, pick your optional content, wait for all of it to download and install, then play!
-
-## MacOS X Installation
-
-Mount the .dmg file and copy the app to your Applications folder.
-
-## Building Yourself
-
-I've made the process super easy for Windows, as long as you have either Visual Studio 2008 or Visual Studio 2019. Just load up the solution file and compile away.
-
-For other platforms you'll have to gather all of the necessary dependencies and hope for the best.
+# The Ur-Quan Masters MegaMod - Archived
+This repository has been archived and kept online for history and posterity
 
 ## Contributors
 
