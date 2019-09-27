@@ -276,7 +276,6 @@ log.txt
 *.exe
 *.dll
 *.user
-*.filters
 *.tlog
 *.exp
 
