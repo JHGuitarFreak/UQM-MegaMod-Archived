@@ -16,6 +16,8 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+Debug[ _]NoAccel/
+Release[ _]NoAccel/
 x64/
 x86/
 bld/
@@ -252,13 +254,13 @@ paket-files/
 *.sln.iml
 
 # Addons directory and miscellany
-bin/config/*
+config/*
 #bin/content/*
-!bin/content/version
-!bin/content/addons
-bin/content/addons/*
-bin/content/packages
-UQM-MegaMod.zip
+#!content/version
+#!content/addons
+#content/addons/*
+#content/packages
+content/*
 build.vars
 config.state
 uqm-wrapper
@@ -269,16 +271,13 @@ log.txt
 *.lnk
 *.lib
 !dev-lib/[^.]*
+!doc/[^.]*
 .DS_Store
-bin/*
-
+*.exe
+*.dll
+*.user
+*.filters
 *.tlog
-
-Debug_NoAccel/
-Release_NoAccel/
-
-bin/UrQuanMastersDebug\.exp
+*.exp
 
 build/msvs2008/UrQuanMasters\.vcproj\.DESKTOP-TCJIFU9\.seros\.user
-
-bin/UrQuanMasters\.exp
