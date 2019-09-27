@@ -103,11 +103,7 @@
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>..\..\src;..\..\src\regex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DEBUG;_DEBUG;DEBUG_TRACK_SEM;DEBUG_DCQ_THREADS;WIN32;_CONSOLE;_VW=320;_VH=240;HAVE_OPENGL;GFXMODULE_SDL;THREADLIB_SDL;HAVE_OPENAL;HAVE_ZIP;HAVE_JOYSTICK;NETPLAY;ZLIB_DLL;USE_INTERNAL_MIKMOD;USE_INTERNAL_LUA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Debug_NoAccel\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
-      <PrecompiledHeaderOutputFile>.\Debug_NoAccel\UrQuanMasters.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>.\Debug_NoAccel\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Debug_NoAccel\</ProgramDataBaseFileName>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Midl>
@@ -146,10 +142,6 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level2</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;WIN32;_CONSOLE;_VW=320;_VH=240;HAVE_OPENGL;GFXMODULE_SDL;THREADLIB_SDL;HAVE_OPENAL;HAVE_ZIP;HAVE_JOYSTICK;NETPLAY;ZLIB_DLL;USE_INTERNAL_MIKMOD;USE_INTERNAL_LUA;USE_PLATFORM_ACCEL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Release\UrQuanMasters.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>.\Release\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>..\..\src;..\..\src\regex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>
@@ -187,10 +179,6 @@ editbin /REBASE:BASE=0x400000 /DYNAMICBASE:NO "$(LocalDebuggerWorkingDirectory)$
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>..\..\src;..\..\src\regex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_CONSOLE;_VW=320;_VH=240;HAVE_OPENGL;GFXMODULE_SDL;THREADLIB_SDL;HAVE_OPENAL;HAVE_ZIP;HAVE_JOYSTICK;NETPLAY;ZLIB_DLL;USE_INTERNAL_MIKMOD;USE_INTERNAL_LUA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Release_NoAccel\</AssemblerListingLocation>
-      <PrecompiledHeaderOutputFile>.\Release_NoAccel\UrQuanMasters.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>.\Release_NoAccel\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Release_NoAccel\</ProgramDataBaseFileName>
     </ClCompile>
     <PostBuildEvent>
       <Command>xcopy /Y "$(TargetPath)" "$(LocalDebuggerWorkingDirectory)"
@@ -226,11 +214,7 @@ editbin /REBASE:BASE=0x400000 /DYNAMICBASE:NO "$(LocalDebuggerWorkingDirectory)$
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>..\..\src;..\..\src\regex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DEBUG;_DEBUG;DEBUG_TRACK_SEM;DEBUG_DCQ_THREADS;WIN32;_CONSOLE;_VW=320;_VH=240;HAVE_OPENGL;GFXMODULE_SDL;THREADLIB_SDL;HAVE_OPENAL;HAVE_ZIP;HAVE_JOYSTICK;NETPLAY;ZLIB_DLL;USE_INTERNAL_MIKMOD;USE_INTERNAL_LUA;USE_PLATFORM_ACCEL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
-      <PrecompiledHeaderOutputFile>.\Debug\UrQuanMasters.pch</PrecompiledHeaderOutputFile>
-      <ObjectFileName>.\Debug\</ObjectFileName>
-      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Midl>
